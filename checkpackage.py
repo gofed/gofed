@@ -11,6 +11,18 @@ if len(sys.argv) != 2:
 
 repo_url = sys.argv[1]
 
+RED = '\033[91m'
+GREEN = '\033[92m'
+BLUE = '\033[94m'
+CYAN = '\033[96m'
+WHITE = '\033[97m'
+YELLOW = '\033[93m'
+MAGENTA = '\033[95m'
+GREY = '\033[90m'
+BLACK = '\033[90m'
+DEFAULT = '\033[99m'
+ENDC = '\033[0m'
+
 #https://github.com/kr/pretty
 def detectRepo(repo_url):
 	if "github" in repo_url:
@@ -36,7 +48,7 @@ def getFedoraLatestCommit(pkg_name):
 	spec = "http://pkgs.fedoraproject.org/cgit/%s.git/plain/%s.spec" % (pkg_name, pkg_name)
 	for line in urllib2.urlopen(spec):
 		if "%global commit" in line:
-			commit = re.sub("[ ]+", " ", line).split(' ')[2].strip()
+			commit = re.sub("[ \t]+", " ", line).split(' ')[2].strip()
 			return commit
 
 	return ""
@@ -45,5 +57,11 @@ def getFedoraLatestCommit(pkg_name):
 upstream_commit = getGithubLatestCommit(repo)
 fedora_commit = getFedoraLatestCommit(pkg_name)
 
-print "Upstream commit:  %s" % upstream_commit
-print "Commit in Fedora: %s" % fedora_commit
+status = "%s up2date  %s" % (GREEN, ENDC)
+if upstream_commit != fedora_commit:
+	status = "%s outdated %s" % (RED, ENDC)
+
+print "%s %s %s %s" % (upstream_commit, fedora_commit, status, repo_url)
+
+#print "Upstream commit:  %s" % upstream_commit
+#print "Commit in Fedora: %s" % fedora_commit
