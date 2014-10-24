@@ -1,0 +1,48 @@
+#!/bin/sh
+
+SCRATCH=1
+BUILD=2
+PARALLEL=3
+
+operation=-1
+script_dir=$(dirname $0)
+
+################################
+################################
+function printHelp {
+	echo "Synopsis: go2fed command"
+	echo ""
+	echo "command:"
+	echo "	scratch-build	 scratch build all fedora branches"
+	echo "	build 		 build all fedora branches"
+}
+
+
+################################
+################################
+# $1 - command
+if [ "$1" == "scratch-build" ]; then
+	operation=$SCRATCH
+elif [ "$1" == "build" ]; then
+	operation=$BUILD
+elif [ "$1" == "parallel-push" ]; then
+	operation=$PARALLEL
+fi
+
+################################
+################################
+if [ $operation -eq -1 ]; then
+	echo "Wrong operation"
+	printHelp
+	exit 0
+fi
+
+
+
+if [ $operation -eq $SCRATCH ]; then
+	$script_dir/scratchbuildbranches.sh
+elif [ $operation -eq $BUILD ]; then
+	$script_dir/scratchbuildbranches.sh
+elif [ $operation -eq $PARALLEL ]; then
+	$script_dir/push2allbranches.sh
+fi
