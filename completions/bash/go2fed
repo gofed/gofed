@@ -1,0 +1,46 @@
+#
+#  Completion for go2fed:
+#
+#  go2fed scratch-build
+#  go2fed build
+#  go2fed parallel-push
+#  go2fed update
+#
+
+_go2fed() 
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="scratch-build build parallel-push update"
+
+    #if [[ ${cur} == -* ]] ; then
+    #    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    #    return 0
+    #fi
+
+    case "${prev}" in
+	scratch-build)
+	    COMPREPLY=( $(compgen -f ${cur}) )
+            return 0
+            ;;
+        build)
+	    COMPREPLY=( $(compgen -A hostname ${cur}) )
+            return 0
+            ;;
+        parallel-push)
+	    COMPREPLY=( $(compgen -A hostname ${cur}) )
+            return 0
+            ;;
+        update)
+	    COMPREPLY=( $(compgen -A hostname ${cur}) )
+            return 0
+            ;;
+        *)
+        ;;
+    esac
+
+    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+}
+complete -F _go2fed go2fed
