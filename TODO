@@ -1,3 +1,13 @@
-[  ] - script to check new commits for golang packages
+[  ] - script to check new commits for golang packages {for github only right now}
 [  ] - improve ggi script to filter out imports in comments
 [  ] - script to check which golang packages are stable, testing, not updated yet (el6 basically)
+
+
+[  ] - script to check if given dependency is already in fedora (list of all deps plus links to repo, which deps are no longer needed, ...)
+[OK] - script to parallel scratch-builds
+
+#1	download tarball and update spec file, check spec file with rpmlint
+#2	manually run fedpkg prep to check if everything fit, check for new/missing directories
+#3	manually add tarball into sources and .gitignore (fedpkg new-sources or fedpkg upload), edit sources and .gitignore
+#4	commit changes into every branch (first master, then cherry pick)
+#5	run fedpkg scratch-build on every branch
