@@ -3,6 +3,7 @@
 SCRATCH=1
 BUILD=2
 PARALLEL=3
+UPDATE=4
 
 operation=-1
 script_dir=$(dirname $0)
@@ -15,6 +16,7 @@ function printHelp {
 	echo "command:"
 	echo "	scratch-build	 scratch build all fedora branches"
 	echo "	build 		 build all fedora branches"
+	echo "	update		 update all fedora branches"
 }
 
 
@@ -27,6 +29,8 @@ elif [ "$1" == "build" ]; then
 	operation=$BUILD
 elif [ "$1" == "parallel-push" ]; then
 	operation=$PARALLEL
+elif [ "$1" == "update" ]; then
+	operation=$UPDATE
 fi
 
 ################################
@@ -42,7 +46,9 @@ fi
 if [ $operation -eq $SCRATCH ]; then
 	$script_dir/scratchbuildbranches.sh
 elif [ $operation -eq $BUILD ]; then
-	$script_dir/scratchbuildbranches.sh
+	$script_dir/scratchbuildbranches.sh raw
 elif [ $operation -eq $PARALLEL ]; then
 	$script_dir/push2allbranches.sh
+elif [ $operation -eq $UPDATE ]; then
+	$script_dir/updateallbuilds.sh
 fi

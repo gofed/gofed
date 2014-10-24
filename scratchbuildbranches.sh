@@ -20,9 +20,9 @@ function processBranch {
 
 	echo "$1:$task_id" >> $2
 	if [ "$3" == "scratch-build" ]; then
-		echo "Scratch build $task_id initiated"
+		echo "Scratch build http://koji.fedoraproject.org/koji/taskinfo?taskID=$task_id initiated"
 	else
-		echo "Raw build $task_id initiated"
+		echo "Raw build http://koji.fedoraproject.org/koji/taskinfo?taskID=$task_id initiated"
 	fi
 }
 
