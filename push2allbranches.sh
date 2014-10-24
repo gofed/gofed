@@ -7,7 +7,7 @@ function processBranch {
 
 
 # get branches
-for branch in $(git branch --list | sed 's/\*//g'); do
+for branch in $(git branch --list | sed 's/\*//g' | grep -v "el6"); do
 	processBranch $branch
 done
 

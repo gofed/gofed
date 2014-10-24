@@ -54,7 +54,7 @@ fi
 
 # get branches
 rm -f $BUILDSFILE
-for branch in $(git branch --list | sed 's/\*//g'); do
+for branch in $(git branch --list | sed 's/\*//g' | grep -v "el6"); do
 	processBranch $branch $BUILDSFILE $build
 done
 
