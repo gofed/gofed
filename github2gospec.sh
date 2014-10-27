@@ -1,12 +1,20 @@
 #!/bin/sh
 
+if [ "$#" -ne 3 ]; then
+	echo "Error: Wrong number of parameters."
+	echo "Synopsis: $0 PROJECT REPO COMMIT"
+	exit 0
+fi
+
 project=$1
 repo=$2
 provider='github'
 provider_tld='com'
 commit=$3
 shortcommit=${commit:0:7}
-echo https://github.com/$project/$repo
+script_dir=$(dirname $0)
+
+echo https://$provider.$provider_tld/$project/$repo
 
 # prepare basic structure
 name=golang-$provider-$project-$repo
@@ -95,7 +103,7 @@ wget https://github.com/$project/$repo/archive/$commit/$repo-$shortcommit.tar.gz
 echo "Inspecting golang"
 tar -xf $repo-$shortcommit.tar.gz
 cd $repo-$commit
-getgoimports $(tree -if | grep "[.]go$")
+$script_dir/getimports.sh $(tree -if | grep "[.]go$")
 
 cd ..
 pwd
