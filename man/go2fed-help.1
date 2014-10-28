@@ -1,6 +1,13 @@
 .TH GO2FED 1  2014-10-28
 .SH NAME
-go2fed-help, go2fed-scratch-build, go2fed-build, go2fed-update, go2fed-ggi, go2fed-github2spec, go2fed-review \- tools to automize packaging of golang devel source codes
+go2fed-help,
+go2fed-scratch-build,
+go2fed-build,
+go2fed-update,
+go2fed-ggi,
+go2fed-github2spec,
+go2fed-googlecode2spec,
+go2fed-review \- tools to automize packaging of golang devel source codes
 .SH SYNOPSIS
 \fBgo2fed\fR COMMANDS [\fIARGUMENTS\fR]
 .SH DESCPRIPTION
@@ -35,7 +42,12 @@ Get golang imports
 .PP
 .B go2fed github2spec PROJECT REPO COMMIT
 .RS 4
-Generate spec file from github
+Generate spec file from github.com
+.RE
+.PP
+.B go2fed googlecode2spec REPO REVISION
+.RS 4
+Generate spec file from code.google.com
 .RE
 .PP
 .B go2fed review SPEC USER

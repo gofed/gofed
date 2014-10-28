@@ -15,7 +15,7 @@ _go2fed()
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    opts="scratch-build build parallel-push update ggi github2spec review"
+    opts="scratch-build build parallel-push update ggi github2spec review googlecode2spec"
 
     #if [[ ${cur} == -* ]] ; then
     #    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
@@ -49,6 +49,10 @@ _go2fed()
             ;;
         review)
 	    COMPREPLY=( $(compgen -A hostname ${cur}) )
+            return 0
+            ;;
+        googlecode2spec)
+            COMPREPLY=( $(compgen -A hostname ${cur}) )
             return 0
             ;;
         *)
