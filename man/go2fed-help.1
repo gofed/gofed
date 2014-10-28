@@ -1,0 +1,53 @@
+.TH GO2FED 1  2014-10-28
+.SH NAME
+go2fed-help, go2fed-scratch-build, go2fed-build, go2fed-update, go2fed-ggi, go2fed-github2spec, go2fed-review \- tools to automize packaging of golang devel source codes
+.SH SYNOPSIS
+\fBgo2fed\fR COMMANDS [\fIARGUMENTS\fR]
+.SH DESCPRIPTION
+.B go2fed
+is a tool providing ...
+.SH COMMANDS
+.PP
+.B go2fed help
+.RS 4
+Prints help
+.RE
+.PP
+.B go2fed scratch-build
+.RS 4
+Scratch build all fedora branches
+.RE
+.PP
+.B go2fed build
+.RS 4
+Build all fedora branches
+.RE
+.PP
+.B go2fed update
+.RS 4
+Update all fedora branches
+.RE
+.PP
+.B go2fed ggi
+.RS 4
+Get golang imports
+.RE
+.PP
+.B go2fed github2spec PROJECT REPO COMMIT
+.RS 4
+Generate spec file from github
+.RE
+.PP
+.B go2fed review SPEC USER
+.RS 4
+Creates review request for Bugzilla.
+.B SPEC
+is a name of a spec file (with .spec extension)
+First it builds the spec file.
+Then scratch builds the resulting srpm in koji.
+After successfull build,
+the srpm and spec file are uploaded to USER's fedora acount under public_html/reviews/spec_without_extension folder.
+If the folder does not exist, it is created.
+If all steps are succesfull, Preview Summary and Preview Description are printed to stdout.
+Followed by a link to Review Request template.
+.RE
