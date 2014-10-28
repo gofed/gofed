@@ -6,6 +6,8 @@ BUILD=2
 PARALLEL=3
 UPDATE=4
 GGI=5
+GITHUB2SPEC=6
+REVIEW=7
 
 operation=-1
 script_dir=$(dirname $0)
@@ -13,7 +15,7 @@ script_dir=$(dirname $0)
 ################################
 ################################
 function printHelp {
-	echo "Synopsis: go2fed command"
+	echo "Synopsis: go2fed command [arg1 [arg2 ...]]"
 	echo ""
 	echo "command:"
 	echo "	help		 prints this help"
@@ -21,6 +23,8 @@ function printHelp {
 	echo "	build 		 build all fedora branches"
 	echo "	update		 update all fedora branches"
 	echo "	ggi		 get golang imports"
+	echo "	github2spec	 generate spec file from github"
+	echo "	review		 creates review in Bugzilla (rpmbuild of spec file, rpmlint, koji build, ...)"
 }
 
 
@@ -39,6 +43,10 @@ elif [ "$1" == "update" ]; then
 	operation=$UPDATE
 elif [ "$1" == "ggi" ]; then
         operation=$GGI
+elif [ "$1" == "github2spec" ]; then
+        operation=$GITHUB2SPEC
+elif [ "$1" == "review" ]; then
+        operation=$REVIEW
 fi
 
 ################################
@@ -63,4 +71,8 @@ elif [ $operation -eq $UPDATE ]; then
 	$script_dir/updateallbuilds.sh
 elif [ $operation -eq $GGI ]; then
 	$script_dir/ggi.sh
+elif [ $operation -eq $GITHUB2SPEC ]; then
+        $script_dir/github2gospec.sh $2 $3 $4
+elif [ $operation -eq $REVIEW ]; then
+        $script_dir/preparePackageReview.sh $2 $3
 fi

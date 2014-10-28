@@ -5,7 +5,9 @@
 #  go2fed build
 #  go2fed parallel-push
 #  go2fed update
-#
+#  go2fed ggi
+#  go2fed github2spec
+#  go2fed review
 
 _go2fed() 
 {
@@ -13,7 +15,7 @@ _go2fed()
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    opts="scratch-build build parallel-push update"
+    opts="scratch-build build parallel-push update ggi github2spec review"
 
     #if [[ ${cur} == -* ]] ; then
     #    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
@@ -34,6 +36,18 @@ _go2fed()
             return 0
             ;;
         update)
+	    COMPREPLY=( $(compgen -A hostname ${cur}) )
+            return 0
+            ;;
+        ggi)
+	    COMPREPLY=( $(compgen -A hostname ${cur}) )
+            return 0
+            ;;
+        github2spec)
+	    COMPREPLY=( $(compgen -A hostname ${cur}) )
+            return 0
+            ;;
+        review)
 	    COMPREPLY=( $(compgen -A hostname ${cur}) )
             return 0
             ;;
