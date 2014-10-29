@@ -1,5 +1,6 @@
 #!/bin/sh
 BUILDSFILE="builds.taskid"
+script_dir=$(dirname $0)
 
 # TODO
 # [  ] - help
@@ -53,8 +54,13 @@ if [ "$1" == "raw" ]; then
 fi
 
 # get branches
+branches=$(cat $script_dir/config/go2fed.conf | grep "^branches:" | cut -d':' -f2)
+if [ "$branches" == "" ]; then
+	branches=$(git branch --list | sed 's/\*//g' | grep -v "el6")
+fi
+
 rm -f $BUILDSFILE
-for branch in $(git branch --list | sed 's/\*//g' | grep -v "el6"); do
+for branch in $branches; do
 	processBranch $branch $BUILDSFILE $build
 done
 
