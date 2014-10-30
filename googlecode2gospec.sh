@@ -121,7 +121,7 @@ echo ""
 echo "Inspecting golang"
 tar -xf $rev.tar.gz | grep -v "in the future"
 cd $repo-$shortrev
-$script_dir/getimports.sh $(tree -if | grep "[.]go$")
+$script_dir/ggi.py
 echo ""
 
 cd ..

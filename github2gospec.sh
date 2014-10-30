@@ -103,7 +103,7 @@ wget https://github.com/$project/$repo/archive/$commit/$repo-$shortcommit.tar.gz
 echo "Inspecting golang"
 tar -xf $repo-$shortcommit.tar.gz
 cd $repo-$commit
-$script_dir/getimports.sh $(tree -if | grep "[.]go$")
+$script_dir/ggi.py
 
 cd ..
 pwd
