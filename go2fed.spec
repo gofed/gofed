@@ -31,7 +31,7 @@ mkdir -p %{buildroot}/etc/bash_completion.d/
 cp completions/bash/go2fed %{buildroot}/etc/bash_completion.d/.
 # copy man page
 mkdir -p %{buildroot}/usr/share/man/man1
-cp man/go2fed-help.1 %{buildroot}/usr/share/man/man1/.
+cp man/go2fed-help.1 %{buildroot}/usr/share/man/man1/go2fed.1.gz
 # copy scripts
 mkdir -p %{buildroot}/usr/share/go2fed
 cp *.sh %{buildroot}/usr/share/go2fed/.
@@ -57,7 +57,7 @@ rm /usr/bin/go2fed
 %dir /usr/share/go2fed
 /usr/share/go2fed/*
 %config /usr/share/go2fed/config
-/usr/share/man/man1/go2fed-help.1.gz
+/usr/share/man/man1/go2fed.1.gz
 
 %changelog
 * Fri Oct 24 2014 jchaloup <jchaloup@redhat.com>
