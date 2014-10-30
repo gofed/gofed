@@ -63,3 +63,21 @@ Output:
    ```
    
 First it clone fedora repo if the package already exists. If not, it creates a spec file (needs to be filled for missing stuff), downloads the tarball and lists all imports.
+
+#### Dependency discovering
+To discover imports and dependecies on packages for https://github.com/rackspace/gophercloud, run the following command on its tarball:
+
+   ```vim
+   $ go2fed ggi -c -s -d
+   ```
+
+Output:
+
+   ```vim
+   Class: github.com/mitchellh/mapstructure (golang-github-mitchellh-mapstructure) PkgDB=True
+   Class: github.com/racker/perigee (golang-github-racker-perigee) PkgDB=True
+   Class: github.com/rackspace/gophercloud (golang-github-rackspace-gophercloud) PkgDB=True
+   Class: github.com/tonnerre/golang-pretty (golang-github-tonnerre-golang-pretty) PkgDB=True
+   ```
+
+Running with -d option, the go2fed checks if the dependency has a package in PkgDB.
