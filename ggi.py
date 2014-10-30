@@ -159,6 +159,11 @@ if __name__ == "__main__":
             help = "Check if a class is in the PkgDB (only with -c option)"
         )
 
+	parser.add_option(
+            "", "-s", "--short", dest="short", action = "store_true", default = False,
+            help = "Display just classes without its imports"
+        )
+
 	options, args = parser.parse_args()
 
 	path = "."
@@ -183,8 +188,9 @@ if __name__ == "__main__":
 				print "Class: %s (%s) PkgDB=%s" % (element, pkg_name, pkg_in_pkgdb)
 			else:
 				print "Class: %s" % element
-		for gimport in classes[element]:
-			print "\t%s" % gimport
-		if options.classes:
-			print ""
+		if not options.classes or not options.short:
+			for gimport in classes[element]:
+				print "\t%s" % gimport
+			if options.classes:
+				print ""
 
