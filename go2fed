@@ -9,6 +9,7 @@ GGI=5
 GITHUB2SPEC=6
 REVIEW=7
 GOOGLECODE2SPEC=8
+PULL=9
 
 operation=-1
 script_dir=$(dirname $0)
@@ -27,6 +28,7 @@ function printHelp {
 	echo "	github2spec	 generate spec file from github"
 	echo "	googlecode2spec  generate spec file from googlecode"
 	echo "	review		 creates review in Bugzilla (rpmbuild of spec file, rpmlint, koji build, ...)"
+	echo "	pull		 pull from branches"
 }
 
 
@@ -51,6 +53,8 @@ elif [ "$1" == "googlecode2spec" ]; then
         operation=$GOOGLECODE2SPEC
 elif [ "$1" == "review" ]; then
         operation=$REVIEW
+elif [ "$1" == "pull" ]; then
+        operation=$PULL
 fi
 
 ################################
@@ -61,7 +65,8 @@ if [ $operation -eq -1 ]; then
 	exit 0
 fi
 
-
+# dispose the $1 argument, operation already parsed
+shift
 
 if [ $operation -eq $HELP ]; then
 	printHelp
@@ -74,11 +79,13 @@ elif [ $operation -eq $PARALLEL ]; then
 elif [ $operation -eq $UPDATE ]; then
 	$script_dir/updateallbuilds.sh
 elif [ $operation -eq $GGI ]; then
-	$script_dir/ggi.sh
+	$script_dir/ggi.py $@
 elif [ $operation -eq $GITHUB2SPEC ]; then
-        $script_dir/github2gospec.sh $2 $3 $4
+        $script_dir/github2gospec.sh $@
 elif [ $operation -eq $GOOGLECODE2SPEC ]; then
-        $script_dir/googlecode2gospec.sh $2 $3
+        $script_dir/googlecode2gospec.sh $@
 elif [ $operation -eq $REVIEW ]; then
-        $script_dir/preparePackageReview.sh $2 $3
+        $script_dir/preparePackageReview.sh $@
+elif [ $operation -eq $PULL ]; then
+        $script_dir/pullallbranches.sh
 fi
