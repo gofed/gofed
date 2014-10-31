@@ -41,7 +41,7 @@ Output:
    /tmp/test/golang-github-stretchr-respond/fedora/golang-github-stretchr-respond
    ```
    
-First it clone fedora repo if the package already exists. If not, it creates a spec file (needs to be filled for missing stuff), downloads the tarball and lists all imports.
+First it checks fedora repo if the package already exists. If not, it creates a spec file (needs to be filled for missing stuff), downloads the tarball and lists all dependencies (classes of imports decomposed by a repo).
 
 #### Dependency discovering
 To discover imports and dependecies on packages for https://github.com/rackspace/gophercloud, run the following command on its tarball:
