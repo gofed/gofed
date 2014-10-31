@@ -29,16 +29,26 @@ name=golang-$provider-$project-$repo
 echo -e "${orange}(1/$total) Checking if the package already exists in PkgDB$NC"
 git ls-remote "http://pkgs.fedoraproject.org/cgit/$name.git/" 2>/dev/null 1>&2
 
-if [ "$?" -eq 0 ]; then
-	echo -e "$red\tPackage already exists$NC"
-	exit 0
-fi
+#if [ "$?" -eq 0 ]; then
+#	echo -e "$red\tPackage already exists$NC"
+#	exit 0
+#fi
 
 # creating basic folder structure
 mkdir -p $name/fedora/$name
 cd $name/fedora/$name
 
-echo -e "${orange}(2/$total) Creating spec file$NC"
+echo -e "${orange}(2/$total) Downloading tarball$NC"
+download=$(wget -nv https://github.com/$project/$repo/archive/$commit/$repo-$shortcommit.tar.gz 2>&1)
+if [ "$?" -ne 0 ]; then
+	echo "	Unable to download the tarball"
+	echo "	$download"
+	exit
+fi
+
+tar -xf $repo-$shortcommit.tar.gz
+
+echo -e "${orange}(3/$total) Creating spec file$NC"
 # creating spec file
 specfile=$name".spec"
 echo "%global debug_package   %{nil}" > $specfile
@@ -68,7 +78,18 @@ echo "%{summary}" >> $specfile
 echo "" >> $specfile
 echo "%package devel" >> $specfile
 echo "BuildRequires:  golang >= 1.2.1-3" >> $specfile
+
+# get relevant golang imports (still does not have to be correct)
+deps=$($script_dir/ggi.py | grep -v "$provider.$provider_tld/$project/$repo")
+for gimport in $deps; do
+	echo "BuildRequires:  golang($gimport)" >> $specfile
+done
+
 echo "Requires:       golang >= 1.2.1-3" >> $specfile
+for gimport in $deps; do
+	echo "Requires:       golang($gimport)" >> $specfile
+done
+
 echo "Summary:        %{summary}" >> $specfile
 echo "Provides:       golang(%{import_path}) = %{version}-%{release}" >> $specfile
 echo "" >> $specfile
@@ -86,10 +107,24 @@ echo "" >> $specfile
 echo "%install" >> $specfile
 echo "install -d -p %{buildroot}/%{gopath}/src/%{import_path}/" >> $specfile
 echo "cp -pav *.go %{buildroot}/%{gopath}/src/%{import_path}/" >> $specfile
-echo "cp -pav !!!!FILL!!!! %{buildroot}/%{gopath}/src/%{import_path}/" >> $specfile
+
+# read all dirs in the tarball
+for dir in $($script_dir/inspecttarball.py -d $repo-$commit); do
+	echo "cp -rpav $dir %{buildroot}/%{gopath}/src/%{import_path}/" >> $specfile
+done
+
 echo "" >> $specfile
 echo "%check" >> $specfile
-echo "GOPATH=%{buildroot}/%{gopath}:%{gopath} go test %{import_path}" >> $specfile
+
+# get all dirs containing test files
+for dir in $($script_dir/inspecttarball.py -t $repo-$commit); do
+	sufix="/$dir"
+	if [ "$dir" == "." ]; then
+		sufix=""
+	fi
+	echo "GOPATH=%{buildroot}/%{gopath}:%{gopath} go test %{import_path}$sufix" >> $specfile
+done
+
 echo "" >> $specfile
 echo "%files devel" >> $specfile
 echo "%doc README.md LICENSE CHANGELOG.md " >> $specfile
@@ -103,16 +138,8 @@ echo "" >> $specfile
 
 rpmdev-bumpspec $specfile -c "First package for Fedora"
 
-echo -e "${orange}(3/$total) Downloading tarball$NC"
-download=$(wget -nv https://github.com/$project/$repo/archive/$commit/$repo-$shortcommit.tar.gz 2>&1)
-if [ "$?" -ne 0 ]; then
-	echo "	Unable to download the tarball"
-	echo "	$download"
-	exit
-fi
 
 echo -e "${orange}(4/$total) Discovering golang dependencies$NC"
-tar -xf $repo-$shortcommit.tar.gz
 cd $repo-$commit
 $script_dir/ggi.py -c -s -d | grep -v $name
 
