@@ -14,27 +14,33 @@ commit=$3
 shortcommit=${commit:0:7}
 script_dir=$(dirname $0)
 
-echo https://$provider.$provider_tld/$project/$repo
+red='\e[0;31m'
+orange='\e[0;33m'
+NC='\e[0m'
 
+total=4
+
+echo -e "${orange}Repo URL:$NC"
+echo "https://$provider.$provider_tld/$project/$repo"
+echo ""
 # prepare basic structure
 name=golang-$provider-$project-$repo
 
-echo "Checking if the package already exists in PkgDB"
-fedpkg clone $name
+echo -e "${orange}(1/$total) Checking if the package already exists in PkgDB$NC"
+git ls-remote "http://pkgs.fedoraproject.org/cgit/$name.git/" 2>/dev/null 1>&2
+
 if [ "$?" -eq 0 ]; then
-	echo "Package already exists"
+	echo -e "$red\tPackage already exists$NC"
 	exit 0
 fi
 
-# creating basic folder strucure
+# creating basic folder structure
 mkdir -p $name/fedora/$name
 cd $name/fedora/$name
 
-
-echo "Creating spec file"
+echo -e "${orange}(2/$total) Creating spec file$NC"
 # creating spec file
 specfile=$name".spec"
-echo $specfile
 echo "%global debug_package   %{nil}" > $specfile
 echo "%global provider        github" >> $specfile
 echo "%global provider_tld    com" >> $specfile
@@ -97,15 +103,22 @@ echo "" >> $specfile
 
 rpmdev-bumpspec $specfile -c "First package for Fedora"
 
-echo "Downloading tarball"
-wget https://github.com/$project/$repo/archive/$commit/$repo-$shortcommit.tar.gz 
+echo -e "${orange}(3/$total) Downloading tarball$NC"
+download=$(wget -nv https://github.com/$project/$repo/archive/$commit/$repo-$shortcommit.tar.gz 2>&1)
+if [ "$?" -ne 0 ]; then
+	echo "	Unable to download the tarball"
+	echo "	$download"
+	exit
+fi
 
-echo "Inspecting golang"
+echo -e "${orange}(4/$total) Discovering golang dependencies$NC"
 tar -xf $repo-$shortcommit.tar.gz
 cd $repo-$commit
-$script_dir/ggi.py
+$script_dir/ggi.py -c -s -d | grep -v $name
 
 cd ..
-pwd
 
+echo ""
+echo -e "${orange}Spec file $name.spec at:$NC"
+pwd
 

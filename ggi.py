@@ -4,6 +4,7 @@ import re
 import os
 import urllib2
 import optparse
+from subprocess import Popen, PIPE
 
 def getScriptPath():
     return os.path.dirname(os.path.realpath(sys.argv[0]))
@@ -19,6 +20,8 @@ def getFileImports(gofile):
 		# delete multi-line comments
 		p = re.compile(r'/\*.+?\*/', re.DOTALL)
 		content = p.sub('\n', content)
+		# delete all "import" strings
+		content = re.sub(r'"import"', '', content)
 
 		start = content.find('import')
 		if start == -1:
@@ -130,14 +133,14 @@ def decomposeImports(imports):
 
 # for every class, detect if it is already in pkgdb
 def packageInPkgdb(pkg):
-	pkg_url = "https://admin.fedoraproject.org/pkgdb/package/%s/" % pkg
-	try:
-		urllib2.urlopen(pkg_url)
+	cmd = "git ls-remote http://pkgs.fedoraproject.org/cgit/" + pkg + ".git/"
+	p = Popen(cmd , shell=True, stdout=PIPE, stderr=PIPE)
+	out, err = p.communicate()
+
+	if p.returncode == 0:
 		return True
-	except urllib2.HTTPError, e:
-		return False
-	except urllib2.URLError, e:
-		return False
+
+	return False
 
 if __name__ == "__main__":
 	parser = optparse.OptionParser("%prog [-a] [-c] [-d] [directory]")

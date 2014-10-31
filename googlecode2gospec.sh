@@ -9,10 +9,18 @@ fi
 repo=$1
 rrepo=$repo
 nd=$(echo -n $repo | sed 's/[^.]//g' | wc -c)
+
+red='\e[0;31m'
+orange='\e[0;33m'
+NC='\e[0m'
+
+total=5
+
+echo -e "${orange}(1/$total) Checking repo name$NC"
 if [ "$nd" -eq 1 ]; then
 	rrepo="$(echo $repo | cut -d'.' -f2).$(echo $repo | cut -d'.' -f1)"
 elif [ "$nd" -ge 2 ]; then
-	echo "More then 1 dot in the repo name"
+	echo -e "${red}	More then 1 dot in the repo name$NC"
 	exit
 fi
 
@@ -23,29 +31,28 @@ rev=$2
 shortrev=${rev:0:12}
 script_dir=$(dirname $0)
 
-echo "URL of the repo:"
-echo "	https://$provider_sub.$provider.$provider_tld/p/$rrepo"
+echo -e "${orange}Repo URL:$NC"
+echo "https://$provider_sub.$provider.$provider_tld/p/$repo"
 echo ""
 
 # prepare basic structure
-name=golang-$provider$provider_sub-$repo
+name=golang-$provider$provider_sub-$(echo $repo | sed 's/\./-/g')
 
-echo "Checking if the package already exists in PkgDB"
-#fedpkg clone $name
-#if [ "$?" -eq 0 ]; then
-#	echo "	Package already exists"
-#	exit 0
-#fi
-echo ""
+echo -e "${orange}(2/$total) Checking if the package already exists in PkgDB"
+git ls-remote "http://pkgs.fedoraproject.org/cgit/$name.git/" 2>/dev/null 1>&2
+
+if [ "$?" -eq 0 ]; then
+        echo -e "$red\tPackage already exists$NC"
+        exit 0
+fi
 
 # creating basic folder strucure
 mkdir -p $name/fedora/$name
 cd $name/fedora/$name
 
-echo "Creating spec file"
+echo -e "${orange}(3/$total) Creating spec file$NC"
 # creating spec file
 specfile=$name".spec"
-echo "	$specfile"
 echo "%global debug_package   %{nil}" > $specfile
 echo "%global provider        google" >> $specfile
 echo "%global provider_sub    code" >> $specfile
@@ -112,20 +119,23 @@ echo "" >> $specfile
 
 rpmdev-bumpspec $specfile -c "First package for Fedora"
 
-echo ""
+echo -e "${orange}(4/$total) Downloading tarball$NC"
+download=$(wget -nv https://$rrepo.$provider$provider_sub.$provider_tld/archive/$rev.tar.gz --no-check-certificate 2>&1)
+if [ "$?" -ne 0 ]; then
+        echo "  Unable to download the tarball"
+        echo "  $download"
+        exit
+fi
 
-echo "Downloading tarball"
-wget https://$repo.$provider$provider_sub.$provider_tld/archive/$rev.tar.gz --no-check-certificate
-echo ""
-
-echo "Inspecting golang"
+echo -e "${orange}(5/$total) Discovering golang dependencies$NC"
 tar -xf $rev.tar.gz | grep -v "in the future"
-cd $repo-$shortrev
-$script_dir/ggi.py
+cd $rrepo-$shortrev
+$script_dir/ggi.py -c -s -d | grep -v $name
 echo ""
 
 cd ..
-echo "Directory containting the spec file"
-echo "	$(pwd)"
 
+echo ""
+echo -e "${orange}Spec file $name.spec at:$NC"
+pwd
 
