@@ -91,7 +91,16 @@ for gimport in $deps; do
 done
 
 echo "Summary:        %{summary}" >> $specfile
-echo "Provides:       golang(%{import_path}) = %{version}-%{release}" >> $specfile
+# list Provides section
+for dir in $($script_dir/inspecttarball.py -p $repo-$commit | sort); do
+	sufix=""
+	if [ "$dir" != "." ]; then
+		sufix="/$dir"
+	fi
+
+	echo "Provides:       golang(%{import_path}$sufix) = %{version}-%{release}" >> $specfile
+done
+
 echo "" >> $specfile
 echo "%description devel" >> $specfile
 echo "%{summary}" >> $specfile
@@ -106,7 +115,11 @@ echo "%build" >> $specfile
 echo "" >> $specfile
 echo "%install" >> $specfile
 echo "install -d -p %{buildroot}/%{gopath}/src/%{import_path}/" >> $specfile
-echo "cp -pav *.go %{buildroot}/%{gopath}/src/%{import_path}/" >> $specfile
+
+ls $repo-$commit/*.go 2>/dev/null
+if [ "$?" -eq 0 ]; then
+	echo "cp -pav *.go %{buildroot}/%{gopath}/src/%{import_path}/" >> $specfile
+fi
 
 # read all dirs in the tarball
 for dir in $($script_dir/inspecttarball.py -d $repo-$commit); do
@@ -127,11 +140,26 @@ done
 
 echo "" >> $specfile
 echo "%files devel" >> $specfile
-echo "%doc README.md LICENSE CHANGELOG.md " >> $specfile
+# doc all *.md files
+docs=""
+pushd $repo-$commit 1>/dev/null
+ls *.md 1>/dev/null 2>/dev/null
+if [ "$?" -eq 0 ]; then
+	docs="$docs $(echo -n $(ls *.md))"
+fi
+ls LICENSE 1>/dev/null 2>/dev/null
+if [ "$?" -eq 0 ]; then
+        docs="$docs LICENSE"
+fi
+ls README 1>/dev/null 2>/dev/null
+if [ "$?" -eq 0 ]; then
+        docs="$docs README"
+fi
+popd >/dev/null
+
+echo "%doc$docs" >> $specfile
 echo "%dir %{gopath}/src/%{provider}.%{provider_tld}/%{project}" >> $specfile
-echo "%dir %{gopath}/src/%{import_path}/" >> $specfile
-echo "%dir %{gopath}/src/%{import_path}/!!!!FILL!!!!" >> $specfile
-echo "%{gopath}/src/%{import_path}/*.go" >> $specfile
+echo "%{gopath}/src/%{import_path}" >> $specfile
 echo "" >> $specfile
 echo "%changelog" >> $specfile
 echo "" >> $specfile

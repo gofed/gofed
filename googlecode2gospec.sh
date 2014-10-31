@@ -50,7 +50,17 @@ fi
 mkdir -p $name/fedora/$name
 cd $name/fedora/$name
 
-echo -e "${orange}(3/$total) Creating spec file$NC"
+echo -e "${orange}(3/$total) Downloading tarball$NC"
+download=$(wget -nv https://$rrepo.$provider$provider_sub.$provider_tld/archive/$rev.tar.gz --no-check-certificate 2>&1)
+if [ "$?" -ne 0 ]; then
+        echo "  Unable to download the tarball"
+        echo "  $download"
+        exit
+fi
+
+tar -xf $rev.tar.gz | grep -v "in the future"
+
+echo -e "${orange}(4/$total) Creating spec file$NC"
 # creating spec file
 specfile=$name".spec"
 echo "%global debug_package   %{nil}" > $specfile
@@ -61,7 +71,7 @@ echo "%global project         p" >> $specfile
 echo "%global repo            $rrepo" >> $specfile
 echo "%global import_path     %{provider_sub}%{provider}.%{provider_tld}/%{project}/%{repo}" >> $specfile
 echo "%global rev             $rev" >> $specfile
-echo "%global shortrev        %(r=%{rew}; echo \${r:0:12})" >> $specfile
+echo "%global shortrev        %(r=%{rev}; echo \${r:0:12})" >> $specfile
 echo "" >> $specfile
 echo "Name:           golang-%{provider}%{provider_sub}-%{repo}" >> $specfile
 echo "Version:        0" >> $specfile
@@ -81,9 +91,30 @@ echo "%{summary}" >> $specfile
 echo "" >> $specfile
 echo "%package devel" >> $specfile
 echo "BuildRequires:  golang >= 1.2.1-3" >> $specfile
+
+# get relevant golang imports (still does not have to be correct)
+deps=$($script_dir/ggi.py | grep -v "$provider.$provider_tld/p/$repo")
+for gimport in $deps; do
+	echo "BuildRequires:  golang($gimport)" >> $specfile
+done
+
 echo "Requires:       golang >= 1.2.1-3" >> $specfile
+for gimport in $deps; do
+	echo "Requires:       golang($gimport)" >> $specfile
+done
+
 echo "Summary:        %{summary}" >> $specfile
-echo "Provides:       golang(%{import_path}) = %{version}-%{release}" >> $specfile
+
+# list Provides section
+for dir in $($script_dir/inspecttarball.py -p $rrepo-$shortrev | sort); do
+	sufix=""
+	if [ "$dir" != "." ]; then
+		sufix="/$dir"
+	fi
+
+	echo "Provides:       golang(%{import_path}$sufix) = %{version}-%{release}" >> $specfile
+done
+
 echo "" >> $specfile
 echo "%description devel" >> $specfile
 echo "%{summary}" >> $specfile
@@ -98,38 +129,61 @@ echo "%build" >> $specfile
 echo "" >> $specfile
 echo "%install" >> $specfile
 echo "install -d -p %{buildroot}/%{gopath}/src/%{import_path}/" >> $specfile
-echo "cp -pav *.go %{buildroot}/%{gopath}/src/%{import_path}/" >> $specfile
-echo "cp -pav !!!!FILL!!!! %{buildroot}/%{gopath}/src/%{import_path}/" >> $specfile
-echo "for d in !!!!FILL DIRS TO COPY!!!!; do" >> $specfile
-echo "   cp -pav $d %{buildroot}/%{gopath}/src/%{import_path}/" >> $specfile
-echo "done" >> $specfile
+
+ls $rrepo-$shortrev/*.go 2>/dev/null
+if [ "$?" -eq 0 ]; then
+	echo "cp -pav *.go %{buildroot}/%{gopath}/src/%{import_path}/" >> $specfile
+fi
+
+# read all dirs in the tarball
+for dir in $($script_dir/inspecttarball.py -d $rrepo-$shortrev); do
+        echo "cp -rpav $dir %{buildroot}/%{gopath}/src/%{import_path}/" >> $specfile
+done
+
 echo "" >> $specfile
 echo "%check" >> $specfile
-echo "GOPATH=%{buildroot}/%{gopath}:%{gopath} go test %{import_path}" >> $specfile
+
+# get all dirs containing test files
+for dir in $($script_dir/inspecttarball.py -t $rrepo-$shortrev); do
+	sufix="/$dir"
+	if [ "$dir" == "." ]; then
+		sufix=""
+	fi
+	echo "GOPATH=%{buildroot}/%{gopath}:%{gopath} go test %{import_path}$sufix" >> $specfile
+done
+
 echo "" >> $specfile
 echo "%files devel" >> $specfile
-echo "%doc README.md LICENSE CHANGELOG.md " >> $specfile
+# doc all *.md files
+docs=""
+pushd $rrepo-$shortrev 1>/dev/null
+ls *.md 1>/dev/null 2>/dev/null
+if [ "$?" -eq 0 ]; then
+	docs="$docs $(echo -n $(ls *.md))"
+fi
+ls LICENSE 1>/dev/null 2>/dev/null
+if [ "$?" -eq 0 ]; then
+	docs="$docs LICENSE"
+fi
+ls README 1>/dev/null 2>/dev/null
+if [ "$?" -eq 0 ]; then
+	docs="$docs README"
+fi
+popd >/dev/null
+
+echo "%doc$docs" >> $specfile
 echo "%dir %{gopath}/src/%{provider}.%{provider_tld}/%{project}" >> $specfile
-echo "%dir %{gopath}/src/%{import_path}/" >> $specfile
-echo "%dir %{gopath}/src/%{import_path}/!!!!FILL!!!!" >> $specfile
-echo "%{gopath}/src/%{import_path}/*.go" >> $specfile
+echo "%{gopath}/src/%{import_path}/" >> $specfile
 echo "" >> $specfile
 echo "%changelog" >> $specfile
 echo "" >> $specfile
 
 rpmdev-bumpspec $specfile -c "First package for Fedora"
 
-echo -e "${orange}(4/$total) Downloading tarball$NC"
-download=$(wget -nv https://$rrepo.$provider$provider_sub.$provider_tld/archive/$rev.tar.gz --no-check-certificate 2>&1)
-if [ "$?" -ne 0 ]; then
-        echo "  Unable to download the tarball"
-        echo "  $download"
-        exit
-fi
 
 echo -e "${orange}(5/$total) Discovering golang dependencies$NC"
-tar -xf $rev.tar.gz | grep -v "in the future"
 cd $rrepo-$shortrev
+echo $name
 $script_dir/ggi.py -c -s -d | grep -v $name
 echo ""
 

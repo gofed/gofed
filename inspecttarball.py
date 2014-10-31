@@ -61,10 +61,7 @@ if __name__ == "__main__":
 
 	if options.provides:
 		for dir in getGoDirs(path):
-			if dir == '.':
-				print "Provides:       golang(%{import_path})"
-			else:
-				print "Provides:       golang(%%{import_path}/%s)" % dir
+			print dir
 	elif options.test:
 		for dir in getGoDirs(path, test = True):
 			print dir
