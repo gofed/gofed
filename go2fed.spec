@@ -1,4 +1,4 @@
-%global commit		d9007b6522018c62e7da9e1219b26ff0a84f615b
+%global commit		ca978971492af556210c34256950f25c0b7bd7ea
 %global shortcommit	%(c=%{commit}; echo ${c:0:7})
 
 Name:		go2fed
