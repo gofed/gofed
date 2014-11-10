@@ -159,6 +159,8 @@ popd >/dev/null
 
 echo "%doc$docs" >> $specfile
 echo "%dir %{gopath}/src/%{provider}.%{provider_tld}/%{project}" >> $specfile
+# http://www.rpm.org/max-rpm/s1-rpm-inside-files-list-directives.html
+# it takes every dir and file recursively
 echo "%{gopath}/src/%{import_path}" >> $specfile
 echo "" >> $specfile
 echo "%changelog" >> $specfile
