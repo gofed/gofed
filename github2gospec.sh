@@ -116,7 +116,7 @@ echo "" >> $specfile
 echo "%install" >> $specfile
 echo "install -d -p %{buildroot}/%{gopath}/src/%{import_path}/" >> $specfile
 
-ls $repo-$commit/*.go 2>/dev/null
+ls $repo-$commit/*.go 1>/dev/null 2>/dev/null
 if [ "$?" -eq 0 ]; then
 	echo "cp -pav *.go %{buildroot}/%{gopath}/src/%{import_path}/" >> $specfile
 fi
