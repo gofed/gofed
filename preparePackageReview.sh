@@ -69,7 +69,7 @@ name=$(rpm -qpi $srpm | grep "^Name" | cut -d':' -f2 | sed 's/ *//g')
 
 # upload the srpm to my fedora account
 echo "Uploading srpm and spec file to @fedorapeople.org"
-ssh $user@fedorapeople.org 'mkdir -p public_html/reviews/$name' 2>/dev/null
+ssh $user@fedorapeople.org "mkdir -p public_html/reviews/$name" 2>/dev/null
 scp $srpm $user@fedorapeople.org:public_html/reviews/$name/. 2>/dev/null
 scp $spec_file $user@fedorapeople.org:public_html/reviews/$name/. 2>/dev/null
 echo ""
