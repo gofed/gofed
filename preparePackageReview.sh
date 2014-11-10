@@ -30,7 +30,7 @@ echo ""
 # copy tarball to SOURCES directory
 tarball=$repo-${commit:0:7}.tar.gz
 echo "Copying tarball $tarball to ~/rpmbuild/SOURCES"
-cp $tarball ~/rpmbuild/SOURCES/go-01d012b.tar.gz
+cp $tarball ~/rpmbuild/SOURCES/.
 echo ""
 
 # build spec file
