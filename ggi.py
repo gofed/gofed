@@ -75,6 +75,21 @@ def getNativeImports():
                 content = file.read()
 		return content.split('\n')
 
+def getMappings():
+	script_dir = getScriptPath()
+        with open('%s/golang.mapping' % script_dir, 'r') as file:
+		maps = {}
+                content = file.read()
+		for line in content.split('\n'):
+			if line == "" or line[0] == '#':
+				continue
+			line = re.sub(r'[\t ]+', ' ', line).split(' ')
+			if len(line) != 2:
+				continue
+			maps[line[0]] = line[1]
+				
+		return maps
+
 # only github.com/<project>/<repo> denote a class
 def detectGithub(path):
 	parts = path.split('/')
@@ -103,8 +118,6 @@ def googlecode2pkgdb(googlecode):
 			print "%s repo contains more than one dot in its name, not implemented" % '/'.join(parts[:3])
 			exit(1)
 		if len(nparts) == 2:
-			if parts[2] == "go.text":
-				return "golang-googlecode-text"
 			return "golang-googlecode-%s" % (nparts[1] + "-" + nparts[0])
 		else:
 			return "golang-googlecode-%s" % parts[2]
@@ -174,15 +187,24 @@ if __name__ == "__main__":
 		path = args[0]
 
 	classes = decomposeImports(getFileTreeImports(path))
+	mappings = getMappings()
 	for element in classes:
 		if not options.all and element == "Native":
 			continue
 
 		pkg_name = ""
 		if element.startswith('github.com'):
-			pkg_name = github2pkgdb(element)
+			key = detectGithub(element)
+			if key in mappings:
+				pkg_name = mappings[key]
+			else:
+				pkg_name = github2pkgdb(element)
 		elif element.startswith('code.google.com'):
-			pkg_name = googlecode2pkgdb(element)
+			key = detectGooglecode(element)
+			if key in mappings:
+				pkg_name = mappings[key]
+			else:
+				pkg_name = googlecode2pkgdb(element)
 
 		pkg_in_pkgdb = False
 		if options.classes:
