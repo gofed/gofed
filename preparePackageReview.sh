@@ -2,8 +2,16 @@
 
 # $1 spec file
 # $2 user
+# $2-3 flag?
 spec_file=$1
+skip_koji=0
 user=$2
+if [ "$2" == '--skip-koji' ]; then
+	skip_koji=1
+	user=$3
+elif [ "$3" == '--skip-koji' ]; then
+	skip_koji=1
+fi
 if [ -z "$user" ]; then
 	user="jchaloup"
 fi;
@@ -49,16 +57,18 @@ echo ""
 
 
 # koji
-echo "Running koji scratch build on srpm"
-task_id=$(koji build --scratch rawhide $srpm --nowait | grep "Created task: " | cut -d' ' -f3)
-echo "	Watching rawhide build, http://koji.fedoraproject.org/koji/taskinfo?taskID=$task_id"
-koji watch-task $task_id --quiet
-state=$(koji taskinfo $task_id | grep "State" | tr '[:upper]' '[:lower]' )
-echo "	$state"
+if [ "$skip_koji" -eq 0 ]; then
+	echo "Running koji scratch build on srpm"
+	task_id=$(koji build --scratch rawhide $srpm --nowait | grep "Created task: " | cut -d' ' -f3)
+	echo "	Watching rawhide build, http://koji.fedoraproject.org/koji/taskinfo?taskID=$task_id"
+	koji watch-task $task_id --quiet
+	state=$(koji taskinfo $task_id | grep "State" | tr '[:upper]' '[:lower]' )
+	echo "	$state"
 
-if [ "$(echo $state | cut -d' ' -f2)" != "closed" ]; then
-	echo "	koji scratch build failed"
-	exit
+	if [ "$(echo $state | cut -d' ' -f2)" != "closed" ]; then
+		echo "	koji scratch build failed"
+		exit
+	fi
 fi
 
 # parse data for review request for bugzilla
@@ -87,8 +97,10 @@ echo "Description: $(rpm -qpi $srpm | tail -n $rest)"
 echo ""
 echo "Fedora Account System Username: $user"
 echo ""
-echo "Koji: http://koji.fedoraproject.org/koji/taskinfo?taskID=$task_id"
-echo ""
+if [ "$skip_koji" -eq 0 ]; then
+	echo "Koji: http://koji.fedoraproject.org/koji/taskinfo?taskID=$task_id"
+	echo ""
+fi
 echo "\$ rpmlint $(echo $(for package in $packages; do basename $package; done)) $(ls | grep *.spec)"
 rpmlint $packages $(ls | grep *.spec)
 echo "###############################################################"
