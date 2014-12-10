@@ -128,7 +128,8 @@ def decomposeImports(imports):
 	classes = {}
 	native = getNativeImports()
 	for gimport in imports:
-		if gimport in native:
+		prefix = gimport.split('/')[0]
+		if prefix in native:
 			key = "Native"
 		elif gimport.startswith('github.com'):
 			key = detectGithub(gimport)
