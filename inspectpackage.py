@@ -137,7 +137,8 @@ class Branch:
 		xml = tab*'\t' + "<branch>\n"
 		xml += (tab+1)*'\t' + "<name>%s</name>\n" % self.branch
 		xml += (tab+1)*'\t' + "<builds>\n"
-		xml += self.devel.toXml(tab+2)
+		if self.devel:
+			xml += self.devel.toXml(tab+2)
 
 		for build in self.others:
 			xml += build.toXml(tab+2)
@@ -192,7 +193,7 @@ def getBuildProvides(build):
 
 def getTarballProvides(import_path, directory):
 	stdout, stderr, _ = runCommand("%s/inspecttarball.py -p %s" % (script_dir, directory))
-	return sorted(map(lambda p: import_path + "/" + p, stdout.split('\n')[:-1]))
+	return sorted(map(lambda p: import_path if p == '.' else import_path + "/" + p, stdout.split('\n')[:-1]))
 
 # from http://stackoverflow.com/questions/377017/test-if-executable-exists-in-python
 def is_exe(fpath):
@@ -233,10 +234,12 @@ def checkProvides(pkg_name, devel):
 
 	ip = getImportPath(subs_ip, raw_ip)
 
-	stdout, stderr, _ = runCommand("tar -tf *.tar.gz | cut -d '/' -f1 | head -1")
+	stdout, stderr, _ = runCommand("tar -tf $(cat sources | sed 's/[ \t][ \t]*/ /g' | cut -d' ' -f2) | cut -d '/' -f1 | head -1")
+
 	directory = stdout.split('\n')[0]
 
 	info("\tChecking tarball Provides:")
+
 	tp = getTarballProvides(ip, directory)
 
 	bp_missing = list(set(tp) - set(bp))
@@ -272,29 +275,34 @@ def inspectBranch(pkg_name, branch, distro):
 	stdout, stderr, _ = runCommand("koji download-build %s" % build)
 	# no test for stderr as the command writes to stderr
 
+	devel = ""
 	stdout, stderr, _ = runCommand("ls %s-devel-*.rpm" % pkg_name)
         if stderr != "":
                 warning("No %s-devel package" % pkg_name)
+	else:
+		devel = stdout.split('\n')[0]
 
-	devel = stdout.split('\n')[0]
-
-	
-	build_obj = Build(devel)
+	if devel != "":
+		build_obj = Build(devel)
        
-	info("\tInspecting %s" % devel)
-	mp, sp = checkProvides(pkg_name, devel)
-	build_obj.addMissingProvides(mp)
-	build_obj.addSuperProvides(sp)
+		info("\tInspecting %s" % devel)
+		mp, sp = checkProvides(pkg_name, devel)
+		build_obj.addMissingProvides(mp)
+		build_obj.addSuperProvides(sp)
 
-	info("\tChecking %s for executable" % devel)
-	executables = getBuildExecutable(devel)
-	build_obj.addExecutables(executables)
+		info("\tChecking %s for executable" % devel)
+		executables = getBuildExecutable(devel)
+		build_obj.addExecutables(executables)
 
-	branch_obj.addDevel(build_obj)
+		branch_obj.addDevel(build_obj)
 
-#	print build_obj.toXml()
+	#	print build_obj.toXml()
 
-	stdout, stderr, _ = runCommand("ls *.rpm | grep -v '.src.rpm$' | grep -v %s" % devel)
+	cmd = "ls *.rpm | grep -v '.src.rpm$'"
+	if devel != "":
+		cmd += " | grep -v %s" % devel
+
+	stdout, stderr, _ = runCommand(cmd)
 	others = stdout.split('\n')[:-1]
 	if others:
 		info("\tChecking other builds")
@@ -324,7 +332,7 @@ def inspectPackage(pkg_name):
 	tmp_dir = tmp_dir.split('\n')[0]
 	os.chdir("%s" % tmp_dir)
 
-	err("Changing directory to %s" % tmp_dir)
+	#err("Changing directory to %s" % tmp_dir)
 
 	step("Cloning %s" % pkg_name)
 	stdout, stderr, _ = runCommand("fedpkg clone %s" % pkg_name)
@@ -336,7 +344,8 @@ def inspectPackage(pkg_name):
 
 	for (branch, distro) in [('master', 'rawhide'), ('f21', 'f21'), ('f20', 'f20'), ('el6', 'dist-6E-epel-build')]:
 		obj, er = inspectBranch(pkg_name, branch, distro)
-		pkg_obj.addBranch(obj)
+		if er == 0 and obj:
+			pkg_obj.addBranch(obj)
 
 	runCommand("rm -rf %s" % tmp_dir)
 
@@ -347,7 +356,7 @@ def inspectPackage(pkg_name):
 
 if __name__ == "__main__":
 
-	parser = optparse.OptionParser()
+	parser = optparse.OptionParser("%prog [-o|--output FILE] pkg_name")
 
         parser.add_option(
 		"", "-o", "--output", dest="output",
@@ -355,12 +364,15 @@ if __name__ == "__main__":
         )
 
 	options, args = parser.parse_args()
+	if len(args) != 1:
+		print "Synopsis: %prog [-o|--output FILE] pkg_name"
+		exit(1)
 
-	pkg_obj = inspectPackage('golang-googlecode-net')
+	pkg_obj = inspectPackage(args[0])
 
 	if options.output:
 		with open(options.output, 'w') as file:
-			file.write('<?xml version=1.0" encoding="utf-8" ?>\n')
+			file.write('<?xml version="1.0" encoding="utf-8" ?>\n')
 			file.write(pkg_obj.toXml(0))
 	else:
 		print pkg_obj
