@@ -1,9 +1,13 @@
 #!/bin/python
 
+import os
 import sys
 from xml.dom import minidom
 from xml.dom.minidom import Node
 import optparse
+import ConfigParser
+
+script_dir = os.path.dirname(os.path.realpath(__file__))
 
 ERR_NO_ERROR = 0
 ERR_NO_BRANCHES = 1
@@ -15,18 +19,50 @@ ERR_NOT_BUILD_TAGS = 5
 def printErr(err):
 	print "Error: %d" % err
 
+class Implicit:
+	config = None
+	sections = {}
+
+	def __init__(self):
+		self.config = ConfigParser.ConfigParser()
+		self.config.read("%s/golang.implicit" % script_dir)
+
+	def getOptions(self, name, distro):
+		key = "%s:%s" % (name, distro)
+		if key in self.sections:
+			return self.config.options(self.sections[key])
+
+		if name in self.config.sections():
+			self.sections[key] = name
+			return self.config.options(name)
+		elif key in self.config.sections():
+			self.sections[key] = key
+			return self.config.options("%s:%s" % (name, distro))
+		else:
+			return None
+
+	def getProperty(self, name, distro, key):
+		options = self.getOptions(name, distro)
+		if options == None:
+			return ""
+		elif key in options:
+			return self.config.get(self.sections["%s:%s" % (name, distro)], key)
+		else:
+			return ""
+
 def getLeafTagData(tag):
 	for item in tag.childNodes:
 		if item.nodeType == Node.TEXT_NODE:
 			return item.data
 	return ""
 
-def inspectBuild(build):
+def inspectBuild(build, implicit):
 	b_name = ""
 	b_missing = []
 	b_super = []
 	b_exec = []
 	clean = True
+	exec_only = False
 	for item in build.childNodes:
 		if item.nodeType != Node.ELEMENT_NODE:
 			continue
@@ -37,35 +73,58 @@ def inspectBuild(build):
 			b_missing = getLeafTagData(item)
 			if b_missing != "":
 				b_missing = b_missing.split(',')
-				clean = False
 			else:
 				b_missing = []
 		elif item.tagName == "superfluous_provides":
 			b_super = getLeafTagData(item)
 			if b_super != "":
 				b_super = b_super.split(',')
-				clean = False
 			else:
 				b_super = []
 		elif item.tagName == "executables":
 			b_exec = getLeafTagData(item)
 			if b_exec != "":
 				b_exec = b_exec.split(',')
-				clean = False
 			else:
 				b_exec = []
 
 		else:
 			return {}, ERR_NOT_BUILD_TAGS
+
+	# distro is surrounded by a dot, it is the third element from the right
+	p_distro = b_name.split('.')[-3]
+	# N-V-R
+	p_name = '-'.join(b_name.split('-')[:-2])
+
+	# filter missing
+	impl = implicit.getProperty(p_name, p_distro, 'missing')
+	if impl != "":
+		impl = map(lambda x: x.strip(), impl.split(','))
+		b_missing = filter(lambda x: x not in impl, b_missing)
+
+	# filter super
+	impl = implicit.getProperty(p_name, p_distro, 'super')
+	if impl != "":
+		impl = map(lambda x: x.strip(), impl.split(','))
+		b_super = filter(lambda x: x not in impl, b_super)
+
+	if b_exec:
+		exec_only = True
+
+	if b_missing or b_super or b_exec:
+		clean = False
+		exec_only = False
+
 	return {
 		"name": b_name,
 		"missing": b_missing,
 		"super": b_super,
 		"exec": b_exec,
 		"clean": clean,
+		"exec_only": exec_only,
 	}, ERR_NO_ERROR
 
-def inspectBuilds(buildsElm):
+def inspectBuilds(buildsElm, implicit):
 	builds = []
 	for build in buildsElm.childNodes:
 		if build.nodeType != Node.ELEMENT_NODE:
@@ -74,7 +133,7 @@ def inspectBuilds(buildsElm):
 		if build.tagName != "build":
 			return [], ERR_NOT_BUILD
 	
-		b_info, err = inspectBuild(build)
+		b_info, err = inspectBuild(build, implicit)
 		if err != ERR_NO_ERROR:
 			printErr(err)
 		else:
@@ -82,7 +141,7 @@ def inspectBuilds(buildsElm):
 
 	return builds
 
-def inspectBranch(branch):
+def inspectBranch(branch, implicit):
 	b_name = ""
 	b_builds = []
 
@@ -102,7 +161,7 @@ def inspectBranch(branch):
 				return [], ERR_NOT_NAME_OR_BUILDS
 	return {
 		'name': b_name,
-		'builds': inspectBuilds(b_builds)
+		'builds': inspectBuilds(b_builds, implicit)
 	}, ERR_NO_ERROR
 
 def showList(lst):
@@ -128,7 +187,7 @@ def interpretScan(branches, short = True):
 				showList(build['missing'])
 		print ""
 
-def sumarizeScan(branches):
+def sumarizeScan(branches, exclude_exec = True):
 	counter = {}
 	for branch in branches:
 		counter[branch['name']] = 0
@@ -137,7 +196,7 @@ def sumarizeScan(branches):
 			if build['clean']:
 				continue
 
-			if build['exec']:
+			if not exclude_exec and build['exec']:
 				cnt = cnt + len(build['exec'])
 			if build['super']:
 				cnt = cnt + len(build['super'])
@@ -149,14 +208,18 @@ def sumarizeScan(branches):
 
 def analyzeResults(branchesElm):
 	branches = []
+
+	implicit = Implicit()
+
 	for branchElm in branchesElm:
 		if branchElm.nodeType == Node.ELEMENT_NODE:
-			branch, err = inspectBranch(branchElm)
+			branch, err = inspectBranch(branchElm, implicit)
 			if err != ERR_NO_ERROR:
 				 printErr(err)
 			else:
 				branches.append(branch)
 	return branches
+
 
 if __name__ == "__main__":
 	parser = optparse.OptionParser("%prog file")
@@ -166,6 +229,11 @@ if __name__ == "__main__":
 	parser.add_option(
 	    "", "-d", "--detail", dest="detail", action = "store_true", default = False,
 	    help = "Display more information about affected branches"
+	)
+
+	parser.add_option(
+	    "", "-e", "--executable", dest="executables", action = "store_true", default = False,
+	    help = "Include executables in summary"
 	)
 
 	options, args = parser.parse_args()
@@ -187,7 +255,7 @@ if __name__ == "__main__":
 	if options.detail:
 		interpretScan(branches)
 	else:
-		summary = sumarizeScan(branches)
+		summary = sumarizeScan(branches, not options.executables)
 		info = []
 		for br in summary:
 			info.append(br + " (%d)" % summary[br])
