@@ -10,6 +10,7 @@ GITHUB2SPEC=6
 REVIEW=7
 GOOGLECODE2SPEC=8
 PULL=9
+INSPECT=10
 
 operation=-1
 script_dir=$(dirname $0)
@@ -29,6 +30,7 @@ function printHelp {
 	echo "	googlecode2spec  generate spec file from googlecode"
 	echo "	review		 creates review in Bugzilla (rpmbuild of spec file, rpmlint, koji build, ...)"
 	echo "	pull		 pull from branches"
+	echo "	inspect		 inspect golang tarball"
 }
 
 
@@ -55,6 +57,8 @@ elif [ "$1" == "review" ]; then
         operation=$REVIEW
 elif [ "$1" == "pull" ]; then
         operation=$PULL
+elif [ "$1" == "inspect" ]; then
+        operation=$INSPECT
 fi
 
 ################################
@@ -88,4 +92,6 @@ elif [ $operation -eq $REVIEW ]; then
         $script_dir/preparePackageReview.sh $@
 elif [ $operation -eq $PULL ]; then
         $script_dir/pullallbranches.sh
+elif [ $operation -eq $INSPECT ]; then
+        $script_dir/inspecttarball.py $@
 fi
