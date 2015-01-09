@@ -96,6 +96,7 @@ Output:
 Result of scans are a set of xml files saved into the current folder.
 
 To display summary of all results, run the following command in the folder:
+
    ```vim
    $ go2fed scaninfo *.xml
    ```
@@ -118,3 +119,54 @@ Output
 If the scaninfo warns you about missing provides which are not missing (or other scanned properties),
 user can set those provides in golang.implicit.
 Scaninfo then skip these warnings.
+
+To display more information about individual package, run the command with -d option:
+
+   ```vim
+   $ go2fed scaninfo golang-github-coreos-go-systemd.xml -d
+   ```
+
+Output
+
+   ```vim
+   ==========branch: master==========
+   build: golang-github-coreos-go-systemd-devel-2-2.fc22.noarch.rpm
+   Incorrect provides:
+	github.com/coreos/go-systemd
+   Missing provides:
+	github.com/coreos/go-systemd/login1
+	github.com/coreos/go-systemd/examples/activation
+	github.com/coreos/go-systemd/examples/activation/httpserver
+
+   ==========branch: f21==========
+   build: golang-github-coreos-go-systemd-devel-2-1.fc21.noarch.rpm
+   Incorrect provides:
+	github.com/coreos/go-systemd
+   Missing provides:
+	github.com/coreos/go-systemd/unit
+	github.com/coreos/go-systemd/examples/activation/httpserver
+	github.com/coreos/go-systemd/daemon
+	github.com/coreos/go-systemd/examples/activation
+	github.com/coreos/go-systemd/login1
+
+   ==========branch: f20==========
+   build: golang-github-coreos-go-systemd-devel-0-0.3.git68bc612.fc20.noarch.rpm
+   Incorrect provides:
+	github.com/coreos/go-systemd
+   Missing provides:
+	github.com/coreos/go-systemd/unit
+	github.com/coreos/go-systemd/examples/activation/httpserver
+	github.com/coreos/go-systemd/daemon
+	github.com/coreos/go-systemd/examples/activation
+	github.com/coreos/go-systemd/login1
+
+   ==========branch: el6==========
+   build: golang-github-coreos-go-systemd-devel-2-2.el6.i686.rpm
+   Incorrect provides:
+	github.com/coreos/go-systemd
+   Missing provides:
+	github.com/coreos/go-systemd/login1
+	github.com/coreos/go-systemd/examples/activation
+	github.com/coreos/go-systemd/examples/activation/httpserver
+   ```
+
