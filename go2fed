@@ -11,7 +11,8 @@ REVIEW=7
 GOOGLECODE2SPEC=8
 PULL=9
 INSPECT=10
-SCANINFO=11
+SCAN=11
+SCANINFO=12
 
 operation=-1
 script_dir=$(dirname $0)
@@ -33,8 +34,8 @@ function printHelp {
 	echo "	pull		 pull from branches"
 	echo "	inspect		 inspect golang tarball"
 	echo "	scaninfo	 sumarize info from packages scan"
+	echo "	scan		 scan golang packages listed in golang.packages"
 }
-
 
 ################################
 ################################
@@ -63,6 +64,8 @@ elif [ "$1" == "inspect" ]; then
         operation=$INSPECT
 elif [ "$1" == "scaninfo" ]; then
         operation=$SCANINFO
+elif [ "$1" == "scan" ]; then
+        operation=$SCAN
 fi
 
 ################################
@@ -100,4 +103,7 @@ elif [ $operation -eq $INSPECT ]; then
         $script_dir/inspecttarball.py $@
 elif [ $operation -eq $SCANINFO ]; then
         $script_dir/xml2info.py $@
+elif [ $operation -eq $SCAN ]; then
+        $script_dir/inspectPackages.sh $@
 fi
+

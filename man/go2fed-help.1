@@ -8,7 +8,10 @@ go2fed-ggi,
 go2fed-github2spec,
 go2fed-googlecode2spec,
 go2fed-review,
-go2fed-pull \- tools to automize packaging of golang devel source codes
+go2fed-pull,
+go2fed-inspect,
+go2fed-scan,
+go2fed-scaninfo \- tools to automize packaging of golang devel source codes
 .SH SYNOPSIS
 \fBgo2fed\fR COMMANDS [\fIARGUMENTS\fR]
 .SH DESCPRIPTION
@@ -73,6 +76,11 @@ Pull from branches.
 .B go2fed inspect
 .RS 4
 Inspect decompressed tarball/directory for test files, list indirect/direct directories.
+.RE
+.PP
+.B go2fed scan
+.RS 4
+Scan golang packages listed in golang.packages file
 .RE
 .PP
 .B go2fed scaninfo
