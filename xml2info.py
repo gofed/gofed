@@ -251,7 +251,7 @@ if __name__ == "__main__":
 	options, args = parser.parse_args()
 
 	if len(args) < 1:
-		print "Usage: %s file.xml" % (sys.argv[0].split('/')[-1])
+		print "Usage: %prog file.xml"
 		exit(0)
 
 	output = []

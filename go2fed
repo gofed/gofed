@@ -11,6 +11,7 @@ REVIEW=7
 GOOGLECODE2SPEC=8
 PULL=9
 INSPECT=10
+SCANINFO=11
 
 operation=-1
 script_dir=$(dirname $0)
@@ -31,6 +32,7 @@ function printHelp {
 	echo "	review		 creates review in Bugzilla (rpmbuild of spec file, rpmlint, koji build, ...)"
 	echo "	pull		 pull from branches"
 	echo "	inspect		 inspect golang tarball"
+	echo "	scaninfo	 sumarize info from packages scan"
 }
 
 
@@ -59,6 +61,8 @@ elif [ "$1" == "pull" ]; then
         operation=$PULL
 elif [ "$1" == "inspect" ]; then
         operation=$INSPECT
+elif [ "$1" == "scaninfo" ]; then
+        operation=$SCANINFO
 fi
 
 ################################
@@ -94,4 +98,6 @@ elif [ $operation -eq $PULL ]; then
         $script_dir/pullallbranches.sh
 elif [ $operation -eq $INSPECT ]; then
         $script_dir/inspecttarball.py $@
+elif [ $operation -eq $SCANINFO ]; then
+        $script_dir/xml2info.py $@
 fi
