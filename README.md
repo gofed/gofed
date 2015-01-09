@@ -60,3 +60,61 @@ Output:
    ```
 
 Running with -d option, the go2fed checks if the dependency has a package in PkgDB.
+
+#### Scan of golang builds
+There is a lot of golang packages in Fedora.
+Every build can bring new import paths, some may be obsoleted.
+This command allows to check missing or obsoleted provides, find executables and other information.
+This tool is still under development, these are only basic tests.
+
+Packages to scan are listed in golang.packages file.
+To run the scan, use:
+
+   ```vim
+   $ go2fed scan
+   ```
+
+Output:
+
+   ```vim
+   Scanning golang-bitbucket-kardianos-osext...
+   golang-bitbucket-kardianos-osext el6 (0), f21 (0), f20 (0), master (0)
+   Scanning golang-github-abbot-go-http-auth...
+   golang-github-abbot-go-http-auth el6 (0), f21 (0), f20 (0), master (0)
+   Scanning golang-github-bmizerany-assert...
+   golang-github-bmizerany-assert el6 (1), f21 (1), f20 (0), master (1)
+   Scanning golang-github-bmizerany-pat...
+   golang-github-bmizerany-pat el6 (2), f21 (2), f20 (0), master (2)
+   Scanning golang-github-BurntSushi-toml...
+   golang-github-BurntSushi-toml el6 (0), f21 (0), f20 (0), master (0)
+   Scanning golang-github-codegangsta-cli...
+   golang-github-codegangsta-cli el6 (0), f21 (0), f20 (0), master (0)
+   Scanning golang-github-coreos-go-etcd...
+   golang-github-coreos-go-etcd el6 (0), f21 (1), f20 (0), master (1)
+   ...
+   ```
+Result of scans are a set of xml files saved into the current folder.
+
+To display summary of all results, run the following command in the folder:
+   ```vim
+   $ go2fed scaninfo *.xml
+   ```
+
+Output
+
+   ```vim
+   golang-bitbucket-kardianos-osext         el6 (0), f21 (0), f20 (0), master (0)
+   golang-github-abbot-go-http-auth         el6 (0), f21 (0), f20 (0), master (0)
+   golang-github-bmizerany-assert           el6 (1), f21 (1), f20 (0), master (1)
+   golang-github-bmizerany-pat              el6 (2), f21 (2), f20 (0), master (2)
+   golang-github-BurntSushi-toml            el6 (6), f21 (6), f20 (0), master (6)
+   golang-github-codegangsta-cli            el6 (0), f21 (0), f20 (0), master (0)
+   golang-github-coreos-go-etcd             el6 (0), f21 (1), f20 (0), master (1)
+   golang-github-coreos-go-log              el6 (0), f21 (0), f20 (0), master (0)
+   golang-github-coreos-go-semver           f21 (0), master (1)
+   golang-github-coreos-go-systemd          el6 (4), f21 (6), f20 (6), master (4)
+   ```
+
+If the scaninfo warns you about missing provides which are not missing (or other scanned properties),
+user can set those provides in golang.implicit.
+Scaninfo then skip these warnings.
