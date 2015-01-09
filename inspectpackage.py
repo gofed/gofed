@@ -226,7 +226,7 @@ def checkProvides(pkg_name, devel):
 	info("\tChecking build Provides:")
 	bp = getBuildProvides(devel)
 
-	stdout, stderr, _ = runCommand("rpmspec -P *.spec | grep Provides | sed 's/[ \t][ \t]*/ /g' | cut -d' ' -f2 | head -1")
+	stdout, stderr, _ = runCommand("rpmspec -P *.spec | grep Provides | grep golang | grep ')' | grep '(' | sed 's/[ \t][ \t]*/ /g' | cut -d' ' -f2 | head -1")
 	subs_ip = stdout.split('\n')[0]
 
 	stdout, stderr, _ = runCommand("grep '%{import_path}' *.spec | grep Provides | sed 's/[ \t][ \t]*/ /g' | cut -d' ' -f2 | head -1")
