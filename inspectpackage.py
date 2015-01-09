@@ -369,6 +369,8 @@ if __name__ == "__main__":
 		exit(1)
 
 	pkg_obj = inspectPackage(args[0])
+	if pkg_obj == None:
+		exit(1)
 
 	if options.output:
 		with open(options.output, 'w') as file:
@@ -376,4 +378,6 @@ if __name__ == "__main__":
 			file.write(pkg_obj.toXml(0))
 	else:
 		print pkg_obj
+
+	exit(0)
 
