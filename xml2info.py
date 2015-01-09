@@ -16,6 +16,18 @@ ERR_NOT_NAME_OR_BUILDS = 3
 ERR_NOT_BUILD = 4
 ERR_NOT_BUILD_TAGS = 5
 
+RED = '\033[91m'
+GREEN = '\033[92m'
+BLUE = '\033[94m'
+CYAN = '\033[96m'
+WHITE = '\033[97m'
+YELLOW = '\033[93m'
+MAGENTA = '\033[95m'
+GREY = '\033[90m'
+BLACK = '\033[90m'
+DEFAULT = '\033[99m'
+ENDC = '\033[0m'
+
 def printErr(err):
 	print "Error: %d" % err
 
@@ -222,7 +234,7 @@ def analyzeResults(branchesElm):
 
 
 if __name__ == "__main__":
-	parser = optparse.OptionParser("%prog file")
+	parser = optparse.OptionParser("%prog [-e] [-d] file [file [file ...]]")
 
         parser.add_option_group( optparse.OptionGroup(parser, "file", "Xml file with scanned results") )
 
@@ -238,28 +250,43 @@ if __name__ == "__main__":
 
 	options, args = parser.parse_args()
 
-	if len(args) != 1:
+	if len(args) < 1:
 		print "Usage: %s file.xml" % (sys.argv[0].split('/')[-1])
 		exit(0)
 
-	xmlfile = args[0]
-	xmldoc = minidom.parse(xmlfile)
+	output = []
+	for xmlfile in args:
+		xmldoc = minidom.parse(xmlfile)
 
-	brchs_elm = xmldoc.getElementsByTagName('branches')
-	if len(brchs_elm) == 0:
-		exit(ERR_NO_BRANCHES)
+		brchs_elm = xmldoc.getElementsByTagName('branches')
+		if len(brchs_elm) == 0:
+			if len(args) == 1:
+				exit(ERR_NO_BRANCHES)
+			else:
+				continue
 
-	pkg_name = getLeafTagData(xmldoc.getElementsByTagName('name')[0])
-	branches = analyzeResults(brchs_elm[0].childNodes)
+		pkg_name = getLeafTagData(xmldoc.getElementsByTagName('name')[0])
+		branches = analyzeResults(brchs_elm[0].childNodes)
 
-	if options.detail:
-		interpretScan(branches)
-	else:
-		summary = sumarizeScan(branches, not options.executables)
-		info = []
-		for br in summary:
-			info.append(br + " (%d)" % summary[br])
+		if options.detail:
+			interpretScan(branches)
+		else:
+			summary = sumarizeScan(branches, not options.executables)
+			info = []
+			for br in summary:
+				if summary[br] > 0:
+					info.append(br + " (%s%d%s)" % (RED, summary[br], ENDC))
+				else:
+					info.append(br + " (%d)" % summary[br])
 
-		print "%s: %s" % (pkg_name, ', '.join(info))
+			output.append((pkg_name, ', '.join(info)))
+
+	m_len = 0
+	for pkg_name, info in output:
+		m_len = max(m_len, len(pkg_name))
+
+	for pkg_name, info in output:
+		spacer = m_len - len(pkg_name)
+		print "%s%s%s%s %s" % (BLUE, pkg_name, ENDC, spacer * " ", info)
 
 	exit(0)
