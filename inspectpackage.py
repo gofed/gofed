@@ -114,6 +114,7 @@ class Branch:
 
 	def __init__(self, branch):
 		self.branch = branch
+		self.others = []
 
 	def addDevel(self, devel):
 		self.devel = devel
