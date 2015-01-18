@@ -1,12 +1,11 @@
-%global commit		0ece62fdeef3d5d552e29d764a561014d38c12d5
+%global commit		116cd7b98fe82a78c388f3c1cd79402aaea4d7c6
 %global shortcommit	%(c=%{commit}; echo ${c:0:7})
 
 Name:		go2fed
 Version:	0
 Release:	1%{?dist}
 Summary:	Tool for development of golang devel packages
-
-License:	Not yet decided licence
+License:	GPLv2+
 URL:		https://github.com/ingvagabund/GolangPackageGenerator
 Source0:	https://github.com/ingvagabund/GolangPackageGenerator/archive/%{commit}/gpg-%{shortcommit}.tar.gz
 
@@ -52,7 +51,7 @@ ln -s /usr/share/go2fed/go2fed /usr/bin/go2fed
 rm /usr/bin/go2fed
 
 %files
-%doc README.md
+%doc README.md LICENSE
 /etc/bash_completion.d/go2fed
 %dir /usr/share/go2fed
 /usr/share/go2fed/*

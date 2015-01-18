@@ -13,6 +13,7 @@ PULL=9
 INSPECT=10
 SCAN=11
 SCANINFO=12
+LINT=13
 
 operation=-1
 script_dir=$(dirname $0)
@@ -35,6 +36,7 @@ function printHelp {
 	echo "	inspect		 inspect golang tarball"
 	echo "	scaninfo	 sumarize info from packages scan"
 	echo "	scan		 scan golang packages listed in golang.packages"
+	echo "	lint		 golang spec file checker"
 }
 
 ################################
@@ -66,6 +68,8 @@ elif [ "$1" == "scaninfo" ]; then
         operation=$SCANINFO
 elif [ "$1" == "scan" ]; then
         operation=$SCAN
+elif [ "$1" == "lint" ]; then
+        operation=$LINT
 fi
 
 ################################
@@ -105,5 +109,7 @@ elif [ $operation -eq $SCANINFO ]; then
         $script_dir/xml2info.py $@
 elif [ $operation -eq $SCAN ]; then
         $script_dir/inspectPackages.sh $@
+elif [ $operation -eq $LINT ]; then
+        $script_dir/specParser.py $@
 fi
 

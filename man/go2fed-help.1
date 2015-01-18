@@ -11,7 +11,8 @@ go2fed-review,
 go2fed-pull,
 go2fed-inspect,
 go2fed-scan,
-go2fed-scaninfo \- tools to automize packaging of golang devel source codes
+go2fed-scaninfo,
+go2fed-lint \- tools to automize packaging of golang devel source codes
 .SH SYNOPSIS
 \fBgo2fed\fR COMMANDS [\fIARGUMENTS\fR]
 .SH DESCPRIPTION
@@ -86,5 +87,10 @@ Scan golang packages listed in golang.packages file
 .B go2fed scaninfo
 .RS 4
 Analyze information from scan of all golang packages listed in golang.packages file
+.RE
+.PP
+.B go2fed lint
+.RS 4
+Analyze spec file (golang specific checks)
 .RE
 
