@@ -3,7 +3,8 @@
 ###################################################################
 # TODO:
 # [  ] - detect more import paths/sources in spec file?
-# [  ] - detect from %files every build, analyze its content (downloading it from koji byt detecting its name from spec file => no koji latest-builds, which packages/builds are no arch, which are arch specific (el6 beast)
+# [  ] - detect from %files every build, analyze its content (downloading it from koji by detecting its name
+#        from spec file => no koji latest-builds, which packages/builds are no arch, which are arch specific (el6 beast)
 # [  ] - all provides of source code import must in a form golang(import_path/...)
 # [  ] - what files/provides are optional, which should not be in provides (test files, example, ...)
 # [  ] - golang imports of examples are optional
@@ -33,8 +34,6 @@ def runCommand(cmd):
 	rt = process.returncode
 	stdout, stderr = process.communicate()
 	return stdout, stderr, rt
-
-spec = sys.argv[1]
 
 def readMacros(spec_lines = []):
 	macros = {}
@@ -111,8 +110,18 @@ def parseTags(spec_lines = []):
 		line = re.sub(r'[ \t]+', ' ', line.strip())
 		if line.upper().startswith('URL'):
 			tags['url'] = line.split(' ')[1]
+			continue
 		if line.upper().startswith('NAME'):
 			tags['name'] = line.split(' ')[1]
+			continue
+		if line.upper().startswith('SOURCE'):
+			src = line[6:].strip()
+			# now number or : follows
+			if src[0] == ':':
+				tags['source0'] = src[1:].strip()
+			else:
+				items = src.split(':')
+				tags['source%s' % items[0].strip()] = ':'.join(items[1:]).strip()
 	return tags
 
 def getRawSpecLines(spec):
@@ -235,6 +244,54 @@ def loadImportPaths():
 
 	return import_paths
 
+def loadSubpackageSourceMapping():
+	lines = []
+	with open('%s/golang.sources' % script_dir, 'r') as file:
+		lines = file.read().split('\n')
+
+	sources = {}
+	for line in lines:
+		parts = line.split(':')
+		if len(parts) != 2:
+			continue
+
+		sources[parts[0]] = []
+		field = parts[1].split(',')
+		for item in field:
+			sources[parts[0]].append(item.strip())
+
+	return sources
+
+def getTarballDirs(prefix, fullpath_files, test = False):
+	go_dirs = []
+	for fname in fullpath_files:
+		# does the dirName contains *.go files
+		# find any *.go file
+		if test == False:
+			if not fname.endswith(".go"):
+				continue
+		else:
+			if not fname.endswith("_test.go"):
+				continue
+
+		dir = '/'.join(fname.split('/')[1:-1])
+		if dir not in go_dirs:
+			go_dirs.append(dir)
+
+	return go_dirs
+
+def getTarballImports(tarball):
+	# only to compare provides from tarball
+	# executables are handled separatelly from individual builds
+	stdout, stderr, rc = runCommand('tar -tf %s | sort' % tarball)
+	if rc != None:
+		return []
+
+	# provides are test = False
+	dirs = getTarballDirs('', stdout.split('\n'))
+	return dirs
+
+
 class SpecTest:
 
 	def __init__(self, spec):
@@ -303,15 +360,8 @@ class SpecTest:
 			print "%s detected: %s" % (commit_label, commit)
 		return 0
 
-	def testBuilds(self, verbose = False):
+	def testProvides(self, builds, provides, verbose = False):
 		errors = 0
-		pkg_name = self.tags['name']
-		builds = getBuildsFromFilesSections(self.spec, pkg_name)
-
-		local_ips = loadImportPaths()
-
-		# read all possible builds
-		provides = getProvidesFromPackageSections(self.spec, pkg_name)
 		# here filter only devel subpackages
 		for key in provides:
 			if key not in builds:
@@ -329,13 +379,13 @@ class SpecTest:
 			ip = []
 			if key in self.import_paths:
 				ip = [self.import_paths[key]]
-			elif key in local_ips:
+			elif key in self.local_ips:
 				if verbose:
 					print "Taking import path from golang.import_paths"
-				ip = local_ips[key]
+				ip = self.local_ips[key]
 			elif verbose:
 				print "Import path for this package unknown"
-
+		
 			for provide in provides[key]:
 				if not provide.startswith('golang('):
 					print "E: Provides does not start with golang(: %s" % provide
@@ -357,16 +407,70 @@ class SpecTest:
 						errors += 1
 						continue
 				if verbose:
-					print "Provides %s correct" % provide
-				
+					print "Provides %s in a correct form" % provide
 		return errors
+
+	def testBuilds(self, verbose = False):
+		errors = 0
+		warning = 0
+		pkg_name = self.tags['name']
+		builds = getBuildsFromFilesSections(self.spec, pkg_name)
+
+		self.local_ips = loadImportPaths()
+		# tarball lies with a spec file in a branch (from sources the first one?)
+		source_mappings = loadSubpackageSourceMapping()
+		# get sources from a spec
+		if 'source0' not in self.tags:
+			print "Source or Source0 tag missing in spec file"
+			return 1, 0
+
+		spec_source0 = self.tags['source0'].split('/')[-1]
+		# get source file imports from tarball
+		tar_imports = getTarballImports(spec_source0)
+
+		provides = getProvidesFromPackageSections(self.spec, pkg_name)
+		# test form of provides
+		errors += self.testProvides(builds, provides)
+
+		# compare provides
+		for build in builds:
+			if build not in provides:
+				continue
+
+			ip = ''
+			if build in self.import_paths:
+				ip = [self.import_paths[build]]
+			elif build in self.local_ips:
+				ip = self.local_ips[build]
+			else:
+				continue
+
+			ip_provides = []
+			for path in ip:
+				for ti in tar_imports:
+					if ti != '':
+						ip_provides.append('golang(%s/%s)' % (path, ti))
+					else:
+						ip_provides.append('golang(%s)' % path)
+
+			missing = list(set(ip_provides) - set(provides[build]))
+			superfluous = list(set(provides[build]) - set(ip_provides))
+			for value in missing:
+				print 'W: %s: missing Provides: %s' % (build, value)
+				warning += 1
+
+			for value in superfluous:
+				print 'W: %s: superfluous Provides: %s' % (build, value)
+				warning += 1
+
+		return errors, warning
 
 ##################################
 # MAIN
 ##################################
 if __name__ == '__main__':
 
-	parser = optparse.OptionParser("%prog [-v]")
+	parser = optparse.OptionParser("%prog [-v] [-r ROOT] specfile")
 
 #        parser.add_option_group( optparse.OptionGroup(parser, "file", "Xml file with scanned results") )
 
@@ -375,12 +479,26 @@ if __name__ == '__main__':
 	    help = "Display more information"
 	)
 
+	parser.add_option(
+	    "", "-r", "--root", dest="root", default = '.',
+	    help = "Set root directory (directory containing spec file and tarball)"
+	)
+
 	options, args = parser.parse_args()
+
+	if len(args) != 1:
+		print "Synopis: prog [-v] [-r ROOT] specfile"
+		exit(1)
+
+	if options.root != '.':
+		os.chdir(options.root)
+
+	# test if spec file exists
 
 	errors = 0
 	warnings = 0
 	verbose = options.verbose
-
+	spec = args[0]
 	specTestObj = SpecTest(spec)
 	#########
 	# TESTS #
@@ -392,8 +510,10 @@ if __name__ == '__main__':
 	errors += specTestObj.testImportPath(verbose)
 	# 3. check for %global commit ... #
 	errors += specTestObj.testCommit(verbose)
-	# 4.
-	errors += specTestObj.testBuilds(verbose)
+	# 4. check Provides of every devel subpackage
+	err, war = specTestObj.testBuilds(verbose)
+	errors += err
+	warnings += war
 
 	###########
 	# Summary #

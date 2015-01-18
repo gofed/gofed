@@ -13,7 +13,7 @@ import re
 UNKNOWN = 0
 GITHUB = 1
 GOOGLECODE = 2
-GOLANGORD = 3
+GOLANGORG = 3
 GOPKG = 4
 
 def detectKnownRepos(url):
