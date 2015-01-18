@@ -45,6 +45,18 @@ Every subpackage which provides source codes:
 - non source codes packages must not end with '-devel' sufix
 - every subpackage should contain only one import path (not enforced)
 
+Every devel subpackage has at least one source tarball.
+Only devel subpackages can be checked againts their tarballs. What about the rest?
+Maybe some mapping (two or more packages origin from the same tarball => they should have the same Provides just with a different prefix).
+When a devel subpackage has more import paths assigned (with one source)? How to check this? Maybe for lated? :)
+
+====detections====
+What can be detected and from what source
+- executables:	build
+- Provides:	build	(all possible Provides from tarball)
+- BuildReq:	build	(all possible BuildReq from tarball)
+- Requires:	build	(all possible Requires from tarball)
+
 ====hints====
 - package name is not so important as to provides
 - packages should use 'golang(...)' [Build]Requires and does not rely on package name
