@@ -1,5 +1,24 @@
 #!/bin/python
 
+# ####################################################################
+# go2fed - set of tools to automize packaging of golang devel codes
+# Copyright (C) 2014  Jan Chaloupka, jchaloup@redhat.com
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# ####################################################################
+
 ###################################################################
 # TODO:
 # [  ] - detect more import paths/sources in spec file?
@@ -349,12 +368,13 @@ class SpecTest:
 
 	def testCommit(self, verbose = False):
 		commit_label = 'commit'
-		if self.repo == Repos.GOOGLECODE:
-			commit_label = 'rev'
-
 		commit, rc = evalMacro(commit_label, self.macros)
 		if rc == False:
-			print "E: missing %global %s ..." % commit_label
+			commit_label = 'rev'
+			commit, rc = evalMacro(commit_label, self.macros)
+
+		if rc == False:
+			print "E: missing %%global %s ..." % commit_label
 			return 1
 		if verbose:
 			print "%s detected: %s" % (commit_label, commit)
