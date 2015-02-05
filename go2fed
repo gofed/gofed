@@ -33,6 +33,7 @@ INSPECT=10
 SCAN=11
 SCANINFO=12
 LINT=13
+BUMP=14
 
 operation=-1
 script_dir=$(dirname $0)
@@ -89,6 +90,8 @@ elif [ "$1" == "scan" ]; then
         operation=$SCAN
 elif [ "$1" == "lint" ]; then
         operation=$LINT
+elif [ "$1" == "bump" ]; then
+        operation=$BUMP
 fi
 
 ################################
@@ -130,5 +133,7 @@ elif [ $operation -eq $SCAN ]; then
         $script_dir/inspectPackages.sh $@
 elif [ $operation -eq $LINT ]; then
         $script_dir/specParser.py $@
+elif [ $operation -eq $BUMP ]; then
+        $script_dir/updatepackage.sh $@
 fi
 
