@@ -34,6 +34,8 @@ SCAN=11
 SCANINFO=12
 LINT=13
 BUMP=14
+CHECK_COMMIT=15
+CHECK_DEPS=16
 
 operation=-1
 script_dir=$(dirname $0)
@@ -57,6 +59,8 @@ function printHelp {
 	echo "	scaninfo	 sumarize info from packages scan"
 	echo "	scan		 scan golang packages listed in golang.packages"
 	echo "	lint		 golang spec file checker"
+	echo "	check-commit	 check package for commit"
+	echo "	check-deps	 check packages for commit"
 }
 
 ################################
@@ -92,6 +96,10 @@ elif [ "$1" == "lint" ]; then
         operation=$LINT
 elif [ "$1" == "bump" ]; then
         operation=$BUMP
+elif [ "$1" == "check-commit" ]; then
+        operation=$CHECK_COMMIT
+elif [ "$1" == "check-deps" ]; then
+        operation=$CHECK_DEPS
 fi
 
 ################################
@@ -135,5 +143,9 @@ elif [ $operation -eq $LINT ]; then
         $script_dir/specParser.py $@
 elif [ $operation -eq $BUMP ]; then
         $script_dir/updatepackage.sh $@
+elif [ $operation -eq $CHECK_COMMIT ]; then
+        $script_dir/checkCommit.py $@
+elif [ $operation -eq $CHECK_DEPS ]; then
+        $script_dir/checkDeps.py $@
 fi
 
