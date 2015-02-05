@@ -30,7 +30,7 @@ mkdir -p %{buildroot}/etc/bash_completion.d/
 ./gen_bash_completion.sh %{name} > %{buildroot}/etc/bash_completion.d/%{name}
 # copy man page
 mkdir -p %{buildroot}/usr/share/man/man1
-cp man/go2fed-help.1 %{buildroot}/usr/share/man/man1/go2fed.1.gz
+cp man/go2fed-help.1 %{buildroot}/usr/share/man/man1/go2fed.1
 # copy scripts
 mkdir -p %{buildroot}/usr/share/%{name}
 cp *.sh %{buildroot}/usr/share/%{name}/.
@@ -52,9 +52,9 @@ rm /usr/bin/%{name}
 
 %files
 %doc README.md LICENSE
+%config /usr/share/%{name}/config/go2fed.conf
 /etc/bash_completion.d/%{name}
 /usr/share/%{name}
-%config /usr/share/%{name}/config
 /usr/share/man/man1/go2fed.1.gz
 
 %changelog
