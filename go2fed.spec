@@ -27,35 +27,34 @@ If possible, all in one command.
 %install
 # copy bash completition
 mkdir -p %{buildroot}/etc/bash_completion.d/
-cp completions/bash/go2fed %{buildroot}/etc/bash_completion.d/.
+./gen_bash_completion.sh %{name} > %{buildroot}/etc/bash_completion.d/%{name}
 # copy man page
 mkdir -p %{buildroot}/usr/share/man/man1
 cp man/go2fed-help.1 %{buildroot}/usr/share/man/man1/go2fed.1.gz
 # copy scripts
-mkdir -p %{buildroot}/usr/share/go2fed
-cp *.sh %{buildroot}/usr/share/go2fed/.
-cp *.py %{buildroot}/usr/share/go2fed/.
+mkdir -p %{buildroot}/usr/share/%{name}
+cp *.sh %{buildroot}/usr/share/%{name}/.
+cp *.py %{buildroot}/usr/share/%{name}/.
 # copy config
-mkdir -p %{buildroot}/usr/share/go2fed/config
-cp config/go2fed.conf %{buildroot}/usr/share/go2fed/config/.
+mkdir -p %{buildroot}/usr/share/%{name}/config
+cp config/go2fed.conf %{buildroot}/usr/share/%{name}/config/.
 # copy golang list and native imports
-cp golang.list golang.imports %{buildroot}/usr/share/go2fed/.
+cp golang.list golang.imports %{buildroot}/usr/share/%{name}/.
 # copy the tool script
-cp go2fed %{buildroot}/usr/share/go2fed/.
+cp %{name} %{buildroot}/usr/share/%{name}/.
 
 %post
 # make a symlink to go2fed
-ln -s /usr/share/go2fed/go2fed /usr/bin/go2fed
+ln -s /usr/share/%{name}/%{name} /usr/bin/%{name}
 
 %preun
-rm /usr/bin/go2fed
+rm /usr/bin/%{name}
 
 %files
 %doc README.md LICENSE
-/etc/bash_completion.d/go2fed
-%dir /usr/share/go2fed
-/usr/share/go2fed/*
-%config /usr/share/go2fed/config
+/etc/bash_completion.d/%{name}
+/usr/share/%{name}
+%config /usr/share/%{name}/config
 /usr/share/man/man1/go2fed.1.gz
 
 %changelog
