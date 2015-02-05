@@ -7,6 +7,13 @@
 # Purpose       : ---check the spec file of a source rpm.
 #############################################################################
 import re
+import os
+import Utils
+
+script_dir = Utils.getScriptDir()
+GOLANG_IMAP="golang.imap"
+GOLANG_REPOS="golang.repos"
+
 #####################
 # Detect known repo #
 #####################
@@ -91,6 +98,79 @@ def golangorg2pkgdb(github):
 	parts[0] = 'code.google.com'
 	parts[1] = 'p'
 	return googlecode2pkgdb('/'.join(parts))
+
+###############################
+# Import path to package name #
+###############################
+def loadIMap():
+	imap = {}
+	with open("%s/%s" % (script_dir, GOLANG_IMAP), "r") as file:
+		for line in file.read().split('\n'):
+			line = line.strip()
+			if line == '':
+				continue
+
+			parts = line.split(":")
+			if len(parts) != 3:
+				continue
+
+			parts[0] = parts[0].strip()
+			if parts[0] not in imap:
+				imap[parts[0]] = (parts[1], parts[2])
+	return imap
+
+#################################################
+# Internal database of packages and their repos #
+#################################################
+def parseReposInfo():
+	lines = []
+	with open('%s/%s' % (script_dir, GOLANG_REPOS), "r") as file:
+		lines = file.read().split('\n')
+
+	repos = {}
+	for line in lines:
+		line = line.strip()
+		if line == '' or line[0] == '#':
+			continue
+
+		line = re.sub(r'[ \t]+', ' ', line)
+		line = line.split(' ')
+
+		if len(line) != 3:
+			continue
+
+		# pkg_name, path_to_repo, upstream repo
+		repos[line[0]] = (line[1], line[2])
+
+	return repos
+
+def getRepoCommits(path, repo, pull=True):
+	commits = {}
+	# path does not exists? create one
+	repo_dir = repo.split('/')[-1].split('.')[0]
+	Utils.runCommand("mkdir -p %s" % path)
+
+	cwd = os.getcwd()
+	os.chdir('/'.join(path.split('/')[:-1]))
+
+	Utils.runCommand("git clone %s" % repo)
+	os.chdir(repo_dir)
+
+	if pull:
+		so, se, rc = Utils.runCommand('git pull')
+
+	so, se, rc = Utils.runCommand('git log --pretty=format:"%ct:%H" | sort')
+	for line in so.split('\n'):
+		line = line.strip().split(':')
+		if len(line) != 2:
+			continue
+
+		# timestamp:commit
+		commits[ line[1] ] = line[0]
+
+	os.chdir(cwd)
+	return commits
+
 
 if __name__ == '__main__':
 	# test detectGithub

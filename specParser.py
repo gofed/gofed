@@ -35,7 +35,9 @@ import sys
 import os
 import re
 import optparse
+import tempfile
 
+import Utils
 import Repos
 
 RPM_SCRIPTLETS = ('pre', 'post', 'preun', 'postun', 'pretrans', 'posttrans',
@@ -46,13 +48,6 @@ SECTIONS = ('build', 'changelog', 'check', 'clean', 'description', 'files',
                'install', 'package', 'prep') + RPM_SCRIPTLETS
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
-
-def runCommand(cmd):
-	#cmd = cmd.split(' ')
-	process = Popen(cmd, stderr=PIPE, stdout=PIPE, shell=True)
-	rt = process.returncode
-	stdout, stderr = process.communicate()
-	return stdout, stderr, rt
 
 def readMacros(spec_lines = []):
 	macros = {}
@@ -148,13 +143,13 @@ def getRawSpecLines(spec):
 		return file.read().split('\n')
 
 def getSpecLines(spec):
-	stdout, stderr, rt = runCommand('rpmspec -P %s' % spec)
+	stdout, stderr, rt = Utils.runCommand('rpmspec -P %s' % spec)
 	if rt:
 		return []
 	return stdout.split('\n')
 
 def getBuildsFromFilesSections(spec, pkg_name):
-	stdout, stderr, rc = runCommand('rpmspec -P %s | grep "^%%files"' % spec)
+	stdout, stderr, rc = Utils.runCommand('rpmspec -P %s | grep "^%%files"' % spec)
 	if rc != None:
 		return []
 
@@ -196,7 +191,7 @@ def getBuildsFromFilesSections(spec, pkg_name):
 	return builds
 
 def getProvidesFromPackageSections(spec, pkg_name):
-	stdout, stderr, rc = runCommand('rpmspec -P %s' % spec)
+	stdout, stderr, rc = Utils.runCommand('rpmspec -P %s' % spec)
 	if rc != None:
 		return []
 
@@ -302,13 +297,37 @@ def getTarballDirs(prefix, fullpath_files, test = False):
 def getTarballImports(tarball):
 	# only to compare provides from tarball
 	# executables are handled separatelly from individual builds
-	stdout, stderr, rc = runCommand('tar -tf %s | sort' % tarball)
+	stdout, stderr, rc = Utils.runCommand('tar -tf %s | sort' % tarball)
 	if rc != None:
 		return []
 
 	# provides are test = False
 	dirs = getTarballDirs('', stdout.split('\n'))
 	return dirs
+
+def fetchPkgInfo(pkg, branch):
+	"""Fetch a spec file from pkgdb and get its commit
+
+	Keyword arguments:
+	pkg -- package name
+	branch -- branch name
+	"""
+	f = tempfile.NamedTemporaryFile(delete=True)
+	Utils.runCommand("curl http://pkgs.fedoraproject.org/cgit/%s.git/plain/%s.spec > %s" % (pkg, pkg, f.name))
+	lines = getRawSpecLines(f.name)
+	f.close()
+
+	macros = readMacros(lines)
+	commit, rc = evalMacro('commit', macros)
+	if rc == False:
+		commit, rc = evalMacro('rev', macros)
+	if rc == False:
+		commit = ''
+
+	return commit
+
+def getPackageCommits(pkg):
+	return fetchPkgInfo(pkg, 'master')
 
 
 class SpecTest:
