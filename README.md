@@ -169,4 +169,22 @@ Output
         github.com/coreos/go-systemd/examples/activation
         github.com/coreos/go-systemd/examples/activation/httpserver
    ```
+#### Check of up2date dependencides in Fedora
+To check if all dependecies are at least up2date in Fedora (e.g. kubernetes), run the following command on its Godeps.json file:
+
+   ```vim
+   $ go2fed check-deps Godeps.json
+   ```
+
+Output:
+
+   ```vim
+   package golang-github-davecgh-go-spew outdated
+   package golang-github-onsi-gomega outdated
+   package golang-github-onsi-ginkgo outdated
+   package golang-github-ghodss-yaml outdated
+   package golang-github-spf13-pflag outdated
+   ```
+
+Running with -v option display status of all dependencies
 
