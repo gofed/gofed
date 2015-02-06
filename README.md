@@ -186,5 +186,6 @@ Output:
    package golang-github-spf13-pflag outdated
    ```
 
-Running with -v option display status of all dependencies
+Running with -v option display status of all dependencies.
+Running with -l option will not run git|hg pull on each repository.
 
