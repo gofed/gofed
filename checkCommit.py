@@ -50,11 +50,11 @@ if __name__ == "__main__":
 
 	# now fedora and commit, up to date?
 	if commit not in ups_commits:
-		print "%s: upstream commit not found" % pkg
+		print "%s: upstream commit %s not found" % (pkg, commit)
 		exit(1)
 
 	if pkg_commit not in ups_commits:
-		print "%s: package commit not found" % pkg
+		print "%s: package commit %s not found" % (pkg, pkg_commit)
 		exit(1)
 
 	commit_ts = int(ups_commits[commit])

@@ -161,7 +161,7 @@ def getRepoCommits(path, repo, pull=True):
 		if pull:
 			Utils.runCommand("hg pull")
 
-		logs, se, rc = Utils.runCommand('hg log --template "{date|hgdate} {node}\n" | cut -d' ' -f1,3')
+		logs, se, rc = Utils.runCommand('hg log --template "{date|hgdate} {node}\n" | cut -d" " -f1,3 | sed "s/ /:/g"')
 	else:
 		Utils.runCommand("git clone %s" % repo)
 		repo_dir = repo.split('/')[-1][:-4]
