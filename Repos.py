@@ -145,23 +145,37 @@ def parseReposInfo():
 	return repos
 
 def getRepoCommits(path, repo, pull=True):
-	commits = {}
-	# path does not exists? create one
-	repo_dir = repo.split('/')[-1].split('.')[0]
-	Utils.runCommand("mkdir -p %s" % path)
 
+	# path does not exists? create one
+	Utils.runCommand("mkdir -p %s" % path)
 	cwd = os.getcwd()
 	os.chdir('/'.join(path.split('/')[:-1]))
 
-	Utils.runCommand("git clone %s" % repo)
-	os.chdir(repo_dir)
+	logs = ""
+	# git or hg?
+	if len(repo) < 4 or repo[-4:] != '.git':
+		Utils.runCommand("hg clone %s" % repo)
+		repo_dir = repo.split('/')[-1]
+		os.chdir(repo_dir)
 
-	if pull:
-		so, se, rc = Utils.runCommand('git pull')
+		if pull:
+			Utils.runCommand("hg pull")
 
-	so, se, rc = Utils.runCommand('git log --pretty=format:"%ct:%H" | sort')
-	for line in so.split('\n'):
+		logs, se, rc = Utils.runCommand('hg log --template "{date|hgdate} {node}\n" | cut -d' ' -f1,3')
+	else:
+		Utils.runCommand("git clone %s" % repo)
+		repo_dir = repo.split('/')[-1][:-4]
+		os.chdir(repo_dir)
+
+		if pull:
+			Utils.runCommand('git pull')
+
+		logs, se, rc = Utils.runCommand('git log --pretty=format:"%ct:%H"')
+
+	commits = {}
+	for line in logs.split('\n'):
 		line = line.strip().split(':')
+
 		if len(line) != 2:
 			continue
 
