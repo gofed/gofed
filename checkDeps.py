@@ -33,14 +33,19 @@ if __name__ == "__main__":
 	parser.add_option_group( optparse.OptionGroup(parser, "deps.json", "JSON file with golang deps") )
 
 	parser.add_option(
-	    "", "-p", "--pull", dest="pull", action = "store_true", default = False,
-	    help = "pull all repositories"
+	    "", "-l", "--dontpull", dest="pull", action = "store_false", default = True,
+	    help = "Dont pull repositories (use only local)"
+	)
+
+	parser.add_option(
+	    "", "-v", "--verbose", dest="verbose", action = "store_true", default = False,
+	    help = "Verbose mode"
 	)
 
 	options, args = parser.parse_args()
 
 	if len(args) != 1:
-		print "Synopsis: prog [-p] deps.json"
+		print "Synopsis: prog [-p] [-v] deps.json"
 		exit(1)
 
 	json_file = args[0]
@@ -52,8 +57,11 @@ if __name__ == "__main__":
 
 	im = Repos.loadIMap()
 	repos = Repos.parseReposInfo()
+	keys = sorted(deps.keys())
 
-	for dep in deps:
+	cache = []
+
+	for dep in keys:
 		ip = dep
 		commit = deps[dep]
 		pkg = ''
@@ -67,28 +75,34 @@ if __name__ == "__main__":
 			print "package %s not found in golang.repos" % pkg
 			continue
 
+		if pkg in cache:
+			continue
+
+		cache.append(pkg)
 		path, upstream = repos[pkg]
 		ups_commits = Repos.getRepoCommits(path, upstream, pull=options.pull)
 		pkg_commit  = specParser.getPackageCommits(pkg)
 
 		# now fedora and commit, up to date?
 		if commit not in ups_commits:
-			print "%s: upstream commit not found" % pkg
+			print "%s: upstream commit %s not found" % (pkg, commit)
 			continue
 
 		if pkg_commit not in ups_commits:
-			print "%s: package commit not found" % pkg
+			print "%s: package commit %s not found" % (pkg, pkg_commit)
 			continue
 
 		commit_ts = int(ups_commits[commit])
 		pkg_commit_ts = int(ups_commits[pkg_commit])
 
 		if commit == pkg_commit:
-			print "%spackage %s up2date%s" % (Utils.GREEN, pkg, Utils.ENDC)
+			if options.verbose:
+				print "%spackage %s up2date%s" % (Utils.GREEN, pkg, Utils.ENDC)
 		elif commit_ts > pkg_commit_ts:
 			print "%spackage %s outdated%s" % (Utils.RED, pkg, Utils.ENDC)
 		else:
-			print "%spackage %s has newer commit%s" % (Utils.YELLOW, pkg, Utils.ENDC)
+			if options.verbose:
+				print "%spackage %s has newer commit%s" % (Utils.YELLOW, pkg, Utils.ENDC)
 
 	
 
