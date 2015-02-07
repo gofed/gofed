@@ -126,6 +126,11 @@ def detectGolangorg(path):
 	parts = path.split('/')
         return '/'.join(parts[:3])
 
+# only google.golang.org/<repo>
+def detectGoogleGolangorg(path):
+	parts = path.split('/')
+        return '/'.join(parts[:2])
+
 # only gopkg.in/<v>/<repo>
 # or   gopkg.in/<repo>.<v>
 def detectGopkg(path):
@@ -166,6 +171,14 @@ def golangorg2pkgdb(github):
 	parts[1] = 'p'
 	return googlecode2pkgdb('/'.join(parts))
 
+def googlegolangorg2pkgdb(github):
+	# google.golang.org/<repo>
+	parts = github.split('/')
+	if len(parts) == 2:
+		return "golang-github-golang-%s" % parts[1]
+	else:
+		return ""
+
 def decomposeImports(imports):
 	classes = {}
 	native = getNativeImports()
@@ -179,6 +192,8 @@ def decomposeImports(imports):
 			key = detectGooglecode(gimport)
 		elif gimport.startswith('golang.org'):
 			key = detectGolangorg(gimport)
+		elif gimport.startswith('google.golang.org'):
+			key = detectGoogleGolangorg(gimport)
 		elif gimport.startswith('gopkg.in'):
 			key = detectGopkg(gimport)
 		else:
@@ -263,6 +278,12 @@ if __name__ == "__main__":
                                 pkg_name = mappings[key]
                         else:
                                 pkg_name = googlecode2pkgdb(element)
+		elif element.startswith('google.golang.org'):
+			key = detectGoogleGolangorg(element)
+                        if key in mappings:
+                                pkg_name = mappings[key]
+                        else:
+                                pkg_name = googlegolangorg2pkgdb(element)
 		elif element.startswith('gopkg.in'):
 			key = detectGopkg(element)
 			if key in mappings:
