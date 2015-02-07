@@ -203,7 +203,7 @@ def packageInPkgdb(pkg):
 	return False
 
 if __name__ == "__main__":
-	parser = optparse.OptionParser("%prog [-a] [-c] [-d] [directory]")
+	parser = optparse.OptionParser("%prog [-a] [-c] [-d [-v]] [directory]")
 
 	parser.add_option_group( optparse.OptionGroup(parser, "directory", "Directory to inspect. If empty, current directory is used.") )
 
@@ -220,6 +220,11 @@ if __name__ == "__main__":
 	parser.add_option(
             "", "-d", "--pkgdb", dest="pkgdb", action = "store_true", default = False,
             help = "Check if a class is in the PkgDB (only with -c option)"
+        )
+
+	parser.add_option(
+            "", "-v", "--verbose", dest="verbose", action = "store_true", default = False,
+            help = "Show all packages if -d option is on"
         )
 
 	parser.add_option(
@@ -268,7 +273,8 @@ if __name__ == "__main__":
 			if options.pkgdb and pkg_name != "":
 				pkg_in_pkgdb = packageInPkgdb(pkg_name)
 				if pkg_in_pkgdb:
-					print (Utils.GREEN + "Class: %s (%s) PkgDB=%s" + Utils.ENDC) % (element, pkg_name, pkg_in_pkgdb)
+					if options.verbose:
+						print (Utils.GREEN + "Class: %s (%s) PkgDB=%s" + Utils.ENDC) % (element, pkg_name, pkg_in_pkgdb)
 				else:
 					print (Utils.RED + "Class: %s (%s) PkgDB=%s" + Utils.ENDC ) % (element, pkg_name, pkg_in_pkgdb)
 			else:
