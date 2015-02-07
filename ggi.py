@@ -255,7 +255,9 @@ if __name__ == "__main__":
 
 	classes = decomposeImports(getFileTreeImports(path))
 	mappings = getMappings()
-	for element in classes:
+	sorted_classes = sorted(classes.keys())
+
+	for element in sorted_classes:
 		if not options.all and element == "Native":
 			continue
 
