@@ -25,6 +25,7 @@ import os
 import urllib2
 import optparse
 from subprocess import Popen, PIPE
+import Utils
 
 def getScriptPath():
     return os.path.dirname(os.path.realpath(sys.argv[0]))
@@ -266,7 +267,10 @@ if __name__ == "__main__":
 		if options.classes:
 			if options.pkgdb and pkg_name != "":
 				pkg_in_pkgdb = packageInPkgdb(pkg_name)
-				print "Class: %s (%s) PkgDB=%s" % (element, pkg_name, pkg_in_pkgdb)
+				if pkg_in_pkgdb:
+					print (Utils.GREEN + "Class: %s (%s) PkgDB=%s" + Utils.ENDC) % (element, pkg_name, pkg_in_pkgdb)
+				else:
+					print (Utils.RED + "Class: %s (%s) PkgDB=%s" + Utils.ENDC ) % (element, pkg_name, pkg_in_pkgdb)
 			else:
 				print "Class: %s" % element
 		if not options.classes or not options.short:
