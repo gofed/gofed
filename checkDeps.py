@@ -28,7 +28,7 @@ def getGoDeps(path):
 
 if __name__ == "__main__":
 
-	parser = optparse.OptionParser("%prog [-p] deps.json")
+	parser = optparse.OptionParser("%prog [-l] [-v] deps.json")
 
 	parser.add_option_group( optparse.OptionGroup(parser, "deps.json", "JSON file with golang deps") )
 
@@ -45,7 +45,7 @@ if __name__ == "__main__":
 	options, args = parser.parse_args()
 
 	if len(args) != 1:
-		print "Synopsis: prog [-p] [-v] deps.json"
+		print "Synopsis: prog [-l] [-v] deps.json"
 		exit(1)
 
 	json_file = args[0]
