@@ -1,12 +1,12 @@
 #!/bin/python
 
 # for the given package, check, if the commit is already packaged in Fedora
-import Utils
+import modules.Utils
 import re
 import os
-import specParser
+import modules.specParser
 import optparse
-import Repos
+import modules.Repos
 
 if __name__ == "__main__":
 	parser = optparse.OptionParser("%prog {package|-i import_path} ucommit")
@@ -31,7 +31,7 @@ if __name__ == "__main__":
 	commit = args[1]
 
 	if options.ip:
-		im = Repos.loadIMap()
+		im = modules.Repos.loadIMap()
 		ip = args[0]
 		if 'golang(%s)' % ip in im:
 			pkg, _ = im['golang(%s)' % ip]
@@ -39,14 +39,14 @@ if __name__ == "__main__":
 			print "import path %s not found" % ip
 			exit(1)
 
-	repos = Repos.parseReposInfo()
+	repos = modules.Repos.parseReposInfo()
 	if pkg not in repos:
 		print "package %s not found in golang.repos" % pkg
 		exit(1)
 
 	path, upstream = repos[pkg]
-	ups_commits = Repos.getRepoCommits(path, upstream)
-	pkg_commit  = specParser.getPackageCommits(pkg)
+	ups_commits = modules.Repos.getRepoCommits(path, upstream)
+	pkg_commit  = modules.specParser.getPackageCommits(pkg)
 
 	# now fedora and commit, up to date?
 	if commit not in ups_commits:

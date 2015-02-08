@@ -18,6 +18,7 @@ def runCommand(cmd):
 	#cmd = cmd.split(' ')
 	process = Popen(cmd, stderr=PIPE, stdout=PIPE, shell=True)
 	rt = process.returncode
+	print process
 	stdout, stderr = process.communicate()
 	return stdout, stderr, rt
 

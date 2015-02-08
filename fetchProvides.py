@@ -1,19 +1,12 @@
 #!/bin/python
 
-from subprocess import PIPE
-from subprocess import Popen
 import tempfile
-import specParser
 import os
+from modules.specParser import getProvidesFromPackageSections
+from modules.Utils import runCommand
+from modules.Packages import loadPackages
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
-
-def runCommand(cmd):
-        #cmd = cmd.split(' ')
-        process = Popen(cmd, stderr=PIPE, stdout=PIPE, shell=True)
-        rt = process.returncode
-        stdout, stderr = process.communicate()
-        return stdout, stderr, rt
 
 def fetchProvides(pkg, branch):
 	"""Fetch a spec file from pkgdb and get provides from all its [sub]packages
@@ -24,7 +17,7 @@ def fetchProvides(pkg, branch):
 	"""
 	f = tempfile.NamedTemporaryFile(delete=True)
 	runCommand("curl http://pkgs.fedoraproject.org/cgit/%s.git/plain/%s.spec > %s" % (pkg, pkg, f.name))
-	provides = specParser.getProvidesFromPackageSections(f.name, pkg)
+	provides = getProvidesFromPackageSections(f.name, pkg)
 	f.close()
 	return provides
 
@@ -56,16 +49,6 @@ def displayMapping(pkg, imap, fmt=False):
 		for arg in imap:
 			print "%s:%s:%s" % (arg, pkg, ",".join(imap[arg]))
 
-def loadPackages():
-	packages = []
-	with open("%s/golang.packages" % script_dir, "r") as file:
-		for line in file.read().split('\n'):
-			line = line.strip()
-			if line == '':
-				continue
-
-			packages.append(line)
-	return packages
 
 if __name__ == "__main__":
 

@@ -2,9 +2,9 @@
 
 import json
 import sys
-import Repos
-import specParser
-import Utils
+import modules.Repos
+import modules.specParser
+import modules.Utils
 import optparse
 
 def getGoDeps(path):
@@ -55,8 +55,8 @@ if __name__ == "__main__":
 		print "%s is corrupted or has no dependencies" % json_file
 		exit(1)
 
-	im = Repos.loadIMap()
-	repos = Repos.parseReposInfo()
+	im = modules.Repos.loadIMap()
+	repos = modules.Repos.parseReposInfo()
 	keys = sorted(deps.keys())
 
 	cache = []
@@ -80,8 +80,8 @@ if __name__ == "__main__":
 
 		cache.append(pkg)
 		path, upstream = repos[pkg]
-		ups_commits = Repos.getRepoCommits(path, upstream, pull=options.pull)
-		pkg_commit  = specParser.getPackageCommits(pkg)
+		ups_commits = modules.Repos.getRepoCommits(path, upstream, pull=options.pull)
+		pkg_commit  = modules.specParser.getPackageCommits(pkg)
 
 		# now fedora and commit, up to date?
 		if commit not in ups_commits:

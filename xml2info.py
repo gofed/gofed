@@ -56,7 +56,7 @@ class Implicit:
 
 	def __init__(self):
 		self.config = ConfigParser.ConfigParser()
-		self.config.read("%s/golang.implicit" % script_dir)
+		self.config.read("%s/data/golang.implicit" % script_dir)
 
 	def getOptions(self, name, distro):
 		key = "%s:%s" % (name, distro)

@@ -8,12 +8,13 @@
 #############################################################################
 import re
 import os
-import Utils
+from Utils import getScriptDir
 
-script_dir = Utils.getScriptDir()
-GOLANG_IMAP="golang.imap"
-GOLANG_REPOS="golang.repos"
-
+script_dir = getScriptDir() + "/.."
+repo_mappings = {}
+GOLANG_IMAP="data/golang.imap"
+GOLANG_REPOS="data/golang.repos"
+GOLANG_MAPPING="data/golang.mapping"
 #####################
 # Detect known repo #
 #####################
@@ -22,6 +23,9 @@ GITHUB = 1
 GOOGLECODE = 2
 GOLANGORG = 3
 GOPKG = 4
+
+# for the given list of imports, divide them into
+# classes (native, github, googlecode, bucket, ...)
 
 def detectKnownRepos(url):
 	url = re.sub(r'http://', '', url)
@@ -55,6 +59,11 @@ def detectGooglecode(path):
 def detectGolangorg(path):
 	parts = path.split('/')
         return '/'.join(parts[:3])
+
+# only google.golang.org/<repo>
+def detectGoogleGolangorg(path):
+	parts = path.split('/')
+        return '/'.join(parts[:2])
 
 # only gopkg.in/<v>/<repo>
 # or   gopkg.in/<repo>.<v>
@@ -92,6 +101,14 @@ def googlecode2pkgdb(googlecode):
         else:
                 return ""
 
+def googlegolangorg2pkgdb(github):
+	# google.golang.org/<repo>
+	parts = github.split('/')
+	if len(parts) == 2:
+		return "golang-github-golang-%s" % parts[1]
+	else:
+		return ""
+
 def golangorg2pkgdb(github):
 	# golang.org/x/<repo>
 	parts = github.split('/')
@@ -99,6 +116,57 @@ def golangorg2pkgdb(github):
 	parts[1] = 'p'
 	return googlecode2pkgdb('/'.join(parts))
 
+def getMappings():
+	with open('%s/%s' % (script_dir, GOLANG_MAPPING), 'r') as file:
+		maps = {}
+                content = file.read()
+		for line in content.split('\n'):
+			if line == "" or line[0] == '#':
+				continue
+			line = re.sub(r'[\t ]+', ' ', line).split(' ')
+			if len(line) != 2:
+				continue
+			maps[line[0]] = line[1]
+				
+		return maps
+
+def repo2pkgName(element):
+	global repo_mappings
+	if repo_mappings == {}:
+		repo_mappings = getMappings()
+
+	mappings = repo_mappings
+	pkg_name = ""
+	if element.startswith('github.com'):
+		key = detectGithub(element)
+		if key in mappings:
+			pkg_name = mappings[key]
+		else:
+			pkg_name = github2pkgdb(element)
+	elif element.startswith('code.google.com'):
+		key = detectGooglecode(element)
+		if key in mappings:
+			pkg_name = mappings[key]
+		else:
+			pkg_name = googlecode2pkgdb(element)
+	elif element.startswith('golang.org'):
+		key = detectGolangorg(element)
+		if key in mappings:
+			pkg_name = mappings[key]
+		else:
+			pkg_name = googlecode2pkgdb(element)
+	elif element.startswith('google.golang.org'):
+		key = detectGoogleGolangorg(element)
+		if key in mappings:
+			pkg_name = mappings[key]
+		else:
+			pkg_name = googlegolangorg2pkgdb(element)
+	elif element.startswith('gopkg.in'):
+		key = detectGopkg(element)
+		if key in mappings:
+			pkg_name = mappings[key]
+
+	return pkg_name
 ###############################
 # Import path to package name #
 ###############################
