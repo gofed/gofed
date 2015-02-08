@@ -1,6 +1,6 @@
 ## About
 
-**GolangPackageGenerator** is a set of tools with a goal to automize packaging of golang devel source codes.
+**GolangPackageGenerator** is a set of tools with a goal to automate packaging of golang devel source codes.
 
 What it basically supports:
 * github2golang spec file generator
