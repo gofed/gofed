@@ -123,9 +123,29 @@ def loadIMap():
 # Internal database of packages and their repos #
 #################################################
 def parseReposInfo():
+	# get path prefix
+	path_prefix = ''
+	with open('%s/%s' % (script_dir, 'config/go2fed.conf'), 'r') as file:
+		lines = file.read().split('\n')
+		for line in lines:
+			if line == '' or line[0] == '#':
+				continue
+
+			line = line.strip()
+
+			if line.startswith('repo_path_prefix'):
+				line = re.sub(r'[ \t]+', ' ', line)
+				parts = line.split(' ')
+				if len(parts) != 2:
+					print "Warning: invalid repo_path_prefix"
+					return {}
+				path_prefix = parts[1]
+				break
+
 	lines = []
 	with open('%s/%s' % (script_dir, GOLANG_REPOS), "r") as file:
 		lines = file.read().split('\n')
+
 
 	repos = {}
 	for line in lines:
@@ -139,7 +159,23 @@ def parseReposInfo():
 		if len(line) != 3:
 			continue
 
+		line[0] = line[0].strip()
+		line[1] = line[1].strip()
+		line[2] = line[2].strip()
+
 		# pkg_name, path_to_repo, upstream repo
+		prefix = ''
+		if path_prefix != '':
+			# does prefix_path contains %pkg?
+			prefix = re.sub(r'%pkg', line[0], path_prefix)
+
+		if line[1][0] != '/':
+			if prefix == '':
+				print "Error: %s repo path must be absolute path. Perhaps set repo_path_prefix." % line[0]
+				return {}
+			else:
+				line[1] = prefix + "/" + line[1]
+
 		repos[line[0]] = (line[1], line[2])
 
 	return repos
