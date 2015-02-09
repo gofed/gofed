@@ -38,7 +38,8 @@ CHECK_COMMIT=15
 CHECK_DEPS=16
 
 operation=-1
-script_dir=$(dirname $0)
+script_dir=$(dirname $(readlink -f $0))
+echo $script_dir
 
 ################################
 ################################
