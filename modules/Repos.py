@@ -130,6 +130,20 @@ def getMappings():
 				
 		return maps
 
+def detectRepoPrefix(element):
+	if element.startswith('github.com'):
+		return detectGithub(element)
+	elif element.startswith('code.google.com'):
+		return detectGooglecode(element)
+	elif element.startswith('golang.org'):
+		return detectGolangorg(element)
+	elif element.startswith('google.golang.org'):
+		return detectGoogleGolangorg(element)
+	elif element.startswith('gopkg.in'):
+		return detectGopkg(element)
+
+	return ""
+
 def repo2pkgName(element):
 	global repo_mappings
 	if repo_mappings == {}:
