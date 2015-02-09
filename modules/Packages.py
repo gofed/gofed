@@ -155,6 +155,26 @@ class Package:
 	def getInfo(self):
 		return self.info
 
+def getPackagesFromPkgDb():
+	so, _, rc = runCommand("koji search --regex package '^golang-'")
+	if rc != 0:
+		return []
+
+	pkgs = []
+
+	for line in so.split('\n'):
+		line = line.strip()
+
+		if line == "":
+			continue
+
+		line = line.strip()
+		pkgs.append(line)
+
+	return pkgs
+
+
 if __name__ == "__main__":
-	pkg = Package('golang-googlecode-net')
-	print pkg.getInfo()
+	#pkg = Package('golang-googlecode-net')
+	#print pkg.getInfo()
+	getPackagesFromPkgDb()
