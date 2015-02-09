@@ -7,19 +7,19 @@ which can depend on other golang packages, it is easy to break them just by remo
 or changing one import path. Due to recent changes of import paths and movement of some
 repositories, back-compatibility issue comes to the game.
 To keep golang ecosystem in a good shape, automatic scans for broken import paths and
-back-compatibility needs to be periodically.
+back-compatibility needs to be periodically run.
 
 In order to find which import paths are currently used, there are two cases we should consider:
-1. import paths used in non-patched tarballs
-2. import paths used in patched tarballs
+* import paths used in non-patched tarballs
+* import paths used in patched tarballs
 
-In the first case, we get import paths delivered by upstream projects.
-In the seconds case, we get import paths provided by the ecosystem.
+In the first case we get import paths delivered by upstream projects.
+In the seconds case we get import paths provided by the ecosystem.
 Both of these cases will give us a better picture of what can be provided and what is provided.
 
 Secondly, import paths can be divided into two types:
-1. import paths packages use, i.e. imports
-2. import paths packages provides, i.e. path to all golang files in a given file hiearchy
+* import paths packages use, i.e. imports
+* import paths packages provides, i.e. path to all golang files in a given file hiearchy
 
 One of many problems to deal with is a back-compatibility.
 Once from time to time some golang projects change their import path prefix,
