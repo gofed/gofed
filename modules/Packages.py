@@ -35,14 +35,13 @@ class Package:
 
 	def __init__(self, pkg_name):
 		self.pkg_name = pkg_name
-		#self.initTempDir()
+		self.initTempDir()
 		cwd = os.getcwd()
-		self.tmp_dir = '/tmp/tmpGwWwL9'
 		os.chdir(self.tmp_dir)
-		#self.downloadBuilds()
-		print self.analyzeBuilds()
+		self.downloadBuilds()
+		self.info = self.analyzeBuilds()
 		os.chdir(cwd)
-		#self.clearTempDir()
+		self.clearTempDir()
 
 	def getLatestBuilds(self, tag = 'rawhide'):
 		so, _, rc = runCommand("koji -q latest-build %s %s" % (tag, self.pkg_name))
@@ -153,9 +152,9 @@ class Package:
 	def clearTempDir(self):
 		shutil.rmtree(self.tmp_dir)
 
-	#def extr
-	#	so, se, rc = runCommand("koji download-build %s" % build)
-
+	def getInfo(self):
+		return self.info
 
 if __name__ == "__main__":
 	pkg = Package('golang-googlecode-net')
+	print pkg.getInfo()
