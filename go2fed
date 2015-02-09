@@ -36,6 +36,7 @@ LINT=13
 BUMP=14
 CHECK_COMMIT=15
 CHECK_DEPS=16
+SCAN_IMPORTS=17
 
 operation=-1
 script_dir=$(dirname $(readlink -f $0))
@@ -61,6 +62,7 @@ function printHelp {
 	echo "	lint		 golang spec file checker"
 	echo "	check-commit	 check package for commit"
 	echo "	check-deps	 check packages for commit"
+	echo "	scan-imports	 scan devel builds for possible import paths and imported paths"
 }
 
 ################################
@@ -100,6 +102,8 @@ elif [ "$1" == "check-commit" ]; then
         operation=$CHECK_COMMIT
 elif [ "$1" == "check-deps" ]; then
         operation=$CHECK_DEPS
+elif [ "$1" == "scan-imports" ]; then
+        operation=$SCAN_IMPORTS
 fi
 
 ################################
@@ -147,5 +151,7 @@ elif [ $operation -eq $CHECK_COMMIT ]; then
         $script_dir/checkCommit.py $@
 elif [ $operation -eq $CHECK_DEPS ]; then
         $script_dir/checkDeps.py $@
+elif [ $operation -eq $SCAN_IMPORTS ]; then
+        $script_dir/fetchImportPaths.py $@
 fi
 
