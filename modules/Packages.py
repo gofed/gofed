@@ -2,6 +2,7 @@
 from subprocess import Popen, PIPE
 from Utils import getScriptDir
 from Utils import runCommand
+import re
 
 GOLANG_PACKAGES="data/golang.packages"
 script_dir = getScriptDir() + "/.."
@@ -19,11 +20,26 @@ def loadPackages():
 
 # detect if it packages is already in pkgdb
 def packageInPkgdb(pkg):
-	cmd = "git ls-remote http://pkgs.fedoraproject.org/cgit/" + pkg + ".git/"
-	p = Popen(cmd , shell=True, stdout=PIPE, stderr=PIPE)
-	out, err = p.communicate()
+	_, _, rt = runCommand("git ls-remote http://pkgs.fedoraproject.org/cgit/" + pkg + ".git/")
 
-	if p.returncode == 0:
+	if rt == 0:
 		return True
 
 	return False
+
+class Package:
+
+	def __init__(self, pkg_name):
+		self.pkg_name = pkg_name
+
+	def getLatestBuilds(self, tag = 'rawhide'):
+		so, se, rc = runCommand("koji -q latest-build %s %s" % (tag, self.pkg_name))
+		if rc != 0:
+			return []
+
+		build = re.sub(r'[ \t]+', ' ', so.strip()).split(' ')[0]
+
+
+if __name__ == "__main__":
+	pkg = Package('golang-googlecode-net')
+	pkg.getLatestBuilds()

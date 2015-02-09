@@ -144,13 +144,13 @@ def getRawSpecLines(spec):
 
 def getSpecLines(spec):
 	stdout, stderr, rt = Utils.runCommand('rpmspec -P %s' % spec)
-	if rt:
+	if rt != 0:
 		return []
 	return stdout.split('\n')
 
 def getBuildsFromFilesSections(spec, pkg_name):
 	stdout, stderr, rc = Utils.runCommand('rpmspec -P %s | grep "^%%files"' % spec)
-	if rc != None:
+	if rc != 0:
 		return []
 
 	builds = []
@@ -192,7 +192,7 @@ def getBuildsFromFilesSections(spec, pkg_name):
 
 def getProvidesFromPackageSections(spec, pkg_name):
 	stdout, stderr, rc = Utils.runCommand('rpmspec -P %s' % spec)
-	if rc != None:
+	if rc != 0:
 		return []
 
 	provides = {}
@@ -298,7 +298,7 @@ def getTarballImports(tarball):
 	# only to compare provides from tarball
 	# executables are handled separatelly from individual builds
 	stdout, stderr, rc = Utils.runCommand('tar -tf %s | sort' % tarball)
-	if rc != None:
+	if rc != 0:
 		return []
 
 	# provides are test = False

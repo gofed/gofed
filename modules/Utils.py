@@ -17,9 +17,9 @@ ENDC = '\033[0m'
 def runCommand(cmd):
 	#cmd = cmd.split(' ')
 	process = Popen(cmd, stderr=PIPE, stdout=PIPE, shell=True)
-	rt = process.returncode
-	print process
 	stdout, stderr = process.communicate()
+	rt = process.returncode
+
 	return stdout, stderr, rt
 
 def getScriptDir():
