@@ -7,6 +7,9 @@ from modules.Config import Config
 from modules.ImportPaths import getDevelImportedPaths
 from modules.ImportPaths import getDevelProvidedPaths
 
+from time import time, strftime, gmtime
+import sys
+
 def getImportPaths(data):
 	lines = []
 	for devel in data:
@@ -26,15 +29,24 @@ def createDB():
 	if db_path == "":
 		return False
 
+	packages = loadPackages()
+	pkg_cnt = len(packages)
+	pkg_idx = 1
+
 	with open(db_path, 'w') as file:
 		for package in packages:
+			starttime = time()
 			file.write("# Scanning %s ... \n" % package)
 			# TODO: add a progres how many packages are left (already/all)
-			print "Scanning %s ..." % package
+			sys.stdout.write("Scanning %s ... %s/%s " % (package, pkg_idx, pkg_cnt))
 			pkg = Package(package)
 			info = pkg.getInfo()
 			file.write("\n".join(getImportPaths(info)) + "\n")
 			file.write("\n".join(getImportedPaths(info)) + "\n")
+			pkg_idx += 1
+			endtime = time()
+			elapsedtime = endtime - starttime
+			print strftime("[%Hh %Mm %Ss]", gmtime(elapsedtime))
 	return True
 
 def displayPaths(paths, prefix = '', minimal = False):
@@ -53,7 +65,6 @@ def displayPaths(paths, prefix = '', minimal = False):
 					print "\t%s" % ip
 
 if __name__ == "__main__":
-	packages = loadPackages()
 
 	parser = optparse.OptionParser("%prog [-c] [-i|-p [-s [-m]]]")
 
