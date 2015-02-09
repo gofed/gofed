@@ -5,6 +5,7 @@ import re
 from Utils import getScriptDir
 from modules.Repos import detectGithub, detectGooglecode, detectGolangorg, detectGoogleGolangorg, detectGopkg
 from modules.Repos import github2pkgdb, googlecode2pkgdb, googlegolangorg2pkgdb, golangorg2pkgdb 
+from Config import Config
 
 GOLANG_IMPORTS = "data/golang.imports"
 
@@ -98,4 +99,48 @@ def decomposeImports(imports):
 			classes[key].append(gimport)
 
 	return classes
+
+def loadImportPathDb():
+	db_file = Config().getImportPathDb()
+	lines = []
+	with open(db_file, 'r') as file:
+		lines = file.read().split('\n')
+
+	ip_provides = {}
+	ip_imports = {}
+
+	for line in lines:
+		line = line.strip()
+
+		if line == "" or line[0] == "#":
+			continue
+
+		if line.startswith("Provides") or line.startswith("Imports:"):
+			parts = line.split(":")
+			if len(parts) != 3:
+				continue
+
+			if len(parts[1]) == 0 or len(parts[2]) == 0:
+				continue
+
+			parts[1] = parts[1].strip()
+			parts[2] = parts[2].strip()
+
+			if line.startswith("Provides:"):
+				ip_provides[ parts[1] ] = parts[2].split(",")
+			else:
+				ip_imports[ parts[1] ] = parts[2].split(",")
+
+		else:
+			continue			
+
+	return (ip_provides, ip_imports)
+
+def getDevelImportedPaths():
+	_, ip_i = loadImportPathDb()
+	return ip_i
+
+def getDevelProvidedPaths():
+	ip_p, _ = loadImportPathDb()
+	return ip_p
 
