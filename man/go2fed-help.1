@@ -1,4 +1,4 @@
-.TH GO2FED 1  2014-10-28
+.TH GO2FED 1  2015-02-09
 .SH NAME
 go2fed-help,
 go2fed-scratch-build,
@@ -12,7 +12,11 @@ go2fed-pull,
 go2fed-inspect,
 go2fed-scan,
 go2fed-scaninfo,
-go2fed-lint \- tools to automize packaging of golang devel source codes
+go2fed-lint,
+go2fed-check-commit,
+go2fed-check-deps,
+go2fed-scan-imports 
+\- tools to automize packaging of golang devel source codes
 .SH SYNOPSIS
 \fBgo2fed\fR COMMANDS [\fIARGUMENTS\fR]
 .SH DESCPRIPTION
@@ -93,4 +97,19 @@ Analyze information from scan of all golang packages listed in golang.packages f
 .RS 4
 Analyze spec file (golang specific checks)
 .RE
-
+.PP
+.B go2fed check-commit
+.RS 4
+For given package name (or import path) and upstream commit check if the package is up2date with the commit
+.RE
+.PP
+.B go2fed check-deps
+.RS 4
+For given list of project dependencies in JSON format (i.e. Godeps.json),
+check if all dependencies are up2date in PkgDB.
+.RE
+.PP
+.B go2fed scan-imports
+.RS 4
+Command to search for available used and provided import paths across golang devel packages in PkgDB.
+.RE
