@@ -15,7 +15,8 @@ go2fed-scaninfo,
 go2fed-lint,
 go2fed-check-commit,
 go2fed-check-deps,
-go2fed-scan-imports 
+go2fed-scan-imports,
+scan-packages 
 \- tools to automize packaging of golang devel source codes
 .SH SYNOPSIS
 \fBgo2fed\fR COMMANDS [\fIARGUMENTS\fR]
@@ -112,4 +113,9 @@ check if all dependencies are up2date in PkgDB.
 .B go2fed scan-imports
 .RS 4
 Command to search for available used and provided import paths across golang devel packages in PkgDB.
+.RE
+.PP
+.B go2fed scan-packages
+.RS 4
+Scan PkgDB for possible golang packages.
 .RE

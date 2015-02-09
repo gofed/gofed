@@ -37,6 +37,7 @@ BUMP=14
 CHECK_COMMIT=15
 CHECK_DEPS=16
 SCAN_IMPORTS=17
+SCAN_PACKAGES=18
 
 operation=-1
 script_dir=$(dirname $(readlink -f $0))
@@ -63,6 +64,7 @@ function printHelp {
 	echo "	check-commit	 check package for commit"
 	echo "	check-deps	 check packages for commit"
 	echo "	scan-imports	 scan devel builds for possible import paths and imported paths"
+	echo "	scan-packages	 scan PkgDB for possible golang packages"
 }
 
 ################################
@@ -104,6 +106,8 @@ elif [ "$1" == "check-deps" ]; then
         operation=$CHECK_DEPS
 elif [ "$1" == "scan-imports" ]; then
         operation=$SCAN_IMPORTS
+elif [ "$1" == "scan-packages" ]; then
+        operation=$SCAN_PACKAGES
 fi
 
 ################################
@@ -153,5 +157,7 @@ elif [ $operation -eq $CHECK_DEPS ]; then
         $script_dir/checkDeps.py $@
 elif [ $operation -eq $SCAN_IMPORTS ]; then
         $script_dir/fetchImportPaths.py $@
+elif [ $operation -eq $SCAN_PACKAGES ]; then
+        $script_dir/getGolangPackages.py $@
 fi
 
