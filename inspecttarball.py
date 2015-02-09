@@ -88,4 +88,4 @@ if __name__ == "__main__":
 		for dir in getSubdirs(path):
 			print dir
 	else:
-		print "Usage: inspecttarball.py [-p] [-d] [-t] [directory]"
+		print "Usage: prog [-p] [-d] [-t] [directory]"
