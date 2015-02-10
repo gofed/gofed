@@ -20,7 +20,7 @@ def getImportPaths(data):
 def getImportedPaths(data):
 	lines = []
 	for devel in data:
-		paths = ",".join(data[devel]['provides'])
+		paths = ",".join(data[devel]['imports'])
 		lines.append("Imports:%s:%s" % (devel, paths))
 	return lines
 
@@ -37,7 +37,6 @@ def createDB():
 		for package in packages:
 			starttime = time()
 			file.write("# Scanning %s ... \n" % package)
-			# TODO: add a progres how many packages are left (already/all)
 			sys.stdout.write("Scanning %s ... %s/%s " % (package, pkg_idx, pkg_cnt))
 			pkg = Package(package)
 			info = pkg.getInfo()
@@ -57,7 +56,7 @@ def displayPaths(paths, prefix = '', minimal = False):
 			if path.startswith(prefix):
 				found = True
 				ips.append(path)
-			
+
 		if found:
 			print pkg
 			if not minimal:
@@ -97,11 +96,16 @@ if __name__ == "__main__":
 
 	options, args = parser.parse_args()
 
+	if options.imports and options.provides:
+		print "You can not set both -i and -o options at the same time"
+		exit(1)
+
 	if options.create:
 		if createDB():
 			print "DB created"
 		else:
 			print "DB not created"
+
 	elif options.imports:
 		paths = getDevelImportedPaths()
 		displayPaths(paths, options.prefix, options.minimal)
