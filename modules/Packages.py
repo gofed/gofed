@@ -16,7 +16,7 @@ def loadPackages():
 	with open("%s/%s" % (script_dir, GOLANG_PACKAGES), "r") as file:
 		for line in file.read().split('\n'):
 			line = line.strip()
-			if line == '':
+			if line == '' or line[0] == '#':
 				continue
 
 			packages.append(line)
