@@ -9,6 +9,7 @@
 import re
 import os
 from Utils import getScriptDir
+from Utils import runCommand
 
 script_dir = getScriptDir() + "/.."
 repo_mappings = {}
@@ -265,30 +266,30 @@ def parseReposInfo():
 def getRepoCommits(path, repo, pull=True):
 
 	# path does not exists? create one
-	Utils.runCommand("mkdir -p %s" % path)
+	runCommand("mkdir -p %s" % path)
 	cwd = os.getcwd()
 	os.chdir('/'.join(path.split('/')[:-1]))
 
 	logs = ""
 	# git or hg?
 	if len(repo) < 4 or repo[-4:] != '.git':
-		Utils.runCommand("hg clone %s" % repo)
+		runCommand("hg clone %s" % repo)
 		repo_dir = repo.split('/')[-1]
 		os.chdir(repo_dir)
 
 		if pull:
-			Utils.runCommand("hg pull")
+			runCommand("hg pull")
 
-		logs, se, rc = Utils.runCommand('hg log --template "{date|hgdate} {node}\n" | cut -d" " -f1,3 | sed "s/ /:/g"')
+		logs, se, rc = runCommand('hg log --template "{date|hgdate} {node}\n" | cut -d" " -f1,3 | sed "s/ /:/g"')
 	else:
-		Utils.runCommand("git clone %s" % repo)
+		runCommand("git clone %s" % repo)
 		repo_dir = repo.split('/')[-1][:-4]
 		os.chdir(repo_dir)
 
 		if pull:
-			Utils.runCommand('git pull')
+			runCommand('git pull')
 
-		logs, se, rc = Utils.runCommand('git log --pretty=format:"%ct:%H"')
+		logs, se, rc = runCommand('git log --pretty=format:"%ct:%H"')
 
 	commits = {}
 	for line in logs.split('\n'):

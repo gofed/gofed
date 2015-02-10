@@ -6,6 +6,7 @@ import modules.Repos
 import modules.specParser
 import modules.Utils
 import optparse
+from modules.Utils import GREEN, RED, ENDC, YELLOW
 
 def getGoDeps(path):
 	deps = {}
@@ -97,12 +98,12 @@ if __name__ == "__main__":
 
 		if commit == pkg_commit:
 			if options.verbose:
-				print "%spackage %s up2date%s" % (Utils.GREEN, pkg, Utils.ENDC)
+				print "%spackage %s up2date%s" % (GREEN, pkg, ENDC)
 		elif commit_ts > pkg_commit_ts:
-			print "%spackage %s outdated%s" % (Utils.RED, pkg, Utils.ENDC)
+			print "%spackage %s outdated%s" % (RED, pkg, ENDC)
 		else:
 			if options.verbose:
-				print "%spackage %s has newer commit%s" % (Utils.YELLOW, pkg, Utils.ENDC)
+				print "%spackage %s has newer commit%s" % (YELLOW, pkg, ENDC)
 
 	
 
