@@ -1,13 +1,10 @@
 ====TODO====
 [  ] - create fedora mailing list to register new golang packages
-[  ] - make a script to check packages for used import paths and patched them eventually
 [  ] - make an online graph of golang deps and info about them (plus changelog of fedora packaging and known issues = cyclic deps, missing [Build]Requires, ...?)
-[  ] - for each golang package download its repository and generate mapping of commits into dates. Use this mapping to get list of golang packages needed to be updated
 [  ] - make a graph of golang deps/imports
 [  ] - add option to go2fed inspect to skip some directories (example, ...)
 [  ] - bodhi --new --type newpackage --notes 'First package for Fedora' golang-github-vaughan0-go-ini-0-0.2.gita98ad7e.el6
 [  ] - update packaging draft for golang
-[  ] - db of all golang packages
 [  ] - add a script to check which golang packages provides binaries (which version of golang was used to built it?) and rebuild them eventuelly
 [  ] - add --skip-branch into build/scratchbuild
 [  ] - script to check a structure of spec file of every golang package
@@ -16,7 +13,6 @@
 [  ] - script to check new commits for golang packages {for github only right now}
 [  ] - script to check which golang packages are stable, testing, not updated yet (el6 basically)
 [  ] - script to check if given dependency is already in fedora (list of all deps plus links to repo, which deps are no longer needed, ...)
-[  ] - add a configuration file for github credentials
 
 ====DONE====
 [OK] - improve ggi script to filter out imports in comments
@@ -24,4 +20,8 @@
 [OK] - display a list of ggi as a classes (filter out golang imports)
 [OK] - for each class detect the github url plus check if the package is already in pkgdb
 [OK] - make a spec file
+[OK] - db of all golang packages
+[OK] - make a script to check packages for used import paths and patched them eventually
+[OK] - for each golang package download its repository and generate mapping of commits into dates. Use this mapping to get list of golang packages needed to be updated
+[OK] - add a configuration file for github credentials
 
