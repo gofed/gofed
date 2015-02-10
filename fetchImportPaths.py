@@ -33,11 +33,21 @@ def createDB():
 	pkg_cnt = len(packages)
 	pkg_idx = 1
 
+	pkg_name_len = 0
+	for package in packages:
+		l = len(package)
+		if l > pkg_name_len:
+			pkg_name_len = l
+
+	pkg_cnt_len = len("%s" % pkg_cnt)
+
 	with open(db_path, 'w') as file:
 		for package in packages:
 			starttime = time()
 			file.write("# Scanning %s ... \n" % package)
-			sys.stdout.write("Scanning %s ... %s/%s " % (package, pkg_idx, pkg_cnt))
+			# len of pkg_idx
+			pkg_idx_len = len("%s" % pkg_idx)
+			sys.stdout.write("Scanning %s %s %s%s/%s " % (package, (pkg_name_len - len(package) + 3) * ".", (pkg_cnt_len - pkg_idx_len) * " " , pkg_idx, pkg_cnt))
 			pkg = Package(package)
 			info = pkg.getInfo()
 			file.write("\n".join(getImportPaths(info)) + "\n")
