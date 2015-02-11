@@ -1,4 +1,4 @@
-##Manual
+##Manual [DRAFT]
 
 #### Scan of all golang packages for import paths
 
@@ -42,3 +42,43 @@ Other problem is a removal of already provided import paths.
 Some projects may decide to move their go files to a different location or remove them.
 To find out if we can do it without breaking already built go binaries of packaged devel source codes,
 database can be quieried.
+
+#### Golang packages
+
+All golang packages are saved into a local database. These package usually starts with "golang-" prefix and are easy to find.
+You can run the following command to find new packages not yet saved in the local database:
+
+```vim
+   $ go2fed scan-packages -n
+```
+
+To list all the packages in the database, you can run:
+
+```vim
+   $ go2fed scan-packages -l
+```
+
+Tools like etcd, kubernetes or flannel does not start with the prefix.
+These must be added to the database manually.
+So it is important to know them otherwise go2fed scan-imports does not have to tell you about used import paths.
+If you know about golang packages that does not start with "golang-" prefix and are not in the database,
+send them to jchaloup@redhat.com, subject "Golang new package name". Thanks.
+
+##### Subpackages
+
+Every golang package should consist of one devel subpackage at least.
+This package provides source codes which can be imported in other packages and thus it is good to used "-devel" sufix for its name.
+At most cases, every golang package will consists of this package only.
+Some projects can be built.
+Builds of golang source codes belongs to the main package
+and should not provide any source codes, only binaries.
+
+To list all possible paths that can be provided, run the following command in a source code root directory:
+
+```vim
+$ go2fed inspect -p
+```
+
+This command will list paths to all directories containing at least one golang file (*.go).
+Some paths can be project specific and be used only for testing.
+So the list should be investigeted and inessential paths removed.
