@@ -81,4 +81,4 @@ $ go2fed inspect -p
 
 This command will list paths to all directories containing at least one golang file (*.go).
 Some paths can be project specific and be used only for testing.
-So the list should be investigeted and inessential paths removed.
+So the list should be investigated and inessential paths removed.
