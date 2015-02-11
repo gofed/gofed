@@ -20,7 +20,7 @@ def printPkgs(pkgs):
 
 if __name__ == "__main__":
 
-	parser = optparse.OptionParser("%prog [-n] [-r]")
+	parser = optparse.OptionParser("%prog [-n] [-r] [-l]")
 
 	parser.add_option(
 	    "", "-n", "--new", dest="new", action = "store_true", default = False,
@@ -32,6 +32,11 @@ if __name__ == "__main__":
 	    help = "Scan for removed golang packages"
 	)
 
+	parser.add_option(
+	    "", "-l", "--list", dest="list", action = "store_true", default = False,
+	    help = "List all golang packages saved in a local database"
+	)
+
 	options, args = parser.parse_args()
 
 	# new packages
@@ -41,5 +46,8 @@ if __name__ == "__main__":
 	elif options.removed:
 		set_pkgdb, set_local = getPkgs()
 		printPkgs(list(set_local - set_pkgdb))
+	elif options.list:
+		pkgs = loadPackages()
+		printPkgs(sorted(pkgs))
 	else:
-		print "Synopsis: [-n] [-r]"
+		print "Synopsis: [-n] [-r] [-l]"
