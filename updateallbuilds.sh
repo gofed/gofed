@@ -15,7 +15,7 @@ if [ "$branches" == "" ]; then
         branches=$(git branch --list | sed 's/\*//g' | grep -v "el6")
 fi
 
-for branch in $(echo $branches | sed 's/master//g'); do
+for branch in $(echo $branches | sed 's/master//g' | sed 's/f22//g'); do
         processBranch $branch
 done
 

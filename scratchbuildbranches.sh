@@ -59,12 +59,21 @@ function waitForBuild {
 
 # check state of all builds
 function checkBuilds {
+	ok=1
 	for task in $(cat $1); do
 		branch=$(echo $task | cut -d':' -f1)
 		taskid=$(echo $task | cut -d':' -f2)
 		state=$(koji taskinfo $taskid | grep  State | cut -d' ' -f2)
 		echo "$branch: $state"
+		if [ "$state" != "closed" ]; then
+			ok=0
+		fi
 	done
+	if [ "$ok" -eq 1 ]; then
+		exit 0
+	else
+		exit 1
+	fi
 }
 
 # options
