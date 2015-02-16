@@ -119,11 +119,9 @@ function updateBranches {
 	go2fed update
 }
 
-# $1 ... pkg_name
+# $1 ... srpm
 function bboBuilds {
-	srpm=$(ssh jchaloup@fedorapeople.org "ls public_html/reviews/$1/*.src.rpm")
-	srpm=$(basename $srpm)
-	build=$(echo $srpm | rev | sed 's/^[^.]*\.[^.]*\.[^.]*\.//' | rev)
+	build=$(echo $1 | rev | sed 's/^[^.]*\.[^.]*\.[^.]*\.//' | rev)
 	read -p "$build detected. Continue? [y/n]: " input
 	if [ "$input" == "n" ]; then
 		exit 1
@@ -143,7 +141,7 @@ if [ "$e" -eq 0 ]; then
 	fi
 else
 	cloneRepo $pkg_name
-	cd $pkg_name/fedora/$pkg_name
+	cd $pkg_name
 	echo "# clone the repo and cd to its directory" >> $state_file
 	echo "1: $(pwd)" >> $state_file
 fi
@@ -164,6 +162,8 @@ STEP_PUSH_AND_BUILD=7
 STEP_UPDATE_BRANCHES=8
 STEP_OVERRIDE=9
 
+srpm=""
+
 if [ "$last_step" -lt $STEP_DOWNLOAD_SRPM ]; then
 	srpm=$(downloadSrpm $pkg_name)
 	if [ "$srpm" == "" ]; then
@@ -173,11 +173,13 @@ if [ "$last_step" -lt $STEP_DOWNLOAD_SRPM ]; then
 	echo "# download srpm" >> $state_file
 	echo "2: $srpm" >> $state_file
 else
+	srpm=$(ssh jchaloup@fedorapeople.org "ls public_html/reviews/$1/*.src.rpm")
+	srpm=$(basename $srpm)
 	echo "skipping:" $(cat $state_file | grep -v "^#" | grep "^$STEP_DOWNLOAD_SRPM:")
 fi
 
 if [ "$last_step" -lt $STEP_IMPORT_SRPM ]; then
-	importSrpm $pkg_name
+	importSrpm $srpm
 	echo "# import srpm" >> $state_file
 	echo "3: srpm imported" >> $state_file
 else
@@ -225,7 +227,7 @@ else
 fi
 
 if [ "$last_step" -lt $STEP_OVERRIDE ]; then
-	bboBuilds $pkg_name
+	bboBuilds $srpm
 	echo "# buildroot override branches" >> $state_file
 	echo "9: buildroot override branches " >> $state_file
 else
