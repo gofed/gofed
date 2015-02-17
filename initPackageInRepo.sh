@@ -6,12 +6,12 @@
 script_dir=$(dirname $0)
 
 if [ "$1" == "" ]; then
-	echo "Missing package name"
+	echo "Synopsis: PACKAGE REVIEWBUGID"
 	exit 1
 fi
 
 if [ "$2" == "" ]; then
-	echo "Missing review request bug ID"
+	echo "Synopsis: PACKAGE REVIEWBUGID"
 	exit 1
 fi
 
