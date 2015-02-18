@@ -33,23 +33,43 @@ def getFileImports(gofile):
 		# ImportSpec       = [ "." | PackageName ] ImportPath .
 		# ImportPath       = string_lit .
 
-		# get rid of PackageName and "."
+		# make sure import is always followed only by one space
 		content = re.sub(r'import[^("]+', 'import ', content)
 		# replace ; with newline
 		content = re.sub(';', '\n', content)
-
+		# deal with one liners
 		p = re.compile(r'import\s+"([^"]+)"')
 		content = p.sub(r'import ("\1")', content)
 
+		# get string in a form: import ([^)]*)
 		end = content.find(')', start)
 		imports = content[start+6:end]
 		start = imports.find('(')
 		imports = imports[start+1:].strip()
 
 		imps = []
-		for pot_imp in re.sub(r'\s+', ' ', imports).split(' '):
+		for pot_imp in imports.split('\n'):
+			if pot_imp == "":
+				continue
+
+			pot_imp = pot_imp.strip()
+			pot_imp = re.sub(r'\s+', ' ', pot_imp)
+
+			# get rid of PackageName and "."
+			parts = pot_imp.split(' ')
+			if len(parts) == 2:
+				pot_imp = parts[1]
+
 			if '"' in pot_imp:
-				imps.append(re.sub('"', '', pot_imp))
+				pot_imp = re.sub('"', '', pot_imp)
+
+			# If the import path starts with . or /,
+			# it is relative or absolute path.
+			# Filter it out.
+			if pot_imp == "" or pot_imp[0] == "." or pot_imp[0] == "/":
+				continue
+
+			imps.append(pot_imp)
 
 		return imps
 
@@ -108,6 +128,7 @@ def loadImportPathDb():
 
 	ip_provides = {}
 	ip_imports = {}
+	pkg_devel_main_pkg = {}
 
 	for line in lines:
 		line = line.strip()
@@ -117,30 +138,35 @@ def loadImportPathDb():
 
 		if line.startswith("Provides") or line.startswith("Imports:"):
 			parts = line.split(":")
-			if len(parts) != 3:
+			if len(parts) != 4:
 				continue
 
 			if len(parts[1]) == 0 or len(parts[2]) == 0:
 				continue
 
-			parts[1] = parts[1].strip()
-			parts[2] = parts[2].strip()
+			#Provides|Import:pkg_name:pkg_devel_name:import_path
+			pkg_name	= parts[1].strip()
+			pkg_devel_name	= parts[2].strip()
+			import_path	= parts[3].strip()
 
 			if line.startswith("Provides:"):
-				ip_provides[ parts[1] ] = parts[2].split(",")
+				ip_provides[ pkg_devel_name ] = import_path.split(",")
 			else:
-				ip_imports[ parts[1] ] = parts[2].split(",")
+				ip_imports[ pkg_devel_name ] = import_path.split(",")
+
+			if pkg_devel_name not in pkg_devel_main_pkg:
+				pkg_devel_main_pkg[pkg_devel_name] = pkg_name
 
 		else:
 			continue			
 
-	return (ip_provides, ip_imports)
+	return (ip_provides, ip_imports, pkg_devel_main_pkg)
 
 def getDevelImportedPaths():
-	_, ip_i = loadImportPathDb()
+	_, ip_i, _ = loadImportPathDb()
 	return ip_i
 
 def getDevelProvidedPaths():
-	ip_p, _ = loadImportPathDb()
+	ip_p, _, _ = loadImportPathDb()
 	return ip_p
 
