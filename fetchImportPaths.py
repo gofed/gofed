@@ -9,19 +9,20 @@ from modules.ImportPaths import getDevelProvidedPaths
 
 from time import time, strftime, gmtime
 import sys
+import os
 
-def getImportPaths(data):
+def getImportPaths(pkg_name, data):
 	lines = []
 	for devel in data:
 		paths = ",".join(data[devel]['provides'])
-		lines.append("Provides:%s:%s" % (devel, paths))
+		lines.append("Provides:%s:%s:%s" % (pkg_name, devel, paths))
 	return lines
 
-def getImportedPaths(data):
+def getImportedPaths(pkg_name, data):
 	lines = []
 	for devel in data:
 		paths = ",".join(data[devel]['imports'])
-		lines.append("Imports:%s:%s" % (devel, paths))
+		lines.append("Imports:%s:%s:%s" % (pkg_name, devel, paths))
 	return lines
 
 def createDB():
@@ -41,7 +42,10 @@ def createDB():
 
 	pkg_cnt_len = len("%s" % pkg_cnt)
 
-	with open(db_path, 'w') as file:
+	scan_time_start = time()
+
+	# create db in a temporary file
+	with open("%s%s" % (db_path, ".tmp"), 'w') as file:
 		for package in packages:
 			starttime = time()
 			file.write("# Scanning %s ... \n" % package)
@@ -50,12 +54,19 @@ def createDB():
 			sys.stdout.write("Scanning %s %s %s%s/%s " % (package, (pkg_name_len - len(package) + 3) * ".", (pkg_cnt_len - pkg_idx_len) * " " , pkg_idx, pkg_cnt))
 			pkg = Package(package)
 			info = pkg.getInfo()
-			file.write("\n".join(getImportPaths(info)) + "\n")
-			file.write("\n".join(getImportedPaths(info)) + "\n")
+			file.write("\n".join(getImportPaths(package, info)) + "\n")
+			file.write("\n".join(getImportedPaths(package, info)) + "\n")
 			pkg_idx += 1
 			endtime = time()
 			elapsedtime = endtime - starttime
 			print strftime("[%Hh %Mm %Ss]", gmtime(elapsedtime))
+
+	scan_time_end = time()
+	print strftime("Elapsed time %Hh %Mm %Ss", gmtime(scan_time_end - scan_time_start))
+
+	# update db from the temporary file
+	os.rename("%s%s" % (db_path, ".tmp"), db_path)
+
 	return True
 
 def displayPaths(paths, prefix = '', minimal = False):
