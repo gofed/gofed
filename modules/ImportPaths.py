@@ -22,6 +22,8 @@ def getFileImports(gofile):
 		content = p.sub('\n', content)
 		# delete all "import" strings
 		content = re.sub(r'"import"', '', content)
+		# import must be followed by white space
+		content = re.sub(r'import[^\s]', '######', content)
 
 		start = content.find('import')
 		if start == -1:
@@ -40,7 +42,6 @@ def getFileImports(gofile):
 		# deal with one liners
 		p = re.compile(r'import\s+"([^"]+)"')
 		content = p.sub(r'import ("\1")', content)
-
 		# get string in a form: import ([^)]*)
 		end = content.find(')', start)
 		imports = content[start+6:end]
