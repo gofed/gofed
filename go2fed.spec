@@ -2,12 +2,12 @@
 %global provider_tld    com
 %global project        	ingvagabund
 %global repo            GolangPackageGenerator
-%global commit		6e2988a737e5fd9eb6dcc5176616dada75c2f1c3
+%global commit		78df015bc5191022fd905eb367f59d087b0d5f7f
 %global shortcommit	%(c=%{commit}; echo ${c:0:7})
 
 Name:		go2fed
 Version:	0
-Release:	15%{?dist}
+Release:	16%{?dist}
 Summary:	Tool for development of golang devel packages
 License:	GPLv2+
 URL:		https://github.com/ingvagabund/GolangPackageGenerator
@@ -16,6 +16,7 @@ Source0:	https://github.com/ingvagabund/GolangPackageGenerator/archive/%{commit}
 Requires: python >= 2.7.5, bash, wget, rpmdevtools, rpmlint
 Requires: fedpkg, koji, coreutils, rpm-build, openssh-clients, tar
 Requires: python-PyGithub, bash-completion
+Requires: graphviz
 
 %description
 Tool to automize packaging of golang devel source codes.
@@ -67,6 +68,9 @@ fi
 /usr/share/man/man1/go2fed.1.gz
 
 %changelog
+* Fri Feb 20 2015 jchaloup <jchaloup@redhat.com> - 0-16
+- Bump to upstream 78df015bc5191022fd905eb367f59d087b0d5f7f
+
 * Fri Feb 20 2015 jchaloup <jchaloup@redhat.com> - 0-15
 - Bump to upstream 6e2988a737e5fd9eb6dcc5176616dada75c2f1c3
 
