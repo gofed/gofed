@@ -316,6 +316,36 @@ def buildRequirementGraph(verbose=False):
 
 	return (pkgs, edges)
 
+def getLeafPackages(graph):
+	nodes, edges = graph
+
+	leaves = []
+
+	for u in nodes:
+		if u not in edges:
+			leaves.append(u)
+
+	return leaves
+
+def getRootPackages(graph):
+	nodes, edges = graph
+
+	roots = []
+
+	visited = {}
+	for u in nodes:
+		visited[u] = 0
+
+	for u in nodes:
+		if u in edges:
+			for v in edges[u]:
+				visited[v] = 1
+
+	for u in nodes:
+		if visited[u] == 0:
+			roots.append(u)
+
+	return roots
 
 if __name__ == "__main__":
 	#pkg = Package('golang-googlecode-net')
