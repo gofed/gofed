@@ -49,6 +49,14 @@ func parseStruct(t *ast.StructType) (types []string) {
 	return
 }
 
+func parseFunc(decl *ast.FuncDecl) (sig string) {
+	recv := getSymbolReceiver(decl.Recv)
+	params := getSymbolParams(decl.Type.Params)
+	results := getSymbolResults(decl.Type.Results)
+	sig = fncSignature2JSON(decl.Name.Name, recv, params, results)
+	return
+}
+
 // Returns JSON definition of a type (possibly recursive)
 func parseTypes(et ast.Expr, name string) (sig string) {
 	//fmt.Println(et)
@@ -65,6 +73,20 @@ func parseTypes(et ast.Expr, name string) (sig string) {
 		//fmt.Print("Selector:")
 		sig = "{'type': 'selector', 'prefix': "
 		sig += parseTypes(t.X, "") + ", 'item': " + t.Sel.Name + "}"
+	case *ast.ChanType:
+		// {'type': 'channel', 'dir': ..., 'value': ...}
+		tp := make(map[string]string)
+		tp["type"] = "chan"
+		switch t.Dir {
+		case ast.SEND:
+			tp["dir"] = "1"
+		case ast.RECV:
+			tp["dir"] = "2"
+		default:
+			tp["dir"] = "3"
+		}
+		tp["value"] = parseTypes(t.Value, "")
+		sig = map2JSON(tp)
 	case *ast.StructType:
 		//fmt.Println("Struct:")
 		// {'name': id, 'type': 'struct', 'def': ...}
@@ -90,11 +112,20 @@ func parseTypes(et ast.Expr, name string) (sig string) {
 			tp["type"] = "array"
 			// http://golang.org/ref/spec#ArrayType
 			// it must evaluate to a non-negative constant representable by a value of type int
-			tp["len"]  = parseTypes(t.Len, "")
+			//fmt.Println(getArrayLen(t.Len))
+			//tp["len"]  = parseTypes(t.Len, "")
 		}
 		tp["elmtype"] = parseTypes(t.Elt, "")
 		sig = map2JSON(tp)
-	case *ast.BasicLit:
+	case *ast.FuncType:
+		params := getSymbolParams(t.Params)
+		results := getSymbolResults(t.Results)
+		tp := make(map[string]string)
+		tp["type"] = "func"
+		tp["params"] = "[" + strings.Join(params, ", ") + "]"
+		tp["results"] = "[" + strings.Join(results, ", ") + "]"
+		sig = map2JSON(tp)
+	/*case *ast.BasicLit:
 		fmt.Println("BasicLit")
 		fmt.Println(t.Value)
 	case *ast.BinaryExpr:
@@ -103,8 +134,10 @@ func parseTypes(et ast.Expr, name string) (sig string) {
 		fmt.Println(t.Y)
 	case *ast.Ellipsis:
 		fmt.Println("Ellipsis")
+	*/
 	default:
-		fmt.Println("Other")
+		fmt.Println("Error: check for symbol not implemented.")
+		fmt.Println(et)
 		fmt.Println(t)
 		return ""
 	}
@@ -180,18 +213,25 @@ func main() {
 	typeDefs := make([]string, 0)
 	funcDefs := make([]string, 0)
 	varcons  := make([]string, 0)
+	imports  := make([]string, 0)
 
 	// Print the imports from the file's AST.
 	for _, d := range f.Decls {
 		// accessing dynamic_value := interface_variable.(typename)
-		if decl, ok := d.(*ast.GenDecl); ok {
+		switch decl := d.(type) {
+		case *ast.GenDecl:
 			//fmt.Println(decl.Tok)
 			for _, spec := range decl.Specs {
 				//fmt.Println(spec)
 				switch d := spec.(type) {
 				case *ast.ImportSpec:
-					fmt.Println(decl.Tok)
-					fmt.Println(d.Name)
+					sig := "{'name': '"
+					if d.Name != nil {
+						sig += d.Name.Name
+					}
+					// if d.Name is '', use a basename of the path?
+					sig += "', 'path': '" + d.Path.Value + "'"
+					imports = append(imports, sig)
 				case *ast.ValueSpec:
 					for _, name := range d.Names {
 						if ast.IsExported(name.Name) {
@@ -204,26 +244,31 @@ func main() {
 					typeDefs = append(typeDefs, def)
 				}
 			}
-		}
-		if decl, ok := d.(*ast.FuncDecl); ok {
+		case *ast.FuncDecl:
 			if ast.IsExported(decl.Name.Name) {
-				recv := getSymbolReceiver(decl.Recv)
-				params := getSymbolParams(decl.Type.Params)
-				results := getSymbolResults(decl.Type.Results)
-				json := fncSignature2JSON(decl.Name.Name, recv, params, results)
+				json := parseFunc(decl)
 				funcDefs = append(funcDefs, json)
 			}
 		}
 	}
-
+	//return
 	fmt.Println("")
+	fmt.Println("TYPE DEFS:")
 	for _, item := range typeDefs {
 		fmt.Println(item)
 	}
 	fmt.Println("")
+	fmt.Println("FUNC DEFS:")
 	for _, item := range funcDefs {
 		fmt.Println(item)
 	}
 	fmt.Println("")
+	fmt.Println("VAR DEFS:")
 	fmt.Println(varcons)
+	fmt.Println("")
+	fmt.Println("IMPORTS DEFS:")
+	for _, item := range imports {
+		fmt.Println(item)
+	}
+
 }
