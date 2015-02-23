@@ -90,7 +90,13 @@ if __name__ == "__main__":
 	    help = "Output graph in a graphviz dot format. Red are packages not required, orange leaf packages, colored are packages with cyclic dependency."
 	)
 
+	parser.add_option(
+	    "", "-o", "--outfile", dest="outfile", default = "",
+	    help = "Get golang packages not required by any package"
+	)
+
 	# get list of tools/packages providing go binary
+	# get option to generate the graph with package name, not build name
 
 	options, args = parser.parse_args()
 
@@ -115,7 +121,10 @@ if __name__ == "__main__":
 				print root
 
 		elif options.graphviz:
-			showGraph(graph)
+			if options.outfile != "":
+				showGraph(graph, options.outfile)
+			else:
+				showGraph(graph)
 			
 
 	else:
