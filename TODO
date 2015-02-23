@@ -1,9 +1,12 @@
 ====TODO====
-[  ] - add options to run individual parts of build phase or all phases from a given phase number (go2fed initpkg, possibly rename the command)
+[  ] - rewrite detection of imports using go/parser (Golang has its own parser of Go source codes)
+[  ] - when searching for new golang packages, repoquery those which depends on golang devel packages
+[  ] - rename some go2fed commands and decompose them into more suitable tools
+[  ] - add options to run individual parts of build phase or all phases from a given phase number (go2fed initpkg, possibly rename the command) or decompose it into subpackages
 [  ] - write a script to update all local golang packages to the latest built
 [  ] - after go2fed created -c test if some lines were removed and ask for confirmation (add -y option as yes for all) 
 [  ] - write a script to check for ownership of golang directories (to have an overview)
-[  ] - before go2fed scan-imports -c, backup the old database
+[OK] - before go2fed scan-imports -c, backup the old database
 [  ] - make a graph of dependencies (from go2fed scan-imports)
 [  ] - add go2fed fetch-importpaths to update all provided import paths in spec files and append new to local db
 [  ] - go2fed scan-packages: add option to append new packages into db instead of doing this manually
