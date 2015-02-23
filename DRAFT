@@ -60,3 +60,24 @@ What can be detected and from what source
 ====hints====
 - package name is not so important as to provides
 - packages should use 'golang(...)' [Build]Requires and does not rely on package name
+
+====Provides of import paths====
+1) Complete list of Provides
+	+ Intuitive for a developer
+	+ All used import paths can be queried (independent of any tools used to scan used import paths)
+
+	- With each update I have to modify the list (we have go2fed inspect -p + grep to filter out incorrent import paths)
+	- Harder to automize it (go2fed inspect -p + grep)
+
+	Anyway this is not an issue, all used import paths must be used (because of a case of influxdb: client, datastore, devel)
+
+2) 
+
+[  ] - all devel source codes should be up2date so developer can use the latest source codes. Or go get is a better way? Update vs. go get?
+[  ] - each tool has its own set (commits) of golang source codes => it is better to used vendored source codes
+[  ] - when automating the update, check for changed import paths and if some Provides has been deleted => send a report to email and pause the update => make a manual update
+
+#### TODO ####
+[  ] - hybrid vs. vendored vs. deps
+[  ] - complete list of [Build]Requires
+[  ] - how to automize all builds? Used vendored source codes but at the same time add new package into Fedora
