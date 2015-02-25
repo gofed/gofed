@@ -132,17 +132,31 @@ import (
 
 // array2JSON transforms an array of strings into JSON.
 func array2JSON(arr []string) (json string) {
-	return "[" + strings.Join(arr, ", ") + "]"
+	var arr_vals []string
+	for _, value := range arr {
+		value = strings.TrimSpace(value)
+		if !strings.HasPrefix(value, "[") &&
+                   !strings.HasPrefix(value, "{") {
+			value = "\"" + value + "\""
+		}
+		arr_vals = append(arr_vals, value)
+	}
+	return "[" + strings.Join(arr_vals, ", ") + "]"
 }
 
 // map2JSON transforms a map of strings into JSON.
 func map2JSON(def map[string]string) (json string) {
 	arr := make([]string, 0)
 	for key, value := range def {
-		if value == "" {
-			value = "''"
+		field := "\"" + key + "\": "
+		value = strings.TrimSpace(value)
+		if strings.HasPrefix(value, "[") || strings.HasPrefix(value, "{") {
+			field += value
+		} else {
+			field += "\"" + value + "\""
 		}
-		arr = append(arr, "'" + key + "': " + value)
+		arr = append(arr, field)
+
 	}
 	json = "{" + strings.Join(arr, ", ") + "}"
 	return
@@ -165,12 +179,17 @@ func parseStruct(t *ast.StructType) (types []string, err int) {
 			//fmt.Println(sig)
 			// anonymous field?
 			if f.Names == nil {
-				types = append(types, "'': " + sig)
-
+				df := make(map[string]string)
+				df["name"] = ""
+				df["def"]  = sig
+				types = append(types, map2JSON(df))
 			// named fields
 			} else {
 				for _, name := range f.Names {
-					types = append(types, "'" + name.Name + "': " + sig)
+					df := make(map[string]string)
+					df["name"] = name.Name
+					df["def"]  = sig
+					types = append(types, map2JSON(df))
 				}
 			}
 		}
@@ -208,7 +227,7 @@ func parseTypes(et ast.Expr, name string) (sig string, err int) {
 	var s []string
 	switch t := et.(type) {
 	case *ast.StarExpr:
-		sig = "{'type': 'pointer', 'def': "
+		sig = "{\"type\": \"pointer\", \"def\": "
 		d, err = parseTypes(t.X, "")
 		if err != 0 {
 			return
@@ -216,14 +235,14 @@ func parseTypes(et ast.Expr, name string) (sig string, err int) {
 		sig += d
 		sig += "}"
 	case *ast.Ident:
-		sig = "{'type': " + t.Name + "}"
+		sig = "{\"type\": \"" + t.Name + "\"}"
 	case *ast.SelectorExpr:
-		sig = "{'type': 'selector', 'prefix': "
+		sig = "{\"type\": \"selector\", \"prefix\": "
 		d, err = parseTypes(t.X, "")
 		if err != 0 {
 			return
 		}
-		sig += d + ", 'item': " + t.Sel.Name + "}"
+		sig += d + ", \"item\": \"" + t.Sel.Name + "\"}"
 	case *ast.ChanType:
 		// {'type': 'channel', 'dir': ..., 'value': ...}
 		tp := make(map[string]string)
@@ -379,15 +398,16 @@ func getSymbolResults(fl *ast.FieldList) (types []string, err int) {
 // fncSignature2JSON return function signature as a JSON.
 func fncSignature2JSON(name string, recv []string, params []string,
      returns []string) (json string) {
-	json = name + ": {"
-	json += "recv: [" + strings.Join(recv, ", ") + "], "
-	json += "params: [" + strings.Join(params, ", ") + "], "
-	json += "returns: [" + strings.Join(returns, ", ") + "]"
-	json += "}"
+	json = "{\"name\": \"" + name + "\", \"def\": {"
+	json += "\"recv\": [" + strings.Join(recv, ", ") + "], "
+	json += "\"params\": [" + strings.Join(params, ", ") + "], "
+	json += "\"returns\": [" + strings.Join(returns, ", ") + "]"
+	json += "}}"
 	return
 }
 
 type Symbols struct {
+	pkgName string
 	typeDefs []string
 	funcDefs []string
 	varcons  []string
@@ -396,6 +416,7 @@ type Symbols struct {
 
 func (symbols * Symbols) ToJSON() (json string) {
 	dict := make(map[string]string)
+	dict["pkgname"] = symbols.pkgName
 	dict["types"] = array2JSON(symbols.typeDefs)
 	dict["funcs"] = array2JSON(symbols.funcDefs)
 	dict["vars"]  = array2JSON(symbols.varcons)
@@ -403,17 +424,21 @@ func (symbols * Symbols) ToJSON() (json string) {
 	return map2JSON(dict)
 }
 
+func (symbols * Symbols) setPackageName(name string) {
+	symbols.pkgName = name
+}
+
 func (symbols * Symbols) AddImport(d *ast.ImportSpec) {
-	sig := "{'name': '"
+	sig := "{\"name\": "
 	if d.Name != nil {
-		sig += d.Name.Name
+		sig += "\"" + d.Name.Name + "\""
 	// If the PackageName is omitted, it defaults to the identifier
 	// specified in the package clause of the imported package, .i.e.
 	// use a basename of the path
 	} else if (d.Path.Value != "") {
-		sig += path.Base(d.Path.Value)
+		sig += "\"" + strings.Replace(path.Base(d.Path.Value), "\"", "", -1) + "\""
 	}
-	sig += "', 'path': '" + d.Path.Value + "'"
+	sig += ", \"path\": " + d.Path.Value + "}"
 	symbols.imports = append(symbols.imports, sig)
 }
 
@@ -466,6 +491,8 @@ func main() {
 	}
 
 	symbols := new(Symbols)
+
+	symbols.setPackageName(f.Name.Name)
 
 	// Print the imports from the file's AST.
 	for _, d := range f.Decls {
