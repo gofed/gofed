@@ -220,6 +220,26 @@ func parseFunc(decl *ast.FuncDecl) (sig string, err int) {
 	return
 }
 
+func parseInterface(t * ast.InterfaceType) (sig []string, err int) {
+	var def string
+	for _, m := range t.Methods.List {
+		for _, name := range m.Names {
+			tp := make(map[string]string)
+			tp["type"] = "method"
+			tp["name"] = name.Name
+
+			def, err = parseTypes(m.Type, name.Name)
+			if err != 0 {
+				return
+			}
+
+			tp["def"] = def
+			sig = append(sig, map2JSON(tp))
+		}
+	}
+	return
+}
+
 // parseTypes returns JSON definition of a type (possibly recursive).
 func parseTypes(et ast.Expr, name string) (sig string, err int) {
 	err = 0
@@ -309,6 +329,7 @@ func parseTypes(et ast.Expr, name string) (sig string, err int) {
 		sig = map2JSON(tp)
 	case *ast.FuncType:
 		var params, results []string
+		// parameter name is not important, only its type is
 		params, err = getSymbolParams(t.Params)
 		if err != 0 {
 			return
@@ -322,6 +343,27 @@ func parseTypes(et ast.Expr, name string) (sig string, err int) {
 		tp["params"] = "[" + strings.Join(params, ", ") + "]"
 		tp["results"] = "[" + strings.Join(results, ", ") + "]"
 		sig = map2JSON(tp)
+	case *ast.InterfaceType:
+		s, err = parseInterface(t)
+		if err != 0 {
+			return
+		}
+
+		tp := make(map[string]string)
+		tp["type"] = "interface"
+		tp["name"] = name
+		tp["def"]  = array2JSON(s)
+		sig = map2JSON(tp)
+	case *ast.Ellipsis:
+		d, err = parseTypes(t.Elt, "")
+		if err != 0 {
+			return
+		}
+
+		tp := make(map[string]string)
+		tp["type"] = "ellipsis"
+		tp["elt"]  = d
+		sig = map2JSON(tp)
 	/*case *ast.BasicLit:
 		fmt.Println("BasicLit")
 		fmt.Println(t.Value)
@@ -329,8 +371,6 @@ func parseTypes(et ast.Expr, name string) (sig string, err int) {
 		fmt.Println(t.X)
 		fmt.Println(t.Op)
 		fmt.Println(t.Y)
-	case *ast.Ellipsis:
-		fmt.Println("Ellipsis")
 	*/
 	default:
 		err = 1
@@ -367,8 +407,13 @@ func getSymbolParams(fl *ast.FieldList) (types []string, err int) {
 		if err != 0 {
 			return
 		}
-		for i := 0; i < len(field.Names); i++ {
+
+		if field.Names == nil {
 			types = append(types, sig)
+		} else {
+			for i := 0; i < len(field.Names); i++ {
+				types = append(types, sig)
+			}
 		}
 	}
 	return
