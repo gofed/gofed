@@ -457,6 +457,39 @@ func (symbols * Symbols) AddTypes(d *ast.TypeSpec) (err int) {
 	if err != 0 {
 		return
 	}
+	if _, ok := d.Type.(*ast.Ident); ok {
+		df := make(map[string]string)
+		df["name"] = d.Name.Name
+		df["type"] = "ident"
+		df["def"]  = def
+		symbols.typeDefs = append(symbols.typeDefs, map2JSON(df))
+		return
+	}
+	if _, ok := d.Type.(*ast.StarExpr); ok {
+		df := make(map[string]string)
+		df["name"] = d.Name.Name
+		df["type"] = "pointer"
+		df["def"]  = def
+		symbols.typeDefs = append(symbols.typeDefs, map2JSON(df))
+		return
+	}
+	if _, ok := d.Type.(*ast.SelectorExpr); ok {
+		df := make(map[string]string)
+		df["name"] = d.Name.Name
+		df["type"] = "selector"
+		df["def"]  = def
+		symbols.typeDefs = append(symbols.typeDefs, map2JSON(df))
+		return
+	}
+	if _, ok := d.Type.(*ast.ChanType); ok {
+		df := make(map[string]string)
+		df["name"] = d.Name.Name
+		df["type"] = "channel"
+		df["def"]  = def
+		symbols.typeDefs = append(symbols.typeDefs, map2JSON(df))
+		return
+	}
+
 	symbols.typeDefs = append(symbols.typeDefs, def)
 	return
 }
