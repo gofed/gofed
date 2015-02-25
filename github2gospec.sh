@@ -174,6 +174,10 @@ ls README 1>/dev/null 2>/dev/null
 if [ "$?" -eq 0 ]; then
         docs="$docs README"
 fi
+ls AUTHORS 1>/dev/null 2>/dev/null
+if [ "$?" -eq 0 ]; then
+        docs="$docs AUTHORS"
+fi
 popd >/dev/null
 
 echo "%doc$docs" >> $specfile
