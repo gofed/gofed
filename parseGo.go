@@ -538,6 +538,14 @@ func (symbols * Symbols) AddTypes(d *ast.TypeSpec) (err int) {
 		symbols.typeDefs = append(symbols.typeDefs, map2JSON(df))
 		return
 	}
+	if _, ok := d.Type.(*ast.FuncType); ok {
+		df := make(map[string]string)
+		df["name"] = d.Name.Name
+		df["type"] = "func"
+		df["def"]  = def
+		symbols.typeDefs = append(symbols.typeDefs, map2JSON(df))
+		return
+	}
 
 	symbols.typeDefs = append(symbols.typeDefs, def)
 	return
