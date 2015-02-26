@@ -497,6 +497,10 @@ func (symbols * Symbols) AddVar(d *ast.ValueSpec) {
 
 func (symbols * Symbols) AddTypes(d *ast.TypeSpec) (err int) {
 	// {'name': id, 'type': 'struct', 'def': ...}
+	err = 0
+	if !ast.IsExported(d.Name.Name) {
+		return
+	}
 	var def string
 	def, err = parseTypes(d.Type, d.Name.Name)
 	if err != 0 {
