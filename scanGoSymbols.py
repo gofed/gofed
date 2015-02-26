@@ -91,7 +91,10 @@ if __name__ == "__main__":
 		prefix = options.prefix + "/"
 
 	if options.list:
-		ip, symbols = getSymbolsForImportPaths(go_dir)
+		err, ip, symbols = getSymbolsForImportPaths(go_dir)
+		if err != "":
+			print err
+			exit(1)
 		for pkg in ip:
 			print "Import path: %s%s" % (prefix, ip[pkg])
 			displaySymbols(symbols[pkg], options.all, options.stats)

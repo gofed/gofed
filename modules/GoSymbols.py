@@ -109,15 +109,13 @@ def getSymbolsForImportPaths(go_dir):
 			err, output = getGoSymbols("%s/%s/%s" % 
 				(go_dir, dir_info['dir'], go_file))
 			if err != 0:
-				print "Error parsing %s: %s" % ("%s/%s" % (dir_info['dir'], go_file), output)
-				continue
+				return "Error parsing %s: %s" % ("%s/%s" % (dir_info['dir'], go_file), output), {}, {}
 			else:
 				#print go_file
 				go_file_json = json.loads(output)
 
 			if pkg_name != "" and pkg_name != go_file_json["pkgname"]:
-				print "Error: directory %s contains defines of more packages, i.e. %s" % (dir_info['dir'], pkg_name)
-				break
+				return "Error: directory %s contains defines of more packages, i.e. %s" % (dir_info['dir'], pkg_name), {}, {}
 
 			pkg_name = go_file_json["pkgname"]
 			# skip all main packages
@@ -136,7 +134,7 @@ def getSymbolsForImportPaths(go_dir):
 			go_packages[pkg_name] = mergeGoSymbols(jsons[pkg_name])
 			ip_packages[pkg_name] = dir_info["dir"]
 
-	return (ip_packages, go_packages)
+	return "", ip_packages, go_packages
 
 if __name__ == "__main__":
 	go_dir = "/home/jchaloup/Packages/golang-github-glacjay-goini/fedora/golang-github-glacjay-goini/noarch/usr/share/gocode/src/github.com/glacjay/goini"
