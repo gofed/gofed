@@ -21,31 +21,11 @@
 
 import os
 import optparse
+from modules.GoSymbols import getGoDirs
 
 directory = "/home/jchaloup/Packages/golang-github-influxdb-influxdb/fedora/golang-github-influxdb-influxdb/influxdb-67f9869b82672b62c1200adaf21179565c5b75c3"
 directory = "/home/jchaloup/Packages/golang-googlecode-gcfg/fedora/golang-googlecode-gcfg/gcfg-c2d3050044d0"
 
-def getGoDirs(directory, test = False):
-	go_dirs = []
-	for dirName, subdirList, fileList in os.walk(directory):
-		# does the dirName contains *.go files
-		nogo = True
-		for fname in fileList:
-			# find any *.go file
-			if test == False and fname.endswith(".go"):
-				nogo = False
-				break
-			elif test == True and fname.endswith("_test.go"):
-				nogo = False
-				break
-
-		if nogo:
-			continue
-
-		relative_path = os.path.relpath(dirName, directory)
-		go_dirs.append(relative_path)
-
-	return go_dirs	
 
 def getSubdirs(directory):
 	return [name for name in os.listdir(directory)
