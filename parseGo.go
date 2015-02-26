@@ -263,6 +263,13 @@ func parseTypes(et ast.Expr, name string) (sig string, err int) {
 			return
 		}
 		sig += d + ", \"item\": \"" + t.Sel.Name + "\"}"
+	case *ast.ParenExpr:
+		sig = "{\"type\": \"parenthesis\", \"def\": "
+		d, err = parseTypes(t.X, "")
+		if err != 0 {
+                        return
+                }
+                sig += d + "}"	
 	case *ast.ChanType:
 		// {'type': 'channel', 'dir': ..., 'value': ...}
 		tp := make(map[string]string)
@@ -377,6 +384,8 @@ func parseTypes(et ast.Expr, name string) (sig string, err int) {
 		fmt.Println("Error: check for symbol not implemented.")
 		fmt.Println(et)
 		fmt.Println(t)
+		fmt.Println(t.Pos())
+		fmt.Println(t.End())
 	}
 	return
 }
