@@ -95,12 +95,7 @@ def mergeGoSymbols(jsons = []):
 
 	return symbols
 
-
-if __name__ == "__main__":
-	go_dir = "/home/jchaloup/Packages/golang-github-glacjay-goini/fedora/golang-github-glacjay-goini/noarch/usr/share/gocode/src/github.com/glacjay/goini"
-	go_dir = "/home/jchaloup/Packages/golang-github-rakyll-statik/fedora/golang-github-rakyll-statik/noarch/usr/share/gocode/src/github.com/rakyll/statik"
-	go_dir = "/home/jchaloup/Packages/golang-googlecode-gomock/fedora/golang-googlecode-gomock/noarch/usr/share/gocode/src/code.google.com/p/gomock"
-
+def getSymbolsForImportPaths(go_dir):
 	bname = os.path.basename(go_dir)
 	go_packages = {}
 	ip_packages = {}
@@ -117,7 +112,7 @@ if __name__ == "__main__":
 				print "Error parsing %s: %s" % ("%s/%s" % (dir_info['dir'], go_file), output)
 				continue
 			else:
-				print go_file
+				#print go_file
 				go_file_json = json.loads(output)
 
 			if pkg_name != "" and pkg_name != go_file_json["pkgname"]:
@@ -140,6 +135,15 @@ if __name__ == "__main__":
 		if pkg_name in jsons:
 			go_packages[pkg_name] = mergeGoSymbols(jsons[pkg_name])
 			ip_packages[pkg_name] = dir_info["dir"]
+
+	return (ip_packages, go_packages)
+
+if __name__ == "__main__":
+	go_dir = "/home/jchaloup/Packages/golang-github-glacjay-goini/fedora/golang-github-glacjay-goini/noarch/usr/share/gocode/src/github.com/glacjay/goini"
+	go_dir = "/home/jchaloup/Packages/golang-github-rakyll-statik/fedora/golang-github-rakyll-statik/noarch/usr/share/gocode/src/github.com/rakyll/statik"
+	go_dir = "/home/jchaloup/Packages/golang-googlecode-gomock/fedora/golang-googlecode-gomock/noarch/usr/share/gocode/src/code.google.com/p/gomock"
+
+	ip_packages, go_packages = getSymbolsForImportPaths(go_dir)
 	print go_packages
 	print ip_packages
 
