@@ -1,12 +1,38 @@
 #!/bin/python
 
 ###############################################################################
+# ========exported symbols (package units)========
 # 1) list all directories containing go files
 # 2) for each file in each directory list all its symbols
 # 3) merge symbols belonging to the same package
 # 4) for each import path make a database of all symbols
 # 5) create go2fed gosymbols script (--list, --importpath, --status)
 #
+# ========imported symbols (file units)========
+# 1) for each file list all imports
+# 2) for each file search for all used types, variables, constants, functions
+# 3) 
+#
+# - if . imports are presented, it is not trivial to know from which package
+# used symbols are imported. What I have to do is to:
+#   a) check the package for all defined local functions, variables, constants
+#      and types
+#   b) from each . import, list all symbols. If symbols are not mutually
+#      exclusive (this can change by any package  update), report error.
+#   c) from each file list all symbols not found in a)
+#   d) map symbols found in c) to symbols exported from all . imports
+#
+# Each day make a snapshot of all provided import paths and exported symbols.
+# This will be used as a source for "used symbols" matching
+#
+###############################################################################
+# Using GoSymbols scan will replace go2fed scan-imports as it has a list of all
+# packages and all imports. Exported symbols gives more informations about what
+# is provided. Local database format has to be replaced with a more expressive
+# one. Using xml for that as it can be read as it is.
+#
+# Extracted json should be transformed into a better representation (some keys
+# are redundant, some types can be described in a more simple way.
 ###############################################################################
 
 import os
