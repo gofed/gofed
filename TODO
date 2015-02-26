@@ -1,4 +1,9 @@
 ====TODO====
+[  ] - make a script to compare provides in spec and in tarball (handy for updates)
+[  ] - when generating spec file for a new package, add evaluated import path before import path macro so it can be copied into webbrowser (handy for updates)
+[  ] - for each scan make a temp file that holds all items that were already succesefully checked (in case of a failed check, check only those that did not pass)
+[  ] - go2fed ggi - filter out all import paths in provides that defines only main packages
+[  ] - when running go2fed scan-imports -c and the connection is down, make an option to continue in the database update from the last script run
 [  ] - rewrite detection of imports using go/parser (Golang has its own parser of Go source codes)
 [  ] - when searching for new golang packages, repoquery those which depends on golang devel packages
 [  ] - rename some go2fed commands and decompose them into more suitable tools
