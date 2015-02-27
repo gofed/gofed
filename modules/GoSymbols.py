@@ -36,8 +36,10 @@
 ###############################################################################
 
 import os
+import sys
 from Utils import runCommand, getScriptDir
 import json
+from lxml import etree
 
 def getGoDirs(directory, test = False):
 	go_dirs = []
@@ -97,8 +99,6 @@ def getGoSymbols(path):
 		return (1, se)
 
 	return (0, so)
-
-
 
 def mergeGoSymbols(jsons = []):
 	"""
@@ -162,14 +162,369 @@ def getSymbolsForImportPaths(go_dir):
 
 	return "", ip_packages, go_packages
 
+###############################################################################
+# XML inner data representation
+# <package path="code.google.com/p/gomock/gomock">
+# 	<importList>
+#		<import>fmt</import>
+#		<import>reflect</import>
+#		<import>strings</import>
+#	</importList>
+#	<typeList>
+#		<type type="struct" name="Call">
+#			<field name="t" type="ident" def="TestReporter" />
+#			<field name="receiver" type="interface" />
+#				
+#			</field>
+#			<field name="method" type="ident" def="string" />
+#			<field name="args" type="array">
+#				<type type="Matcher" />
+#			</field>
+#			<field name="rets" type="interface" />
+#			<field name="preReqs" type="array">
+#				<type type="pointer">
+#					<type type="ident" def="Call" />
+#				</type>
+#			</field>
+#			<field name="minCalls" type="ident" def="int" />
+#			<field name="maxCalls" type="ident" def="int" />
+#			<field name="numCalls" type="ident" def="int" />
+#			<field name="doFunc" type="selector">
+#				<prefix value="reflect" />
+#				<type type="ident" def="Value" />
+#			</field>
+#			<field name="setArgs" type="map">
+#				<keytype type="ident" def="int" />
+#				<valuetype type="selector">
+#					<prefix value="reflect" />
+#					<type type="ident" def="Value" />
+#				</valuetype>
+#			</field>
+#		</type>
+#	</typeList>
+# </package>
+
+TYPE_IDENT = "ident"
+TYPE_ARRAY = "array"
+TYPE_SLICE = "slice"
+TYPE_INTERFACE = "interface"
+TYPE_POINTER = "pointer"
+TYPE_SELECTOR = "selector"
+TYPE_STRUCT = "struct"
+TYPE_METHOD = "method"
+TYPE_FUNC = "func"
+TYPE_ELLIPSIS = "ellipsis"
+TYPE_MAP = "map"
+TYPE_CHANNEL = "chan"
+
+class SymbolsToXml:
+
+	def typeToXML(self, type_def, elm_name = "type"):
+		#print type_def
+		node = etree.Element(elm_name)
+		type_name = type_def["type"]
+		#print type_name
+
+		if type_name == TYPE_IDENT:
+			node.set("type", "ident")
+			if type(type_def["def"]) == type({}):
+				err, t_def = self.typeToXML(type_def["def"])
+				if err != "":
+					return err, None
+
+				node.append(t_def)
+			else:
+				node.set("def", type_def["def"])
+
+		elif type_name == TYPE_INTERFACE:
+			node.set("type", "interface")
+			for method in type_def["def"]:
+				err, method_node = self.typeToXML(method, "method")
+				if err != "":
+					return err, None
+
+				method_node.set("name", method["name"])
+				node.append(method_node)
+
+		elif type_name == TYPE_POINTER:
+			node.set("type", "pointer")
+			err, t_def = self.typeToXML(type_def["def"])
+			if err != "":
+				return err, None
+
+			node.append(t_def)
+
+		elif type_name == TYPE_ELLIPSIS:
+			node.set("type", "ellipsis")
+			err, elt_node = self.typeToXML(type_def["elt"])
+			if err != "":
+				return err, None
+
+			node.append(elt_node)
+
+		elif type_name == TYPE_CHANNEL:
+			node.set("type", "chan")
+			node.set("dir", type_def["dir"])
+			err, val_node = self.typeToXML(type_def["value"])
+			if err != "":
+				return err, None
+
+			node.append(val_node)
+
+		# <type name="args" type="slice">
+		# 	<type type="ident" def="Matcher" />                         
+		# </type>
+		elif type_name == TYPE_SLICE:
+			node.set("type", "slice")
+			err, t_def = self.typeToXML(type_def["elmtype"], "elmtype")
+			if err != "":
+				return err, None
+
+			node.append(t_def)
+
+		elif type_name == TYPE_ARRAY:
+			node.set("type", "array")
+			err, t_def = self.typeToXML(type_def["elmtype"], "elmtype")
+			if err != "":
+				return err, None
+
+			node.append(t_def)
+
+		elif type_name == TYPE_MAP:
+			node.set("type", "map")
+			err, t_def = self.typeToXML(type_def["def"]["keytype"], "keytype")
+			if err != "":
+				return err, None
+
+			node.append(t_def)
+
+			err, t_def = self.typeToXML(type_def["def"]["valuetype"], "valtype")
+			if err != "":
+				return err, None
+
+			node.append(t_def)
+
+		# <valuetype type="selector">
+		#	<prefix value="reflect" />
+		#	<type type="ident" def="Value" />
+		# </valuetype>
+		elif type_name == TYPE_SELECTOR:
+			node.set("type", "selector")
+			prefix_node = etree.Element("prefix")
+
+			prefix = ""
+			item = ""
+			if "prefix" not in type_def:
+				prefix = type_def["def"]["prefix"]["def"]
+				item   = type_def["def"]["item"]
+			else:
+				prefix = type_def["prefix"]["def"]
+				item   = type_def["item"]
+
+			prefix_node.set("value", prefix)
+			node.append(prefix_node)
+			item_node = etree.Element("item")
+			item_node.set("value", item)
+			node.append(item_node)
+	
+		elif type_name == TYPE_METHOD:
+			params_node = etree.Element("paramsList")
+			for item in type_def["def"]["params"]:
+				err, t_def = self.typeToXML(item)
+				if err != "":
+					return err, None
+
+				params_node.append(t_def)
+
+			results_node = etree.Element("resultsList")
+			for item in type_def["def"]["results"]:
+				err, t_def = self.typeToXML(item)
+				if err != "":
+					return err, None
+
+				results_node.append(t_def)
+
+			node.append(params_node)
+			node.append(results_node)
+
+		elif type_name == TYPE_FUNC:
+			# receiver is defined on file scope
+			node.set("type", "func")
+			params_node = etree.Element("paramsList")
+
+			params = []
+			results = []
+			if "params" not in type_def:
+				params = type_def["def"]["params"]
+				results = type_def["def"]["results"]
+			else:
+				params = type_def["params"]
+				results = type_def["results"]
+
+			for item in params:
+				err, t_def = self.typeToXML(item)
+				if err != "":
+					return err, None
+
+				params_node.append(t_def)
+
+			results_node = etree.Element("resultsList")
+			for item in results:
+				err, t_def = self.typeToXML(item)
+				if err != "":
+					return err, None
+
+				results_node.append(t_def)
+
+			node.append(params_node)
+			node.append(results_node)
+
+		elif type_name == TYPE_STRUCT:
+			return self.structToXML(type_def)
+
+		else:
+			return "Type %s not yet implemented" % type_name, None
+
+		return "", node
+
+	def structToXML(self, str_def):
+		root = etree.Element("type")
+		root.set("type", "struct")
+		root.set("name", str_def["name"])
+		for field in str_def["def"]:
+			# <field name="t" type="ident" def="TestReporter" />
+			err, node = self.typeToXML(field["def"], "field")
+			if err != "":
+				return err, None
+
+			node.set("name", field["name"])	
+			root.append(node)
+
+		return "", root
+
+	def funcToXML(self, func_def):
+		root = etree.Element("function")
+		root.set("name", func_def["name"])
+
+		list_node = etree.Element("recvList")
+		for item in func_def["def"]["recv"]:
+			err, type_def = self.typeToXML(item)
+			if err != "":
+				return err, None
+
+			list_node.append(type_def)
+
+		root.append(list_node)
+
+		list_node = etree.Element("paramsList")
+		for item in func_def["def"]["params"]:
+			err, type_def = self.typeToXML(item)
+			if err != "":
+				return err, None
+
+			list_node.append(type_def)
+
+		root.append(list_node)
+
+		list_node = etree.Element("returnsList")
+		for item in func_def["def"]["returns"]:
+			err, type_def = self.typeToXML(item)
+			if err != "":
+				return err, None
+
+			list_node.append(type_def)
+
+		root.append(list_node)
+
+		return "", root
+
+	def typesToXML(self, types):
+		node = etree.Element("types")
+		for item in types:
+			err, type_def = self.typeToXML(item)
+			if err != "":
+				return err, None
+
+			node.append(type_def)
+		return "", node
+
+	def functionsToXML(self, funcs):		
+		node = etree.Element("functions")
+		for item in funcs:
+			err, type_def = self.funcToXML(item)
+			if err != "":
+				return err, None
+
+			node.append(type_def)
+		return "", node
+
+	def __init__(self, symbols, imports=True):
+		self.err = ""
+		self.root = etree.Element("root")
+
+		self.err, types_node = self.typesToXML(symbols["types"])
+		if self.err != "":
+			return
+
+		self.root.append(types_node)
+
+		self.err, functions_node = self.functionsToXML(symbols["funcs"])
+		if self.err != "":
+			return
+
+		self.root.append(functions_node)
+
+		names_node = etree.Element("names")
+		for item in symbols["vars"]:
+			node = etree.Element("name")
+			node.set("value", item)
+			names_node.append(node)
+
+		self.root.append(names_node)
+
+		if imports:
+			imports_node = etree.Element("imports")
+			for item in symbols["imports"]:
+				node = etree.Element("import")
+				node.set("name", item["name"])
+				node.set("path", item["path"])
+				imports_node.append(node)
+
+			self.root.append(imports_node)
+
+	def getStatus(self):
+		return self.err == ""
+
+	def getError(self):
+		return self.err
+
+	def __str__(self):
+		if self.err == "":
+			return etree.tostring(self.root, pretty_print=True)
+		else:
+			return ""
+				
+
+
 if __name__ == "__main__":
 	go_dir = "/home/jchaloup/Packages/golang-github-glacjay-goini/fedora/golang-github-glacjay-goini/noarch/usr/share/gocode/src/github.com/glacjay/goini"
 	go_dir = "/home/jchaloup/Packages/golang-github-rakyll-statik/fedora/golang-github-rakyll-statik/noarch/usr/share/gocode/src/github.com/rakyll/statik"
 	go_dir = "/home/jchaloup/Packages/golang-googlecode-gomock/fedora/golang-googlecode-gomock/noarch/usr/share/gocode/src/code.google.com/p/gomock"
 
-	ip_packages, go_packages = getSymbolsForImportPaths(go_dir)
-	print go_packages
-	print ip_packages
+	#ip_packages, go_packages = getSymbolsForImportPaths(go_dir)
+	#print go_packages
+	#print ip_packages
+
+	so, se, rc = runCommand("./parseGo %s" % sys.argv[1])
+	if rc != 0:
+		print se
+		exit(1)
+
+	symbols = json.loads(so)
+	obj = SymbolsToXml(symbols)
+	if not obj.getStatus():
+		print obj.getError()
+	print obj
 
 
 
