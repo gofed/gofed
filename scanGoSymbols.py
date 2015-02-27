@@ -83,6 +83,10 @@ if __name__ == "__main__":
 	    help = "List symbols in xml format."
 	)
 
+	parser.add_option(
+	    "", "-u", "--usedip", dest="usedip", action = "store_true", default = False,
+	    help = "List all imported paths."
+	)
 
 	options, args = parser.parse_args()
 
@@ -97,7 +101,7 @@ if __name__ == "__main__":
 		prefix = options.prefix + "/"
 
 	if options.list:
-		err, ip, symbols = getSymbolsForImportPaths(go_dir)
+		err, ip, symbols, ip_used = getSymbolsForImportPaths(go_dir)
 		if err != "":
 			print err
 			exit(1)
@@ -110,4 +114,10 @@ if __name__ == "__main__":
 					print obj.getError()
 			else:
 				displaySymbols(symbols[pkg], options.all, options.stats)
+
+		if options.usedip:
+				print ""
+				print "Used import paths:"
+				for uip in sorted(ip_used):
+					print uip
 

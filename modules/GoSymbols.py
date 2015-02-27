@@ -74,8 +74,8 @@ def getGoFiles(directory):
 		for fname in fileList:
 			# find any *.go file
 			# but skip all test files
-			if fname.endswith("_test.go"):
-				continue
+#			if fname.endswith("_test.go"):
+#				continue
 
 			if fname.endswith(".go"):
 				go_files.append(fname)
@@ -87,7 +87,7 @@ def getGoFiles(directory):
 		relative_path = os.path.relpath(dirName, directory)
 		go_dirs.append({
 			'dir': relative_path,
-			'files': go_files
+			'files': go_files,
 		})
 
 	return go_dirs
@@ -125,6 +125,7 @@ def getSymbolsForImportPaths(go_dir):
 	bname = os.path.basename(go_dir)
 	go_packages = {}
 	ip_packages = {}
+	ip_used = []
 	for dir_info in getGoFiles(go_dir):
 		#if sufix == ".":
 		#	sufix = bname
@@ -139,6 +140,14 @@ def getSymbolsForImportPaths(go_dir):
 			else:
 				#print go_file
 				go_file_json = json.loads(output)
+
+			for path in go_file_json["imports"]:
+				if path["path"] not in ip_used:
+					ip_used.append(path["path"])
+
+			# don't check test files, read their import paths only
+			if go_file.endswith("_test.go"):
+				continue
 
 			if pkg_name != "" and pkg_name != go_file_json["pkgname"]:
 				return "Error: directory %s contains defines of more packages, i.e. %s" % (dir_info['dir'], pkg_name), {}, {}
@@ -160,7 +169,7 @@ def getSymbolsForImportPaths(go_dir):
 			go_packages[pkg_name] = mergeGoSymbols(jsons[pkg_name])
 			ip_packages[pkg_name] = dir_info["dir"]
 
-	return "", ip_packages, go_packages
+	return "", ip_packages, go_packages, ip_used
 
 ###############################################################################
 # XML inner data representation
