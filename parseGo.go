@@ -227,12 +227,10 @@ func parseInterface(t * ast.InterfaceType) (sig []string, err int) {
 			tp := make(map[string]string)
 			tp["type"] = "method"
 			tp["name"] = name.Name
-
 			def, err = parseTypes(m.Type, name.Name)
 			if err != 0 {
 				return
 			}
-
 			tp["def"] = def
 			sig = append(sig, map2JSON(tp))
 		}
@@ -257,6 +255,7 @@ func parseTypes(et ast.Expr, name string) (sig string, err int) {
 	case *ast.Ident:
 		sig = "{\"type\": \"ident\", \"def\": \"" + t.Name + "\"}"
 	case *ast.SelectorExpr:
+		# X.Sel
 		sig = "{\"type\": \"selector\", \"prefix\": "
 		d, err = parseTypes(t.X, "")
 		if err != 0 {
@@ -304,16 +303,18 @@ func parseTypes(et ast.Expr, name string) (sig string, err int) {
 		tp := make(map[string]string)
 		tp["name"] = name
 		tp["type"] = "map"
+		def := make(map[string]string)
 		d, err = parseTypes(t.Key, "")
 		if err != 0 {
 			return
-		}
-		tp["keytype"] = d
+		}	
+		def["keytype"] = d
 		d, err = parseTypes(t.Value, "")
 		if err != 0 {
 			return
 		}
-		tp["valuetype"] = d
+		def["valuetype"] = d
+		tp["def"] = map2JSON(def)
 		sig = map2JSON(tp)
 	case *ast.ArrayType:
 		tp := make(map[string]string)
@@ -522,32 +523,28 @@ func (symbols * Symbols) AddTypes(d *ast.TypeSpec) (err int) {
 		df["def"]  = def
 		symbols.typeDefs = append(symbols.typeDefs, map2JSON(df))
 		return
-	}
-	if _, ok := d.Type.(*ast.StarExpr); ok {
+	} else if _, ok := d.Type.(*ast.StarExpr); ok {
 		df := make(map[string]string)
 		df["name"] = d.Name.Name
 		df["type"] = "pointer"
 		df["def"]  = def
 		symbols.typeDefs = append(symbols.typeDefs, map2JSON(df))
 		return
-	}
-	if _, ok := d.Type.(*ast.SelectorExpr); ok {
+	} else if _, ok := d.Type.(*ast.SelectorExpr); ok {
 		df := make(map[string]string)
 		df["name"] = d.Name.Name
 		df["type"] = "selector"
 		df["def"]  = def
 		symbols.typeDefs = append(symbols.typeDefs, map2JSON(df))
 		return
-	}
-	if _, ok := d.Type.(*ast.ChanType); ok {
+	} else if _, ok := d.Type.(*ast.ChanType); ok {
 		df := make(map[string]string)
 		df["name"] = d.Name.Name
 		df["type"] = "channel"
 		df["def"]  = def
 		symbols.typeDefs = append(symbols.typeDefs, map2JSON(df))
 		return
-	}
-	if _, ok := d.Type.(*ast.FuncType); ok {
+	} else if _, ok := d.Type.(*ast.FuncType); ok {
 		df := make(map[string]string)
 		df["name"] = d.Name.Name
 		df["type"] = "func"
