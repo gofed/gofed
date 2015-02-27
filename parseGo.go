@@ -255,7 +255,7 @@ func parseTypes(et ast.Expr, name string) (sig string, err int) {
 		sig += d
 		sig += "}"
 	case *ast.Ident:
-		sig = "{\"type\": \"" + t.Name + "\"}"
+		sig = "{\"type\": \"ident\", \"def\": \"" + t.Name + "\"}"
 	case *ast.SelectorExpr:
 		sig = "{\"type\": \"selector\", \"prefix\": "
 		d, err = parseTypes(t.X, "")
