@@ -1,7 +1,8 @@
 #!/bin/python
 
 import optparse
-from modules.GoSymbols import getSymbolsForImportPaths
+from modules.GoSymbols import getSymbolsForImportPaths, SymbolsToXml
+import json
 
 def displaySymbols(symbols, all = False, stats = False):
 	# types, funcs, vars
@@ -53,7 +54,7 @@ def displaySymbols(symbols, all = False, stats = False):
 
 if __name__ == "__main__":
 
-	parser = optparse.OptionParser("%prog [-l] dir")
+	parser = optparse.OptionParser("%prog [-l] [-p] [-a] [-s] [-x] dir")
 
         parser.add_option_group( optparse.OptionGroup(parser, "dir", "Directory to scan at.") )
 
@@ -77,11 +78,16 @@ if __name__ == "__main__":
 	    help = "Don't list symbols, show their count for each import path instead."
 	)
 
+	parser.add_option(
+	    "", "-x", "--xml", dest="xml", action = "store_true", default = False,
+	    help = "List symbols in xml format."
+	)
+
 
 	options, args = parser.parse_args()
 
 	if len(args) < 1:
-		print "Synopsis: prog [-l] dir"
+		print "Synopsis: prog [-l] [-p] [-a] [-s] [-x] dir"
 		exit(1)
 
 	go_dir = args[0]
@@ -97,5 +103,11 @@ if __name__ == "__main__":
 			exit(1)
 		for pkg in ip:
 			print "Import path: %s%s" % (prefix, ip[pkg])
-			displaySymbols(symbols[pkg], options.all, options.stats)
+			#print json.dumps(symbols[pkg])
+			if options.xml:
+				obj = SymbolsToXml(symbols[pkg], imports=False)
+				if not obj.getStatus():
+					print obj.getError()
+			else:
+				displaySymbols(symbols[pkg], options.all, options.stats)
 
