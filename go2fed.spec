@@ -1,18 +1,20 @@
+%global debug_package   %{nil}
 %global provider        github
 %global provider_tld    com
 %global project        	ingvagabund
 %global repo            GolangPackageGenerator
-%global commit		78df015bc5191022fd905eb367f59d087b0d5f7f
+%global commit		a9bf0df51ab014dba5b7da8f79dc656772cff249
 %global shortcommit	%(c=%{commit}; echo ${c:0:7})
 
 Name:		go2fed
 Version:	0
-Release:	16%{?dist}
+Release:	17%{?dist}
 Summary:	Tool for development of golang devel packages
 License:	GPLv2+
 URL:		https://github.com/ingvagabund/GolangPackageGenerator
 Source0:	https://github.com/ingvagabund/GolangPackageGenerator/archive/%{commit}/%{repo}-%{shortcommit}.tar.gz
 
+BuildRequires: golang
 Requires: python >= 2.7.5, bash, wget, rpmdevtools, rpmlint
 Requires: fedpkg, koji, coreutils, rpm-build, openssh-clients, tar
 Requires: python-PyGithub, bash-completion
@@ -28,6 +30,7 @@ If possible, all in one command.
 %setup -q -n %{repo}-%{commit}
 
 %build
+go build parseGo.go
 
 %install
 # copy bash completition
@@ -41,6 +44,7 @@ mkdir -p %{buildroot}/usr/share/%{name}
 cp *.sh %{buildroot}/usr/share/%{name}/.
 cp *.py %{buildroot}/usr/share/%{name}/.
 cp -r modules %{buildroot}/usr/share/%{name}/.
+cp parseGo %{buildroot}/usr/share/%{name}/.
 # copy config
 mkdir -p %{buildroot}/usr/share/%{name}/config
 cp config/go2fed.conf %{buildroot}/usr/share/%{name}/config/.
@@ -68,6 +72,9 @@ fi
 /usr/share/man/man1/go2fed.1.gz
 
 %changelog
+* Sat Feb 28 2015 jchaloup <jchaloup@redhat.com> - 0-17
+- Bump to upstream a9bf0df51ab014dba5b7da8f79dc656772cff249
+
 * Fri Feb 20 2015 jchaloup <jchaloup@redhat.com> - 0-16
 - Bump to upstream 78df015bc5191022fd905eb367f59d087b0d5f7f
 
