@@ -163,13 +163,17 @@ class Package:
 		return self.info
 
 def savePackageInfo(pkg_info):
+	errs = []
 	for build in pkg_info:
 		obj = pkg_info[build]["xmlobj"]
 		if not obj.getStatus():
-			print "Warning: unable to parse %s"
+			errs.append("Warning: unable to parse %s. Error: %s" % (build, obj.getError()))
 			continue
+
 		with open("%s/%s/%s.xml" % (script_dir, GOLANG_PKG_DB, build), "w") as f:
 			f.write(str(obj))
+
+	return errs
 
 def getPackagesFromPkgDb():
 	so, _, rc = runCommand("koji search --regex package '^golang-'")

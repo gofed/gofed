@@ -1,7 +1,7 @@
 #!/bin/python
 
 from modules.Packages import Package
-from modules.Packages import loadPackages
+from modules.Packages import loadPackages, savePackageInfo
 import optparse
 from modules.Config import Config
 from modules.ImportPaths import getDevelImportedPaths
@@ -54,6 +54,12 @@ def createDB():
 			sys.stdout.write("Scanning %s %s %s%s/%s " % (package, (pkg_name_len - len(package) + 3) * ".", (pkg_cnt_len - pkg_idx_len) * " " , pkg_idx, pkg_cnt))
 			pkg = Package(package)
 			info = pkg.getInfo()
+			# save xml into file
+			errs = savePackageInfo(info)
+			if errs != []:
+				print ""
+				print "\n".join(errs)
+
 			file.write("\n".join(getImportPaths(package, info)) + "\n")
 			file.write("\n".join(getImportedPaths(package, info)) + "\n")
 			pkg_idx += 1

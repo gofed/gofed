@@ -140,7 +140,7 @@ def getSymbolsForImportPaths(go_dir, imports_only=False):
 			err, output = getGoSymbols("%s/%s/%s" % 
 				(go_dir, dir_info['dir'], go_file), imports_only)
 			if err != 0:
-				return "Error parsing %s: %s" % ("%s/%s" % (dir_info['dir'], go_file), output), {}, {}
+				return "Error parsing %s: %s" % ("%s/%s" % (dir_info['dir'], go_file), output), {}, {}, {}
 			else:
 				#print go_file
 				go_file_json = json.loads(output)
@@ -154,7 +154,7 @@ def getSymbolsForImportPaths(go_dir, imports_only=False):
 				continue
 
 			if pkg_name != "" and pkg_name != go_file_json["pkgname"]:
-				return "Error: directory %s contains defines of more packages, i.e. %s" % (dir_info['dir'], pkg_name), {}, {}
+				return "Error: directory %s contains defines of more packages, i.e. %s" % (dir_info['dir'], pkg_name), {}, {}, {}
 
 			pkg_name = go_file_json["pkgname"]
 			# skip all main packages
