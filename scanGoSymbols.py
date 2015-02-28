@@ -1,7 +1,7 @@
 #!/bin/python
 
 import optparse
-from modules.GoSymbols import getSymbolsForImportPaths, SymbolsToXml
+from modules.GoSymbols import getSymbolsForImportPaths, PackageToXml, ProjectToXml
 import json
 
 def displaySymbols(symbols, all = False, stats = False):
@@ -52,7 +52,7 @@ def displaySymbols(symbols, all = False, stats = False):
 			for item in sorted(names):
 				print "  var:  %s" % item
 
-if __name__ == "__main__":
+def setOptionParser():
 
 	parser = optparse.OptionParser("%prog [-l] [-p] [-a] [-s] [-x] dir")
 
@@ -88,6 +88,13 @@ if __name__ == "__main__":
 	    help = "List all imported paths."
 	)
 
+	return parser
+
+
+if __name__ == "__main__":
+
+	parser = setOptionParser()
+
 	options, args = parser.parse_args()
 
 	if len(args) < 1:
@@ -100,6 +107,12 @@ if __name__ == "__main__":
 	if options.prefix != "":
 		prefix = options.prefix + "/"
 
+	#obj = ProjectToXml(options.prefix, go_dir)
+	#print obj
+	#print obj.getError()
+	#exit(0)
+
+	ip_used = []
 	if options.list:
 		err, ip, symbols, ip_used = getSymbolsForImportPaths(go_dir)
 		if err != "":
@@ -109,15 +122,25 @@ if __name__ == "__main__":
 			print "Import path: %s%s" % (prefix, ip[pkg])
 			#print json.dumps(symbols[pkg])
 			if options.xml:
-				obj = SymbolsToXml(symbols[pkg], imports=False)
-				if not obj.getStatus():
+				obj = PackageToXml(symbols[pkg], "%s%s" % (prefix, ip[pkg]),  imports=False)
+				if obj.getStatus():
+					print obj#.getError()
+				else:
 					print obj.getError()
+					exit(0)
 			else:
 				displaySymbols(symbols[pkg], options.all, options.stats)
 
-		if options.usedip:
-				print ""
-				print "Used import paths:"
-				for uip in sorted(ip_used):
-					print uip
+	if options.usedip:
+		if ip_used != []:
+			print ""
+			print "Used import paths:"
+		else:
+			err, _, _, ip_used = getSymbolsForImportPaths(go_dir, imports_only=True)
+			if err != "":
+				print err
+				exit(1)
+	
+		for uip in sorted(ip_used):
+			print uip
 
