@@ -9,8 +9,10 @@ import shutil
 from Repos import detectRepoPrefix
 from ImportPaths import loadImportPathDb
 import operator
+from GoSymbols import ProjectToXml
 
 GOLANG_PACKAGES="data/golang.packages"
+GOLANG_PKG_DB="data/pkgdb"
 script_dir = getScriptDir() + "/.."
 
 def loadPackages():
@@ -82,6 +84,8 @@ class Package:
 		build_provides = []
 		build_import_paths = []
 
+		package_xml = ProjectToXml("", "%s/%s" % (os.getcwd(), 'usr/share/gocode/src/'))
+
 		# get all possible provided import paths
 		so, se, _ = runCommand("go2fed inspect -p")
 		for line in so.split('\n'):
@@ -114,7 +118,8 @@ class Package:
 
 		return {
 			"provides": build_provides,
-			"imports":  build_import_paths
+			"imports":  build_import_paths,
+			"xmlobj": package_xml
 			}
 	
 	def analyzeBuilds(self):
@@ -156,6 +161,15 @@ class Package:
 
 	def getInfo(self):
 		return self.info
+
+def savePackageInfo(pkg_info):
+	for build in pkg_info:
+		obj = pkg_info[build]["xmlobj"]
+		if not obj.getStatus():
+			print "Warning: unable to parse %s"
+			continue
+		with open("%s/%s/%s.xml" % (script_dir, GOLANG_PKG_DB, build), "w") as f:
+			f.write(str(obj))
 
 def getPackagesFromPkgDb():
 	so, _, rc = runCommand("koji search --regex package '^golang-'")
