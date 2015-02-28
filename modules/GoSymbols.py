@@ -153,13 +153,15 @@ def getSymbolsForImportPaths(go_dir, imports_only=False):
 			if go_file.endswith("_test.go"):
 				continue
 
-			if pkg_name != "" and pkg_name != go_file_json["pkgname"]:
+			pname = go_file_json["pkgname"]
+			# skip all main packages
+			if pname == "main":
+				continue
+
+			if pkg_name != "" and pkg_name != pname:
 				return "Error: directory %s contains defines of more packages, i.e. %s" % (dir_info['dir'], pkg_name), {}, {}, {}
 
-			pkg_name = go_file_json["pkgname"]
-			# skip all main packages
-			if pkg_name == "main":
-				continue
+			pkg_name = pname
 
 			if pkg_name not in jsons:
 				jsons[pkg_name] = [go_file_json]
@@ -228,7 +230,8 @@ TYPE_METHOD = "method"
 TYPE_FUNC = "func"
 TYPE_ELLIPSIS = "ellipsis"
 TYPE_MAP = "map"
-TYPE_CHANNEL = "chan"
+TYPE_CHANNEL = "channel"
+TYPE_PARENTHESIS = "parenthesis"
 
 class PackageToXml:
 
@@ -282,8 +285,13 @@ class PackageToXml:
 
 		elif type_name == TYPE_CHANNEL:
 			node.set("type", "chan")
-			node.set("dir", type_def["dir"])
-			err, val_node = self.typeToXML(type_def["value"])
+			if "dir" not in type_def:
+				node.set("dir", type_def["def"]["dir"])
+				err, val_node = self.typeToXML(type_def["def"]["value"])
+			else:
+				node.set("dir", type_def["dir"])
+				err, val_node = self.typeToXML(type_def["value"])
+
 			if err != "":
 				return err, None
 
@@ -308,6 +316,14 @@ class PackageToXml:
 
 			node.append(t_def)
 
+		elif type_name == TYPE_PARENTHESIS:
+			node.set("type", "parenthesis")
+			err, t_def = self.typeToXML(type_def["def"])
+			if err != "":
+				return err, None
+
+			node.append(t_def)
+		
 		elif type_name == TYPE_MAP:
 			node.set("type", "map")
 			err, t_def = self.typeToXML(type_def["def"]["keytype"], "keytype")

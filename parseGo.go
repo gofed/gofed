@@ -273,7 +273,7 @@ func parseTypes(et ast.Expr, name string) (sig string, err int) {
 	case *ast.ChanType:
 		// {'type': 'channel', 'dir': ..., 'value': ...}
 		tp := make(map[string]string)
-		tp["type"] = "chan"
+		tp["type"] = "channel"
 		switch t.Dir {
 		case ast.SEND:
 			tp["dir"] = "1"
