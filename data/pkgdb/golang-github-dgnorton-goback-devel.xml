@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/dgnorton/goback">
+      <types>
+        <type name="TxFunc" type="func">
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </type>
+        <type type="struct" name="Tx">
+          <field type="slice" name="stack">
+            <elmtype type="ident" def="TxFunc"/>
+          </field>
+          <field type="ident" def="bool" name="committed"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Begin">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Exec">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="TxFunc"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Commit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Rollback">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="fmt"/>
+    <import path="testing"/>
+  </imports>
+</project>

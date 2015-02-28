@@ -1,0 +1,357 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/stathat/go">
+      <types>
+        <type type="struct" name="Reporter">
+          <field type="chan" dir="3" name="reports">
+            <type type="pointer">
+              <type type="ident" def="statReport"/>
+            </type>
+          </field>
+          <field type="chan" dir="3" name="done">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="pointer" name="client">
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Client"/>
+            </type>
+          </field>
+          <field type="pointer" name="wg">
+            <type type="selector">
+              <prefix value="sync"/>
+              <item value="WaitGroup"/>
+            </type>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="NewReporter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="RoundTripper"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="PostCount">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostCountTime">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostCountOne">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostValue">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostValueTime">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostEZCountOne">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostEZCount">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostEZCountTime">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostEZValue">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostEZValueTime">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WaitUntilFinished">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="PostCount">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostCountTime">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostCountOne">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostValue">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostValueTime">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostEZCountOne">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostEZCount">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostEZCountTime">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostEZValue">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostEZValueTime">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WaitUntilFinished">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="DefaultReporter"/>
+        <name value="Verbose"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="testing"/>
+    <import path="fmt"/>
+    <import path="io/ioutil"/>
+    <import path="log"/>
+    <import path="net/http"/>
+    <import path="net/url"/>
+    <import path="strconv"/>
+    <import path="sync"/>
+    <import path="time"/>
+    <import path="github.com/stathat/go"/>
+  </imports>
+</project>

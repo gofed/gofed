@@ -1,0 +1,859 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/influxdb/go-cache">
+      <types>
+        <type type="struct" name="Item">
+          <field type="interface" name="Object"/>
+          <field type="pointer" name="Expiration">
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="Cache">
+          <field type="pointer" name="">
+            <type type="ident" def="cache"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Expired">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Item"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Replace">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Increment">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IncrementFloat">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IncrementInt">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IncrementInt8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int8"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int8"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IncrementInt16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int16"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int16"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IncrementInt32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int32"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int32"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IncrementInt64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IncrementUint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IncrementUintptr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uintptr"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uintptr"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IncrementUint8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint8"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint8"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IncrementUint16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint16"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IncrementUint32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint32"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IncrementUint64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IncrementFloat32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float32"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float32"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IncrementFloat64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Decrement">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecrementFloat">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecrementInt">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecrementInt8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int8"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int8"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecrementInt16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int16"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int16"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecrementInt32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int32"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int32"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecrementInt64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecrementUint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecrementUintptr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uintptr"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uintptr"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecrementUint8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint8"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint8"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecrementUint16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint16"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecrementUint32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint32"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecrementUint64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecrementFloat32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float32"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float32"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecrementFloat64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Delete">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="DeleteExpired">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Save">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SaveFile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Load">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LoadFile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Items">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="pointer">
+                <type type="ident" def="Item"/>
+              </valtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ItemCount">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Flush">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Run">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="janitor"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="cache"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Cache"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="shardedCache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="shardedCache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Replace">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="shardedCache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="shardedCache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Increment">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="shardedCache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IncrementFloat">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="shardedCache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Decrement">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="shardedCache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Delete">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="shardedCache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="DeleteExpired">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="shardedCache"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Flush">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="shardedCache"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Run">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="shardedJanitor"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="shardedCache"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="bytes"/>
+    <import path="io/ioutil"/>
+    <import path="runtime"/>
+    <import path="strconv"/>
+    <import path="sync"/>
+    <import path="testing"/>
+    <import path="time"/>
+    <import path="encoding/binary"/>
+    <import path="encoding/gob"/>
+    <import path="fmt"/>
+    <import path="hash/fnv"/>
+    <import path="io"/>
+    <import path="os"/>
+  </imports>
+</project>

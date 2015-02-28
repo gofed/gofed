@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/kr/pretty">
+      <types/>
+      <functions>
+        <function name="Errorf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Fprintf">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Log">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Logf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Logln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Print">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Printf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Println">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Sprintf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Formatter">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="fmt"/>
+              <item value="Formatter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="formatter"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Format">
+          <recvList>
+            <type type="ident" def="formatter"/>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="fmt"/>
+              <item value="State"/>
+            </type>
+            <type type="ident" def="rune"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sbuf"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Diff">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Fdiff">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+            <type type="interface"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="reflect"/>
+    <import path="fmt"/>
+    <import path="io"/>
+    <import path="log"/>
+    <import path="strings"/>
+    <import path="testing"/>
+    <import path="unsafe"/>
+    <import path="strconv"/>
+    <import path="text/tabwriter"/>
+    <import path="github.com/kr/text"/>
+    <import path="github.com/kr/pretty"/>
+  </imports>
+</project>

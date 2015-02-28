@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/mreiferson/go-httpclient">
+      <types>
+        <type type="struct" name="Transport">
+          <field type="func" name="Proxy">
+            <paramsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="http"/>
+                  <item value="Request"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="url"/>
+                  <item value="URL"/>
+                </type>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </field>
+          <field type="func" name="Dial">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="Conn"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </field>
+          <field type="pointer" name="TLSClientConfig">
+            <type type="selector">
+              <prefix value="tls"/>
+              <item value="Config"/>
+            </type>
+          </field>
+          <field type="ident" def="bool" name="DisableKeepAlives"/>
+          <field type="ident" def="bool" name="DisableCompression"/>
+          <field type="ident" def="int" name="MaxIdleConnsPerHost"/>
+          <field type="selector" name="ConnectTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="ResponseHeaderTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="RequestTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="ReadWriteTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="starter">
+            <prefix value="sync"/>
+            <item value="Once"/>
+          </field>
+          <field type="pointer" name="transport">
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Transport"/>
+            </type>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Version">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transport"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CancelRequest">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transport"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="CloseIdleConnections">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transport"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="RegisterProtocol">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transport"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="RoundTripper"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RoundTrip">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transport"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Response"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="bodyCloseInterceptor"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Read">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rwTimeoutConn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rwTimeoutConn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="crypto/tls"/>
+    <import path="io"/>
+    <import path="io/ioutil"/>
+    <import path="net"/>
+    <import path="net/http"/>
+    <import path="sync"/>
+    <import path="testing"/>
+    <import path="time"/>
+    <import path="net/url"/>
+  </imports>
+</project>

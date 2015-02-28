@@ -1,0 +1,1080 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/coreos/go-etcd/etcd">
+      <types>
+        <type type="struct" name="RawResponse">
+          <field type="ident" def="int" name="StatusCode"/>
+          <field type="slice" name="Body">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="selector" name="Header">
+            <prefix value="http"/>
+            <item value="Header"/>
+          </field>
+        </type>
+        <type type="struct" name="Response">
+          <field type="ident" def="string" name="Action"/>
+          <field type="pointer" name="Node">
+            <type type="ident" def="Node"/>
+          </field>
+          <field type="pointer" name="PrevNode">
+            <type type="ident" def="Node"/>
+          </field>
+          <field type="ident" def="uint64" name="EtcdIndex"/>
+          <field type="ident" def="uint64" name="RaftIndex"/>
+          <field type="ident" def="uint64" name="RaftTerm"/>
+        </type>
+        <type type="struct" name="Node">
+          <field type="ident" def="string" name="Key"/>
+          <field type="ident" def="string" name="Value"/>
+          <field type="ident" def="bool" name="Dir"/>
+          <field type="pointer" name="Expiration">
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </field>
+          <field type="ident" def="int64" name="TTL"/>
+          <field type="ident" def="Nodes" name="Nodes"/>
+          <field type="ident" def="uint64" name="ModifiedIndex"/>
+          <field type="ident" def="uint64" name="CreatedIndex"/>
+        </type>
+        <type name="Nodes" type="slice">
+          <elmtype type="pointer">
+            <type type="ident" def="Node"/>
+          </elmtype>
+        </type>
+        <type type="struct" name="RawRequest">
+          <field type="ident" def="string" name="Method"/>
+          <field type="ident" def="string" name="RelativePath"/>
+          <field type="selector" name="Values">
+            <prefix value="url"/>
+            <item value="Values"/>
+          </field>
+          <field type="chan" dir="2" name="Cancel">
+            <type type="ident" def="bool"/>
+          </field>
+        </type>
+        <type name="Options" type="map">
+          <keytype type="ident" def="string"/>
+          <valtype type="interface"/>
+        </type>
+        <type type="struct" name="EtcdError">
+          <field type="ident" def="int" name="ErrorCode"/>
+          <field type="ident" def="string" name="Message"/>
+          <field type="ident" def="string" name="Cause"/>
+          <field type="ident" def="uint64" name="Index"/>
+        </type>
+        <type type="struct" name="Cluster">
+          <field type="ident" def="string" name="Leader"/>
+          <field type="slice" name="Machines">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="Config">
+          <field type="ident" def="string" name="CertFile"/>
+          <field type="ident" def="string" name="KeyFile"/>
+          <field type="slice" name="CaCertFile">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="selector" name="DialTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="ident" def="string" name="Consistency"/>
+        </type>
+        <type type="struct" name="Client">
+          <field type="ident" def="Config" name="config"/>
+          <field type="pointer" name="cluster">
+            <type type="ident" def="Cluster"/>
+          </field>
+          <field type="pointer" name="httpClient">
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Client"/>
+            </type>
+          </field>
+          <field type="selector" name="persistence">
+            <prefix value="io"/>
+            <item value="Writer"/>
+          </field>
+          <field type="chan" dir="3" name="cURLch">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="func" name="CheckRetry">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="Cluster"/>
+              </type>
+              <type type="ident" def="int"/>
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Response"/>
+              </type>
+              <type type="ident" def="error"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Watch">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="bool"/>
+            <type type="chan" dir="3">
+              <type type="pointer">
+                <type type="ident" def="Response"/>
+              </type>
+            </type>
+            <type type="chan" dir="3">
+              <type type="ident" def="bool"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RawWatch">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="bool"/>
+            <type type="chan" dir="3">
+              <type type="pointer">
+                <type type="ident" def="RawResponse"/>
+              </type>
+            </type>
+            <type type="chan" dir="3">
+              <type type="ident" def="bool"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RawResponse"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetDir">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CreateDir">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UpdateDir">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Create">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CreateInOrder">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Update">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RawUpdateDir">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RawResponse"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RawCreateDir">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RawResponse"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RawSet">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RawResponse"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RawSetDir">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RawResponse"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RawUpdate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RawResponse"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RawCreate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RawResponse"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RawCreateInOrder">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RawResponse"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Unmarshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RawResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="Nodes"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="Nodes"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="Nodes"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="NewRawRequest">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="url"/>
+              <item value="Values"/>
+            </type>
+            <type type="chan" dir="2">
+              <type type="ident" def="bool"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RawRequest"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SendRequest">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="RawRequest"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RawResponse"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DefaultCheckRetry">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Cluster"/>
+            </type>
+            <type type="ident" def="int"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RawGet">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RawResponse"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="EtcdError"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Delete">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DeleteDir">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RawDelete">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RawResponse"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetLogger">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="log"/>
+                <item value="Logger"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GetLogger">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="log"/>
+                <item value="Logger"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Debug">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="etcdLogger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debugf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="etcdLogger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warning">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="etcdLogger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warningf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="etcdLogger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="CompareAndSwap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RawCompareAndSwap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RawResponse"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CompareAndDelete">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RawCompareAndDelete">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RawResponse"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewCluster">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Cluster"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewClient">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewTLSClient">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewClientFromFile">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewClientFromReader">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetTransport">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Transport"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetPersistence">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetConsistency">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetDialTimeout">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="AddRootCA">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetCluster">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="GetCluster">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SyncCluster">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="OpenCURL">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="CloseCURL">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="RecvCURL">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="MarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UnmarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AddChildDir">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AddChild">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ErrWatchStoppedByUser"/>
+        <name value="ErrRequestCancelled"/>
+        <name value="VALID_GET_OPTIONS"/>
+        <name value="VALID_PUT_OPTIONS"/>
+        <name value="VALID_POST_OPTIONS"/>
+        <name value="VALID_DELETE_OPTIONS"/>
+        <name value="ErrCodeEtcdNotReachable"/>
+        <name value="STRONG_CONSISTENCY"/>
+        <name value="WEAK_CONSISTENCY"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="fmt"/>
+    <import path="runtime"/>
+    <import path="testing"/>
+    <import path="time"/>
+    <import path="errors"/>
+    <import path="encoding/json"/>
+    <import path="net/http"/>
+    <import path="strconv"/>
+    <import path="io"/>
+    <import path="io/ioutil"/>
+    <import path="math/rand"/>
+    <import path="net/url"/>
+    <import path="path"/>
+    <import path="strings"/>
+    <import path="sync"/>
+    <import path="reflect"/>
+    <import path="log"/>
+    <import path="net"/>
+    <import path="os"/>
+    <import path="crypto/tls"/>
+    <import path="crypto/x509"/>
+  </imports>
+</project>

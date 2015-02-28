@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/SeanDolphin/bqschema">
+      <types/>
+      <functions>
+        <function name="ToStructs">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bigquery"/>
+                <item value="QueryResponse"/>
+              </type>
+            </type>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ToSchema">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bigquery"/>
+                <item value="TableSchema"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MustToSchema">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bigquery"/>
+                <item value="TableSchema"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ArrayOfArray"/>
+        <name value="UnknownType"/>
+        <name value="NotStruct"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="code.google.com/p/google-api-go-client/bigquery/v2"/>
+    <import path="github.com/SeanDolphin/bqschema"/>
+    <import path="reflect"/>
+    <import path="github.com/onsi/ginkgo"/>
+    <import path="github.com/onsi/gomega"/>
+    <import path="strconv"/>
+    <import path="strings"/>
+    <import path="time"/>
+    <import path="errors"/>
+    <import path="testing"/>
+  </imports>
+</project>

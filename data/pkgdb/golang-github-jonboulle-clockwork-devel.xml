@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/jonboulle/clockwork">
+      <types>
+        <type name="Clock" type="interface">
+          <method name="After">
+            <paramsList>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="chan" dir="2">
+                <type type="selector">
+                  <prefix value="time"/>
+                  <item value="Time"/>
+                </type>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Sleep">
+            <paramsList>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Now">
+            <paramsList/>
+            <resultsList>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Time"/>
+              </type>
+            </resultsList>
+          </method>
+        </type>
+        <type name="FakeClock" type="interface">
+          <method name="Advance">
+            <paramsList>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="BlockUntil">
+            <paramsList>
+              <type type="ident" def="int"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+      </types>
+      <functions>
+        <function name="NewRealClock">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Clock"/>
+          </returnsList>
+        </function>
+        <function name="NewFakeClock">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="FakeClock"/>
+          </returnsList>
+        </function>
+        <function name="After">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="realClock"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="chan" dir="2">
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Time"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Sleep">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="realClock"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Now">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="realClock"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="After">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="fakeClock"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="chan" dir="2">
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Time"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Sleep">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="fakeClock"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Now">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="fakeClock"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Advance">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="fakeClock"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="BlockUntil">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="fakeClock"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="sync"/>
+    <import path="testing"/>
+    <import path="time"/>
+    <import path="reflect"/>
+  </imports>
+</project>

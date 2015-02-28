@@ -1,0 +1,4150 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/goraft/raft">
+      <types>
+        <type name="Transporter" type="interface">
+          <method name="SendVoteRequest">
+            <paramsList>
+              <type type="ident" def="Server"/>
+              <type type="pointer">
+                <type type="ident" def="Peer"/>
+              </type>
+              <type type="pointer">
+                <type type="ident" def="RequestVoteRequest"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="RequestVoteResponse"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="SendAppendEntriesRequest">
+            <paramsList>
+              <type type="ident" def="Server"/>
+              <type type="pointer">
+                <type type="ident" def="Peer"/>
+              </type>
+              <type type="pointer">
+                <type type="ident" def="AppendEntriesRequest"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="AppendEntriesResponse"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="SendSnapshotRequest">
+            <paramsList>
+              <type type="ident" def="Server"/>
+              <type type="pointer">
+                <type type="ident" def="Peer"/>
+              </type>
+              <type type="pointer">
+                <type type="ident" def="SnapshotRequest"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="SnapshotResponse"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="SendSnapshotRecoveryRequest">
+            <paramsList>
+              <type type="ident" def="Server"/>
+              <type type="pointer">
+                <type type="ident" def="Peer"/>
+              </type>
+              <type type="pointer">
+                <type type="ident" def="SnapshotRecoveryRequest"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="SnapshotRecoveryResponse"/>
+              </type>
+            </resultsList>
+          </method>
+        </type>
+        <type name="StateMachine" type="interface">
+          <method name="Save">
+            <paramsList/>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Recovery">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="Snapshot">
+          <field type="ident" def="uint64" name="LastIndex"/>
+          <field type="ident" def="uint64" name="LastTerm"/>
+          <field type="slice" name="Peers">
+            <elmtype type="pointer">
+              <type type="ident" def="Peer"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="State">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="string" name="Path"/>
+        </type>
+        <type type="struct" name="SnapshotRecoveryRequest">
+          <field type="ident" def="string" name="LeaderName"/>
+          <field type="ident" def="uint64" name="LastIndex"/>
+          <field type="ident" def="uint64" name="LastTerm"/>
+          <field type="slice" name="Peers">
+            <elmtype type="pointer">
+              <type type="ident" def="Peer"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="State">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="SnapshotRecoveryResponse">
+          <field type="ident" def="uint64" name="Term"/>
+          <field type="ident" def="bool" name="Success"/>
+          <field type="ident" def="uint64" name="CommitIndex"/>
+        </type>
+        <type type="struct" name="SnapshotRequest">
+          <field type="ident" def="string" name="LeaderName"/>
+          <field type="ident" def="uint64" name="LastIndex"/>
+          <field type="ident" def="uint64" name="LastTerm"/>
+        </type>
+        <type type="struct" name="SnapshotResponse">
+          <field type="ident" def="bool" name="Success"/>
+        </type>
+        <type name="Server" type="interface">
+          <method name="Name">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="Context">
+            <paramsList/>
+            <resultsList>
+              <type type="interface"/>
+            </resultsList>
+          </method>
+          <method name="StateMachine">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="StateMachine"/>
+            </resultsList>
+          </method>
+          <method name="Leader">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="State">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="Path">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="LogPath">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="SnapshotPath">
+            <paramsList>
+              <type type="ident" def="uint64"/>
+              <type type="ident" def="uint64"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="Term">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="uint64"/>
+            </resultsList>
+          </method>
+          <method name="CommitIndex">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="uint64"/>
+            </resultsList>
+          </method>
+          <method name="VotedFor">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="MemberCount">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int"/>
+            </resultsList>
+          </method>
+          <method name="QuorumSize">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int"/>
+            </resultsList>
+          </method>
+          <method name="IsLogEmpty">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="bool"/>
+            </resultsList>
+          </method>
+          <method name="LogEntries">
+            <paramsList/>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="pointer">
+                  <type type="ident" def="LogEntry"/>
+                </elmtype>
+              </type>
+            </resultsList>
+          </method>
+          <method name="LastCommandName">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="GetState">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="ElectionTimeout">
+            <paramsList/>
+            <resultsList>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="SetElectionTimeout">
+            <paramsList>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="HeartbeatInterval">
+            <paramsList/>
+            <resultsList>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="SetHeartbeatInterval">
+            <paramsList>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Transporter">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="Transporter"/>
+            </resultsList>
+          </method>
+          <method name="SetTransporter">
+            <paramsList>
+              <type type="ident" def="Transporter"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="AppendEntries">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="AppendEntriesRequest"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="AppendEntriesResponse"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="RequestVote">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="RequestVoteRequest"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="RequestVoteResponse"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="RequestSnapshot">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="SnapshotRequest"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="SnapshotResponse"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="SnapshotRecoveryRequest">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="SnapshotRecoveryRequest"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="SnapshotRecoveryResponse"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="AddPeer">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="RemovePeer">
+            <paramsList>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Peers">
+            <paramsList/>
+            <resultsList>
+              <type type="map">
+                <keytype type="ident" def="string"/>
+                <valtype type="pointer">
+                  <type type="ident" def="Peer"/>
+                </valtype>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Init">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Start">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Stop">
+            <paramsList/>
+            <resultsList/>
+          </method>
+          <method name="Running">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="bool"/>
+            </resultsList>
+          </method>
+          <method name="Do">
+            <paramsList>
+              <type type="ident" def="Command"/>
+            </paramsList>
+            <resultsList>
+              <type type="interface"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="TakeSnapshot">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="LoadSnapshot">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="AddEventListener">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ident" def="EventListener"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="FlushCommitIndex">
+            <paramsList/>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="RequestVoteRequest">
+          <field type="pointer" name="peer">
+            <type type="ident" def="Peer"/>
+          </field>
+          <field type="ident" def="uint64" name="Term"/>
+          <field type="ident" def="uint64" name="LastLogIndex"/>
+          <field type="ident" def="uint64" name="LastLogTerm"/>
+          <field type="ident" def="string" name="CandidateName"/>
+        </type>
+        <type type="struct" name="RequestVoteResponse">
+          <field type="pointer" name="peer">
+            <type type="ident" def="Peer"/>
+          </field>
+          <field type="ident" def="uint64" name="Term"/>
+          <field type="ident" def="bool" name="VoteGranted"/>
+        </type>
+        <type type="struct" name="Peer">
+          <field type="pointer" name="server">
+            <type type="ident" def="server"/>
+          </field>
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="ConnectionString"/>
+          <field type="ident" def="uint64" name="prevLogIndex"/>
+          <field type="chan" dir="3" name="stopChan">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="selector" name="heartbeatInterval">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="lastActivity">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="selector" name="">
+            <prefix value="sync"/>
+            <item value="RWMutex"/>
+          </field>
+        </type>
+        <type type="struct" name="LogEntry">
+          <field type="pointer" name="pb">
+            <type type="selector">
+              <prefix value="protobuf"/>
+              <item value="LogEntry"/>
+            </type>
+          </field>
+          <field type="ident" def="int64" name="Position"/>
+          <field type="pointer" name="log">
+            <type type="ident" def="Log"/>
+          </field>
+          <field type="pointer" name="event">
+            <type type="ident" def="ev"/>
+          </field>
+        </type>
+        <type type="struct" name="Log">
+          <field type="func" name="ApplyFunc">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="LogEntry"/>
+              </type>
+              <type type="ident" def="Command"/>
+            </paramsList>
+            <resultsList>
+              <type type="interface"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </field>
+          <field type="pointer" name="file">
+            <type type="selector">
+              <prefix value="os"/>
+              <item value="File"/>
+            </type>
+          </field>
+          <field type="ident" def="string" name="path"/>
+          <field type="slice" name="entries">
+            <elmtype type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </elmtype>
+          </field>
+          <field type="ident" def="uint64" name="commitIndex"/>
+          <field type="selector" name="mutex">
+            <prefix value="sync"/>
+            <item value="RWMutex"/>
+          </field>
+          <field type="ident" def="uint64" name="startIndex"/>
+          <field type="ident" def="uint64" name="startTerm"/>
+          <field type="ident" def="bool" name="initialized"/>
+        </type>
+        <type type="struct" name="HTTPTransporter">
+          <field type="ident" def="bool" name="DisableKeepAlives"/>
+          <field type="ident" def="string" name="prefix"/>
+          <field type="ident" def="string" name="appendEntriesPath"/>
+          <field type="ident" def="string" name="requestVotePath"/>
+          <field type="ident" def="string" name="snapshotPath"/>
+          <field type="ident" def="string" name="snapshotRecoveryPath"/>
+          <field type="selector" name="httpClient">
+            <prefix value="http"/>
+            <item value="Client"/>
+          </field>
+          <field type="pointer" name="Transport">
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Transport"/>
+            </type>
+          </field>
+        </type>
+        <type name="HTTPMuxer" type="interface">
+          <method name="HandleFunc">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="func">
+                <paramsList>
+                  <type type="selector">
+                    <prefix value="http"/>
+                    <item value="ResponseWriter"/>
+                  </type>
+                  <type type="pointer">
+                    <type type="selector">
+                      <prefix value="http"/>
+                      <item value="Request"/>
+                    </type>
+                  </type>
+                </paramsList>
+                <resultsList/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type name="EventListener" type="func">
+          <paramsList>
+            <type type="ident" def="Event"/>
+          </paramsList>
+          <resultsList/>
+        </type>
+        <type name="Event" type="interface">
+          <method name="Type">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="Source">
+            <paramsList/>
+            <resultsList>
+              <type type="interface"/>
+            </resultsList>
+          </method>
+          <method name="Value">
+            <paramsList/>
+            <resultsList>
+              <type type="interface"/>
+            </resultsList>
+          </method>
+          <method name="PrevValue">
+            <paramsList/>
+            <resultsList>
+              <type type="interface"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="Context" type="interface">
+          <method name="Server">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="Server"/>
+            </resultsList>
+          </method>
+          <method name="CurrentTerm">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="uint64"/>
+            </resultsList>
+          </method>
+          <method name="CurrentIndex">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="uint64"/>
+            </resultsList>
+          </method>
+          <method name="CommitIndex">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="uint64"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="Config">
+          <field type="ident" def="uint64" name="CommitIndex"/>
+          <field type="slice" name="Peers">
+            <elmtype type="pointer">
+              <type type="ident" def="Peer"/>
+            </elmtype>
+          </field>
+        </type>
+        <type name="JoinCommand" type="interface">
+          <method name="NodeName">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="DefaultJoinCommand">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="ConnectionString"/>
+        </type>
+        <type name="LeaveCommand" type="interface">
+          <method name="NodeName">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="DefaultLeaveCommand">
+          <field type="ident" def="string" name="Name"/>
+        </type>
+        <type type="struct" name="NOPCommand"/>
+        <type name="Command" type="interface">
+          <method name="CommandName">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="CommandApply" type="interface">
+          <method name="Apply">
+            <paramsList>
+              <type type="ident" def="Context"/>
+            </paramsList>
+            <resultsList>
+              <type type="interface"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="CommandEncoder" type="interface">
+          <method name="Encode">
+            <paramsList>
+              <type type="selector">
+                <prefix value="io"/>
+                <item value="Writer"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Decode">
+            <paramsList>
+              <type type="selector">
+                <prefix value="io"/>
+                <item value="Reader"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="AppendEntriesRequest">
+          <field type="ident" def="uint64" name="Term"/>
+          <field type="ident" def="uint64" name="PrevLogIndex"/>
+          <field type="ident" def="uint64" name="PrevLogTerm"/>
+          <field type="ident" def="uint64" name="CommitIndex"/>
+          <field type="ident" def="string" name="LeaderName"/>
+          <field type="slice" name="Entries">
+            <elmtype type="pointer">
+              <type type="selector">
+                <prefix value="protobuf"/>
+                <item value="LogEntry"/>
+              </type>
+            </elmtype>
+          </field>
+        </type>
+        <type type="struct" name="AppendEntriesResponse">
+          <field type="pointer" name="pb">
+            <type type="selector">
+              <prefix value="protobuf"/>
+              <item value="AppendEntriesResponse"/>
+            </type>
+          </field>
+          <field type="ident" def="string" name="peer"/>
+          <field type="ident" def="bool" name="append"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="uint64Slice"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="uint64Slice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="uint64Slice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SendVoteRequest">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="testTransporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Server"/>
+            <type type="pointer">
+              <type type="ident" def="Peer"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SendAppendEntriesRequest">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="testTransporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Server"/>
+            <type type="pointer">
+              <type type="ident" def="Peer"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SendSnapshotRequest">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="testTransporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Server"/>
+            <type type="pointer">
+              <type type="ident" def="Peer"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SendSnapshotRecoveryRequest">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="testTransporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Server"/>
+            <type type="pointer">
+              <type type="ident" def="Peer"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Save">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="testStateMachine"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Recovery">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="testStateMachine"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CommandName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="testCommand1"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Apply">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="testCommand1"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Server"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CommandName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="testCommand2"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Apply">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="testCommand2"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Server"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Encode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Decode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Encode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Decode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Encode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Decode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Encode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Decode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewServer">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Transporter"/>
+            <type type="ident" def="StateMachine"/>
+            <type type="interface"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Server"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Path">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Leader">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Peers">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="pointer">
+                <type type="ident" def="Peer"/>
+              </valtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Transporter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Transporter"/>
+          </returnsList>
+        </function>
+        <function name="SetTransporter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Transporter"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Context">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="StateMachine">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="StateMachine"/>
+          </returnsList>
+        </function>
+        <function name="LogPath">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="State">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Term">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="CommitIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="VotedFor">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="IsLogEmpty">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="LogEntries">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="LogEntry"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="LastCommandName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetState">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="MemberCount">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="QuorumSize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="ElectionTimeout">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetElectionTimeout">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="HeartbeatInterval">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetHeartbeatInterval">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Start">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Stop">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Running">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Do">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Command"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AppendEntries">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RequestVote">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="AddPeer">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RemovePeer">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="TakeSnapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SnapshotPath">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="RequestSnapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SnapshotRecoveryRequest">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="LoadSnapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="FlushCommitIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Encode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Decode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Encode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Decode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LastActivity">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Peer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Index">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="Term">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="CommandName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Command">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Encode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Decode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CommitIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Log"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="NewHTTPTransporter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="HTTPTransporter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Prefix">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPTransporter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="AppendEntriesPath">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPTransporter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="RequestVotePath">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPTransporter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="SnapshotPath">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPTransporter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="SnapshotRecoveryPath">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPTransporter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Install">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPTransporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Server"/>
+            <type type="ident" def="HTTPMuxer"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SendAppendEntriesRequest">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPTransporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Server"/>
+            <type type="pointer">
+              <type type="ident" def="Peer"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SendVoteRequest">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPTransporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Server"/>
+            <type type="pointer">
+              <type type="ident" def="Peer"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SendSnapshotRequest">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPTransporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Server"/>
+            <type type="pointer">
+              <type type="ident" def="Peer"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SendSnapshotRecoveryRequest">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPTransporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Server"/>
+            <type type="pointer">
+              <type type="ident" def="Peer"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="AddEventListener">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="eventDispatcher"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="EventListener"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RemoveEventListener">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="eventDispatcher"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="EventListener"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="DispatchEvent">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="eventDispatcher"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Event"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="event"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Source">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="event"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="Value">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="event"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="PrevValue">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="event"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="LogLevel">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="SetLogLevel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Server">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="context"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Server"/>
+          </returnsList>
+        </function>
+        <function name="CurrentTerm">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="context"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="CurrentIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="context"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="CommitIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="context"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="CommandName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DefaultJoinCommand"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Apply">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DefaultJoinCommand"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Server"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NodeName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DefaultJoinCommand"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="CommandName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DefaultLeaveCommand"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Apply">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DefaultLeaveCommand"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Server"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NodeName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DefaultLeaveCommand"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="CommandName">
+          <recvList>
+            <type type="ident" def="NOPCommand"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Apply">
+          <recvList>
+            <type type="ident" def="NOPCommand"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Server"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Encode">
+          <recvList>
+            <type type="ident" def="NOPCommand"/>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Decode">
+          <recvList>
+            <type type="ident" def="NOPCommand"/>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RegisterCommand">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Command"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Encode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Decode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Index">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="CommitIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="Term">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="Success">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Encode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Decode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="Stopped"/>
+        <name value="Initialized"/>
+        <name value="Follower"/>
+        <name value="Candidate"/>
+        <name value="Leader"/>
+        <name value="Snapshotting"/>
+        <name value="MaxLogEntriesPerRequest"/>
+        <name value="NumberOfLogEntriesAfterSnapshot"/>
+        <name value="DefaultHeartbeatInterval"/>
+        <name value="DefaultElectionTimeout"/>
+        <name value="ElectionTimeoutThresholdPercent"/>
+        <name value="NotLeaderError"/>
+        <name value="DuplicatePeerError"/>
+        <name value="CommandTimeoutError"/>
+        <name value="StopError"/>
+        <name value="StateChangeEventType"/>
+        <name value="LeaderChangeEventType"/>
+        <name value="TermChangeEventType"/>
+        <name value="CommitEventType"/>
+        <name value="AddPeerEventType"/>
+        <name value="RemovePeerEventType"/>
+        <name value="HeartbeatIntervalEventType"/>
+        <name value="ElectionTimeoutThresholdEventType"/>
+        <name value="HeartbeatEventType"/>
+        <name value="Debug"/>
+        <name value="Trace"/>
+      </names>
+    </package>
+    <package importpath="github.com/goraft/raft/protobuf">
+      <types>
+        <type type="struct" name="SnapshotResponse">
+          <field type="pointer" name="Success">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="SnapshotRequest">
+          <field type="pointer" name="LeaderName">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="LastIndex">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="LastTerm">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="SnapshotRecoveryResponse">
+          <field type="pointer" name="Term">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="Success">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="pointer" name="CommitIndex">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="SnapshotRecoveryRequest">
+          <field type="pointer" name="LeaderName">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="LastIndex">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="LastTerm">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="slice" name="Peers">
+            <elmtype type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest_Peer"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="State">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="SnapshotRecoveryRequest_Peer">
+          <field type="pointer" name="Name">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="ConnectionString">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="RequestVoteResponse">
+          <field type="pointer" name="Term">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="VoteGranted">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="RequestVoteRequest">
+          <field type="pointer" name="Term">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="LastLogIndex">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="LastLogTerm">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="CandidateName">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="LogEntry">
+          <field type="pointer" name="Index">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="Term">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="CommandName">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="slice" name="Command">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="AppendEntriesResponse">
+          <field type="pointer" name="Term">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="Index">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="CommitIndex">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="Success">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="AppendEntriesRequest">
+          <field type="pointer" name="Term">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="PrevLogIndex">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="PrevLogTerm">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="CommitIndex">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="LeaderName">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="slice" name="Entries">
+            <elmtype type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetSuccess">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Unmarshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="NewPopulatedSnapshotResponse">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="randySnapshotResponse"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Marshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalTo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GoString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="VerboseEqual">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetLeaderName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetLastIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetLastTerm">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="Unmarshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="NewPopulatedSnapshotRequest">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="randySnapshotRequest"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Marshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalTo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GoString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="VerboseEqual">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetTerm">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetSuccess">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="GetCommitIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="Unmarshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="NewPopulatedSnapshotRecoveryResponse">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="randySnapshotRecoveryResponse"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Marshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalTo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GoString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="VerboseEqual">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetLeaderName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetLastIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetLastTerm">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetPeers">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="SnapshotRecoveryRequest_Peer"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GetState">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest_Peer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest_Peer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetConnectionString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest_Peer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Unmarshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Unmarshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest_Peer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest_Peer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest_Peer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="NewPopulatedSnapshotRecoveryRequest">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="randySnapshotRecoveryRequest"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewPopulatedSnapshotRecoveryRequest_Peer">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="randySnapshotRecoveryRequest"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest_Peer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Marshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalTo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Marshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest_Peer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalTo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest_Peer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GoString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GoString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest_Peer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="VerboseEqual">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="VerboseEqual">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest_Peer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SnapshotRecoveryRequest_Peer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetTerm">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetVoteGranted">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Unmarshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="NewPopulatedRequestVoteResponse">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="randyRequestVoteResponses"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Marshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalTo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GoString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="VerboseEqual">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetTerm">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetLastLogIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetLastLogTerm">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetCandidateName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Unmarshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="NewPopulatedRequestVoteRequest">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="randyRequestVoteRequest"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Marshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalTo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GoString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="VerboseEqual">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequestVoteRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetTerm">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetCommandName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetCommand">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Unmarshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="NewPopulatedLogEntry">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="randyLogEntry"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Marshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalTo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GoString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="VerboseEqual">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEntry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetTerm">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetCommitIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetSuccess">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Unmarshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="NewPopulatedAppendEntriesResponse">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="randyAppendEntriesResponses"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Marshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalTo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GoString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="VerboseEqual">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesResponse"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetTerm">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetPrevLogIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetPrevLogTerm">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetCommitIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetLeaderName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetEntries">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="LogEntry"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Unmarshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="NewPopulatedAppendEntriesRequest">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="randyAppendEntriesRequest"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Marshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalTo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GoString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="VerboseEqual">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AppendEntriesRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="fmt"/>
+    <import path="io"/>
+    <import path="math/rand"/>
+    <import path="os"/>
+    <import path="time"/>
+    <import path="io/ioutil"/>
+    <import path="github.com/stretchr/testify/mock"/>
+    <import path="testing"/>
+    <import path="github.com/stretchr/testify/assert"/>
+    <import path="encoding/json"/>
+    <import path="hash/crc32"/>
+    <import path="code.google.com/p/gogoprotobuf/proto"/>
+    <import path="github.com/goraft/raft/protobuf"/>
+    <import path="bytes"/>
+    <import path="strconv"/>
+    <import path="sync"/>
+    <import path="errors"/>
+    <import path="path"/>
+    <import path="sort"/>
+    <import path="reflect"/>
+    <import path="bufio"/>
+    <import path="net"/>
+    <import path="net/http"/>
+    <import path="net/url"/>
+    <import path="log"/>
+    <import path="math"/>
+    <import path="strings"/>
+  </imports>
+</project>

@@ -1,0 +1,3922 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/rcrowley/go-metrics">
+      <types>
+        <type name="Timer" type="interface">
+          <method name="Count">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int64"/>
+            </resultsList>
+          </method>
+          <method name="Max">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int64"/>
+            </resultsList>
+          </method>
+          <method name="Mean">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Min">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int64"/>
+            </resultsList>
+          </method>
+          <method name="Percentile">
+            <paramsList>
+              <type type="ident" def="float64"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Percentiles">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="float64"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="float64"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Rate1">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Rate5">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Rate15">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="RateMean">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Snapshot">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="Timer"/>
+            </resultsList>
+          </method>
+          <method name="StdDev">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Sum">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int64"/>
+            </resultsList>
+          </method>
+          <method name="Time">
+            <paramsList>
+              <type type="func">
+                <paramsList/>
+                <resultsList/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Update">
+            <paramsList>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="UpdateSince">
+            <paramsList>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Time"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Variance">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="NilTimer">
+          <field type="ident" def="Histogram" name="h"/>
+          <field type="ident" def="Meter" name="m"/>
+        </type>
+        <type type="struct" name="StandardTimer">
+          <field type="ident" def="Histogram" name="histogram"/>
+          <field type="ident" def="Meter" name="meter"/>
+          <field type="selector" name="mutex">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+        </type>
+        <type type="struct" name="TimerSnapshot">
+          <field type="pointer" name="histogram">
+            <type type="ident" def="HistogramSnapshot"/>
+          </field>
+          <field type="pointer" name="meter">
+            <type type="ident" def="MeterSnapshot"/>
+          </field>
+        </type>
+        <type name="Sample" type="interface">
+          <method name="Clear">
+            <paramsList/>
+            <resultsList/>
+          </method>
+          <method name="Count">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int64"/>
+            </resultsList>
+          </method>
+          <method name="Max">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int64"/>
+            </resultsList>
+          </method>
+          <method name="Mean">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Min">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int64"/>
+            </resultsList>
+          </method>
+          <method name="Percentile">
+            <paramsList>
+              <type type="ident" def="float64"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Percentiles">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="float64"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="float64"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Size">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int"/>
+            </resultsList>
+          </method>
+          <method name="Snapshot">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="Sample"/>
+            </resultsList>
+          </method>
+          <method name="StdDev">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Sum">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int64"/>
+            </resultsList>
+          </method>
+          <method name="Update">
+            <paramsList>
+              <type type="ident" def="int64"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Values">
+            <paramsList/>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="int64"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Variance">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="ExpDecaySample">
+          <field type="ident" def="float64" name="alpha"/>
+          <field type="ident" def="int64" name="count"/>
+          <field type="selector" name="mutex">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="ident" def="int" name="reservoirSize"/>
+          <field type="selector" name="t0">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="selector" name="t1">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="pointer" name="values">
+            <type type="ident" def="expDecaySampleHeap"/>
+          </field>
+        </type>
+        <type type="struct" name="NilSample"/>
+        <type type="struct" name="SampleSnapshot">
+          <field type="ident" def="int64" name="count"/>
+          <field type="slice" name="values">
+            <elmtype type="ident" def="int64"/>
+          </field>
+        </type>
+        <type type="struct" name="UniformSample">
+          <field type="ident" def="int64" name="count"/>
+          <field type="selector" name="mutex">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="ident" def="int" name="reservoirSize"/>
+          <field type="slice" name="values">
+            <elmtype type="ident" def="int64"/>
+          </field>
+        </type>
+        <type name="DuplicateMetric" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+        <type name="Registry" type="interface">
+          <method name="Each">
+            <paramsList>
+              <type type="func">
+                <paramsList>
+                  <type type="ident" def="string"/>
+                  <type type="interface"/>
+                </paramsList>
+                <resultsList/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Get">
+            <paramsList>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="interface"/>
+            </resultsList>
+          </method>
+          <method name="GetOrRegister">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="interface"/>
+            </paramsList>
+            <resultsList>
+              <type type="interface"/>
+            </resultsList>
+          </method>
+          <method name="Register">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="interface"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="RunHealthchecks">
+            <paramsList/>
+            <resultsList/>
+          </method>
+          <method name="Unregister">
+            <paramsList>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="UnregisterAll">
+            <paramsList/>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="StandardRegistry">
+          <field type="map" name="metrics">
+            <keytype type="ident" def="string"/>
+            <valtype type="interface"/>
+          </field>
+          <field type="selector" name="mutex">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+        </type>
+        <type type="struct" name="OpenTSDBConfig">
+          <field type="pointer" name="Addr">
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="TCPAddr"/>
+            </type>
+          </field>
+          <field type="ident" def="Registry" name="Registry"/>
+          <field type="selector" name="FlushInterval">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="DurationUnit">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="ident" def="string" name="Prefix"/>
+        </type>
+        <type name="Meter" type="interface">
+          <method name="Count">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int64"/>
+            </resultsList>
+          </method>
+          <method name="Mark">
+            <paramsList>
+              <type type="ident" def="int64"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Rate1">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Rate5">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Rate15">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="RateMean">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Snapshot">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="Meter"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="MeterSnapshot">
+          <field type="ident" def="int64" name="count"/>
+          <field type="ident" def="float64" name="rate1"/>
+          <field type="ident" def="float64" name="rate5"/>
+          <field type="ident" def="float64" name="rate15"/>
+          <field type="ident" def="float64" name="rateMean"/>
+        </type>
+        <type type="struct" name="NilMeter"/>
+        <type type="struct" name="StandardMeter">
+          <field type="selector" name="lock">
+            <prefix value="sync"/>
+            <item value="RWMutex"/>
+          </field>
+          <field type="pointer" name="snapshot">
+            <type type="ident" def="MeterSnapshot"/>
+          </field>
+          <field type="ident" def="EWMA" name="a1"/>
+          <field type="ident" def="EWMA" name="a5"/>
+          <field type="ident" def="EWMA" name="a15"/>
+          <field type="selector" name="startTime">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+        </type>
+        <type name="Histogram" type="interface">
+          <method name="Clear">
+            <paramsList/>
+            <resultsList/>
+          </method>
+          <method name="Count">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int64"/>
+            </resultsList>
+          </method>
+          <method name="Max">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int64"/>
+            </resultsList>
+          </method>
+          <method name="Mean">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Min">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int64"/>
+            </resultsList>
+          </method>
+          <method name="Percentile">
+            <paramsList>
+              <type type="ident" def="float64"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Percentiles">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="float64"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="float64"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Sample">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="Sample"/>
+            </resultsList>
+          </method>
+          <method name="Snapshot">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="Histogram"/>
+            </resultsList>
+          </method>
+          <method name="StdDev">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Sum">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int64"/>
+            </resultsList>
+          </method>
+          <method name="Update">
+            <paramsList>
+              <type type="ident" def="int64"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Variance">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="HistogramSnapshot">
+          <field type="pointer" name="sample">
+            <type type="ident" def="SampleSnapshot"/>
+          </field>
+        </type>
+        <type type="struct" name="NilHistogram"/>
+        <type type="struct" name="StandardHistogram">
+          <field type="ident" def="Sample" name="sample"/>
+        </type>
+        <type name="Healthcheck" type="interface">
+          <method name="Check">
+            <paramsList/>
+            <resultsList/>
+          </method>
+          <method name="Error">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Healthy">
+            <paramsList/>
+            <resultsList/>
+          </method>
+          <method name="Unhealthy">
+            <paramsList>
+              <type type="ident" def="error"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="NilHealthcheck"/>
+        <type type="struct" name="StandardHealthcheck">
+          <field type="ident" def="error" name="err"/>
+          <field type="func" name="f">
+            <paramsList>
+              <type type="ident" def="Healthcheck"/>
+            </paramsList>
+            <resultsList/>
+          </field>
+        </type>
+        <type type="struct" name="GraphiteConfig">
+          <field type="pointer" name="Addr">
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="TCPAddr"/>
+            </type>
+          </field>
+          <field type="ident" def="Registry" name="Registry"/>
+          <field type="selector" name="FlushInterval">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="DurationUnit">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="ident" def="string" name="Prefix"/>
+          <field type="slice" name="Percentiles">
+            <elmtype type="ident" def="float64"/>
+          </field>
+        </type>
+        <type name="GaugeFloat64" type="interface">
+          <method name="Snapshot">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="GaugeFloat64"/>
+            </resultsList>
+          </method>
+          <method name="Update">
+            <paramsList>
+              <type type="ident" def="float64"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Value">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="GaugeFloat64Snapshot" type="ident">
+          <type type="ident" def="float64"/>
+        </type>
+        <type type="struct" name="NilGaugeFloat64"/>
+        <type type="struct" name="StandardGaugeFloat64">
+          <field type="selector" name="mutex">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="ident" def="float64" name="value"/>
+        </type>
+        <type name="Gauge" type="interface">
+          <method name="Snapshot">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="Gauge"/>
+            </resultsList>
+          </method>
+          <method name="Update">
+            <paramsList>
+              <type type="ident" def="int64"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Value">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int64"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="GaugeSnapshot" type="ident">
+          <type type="ident" def="int64"/>
+        </type>
+        <type type="struct" name="NilGauge"/>
+        <type type="struct" name="StandardGauge">
+          <field type="ident" def="int64" name="value"/>
+        </type>
+        <type name="EWMA" type="interface">
+          <method name="Rate">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="float64"/>
+            </resultsList>
+          </method>
+          <method name="Snapshot">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="EWMA"/>
+            </resultsList>
+          </method>
+          <method name="Tick">
+            <paramsList/>
+            <resultsList/>
+          </method>
+          <method name="Update">
+            <paramsList>
+              <type type="ident" def="int64"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type name="EWMASnapshot" type="ident">
+          <type type="ident" def="float64"/>
+        </type>
+        <type type="struct" name="NilEWMA"/>
+        <type type="struct" name="StandardEWMA">
+          <field type="ident" def="int64" name="uncounted"/>
+          <field type="ident" def="float64" name="alpha"/>
+          <field type="ident" def="float64" name="rate"/>
+          <field type="ident" def="bool" name="init"/>
+          <field type="selector" name="mutex">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+        </type>
+        <type name="Counter" type="interface">
+          <method name="Clear">
+            <paramsList/>
+            <resultsList/>
+          </method>
+          <method name="Count">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int64"/>
+            </resultsList>
+          </method>
+          <method name="Dec">
+            <paramsList>
+              <type type="ident" def="int64"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Inc">
+            <paramsList>
+              <type type="ident" def="int64"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Snapshot">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="Counter"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="CounterSnapshot" type="ident">
+          <type type="ident" def="int64"/>
+        </type>
+        <type type="struct" name="NilCounter"/>
+        <type type="struct" name="StandardCounter">
+          <field type="ident" def="int64" name="count"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Write">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Registry"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="WriteOnce">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Registry"/>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="namedMetricSlice"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="namedMetricSlice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="namedMetricSlice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="GetOrRegisterTimer">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Registry"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Timer"/>
+          </returnsList>
+        </function>
+        <function name="NewCustomTimer">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Histogram"/>
+            <type type="ident" def="Meter"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Timer"/>
+          </returnsList>
+        </function>
+        <function name="NewRegisteredTimer">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Registry"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Timer"/>
+          </returnsList>
+        </function>
+        <function name="NewTimer">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Timer"/>
+          </returnsList>
+        </function>
+        <function name="Count">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Max">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Mean">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Min">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Percentile">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Percentiles">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Rate1">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Rate5">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Rate15">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="RateMean">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Timer"/>
+          </returnsList>
+        </function>
+        <function name="StdDev">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Sum">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Time">
+          <recvList/>
+          <paramsList>
+            <type type="func">
+              <paramsList/>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Update">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="UpdateSince">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Variance">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Count">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Max">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Mean">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Min">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Percentile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Percentiles">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Rate1">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Rate5">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Rate15">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="RateMean">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Timer"/>
+          </returnsList>
+        </function>
+        <function name="StdDev">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Sum">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Time">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList/>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Update">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="UpdateSince">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Variance">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardTimer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Count">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TimerSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Max">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TimerSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Mean">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TimerSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Min">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TimerSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Percentile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TimerSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Percentiles">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TimerSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Rate1">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TimerSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Rate5">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TimerSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Rate15">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TimerSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="RateMean">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TimerSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TimerSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Timer"/>
+          </returnsList>
+        </function>
+        <function name="StdDev">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TimerSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Sum">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TimerSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Time">
+          <recvList/>
+          <paramsList>
+            <type type="func">
+              <paramsList/>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Update">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="UpdateSince">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Variance">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TimerSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Syslog">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Registry"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="syslog"/>
+                <item value="Writer"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="NewExpDecaySample">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Sample"/>
+          </returnsList>
+        </function>
+        <function name="Clear">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExpDecaySample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Count">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExpDecaySample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Max">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExpDecaySample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Mean">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExpDecaySample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Min">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExpDecaySample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Percentile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExpDecaySample"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Percentiles">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExpDecaySample"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExpDecaySample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExpDecaySample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Sample"/>
+          </returnsList>
+        </function>
+        <function name="StdDev">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExpDecaySample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Sum">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExpDecaySample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Update">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExpDecaySample"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Values">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExpDecaySample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Variance">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExpDecaySample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Clear">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Count">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Max">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Mean">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Min">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Percentile">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Percentiles">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Sample"/>
+          </returnsList>
+        </function>
+        <function name="StdDev">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Sum">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Update">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Values">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Variance">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="SampleMax">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="int64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="SampleMean">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="int64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="SampleMin">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="int64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="SamplePercentile">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64Slice"/>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="SamplePercentiles">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64Slice"/>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Clear">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Count">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SampleSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Max">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SampleSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Mean">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SampleSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Min">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SampleSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Percentile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SampleSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Percentiles">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SampleSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SampleSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SampleSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Sample"/>
+          </returnsList>
+        </function>
+        <function name="StdDev">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SampleSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Sum">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SampleSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Update">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Values">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SampleSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Variance">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SampleSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="SampleStdDev">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="int64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="SampleSum">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="int64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="SampleVariance">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="int64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="NewUniformSample">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Sample"/>
+          </returnsList>
+        </function>
+        <function name="Clear">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UniformSample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Count">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UniformSample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Max">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UniformSample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Mean">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UniformSample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Min">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UniformSample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Percentile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UniformSample"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Percentiles">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UniformSample"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UniformSample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UniformSample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Sample"/>
+          </returnsList>
+        </function>
+        <function name="StdDev">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UniformSample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Sum">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UniformSample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Update">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UniformSample"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Values">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UniformSample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Variance">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UniformSample"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Push">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="expDecaySampleHeap"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="expDecaySample"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Pop">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="expDecaySampleHeap"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="expDecaySample"/>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="expDecaySampleHeap"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Values">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="expDecaySampleHeap"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="expDecaySample"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="int64Slice"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="int64Slice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="int64Slice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="CaptureRuntimeMemStats">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Registry"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="CaptureRuntimeMemStatsOnce">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Registry"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RegisterRuntimeMemStats">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Registry"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="DuplicateMetric"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="NewRegistry">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Registry"/>
+          </returnsList>
+        </function>
+        <function name="Each">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardRegistry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="string"/>
+                <type type="interface"/>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardRegistry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="GetOrRegister">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardRegistry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="Register">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardRegistry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RunHealthchecks">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardRegistry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Unregister">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardRegistry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="UnregisterAll">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardRegistry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Each">
+          <recvList/>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="string"/>
+                <type type="interface"/>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Get">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="GetOrRegister">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="Register">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RunHealthchecks">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Unregister">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="OpenTSDB">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Registry"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="TCPAddr"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="OpenTSDBWithConfig">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="OpenTSDBConfig"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GetOrRegisterMeter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Registry"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Meter"/>
+          </returnsList>
+        </function>
+        <function name="NewMeter">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Meter"/>
+          </returnsList>
+        </function>
+        <function name="NewRegisteredMeter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Registry"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Meter"/>
+          </returnsList>
+        </function>
+        <function name="Count">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MeterSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Mark">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Rate1">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MeterSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Rate5">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MeterSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Rate15">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MeterSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="RateMean">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MeterSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MeterSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Meter"/>
+          </returnsList>
+        </function>
+        <function name="Count">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Mark">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Rate1">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Rate5">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Rate15">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="RateMean">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Meter"/>
+          </returnsList>
+        </function>
+        <function name="Count">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardMeter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Mark">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardMeter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Rate1">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardMeter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Rate5">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardMeter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Rate15">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardMeter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="RateMean">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardMeter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardMeter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Meter"/>
+          </returnsList>
+        </function>
+        <function name="Log">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Registry"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="log"/>
+                <item value="Logger"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="MarshalJSON">
+          <recvList>
+            <type type="ident" def="StandardRegistry"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WriteJSON">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Registry"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="WriteJSONOnce">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Registry"/>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GetOrRegisterHistogram">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Registry"/>
+            <type type="ident" def="Sample"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Histogram"/>
+          </returnsList>
+        </function>
+        <function name="NewHistogram">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Sample"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Histogram"/>
+          </returnsList>
+        </function>
+        <function name="NewRegisteredHistogram">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Registry"/>
+            <type type="ident" def="Sample"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Histogram"/>
+          </returnsList>
+        </function>
+        <function name="Clear">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Count">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HistogramSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Max">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HistogramSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Mean">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HistogramSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Min">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HistogramSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Percentile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HistogramSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Percentiles">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HistogramSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Sample">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HistogramSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Sample"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HistogramSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Histogram"/>
+          </returnsList>
+        </function>
+        <function name="StdDev">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HistogramSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Sum">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HistogramSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Update">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Variance">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HistogramSnapshot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Clear">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Count">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Max">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Mean">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Min">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Percentile">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Percentiles">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Sample">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Sample"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Histogram"/>
+          </returnsList>
+        </function>
+        <function name="StdDev">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Sum">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Update">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Variance">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Clear">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHistogram"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Count">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHistogram"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Max">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHistogram"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Mean">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHistogram"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Min">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHistogram"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Percentile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHistogram"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Percentiles">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHistogram"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Sample">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHistogram"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Sample"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHistogram"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Histogram"/>
+          </returnsList>
+        </function>
+        <function name="StdDev">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHistogram"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Sum">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHistogram"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Update">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHistogram"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Variance">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHistogram"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="NewHealthcheck">
+          <recvList/>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="Healthcheck"/>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Healthcheck"/>
+          </returnsList>
+        </function>
+        <function name="Check">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Error">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Healthy">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Unhealthy">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Check">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHealthcheck"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHealthcheck"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Healthy">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHealthcheck"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Unhealthy">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardHealthcheck"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Graphite">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Registry"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="TCPAddr"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GraphiteWithConfig">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="GraphiteConfig"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GraphiteOnce">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="GraphiteConfig"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetOrRegisterGaugeFloat64">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Registry"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="GaugeFloat64"/>
+          </returnsList>
+        </function>
+        <function name="NewGaugeFloat64">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="GaugeFloat64"/>
+          </returnsList>
+        </function>
+        <function name="NewRegisteredGaugeFloat64">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Registry"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="GaugeFloat64"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="ident" def="GaugeFloat64Snapshot"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="GaugeFloat64"/>
+          </returnsList>
+        </function>
+        <function name="Update">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Value">
+          <recvList>
+            <type type="ident" def="GaugeFloat64Snapshot"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="GaugeFloat64"/>
+          </returnsList>
+        </function>
+        <function name="Update">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Value">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardGaugeFloat64"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="GaugeFloat64"/>
+          </returnsList>
+        </function>
+        <function name="Update">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardGaugeFloat64"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Value">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardGaugeFloat64"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="GetOrRegisterGauge">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Registry"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Gauge"/>
+          </returnsList>
+        </function>
+        <function name="NewGauge">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Gauge"/>
+          </returnsList>
+        </function>
+        <function name="NewRegisteredGauge">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Registry"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Gauge"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="ident" def="GaugeSnapshot"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Gauge"/>
+          </returnsList>
+        </function>
+        <function name="Update">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Value">
+          <recvList>
+            <type type="ident" def="GaugeSnapshot"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Gauge"/>
+          </returnsList>
+        </function>
+        <function name="Update">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Value">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardGauge"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Gauge"/>
+          </returnsList>
+        </function>
+        <function name="Update">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardGauge"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Value">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardGauge"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="NewEWMA">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="EWMA"/>
+          </returnsList>
+        </function>
+        <function name="NewEWMA1">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="EWMA"/>
+          </returnsList>
+        </function>
+        <function name="NewEWMA5">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="EWMA"/>
+          </returnsList>
+        </function>
+        <function name="NewEWMA15">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="EWMA"/>
+          </returnsList>
+        </function>
+        <function name="Rate">
+          <recvList>
+            <type type="ident" def="EWMASnapshot"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="ident" def="EWMASnapshot"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="EWMA"/>
+          </returnsList>
+        </function>
+        <function name="Tick">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Update">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Rate">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="EWMA"/>
+          </returnsList>
+        </function>
+        <function name="Tick">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Update">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Rate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardEWMA"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardEWMA"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="EWMA"/>
+          </returnsList>
+        </function>
+        <function name="Tick">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardEWMA"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Update">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardEWMA"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="CaptureDebugGCStats">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Registry"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="CaptureDebugGCStatsOnce">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Registry"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RegisterDebugGCStats">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Registry"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GetOrRegisterCounter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Registry"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Counter"/>
+          </returnsList>
+        </function>
+        <function name="NewCounter">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Counter"/>
+          </returnsList>
+        </function>
+        <function name="NewRegisteredCounter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Registry"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Counter"/>
+          </returnsList>
+        </function>
+        <function name="Clear">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Count">
+          <recvList>
+            <type type="ident" def="CounterSnapshot"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Dec">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Inc">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="ident" def="CounterSnapshot"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Counter"/>
+          </returnsList>
+        </function>
+        <function name="Clear">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Count">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Dec">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Inc">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Snapshot">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Counter"/>
+          </returnsList>
+        </function>
+        <function name="Clear">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardCounter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Count">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardCounter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Dec">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardCounter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Inc">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardCounter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Snapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StandardCounter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Counter"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="DefaultRegistry"/>
+        <name value="UseNilMetrics"/>
+      </names>
+    </package>
+    <package importpath="github.com/rcrowley/go-metrics/librato">
+      <types>
+        <type type="struct" name="Reporter">
+          <field type="ident" def="string" name="Email"/>
+          <field type="ident" def="string" name="Token"/>
+          <field type="ident" def="string" name="Source"/>
+          <field type="selector" name="Interval">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="Registry">
+            <prefix value="metrics"/>
+            <item value="Registry"/>
+          </field>
+          <field type="slice" name="Percentiles">
+            <elmtype type="ident" def="float64"/>
+          </field>
+          <field type="map" name="TimerAttributes">
+            <keytype type="ident" def="string"/>
+            <valtype type="interface"/>
+          </field>
+          <field type="ident" def="int64" name="intervalSec"/>
+        </type>
+        <type type="struct" name="LibratoClient">
+          <field type="ident" def="string" name="Email"/>
+          <field type="ident" def="string" name="Token"/>
+        </type>
+        <type name="Measurement" type="map">
+          <keytype type="ident" def="string"/>
+          <valtype type="interface"/>
+        </type>
+        <type name="Metric" type="map">
+          <keytype type="ident" def="string"/>
+          <valtype type="interface"/>
+        </type>
+        <type type="struct" name="Batch">
+          <field type="slice" name="Gauges">
+            <elmtype type="ident" def="Measurement"/>
+          </field>
+          <field type="slice" name="Counters">
+            <elmtype type="ident" def="Measurement"/>
+          </field>
+          <field type="ident" def="int64" name="MeasureTime"/>
+          <field type="ident" def="string" name="Source"/>
+        </type>
+      </types>
+      <functions>
+        <function name="NewReporter">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="metrics"/>
+              <item value="Registry"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Librato">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="metrics"/>
+              <item value="Registry"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Run">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="BuildRequest">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+            <type type="selector">
+              <prefix value="metrics"/>
+              <item value="Registry"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Batch"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostMetrics">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LibratoClient"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Batch"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="Operations"/>
+        <name value="OperationsShort"/>
+        <name value="Color"/>
+        <name value="DisplayMax"/>
+        <name value="DisplayMin"/>
+        <name value="DisplayUnitsLong"/>
+        <name value="DisplayUnitsShort"/>
+        <name value="DisplayStacked"/>
+        <name value="DisplayTransform"/>
+        <name value="SummarizeFunction"/>
+        <name value="Aggregate"/>
+        <name value="Name"/>
+        <name value="Period"/>
+        <name value="Description"/>
+        <name value="DisplayName"/>
+        <name value="Attributes"/>
+        <name value="MeasureTime"/>
+        <name value="Source"/>
+        <name value="Value"/>
+        <name value="Count"/>
+        <name value="Sum"/>
+        <name value="Max"/>
+        <name value="Min"/>
+        <name value="SumSquares"/>
+        <name value="Counters"/>
+        <name value="Gauges"/>
+        <name value="MetricsPostUrl"/>
+      </names>
+    </package>
+    <package importpath="github.com/rcrowley/go-metrics/influxdb">
+      <types>
+        <type type="struct" name="Config">
+          <field type="ident" def="string" name="Host"/>
+          <field type="ident" def="string" name="Database"/>
+          <field type="ident" def="string" name="Username"/>
+          <field type="ident" def="string" name="Password"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Influxdb">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="metrics"/>
+              <item value="Registry"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Config"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/rcrowley/go-metrics/stathat">
+      <types/>
+      <functions>
+        <function name="Stathat">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="metrics"/>
+              <item value="Registry"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="sort"/>
+    <import path="testing"/>
+    <import path="fmt"/>
+    <import path="io"/>
+    <import path="time"/>
+    <import path="math"/>
+    <import path="sync"/>
+    <import path="log/syslog"/>
+    <import path="math/rand"/>
+    <import path="runtime"/>
+    <import path="reflect"/>
+    <import path="net"/>
+    <import path="bufio"/>
+    <import path="log"/>
+    <import path="os"/>
+    <import path="strings"/>
+    <import path="io/ioutil"/>
+    <import path="bytes"/>
+    <import path="encoding/json"/>
+    <import path="strconv"/>
+    <import path="sync/atomic"/>
+    <import path="runtime/debug"/>
+    <import path="github.com/rcrowley/go-metrics"/>
+    <import path="github.com/stathat/go"/>
+    <import path="regexp"/>
+    <import path="net/http"/>
+    <import path="github.com/influxdb/influxdb/client"/>
+    <import path="errors"/>
+  </imports>
+</project>

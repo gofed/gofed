@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/vaughan0/go-ini">
+      <types>
+        <type type="struct" name="ErrSyntax">
+          <field type="ident" def="int" name="Line"/>
+          <field type="ident" def="string" name="Source"/>
+        </type>
+        <type name="File" type="map">
+          <keytype type="ident" def="string"/>
+          <valtype type="ident" def="Section"/>
+        </type>
+        <type name="Section" type="map">
+          <keytype type="ident" def="string"/>
+          <valtype type="ident" def="string"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="ErrSyntax"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Section">
+          <recvList>
+            <type type="ident" def="File"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Section"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="ident" def="File"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Load">
+          <recvList>
+            <type type="ident" def="File"/>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LoadFile">
+          <recvList>
+            <type type="ident" def="File"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Load">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="File"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LoadFile">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="File"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="reflect"/>
+    <import path="strings"/>
+    <import path="testing"/>
+    <import path="syscall"/>
+    <import path="bufio"/>
+    <import path="fmt"/>
+    <import path="io"/>
+    <import path="os"/>
+    <import path="regexp"/>
+  </imports>
+</project>

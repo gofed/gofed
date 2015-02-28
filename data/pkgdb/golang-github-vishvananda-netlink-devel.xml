@@ -1,0 +1,2619 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/vishvananda/netlink">
+      <types>
+        <type type="struct" name="XfrmStateAlgo">
+          <field type="ident" def="string" name="Name"/>
+          <field type="slice" name="Key">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="int" name="TruncateLen"/>
+        </type>
+        <type name="EncapType" type="ident">
+          <type type="ident" def="uint8"/>
+        </type>
+        <type type="struct" name="XfrmStateEncap">
+          <field type="ident" def="EncapType" name="Type"/>
+          <field type="ident" def="int" name="SrcPort"/>
+          <field type="ident" def="int" name="DstPort"/>
+          <field type="selector" name="OriginalAddress">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+        </type>
+        <type type="struct" name="XfrmState">
+          <field type="selector" name="Dst">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+          <field type="selector" name="Src">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+          <field type="ident" def="Proto" name="Proto"/>
+          <field type="ident" def="Mode" name="Mode"/>
+          <field type="ident" def="int" name="Spi"/>
+          <field type="ident" def="int" name="Reqid"/>
+          <field type="ident" def="int" name="ReplayWindow"/>
+          <field type="pointer" name="Auth">
+            <type type="ident" def="XfrmStateAlgo"/>
+          </field>
+          <field type="pointer" name="Crypt">
+            <type type="ident" def="XfrmStateAlgo"/>
+          </field>
+          <field type="pointer" name="Encap">
+            <type type="ident" def="XfrmStateEncap"/>
+          </field>
+        </type>
+        <type name="Dir" type="ident">
+          <type type="ident" def="uint8"/>
+        </type>
+        <type type="struct" name="XfrmPolicyTmpl">
+          <field type="selector" name="Dst">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+          <field type="selector" name="Src">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+          <field type="ident" def="Proto" name="Proto"/>
+          <field type="ident" def="Mode" name="Mode"/>
+          <field type="ident" def="int" name="Reqid"/>
+        </type>
+        <type type="struct" name="XfrmPolicy">
+          <field type="pointer" name="Dst">
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IPNet"/>
+            </type>
+          </field>
+          <field type="pointer" name="Src">
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IPNet"/>
+            </type>
+          </field>
+          <field type="ident" def="Dir" name="Dir"/>
+          <field type="ident" def="int" name="Priority"/>
+          <field type="ident" def="int" name="Index"/>
+          <field type="slice" name="Tmpls">
+            <elmtype type="ident" def="XfrmPolicyTmpl"/>
+          </field>
+        </type>
+        <type name="Proto" type="ident">
+          <type type="ident" def="uint8"/>
+        </type>
+        <type name="Mode" type="ident">
+          <type type="ident" def="uint8"/>
+        </type>
+        <type name="Scope" type="ident">
+          <type type="ident" def="uint8"/>
+        </type>
+        <type type="struct" name="Route">
+          <field type="ident" def="int" name="LinkIndex"/>
+          <field type="ident" def="Scope" name="Scope"/>
+          <field type="pointer" name="Dst">
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IPNet"/>
+            </type>
+          </field>
+          <field type="selector" name="Src">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+          <field type="selector" name="Gw">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+        </type>
+        <type type="struct" name="Ndmsg">
+          <field type="ident" def="uint8" name="Family"/>
+          <field type="ident" def="uint32" name="Index"/>
+          <field type="ident" def="uint16" name="State"/>
+          <field type="ident" def="uint8" name="Flags"/>
+          <field type="ident" def="uint8" name="Type"/>
+        </type>
+        <type type="struct" name="Neigh">
+          <field type="ident" def="int" name="LinkIndex"/>
+          <field type="ident" def="int" name="Family"/>
+          <field type="ident" def="int" name="State"/>
+          <field type="ident" def="int" name="Type"/>
+          <field type="ident" def="int" name="Flags"/>
+          <field type="selector" name="IP">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+          <field type="selector" name="HardwareAddr">
+            <prefix value="net"/>
+            <item value="HardwareAddr"/>
+          </field>
+        </type>
+        <type name="Link" type="interface">
+          <method name="Attrs">
+            <paramsList/>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="LinkAttrs"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Type">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="LinkAttrs">
+          <field type="ident" def="int" name="Index"/>
+          <field type="ident" def="int" name="MTU"/>
+          <field type="ident" def="string" name="Name"/>
+          <field type="selector" name="HardwareAddr">
+            <prefix value="net"/>
+            <item value="HardwareAddr"/>
+          </field>
+          <field type="selector" name="Flags">
+            <prefix value="net"/>
+            <item value="Flags"/>
+          </field>
+          <field type="ident" def="int" name="ParentIndex"/>
+          <field type="ident" def="int" name="MasterIndex"/>
+        </type>
+        <type type="struct" name="Device">
+          <field type="ident" def="LinkAttrs" name=""/>
+        </type>
+        <type type="struct" name="Dummy">
+          <field type="ident" def="LinkAttrs" name=""/>
+        </type>
+        <type type="struct" name="Bridge">
+          <field type="ident" def="LinkAttrs" name=""/>
+        </type>
+        <type type="struct" name="Vlan">
+          <field type="ident" def="LinkAttrs" name=""/>
+          <field type="ident" def="int" name="VlanId"/>
+        </type>
+        <type type="struct" name="Macvlan">
+          <field type="ident" def="LinkAttrs" name=""/>
+        </type>
+        <type type="struct" name="Veth">
+          <field type="ident" def="LinkAttrs" name=""/>
+          <field type="ident" def="string" name="PeerName"/>
+        </type>
+        <type type="struct" name="Generic">
+          <field type="ident" def="LinkAttrs" name=""/>
+          <field type="ident" def="string" name="LinkType"/>
+        </type>
+        <type type="struct" name="Vxlan">
+          <field type="ident" def="LinkAttrs" name=""/>
+          <field type="ident" def="int" name="VxlanId"/>
+          <field type="ident" def="int" name="VtepDevIndex"/>
+          <field type="selector" name="SrcAddr">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+          <field type="selector" name="Group">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+          <field type="ident" def="int" name="TTL"/>
+          <field type="ident" def="int" name="TOS"/>
+          <field type="ident" def="bool" name="Learning"/>
+          <field type="ident" def="bool" name="Proxy"/>
+          <field type="ident" def="bool" name="RSC"/>
+          <field type="ident" def="bool" name="L2miss"/>
+          <field type="ident" def="bool" name="L3miss"/>
+          <field type="ident" def="bool" name="NoAge"/>
+          <field type="ident" def="int" name="Age"/>
+          <field type="ident" def="int" name="Limit"/>
+          <field type="ident" def="int" name="Port"/>
+          <field type="ident" def="int" name="PortLow"/>
+          <field type="ident" def="int" name="PortHigh"/>
+        </type>
+        <type type="struct" name="Addr">
+          <field type="pointer" name="">
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IPNet"/>
+            </type>
+          </field>
+          <field type="ident" def="string" name="Label"/>
+        </type>
+      </types>
+      <functions>
+        <function name="XfrmStateAdd">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmState"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="XfrmStateDel">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmState"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="XfrmStateList">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="XfrmState"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="EncapType"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="XfrmPolicyAdd">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmPolicy"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="XfrmPolicyDel">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmPolicy"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="XfrmPolicyList">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="XfrmPolicy"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="Dir"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="Proto"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="Mode"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="RouteAdd">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Route"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RouteDel">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Route"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RouteList">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Route"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="Route"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="LinkSetUp">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Link"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkSetDown">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Link"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkSetMTU">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Link"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkSetMaster">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Link"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Link"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkSetNsPid">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Link"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkSetNsFd">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Link"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkAdd">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Link"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkDel">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Link"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkList">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Link"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AddrAdd">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Link"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Addr"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AddrDel">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Link"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Addr"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AddrList">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Link"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Addr"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RouteAdd">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Route"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RouteDel">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Route"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RouteList">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Link"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Route"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="XfrmPolicyAdd">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmPolicy"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="XfrmPolicyDel">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmPolicy"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="XfrmPolicyList">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="XfrmPolicy"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="XfrmStateAdd">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmState"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="XfrmStateDel">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmState"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="XfrmStateList">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="XfrmState"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NeighAdd">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Neigh"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NeighSet">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Neigh"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NeighAppend">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Neigh"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NeighDel">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Neigh"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NeighList">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Neigh"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NeighDeserialize">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Ndmsg"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Neigh"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ParseIPNet">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IPNet"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewIPNet">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IPNet"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Ndmsg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Ndmsg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="NeighAdd">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Neigh"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NeighSet">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Neigh"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NeighAppend">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Neigh"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NeighDel">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Neigh"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NeighList">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Neigh"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NeighDeserialize">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Neigh"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Neigh"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="LinkSetUp">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkSetDown">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkSetMTU">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkSetMaster">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="pointer">
+              <type type="ident" def="Bridge"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkSetMasterByIndex">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkSetNsPid">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkSetNsFd">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkAdd">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkDel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkByName">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkByIndex">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LinkList">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Link"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Attrs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Device"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="LinkAttrs"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Device"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Attrs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Dummy"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="LinkAttrs"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Dummy"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Attrs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bridge"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="LinkAttrs"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bridge"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Attrs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Vlan"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="LinkAttrs"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Vlan"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Attrs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Macvlan"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="LinkAttrs"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Macvlan"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Attrs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Veth"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="LinkAttrs"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Veth"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Attrs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Generic"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="LinkAttrs"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Generic"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Attrs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Vxlan"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="LinkAttrs"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Vxlan"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="AddrAdd">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="pointer">
+              <type type="ident" def="Addr"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AddrDel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="pointer">
+              <type type="ident" def="Addr"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AddrList">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Addr"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="Addr"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ParseAddr">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Addr"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList>
+            <type type="ident" def="Addr"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Addr"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="XFRM_ENCAP_ESPINUDP_NONIKE"/>
+        <name value="XFRM_ENCAP_ESPINUDP"/>
+        <name value="XFRM_DIR_IN"/>
+        <name value="XFRM_DIR_OUT"/>
+        <name value="XFRM_DIR_FWD"/>
+        <name value="XFRM_SOCKET_IN"/>
+        <name value="XFRM_SOCKET_OUT"/>
+        <name value="XFRM_SOCKET_FWD"/>
+        <name value="XFRM_PROTO_ROUTE2"/>
+        <name value="XFRM_PROTO_ESP"/>
+        <name value="XFRM_PROTO_AH"/>
+        <name value="XFRM_PROTO_HAO"/>
+        <name value="XFRM_PROTO_COMP"/>
+        <name value="XFRM_PROTO_IPSEC_ANY"/>
+        <name value="XFRM_MODE_TRANSPORT"/>
+        <name value="XFRM_MODE_TUNNEL"/>
+        <name value="XFRM_MODE_ROUTEOPTIMIZATION"/>
+        <name value="XFRM_MODE_IN_TRIGGER"/>
+        <name value="XFRM_MODE_BEET"/>
+        <name value="XFRM_MODE_MAX"/>
+        <name value="SCOPE_UNIVERSE"/>
+        <name value="SCOPE_SITE"/>
+        <name value="SCOPE_LINK"/>
+        <name value="SCOPE_HOST"/>
+        <name value="SCOPE_NOWHERE"/>
+        <name value="ErrNotImplemented"/>
+        <name value="FAMILY_ALL"/>
+        <name value="FAMILY_V4"/>
+        <name value="FAMILY_V6"/>
+        <name value="NDA_UNSPEC"/>
+        <name value="NDA_DST"/>
+        <name value="NDA_LLADDR"/>
+        <name value="NDA_CACHEINFO"/>
+        <name value="NDA_PROBES"/>
+        <name value="NDA_VLAN"/>
+        <name value="NDA_PORT"/>
+        <name value="NDA_VNI"/>
+        <name value="NDA_IFINDEX"/>
+        <name value="NDA_MAX"/>
+        <name value="NUD_NONE"/>
+        <name value="NUD_INCOMPLETE"/>
+        <name value="NUD_REACHABLE"/>
+        <name value="NUD_STALE"/>
+        <name value="NUD_DELAY"/>
+        <name value="NUD_PROBE"/>
+        <name value="NUD_FAILED"/>
+        <name value="NUD_NOARP"/>
+        <name value="NUD_PERMANENT"/>
+        <name value="NTF_USE"/>
+        <name value="NTF_SELF"/>
+        <name value="NTF_MASTER"/>
+        <name value="NTF_PROXY"/>
+        <name value="NTF_ROUTER"/>
+      </names>
+    </package>
+    <package importpath="github.com/vishvananda/netlink/nl">
+      <types>
+        <type type="struct" name="XfrmUsersaId">
+          <field type="ident" def="XfrmAddress" name="Daddr"/>
+          <field type="ident" def="uint32" name="Spi"/>
+          <field type="ident" def="uint16" name="Family"/>
+          <field type="ident" def="uint8" name="Proto"/>
+          <field type="ident" def="byte" name="Pad"/>
+        </type>
+        <type type="struct" name="XfrmStats">
+          <field type="ident" def="uint32" name="ReplayWindow"/>
+          <field type="ident" def="uint32" name="Replay"/>
+          <field type="ident" def="uint32" name="IntegrityFailed"/>
+        </type>
+        <type type="struct" name="XfrmUsersaInfo">
+          <field type="ident" def="XfrmSelector" name="Sel"/>
+          <field type="ident" def="XfrmId" name="Id"/>
+          <field type="ident" def="XfrmAddress" name="Saddr"/>
+          <field type="ident" def="XfrmLifetimeCfg" name="Lft"/>
+          <field type="ident" def="XfrmLifetimeCur" name="Curlft"/>
+          <field type="ident" def="XfrmStats" name="Stats"/>
+          <field type="ident" def="uint32" name="Seq"/>
+          <field type="ident" def="uint32" name="Reqid"/>
+          <field type="ident" def="uint16" name="Family"/>
+          <field type="ident" def="uint8" name="Mode"/>
+          <field type="ident" def="uint8" name="ReplayWindow"/>
+          <field type="ident" def="uint8" name="Flags"/>
+          <field type="array" name="Pad">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="XfrmAlgo">
+          <field type="array" name="AlgName">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="uint32" name="AlgKeyLen"/>
+          <field type="slice" name="AlgKey">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="XfrmAlgoAuth">
+          <field type="array" name="AlgName">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="uint32" name="AlgKeyLen"/>
+          <field type="ident" def="uint32" name="AlgTruncLen"/>
+          <field type="slice" name="AlgKey">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="XfrmEncapTmpl">
+          <field type="ident" def="uint16" name="EncapType"/>
+          <field type="ident" def="uint16" name="EncapSport"/>
+          <field type="ident" def="uint16" name="EncapDport"/>
+          <field type="array" name="Pad">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="XfrmAddress" name="EncapOa"/>
+        </type>
+        <type type="struct" name="XfrmUserpolicyId">
+          <field type="ident" def="XfrmSelector" name="Sel"/>
+          <field type="ident" def="uint32" name="Index"/>
+          <field type="ident" def="uint8" name="Dir"/>
+          <field type="array" name="Pad">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="XfrmUserpolicyInfo">
+          <field type="ident" def="XfrmSelector" name="Sel"/>
+          <field type="ident" def="XfrmLifetimeCfg" name="Lft"/>
+          <field type="ident" def="XfrmLifetimeCur" name="Curlft"/>
+          <field type="ident" def="uint32" name="Priority"/>
+          <field type="ident" def="uint32" name="Index"/>
+          <field type="ident" def="uint8" name="Dir"/>
+          <field type="ident" def="uint8" name="Action"/>
+          <field type="ident" def="uint8" name="Flags"/>
+          <field type="ident" def="uint8" name="Share"/>
+          <field type="array" name="Pad">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="XfrmUserTmpl">
+          <field type="ident" def="XfrmId" name="XfrmId"/>
+          <field type="ident" def="uint16" name="Family"/>
+          <field type="array" name="Pad1">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="XfrmAddress" name="Saddr"/>
+          <field type="ident" def="uint32" name="Reqid"/>
+          <field type="ident" def="uint8" name="Mode"/>
+          <field type="ident" def="uint8" name="Share"/>
+          <field type="ident" def="uint8" name="Optional"/>
+          <field type="ident" def="byte" name="Pad2"/>
+          <field type="ident" def="uint32" name="Aalgos"/>
+          <field type="ident" def="uint32" name="Ealgos"/>
+          <field type="ident" def="uint32" name="Calgos"/>
+        </type>
+        <type name="XfrmAddress" type="array">
+          <elmtype type="ident" def="byte"/>
+        </type>
+        <type type="struct" name="XfrmSelector">
+          <field type="ident" def="XfrmAddress" name="Daddr"/>
+          <field type="ident" def="XfrmAddress" name="Saddr"/>
+          <field type="ident" def="uint16" name="Dport"/>
+          <field type="ident" def="uint16" name="DportMask"/>
+          <field type="ident" def="uint16" name="Sport"/>
+          <field type="ident" def="uint16" name="SportMask"/>
+          <field type="ident" def="uint16" name="Family"/>
+          <field type="ident" def="uint8" name="PrefixlenD"/>
+          <field type="ident" def="uint8" name="PrefixlenS"/>
+          <field type="ident" def="uint8" name="Proto"/>
+          <field type="array" name="Pad">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="int32" name="Ifindex"/>
+          <field type="ident" def="uint32" name="User"/>
+        </type>
+        <type type="struct" name="XfrmLifetimeCfg">
+          <field type="ident" def="uint64" name="SoftByteLimit"/>
+          <field type="ident" def="uint64" name="HardByteLimit"/>
+          <field type="ident" def="uint64" name="SoftPacketLimit"/>
+          <field type="ident" def="uint64" name="HardPacketLimit"/>
+          <field type="ident" def="uint64" name="SoftAddExpiresSeconds"/>
+          <field type="ident" def="uint64" name="HardAddExpiresSeconds"/>
+          <field type="ident" def="uint64" name="SoftUseExpiresSeconds"/>
+          <field type="ident" def="uint64" name="HardUseExpiresSeconds"/>
+        </type>
+        <type type="struct" name="XfrmLifetimeCur">
+          <field type="ident" def="uint64" name="Bytes"/>
+          <field type="ident" def="uint64" name="Packets"/>
+          <field type="ident" def="uint64" name="AddTime"/>
+          <field type="ident" def="uint64" name="UseTime"/>
+        </type>
+        <type type="struct" name="XfrmId">
+          <field type="ident" def="XfrmAddress" name="Daddr"/>
+          <field type="ident" def="uint32" name="Spi"/>
+          <field type="ident" def="uint8" name="Proto"/>
+          <field type="array" name="Pad">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="RtMsg">
+          <field type="selector" name="">
+            <prefix value="syscall"/>
+            <item value="RtMsg"/>
+          </field>
+        </type>
+        <type name="NetlinkRequestData" type="interface">
+          <method name="Len">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int"/>
+            </resultsList>
+          </method>
+          <method name="Serialize">
+            <paramsList/>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="IfInfomsg">
+          <field type="selector" name="">
+            <prefix value="syscall"/>
+            <item value="IfInfomsg"/>
+          </field>
+        </type>
+        <type type="struct" name="RtAttr">
+          <field type="selector" name="">
+            <prefix value="syscall"/>
+            <item value="RtAttr"/>
+          </field>
+          <field type="slice" name="Data">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="slice" name="children">
+            <elmtype type="ident" def="NetlinkRequestData"/>
+          </field>
+        </type>
+        <type type="struct" name="NetlinkRequest">
+          <field type="selector" name="">
+            <prefix value="syscall"/>
+            <item value="NlMsghdr"/>
+          </field>
+          <field type="slice" name="Data">
+            <elmtype type="ident" def="NetlinkRequestData"/>
+          </field>
+        </type>
+        <type type="struct" name="NetlinkSocket">
+          <field type="ident" def="int" name="fd"/>
+          <field type="selector" name="lsa">
+            <prefix value="syscall"/>
+            <item value="SockaddrNetlink"/>
+          </field>
+        </type>
+        <type type="struct" name="IfAddrmsg">
+          <field type="selector" name="">
+            <prefix value="syscall"/>
+            <item value="IfAddrmsg"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmUsersaId"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DeserializeXfrmUsersaId">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmUsersaId"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmUsersaId"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmStats"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DeserializeXfrmStats">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmStats"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmStats"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmUsersaInfo"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DeserializeXfrmUsersaInfo">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmUsersaInfo"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmUsersaInfo"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmAlgo"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DeserializeXfrmAlgo">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmAlgo"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmAlgo"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmAlgoAuth"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DeserializeXfrmAlgoAuth">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmAlgoAuth"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmAlgoAuth"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmEncapTmpl"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DeserializeXfrmEncapTmpl">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmEncapTmpl"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmEncapTmpl"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmUserpolicyId"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DeserializeXfrmUserpolicyId">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmUserpolicyId"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmUserpolicyId"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmUserpolicyInfo"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DeserializeXfrmUserpolicyInfo">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmUserpolicyInfo"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmUserpolicyInfo"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmUserTmpl"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DeserializeXfrmUserTmpl">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmUserTmpl"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmUserTmpl"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ToIP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmAddress"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ToIPNet">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmAddress"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint8"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IPNet"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="FromIP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmAddress"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="DeserializeXfrmAddress">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmAddress"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmAddress"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmSelector"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DeserializeXfrmSelector">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmSelector"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmSelector"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmLifetimeCfg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DeserializeXfrmLifetimeCfg">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmLifetimeCfg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmLifetimeCfg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmLifetimeCur"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DeserializeXfrmLifetimeCur">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmLifetimeCur"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmLifetimeCur"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmId"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DeserializeXfrmId">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="XfrmId"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="XfrmId"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewRtMsg">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RtMsg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RtMsg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DeserializeRtMsg">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RtMsg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RtMsg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GetIPFamily">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="NativeEndian">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="binary"/>
+              <item value="ByteOrder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Swap16">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="uint16"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+          </returnsList>
+        </function>
+        <function name="Swap32">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="uint32"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="NewIfInfomsg">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="IfInfomsg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="DeserializeIfInfomsg">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="IfInfomsg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="IfInfomsg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="IfInfomsg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="NewIfInfomsgChild">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="RtAttr"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="IfInfomsg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewRtAttr">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RtAttr"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewRtAttrChild">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="RtAttr"/>
+            </type>
+            <type type="ident" def="int"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RtAttr"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RtAttr"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RtAttr"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NetlinkRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="AddData">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NetlinkRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="NetlinkRequestData"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Execute">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NetlinkRequest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="uint16"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="slice">
+                <elmtype type="ident" def="byte"/>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewNetlinkRequest">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="NetlinkRequest"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Subscribe">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ellipsis">
+              <type type="ident" def="uint"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="NetlinkSocket"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NetlinkSocket"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Send">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NetlinkSocket"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="NetlinkRequest"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Recieve">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NetlinkSocket"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="syscall"/>
+                <item value="NetlinkMessage"/>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetPid">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NetlinkSocket"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ZeroTerminated">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NonZeroTerminated">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="BytesToString">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Uint8Attr">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="uint8"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint16Attr">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="uint16"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint32Attr">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="uint32"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ParseRouteAttr">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="syscall"/>
+                <item value="NetlinkRouteAttr"/>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewIfAddrmsg">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="IfAddrmsg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="DeserializeIfAddrmsg">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="IfAddrmsg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Serialize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="IfAddrmsg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="IfAddrmsg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="SizeofXfrmUsersaId"/>
+        <name value="SizeofXfrmStats"/>
+        <name value="SizeofXfrmUsersaInfo"/>
+        <name value="SizeofXfrmAlgo"/>
+        <name value="SizeofXfrmAlgoAuth"/>
+        <name value="SizeofXfrmEncapTmpl"/>
+        <name value="SizeofXfrmUserpolicyId"/>
+        <name value="SizeofXfrmUserpolicyInfo"/>
+        <name value="SizeofXfrmUserTmpl"/>
+        <name value="XFRM_INF"/>
+        <name value="XFRM_MSG_BASE"/>
+        <name value="XFRM_MSG_NEWSA"/>
+        <name value="XFRM_MSG_DELSA"/>
+        <name value="XFRM_MSG_GETSA"/>
+        <name value="XFRM_MSG_NEWPOLICY"/>
+        <name value="XFRM_MSG_DELPOLICY"/>
+        <name value="XFRM_MSG_GETPOLICY"/>
+        <name value="XFRM_MSG_ALLOCSPI"/>
+        <name value="XFRM_MSG_ACQUIRE"/>
+        <name value="XFRM_MSG_EXPIRE"/>
+        <name value="XFRM_MSG_UPDPOLICY"/>
+        <name value="XFRM_MSG_UPDSA"/>
+        <name value="XFRM_MSG_POLEXPIRE"/>
+        <name value="XFRM_MSG_FLUSHSA"/>
+        <name value="XFRM_MSG_FLUSHPOLICY"/>
+        <name value="XFRM_MSG_NEWAE"/>
+        <name value="XFRM_MSG_GETAE"/>
+        <name value="XFRM_MSG_REPORT"/>
+        <name value="XFRM_MSG_MIGRATE"/>
+        <name value="XFRM_MSG_NEWSADINFO"/>
+        <name value="XFRM_MSG_GETSADINFO"/>
+        <name value="XFRM_MSG_NEWSPDINFO"/>
+        <name value="XFRM_MSG_GETSPDINFO"/>
+        <name value="XFRM_MSG_MAPPING"/>
+        <name value="XFRM_MSG_MAX"/>
+        <name value="XFRM_NR_MSGTYPES"/>
+        <name value="XFRMA_UNSPEC"/>
+        <name value="XFRMA_ALG_AUTH"/>
+        <name value="XFRMA_ALG_CRYPT"/>
+        <name value="XFRMA_ALG_COMP"/>
+        <name value="XFRMA_ENCAP"/>
+        <name value="XFRMA_TMPL"/>
+        <name value="XFRMA_SA"/>
+        <name value="XFRMA_POLICY"/>
+        <name value="XFRMA_SEC_CTX"/>
+        <name value="XFRMA_LTIME_VAL"/>
+        <name value="XFRMA_REPLAY_VAL"/>
+        <name value="XFRMA_REPLAY_THRESH"/>
+        <name value="XFRMA_ETIMER_THRESH"/>
+        <name value="XFRMA_SRCADDR"/>
+        <name value="XFRMA_COADDR"/>
+        <name value="XFRMA_LASTUSED"/>
+        <name value="XFRMA_POLICY_TYPE"/>
+        <name value="XFRMA_MIGRATE"/>
+        <name value="XFRMA_ALG_AEAD"/>
+        <name value="XFRMA_KMADDRESS"/>
+        <name value="XFRMA_ALG_AUTH_TRUNC"/>
+        <name value="XFRMA_MARK"/>
+        <name value="XFRMA_TFCPAD"/>
+        <name value="XFRMA_REPLAY_ESN_VAL"/>
+        <name value="XFRMA_SA_EXTRA_FLAGS"/>
+        <name value="XFRMA_MAX"/>
+        <name value="SizeofXfrmAddress"/>
+        <name value="SizeofXfrmSelector"/>
+        <name value="SizeofXfrmLifetimeCfg"/>
+        <name value="SizeofXfrmLifetimeCur"/>
+        <name value="SizeofXfrmId"/>
+        <name value="FAMILY_ALL"/>
+        <name value="FAMILY_V4"/>
+        <name value="FAMILY_V6"/>
+        <name value="DEFAULT_CHANGE"/>
+        <name value="IFLA_INFO_UNSPEC"/>
+        <name value="IFLA_INFO_KIND"/>
+        <name value="IFLA_INFO_DATA"/>
+        <name value="IFLA_INFO_XSTATS"/>
+        <name value="IFLA_INFO_MAX"/>
+        <name value="IFLA_VLAN_UNSPEC"/>
+        <name value="IFLA_VLAN_ID"/>
+        <name value="IFLA_VLAN_FLAGS"/>
+        <name value="IFLA_VLAN_EGRESS_QOS"/>
+        <name value="IFLA_VLAN_INGRESS_QOS"/>
+        <name value="IFLA_VLAN_PROTOCOL"/>
+        <name value="IFLA_VLAN_MAX"/>
+        <name value="VETH_INFO_UNSPEC"/>
+        <name value="VETH_INFO_PEER"/>
+        <name value="VETH_INFO_MAX"/>
+        <name value="IFLA_VXLAN_UNSPEC"/>
+        <name value="IFLA_VXLAN_ID"/>
+        <name value="IFLA_VXLAN_GROUP"/>
+        <name value="IFLA_VXLAN_LINK"/>
+        <name value="IFLA_VXLAN_LOCAL"/>
+        <name value="IFLA_VXLAN_TTL"/>
+        <name value="IFLA_VXLAN_TOS"/>
+        <name value="IFLA_VXLAN_LEARNING"/>
+        <name value="IFLA_VXLAN_AGEING"/>
+        <name value="IFLA_VXLAN_LIMIT"/>
+        <name value="IFLA_VXLAN_PORT_RANGE"/>
+        <name value="IFLA_VXLAN_PROXY"/>
+        <name value="IFLA_VXLAN_RSC"/>
+        <name value="IFLA_VXLAN_L2MISS"/>
+        <name value="IFLA_VXLAN_L3MISS"/>
+        <name value="IFLA_VXLAN_PORT"/>
+        <name value="IFLA_VXLAN_GROUP6"/>
+        <name value="IFLA_VXLAN_LOCAL6"/>
+        <name value="IFLA_VXLAN_MAX"/>
+        <name value="IFLA_NET_NS_FD"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="net"/>
+    <import path="testing"/>
+    <import path="fmt"/>
+    <import path="syscall"/>
+    <import path="github.com/vishvananda/netlink/nl"/>
+    <import path="errors"/>
+    <import path="github.com/vishvananda/netns"/>
+    <import path="log"/>
+    <import path="os"/>
+    <import path="runtime"/>
+    <import path="unsafe"/>
+    <import path="bytes"/>
+    <import path="encoding/binary"/>
+    <import path="strings"/>
+    <import path="crypto/rand"/>
+    <import path="reflect"/>
+    <import path="sync/atomic"/>
+  </imports>
+</project>

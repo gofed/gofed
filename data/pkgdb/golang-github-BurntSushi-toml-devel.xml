@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/BurntSushi/toml">
+      <types>
+        <type name="TextMarshaler" type="interface">
+          <method name="MarshalText">
+            <paramsList/>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="TextUnmarshaler" type="interface">
+          <method name="UnmarshalText">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="TextMarshaler" type="selector">
+          <prefix value="encoding"/>
+          <item value="TextMarshaler"/>
+        </type>
+        <type name="TextUnmarshaler" type="selector">
+          <prefix value="encoding"/>
+          <item value="TextUnmarshaler"/>
+        </type>
+        <type type="struct" name="Encoder">
+          <field type="ident" def="string" name="Indent"/>
+          <field type="ident" def="bool" name="hasWritten"/>
+          <field type="pointer" name="w">
+            <type type="selector">
+              <prefix value="bufio"/>
+              <item value="Writer"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="MetaData">
+          <field type="map" name="mapping">
+            <keytype type="ident" def="string"/>
+            <valtype type="interface"/>
+          </field>
+          <field type="map" name="types">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="tomlType"/>
+          </field>
+          <field type="slice" name="keys">
+            <elmtype type="ident" def="Key"/>
+          </field>
+          <field type="map" name="decoded">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="bool"/>
+          </field>
+          <field type="ident" def="Key" name="context"/>
+        </type>
+        <type name="Key" type="slice">
+          <elmtype type="ident" def="string"/>
+        </type>
+        <type type="struct" name="Primitive">
+          <field type="interface" name="undecoded"/>
+          <field type="ident" def="Key" name="context"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="byName"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="byName"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="byName"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="byIndex"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="byIndex"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="byIndex"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="tomlBaseType"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="parseError"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="itemType"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="item"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="NewEncoder">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Encoder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Encode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Encoder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IsDefined">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MetaData"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MetaData"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="Key"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Keys">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MetaData"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Key"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Undecoded">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MetaData"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Key"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="PrimitiveDecode">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Primitive"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PrimitiveDecode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MetaData"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Primitive"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Decode">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="MetaData"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecodeFile">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="MetaData"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecodeReader">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="MetaData"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="reflect"/>
+    <import path="sort"/>
+    <import path="sync"/>
+    <import path="fmt"/>
+    <import path="log"/>
+    <import path="strconv"/>
+    <import path="strings"/>
+    <import path="time"/>
+    <import path="unicode/utf8"/>
+    <import path="encoding"/>
+    <import path="bytes"/>
+    <import path="net"/>
+    <import path="testing"/>
+    <import path="bufio"/>
+    <import path="errors"/>
+    <import path="io"/>
+    <import path="io/ioutil"/>
+    <import path="math"/>
+  </imports>
+</project>

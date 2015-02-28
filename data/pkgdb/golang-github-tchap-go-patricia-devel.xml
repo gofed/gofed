@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/tchap/go-patricia/patricia">
+      <types>
+        <type name="Prefix" type="slice">
+          <elmtype type="ident" def="byte"/>
+        </type>
+        <type name="Item" type="interface"/>
+        <type name="VisitorFunc" type="func">
+          <paramsList>
+            <type type="ident" def="Prefix"/>
+            <type type="ident" def="Item"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </type>
+        <type type="struct" name="Trie">
+          <field type="ident" def="Prefix" name="prefix"/>
+          <field type="ident" def="Item" name="item"/>
+          <field type="ident" def="childList" name="children"/>
+        </type>
+      </types>
+      <functions>
+        <function name="NewTrie">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Item">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Item"/>
+          </returnsList>
+        </function>
+        <function name="Insert">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Prefix"/>
+            <type type="ident" def="Item"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Prefix"/>
+            <type type="ident" def="Item"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Prefix"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Item"/>
+          </returnsList>
+        </function>
+        <function name="Match">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Prefix"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="MatchSubtree">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Prefix"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Visit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="VisitorFunc"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="VisitSubtree">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Prefix"/>
+            <type type="ident" def="VisitorFunc"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="VisitPrefixes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Prefix"/>
+            <type type="ident" def="VisitorFunc"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Delete">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Prefix"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="DeleteSubtree">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Prefix"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="SkipSubtree"/>
+        <name value="ErrNilPrefix"/>
+        <name value="MaxPrefixPerNode"/>
+        <name value="MaxChildrenPerSparseNode"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="crypto/rand"/>
+    <import path="reflect"/>
+    <import path="testing"/>
+    <import path="bytes"/>
+    <import path="errors"/>
+    <import path="fmt"/>
+    <import path="strings"/>
+  </imports>
+</project>

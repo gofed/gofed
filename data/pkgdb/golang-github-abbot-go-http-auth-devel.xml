@@ -1,0 +1,448 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/abbot/go-http-auth">
+      <types>
+        <type name="SecretProvider" type="func">
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </type>
+        <type type="struct" name="File">
+          <field type="ident" def="string" name="Path"/>
+          <field type="selector" name="Info">
+            <prefix value="os"/>
+            <item value="FileInfo"/>
+          </field>
+          <field type="func" name="Reload">
+            <paramsList/>
+            <resultsList/>
+          </field>
+        </type>
+        <type type="struct" name="HtdigestFile">
+          <field type="ident" def="File" name=""/>
+          <field type="map" name="Users">
+            <keytype type="ident" def="string"/>
+            <valtype type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </valtype>
+          </field>
+        </type>
+        <type type="struct" name="HtpasswdFile">
+          <field type="ident" def="File" name=""/>
+          <field type="map" name="Users">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="MD5Entry">
+          <field type="slice" name="Magic">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="slice" name="Salt">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="slice" name="Hash">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="DigestAuth">
+          <field type="ident" def="string" name="Realm"/>
+          <field type="ident" def="string" name="Opaque"/>
+          <field type="ident" def="SecretProvider" name="Secrets"/>
+          <field type="ident" def="bool" name="PlainTextSecrets"/>
+          <field type="ident" def="int" name="ClientCacheSize"/>
+          <field type="ident" def="int" name="ClientCacheTolerance"/>
+          <field type="map" name="clients">
+            <keytype type="ident" def="string"/>
+            <valtype type="pointer">
+              <type type="ident" def="digest_client"/>
+            </valtype>
+          </field>
+          <field type="selector" name="mutex">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+        </type>
+        <type type="struct" name="BasicAuth">
+          <field type="ident" def="string" name="Realm"/>
+          <field type="ident" def="SecretProvider" name="Secrets"/>
+        </type>
+        <type type="struct" name="AuthenticatedRequest">
+          <field type="selector" name="">
+            <prefix value="http"/>
+            <item value="Request"/>
+          </field>
+          <field type="ident" def="string" name="Username"/>
+        </type>
+        <type name="AuthenticatedHandlerFunc" type="func">
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="AuthenticatedRequest"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </type>
+        <type name="Authenticator" type="func">
+          <paramsList>
+            <type type="ident" def="AuthenticatedHandlerFunc"/>
+          </paramsList>
+          <resultsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </resultsList>
+        </type>
+        <type name="AuthenticatorInterface" type="interface">
+          <method name="Wrap">
+            <paramsList>
+              <type type="ident" def="AuthenticatedHandlerFunc"/>
+            </paramsList>
+            <resultsList>
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="HandlerFunc"/>
+              </type>
+            </resultsList>
+          </method>
+        </type>
+      </types>
+      <functions>
+        <function name="ReloadIfNeeded">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="File"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="HtdigestFileProvider">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="SecretProvider"/>
+          </returnsList>
+        </function>
+        <function name="HtpasswdFileProvider">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="SecretProvider"/>
+          </returnsList>
+        </function>
+        <function name="RandomKey">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="H">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="NewMD5Entry">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="MD5Entry"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MD5Crypt">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="digest_cache"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="digest_cache"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="digest_cache"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Purge">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DigestAuth"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RequireAuth">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DigestAuth"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="DigestAuthParams">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CheckAuth">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DigestAuth"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Wrap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DigestAuth"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="AuthenticatedHandlerFunc"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="JustCheck">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DigestAuth"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewDigestAuthenticator">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="SecretProvider"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="DigestAuth"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CheckAuth">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BasicAuth"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="RequireAuth">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BasicAuth"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Wrap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BasicAuth"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="AuthenticatedHandlerFunc"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewBasicAuthenticator">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="SecretProvider"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="BasicAuth"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="JustCheck">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="AuthenticatorInterface"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="DefaultClientCacheSize"/>
+        <name value="DefaultClientCacheTolerance"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="testing"/>
+    <import path="encoding/csv"/>
+    <import path="os"/>
+    <import path="encoding/base64"/>
+    <import path="crypto/md5"/>
+    <import path="crypto/rand"/>
+    <import path="fmt"/>
+    <import path="strings"/>
+    <import path="net/http"/>
+    <import path="net/url"/>
+    <import path="time"/>
+    <import path="sort"/>
+    <import path="strconv"/>
+    <import path="sync"/>
+    <import path="crypto/sha1"/>
+    <import path=".."/>
+  </imports>
+</project>

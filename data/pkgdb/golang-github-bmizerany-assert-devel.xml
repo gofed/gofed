@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/bmizerany/assert">
+      <types/>
+      <functions>
+        <function name="T">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="testing"/>
+                <item value="T"/>
+              </type>
+            </type>
+            <type type="ident" def="bool"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Tf">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="testing"/>
+                <item value="T"/>
+              </type>
+            </type>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Equal">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="testing"/>
+                <item value="T"/>
+              </type>
+            </type>
+            <type type="interface"/>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Equalf">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="testing"/>
+                <item value="T"/>
+              </type>
+            </type>
+            <type type="interface"/>
+            <type type="interface"/>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="NotEqual">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="testing"/>
+                <item value="T"/>
+              </type>
+            </type>
+            <type type="interface"/>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panic">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="testing"/>
+                <item value="T"/>
+              </type>
+            </type>
+            <type type="interface"/>
+            <type type="func">
+              <paramsList/>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/bmizerany/assert/example">
+      <types>
+        <type type="struct" name="Point">
+          <field type="ident" def="int" name="X"/>
+          <field type="ident" def="int" name="Y"/>
+        </type>
+      </types>
+      <functions/>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="testing"/>
+    <import path="github.com/kr/pretty"/>
+    <import path="reflect"/>
+    <import path="runtime"/>
+    <import path="fmt"/>
+    <import path="assert"/>
+  </imports>
+</project>

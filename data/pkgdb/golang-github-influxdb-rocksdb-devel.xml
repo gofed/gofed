@@ -1,0 +1,925 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/influxdb/rocksdb">
+      <types>
+        <type name="CompressionOpt" type="ident">
+          <type type="ident" def="int"/>
+        </type>
+        <type type="struct" name="BlockBasedOptions">
+          <field type="pointer" name="Opt">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="rocksdb_block_based_table_options_t"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="Options">
+          <field type="pointer" name="Opt">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="rocksdb_options_t"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="ReadOptions">
+          <field type="pointer" name="Opt">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="rocksdb_readoptions_t"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="WriteOptions">
+          <field type="pointer" name="Opt">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="rocksdb_writeoptions_t"/>
+            </type>
+          </field>
+        </type>
+        <type name="IteratorError" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+        <type type="struct" name="Iterator">
+          <field type="pointer" name="Iter">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="rocksdb_iterator_t"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="FilterPolicy">
+          <field type="pointer" name="Policy">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="rocksdb_filterpolicy_t"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="Env">
+          <field type="pointer" name="Env">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="rocksdb_env_t"/>
+            </type>
+          </field>
+        </type>
+        <type name="DatabaseError" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+        <type type="struct" name="DB">
+          <field type="pointer" name="Ldb">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="rocksdb_t"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="Range">
+          <field type="slice" name="Start">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="slice" name="Limit">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="Snapshot">
+          <field type="pointer" name="snap">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="rocksdb_snapshot_t"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="Cache">
+          <field type="pointer" name="Cache">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="rocksdb_cache_t"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="WriteBatch">
+          <field type="pointer" name="wbatch">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="rocksdb_writebatch_t"/>
+            </type>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="NewOptions">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewReadOptions">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="ReadOptions"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewWriteOptions">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="WriteOptions"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewBlockBasedOptions">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="BlockBasedOptions"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BlockBasedOptions"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="SetCache">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BlockBasedOptions"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Cache"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetBlockSize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BlockBasedOptions"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetFilterPolicy">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BlockBasedOptions"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="FilterPolicy"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetBlockRestartInterval">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BlockBasedOptions"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetBlockBasedTableFactory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="BlockBasedOptions"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="SetComparator">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="C"/>
+                <item value="rocksdb_comparator_t"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetErrorIfExists">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetEnv">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetInfoLog">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="C"/>
+                <item value="rocksdb_logger_t"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetWriteBufferSize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetParanoidChecks">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetMaxOpenFiles">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetCompression">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="CompressionOpt"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetCreateIfMissing">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetMaxBackgroundCompactions">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetMaxBackgroundFlushes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ReadOptions"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="SetVerifyChecksums">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ReadOptions"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetFillCache">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ReadOptions"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetSnapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ReadOptions"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Snapshot"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WriteOptions"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="SetSync">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WriteOptions"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="IteratorError"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Valid">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Iterator"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Key">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Iterator"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Value">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Iterator"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Next">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Iterator"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Prev">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Iterator"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="SeekToFirst">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Iterator"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="SeekToLast">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Iterator"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Seek">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Iterator"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GetError">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Iterator"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Iterator"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="NewBloomFilter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="FilterPolicy"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FilterPolicy"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="NewDefaultEnv">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetHighPriorityBackgroundThreads">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetBackgroundThreads">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="DatabaseError"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Open">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DestroyDatabase">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RepairDatabase">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Put">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="WriteOptions"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="ReadOptions"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Delete">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="WriteOptions"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="WriteOptions"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="WriteBatch"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewIterator">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="ReadOptions"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Iterator"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GetApproximateSizes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="Range"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="PropertyValue">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="NewSnapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Snapshot"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReleaseSnapshot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Snapshot"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="CompactRange">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Range"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="DestroyComparator">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="C"/>
+                <item value="rocksdb_comparator_t"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="NewLRUCache">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Cache"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cache"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="NewWriteBatch">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="WriteBatch"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WriteBatch"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Put">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WriteBatch"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Delete">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WriteBatch"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Clear">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WriteBatch"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+      </functions>
+      <names>
+        <name value="NoCompression"/>
+        <name value="SnappyCompression"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="bytes"/>
+    <import path="fmt"/>
+    <import path="math/rand"/>
+    <import path="os"/>
+    <import path="path/filepath"/>
+    <import path="testing"/>
+    <import path="time"/>
+    <import path="C"/>
+    <import path="unsafe"/>
+  </imports>
+</project>

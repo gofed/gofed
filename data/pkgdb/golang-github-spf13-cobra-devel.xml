@@ -1,0 +1,825 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/spf13/cobra">
+      <types>
+        <type type="struct" name="Command">
+          <field type="ident" def="string" name="name"/>
+          <field type="ident" def="string" name="Use"/>
+          <field type="slice" name="Aliases">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Short"/>
+          <field type="ident" def="string" name="Long"/>
+          <field type="ident" def="string" name="Example"/>
+          <field type="pointer" name="flags">
+            <type type="selector">
+              <prefix value="flag"/>
+              <item value="FlagSet"/>
+            </type>
+          </field>
+          <field type="pointer" name="pflags">
+            <type type="selector">
+              <prefix value="flag"/>
+              <item value="FlagSet"/>
+            </type>
+          </field>
+          <field type="func" name="Run">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="Command"/>
+              </type>
+              <type type="slice">
+                <elmtype type="ident" def="string"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </field>
+          <field type="slice" name="commands">
+            <elmtype type="pointer">
+              <type type="ident" def="Command"/>
+            </elmtype>
+          </field>
+          <field type="pointer" name="parent">
+            <type type="ident" def="Command"/>
+          </field>
+          <field type="ident" def="int" name="commandsMaxUseLen"/>
+          <field type="ident" def="int" name="commandsMaxCommandPathLen"/>
+          <field type="ident" def="int" name="commandsMaxNameLen"/>
+          <field type="pointer" name="flagErrorBuf">
+            <type type="selector">
+              <prefix value="bytes"/>
+              <item value="Buffer"/>
+            </type>
+          </field>
+          <field type="pointer" name="cmdErrorBuf">
+            <type type="selector">
+              <prefix value="bytes"/>
+              <item value="Buffer"/>
+            </type>
+          </field>
+          <field type="slice" name="args">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="output">
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </field>
+          <field type="func" name="usageFunc">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="Command"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </field>
+          <field type="ident" def="string" name="usageTemplate"/>
+          <field type="ident" def="string" name="helpTemplate"/>
+          <field type="func" name="helpFunc">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="Command"/>
+              </type>
+              <type type="slice">
+                <elmtype type="ident" def="string"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </field>
+          <field type="pointer" name="helpCommand">
+            <type type="ident" def="Command"/>
+          </field>
+          <field type="ident" def="bool" name="helpFlagVal"/>
+        </type>
+      </types>
+      <functions>
+        <function name="SetArgs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Out">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetOutput">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetUsageFunc">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="ident" def="Command"/>
+                </type>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="error"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetUsageTemplate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetHelpFunc">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="ident" def="Command"/>
+                </type>
+                <type type="slice">
+                  <elmtype type="ident" def="string"/>
+                </type>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetHelpCommand">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetHelpTemplate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="UsageFunc">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="ident" def="Command"/>
+                </type>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="error"/>
+              </resultsList>
+            </type>
+          </returnsList>
+        </function>
+        <function name="HelpFunc">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="ident" def="Command"/>
+                </type>
+                <type type="slice">
+                  <elmtype type="ident" def="string"/>
+                </type>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="UsagePadding">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="CommandPathPadding">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="NamePadding">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="UsageTemplate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="HelpTemplate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Find">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Root">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Execute">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ResetCommands">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Commands">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Command"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="AddCommand">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="pointer">
+                <type type="ident" def="Command"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Print">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Println">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Printf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Usage">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Help">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UsageString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="CommandPath">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="UseLine">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="DebugFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="HasAlias">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="NameAndAliases">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="HasExample">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Runnable">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="HasSubCommands">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="HasParent">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Flags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="flag"/>
+                <item value="FlagSet"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="LocalFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="flag"/>
+                <item value="FlagSet"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="InheritedFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="flag"/>
+                <item value="FlagSet"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NonInheritedFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="flag"/>
+                <item value="FlagSet"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="PersistentFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="flag"/>
+                <item value="FlagSet"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="AllPersistentFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="flag"/>
+                <item value="FlagSet"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ResetFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="HasFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="HasPersistentFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="HasAnyPersistentFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="HasLocalFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Flag">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="flag"/>
+                <item value="Flag"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ParseFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Parent">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="OnInitialize">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="func">
+                <paramsList/>
+                <resultsList/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Gt">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Eq">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="EnablePrefixMatching"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="bytes"/>
+    <import path="fmt"/>
+    <import path="io"/>
+    <import path="os"/>
+    <import path="strings"/>
+    <import path="github.com/spf13/pflag"/>
+    <import path="testing"/>
+    <import path="reflect"/>
+    <import path="strconv"/>
+    <import path="text/template"/>
+  </imports>
+</project>

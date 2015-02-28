@@ -1,0 +1,2064 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/kdar/factorlog">
+      <types>
+        <type type="struct" name="StdFormatter">
+          <field type="ident" def="string" name="frmt"/>
+          <field type="slice" name="parts">
+            <elmtype type="pointer">
+              <type type="ident" def="part"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="tmp">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="slice" name="stmp">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="int" name="flags"/>
+        </type>
+        <type name="Formatter" type="interface">
+          <method name="Format">
+            <paramsList>
+              <type type="ident" def="LogContext"/>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="ShouldRuntimeCaller">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="bool"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="LogContext">
+          <field type="selector" name="Time">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="ident" def="Severity" name="Severity"/>
+          <field type="ident" def="string" name="File"/>
+          <field type="ident" def="int" name="Line"/>
+          <field type="ident" def="string" name="Function"/>
+          <field type="ident" def="int" name="Pid"/>
+          <field type="pointer" name="Format">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="slice" name="Args">
+            <elmtype type="interface"/>
+          </field>
+        </type>
+        <type name="Level" type="ident">
+          <type type="ident" def="int32"/>
+        </type>
+        <type name="Severity" type="ident">
+          <type type="ident" def="int32"/>
+        </type>
+        <type name="Logger" type="interface">
+          <method name="Output">
+            <paramsList>
+              <type type="ident" def="Severity"/>
+              <type type="ident" def="int"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Trace">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Tracef">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Traceln">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Debug">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Debugf">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Debugln">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Info">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Infof">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Infoln">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Warn">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Warnf">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Warnln">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Error">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Errorf">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Errorln">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Critical">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Criticalf">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Criticalln">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Stack">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Stackf">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Stackln">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Log">
+            <paramsList>
+              <type type="ident" def="Severity"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Print">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Printf">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Println">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Fatal">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Fatalf">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Fatalln">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Panic">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Panicf">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Panicln">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="FactorLog">
+          <field type="selector" name="mu">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="selector" name="out">
+            <prefix value="io"/>
+            <item value="Writer"/>
+          </field>
+          <field type="ident" def="Formatter" name="formatter"/>
+          <field type="ident" def="Level" name="verbosity"/>
+          <field type="ident" def="Severity" name="severities"/>
+        </type>
+        <type type="struct" name="Verbose">
+          <field type="ident" def="bool" name="True"/>
+          <field type="pointer" name="logger">
+            <type type="ident" def="FactorLog"/>
+          </field>
+        </type>
+        <type type="struct" name="NullLogger"/>
+      </types>
+      <functions>
+        <function name="GetStack">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewStdFormatter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="StdFormatter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ShouldRuntimeCaller">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StdFormatter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Format">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StdFormatter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="LogContext"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="StringToSeverity">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Severity"/>
+          </returnsList>
+        </function>
+        <function name="SeverityToIndex">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Severity"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="TwoDigits">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </type>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="NDigits">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </type>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Itoa">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </type>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="I64toa">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </type>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Ui64toa">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </type>
+            <type type="ident" def="int"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+            <type type="ident" def="Formatter"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetVerbosity">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Level"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetSeverities">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Severity"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetMinMaxSeverity">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Severity"/>
+            <type type="ident" def="Severity"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Output">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Severity"/>
+            <type type="ident" def="int"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetOutput">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="IsV">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Level"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="V">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Level"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Verbose"/>
+          </returnsList>
+        </function>
+        <function name="Trace">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Tracef">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Traceln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debug">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debugf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debugln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Info">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Infof">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Infoln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warn">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warnf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warnln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Errorf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Errorln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Critical">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Criticalf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Criticalln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stack">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stackf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stackln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Log">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Severity"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Print">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Printf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Println">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatalf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatalln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panic">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panicf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panicln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FactorLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Output">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Severity"/>
+            <type type="ident" def="int"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Trace">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Tracef">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Traceln">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debug">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debugf">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debugln">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Info">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Infof">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Infoln">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warn">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warnf">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warnln">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Errorf">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Errorln">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Critical">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Criticalf">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Criticalln">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stack">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stackf">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stackln">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Log">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Severity"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Print">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Printf">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Println">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatal">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatalf">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatalln">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panic">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panicf">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panicln">
+          <recvList>
+            <type type="ident" def="Verbose"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetOutput">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetVerbosity">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Level"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetSeverities">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Severity"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetMinMaxSeverity">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Severity"/>
+            <type type="ident" def="Severity"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="IsV">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Level"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="V">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Level"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Verbose"/>
+          </returnsList>
+        </function>
+        <function name="Trace">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Tracef">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Traceln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debug">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debugf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debugln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Info">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Infof">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Infoln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warn">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warnf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warnln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Error">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Errorf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Errorln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Critical">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Criticalf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Criticalln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stack">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stackf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stackln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Log">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Severity"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Print">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Printf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Println">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatal">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatalf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatalln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panic">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panicf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panicln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Output">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Severity"/>
+            <type type="ident" def="int"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Trace">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Tracef">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Traceln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debug">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debugf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debugln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Info">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Infof">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Infoln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warn">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warnf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warnln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Error">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Errorf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Errorln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Critical">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Criticalf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Criticalln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stack">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stackf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stackln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Log">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Severity"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Print">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Printf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Println">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatal">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatalf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatalln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panic">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panicf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panicln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names>
+        <name value="UcSeverityStrings"/>
+        <name value="UcShortSeverityStrings"/>
+        <name value="UcShortestSeverityStrings"/>
+        <name value="LcSeverityStrings"/>
+        <name value="LcShortSeverityStrings"/>
+        <name value="LcShortestSeverityStrings"/>
+        <name value="CapSeverityStrings"/>
+        <name value="CapShortSeverityStrings"/>
+        <name value="NONE"/>
+        <name value="TRACE"/>
+        <name value="DEBUG"/>
+        <name value="INFO"/>
+        <name value="WARN"/>
+        <name value="ERROR"/>
+        <name value="CRITICAL"/>
+        <name value="STACK"/>
+        <name value="FATAL"/>
+        <name value="PANIC"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="bytes"/>
+    <import path="fmt"/>
+    <import path="io/ioutil"/>
+    <import path="runtime"/>
+    <import path="testing"/>
+    <import path="time"/>
+    <import path="regexp"/>
+    <import path="github.com/mgutz/ansi"/>
+    <import path="log"/>
+    <import path="strings"/>
+    <import path="io"/>
+    <import path="os"/>
+    <import path="sync"/>
+    <import path="sync/atomic"/>
+  </imports>
+</project>

@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/kr/fs">
+      <types>
+        <type type="struct" name="Walker">
+          <field type="ident" def="FileSystem" name="fs"/>
+          <field type="ident" def="item" name="cur"/>
+          <field type="slice" name="stack">
+            <elmtype type="ident" def="item"/>
+          </field>
+          <field type="ident" def="bool" name="descend"/>
+        </type>
+        <type name="FileSystem" type="interface">
+          <method name="ReadDir">
+            <paramsList>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="selector">
+                  <prefix value="os"/>
+                  <item value="FileInfo"/>
+                </elmtype>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Lstat">
+            <paramsList>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="selector">
+                <prefix value="os"/>
+                <item value="FileInfo"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Join">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="ident" def="string"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+        </type>
+      </types>
+      <functions>
+        <function name="Walk">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Walker"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WalkFS">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="FileSystem"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Walker"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Step">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Walker"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Path">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Walker"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Stat">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Walker"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="os"/>
+              <item value="FileInfo"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Err">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Walker"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SkipDir">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Walker"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="ReadDir">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="fs"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="os"/>
+                <item value="FileInfo"/>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Lstat">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="fs"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="os"/>
+              <item value="FileInfo"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Join">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="fs"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="os"/>
+    <import path="path/filepath"/>
+    <import path="runtime"/>
+    <import path="testing"/>
+    <import path="github.com/kr/fs"/>
+    <import path="io/ioutil"/>
+    <import path="fmt"/>
+  </imports>
+</project>

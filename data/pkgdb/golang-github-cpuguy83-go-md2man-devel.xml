@@ -1,0 +1,647 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/cpuguy83/go-md2man/mangen">
+      <types>
+        <type type="struct" name="Man"/>
+      </types>
+      <functions>
+        <function name="ManRenderer">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="blackfriday"/>
+              <item value="Renderer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GetFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="TitleBlock">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="BlockCode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="BlockQuote">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="BlockHtml">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="func">
+              <paramsList/>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="HRule">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="List">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="func">
+              <paramsList/>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="ListItem">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Paragraph">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="func">
+              <paramsList/>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Table">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="int"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="TableRow">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="TableHeaderCell">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="TableCell">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Footnotes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="func">
+              <paramsList/>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="FootnoteItem">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="AutoLink">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="CodeSpan">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="DoubleEmphasis">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Emphasis">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Image">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="LineBreak">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Link">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RawHtmlTag">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="TripleEmphasis">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="StrikeThrough">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="FootnoteRef">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Entity">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="NormalText">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="DocumentHeader">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="DocumentFooter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Man"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="flag"/>
+    <import path="fmt"/>
+    <import path="io/ioutil"/>
+    <import path="os"/>
+    <import path="github.com/cpuguy83/go-md2man/mangen"/>
+    <import path="github.com/russross/blackfriday"/>
+    <import path="bytes"/>
+    <import path="strings"/>
+  </imports>
+</project>

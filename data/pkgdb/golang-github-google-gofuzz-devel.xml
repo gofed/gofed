@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/google/gofuzz">
+      <types>
+        <type type="struct" name="Fuzzer">
+          <field type="ident" def="fuzzFuncMap" name="fuzzFuncs"/>
+          <field type="pointer" name="r">
+            <type type="selector">
+              <prefix value="rand"/>
+              <item value="Rand"/>
+            </type>
+          </field>
+          <field type="ident" def="float64" name="nilChance"/>
+          <field type="ident" def="int" name="minElements"/>
+          <field type="ident" def="int" name="maxElements"/>
+        </type>
+        <type type="struct" name="Continue">
+          <field type="pointer" name="f">
+            <type type="ident" def="Fuzzer"/>
+          </field>
+          <field type="pointer" name="">
+            <type type="selector">
+              <prefix value="rand"/>
+              <item value="Rand"/>
+            </type>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="New">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Fuzzer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Funcs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Fuzzer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Fuzzer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RandSource">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Fuzzer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="rand"/>
+              <item value="Source"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Fuzzer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NilChance">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Fuzzer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Fuzzer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NumElements">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Fuzzer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Fuzzer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Fuzz">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Fuzzer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fuzz">
+          <recvList>
+            <type type="ident" def="Continue"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RandString">
+          <recvList>
+            <type type="ident" def="Continue"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="RandUint64">
+          <recvList>
+            <type type="ident" def="Continue"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="RandBool">
+          <recvList>
+            <type type="ident" def="Continue"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="reflect"/>
+    <import path="testing"/>
+    <import path="fmt"/>
+    <import path="math/rand"/>
+    <import path="time"/>
+    <import path="encoding/json"/>
+    <import path="github.com/google/gofuzz"/>
+  </imports>
+</project>

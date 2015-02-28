@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/racker/perigee">
+      <types>
+        <type type="struct" name="UnexpectedResponseCodeError">
+          <field type="ident" def="string" name="Url"/>
+          <field type="slice" name="Expected">
+            <elmtype type="ident" def="int"/>
+          </field>
+          <field type="ident" def="int" name="Actual"/>
+          <field type="slice" name="Body">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="Options">
+          <field type="pointer" name="CustomClient">
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Client"/>
+            </type>
+          </field>
+          <field type="interface" name="ReqBody"/>
+          <field type="interface" name="Results"/>
+          <field type="map" name="MoreHeaders">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="OkCodes">
+            <elmtype type="ident" def="int"/>
+          </field>
+          <field type="pointer" name="StatusCode">
+            <type type="ident" def="int"/>
+          </field>
+          <field type="ident" def="bool" name="DumpReqJson"/>
+          <field type="pointer" name="ResponseJson">
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </field>
+          <field type="pointer" name="Response">
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+          </field>
+          <field type="ident" def="string" name="ContentType"/>
+          <field type="ident" def="int64" name="ContentLength"/>
+          <field type="ident" def="string" name="Accept"/>
+          <field type="func" name="SetHeaders">
+            <paramsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="http"/>
+                  <item value="Request"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </field>
+        </type>
+        <type type="struct" name="Response">
+          <field type="selector" name="HttpResponse">
+            <prefix value="http"/>
+            <item value="Response"/>
+          </field>
+          <field type="slice" name="JsonResult">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="interface" name="Results"/>
+          <field type="ident" def="int" name="StatusCode"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Error">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UnexpectedResponseCodeError"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Request">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Options"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Post">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Options"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Options"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Delete">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Options"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Put">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Options"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="bytes"/>
+    <import path="fmt"/>
+    <import path="net/http"/>
+    <import path="net/http/httptest"/>
+    <import path="strings"/>
+    <import path="testing"/>
+    <import path="encoding/json"/>
+    <import path="io"/>
+    <import path="io/ioutil"/>
+    <import path="log"/>
+  </imports>
+</project>

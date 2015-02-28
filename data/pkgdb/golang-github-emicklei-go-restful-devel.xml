@@ -1,0 +1,2164 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/emicklei/go-restful/swagger">
+      <types>
+        <type type="struct" name="SwaggerService">
+          <field type="ident" def="Config" name="config"/>
+          <field type="map" name="apiDeclarationMap">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="ApiDeclaration"/>
+          </field>
+        </type>
+        <type type="struct" name="DataTypeFields">
+          <field type="pointer" name="Type">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Ref">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Format"/>
+          <field type="ident" def="Special" name="DefaultValue"/>
+          <field type="slice" name="Enum">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Minimum"/>
+          <field type="ident" def="string" name="Maximum"/>
+          <field type="slice" name="Items">
+            <elmtype type="ident" def="Item"/>
+          </field>
+          <field type="pointer" name="UniqueItems">
+            <type type="ident" def="bool"/>
+          </field>
+        </type>
+        <type name="Special" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+        <type type="struct" name="Item">
+          <field type="pointer" name="Type">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Ref">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Format"/>
+        </type>
+        <type type="struct" name="ResourceListing">
+          <field type="ident" def="string" name="SwaggerVersion"/>
+          <field type="slice" name="Apis">
+            <elmtype type="ident" def="Resource"/>
+          </field>
+          <field type="ident" def="string" name="ApiVersion"/>
+          <field type="ident" def="Info" name="Info"/>
+          <field type="slice" name="Authorizations">
+            <elmtype type="ident" def="Authorization"/>
+          </field>
+        </type>
+        <type type="struct" name="Resource">
+          <field type="ident" def="string" name="Path"/>
+          <field type="ident" def="string" name="Description"/>
+        </type>
+        <type type="struct" name="Info">
+          <field type="ident" def="string" name="Title"/>
+          <field type="ident" def="string" name="Description"/>
+          <field type="ident" def="string" name="TermsOfServiceUrl"/>
+          <field type="ident" def="string" name="Contact"/>
+          <field type="ident" def="string" name="License"/>
+          <field type="ident" def="string" name="LicensUrl"/>
+        </type>
+        <type type="struct" name="Authorization">
+          <field type="ident" def="string" name="Type"/>
+          <field type="ident" def="string" name="PassAs"/>
+          <field type="ident" def="string" name="Keyname"/>
+          <field type="slice" name="Scopes">
+            <elmtype type="ident" def="Scope"/>
+          </field>
+          <field type="slice" name="GrantTypes">
+            <elmtype type="ident" def="GrantType"/>
+          </field>
+        </type>
+        <type type="struct" name="Scope">
+          <field type="ident" def="string" name="Scope"/>
+          <field type="ident" def="string" name="Description"/>
+        </type>
+        <type type="struct" name="GrantType">
+          <field type="ident" def="Implicit" name="Implicit"/>
+          <field type="ident" def="AuthorizationCode" name="AuthorizationCode"/>
+        </type>
+        <type type="struct" name="Implicit">
+          <field type="ident" def="LoginEndpoint" name="loginEndpoint"/>
+          <field type="ident" def="string" name="TokenName"/>
+        </type>
+        <type type="struct" name="AuthorizationCode">
+          <field type="ident" def="TokenRequestEndpoint" name="TokenRequestEndpoint"/>
+          <field type="ident" def="TokenEndpoint" name="TokenEndpoint"/>
+        </type>
+        <type type="struct" name="LoginEndpoint">
+          <field type="ident" def="string" name="Url"/>
+        </type>
+        <type type="struct" name="TokenRequestEndpoint">
+          <field type="ident" def="string" name="Url"/>
+          <field type="ident" def="string" name="ClientIdName"/>
+          <field type="ident" def="string" name="ClientSecretName"/>
+        </type>
+        <type type="struct" name="TokenEndpoint">
+          <field type="ident" def="string" name="Url"/>
+          <field type="ident" def="string" name="TokenName"/>
+        </type>
+        <type type="struct" name="ApiDeclaration">
+          <field type="ident" def="string" name="SwaggerVersion"/>
+          <field type="ident" def="string" name="ApiVersion"/>
+          <field type="ident" def="string" name="BasePath"/>
+          <field type="ident" def="string" name="ResourcePath"/>
+          <field type="slice" name="Apis">
+            <elmtype type="ident" def="Api"/>
+          </field>
+          <field type="map" name="Models">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="Model"/>
+          </field>
+          <field type="slice" name="Produces">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="Consumes">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="Authorizations">
+            <elmtype type="ident" def="Authorization"/>
+          </field>
+        </type>
+        <type type="struct" name="Api">
+          <field type="ident" def="string" name="Path"/>
+          <field type="ident" def="string" name="Description"/>
+          <field type="slice" name="Operations">
+            <elmtype type="ident" def="Operation"/>
+          </field>
+        </type>
+        <type type="struct" name="Operation">
+          <field type="ident" def="string" name="Type"/>
+          <field type="ident" def="string" name="Method"/>
+          <field type="ident" def="string" name="Summary"/>
+          <field type="ident" def="string" name="Notes"/>
+          <field type="ident" def="string" name="Nickname"/>
+          <field type="slice" name="Authorizations">
+            <elmtype type="ident" def="Authorization"/>
+          </field>
+          <field type="slice" name="Parameters">
+            <elmtype type="ident" def="Parameter"/>
+          </field>
+          <field type="slice" name="ResponseMessages">
+            <elmtype type="ident" def="ResponseMessage"/>
+          </field>
+          <field type="slice" name="Produces">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="Consumes">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Deprecated"/>
+        </type>
+        <type type="struct" name="Parameter">
+          <field type="ident" def="DataTypeFields" name=""/>
+          <field type="ident" def="string" name="ParamType"/>
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="Description"/>
+          <field type="ident" def="bool" name="Required"/>
+          <field type="ident" def="bool" name="AllowMultiple"/>
+        </type>
+        <type type="struct" name="ResponseMessage">
+          <field type="ident" def="int" name="Code"/>
+          <field type="ident" def="string" name="Message"/>
+          <field type="ident" def="string" name="ResponseModel"/>
+        </type>
+        <type type="struct" name="Model">
+          <field type="ident" def="string" name="Id"/>
+          <field type="ident" def="string" name="Description"/>
+          <field type="slice" name="Required">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="map" name="Properties">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="ModelProperty"/>
+          </field>
+          <field type="slice" name="SubTypes">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Discriminator"/>
+        </type>
+        <type type="struct" name="ModelProperty">
+          <field type="ident" def="DataTypeFields" name=""/>
+          <field type="ident" def="string" name="Description"/>
+        </type>
+        <type name="Authorizations" type="map">
+          <keytype type="ident" def="string"/>
+          <valtype type="ident" def="Authorization"/>
+        </type>
+        <type name="ParameterSorter" type="slice">
+          <elmtype type="ident" def="Parameter"/>
+        </type>
+        <type type="struct" name="Config">
+          <field type="ident" def="string" name="WebServicesUrl"/>
+          <field type="ident" def="string" name="ApiPath"/>
+          <field type="ident" def="string" name="SwaggerPath"/>
+          <field type="ident" def="string" name="SwaggerFilePath"/>
+          <field type="slice" name="WebServices">
+            <elmtype type="pointer">
+              <type type="selector">
+                <prefix value="restful"/>
+                <item value="WebService"/>
+              </type>
+            </elmtype>
+          </field>
+          <field type="selector" name="StaticHandler">
+            <prefix value="http"/>
+            <item value="Handler"/>
+          </field>
+          <field type="ident" def="bool" name="DisableCORS"/>
+        </type>
+      </types>
+      <functions>
+        <function name="InstallSwaggerService">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Config"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RegisterSwaggerService">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Config"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="restful"/>
+                <item value="Container"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="ParameterSorter"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="ParameterSorter"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="ParameterSorter"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="LogInfo"/>
+      </names>
+    </package>
+    <package importpath="github.com/emicklei/go-restful">
+      <types>
+        <type type="struct" name="WebService">
+          <field type="ident" def="string" name="rootPath"/>
+          <field type="pointer" name="pathExpr">
+            <type type="ident" def="pathExpression"/>
+          </field>
+          <field type="slice" name="routes">
+            <elmtype type="ident" def="Route"/>
+          </field>
+          <field type="slice" name="produces">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="consumes">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="pathParameters">
+            <elmtype type="pointer">
+              <type type="ident" def="Parameter"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="filters">
+            <elmtype type="ident" def="FilterFunction"/>
+          </field>
+          <field type="ident" def="string" name="documentation"/>
+          <field type="ident" def="string" name="apiVersion"/>
+        </type>
+        <type type="struct" name="ServiceError">
+          <field type="ident" def="int" name="Code"/>
+          <field type="ident" def="string" name="Message"/>
+        </type>
+        <type name="RouteSelector" type="interface">
+          <method name="SelectRoute">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="pointer">
+                  <type type="ident" def="WebService"/>
+                </elmtype>
+              </type>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="http"/>
+                  <item value="Request"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="WebService"/>
+              </type>
+              <type type="pointer">
+                <type type="ident" def="Route"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="RouteBuilder">
+          <field type="ident" def="string" name="rootPath"/>
+          <field type="ident" def="string" name="currentPath"/>
+          <field type="slice" name="produces">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="consumes">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="httpMethod"/>
+          <field type="ident" def="RouteFunction" name="function"/>
+          <field type="slice" name="filters">
+            <elmtype type="ident" def="FilterFunction"/>
+          </field>
+          <field type="ident" def="string" name="doc"/>
+          <field type="ident" def="string" name="operation"/>
+          <field type="interface" name="readSample"/>
+          <field type="interface" name="writeSample"/>
+          <field type="slice" name="parameters">
+            <elmtype type="pointer">
+              <type type="ident" def="Parameter"/>
+            </elmtype>
+          </field>
+          <field type="map" name="errorMap">
+            <keytype type="ident" def="int"/>
+            <valtype type="ident" def="ResponseError"/>
+          </field>
+        </type>
+        <type type="struct" name="ResponseError">
+          <field type="ident" def="int" name="Code"/>
+          <field type="ident" def="string" name="Message"/>
+          <field type="interface" name="Model"/>
+        </type>
+        <type name="RouteFunction" type="func">
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Request"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </type>
+        <type type="struct" name="Route">
+          <field type="ident" def="string" name="Method"/>
+          <field type="slice" name="Produces">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="Consumes">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Path"/>
+          <field type="ident" def="RouteFunction" name="Function"/>
+          <field type="slice" name="Filters">
+            <elmtype type="ident" def="FilterFunction"/>
+          </field>
+          <field type="ident" def="string" name="relativePath"/>
+          <field type="slice" name="pathParts">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="pathExpr">
+            <type type="ident" def="pathExpression"/>
+          </field>
+          <field type="ident" def="string" name="Doc"/>
+          <field type="ident" def="string" name="Operation"/>
+          <field type="slice" name="ParameterDocs">
+            <elmtype type="pointer">
+              <type type="ident" def="Parameter"/>
+            </elmtype>
+          </field>
+          <field type="map" name="ResponseErrors">
+            <keytype type="ident" def="int"/>
+            <valtype type="ident" def="ResponseError"/>
+          </field>
+          <field type="interface" name="ReadSample"/>
+          <field type="interface" name="WriteSample"/>
+        </type>
+        <type type="struct" name="Response">
+          <field type="selector" name="">
+            <prefix value="http"/>
+            <item value="ResponseWriter"/>
+          </field>
+          <field type="ident" def="string" name="requestAccept"/>
+          <field type="slice" name="routeProduces">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="int" name="statusCode"/>
+          <field type="ident" def="int" name="contentLength"/>
+          <field type="ident" def="bool" name="prettyPrint"/>
+        </type>
+        <type type="struct" name="Request">
+          <field type="pointer" name="Request">
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Request"/>
+            </type>
+          </field>
+          <field type="pointer" name="bodyContent">
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </field>
+          <field type="map" name="pathParameters">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+          <field type="map" name="attributes">
+            <keytype type="ident" def="string"/>
+            <valtype type="interface"/>
+          </field>
+          <field type="ident" def="string" name="selectedRoutePath"/>
+        </type>
+        <type type="struct" name="Parameter">
+          <field type="pointer" name="data">
+            <type type="ident" def="ParameterData"/>
+          </field>
+        </type>
+        <type type="struct" name="ParameterData">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="Description"/>
+          <field type="ident" def="string" name="DataType"/>
+          <field type="ident" def="int" name="Kind"/>
+          <field type="ident" def="bool" name="Required"/>
+          <field type="map" name="AllowableValues">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="bool" name="AllowMultiple"/>
+        </type>
+        <type type="struct" name="RouterJSR311"/>
+        <type type="struct" name="FilterChain">
+          <field type="slice" name="Filters">
+            <elmtype type="ident" def="FilterFunction"/>
+          </field>
+          <field type="ident" def="int" name="Index"/>
+          <field type="ident" def="RouteFunction" name="Target"/>
+        </type>
+        <type name="FilterFunction" type="func">
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Request"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="FilterChain"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </type>
+        <type type="struct" name="CurlyRouter"/>
+        <type type="struct" name="CrossOriginResourceSharing">
+          <field type="slice" name="ExposeHeaders">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="AllowedHeaders">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="AllowedDomains">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="AllowedMethods">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="int" name="MaxAge"/>
+          <field type="ident" def="bool" name="CookiesAllowed"/>
+          <field type="pointer" name="Container">
+            <type type="ident" def="Container"/>
+          </field>
+        </type>
+        <type type="struct" name="Container">
+          <field type="slice" name="webServices">
+            <elmtype type="pointer">
+              <type type="ident" def="WebService"/>
+            </elmtype>
+          </field>
+          <field type="pointer" name="ServeMux">
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ServeMux"/>
+            </type>
+          </field>
+          <field type="ident" def="bool" name="isRegisteredOnRoot"/>
+          <field type="slice" name="containerFilters">
+            <elmtype type="ident" def="FilterFunction"/>
+          </field>
+          <field type="ident" def="bool" name="doNotRecover"/>
+          <field type="ident" def="RecoverHandleFunction" name="recoverHandleFunc"/>
+          <field type="ident" def="RouteSelector" name="router"/>
+          <field type="ident" def="bool" name="contentEncodingEnabled"/>
+        </type>
+        <type name="RecoverHandleFunction" type="func">
+          <paramsList>
+            <type type="interface"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </type>
+        <type type="struct" name="CompressingResponseWriter">
+          <field type="selector" name="writer">
+            <prefix value="http"/>
+            <item value="ResponseWriter"/>
+          </field>
+          <field type="selector" name="compressor">
+            <prefix value="io"/>
+            <item value="WriteCloser"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Add">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Filter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="FilterFunction"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RegisteredWebServices">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="WebService"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ApiVersion">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Version">
+          <recvList>
+            <type type="ident" def="WebService"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Path">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Param">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="PathParameter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="QueryParameter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="BodyParameter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="HeaderParameter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="FormParameter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Route">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Method">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Produces">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Consumes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Routes">
+          <recvList>
+            <type type="ident" def="WebService"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Route"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RootPath">
+          <recvList>
+            <type type="ident" def="WebService"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="PathParameters">
+          <recvList>
+            <type type="ident" def="WebService"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Parameter"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Filter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="FilterFunction"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Doc">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Documentation">
+          <recvList>
+            <type type="ident" def="WebService"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="HEAD">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GET">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="POST">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="PUT">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="PATCH">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="DELETE">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewError">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="ServiceError"/>
+          </returnsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="ServiceError"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Do">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="func">
+                <paramsList>
+                  <type type="pointer">
+                    <type type="ident" def="RouteBuilder"/>
+                  </type>
+                </paramsList>
+                <resultsList/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="To">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="RouteFunction"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Method">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Produces">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Consumes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Path">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Doc">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Reads">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ParameterNamed">
+          <recvList>
+            <type type="ident" def="RouteBuilder"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Writes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Param">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Operation">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReturnsError">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Returns">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Filter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="FilterFunction"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Build">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RouteBuilder"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Route"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="Route"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="NewResponse">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="DefaultResponseContentType">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="InternalServerError">
+          <recvList>
+            <type type="ident" def="Response"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Response"/>
+          </returnsList>
+        </function>
+        <function name="PrettyPrint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="AddHeader">
+          <recvList>
+            <type type="ident" def="Response"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Response"/>
+          </returnsList>
+        </function>
+        <function name="SetRequestAccepts">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="WriteEntity">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WriteAsXml">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WriteAsJson">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WriteError">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WriteServiceError">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="ServiceError"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WriteErrorString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WriteHeader">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="StatusCode">
+          <recvList>
+            <type type="ident" def="Response"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ContentLength">
+          <recvList>
+            <type type="ident" def="Response"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="CloseNotify">
+          <recvList>
+            <type type="ident" def="Response"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="chan" dir="2">
+              <type type="ident" def="bool"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewRequest">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Request"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="DefaultRequestContentType">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetCacheReadEntity">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="PathParameter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Request"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="PathParameters">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Request"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="QueryParameter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Request"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="BodyParameter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Request"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="HeaderParameter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Request"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ReadEntity">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Request"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetAttribute">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Request"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Attribute">
+          <recvList>
+            <type type="ident" def="Request"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="SelectedRoutePath">
+          <recvList>
+            <type type="ident" def="Request"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Data">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="ParameterData"/>
+          </returnsList>
+        </function>
+        <function name="Kind">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Required">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="AllowMultiple">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="AllowableValues">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="DataType">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="OPTIONSFilter">
+          <recvList>
+            <type type="ident" def="Container"/>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Request"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="FilterChain"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="OPTIONSFilter">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="FilterFunction"/>
+          </returnsList>
+        </function>
+        <function name="TraceLogger">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="log"/>
+                <item value="Logger"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SelectRoute">
+          <recvList>
+            <type type="ident" def="RouterJSR311"/>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="WebService"/>
+              </elmtype>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Route"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="routeCandidate"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sortableRouteCandidates"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sortableRouteCandidates"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sortableRouteCandidates"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sortableDispatcherCandidates"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sortableDispatcherCandidates"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sortableDispatcherCandidates"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="ProcessFilter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FilterChain"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Request"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sortableCurlyRoutes"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sortableCurlyRoutes"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sortableCurlyRoutes"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="SelectRoute">
+          <recvList>
+            <type type="ident" def="CurlyRouter"/>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="WebService"/>
+              </elmtype>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Route"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Filter">
+          <recvList>
+            <type type="ident" def="CrossOriginResourceSharing"/>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Request"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Response"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="FilterChain"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="NewContainer">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Container"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RecoverHandler">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Container"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="RecoverHandleFunction"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="DoNotRecover">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Container"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Router">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Container"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="RouteSelector"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="EnableContentEncoding">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Container"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Container"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="WebService"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Container"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ServeHTTP">
+          <recvList>
+            <type type="ident" def="Container"/>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Handle">
+          <recvList>
+            <type type="ident" def="Container"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Handler"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Filter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Container"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="FilterFunction"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RegisteredWebServices">
+          <recvList>
+            <type type="ident" def="Container"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="WebService"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CompressingResponseWriter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WriteHeader">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CompressingResponseWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CompressingResponseWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CloseNotify">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CompressingResponseWriter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="chan" dir="2">
+              <type type="ident" def="bool"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CompressingResponseWriter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="NewCompressingResponseWriter">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="CompressingResponseWriter"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="DefaultContainer"/>
+        <name value="DoNotRecover"/>
+        <name value="DefaultResponseMimeType"/>
+        <name value="PrettyPrintResponses"/>
+        <name value="PathParameterKind"/>
+        <name value="QueryParameterKind"/>
+        <name value="BodyParameterKind"/>
+        <name value="HeaderParameterKind"/>
+        <name value="FormParameterKind"/>
+        <name value="MIME_XML"/>
+        <name value="MIME_JSON"/>
+        <name value="HEADER_Allow"/>
+        <name value="HEADER_Accept"/>
+        <name value="HEADER_Origin"/>
+        <name value="HEADER_ContentType"/>
+        <name value="HEADER_LastModified"/>
+        <name value="HEADER_AcceptEncoding"/>
+        <name value="HEADER_ContentEncoding"/>
+        <name value="HEADER_AccessControlExposeHeaders"/>
+        <name value="HEADER_AccessControlRequestMethod"/>
+        <name value="HEADER_AccessControlRequestHeaders"/>
+        <name value="HEADER_AccessControlAllowMethods"/>
+        <name value="HEADER_AccessControlAllowOrigin"/>
+        <name value="HEADER_AccessControlAllowCredentials"/>
+        <name value="HEADER_AccessControlAllowHeaders"/>
+        <name value="HEADER_AccessControlMaxAge"/>
+        <name value="ENCODING_GZIP"/>
+        <name value="ENCODING_DEFLATE"/>
+        <name value="EnableContentEncoding"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="net/http"/>
+    <import path="net/http/httptest"/>
+    <import path="testing"/>
+    <import path="log"/>
+    <import path="fmt"/>
+    <import path="reflect"/>
+    <import path="strings"/>
+    <import path="bytes"/>
+    <import path="errors"/>
+    <import path="encoding/json"/>
+    <import path="encoding/xml"/>
+    <import path="net/url"/>
+    <import path="strconv"/>
+    <import path="io"/>
+    <import path="io/ioutil"/>
+    <import path="regexp"/>
+    <import path="sort"/>
+    <import path="runtime"/>
+    <import path="compress/gzip"/>
+    <import path="compress/zlib"/>
+    <import path="github.com/emicklei/go-restful"/>
+    <import path="time"/>
+    <import path="github.com/emicklei/go-restful/swagger"/>
+    <import path="path"/>
+    <import path="text/template"/>
+    <import path="github.com/gorilla/schema"/>
+    <import path="os"/>
+    <import path="runtime/pprof"/>
+    <import path="appengine"/>
+    <import path="appengine/memcache"/>
+    <import path="github.com/mjibson/appstats"/>
+    <import path="appengine/datastore"/>
+    <import path="appengine/user"/>
+  </imports>
+</project>

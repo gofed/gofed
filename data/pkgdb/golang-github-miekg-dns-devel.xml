@@ -1,0 +1,4846 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/miekg/dns/idn">
+      <types/>
+      <functions>
+        <function name="ToPunycode">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="FromPunycode">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/miekg/dns">
+      <types>
+        <type type="struct" name="ParseError">
+          <field type="ident" def="string" name="file"/>
+          <field type="ident" def="string" name="err"/>
+          <field type="ident" def="lex" name="lex"/>
+        </type>
+        <type type="struct" name="Token">
+          <field type="ident" def="RR" name=""/>
+          <field type="pointer" name="Error">
+            <type type="ident" def="ParseError"/>
+          </field>
+          <field type="ident" def="string" name="Comment"/>
+        </type>
+        <type type="struct" name="Envelope">
+          <field type="slice" name="RR">
+            <elmtype type="ident" def="RR"/>
+          </field>
+          <field type="ident" def="error" name="Error"/>
+        </type>
+        <type type="struct" name="Transfer">
+          <field type="pointer" name="">
+            <type type="ident" def="Conn"/>
+          </field>
+          <field type="selector" name="DialTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="ReadTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="WriteTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="map" name="TsigSecret">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="bool" name="tsigTimersOnly"/>
+        </type>
+        <type name="Type" type="ident">
+          <type type="ident" def="uint16"/>
+        </type>
+        <type name="Class" type="ident">
+          <type type="ident" def="uint16"/>
+        </type>
+        <type name="Name" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+        <type type="struct" name="Header">
+          <field type="ident" def="uint16" name="Id"/>
+          <field type="ident" def="uint16" name="Bits"/>
+          <field type="ident" def="uint16" name="Qdcount"/>
+          <field type="ident" def="uint16" name="Ancount"/>
+          <field type="ident" def="uint16" name="Nscount"/>
+          <field type="ident" def="uint16" name="Arcount"/>
+        </type>
+        <type type="struct" name="Question">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="uint16" name="Qtype"/>
+          <field type="ident" def="uint16" name="Qclass"/>
+        </type>
+        <type type="struct" name="ANY">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+        </type>
+        <type type="struct" name="CNAME">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Target"/>
+        </type>
+        <type type="struct" name="HINFO">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Cpu"/>
+          <field type="ident" def="string" name="Os"/>
+        </type>
+        <type type="struct" name="MB">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Mb"/>
+        </type>
+        <type type="struct" name="MG">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Mg"/>
+        </type>
+        <type type="struct" name="MINFO">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Rmail"/>
+          <field type="ident" def="string" name="Email"/>
+        </type>
+        <type type="struct" name="MR">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Mr"/>
+        </type>
+        <type type="struct" name="MF">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Mf"/>
+        </type>
+        <type type="struct" name="MD">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Md"/>
+        </type>
+        <type type="struct" name="MX">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="Preference"/>
+          <field type="ident" def="string" name="Mx"/>
+        </type>
+        <type type="struct" name="AFSDB">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="Subtype"/>
+          <field type="ident" def="string" name="Hostname"/>
+        </type>
+        <type type="struct" name="X25">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="PSDNAddress"/>
+        </type>
+        <type type="struct" name="RT">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="Preference"/>
+          <field type="ident" def="string" name="Host"/>
+        </type>
+        <type type="struct" name="NS">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Ns"/>
+        </type>
+        <type type="struct" name="PTR">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Ptr"/>
+        </type>
+        <type type="struct" name="RP">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Mbox"/>
+          <field type="ident" def="string" name="Txt"/>
+        </type>
+        <type type="struct" name="SOA">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Ns"/>
+          <field type="ident" def="string" name="Mbox"/>
+          <field type="ident" def="uint32" name="Serial"/>
+          <field type="ident" def="uint32" name="Refresh"/>
+          <field type="ident" def="uint32" name="Retry"/>
+          <field type="ident" def="uint32" name="Expire"/>
+          <field type="ident" def="uint32" name="Minttl"/>
+        </type>
+        <type type="struct" name="TXT">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="slice" name="Txt">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="SPF">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="slice" name="Txt">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="SRV">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="Priority"/>
+          <field type="ident" def="uint16" name="Weight"/>
+          <field type="ident" def="uint16" name="Port"/>
+          <field type="ident" def="string" name="Target"/>
+        </type>
+        <type type="struct" name="NAPTR">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="Order"/>
+          <field type="ident" def="uint16" name="Preference"/>
+          <field type="ident" def="string" name="Flags"/>
+          <field type="ident" def="string" name="Service"/>
+          <field type="ident" def="string" name="Regexp"/>
+          <field type="ident" def="string" name="Replacement"/>
+        </type>
+        <type type="struct" name="CERT">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="Type"/>
+          <field type="ident" def="uint16" name="KeyTag"/>
+          <field type="ident" def="uint8" name="Algorithm"/>
+          <field type="ident" def="string" name="Certificate"/>
+        </type>
+        <type type="struct" name="DNAME">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Target"/>
+        </type>
+        <type type="struct" name="A">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="selector" name="A">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+        </type>
+        <type type="struct" name="AAAA">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="selector" name="AAAA">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+        </type>
+        <type type="struct" name="PX">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="Preference"/>
+          <field type="ident" def="string" name="Map822"/>
+          <field type="ident" def="string" name="Mapx400"/>
+        </type>
+        <type type="struct" name="GPOS">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Longitude"/>
+          <field type="ident" def="string" name="Latitude"/>
+          <field type="ident" def="string" name="Altitude"/>
+        </type>
+        <type type="struct" name="LOC">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint8" name="Version"/>
+          <field type="ident" def="uint8" name="Size"/>
+          <field type="ident" def="uint8" name="HorizPre"/>
+          <field type="ident" def="uint8" name="VertPre"/>
+          <field type="ident" def="uint32" name="Latitude"/>
+          <field type="ident" def="uint32" name="Longitude"/>
+          <field type="ident" def="uint32" name="Altitude"/>
+        </type>
+        <type type="struct" name="SIG">
+          <field type="ident" def="RRSIG" name=""/>
+        </type>
+        <type type="struct" name="RRSIG">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="TypeCovered"/>
+          <field type="ident" def="uint8" name="Algorithm"/>
+          <field type="ident" def="uint8" name="Labels"/>
+          <field type="ident" def="uint32" name="OrigTtl"/>
+          <field type="ident" def="uint32" name="Expiration"/>
+          <field type="ident" def="uint32" name="Inception"/>
+          <field type="ident" def="uint16" name="KeyTag"/>
+          <field type="ident" def="string" name="SignerName"/>
+          <field type="ident" def="string" name="Signature"/>
+        </type>
+        <type type="struct" name="NSEC">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="NextDomain"/>
+          <field type="slice" name="TypeBitMap">
+            <elmtype type="ident" def="uint16"/>
+          </field>
+        </type>
+        <type type="struct" name="DLV">
+          <field type="ident" def="DS" name=""/>
+        </type>
+        <type type="struct" name="CDS">
+          <field type="ident" def="DS" name=""/>
+        </type>
+        <type type="struct" name="DS">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="KeyTag"/>
+          <field type="ident" def="uint8" name="Algorithm"/>
+          <field type="ident" def="uint8" name="DigestType"/>
+          <field type="ident" def="string" name="Digest"/>
+        </type>
+        <type type="struct" name="KX">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="Preference"/>
+          <field type="ident" def="string" name="Exchanger"/>
+        </type>
+        <type type="struct" name="TA">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="KeyTag"/>
+          <field type="ident" def="uint8" name="Algorithm"/>
+          <field type="ident" def="uint8" name="DigestType"/>
+          <field type="ident" def="string" name="Digest"/>
+        </type>
+        <type type="struct" name="TALINK">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="PreviousName"/>
+          <field type="ident" def="string" name="NextName"/>
+        </type>
+        <type type="struct" name="SSHFP">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint8" name="Algorithm"/>
+          <field type="ident" def="uint8" name="Type"/>
+          <field type="ident" def="string" name="FingerPrint"/>
+        </type>
+        <type type="struct" name="IPSECKEY">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint8" name="Precedence"/>
+          <field type="ident" def="uint8" name="GatewayType"/>
+          <field type="ident" def="uint8" name="Algorithm"/>
+          <field type="ident" def="string" name="Gateway"/>
+          <field type="ident" def="string" name="PublicKey"/>
+        </type>
+        <type type="struct" name="KEY">
+          <field type="ident" def="DNSKEY" name=""/>
+        </type>
+        <type type="struct" name="CDNSKEY">
+          <field type="ident" def="DNSKEY" name=""/>
+        </type>
+        <type type="struct" name="DNSKEY">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="Flags"/>
+          <field type="ident" def="uint8" name="Protocol"/>
+          <field type="ident" def="uint8" name="Algorithm"/>
+          <field type="ident" def="string" name="PublicKey"/>
+        </type>
+        <type type="struct" name="RKEY">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="Flags"/>
+          <field type="ident" def="uint8" name="Protocol"/>
+          <field type="ident" def="uint8" name="Algorithm"/>
+          <field type="ident" def="string" name="PublicKey"/>
+        </type>
+        <type type="struct" name="NSAP">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint8" name="Length"/>
+          <field type="ident" def="string" name="Nsap"/>
+        </type>
+        <type type="struct" name="NSAPPTR">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Ptr"/>
+        </type>
+        <type type="struct" name="NSEC3">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint8" name="Hash"/>
+          <field type="ident" def="uint8" name="Flags"/>
+          <field type="ident" def="uint16" name="Iterations"/>
+          <field type="ident" def="uint8" name="SaltLength"/>
+          <field type="ident" def="string" name="Salt"/>
+          <field type="ident" def="uint8" name="HashLength"/>
+          <field type="ident" def="string" name="NextDomain"/>
+          <field type="slice" name="TypeBitMap">
+            <elmtype type="ident" def="uint16"/>
+          </field>
+        </type>
+        <type type="struct" name="NSEC3PARAM">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint8" name="Hash"/>
+          <field type="ident" def="uint8" name="Flags"/>
+          <field type="ident" def="uint16" name="Iterations"/>
+          <field type="ident" def="uint8" name="SaltLength"/>
+          <field type="ident" def="string" name="Salt"/>
+        </type>
+        <type type="struct" name="TKEY">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Algorithm"/>
+          <field type="ident" def="uint32" name="Inception"/>
+          <field type="ident" def="uint32" name="Expiration"/>
+          <field type="ident" def="uint16" name="Mode"/>
+          <field type="ident" def="uint16" name="Error"/>
+          <field type="ident" def="uint16" name="KeySize"/>
+          <field type="ident" def="string" name="Key"/>
+          <field type="ident" def="uint16" name="OtherLen"/>
+          <field type="ident" def="string" name="OtherData"/>
+        </type>
+        <type type="struct" name="RFC3597">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Rdata"/>
+        </type>
+        <type type="struct" name="URI">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="Priority"/>
+          <field type="ident" def="uint16" name="Weight"/>
+          <field type="slice" name="Target">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="DHCID">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Digest"/>
+        </type>
+        <type type="struct" name="TLSA">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint8" name="Usage"/>
+          <field type="ident" def="uint8" name="Selector"/>
+          <field type="ident" def="uint8" name="MatchingType"/>
+          <field type="ident" def="string" name="Certificate"/>
+        </type>
+        <type type="struct" name="HIP">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint8" name="HitLength"/>
+          <field type="ident" def="uint8" name="PublicKeyAlgorithm"/>
+          <field type="ident" def="uint16" name="PublicKeyLength"/>
+          <field type="ident" def="string" name="Hit"/>
+          <field type="ident" def="string" name="PublicKey"/>
+          <field type="slice" name="RendezvousServers">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="NINFO">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="slice" name="ZSData">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="WKS">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="selector" name="Address">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+          <field type="ident" def="uint8" name="Protocol"/>
+          <field type="slice" name="BitMap">
+            <elmtype type="ident" def="uint16"/>
+          </field>
+        </type>
+        <type type="struct" name="NID">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="Preference"/>
+          <field type="ident" def="uint64" name="NodeID"/>
+        </type>
+        <type type="struct" name="L32">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="Preference"/>
+          <field type="selector" name="Locator32">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+        </type>
+        <type type="struct" name="L64">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="Preference"/>
+          <field type="ident" def="uint64" name="Locator64"/>
+        </type>
+        <type type="struct" name="LP">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint16" name="Preference"/>
+          <field type="ident" def="string" name="Fqdn"/>
+        </type>
+        <type type="struct" name="EUI48">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint64" name="Address"/>
+        </type>
+        <type type="struct" name="EUI64">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint64" name="Address"/>
+        </type>
+        <type type="struct" name="UID">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint32" name="Uid"/>
+        </type>
+        <type type="struct" name="GID">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="uint32" name="Gid"/>
+        </type>
+        <type type="struct" name="UINFO">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Uinfo"/>
+        </type>
+        <type type="struct" name="EID">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Endpoint"/>
+        </type>
+        <type type="struct" name="NIMLOC">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Locator"/>
+        </type>
+        <type type="struct" name="OPENPGPKEY">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="PublicKey"/>
+        </type>
+        <type type="struct" name="TSIG">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="string" name="Algorithm"/>
+          <field type="ident" def="uint64" name="TimeSigned"/>
+          <field type="ident" def="uint16" name="Fudge"/>
+          <field type="ident" def="uint16" name="MACSize"/>
+          <field type="ident" def="string" name="MAC"/>
+          <field type="ident" def="uint16" name="OrigId"/>
+          <field type="ident" def="uint16" name="Error"/>
+          <field type="ident" def="uint16" name="OtherLen"/>
+          <field type="ident" def="string" name="OtherData"/>
+        </type>
+        <type name="Handler" type="interface">
+          <method name="ServeDNS">
+            <paramsList>
+              <type type="ident" def="ResponseWriter"/>
+              <type type="pointer">
+                <type type="ident" def="Msg"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type name="ResponseWriter" type="interface">
+          <method name="LocalAddr">
+            <paramsList/>
+            <resultsList>
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="Addr"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="RemoteAddr">
+            <paramsList/>
+            <resultsList>
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="Addr"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="WriteMsg">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="Msg"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Write">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="int"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Close">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="TsigStatus">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="TsigTimersOnly">
+            <paramsList>
+              <type type="ident" def="bool"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Hijack">
+            <paramsList/>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="ServeMux">
+          <field type="map" name="z">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="Handler"/>
+          </field>
+          <field type="pointer" name="m">
+            <type type="selector">
+              <prefix value="sync"/>
+              <item value="RWMutex"/>
+            </type>
+          </field>
+        </type>
+        <type name="HandlerFunc" type="func">
+          <paramsList>
+            <type type="ident" def="ResponseWriter"/>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </type>
+        <type type="struct" name="Server">
+          <field type="ident" def="string" name="Addr"/>
+          <field type="ident" def="string" name="Net"/>
+          <field type="selector" name="Listener">
+            <prefix value="net"/>
+            <item value="Listener"/>
+          </field>
+          <field type="selector" name="PacketConn">
+            <prefix value="net"/>
+            <item value="PacketConn"/>
+          </field>
+          <field type="ident" def="Handler" name="Handler"/>
+          <field type="ident" def="int" name="UDPSize"/>
+          <field type="selector" name="ReadTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="WriteTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="func" name="IdleTimeout">
+            <paramsList/>
+            <resultsList>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </resultsList>
+          </field>
+          <field type="map" name="TsigSecret">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="bool" name="Unsafe"/>
+          <field type="func" name="NotifyStartedFunc">
+            <paramsList/>
+            <resultsList/>
+          </field>
+          <field type="chan" dir="3" name="stopUDP">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="chan" dir="3" name="stopTCP">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="selector" name="wgUDP">
+            <prefix value="sync"/>
+            <item value="WaitGroup"/>
+          </field>
+          <field type="selector" name="wgTCP">
+            <prefix value="sync"/>
+            <item value="WaitGroup"/>
+          </field>
+          <field type="selector" name="lock">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="ident" def="bool" name="started"/>
+        </type>
+        <type name="PrivateRdata" type="interface">
+          <method name="String">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="Parse">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="string"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Pack">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="int"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Unpack">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="int"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Copy">
+            <paramsList>
+              <type type="ident" def="PrivateRdata"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Len">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="PrivateRR">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="ident" def="PrivateRdata" name="Data"/>
+        </type>
+        <type name="Denialer" type="interface">
+          <method name="Cover">
+            <paramsList>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="bool"/>
+            </resultsList>
+          </method>
+          <method name="Match">
+            <paramsList>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="bool"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="MsgHdr">
+          <field type="ident" def="uint16" name="Id"/>
+          <field type="ident" def="bool" name="Response"/>
+          <field type="ident" def="int" name="Opcode"/>
+          <field type="ident" def="bool" name="Authoritative"/>
+          <field type="ident" def="bool" name="Truncated"/>
+          <field type="ident" def="bool" name="RecursionDesired"/>
+          <field type="ident" def="bool" name="RecursionAvailable"/>
+          <field type="ident" def="bool" name="Zero"/>
+          <field type="ident" def="bool" name="AuthenticatedData"/>
+          <field type="ident" def="bool" name="CheckingDisabled"/>
+          <field type="ident" def="int" name="Rcode"/>
+        </type>
+        <type type="struct" name="Msg">
+          <field type="ident" def="MsgHdr" name=""/>
+          <field type="ident" def="bool" name="Compress"/>
+          <field type="slice" name="Question">
+            <elmtype type="ident" def="Question"/>
+          </field>
+          <field type="slice" name="Answer">
+            <elmtype type="ident" def="RR"/>
+          </field>
+          <field type="slice" name="Ns">
+            <elmtype type="ident" def="RR"/>
+          </field>
+          <field type="slice" name="Extra">
+            <elmtype type="ident" def="RR"/>
+          </field>
+        </type>
+        <type name="PrivateKey" type="interface"/>
+        <type type="struct" name="OPT">
+          <field type="ident" def="RR_Header" name="Hdr"/>
+          <field type="slice" name="Option">
+            <elmtype type="ident" def="EDNS0"/>
+          </field>
+        </type>
+        <type name="EDNS0" type="interface">
+          <method name="Option">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="uint16"/>
+            </resultsList>
+          </method>
+          <method name="pack">
+            <paramsList/>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="unpack">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="String">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="EDNS0_NSID">
+          <field type="ident" def="uint16" name="Code"/>
+          <field type="ident" def="string" name="Nsid"/>
+        </type>
+        <type type="struct" name="EDNS0_SUBNET">
+          <field type="ident" def="uint16" name="Code"/>
+          <field type="ident" def="uint16" name="Family"/>
+          <field type="ident" def="uint8" name="SourceNetmask"/>
+          <field type="ident" def="uint8" name="SourceScope"/>
+          <field type="selector" name="Address">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+          <field type="ident" def="bool" name="DraftOption"/>
+        </type>
+        <type type="struct" name="EDNS0_UL">
+          <field type="ident" def="uint16" name="Code"/>
+          <field type="ident" def="uint32" name="Lease"/>
+        </type>
+        <type type="struct" name="EDNS0_LLQ">
+          <field type="ident" def="uint16" name="Code"/>
+          <field type="ident" def="uint16" name="Version"/>
+          <field type="ident" def="uint16" name="Opcode"/>
+          <field type="ident" def="uint16" name="Error"/>
+          <field type="ident" def="uint64" name="Id"/>
+          <field type="ident" def="uint32" name="LeaseLife"/>
+        </type>
+        <type type="struct" name="EDNS0_DAU">
+          <field type="ident" def="uint16" name="Code"/>
+          <field type="slice" name="AlgCode">
+            <elmtype type="ident" def="uint8"/>
+          </field>
+        </type>
+        <type type="struct" name="EDNS0_DHU">
+          <field type="ident" def="uint16" name="Code"/>
+          <field type="slice" name="AlgCode">
+            <elmtype type="ident" def="uint8"/>
+          </field>
+        </type>
+        <type type="struct" name="EDNS0_N3U">
+          <field type="ident" def="uint16" name="Code"/>
+          <field type="slice" name="AlgCode">
+            <elmtype type="ident" def="uint8"/>
+          </field>
+        </type>
+        <type type="struct" name="EDNS0_EXPIRE">
+          <field type="ident" def="uint16" name="Code"/>
+          <field type="ident" def="uint32" name="Expire"/>
+        </type>
+        <type type="struct" name="Error">
+          <field type="ident" def="string" name="err"/>
+        </type>
+        <type name="RR" type="interface">
+          <method name="Header">
+            <paramsList/>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="RR_Header"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="String">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="copy">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="RR"/>
+            </resultsList>
+          </method>
+          <method name="len">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="RR_Header">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="uint16" name="Rrtype"/>
+          <field type="ident" def="uint16" name="Class"/>
+          <field type="ident" def="uint32" name="Ttl"/>
+          <field type="ident" def="uint16" name="Rdlength"/>
+        </type>
+        <type type="struct" name="ClientConfig">
+          <field type="slice" name="Servers">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="Search">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Port"/>
+          <field type="ident" def="int" name="Ndots"/>
+          <field type="ident" def="int" name="Timeout"/>
+          <field type="ident" def="int" name="Attempts"/>
+        </type>
+        <type type="struct" name="Conn">
+          <field type="selector" name="">
+            <prefix value="net"/>
+            <item value="Conn"/>
+          </field>
+          <field type="ident" def="uint16" name="UDPSize"/>
+          <field type="map" name="TsigSecret">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+          <field type="selector" name="rtt">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="t">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="ident" def="string" name="tsigRequestMAC"/>
+        </type>
+        <type type="struct" name="Client">
+          <field type="ident" def="string" name="Net"/>
+          <field type="ident" def="uint16" name="UDPSize"/>
+          <field type="selector" name="DialTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="ReadTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="WriteTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="map" name="TsigSecret">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="bool" name="SingleInflight"/>
+          <field type="ident" def="singleflight" name="group"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Printf">
+          <recvList>
+            <type type="ident" def="debugging"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ParseError"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="NewRR">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="RR"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ReadRR">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="RR"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ParseZone">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="chan" dir="3">
+              <type type="pointer">
+                <type type="ident" def="Token"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="In">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transfer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="chan" dir="3">
+              <type type="pointer">
+                <type type="ident" def="Envelope"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Out">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transfer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="ResponseWriter"/>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+            <type type="chan" dir="3">
+              <type type="pointer">
+                <type type="ident" def="Envelope"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ReadMsg">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transfer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WriteMsg">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transfer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NameUsed">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="RR"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="NameNotUsed">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="RR"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Used">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="RR"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RRsetUsed">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="RR"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RRsetNotUsed">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="RR"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Insert">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="RR"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RemoveRRset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="RR"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RemoveName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="RR"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Remove">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="RR"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RemoteAddr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sessionUDP"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="Addr"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RemoteAddr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sessionUDP"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="Addr"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Question"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ANY"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ANY"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CNAME"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CNAME"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HINFO"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HINFO"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MB"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MB"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MG"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MG"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MINFO"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MINFO"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MR"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MR"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MF"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MF"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MD"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MD"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MX"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MX"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AFSDB"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AFSDB"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="X25"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="X25"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RT"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RT"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NS"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NS"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PTR"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PTR"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RP"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RP"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SOA"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SOA"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TXT"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TXT"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SPF"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SPF"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SRV"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SRV"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NAPTR"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NAPTR"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CERT"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CERT"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DNAME"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DNAME"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="A"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="A"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AAAA"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AAAA"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PX"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PX"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="GPOS"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="GPOS"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LOC"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LOC"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RRSIG"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RRSIG"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NSEC"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NSEC"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DS"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DS"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="KX"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="KX"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TA"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TA"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TALINK"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TALINK"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SSHFP"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SSHFP"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="IPSECKEY"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="IPSECKEY"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DNSKEY"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DNSKEY"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RKEY"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RKEY"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NSAP"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NSAP"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NSAPPTR"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NSAPPTR"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NSEC3"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NSEC3"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NSEC3PARAM"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NSEC3PARAM"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TKEY"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TKEY"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RFC3597"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RFC3597"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="URI"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="URI"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DHCID"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DHCID"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TLSA"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TLSA"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HIP"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HIP"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NINFO"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NINFO"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WKS"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WKS"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NID"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NID"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="L32"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="L32"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="L64"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="L64"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LP"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LP"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EUI48"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EUI48"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EUI64"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EUI64"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UID"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UID"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="GID"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="GID"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UINFO"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UINFO"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EID"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EID"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NIMLOC"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NIMLOC"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="OPENPGPKEY"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="OPENPGPKEY"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="TimeToString">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="uint32"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="StringToTime">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TSIG"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TSIG"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="TsigGenerate">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="TsigVerify">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CertificateToDANE">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="uint8"/>
+            <type type="ident" def="uint8"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="x509"/>
+                <item value="Certificate"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Sign">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TLSA"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="x509"/>
+                <item value="Certificate"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Verify">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TLSA"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="x509"/>
+                <item value="Certificate"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="TLSAName">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Do">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="singleflight"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="func">
+              <paramsList/>
+              <resultsList>
+                <type type="pointer">
+                  <type type="ident" def="Msg"/>
+                </type>
+                <type type="selector">
+                  <prefix value="time"/>
+                  <item value="Duration"/>
+                </type>
+                <type type="ident" def="error"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="error"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Sign">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SIG"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="PrivateKey"/>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Verify">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SIG"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="KEY"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewServeMux">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="ServeMux"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ServeDNS">
+          <recvList>
+            <type type="ident" def="HandlerFunc"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="ResponseWriter"/>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="HandleFailed">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="ResponseWriter"/>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="ListenAndServe">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Handler"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ActivateAndServe">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="Listener"/>
+            </type>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="PacketConn"/>
+            </type>
+            <type type="ident" def="Handler"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Handle">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ServeMux"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Handler"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="HandleFunc">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ServeMux"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="ResponseWriter"/>
+                <type type="pointer">
+                  <type type="ident" def="Msg"/>
+                </type>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="HandleRemove">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ServeMux"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="ServeDNS">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ServeMux"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="ResponseWriter"/>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Handle">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Handler"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="HandleRemove">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="HandleFunc">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="ResponseWriter"/>
+                <type type="pointer">
+                  <type type="ident" def="Msg"/>
+                </type>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="ListenAndServe">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ActivateAndServe">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Shutdown">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WriteMsg">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="response"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="response"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LocalAddr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="response"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="Addr"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RemoteAddr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="response"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="Addr"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="TsigStatus">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="response"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="TsigTimersOnly">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="response"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Hijack">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="response"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="response"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PrivateRR"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PrivateRR"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="PrivateHandle">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint16"/>
+            <type type="func">
+              <paramsList/>
+              <resultsList>
+                <type type="ident" def="PrivateRdata"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="PrivateHandleRemove">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="uint16"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="HashName">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint8"/>
+            <type type="ident" def="uint16"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Cover">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NSEC"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Match">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NSEC"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Cover">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NSEC3"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Match">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NSEC3"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="PackDomainName">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="int"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UnpackDomainName">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PackStruct">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UnpackStruct">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PackRR">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="RR"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="int"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UnpackRR">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="RR"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MsgHdr"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Pack">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PackBuffer">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Unpack">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Copy">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="RR"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="RR"/>
+          </returnsList>
+        </function>
+        <function name="Copy">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SplitDomainName">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CompareDomainName">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="CountLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Split">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NextLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="PrevLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="NewPrivateKey">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DNSKEY"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="PrivateKey"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ReadPrivateKey">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DNSKEY"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="PrivateKey"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Generate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DNSKEY"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="PrivateKey"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PrivateKeyString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DNSKEY"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="PrivateKey"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="OPT"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="OPT"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Version">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="OPT"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint8"/>
+          </returnsList>
+        </function>
+        <function name="SetVersion">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="OPT"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint8"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="ExtendedRcode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="OPT"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint8"/>
+          </returnsList>
+        </function>
+        <function name="SetExtendedRcode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="OPT"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint8"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="UDPSize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="OPT"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+          </returnsList>
+        </function>
+        <function name="SetUDPSize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="OPT"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint16"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Do">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="OPT"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="SetDo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="OPT"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Option">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_NSID"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_NSID"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Option">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_SUBNET"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_SUBNET"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Option">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_UL"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_UL"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Option">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_LLQ"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_LLQ"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Option">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_DAU"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_DAU"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Option">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_DHU"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_DHU"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Option">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_N3U"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_N3U"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Option">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_EXPIRE"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EDNS0_EXPIRE"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="KeyTag">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DNSKEY"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+          </returnsList>
+        </function>
+        <function name="ToDS">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DNSKEY"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint8"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="DS"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Sign">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RRSIG"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="PrivateKey"/>
+            <type type="slice">
+              <elmtype type="ident" def="RR"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Verify">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RRSIG"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="DNSKEY"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="RR"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ValidityPeriod">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RRSIG"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="wireSlice"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="wireSlice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="wireSlice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Error"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Header">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RR_Header"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ToRFC3597">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RFC3597"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="RR"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetReply">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetQuestion">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint16"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetNotify">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetRcode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetRcodeFormatError">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetUpdate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetIxfr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint32"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetAxfr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetTsig">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetEdns0">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint16"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsTsig">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="TSIG"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsEdns0">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="OPT"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsDomainName">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsSubDomain">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsMsg">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IsFqdn">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Fqdn">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ReverseAddr">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="Type"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="Class"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="Name"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ClientConfigFromFile">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="ClientConfig"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Exchange">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ExchangeConn">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="Conn"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Exchange">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ReadMsg">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Read">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WriteMsg">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Msg"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Dial">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DialTimeout">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LocalAddr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="Addr"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RemoteAddr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="Addr"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetDeadline">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetReadDeadline">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetWriteDeadline">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="TypeNone"/>
+        <name value="TypeA"/>
+        <name value="TypeNS"/>
+        <name value="TypeMD"/>
+        <name value="TypeMF"/>
+        <name value="TypeCNAME"/>
+        <name value="TypeSOA"/>
+        <name value="TypeMB"/>
+        <name value="TypeMG"/>
+        <name value="TypeMR"/>
+        <name value="TypeNULL"/>
+        <name value="TypeWKS"/>
+        <name value="TypePTR"/>
+        <name value="TypeHINFO"/>
+        <name value="TypeMINFO"/>
+        <name value="TypeMX"/>
+        <name value="TypeTXT"/>
+        <name value="TypeRP"/>
+        <name value="TypeAFSDB"/>
+        <name value="TypeX25"/>
+        <name value="TypeISDN"/>
+        <name value="TypeRT"/>
+        <name value="TypeNSAP"/>
+        <name value="TypeNSAPPTR"/>
+        <name value="TypeSIG"/>
+        <name value="TypeKEY"/>
+        <name value="TypePX"/>
+        <name value="TypeGPOS"/>
+        <name value="TypeAAAA"/>
+        <name value="TypeLOC"/>
+        <name value="TypeNXT"/>
+        <name value="TypeEID"/>
+        <name value="TypeNIMLOC"/>
+        <name value="TypeSRV"/>
+        <name value="TypeATMA"/>
+        <name value="TypeNAPTR"/>
+        <name value="TypeKX"/>
+        <name value="TypeCERT"/>
+        <name value="TypeDNAME"/>
+        <name value="TypeOPT"/>
+        <name value="TypeDS"/>
+        <name value="TypeSSHFP"/>
+        <name value="TypeIPSECKEY"/>
+        <name value="TypeRRSIG"/>
+        <name value="TypeNSEC"/>
+        <name value="TypeDNSKEY"/>
+        <name value="TypeDHCID"/>
+        <name value="TypeNSEC3"/>
+        <name value="TypeNSEC3PARAM"/>
+        <name value="TypeTLSA"/>
+        <name value="TypeHIP"/>
+        <name value="TypeNINFO"/>
+        <name value="TypeRKEY"/>
+        <name value="TypeTALINK"/>
+        <name value="TypeCDS"/>
+        <name value="TypeCDNSKEY"/>
+        <name value="TypeOPENPGPKEY"/>
+        <name value="TypeSPF"/>
+        <name value="TypeUINFO"/>
+        <name value="TypeUID"/>
+        <name value="TypeGID"/>
+        <name value="TypeUNSPEC"/>
+        <name value="TypeNID"/>
+        <name value="TypeL32"/>
+        <name value="TypeL64"/>
+        <name value="TypeLP"/>
+        <name value="TypeEUI48"/>
+        <name value="TypeEUI64"/>
+        <name value="TypeTKEY"/>
+        <name value="TypeTSIG"/>
+        <name value="TypeIXFR"/>
+        <name value="TypeAXFR"/>
+        <name value="TypeMAILB"/>
+        <name value="TypeMAILA"/>
+        <name value="TypeANY"/>
+        <name value="TypeURI"/>
+        <name value="TypeCAA"/>
+        <name value="TypeTA"/>
+        <name value="TypeDLV"/>
+        <name value="TypeReserved"/>
+        <name value="ClassINET"/>
+        <name value="ClassCSNET"/>
+        <name value="ClassCHAOS"/>
+        <name value="ClassHESIOD"/>
+        <name value="ClassNONE"/>
+        <name value="ClassANY"/>
+        <name value="RcodeSuccess"/>
+        <name value="RcodeFormatError"/>
+        <name value="RcodeServerFailure"/>
+        <name value="RcodeNameError"/>
+        <name value="RcodeNotImplemented"/>
+        <name value="RcodeRefused"/>
+        <name value="RcodeYXDomain"/>
+        <name value="RcodeYXRrset"/>
+        <name value="RcodeNXRrset"/>
+        <name value="RcodeNotAuth"/>
+        <name value="RcodeNotZone"/>
+        <name value="RcodeBadSig"/>
+        <name value="RcodeBadVers"/>
+        <name value="RcodeBadKey"/>
+        <name value="RcodeBadTime"/>
+        <name value="RcodeBadMode"/>
+        <name value="RcodeBadName"/>
+        <name value="RcodeBadAlg"/>
+        <name value="RcodeBadTrunc"/>
+        <name value="OpcodeQuery"/>
+        <name value="OpcodeIQuery"/>
+        <name value="OpcodeStatus"/>
+        <name value="OpcodeNotify"/>
+        <name value="OpcodeUpdate"/>
+        <name value="LOC_EQUATOR"/>
+        <name value="LOC_PRIMEMERIDIAN"/>
+        <name value="LOC_HOURS"/>
+        <name value="LOC_DEGREES"/>
+        <name value="LOC_ALTITUDEBASE"/>
+        <name value="CertPKIX"/>
+        <name value="CertSPKI"/>
+        <name value="CertPGP"/>
+        <name value="CertIPIX"/>
+        <name value="CertISPKI"/>
+        <name value="CertIPGP"/>
+        <name value="CertACPKIX"/>
+        <name value="CertIACPKIX"/>
+        <name value="CertURI"/>
+        <name value="CertOID"/>
+        <name value="CertTypeToString"/>
+        <name value="StringToCertType"/>
+        <name value="HmacMD5"/>
+        <name value="HmacSHA1"/>
+        <name value="HmacSHA256"/>
+        <name value="DefaultServeMux"/>
+        <name value="ErrAlg"/>
+        <name value="ErrAuth"/>
+        <name value="ErrBuf"/>
+        <name value="ErrConnEmpty"/>
+        <name value="ErrConn"/>
+        <name value="ErrExtendedRcode"/>
+        <name value="ErrFqdn"/>
+        <name value="ErrId"/>
+        <name value="ErrKeyAlg"/>
+        <name value="ErrKey"/>
+        <name value="ErrKeySize"/>
+        <name value="ErrNoSig"/>
+        <name value="ErrPrivKey"/>
+        <name value="ErrRcode"/>
+        <name value="ErrRdata"/>
+        <name value="ErrRRset"/>
+        <name value="ErrSecret"/>
+        <name value="ErrServ"/>
+        <name value="ErrShortRead"/>
+        <name value="ErrSig"/>
+        <name value="ErrSigGen"/>
+        <name value="ErrSoa"/>
+        <name value="ErrTime"/>
+        <name value="Id"/>
+        <name value="TypeToString"/>
+        <name value="StringToType"/>
+        <name value="StringToClass"/>
+        <name value="StringToOpcode"/>
+        <name value="StringToRcode"/>
+        <name value="ClassToString"/>
+        <name value="OpcodeToString"/>
+        <name value="RcodeToString"/>
+        <name value="EDNS0LLQ"/>
+        <name value="EDNS0UL"/>
+        <name value="EDNS0NSID"/>
+        <name value="EDNS0DAU"/>
+        <name value="EDNS0DHU"/>
+        <name value="EDNS0N3U"/>
+        <name value="EDNS0SUBNET"/>
+        <name value="EDNS0EXPIRE"/>
+        <name value="EDNS0SUBNETDRAFT"/>
+        <name value="RSAMD5"/>
+        <name value="DH"/>
+        <name value="DSA"/>
+        <name value="RSASHA1"/>
+        <name value="DSANSEC3SHA1"/>
+        <name value="RSASHA1NSEC3SHA1"/>
+        <name value="RSASHA256"/>
+        <name value="RSASHA512"/>
+        <name value="ECCGOST"/>
+        <name value="ECDSAP256SHA256"/>
+        <name value="ECDSAP384SHA384"/>
+        <name value="INDIRECT"/>
+        <name value="PRIVATEDNS"/>
+        <name value="PRIVATEOID"/>
+        <name value="SHA1"/>
+        <name value="SHA256"/>
+        <name value="GOST94"/>
+        <name value="SHA384"/>
+        <name value="SHA512"/>
+        <name value="SEP"/>
+        <name value="REVOKE"/>
+        <name value="ZONE"/>
+        <name value="AlgorithmToString"/>
+        <name value="StringToAlgorithm"/>
+        <name value="HashToString"/>
+        <name value="StringToHash"/>
+        <name value="DefaultMsgSize"/>
+        <name value="MinMsgSize"/>
+        <name value="MaxMsgSize"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="encoding/base64"/>
+    <import path="net"/>
+    <import path="strconv"/>
+    <import path="strings"/>
+    <import path="io"/>
+    <import path="log"/>
+    <import path="os"/>
+    <import path="fmt"/>
+    <import path="time"/>
+    <import path="bytes"/>
+    <import path="testing"/>
+    <import path="syscall"/>
+    <import path="crypto/hmac"/>
+    <import path="crypto/md5"/>
+    <import path="crypto/sha1"/>
+    <import path="crypto/sha256"/>
+    <import path="encoding/hex"/>
+    <import path="hash"/>
+    <import path="crypto/sha512"/>
+    <import path="crypto/x509"/>
+    <import path="errors"/>
+    <import path="sync"/>
+    <import path="crypto"/>
+    <import path="crypto/dsa"/>
+    <import path="crypto/ecdsa"/>
+    <import path="crypto/rand"/>
+    <import path="crypto/rsa"/>
+    <import path="math/big"/>
+    <import path="runtime"/>
+    <import path="bufio"/>
+    <import path="text/scanner"/>
+    <import path="github.com/miekg/dns"/>
+    <import path="math/rand"/>
+    <import path="reflect"/>
+    <import path="testing/quick"/>
+    <import path="encoding/base32"/>
+    <import path="crypto/elliptic"/>
+    <import path="sort"/>
+    <import path="unicode"/>
+    <import path="github.com/miekg/dns/idn"/>
+  </imports>
+</project>

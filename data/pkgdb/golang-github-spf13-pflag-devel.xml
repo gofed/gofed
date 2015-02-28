@@ -1,0 +1,3178 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/spf13/pflag">
+      <types>
+        <type name="ErrorHandling" type="ident">
+          <type type="ident" def="int"/>
+        </type>
+        <type type="struct" name="FlagSet">
+          <field type="func" name="Usage">
+            <paramsList/>
+            <resultsList/>
+          </field>
+          <field type="ident" def="string" name="name"/>
+          <field type="ident" def="bool" name="parsed"/>
+          <field type="map" name="actual">
+            <keytype type="ident" def="string"/>
+            <valtype type="pointer">
+              <type type="ident" def="Flag"/>
+            </valtype>
+          </field>
+          <field type="map" name="formal">
+            <keytype type="ident" def="string"/>
+            <valtype type="pointer">
+              <type type="ident" def="Flag"/>
+            </valtype>
+          </field>
+          <field type="map" name="shorthands">
+            <keytype type="ident" def="byte"/>
+            <valtype type="pointer">
+              <type type="ident" def="Flag"/>
+            </valtype>
+          </field>
+          <field type="slice" name="args">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="bool" name="exitOnError"/>
+          <field type="ident" def="ErrorHandling" name="errorHandling"/>
+          <field type="selector" name="output">
+            <prefix value="io"/>
+            <item value="Writer"/>
+          </field>
+          <field type="ident" def="bool" name="interspersed"/>
+        </type>
+        <type type="struct" name="Flag">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="Shorthand"/>
+          <field type="ident" def="string" name="Usage"/>
+          <field type="ident" def="Value" name="Value"/>
+          <field type="ident" def="string" name="DefValue"/>
+          <field type="ident" def="bool" name="Changed"/>
+        </type>
+        <type name="Value" type="interface">
+          <method name="String">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="Set">
+            <paramsList>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Type">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+        </type>
+      </types>
+      <functions>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint8Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint8Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint8Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Uint8Var">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint8"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint8VarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint8"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint8Var">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint8"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint8VarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint8"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint8"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint8P">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint8"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint8">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint8"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint8P">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint8"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint64Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint64Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint64Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Uint64Var">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint64"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint64VarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint64"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint64Var">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint64"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint64VarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint64"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint64P">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint64">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint64P">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint32Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint32Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint32Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint32Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Uint32Var">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint32"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint32VarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint32"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint32Var">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint32"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint32VarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint32"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint32P">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint32">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint32P">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint16Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint16Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint16Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint16Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Uint16Var">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint16"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint16"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint16VarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint16"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint16"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint16Var">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint16"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint16"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint16VarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint16"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint16"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint16"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint16"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint16P">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint16"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint16"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint16">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint16"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint16"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint16P">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint16"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint16"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uintValue"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uintValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uintValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="UintVar">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="UintVarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="UintVar">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="UintVarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="uint"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Uint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="UintP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="UintP">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="stringValue"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="stringValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="stringValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="StringVar">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="string"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="StringVarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="string"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="StringVar">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="string"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="StringVarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="string"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="StringP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="StringP">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ipMaskValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ipMaskValue"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ipMaskValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ipMaskValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ParseIPv4Mask">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IPMask"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IPMaskVar">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IPMask"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IPMask"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="IPMaskVarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IPMask"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IPMask"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="IPMaskVar">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IPMask"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IPMask"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="IPMaskVarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IPMask"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IPMask"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="IPMask">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IPMask"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IPMask"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IPMaskP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IPMask"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IPMask"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IPMask">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IPMask"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IPMask"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IPMaskP">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IPMask"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IPMask"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ipValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ipValue"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ipValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ipValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="IPVar">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IP"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="IPVarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IP"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="IPVar">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IP"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="IPVarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IP"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="IP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IP"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IPP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IP"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IP">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IP"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IPP">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IP"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="int8Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="int8Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="int8Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Int8Var">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int8"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Int8VarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int8"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Int8Var">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int8"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Int8VarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int8"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Int8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int8"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int8P">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int8"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int8">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int8"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int8P">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int8"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int8"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="int64Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="int64Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="int64Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Int64Var">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int64"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Int64VarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int64"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Int64Var">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int64"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Int64VarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int64"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Int64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int64P">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int64">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int64P">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="int32Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="int32Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="int32Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Int32Var">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int32"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Int32VarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int32"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Int32Var">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int32"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Int32VarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int32"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Int32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int32P">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int32">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int32P">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="intValue"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="intValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="intValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="IntVar">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="IntVarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="IntVar">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="IntVarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Int">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IntP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IntP">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="float64Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="float64Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="float64Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Float64Var">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="float64"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Float64VarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="float64"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Float64Var">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="float64"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Float64VarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="float64"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Float64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Float64P">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Float64">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Float64P">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="float32Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="float32Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="float32Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Float32Var">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="float32"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Float32VarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="float32"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Float32Var">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="float32"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Float32VarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="float32"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Float32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="float32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Float32P">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="float32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Float32">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="float32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Float32P">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="float32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="float32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetOutput">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="VisitAll">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="ident" def="Flag"/>
+                </type>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="HasFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="VisitAll">
+          <recvList/>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="ident" def="Flag"/>
+                </type>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Visit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="ident" def="Flag"/>
+                </type>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Visit">
+          <recvList/>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="ident" def="Flag"/>
+                </type>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Lookup">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Flag"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Lookup">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Flag"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PrintDefaults">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="FlagUsages">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="PrintDefaults">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="NFlag">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="NFlag">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Arg">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Arg">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="NArg">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="NArg">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Args">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Args">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Var">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Value"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="VarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Value"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="AddFlag">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Flag"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Var">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Value"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="VarP">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Value"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Parse">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Parsed">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Parse">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="SetInterspersed">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Parsed">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="NewFlagSet">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="ErrorHandling"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetInterspersed">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="ErrorHandling"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="durationValue"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="durationValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="durationValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="DurationVar">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="DurationVarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="DurationVar">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="DurationVarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Duration">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="DurationP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Duration">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="DurationP">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="boolValue"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="boolValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="boolValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="IsBoolFlag">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="boolValue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="BoolVar">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="bool"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="BoolVarP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="bool"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="BoolVar">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="bool"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="BoolVarP">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="bool"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Bool">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="bool"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="BoolP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="bool"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Bool">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="bool"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="BoolP">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="bool"/>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ErrHelp"/>
+        <name value="ContinueOnError"/>
+        <name value="ExitOnError"/>
+        <name value="PanicOnError"/>
+        <name value="Usage"/>
+        <name value="CommandLine"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="fmt"/>
+    <import path="strconv"/>
+    <import path="net"/>
+    <import path="bytes"/>
+    <import path="io/ioutil"/>
+    <import path="os"/>
+    <import path="sort"/>
+    <import path="strings"/>
+    <import path="testing"/>
+    <import path="time"/>
+    <import path="github.com/spf13/pflag"/>
+    <import path="errors"/>
+    <import path="io"/>
+    <import path="github.com/ogier/pflag"/>
+  </imports>
+</project>

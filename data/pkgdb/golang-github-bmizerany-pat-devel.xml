@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/bmizerany/pat/example/patexample">
+      <types/>
+      <functions>
+        <function name="HelloServer">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/bmizerany/pat">
+      <types>
+        <type type="struct" name="PatternServeMux">
+          <field type="map" name="handlers">
+            <keytype type="ident" def="string"/>
+            <valtype type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="patHandler"/>
+              </elmtype>
+            </valtype>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="New">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="PatternServeMux"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ServeHTTP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PatternServeMux"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Head">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PatternServeMux"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Handler"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PatternServeMux"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Handler"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Post">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PatternServeMux"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Handler"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Put">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PatternServeMux"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Handler"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Del">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PatternServeMux"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Handler"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Options">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PatternServeMux"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Handler"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PatternServeMux"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Handler"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Tail">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="net/http"/>
+    <import path="net/http/httptest"/>
+    <import path="net/url"/>
+    <import path="sort"/>
+    <import path="strings"/>
+    <import path="testing"/>
+    <import path="github.com/bmizerany/assert"/>
+    <import path="io"/>
+    <import path="log"/>
+    <import path="github.com/bmizerany/pat"/>
+  </imports>
+</project>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/imdario/mergo">
+      <types/>
+      <functions>
+        <function name="Merge">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Map">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ErrNilArguments"/>
+        <name value="ErrDifferentArgumentsTypes"/>
+        <name value="ErrNotSupported"/>
+        <name value="ErrExpectedMapAsDestination"/>
+        <name value="ErrExpectedStructAsDestination"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="gopkg.in/yaml.v1"/>
+    <import path="io/ioutil"/>
+    <import path="reflect"/>
+    <import path="testing"/>
+    <import path="errors"/>
+    <import path="fmt"/>
+    <import path="unicode"/>
+    <import path="unicode/utf8"/>
+  </imports>
+</project>

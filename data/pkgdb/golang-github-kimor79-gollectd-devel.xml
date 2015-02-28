@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/kimor79/gollectd">
+      <types>
+        <type type="struct" name="Packet">
+          <field type="ident" def="string" name="Hostname"/>
+          <field type="ident" def="uint64" name="Interval"/>
+          <field type="ident" def="uint64" name="IntervalHR"/>
+          <field type="ident" def="string" name="Plugin"/>
+          <field type="ident" def="string" name="PluginInstance"/>
+          <field type="ident" def="uint64" name="Time"/>
+          <field type="ident" def="uint64" name="TimeHR"/>
+          <field type="ident" def="string" name="Type"/>
+          <field type="ident" def="string" name="TypeInstance"/>
+          <field type="slice" name="Values">
+            <elmtype type="ident" def="Value"/>
+          </field>
+        </type>
+        <type type="struct" name="Type">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="uint8" name="Type"/>
+          <field type="ident" def="string" name="Min"/>
+          <field type="ident" def="string" name="Max"/>
+        </type>
+        <type name="Types" type="map">
+          <keytype type="ident" def="string"/>
+          <valtype type="slice">
+            <elmtype type="pointer">
+              <type type="ident" def="Type"/>
+            </elmtype>
+          </valtype>
+        </type>
+        <type type="struct" name="Value">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="uint8" name="Type"/>
+          <field type="ident" def="string" name="TypeName"/>
+          <field type="ident" def="float64" name="Value"/>
+        </type>
+      </types>
+      <functions>
+        <function name="FormatName">
+          <recvList>
+            <type type="ident" def="Packet"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Packets">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="Types"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="slice">
+                <elmtype type="ident" def="Packet"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="TypesDBFile">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Types"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="TypesDB">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Types"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ParseDataSet">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Type"/>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="TypeCounter"/>
+        <name value="TypeGauge"/>
+        <name value="TypeDerive"/>
+        <name value="TypeAbsolute"/>
+        <name value="ParseHost"/>
+        <name value="ParseTime"/>
+        <name value="ParsePlugin"/>
+        <name value="ParsePluginInstance"/>
+        <name value="ParseType"/>
+        <name value="ParseTypeInstance"/>
+        <name value="ParseValues"/>
+        <name value="ParseInterval"/>
+        <name value="ParseTimeHR"/>
+        <name value="ParseIntervalHR"/>
+        <name value="ParseMessage"/>
+        <name value="ParseSeverity"/>
+        <name value="ParseSignature"/>
+        <name value="ParseEncryption"/>
+        <name value="ErrorInvalid"/>
+        <name value="ErrorUnsupported"/>
+        <name value="ErrorUnknownType"/>
+        <name value="ErrorUnknownDataType"/>
+        <name value="ValueTypeNames"/>
+        <name value="ValueTypeValues"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="encoding/hex"/>
+    <import path="testing"/>
+    <import path="github.com/stretchr/testify/assert"/>
+    <import path="bytes"/>
+    <import path="encoding/binary"/>
+    <import path="errors"/>
+    <import path="fmt"/>
+    <import path="io/ioutil"/>
+    <import path="strings"/>
+    <import path="log"/>
+    <import path="net"/>
+    <import path="github.com/kimor79/gollectd"/>
+    <import path="flag"/>
+    <import path="os"/>
+  </imports>
+</project>

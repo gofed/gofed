@@ -1,0 +1,1586 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/Sirupsen/logrus/hooks/papertrail">
+      <types>
+        <type type="struct" name="PapertrailHook">
+          <field type="ident" def="string" name="Host"/>
+          <field type="ident" def="int" name="Port"/>
+          <field type="ident" def="string" name="AppName"/>
+          <field type="selector" name="UDPConn">
+            <prefix value="net"/>
+            <item value="Conn"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="NewPapertrailHook">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="PapertrailHook"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Fire">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PapertrailHook"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="logrus"/>
+                <item value="Entry"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Levels">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PapertrailHook"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="logrus"/>
+                <item value="Level"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/Sirupsen/logrus/hooks/airbrake">
+      <types>
+        <type type="struct" name="AirbrakeHook"/>
+      </types>
+      <functions>
+        <function name="Fire">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AirbrakeHook"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="logrus"/>
+                <item value="Entry"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Levels">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AirbrakeHook"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="logrus"/>
+                <item value="Level"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/Sirupsen/logrus">
+      <types>
+        <type type="struct" name="TextFormatter">
+          <field type="ident" def="bool" name="ForceColors"/>
+          <field type="ident" def="bool" name="DisableColors"/>
+          <field type="ident" def="bool" name="DisableTimestamp"/>
+        </type>
+        <type name="Termios" type="selector">
+          <prefix value="syscall"/>
+          <item value="Termios"/>
+        </type>
+        <type type="struct" name="Termios">
+          <field type="ident" def="uint32" name="Iflag"/>
+          <field type="ident" def="uint32" name="Oflag"/>
+          <field type="ident" def="uint32" name="Cflag"/>
+          <field type="ident" def="uint32" name="Lflag"/>
+          <field type="array" name="Cc">
+            <elmtype type="ident" def="uint8"/>
+          </field>
+          <field type="ident" def="uint32" name="Ispeed"/>
+          <field type="ident" def="uint32" name="Ospeed"/>
+        </type>
+        <type name="Termios" type="selector">
+          <prefix value="syscall"/>
+          <item value="Termios"/>
+        </type>
+        <type name="Fields" type="map">
+          <keytype type="ident" def="string"/>
+          <valtype type="interface"/>
+        </type>
+        <type name="Level" type="ident">
+          <type type="ident" def="uint8"/>
+        </type>
+        <type name="StdLogger" type="interface">
+          <method name="Print">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Printf">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Println">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Fatal">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Fatalf">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Fatalln">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Panic">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Panicf">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Panicln">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="Logger">
+          <field type="selector" name="Out">
+            <prefix value="io"/>
+            <item value="Writer"/>
+          </field>
+          <field type="ident" def="levelHooks" name="Hooks"/>
+          <field type="ident" def="Formatter" name="Formatter"/>
+          <field type="ident" def="Level" name="Level"/>
+          <field type="selector" name="mu">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+        </type>
+        <type type="struct" name="JSONFormatter"/>
+        <type name="Hook" type="interface">
+          <method name="Levels">
+            <paramsList/>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="Level"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Fire">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="Entry"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="Formatter" type="interface">
+          <method name="Format">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="Entry"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="Entry">
+          <field type="pointer" name="Logger">
+            <type type="ident" def="Logger"/>
+          </field>
+          <field type="ident" def="Fields" name="Data"/>
+          <field type="selector" name="Time">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="ident" def="Level" name="Level"/>
+          <field type="ident" def="string" name="Message"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Format">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TextFormatter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IsTerminal">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsTerminal">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="Level"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ParseLevel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Level"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="New">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WithField">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WithFields">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Fields"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Debugf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Infof">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Printf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warnf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warningf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Errorf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatalf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panicf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debug">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Info">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Print">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warn">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warning">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panic">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debugln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Infoln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Println">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warnln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warningln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Errorln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatalln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panicln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Format">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="JSONFormatter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="ident" def="levelHooks"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Hook"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fire">
+          <recvList>
+            <type type="ident" def="levelHooks"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Level"/>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetOutput">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetFormatter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Formatter"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetLevel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Level"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GetLevel">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Level"/>
+          </returnsList>
+        </function>
+        <function name="AddHook">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Hook"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="WithField">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WithFields">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Fields"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Debug">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Print">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Info">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warn">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warning">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Error">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panic">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatal">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debugf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Printf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Infof">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warnf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warningf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Errorf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panicf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatalf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debugln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Println">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Infoln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warnln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warningln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Errorln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panicln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatalln">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="NewEntry">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Reader">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WithField">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WithFields">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Fields"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Debug">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Print">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Info">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warn">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panic">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debugf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Infof">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Printf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warnf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warningf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Errorf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatalf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panicf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debugln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Infoln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Println">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warnln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warningln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Errorln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatalln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Panicln">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Entry"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names>
+        <name value="PanicLevel"/>
+        <name value="FatalLevel"/>
+        <name value="ErrorLevel"/>
+        <name value="WarnLevel"/>
+        <name value="InfoLevel"/>
+        <name value="DebugLevel"/>
+      </names>
+    </package>
+    <package importpath="github.com/Sirupsen/logrus/hooks/syslog">
+      <types>
+        <type type="struct" name="SyslogHook">
+          <field type="pointer" name="Writer">
+            <type type="selector">
+              <prefix value="syslog"/>
+              <item value="Writer"/>
+            </type>
+          </field>
+          <field type="ident" def="string" name="SyslogNetwork"/>
+          <field type="ident" def="string" name="SyslogRaddr"/>
+        </type>
+      </types>
+      <functions>
+        <function name="NewSyslogHook">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="syslog"/>
+              <item value="Priority"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="SyslogHook"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Fire">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SyslogHook"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="logrus"/>
+                <item value="Entry"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Levels">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SyslogHook"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="logrus"/>
+                <item value="Level"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/Sirupsen/logrus/hooks/sentry">
+      <types>
+        <type type="struct" name="SentryHook">
+          <field type="selector" name="Timeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="pointer" name="client">
+            <type type="selector">
+              <prefix value="raven"/>
+              <item value="Client"/>
+            </type>
+          </field>
+          <field type="slice" name="levels">
+            <elmtype type="selector">
+              <prefix value="logrus"/>
+              <item value="Level"/>
+            </elmtype>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="NewSentryHook">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="logrus"/>
+                <item value="Level"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="SentryHook"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Fire">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SentryHook"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="logrus"/>
+                <item value="Entry"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Levels">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SentryHook"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="logrus"/>
+                <item value="Level"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="bytes"/>
+    <import path="errors"/>
+    <import path="testing"/>
+    <import path="fmt"/>
+    <import path="regexp"/>
+    <import path="sort"/>
+    <import path="strings"/>
+    <import path="time"/>
+    <import path="syscall"/>
+    <import path="unsafe"/>
+    <import path="encoding/json"/>
+    <import path="strconv"/>
+    <import path="github.com/stretchr/testify/assert"/>
+    <import path="log"/>
+    <import path="io"/>
+    <import path="os"/>
+    <import path="sync"/>
+    <import path="github.com/Sirupsen/logrus"/>
+    <import path="log/syslog"/>
+    <import path="io/ioutil"/>
+    <import path="net/http"/>
+    <import path="net/http/httptest"/>
+    <import path="github.com/getsentry/raven-go"/>
+    <import path="github.com/stvp/go-udp-testing"/>
+    <import path="net"/>
+    <import path="github.com/tobi/airbrake-go"/>
+    <import path="github.com/Sirupsen/logrus/hooks/airbrake"/>
+  </imports>
+</project>

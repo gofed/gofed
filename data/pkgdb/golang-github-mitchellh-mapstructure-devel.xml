@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/mitchellh/mapstructure">
+      <types>
+        <type name="DecodeHookFunc" type="func">
+          <paramsList>
+            <type type="selector">
+              <prefix value="reflect"/>
+              <item value="Kind"/>
+            </type>
+            <type type="selector">
+              <prefix value="reflect"/>
+              <item value="Kind"/>
+            </type>
+            <type type="interface"/>
+          </paramsList>
+          <resultsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </type>
+        <type type="struct" name="DecoderConfig">
+          <field type="ident" def="DecodeHookFunc" name="DecodeHook"/>
+          <field type="ident" def="bool" name="ErrorUnused"/>
+          <field type="ident" def="bool" name="WeaklyTypedInput"/>
+          <field type="pointer" name="Metadata">
+            <type type="ident" def="Metadata"/>
+          </field>
+          <field type="interface" name="Result"/>
+          <field type="ident" def="string" name="TagName"/>
+        </type>
+        <type type="struct" name="Decoder">
+          <field type="pointer" name="config">
+            <type type="ident" def="DecoderConfig"/>
+          </field>
+        </type>
+        <type type="struct" name="Metadata">
+          <field type="slice" name="Keys">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="Unused">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="Error">
+          <field type="slice" name="Errors">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Decode">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WeakDecode">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewDecoder">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="DecoderConfig"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Decoder"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Decode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Decoder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Error"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ComposeDecodeHookFunc">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="DecodeHookFunc"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="DecodeHookFunc"/>
+          </returnsList>
+        </function>
+        <function name="StringToSliceHookFunc">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="DecodeHookFunc"/>
+          </returnsList>
+        </function>
+        <function name="WeaklyTypedHook">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="reflect"/>
+              <item value="Kind"/>
+            </type>
+            <type type="selector">
+              <prefix value="reflect"/>
+              <item value="Kind"/>
+            </type>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="reflect"/>
+    <import path="sort"/>
+    <import path="testing"/>
+    <import path="fmt"/>
+    <import path="errors"/>
+    <import path="strconv"/>
+    <import path="strings"/>
+  </imports>
+</project>

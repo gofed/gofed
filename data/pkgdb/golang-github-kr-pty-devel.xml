@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/kr/pty">
+      <types/>
+      <functions>
+        <function name="Getsize">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="os"/>
+                <item value="File"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Start">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="exec"/>
+                <item value="Cmd"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="os"/>
+                <item value="File"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Open">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="os"/>
+                <item value="File"/>
+              </type>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="os"/>
+                <item value="File"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ErrUnsupported"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="os"/>
+    <import path="syscall"/>
+    <import path="unsafe"/>
+    <import path="C"/>
+    <import path="os/exec"/>
+    <import path="strconv"/>
+    <import path="errors"/>
+  </imports>
+</project>

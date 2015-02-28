@@ -1,0 +1,343 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/skynetservices/skydns/msg">
+      <types>
+        <type type="struct" name="Service">
+          <field type="ident" def="string" name="Host"/>
+          <field type="ident" def="int" name="Port"/>
+          <field type="ident" def="int" name="Priority"/>
+          <field type="ident" def="int" name="Weight"/>
+          <field type="ident" def="uint32" name="Ttl"/>
+          <field type="ident" def="string" name="Key"/>
+        </type>
+      </types>
+      <functions>
+        <function name="NewSRV">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Service"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint16"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="dns"/>
+                <item value="SRV"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewA">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Service"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="dns"/>
+                <item value="A"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewAAAA">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Service"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="dns"/>
+                <item value="AAAA"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewCNAME">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Service"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="dns"/>
+                <item value="CNAME"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewNS">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Service"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="dns"/>
+                <item value="NS"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewPTR">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Service"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint32"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="dns"/>
+                <item value="PTR"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="PathWithWildcard">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Path">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Domain">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/skynetservices/skydns/cache">
+      <types>
+        <type type="struct" name="Cache">
+          <field type="selector" name="">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="pointer" name="l">
+            <type type="selector">
+              <prefix value="list"/>
+              <item value="List"/>
+            </type>
+          </field>
+          <field type="map" name="m">
+            <keytype type="ident" def="string"/>
+            <valtype type="pointer">
+              <type type="selector">
+                <prefix value="list"/>
+                <item value="Element"/>
+              </type>
+            </valtype>
+          </field>
+          <field type="ident" def="uint" name="capacity"/>
+          <field type="ident" def="uint" name="size"/>
+          <field type="selector" name="ttl">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Cache"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Remove">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="InsertMessage">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="dns"/>
+                <item value="Msg"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="InsertSignature">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="dns"/>
+                <item value="RRSIG"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Search">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="dns"/>
+                <item value="Msg"/>
+              </type>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="QuestionKey">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="dns"/>
+              <item value="Question"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Key">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="dns"/>
+                <item value="RR"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="github.com/rcrowley/go-metrics"/>
+    <import path="github.com/rcrowley/go-metrics/influxdb"/>
+    <import path="github.com/rcrowley/go-metrics/stathat"/>
+    <import path="net"/>
+    <import path="os"/>
+    <import path="sync"/>
+    <import path="github.com/coreos/go-etcd/etcd"/>
+    <import path="github.com/miekg/dns"/>
+    <import path="encoding/json"/>
+    <import path="sort"/>
+    <import path="strconv"/>
+    <import path="strings"/>
+    <import path="testing"/>
+    <import path="github.com/coreos/go-log/log"/>
+    <import path="github.com/skynetservices/skydns/cache"/>
+    <import path="github.com/skynetservices/skydns/msg"/>
+    <import path="fmt"/>
+    <import path="log"/>
+    <import path="math"/>
+    <import path="time"/>
+    <import path="github.com/coreos/go-systemd/activation"/>
+    <import path="encoding/base32"/>
+    <import path="flag"/>
+    <import path="math/rand"/>
+    <import path="github.com/GoogleCloudPlatform/kubernetes/pkg/client"/>
+    <import path="github.com/GoogleCloudPlatform/kubernetes/pkg/api"/>
+    <import path="github.com/GoogleCloudPlatform/kubernetes/pkg/proxy/config"/>
+    <import path="github.com/GoogleCloudPlatform/kubernetes/pkg/util"/>
+    <import path="net/url"/>
+    <import path="path"/>
+    <import path="container/list"/>
+    <import path="crypto/sha1"/>
+  </imports>
+</project>
