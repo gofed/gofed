@@ -128,6 +128,7 @@ import (
 	"os"
 	"strings"
 	"path"
+	"flag"
 )
 
 // array2JSON transforms an array of strings into JSON.
@@ -255,7 +256,7 @@ func parseTypes(et ast.Expr, name string) (sig string, err int) {
 	case *ast.Ident:
 		sig = "{\"type\": \"ident\", \"def\": \"" + t.Name + "\"}"
 	case *ast.SelectorExpr:
-		# X.Sel
+		// X.Sel
 		sig = "{\"type\": \"selector\", \"prefix\": "
 		d, err = parseTypes(t.X, "")
 		if err != 0 {
@@ -571,16 +572,31 @@ func (symbols * Symbols) AddFunc(decl *ast.FuncDecl) (err int) {
 }
 
 func main() {
-	fset := token.NewFileSet() // positions are relative to fset
 
-	if len(os.Args) < 2 {
-		fmt.Println("prog GOFILE")
-		return
+	var importsFlag = flag.Bool("imports", false, "Parse only imported paths")
+	flag.Parse()
+
+	gofile := ""
+
+	if !*importsFlag {
+		if len(os.Args) < 2 {
+			fmt.Println("prog [-imports] GOFILE")
+			return
+		}
+		gofile = os.Args[1]
+	} else {
+		if len(os.Args) < 3 {
+			fmt.Println("prog [-imports] GOFILE")
+			return
+		}
+		gofile = os.Args[2]
 	}
+
+	fset := token.NewFileSet() // positions are relative to fset
 
 	// Parse the file containing this very example
 	// but stop after processing the imports.
-	f, err := parser.ParseFile(fset, os.Args[1], nil, 0)
+	f, err := parser.ParseFile(fset, gofile, nil, 0)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -602,16 +618,22 @@ func main() {
 				case *ast.ImportSpec:
 					symbols.AddImport(d)
 				case *ast.ValueSpec:
-					symbols.AddVar(d)
+					if !*importsFlag {
+						symbols.AddVar(d)
+					}
 				case *ast.TypeSpec:
-					err := symbols.AddTypes(d)
-					if err != 0 {
-						os.Exit(err)
+					if !*importsFlag {
+						err := symbols.AddTypes(d)
+						if err != 0 {
+							os.Exit(err)
+						}
 					}
 				}
 			}
 		case *ast.FuncDecl:
-			symbols.AddFunc(decl)
+			if !*importsFlag {
+				symbols.AddFunc(decl)
+			}
 		}
 	}
 	fmt.Println(symbols.ToJSON())

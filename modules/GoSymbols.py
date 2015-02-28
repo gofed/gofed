@@ -92,9 +92,13 @@ def getGoFiles(directory):
 
 	return go_dirs
 
-def getGoSymbols(path):
+def getGoSymbols(path, imports_only=False):
 	script_dir = getScriptDir() + "/.."
-	so, se, rc = runCommand("%s/parseGo %s" % (script_dir, path))
+	options = ""
+	if imports_only:
+		options = "-imports"
+
+	so, se, rc = runCommand("%s/parseGo %s %s" % (script_dir, options, path))
 	if rc != 0:
 		return (1, se)
 
@@ -121,7 +125,7 @@ def mergeGoSymbols(jsons = []):
 
 	return symbols
 
-def getSymbolsForImportPaths(go_dir):
+def getSymbolsForImportPaths(go_dir, imports_only=False):
 	bname = os.path.basename(go_dir)
 	go_packages = {}
 	ip_packages = {}
@@ -134,7 +138,7 @@ def getSymbolsForImportPaths(go_dir):
 		for go_file in dir_info['files']:
 			go_file_json = {}
 			err, output = getGoSymbols("%s/%s/%s" % 
-				(go_dir, dir_info['dir'], go_file))
+				(go_dir, dir_info['dir'], go_file), imports_only)
 			if err != 0:
 				return "Error parsing %s: %s" % ("%s/%s" % (dir_info['dir'], go_file), output), {}, {}
 			else:
@@ -226,11 +230,16 @@ TYPE_ELLIPSIS = "ellipsis"
 TYPE_MAP = "map"
 TYPE_CHANNEL = "chan"
 
-class SymbolsToXml:
+class PackageToXml:
 
 	def typeToXML(self, type_def, elm_name = "type"):
+		self.level += 1
+		#print "LEVEL: %s, %s" % (self.level, type_def["type"])
 		#print type_def
 		node = etree.Element(elm_name)
+		if self.level == 1:
+			node.set("name", type_def["name"])
+
 		type_name = type_def["type"]
 		#print type_name
 
@@ -389,11 +398,14 @@ class SymbolsToXml:
 			node.append(results_node)
 
 		elif type_name == TYPE_STRUCT:
-			return self.structToXML(type_def)
+			ret = self.structToXML(type_def)
+			self.level -= 1
+			return ret
 
 		else:
 			return "Type %s not yet implemented" % type_name, None
 
+		self.level -= 1
 		return "", node
 
 	def structToXML(self, str_def):
@@ -412,6 +424,8 @@ class SymbolsToXml:
 		return "", root
 
 	def funcToXML(self, func_def):
+		self.level += 1
+		#print "LEVEL: %s, %s" % (self.level, "func")
 		root = etree.Element("function")
 		root.set("name", func_def["name"])
 
@@ -445,6 +459,7 @@ class SymbolsToXml:
 
 		root.append(list_node)
 
+		self.level -= 1
 		return "", root
 
 	def typesToXML(self, types):
@@ -467,9 +482,12 @@ class SymbolsToXml:
 			node.append(type_def)
 		return "", node
 
-	def __init__(self, symbols, imports=True):
+	def __init__(self, symbols, import_path, imports=True):
 		self.err = ""
-		self.root = etree.Element("root")
+		self.level = 0
+		self.root = etree.Element("package")
+		self.root.set("importpath", import_path)
+		#print "IMPORTPATH: %s" % import_path
 
 		self.err, types_node = self.typesToXML(symbols["types"])
 		if self.err != "":
@@ -507,33 +525,64 @@ class SymbolsToXml:
 	def getError(self):
 		return self.err
 
+	def getPackage(self):
+		return self.root
+
 	def __str__(self):
 		if self.err == "":
 			return etree.tostring(self.root, pretty_print=True)
 		else:
 			return ""
-				
 
+class ProjectToXml:
 
-if __name__ == "__main__":
-	go_dir = "/home/jchaloup/Packages/golang-github-glacjay-goini/fedora/golang-github-glacjay-goini/noarch/usr/share/gocode/src/github.com/glacjay/goini"
-	go_dir = "/home/jchaloup/Packages/golang-github-rakyll-statik/fedora/golang-github-rakyll-statik/noarch/usr/share/gocode/src/github.com/rakyll/statik"
-	go_dir = "/home/jchaloup/Packages/golang-googlecode-gomock/fedora/golang-googlecode-gomock/noarch/usr/share/gocode/src/code.google.com/p/gomock"
+	def __init__(self, url, go_dir):
+		"""
+		url	prefix used for import paths
+		go_dir	root directory containing go source codes
+		"""
 
-	#ip_packages, go_packages = getSymbolsForImportPaths(go_dir)
-	#print go_packages
-	#print ip_packages
+		self.err, ip, symbols, ip_used = getSymbolsForImportPaths(go_dir)
+		if self.err != "":
+			return
 
-	so, se, rc = runCommand("./parseGo %s" % sys.argv[1])
-	if rc != 0:
-		print se
-		exit(1)
+		self.root = etree.Element("project")
+		self.root.set("url", url)
+		self.root.set("commit", "commit")
 
-	symbols = json.loads(so)
-	obj = SymbolsToXml(symbols)
-	if not obj.getStatus():
-		print obj.getError()
-	print obj
+		packages_node = etree.Element("packages")
+		for pkg in ip:
+			full_import_path = "%s/%s" % (url, ip[pkg])
+			if url == "":
+				full_import_path = ip[pkg]
 
+			obj = PackageToXml(symbols[pkg], full_import_path, imports=False)
+			if not obj.getStatus():
+				self.err = obj.getError()
+				return
 
+			packages_node.append(obj.getPackage())
+
+		self.root.append(packages_node)
+
+		# add imports
+		imports_node = etree.Element("imports")
+		for path in ip_used:
+			node = etree.Element("import")
+			node.set("path", path)
+			imports_node.append(node)
+
+		self.root.append(imports_node)
+
+	def getStatus(self):
+		return self.err == ""
+
+	def __str__(self):
+		if self.err == "":
+			return etree.tostring(self.root, pretty_print=True, xml_declaration=True)
+		else:
+			return ""
+
+	def getError(self):
+		return self.err
 
