@@ -1,4 +1,8 @@
 ====TODO====
+[  ] - add to description of every package some information to be parsed by scripts, e.g. commit, upstream url, ...
+[  ] - measure computation time of scripts used in cron job[s] and optimize them
+[  ] - go through http://godoc.org/golang.org/x/tools/godoc/analysis
+[  ] - go2fed [scratch-]build: add options to specify branches to use only
 [  ] - make a script to compare provides in spec and in tarball (handy for updates)
 [  ] - when generating spec file for a new package, add evaluated import path before import path macro so it can be copied into webbrowser (handy for updates)
 [  ] - for each scan make a temp file that holds all items that were already succesefully checked (in case of a failed check, check only those that did not pass)
@@ -16,7 +20,7 @@
 [  ] - add go2fed fetch-importpaths to update all provided import paths in spec files and append new to local db
 [  ] - go2fed scan-packages: add option to append new packages into db instead of doing this manually
 [  ] - statistics of number of golang commits/builds/updates/overrides per day (from koji, updates, ...)
-[  ] - write a script to detect if all packages are up to date, use https://api.github.com/repos/<repo>/<project>/commits
+[  ] - write a script to detect if all packages are up to date, use https://api.github.com/repos/<repo>/<project>/commits, e.g. https://api.github.com/repos/spf13/hugo/commits
 [  ] - for a given package, list all its deps and for this deps, list all its deps, and so on
 [  ] - check koji for overrides: koji latest-build does not always returns the latest rawhide build => need to sync it and untag relevant overrides to get the latest builds
 [  ] - create fedora mailing list to register new golang packages
