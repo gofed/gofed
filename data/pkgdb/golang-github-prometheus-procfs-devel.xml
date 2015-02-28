@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/prometheus/procfs">
+      <types>
+        <type type="struct" name="Stat">
+          <field type="ident" def="int64" name="BootTime"/>
+        </type>
+        <type type="struct" name="ProcStat">
+          <field type="ident" def="int" name="PID"/>
+          <field type="ident" def="string" name="Comm"/>
+          <field type="ident" def="string" name="State"/>
+          <field type="ident" def="int" name="PPID"/>
+          <field type="ident" def="int" name="PGRP"/>
+          <field type="ident" def="int" name="Session"/>
+          <field type="ident" def="int" name="TTY"/>
+          <field type="ident" def="int" name="TPGID"/>
+          <field type="ident" def="uint" name="Flags"/>
+          <field type="ident" def="uint" name="MinFlt"/>
+          <field type="ident" def="uint" name="CMinFlt"/>
+          <field type="ident" def="uint" name="MajFlt"/>
+          <field type="ident" def="uint" name="CMajFlt"/>
+          <field type="ident" def="uint" name="UTime"/>
+          <field type="ident" def="uint" name="STime"/>
+          <field type="ident" def="uint" name="CUTime"/>
+          <field type="ident" def="uint" name="CSTime"/>
+          <field type="ident" def="int" name="Priority"/>
+          <field type="ident" def="int" name="Nice"/>
+          <field type="ident" def="int" name="NumThreads"/>
+          <field type="ident" def="uint64" name="Starttime"/>
+          <field type="ident" def="int" name="VSize"/>
+          <field type="ident" def="int" name="RSS"/>
+          <field type="ident" def="FS" name="fs"/>
+        </type>
+        <type type="struct" name="ProcLimits">
+          <field type="ident" def="int" name="CPUTime"/>
+          <field type="ident" def="int" name="FileSize"/>
+          <field type="ident" def="int" name="DataSize"/>
+          <field type="ident" def="int" name="StackSize"/>
+          <field type="ident" def="int" name="CoreFileSize"/>
+          <field type="ident" def="int" name="ResidentSet"/>
+          <field type="ident" def="int" name="Processes"/>
+          <field type="ident" def="int" name="OpenFiles"/>
+          <field type="ident" def="int" name="LockedMemory"/>
+          <field type="ident" def="int" name="AddressSpace"/>
+          <field type="ident" def="int" name="FileLocks"/>
+          <field type="ident" def="int" name="PendingSignals"/>
+          <field type="ident" def="int" name="MsqqueueSize"/>
+          <field type="ident" def="int" name="NicePriority"/>
+          <field type="ident" def="int" name="RealtimePriority"/>
+          <field type="ident" def="int" name="RealtimeTimeout"/>
+        </type>
+        <type type="struct" name="Proc">
+          <field type="ident" def="int" name="PID"/>
+          <field type="ident" def="FS" name="fs"/>
+        </type>
+        <type name="Procs" type="slice">
+          <elmtype type="ident" def="Proc"/>
+        </type>
+        <type name="FS" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+      </types>
+      <functions>
+        <function name="NewStat">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Stat"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewStat">
+          <recvList>
+            <type type="ident" def="FS"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Stat"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewStat">
+          <recvList>
+            <type type="ident" def="Proc"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="ProcStat"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="VirtualMemory">
+          <recvList>
+            <type type="ident" def="ProcStat"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="ResidentMemory">
+          <recvList>
+            <type type="ident" def="ProcStat"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="StartTime">
+          <recvList>
+            <type type="ident" def="ProcStat"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CPUTime">
+          <recvList>
+            <type type="ident" def="ProcStat"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="NewLimits">
+          <recvList>
+            <type type="ident" def="Proc"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="ProcLimits"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="Procs"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="Procs"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="Procs"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Self">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Proc"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewProc">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Proc"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AllProcs">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Procs"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewProc">
+          <recvList>
+            <type type="ident" def="FS"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Proc"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AllProcs">
+          <recvList>
+            <type type="ident" def="FS"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Procs"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CmdLine">
+          <recvList>
+            <type type="ident" def="Proc"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="FileDescriptors">
+          <recvList>
+            <type type="ident" def="Proc"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uintptr"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="FileDescriptorsLen">
+          <recvList>
+            <type type="ident" def="Proc"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewFS">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="FS"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="DefaultMountPoint"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="testing"/>
+    <import path="bufio"/>
+    <import path="fmt"/>
+    <import path="strconv"/>
+    <import path="strings"/>
+    <import path="os"/>
+    <import path="reflect"/>
+    <import path="sort"/>
+    <import path="bytes"/>
+    <import path="io/ioutil"/>
+    <import path="C"/>
+    <import path="regexp"/>
+    <import path="path"/>
+  </imports>
+</project>

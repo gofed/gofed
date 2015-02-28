@@ -1,0 +1,788 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="code.google.com/p/log4go">
+      <types>
+        <type name="ConsoleLogWriter" type="chan" dir="3">
+          <type type="pointer">
+            <type type="ident" def="LogRecord"/>
+          </type>
+        </type>
+        <type name="SocketLogWriter" type="chan" dir="3">
+          <type type="pointer">
+            <type type="ident" def="LogRecord"/>
+          </type>
+        </type>
+        <type name="FormatLogWriter" type="chan" dir="3">
+          <type type="pointer">
+            <type type="ident" def="LogRecord"/>
+          </type>
+        </type>
+        <type type="struct" name="LogRecord">
+          <field type="ident" def="level" name="Level"/>
+          <field type="selector" name="Created">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="ident" def="string" name="Source"/>
+          <field type="ident" def="string" name="Message"/>
+        </type>
+        <type name="LogWriter" type="interface">
+          <method name="LogWrite">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="LogRecord"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Close">
+            <paramsList/>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="Filter">
+          <field type="ident" def="level" name="Level"/>
+          <field type="ident" def="LogWriter" name=""/>
+        </type>
+        <type name="Logger" type="map">
+          <keytype type="ident" def="string"/>
+          <valtype type="pointer">
+            <type type="ident" def="Filter"/>
+          </valtype>
+        </type>
+        <type type="struct" name="FileLogWriter">
+          <field type="chan" dir="3" name="rec">
+            <type type="pointer">
+              <type type="ident" def="LogRecord"/>
+            </type>
+          </field>
+          <field type="chan" dir="3" name="rot">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="ident" def="string" name="filename"/>
+          <field type="pointer" name="file">
+            <type type="selector">
+              <prefix value="os"/>
+              <item value="File"/>
+            </type>
+          </field>
+          <field type="ident" def="string" name="format"/>
+          <field type="ident" def="string" name="header"/>
+          <field type="ident" def="string" name="trailer"/>
+          <field type="ident" def="int" name="maxlines"/>
+          <field type="ident" def="int" name="maxlines_curlines"/>
+          <field type="ident" def="int" name="maxsize"/>
+          <field type="ident" def="int" name="maxsize_cursize"/>
+          <field type="ident" def="bool" name="daily"/>
+          <field type="ident" def="int" name="daily_opendate"/>
+          <field type="ident" def="bool" name="rotate"/>
+        </type>
+      </types>
+      <functions>
+        <function name="LoadConfiguration">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="AddFilter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="level"/>
+            <type type="ident" def="LogWriter"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Close">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Crash">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Crashf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Exit">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Exitf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stderr">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stderrf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stdout">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Stdoutf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Log">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="level"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Logf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="level"/>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Logc">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="level"/>
+            <type type="func">
+              <paramsList/>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Finest">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fine">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debug">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Trace">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Info">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warn">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Error">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Critical">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewConsoleLogWriter">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="ConsoleLogWriter"/>
+          </returnsList>
+        </function>
+        <function name="LogWrite">
+          <recvList>
+            <type type="ident" def="ConsoleLogWriter"/>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="LogRecord"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="ident" def="ConsoleLogWriter"/>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="LogWrite">
+          <recvList>
+            <type type="ident" def="SocketLogWriter"/>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="LogRecord"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="ident" def="SocketLogWriter"/>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="NewSocketLogWriter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="SocketLogWriter"/>
+          </returnsList>
+        </function>
+        <function name="FormatLogRecord">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="LogRecord"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="NewFormatLogWriter">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="FormatLogWriter"/>
+          </returnsList>
+        </function>
+        <function name="LogWrite">
+          <recvList>
+            <type type="ident" def="FormatLogWriter"/>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="LogRecord"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="ident" def="FormatLogWriter"/>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="level"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="NewLogger">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Logger"/>
+          </returnsList>
+        </function>
+        <function name="NewConsoleLogger">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="level"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Logger"/>
+          </returnsList>
+        </function>
+        <function name="NewDefaultLogger">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="level"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Logger"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="ident" def="Logger"/>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="AddFilter">
+          <recvList>
+            <type type="ident" def="Logger"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="level"/>
+            <type type="ident" def="LogWriter"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Logger"/>
+          </returnsList>
+        </function>
+        <function name="Log">
+          <recvList>
+            <type type="ident" def="Logger"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="level"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Logf">
+          <recvList>
+            <type type="ident" def="Logger"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="level"/>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Logc">
+          <recvList>
+            <type type="ident" def="Logger"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="level"/>
+            <type type="func">
+              <paramsList/>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Finest">
+          <recvList>
+            <type type="ident" def="Logger"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fine">
+          <recvList>
+            <type type="ident" def="Logger"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Debug">
+          <recvList>
+            <type type="ident" def="Logger"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Trace">
+          <recvList>
+            <type type="ident" def="Logger"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Info">
+          <recvList>
+            <type type="ident" def="Logger"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Warn">
+          <recvList>
+            <type type="ident" def="Logger"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="Logger"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Critical">
+          <recvList>
+            <type type="ident" def="Logger"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LogWrite">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="LogRecord"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="NewFileLogWriter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Rotate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="SetFormat">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetHeadFoot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetRotateLines">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetRotateSize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetRotateDaily">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetRotate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewXMLLogWriter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="FileLogWriter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="LoadConfiguration">
+          <recvList>
+            <type type="ident" def="Logger"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names>
+        <name value="Global"/>
+        <name value="FORMAT_DEFAULT"/>
+        <name value="FORMAT_SHORT"/>
+        <name value="FORMAT_ABBREV"/>
+        <name value="L4G_VERSION"/>
+        <name value="L4G_MAJOR"/>
+        <name value="L4G_MINOR"/>
+        <name value="L4G_BUILD"/>
+        <name value="FINEST"/>
+        <name value="FINE"/>
+        <name value="DEBUG"/>
+        <name value="TRACE"/>
+        <name value="INFO"/>
+        <name value="WARNING"/>
+        <name value="ERROR"/>
+        <name value="CRITICAL"/>
+        <name value="LogBufferLength"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="errors"/>
+    <import path="os"/>
+    <import path="fmt"/>
+    <import path="strings"/>
+    <import path="io"/>
+    <import path="encoding/json"/>
+    <import path="net"/>
+    <import path="bytes"/>
+    <import path="crypto/md5"/>
+    <import path="encoding/hex"/>
+    <import path="io/ioutil"/>
+    <import path="runtime"/>
+    <import path="testing"/>
+    <import path="time"/>
+    <import path="encoding/xml"/>
+    <import path="strconv"/>
+    <import path="code.google.com/p/log4go"/>
+    <import path="flag"/>
+    <import path="bufio"/>
+  </imports>
+</project>

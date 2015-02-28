@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/matttproud/golang_protobuf_extensions/ext">
+      <types/>
+      <functions>
+        <function name="WriteDelimited">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+            <type type="selector">
+              <prefix value="proto"/>
+              <item value="Message"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ReadDelimited">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+            <type type="selector">
+              <prefix value="proto"/>
+              <item value="Message"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="code.google.com/p/goprotobuf/proto"/>
+    <import path="code.google.com/p/goprotobuf/proto/testdata"/>
+    <import path="encoding/binary"/>
+    <import path="io"/>
+    <import path="errors"/>
+    <import path="bytes"/>
+    <import path="math/rand"/>
+    <import path="reflect"/>
+    <import path="testing"/>
+    <import path="testing/quick"/>
+  </imports>
+</project>

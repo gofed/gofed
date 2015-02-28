@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="code.google.com/p/go-uuid/uuid">
+      <types>
+        <type name="UUID" type="slice">
+          <elmtype type="ident" def="byte"/>
+        </type>
+        <type name="Version" type="ident">
+          <type type="ident" def="byte"/>
+        </type>
+        <type name="Variant" type="ident">
+          <type type="ident" def="byte"/>
+        </type>
+        <type name="Time" type="ident">
+          <type type="ident" def="int64"/>
+        </type>
+        <type name="Domain" type="ident">
+          <type type="ident" def="byte"/>
+        </type>
+      </types>
+      <functions>
+        <function name="NewRandom">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="UUID"/>
+          </returnsList>
+        </function>
+        <function name="NewUUID">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="UUID"/>
+          </returnsList>
+        </function>
+        <function name="New">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Parse">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="UUID"/>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="UUID"/>
+            <type type="ident" def="UUID"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="UUID"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="URN">
+          <recvList>
+            <type type="ident" def="UUID"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Variant">
+          <recvList>
+            <type type="ident" def="UUID"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Variant"/>
+          </returnsList>
+        </function>
+        <function name="Version">
+          <recvList>
+            <type type="ident" def="UUID"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Version"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="Version"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="Variant"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="SetRand">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="UnixTime">
+          <recvList>
+            <type type="ident" def="Time"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="GetTime">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Time"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ClockSequence">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="SetClockSequence">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Time">
+          <recvList>
+            <type type="ident" def="UUID"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Time"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="ClockSequence">
+          <recvList>
+            <type type="ident" def="UUID"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="NodeInterface">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="SetNodeInterface">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="NodeID">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetNodeID">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="NodeID">
+          <recvList>
+            <type type="ident" def="UUID"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewHash">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="hash"/>
+              <item value="Hash"/>
+            </type>
+            <type type="ident" def="UUID"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="UUID"/>
+          </returnsList>
+        </function>
+        <function name="NewMD5">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="UUID"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="UUID"/>
+          </returnsList>
+        </function>
+        <function name="NewSHA1">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="UUID"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="UUID"/>
+          </returnsList>
+        </function>
+        <function name="NewDCESecurity">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Domain"/>
+            <type type="ident" def="uint32"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="UUID"/>
+          </returnsList>
+        </function>
+        <function name="NewDCEPerson">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="UUID"/>
+          </returnsList>
+        </function>
+        <function name="NewDCEGroup">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="UUID"/>
+          </returnsList>
+        </function>
+        <function name="Domain">
+          <recvList>
+            <type type="ident" def="UUID"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Domain"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Id">
+          <recvList>
+            <type type="ident" def="UUID"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="Domain"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="Invalid"/>
+        <name value="RFC4122"/>
+        <name value="Reserved"/>
+        <name value="Microsoft"/>
+        <name value="Future"/>
+        <name value="NameSpace_DNS"/>
+        <name value="NameSpace_URL"/>
+        <name value="NameSpace_OID"/>
+        <name value="NameSpace_X500"/>
+        <name value="NIL"/>
+        <name value="Person"/>
+        <name value="Group"/>
+        <name value="Org"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="encoding/binary"/>
+    <import path="bytes"/>
+    <import path="fmt"/>
+    <import path="os"/>
+    <import path="strings"/>
+    <import path="testing"/>
+    <import path="time"/>
+    <import path="crypto/rand"/>
+    <import path="io"/>
+    <import path="sync"/>
+    <import path="net"/>
+    <import path="crypto/md5"/>
+    <import path="crypto/sha1"/>
+    <import path="hash"/>
+  </imports>
+</project>

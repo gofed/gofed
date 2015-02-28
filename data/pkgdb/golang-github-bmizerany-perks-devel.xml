@@ -1,0 +1,405 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/bmizerany/perks/quantile">
+      <types>
+        <type type="struct" name="Sample">
+          <field type="ident" def="float64" name="Value"/>
+          <field type="ident" def="float64" name="Width"/>
+          <field type="ident" def="float64" name="Delta"/>
+        </type>
+        <type name="Samples" type="slice">
+          <elmtype type="ident" def="Sample"/>
+        </type>
+        <type type="struct" name="Stream">
+          <field type="pointer" name="">
+            <type type="ident" def="stream"/>
+          </field>
+          <field type="ident" def="Samples" name="b"/>
+          <field type="ident" def="bool" name="sorted"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="Samples"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="Samples"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="Samples"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="NewBiased">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewTargeted">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="float64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Insert">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Query">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Merge">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Samples"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Samples">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Samples"/>
+          </returnsList>
+        </function>
+        <function name="Count">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="SetEpsilon">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/bmizerany/perks/topk">
+      <types>
+        <type type="struct" name="Element">
+          <field type="ident" def="string" name="Value"/>
+          <field type="ident" def="int" name="Count"/>
+        </type>
+        <type name="Samples" type="slice">
+          <elmtype type="pointer">
+            <type type="ident" def="Element"/>
+          </elmtype>
+        </type>
+        <type type="struct" name="Stream">
+          <field type="ident" def="int" name="k"/>
+          <field type="map" name="mon">
+            <keytype type="ident" def="string"/>
+            <valtype type="pointer">
+              <type type="ident" def="Element"/>
+            </valtype>
+          </field>
+          <field type="pointer" name="min">
+            <type type="ident" def="Element"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="Samples"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="Samples"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="Samples"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Insert">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Merge">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Samples"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Query">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Samples"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/bmizerany/perks/histogram">
+      <types>
+        <type type="struct" name="Bin">
+          <field type="ident" def="int" name="Count"/>
+          <field type="ident" def="float64" name="Sum"/>
+        </type>
+        <type name="Bins" type="slice">
+          <elmtype type="pointer">
+            <type type="ident" def="Bin"/>
+          </elmtype>
+        </type>
+        <type type="struct" name="Histogram">
+          <field type="pointer" name="res">
+            <type type="ident" def="reservoir"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Update">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bin"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Bin"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Mean">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bin"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="Bins"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="Bins"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="Bins"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Push">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bins"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Pop">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bins"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Histogram"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Insert">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Histogram"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Bins">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Histogram"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Bins"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="fmt"/>
+    <import path="math/rand"/>
+    <import path="sort"/>
+    <import path="testing"/>
+    <import path="math"/>
+    <import path="bufio"/>
+    <import path="github.com/bmizerany/perks/quantile"/>
+    <import path="log"/>
+    <import path="os"/>
+    <import path="strconv"/>
+    <import path="time"/>
+    <import path="container/heap"/>
+  </imports>
+</project>

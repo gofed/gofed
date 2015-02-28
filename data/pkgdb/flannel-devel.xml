@@ -1,0 +1,1192 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/coreos/flannel/subnet">
+      <types>
+        <type type="struct" name="LeaseAttrs">
+          <field type="selector" name="PublicIP">
+            <prefix value="ip"/>
+            <item value="IP4"/>
+          </field>
+          <field type="ident" def="string" name="BackendType"/>
+          <field type="selector" name="BackendData">
+            <prefix value="json"/>
+            <item value="RawMessage"/>
+          </field>
+        </type>
+        <type type="struct" name="SubnetLease">
+          <field type="selector" name="Network">
+            <prefix value="ip"/>
+            <item value="IP4Net"/>
+          </field>
+          <field type="ident" def="LeaseAttrs" name="Attrs"/>
+        </type>
+        <type type="struct" name="SubnetManager">
+          <field type="ident" def="subnetRegistry" name="registry"/>
+          <field type="pointer" name="config">
+            <type type="ident" def="Config"/>
+          </field>
+          <field type="ident" def="SubnetLease" name="myLease"/>
+          <field type="selector" name="leaseExp">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="ident" def="uint64" name="lastIndex"/>
+          <field type="slice" name="leases">
+            <elmtype type="ident" def="SubnetLease"/>
+          </field>
+        </type>
+        <type name="EventType" type="ident">
+          <type type="ident" def="int"/>
+        </type>
+        <type type="struct" name="Event">
+          <field type="ident" def="EventType" name="Type"/>
+          <field type="ident" def="SubnetLease" name="Lease"/>
+        </type>
+        <type name="EventBatch" type="slice">
+          <elmtype type="ident" def="Event"/>
+        </type>
+        <type type="struct" name="EtcdConfig">
+          <field type="slice" name="Endpoints">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Keyfile"/>
+          <field type="ident" def="string" name="Certfile"/>
+          <field type="ident" def="string" name="CAFile"/>
+          <field type="ident" def="string" name="Prefix"/>
+        </type>
+        <type type="struct" name="Config">
+          <field type="selector" name="Network">
+            <prefix value="ip"/>
+            <item value="IP4Net"/>
+          </field>
+          <field type="selector" name="SubnetMin">
+            <prefix value="ip"/>
+            <item value="IP4"/>
+          </field>
+          <field type="selector" name="SubnetMax">
+            <prefix value="ip"/>
+            <item value="IP4"/>
+          </field>
+          <field type="ident" def="uint" name="SubnetLen"/>
+          <field type="selector" name="Backend">
+            <prefix value="json"/>
+            <item value="RawMessage"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="NewSubnetManager">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="EtcdConfig"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="SubnetManager"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AcquireLease">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SubnetManager"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="LeaseAttrs"/>
+            </type>
+            <type type="chan" dir="3">
+              <type type="ident" def="bool"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="ip"/>
+              <item value="IP4Net"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetConfig">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SubnetManager"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Config"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WatchLeases">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SubnetManager"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="chan" dir="3">
+              <type type="ident" def="EventBatch"/>
+            </type>
+            <type type="chan" dir="3">
+              <type type="ident" def="bool"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="LeaseRenewer">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SubnetManager"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="chan" dir="3">
+              <type type="ident" def="bool"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="ParseConfig">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Config"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="SubnetAdded"/>
+        <name value="SubnetRemoved"/>
+      </names>
+    </package>
+    <package importpath="github.com/coreos/flannel/backend/udp">
+      <types>
+        <type type="struct" name="UdpBackend">
+          <field type="pointer" name="sm">
+            <type type="selector">
+              <prefix value="subnet"/>
+              <item value="SubnetManager"/>
+            </type>
+          </field>
+          <field type="selector" name="rawCfg">
+            <prefix value="json"/>
+            <item value="RawMessage"/>
+          </field>
+          <type type="struct" name="cfg">
+            <field type="ident" def="int" name="Port"/>
+          </type>
+          <field type="pointer" name="ctl">
+            <type type="selector">
+              <prefix value="os"/>
+              <item value="File"/>
+            </type>
+          </field>
+          <field type="pointer" name="ctl2">
+            <type type="selector">
+              <prefix value="os"/>
+              <item value="File"/>
+            </type>
+          </field>
+          <field type="pointer" name="tun">
+            <type type="selector">
+              <prefix value="os"/>
+              <item value="File"/>
+            </type>
+          </field>
+          <field type="pointer" name="conn">
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="UDPConn"/>
+            </type>
+          </field>
+          <field type="ident" def="int" name="mtu"/>
+          <field type="selector" name="tunNet">
+            <prefix value="ip"/>
+            <item value="IP4Net"/>
+          </field>
+          <field type="chan" dir="3" name="stop">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="selector" name="wg">
+            <prefix value="sync"/>
+            <item value="WaitGroup"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="subnet"/>
+                <item value="SubnetManager"/>
+              </type>
+            </type>
+            <type type="selector">
+              <prefix value="json"/>
+              <item value="RawMessage"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="backend"/>
+              <item value="Backend"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UdpBackend"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="Interface"/>
+              </type>
+            </type>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="backend"/>
+                <item value="SubnetDef"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Run">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UdpBackend"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Stop">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UdpBackend"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UdpBackend"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/coreos/flannel/pkg/task">
+      <types/>
+      <functions/>
+      <names>
+        <name value="ErrCanceled"/>
+      </names>
+    </package>
+    <package importpath="github.com/coreos/flannel/pkg/ip">
+      <types>
+        <type type="struct" name="IPTables">
+          <field type="ident" def="string" name="path"/>
+        </type>
+        <type name="IP4" type="ident">
+          <type type="ident" def="uint32"/>
+        </type>
+        <type type="struct" name="IP4Net">
+          <field type="ident" def="IP4" name="IP"/>
+          <field type="ident" def="uint" name="PrefixLen"/>
+        </type>
+      </types>
+      <functions>
+        <function name="OpenTun">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="os"/>
+                <item value="File"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewIPTables">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="IPTables"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Exists">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="IPTables"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Append">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="IPTables"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AppendUnique">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="IPTables"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ClearChain">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="IPTables"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="FromBytes">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="IP4"/>
+          </returnsList>
+        </function>
+        <function name="FromIP">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="IP4"/>
+          </returnsList>
+        </function>
+        <function name="ParseIP4">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="IP4"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Octets">
+          <recvList>
+            <type type="ident" def="IP4"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="byte"/>
+            <type type="ident" def="byte"/>
+            <type type="ident" def="byte"/>
+            <type type="ident" def="byte"/>
+          </returnsList>
+        </function>
+        <function name="ToIP">
+          <recvList>
+            <type type="ident" def="IP4"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NetworkOrder">
+          <recvList>
+            <type type="ident" def="IP4"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="IP4"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="StringSep">
+          <recvList>
+            <type type="ident" def="IP4"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="MarshalJSON">
+          <recvList>
+            <type type="ident" def="IP4"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UnmarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="IP4"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="IP4Net"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="StringSep">
+          <recvList>
+            <type type="ident" def="IP4Net"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Network">
+          <recvList>
+            <type type="ident" def="IP4Net"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="IP4Net"/>
+          </returnsList>
+        </function>
+        <function name="Next">
+          <recvList>
+            <type type="ident" def="IP4Net"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="IP4Net"/>
+          </returnsList>
+        </function>
+        <function name="FromIPNet">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IPNet"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="IP4Net"/>
+          </returnsList>
+        </function>
+        <function name="ToIPNet">
+          <recvList>
+            <type type="ident" def="IP4Net"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IPNet"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Overlaps">
+          <recvList>
+            <type type="ident" def="IP4Net"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="IP4Net"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList>
+            <type type="ident" def="IP4Net"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="IP4Net"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Mask">
+          <recvList>
+            <type type="ident" def="IP4Net"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="Contains">
+          <recvList>
+            <type type="ident" def="IP4Net"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="IP4"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="MarshalJSON">
+          <recvList>
+            <type type="ident" def="IP4Net"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UnmarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="IP4Net"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetIfaceIP4Addr">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="Interface"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetIfaceIP4AddrMatch">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="Interface"/>
+              </type>
+            </type>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetDefaultGatewayIface">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="Interface"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetInterfaceByIP">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="Interface"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NativelyLittle">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="NativeEndian"/>
+      </names>
+    </package>
+    <package importpath="github.com/coreos/flannel/backend/alloc">
+      <types>
+        <type type="struct" name="AllocBackend">
+          <field type="pointer" name="sm">
+            <type type="selector">
+              <prefix value="subnet"/>
+              <item value="SubnetManager"/>
+            </type>
+          </field>
+          <field type="chan" dir="3" name="stop">
+            <type type="ident" def="bool"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="subnet"/>
+                <item value="SubnetManager"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="backend"/>
+              <item value="Backend"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AllocBackend"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="Interface"/>
+              </type>
+            </type>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="backend"/>
+                <item value="SubnetDef"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Run">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AllocBackend"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Stop">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AllocBackend"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AllocBackend"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/coreos/flannel/backend/vxlan">
+      <types>
+        <type type="struct" name="VXLANBackend">
+          <field type="pointer" name="sm">
+            <type type="selector">
+              <prefix value="subnet"/>
+              <item value="SubnetManager"/>
+            </type>
+          </field>
+          <field type="selector" name="rawCfg">
+            <prefix value="json"/>
+            <item value="RawMessage"/>
+          </field>
+          <type type="struct" name="cfg">
+            <field type="ident" def="int" name="VNI"/>
+            <field type="ident" def="int" name="Port"/>
+          </type>
+          <field type="pointer" name="dev">
+            <type type="ident" def="vxlanDevice"/>
+          </field>
+          <field type="chan" dir="3" name="stop">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="selector" name="wg">
+            <prefix value="sync"/>
+            <item value="WaitGroup"/>
+          </field>
+          <field type="ident" def="routes" name="rts"/>
+        </type>
+      </types>
+      <functions>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="subnet"/>
+                <item value="SubnetManager"/>
+              </type>
+            </type>
+            <type type="selector">
+              <prefix value="json"/>
+              <item value="RawMessage"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="backend"/>
+              <item value="Backend"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="VXLANBackend"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="Interface"/>
+              </type>
+            </type>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="backend"/>
+                <item value="SubnetDef"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Run">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="VXLANBackend"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Stop">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="VXLANBackend"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="VXLANBackend"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="MarshalJSON">
+          <recvList>
+            <type type="ident" def="hardwareAddr"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UnmarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="hardwareAddr"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Configure">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="ip"/>
+              <item value="IP4Net"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Destroy">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="MACAddr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="HardwareAddr"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MTU">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="MonitorMisses">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="chan" dir="3">
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="netlink"/>
+                  <item value="Neigh"/>
+                </type>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="AddL2">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="HardwareAddr"/>
+            </type>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DelL2">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="HardwareAddr"/>
+            </type>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AddL3">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="HardwareAddr"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/coreos/flannel/backend">
+      <types>
+        <type type="struct" name="SubnetDef">
+          <field type="selector" name="Net">
+            <prefix value="ip"/>
+            <item value="IP4Net"/>
+          </field>
+          <field type="ident" def="int" name="MTU"/>
+        </type>
+        <type name="Backend" type="interface">
+          <method name="Init">
+            <paramsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="net"/>
+                  <item value="Interface"/>
+                </type>
+              </type>
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IP"/>
+              </type>
+              <type type="ident" def="bool"/>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="SubnetDef"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Run">
+            <paramsList/>
+            <resultsList/>
+          </method>
+          <method name="Stop">
+            <paramsList/>
+            <resultsList/>
+          </method>
+          <method name="Name">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+        </type>
+      </types>
+      <functions/>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="encoding/json"/>
+    <import path="fmt"/>
+    <import path="reflect"/>
+    <import path="testing"/>
+    <import path="time"/>
+    <import path="github.com/coreos/go-etcd/etcd"/>
+    <import path="github.com/coreos/flannel/pkg/ip"/>
+    <import path="errors"/>
+    <import path="net"/>
+    <import path="regexp"/>
+    <import path="strconv"/>
+    <import path="github.com/golang/glog"/>
+    <import path="github.com/coreos/flannel/pkg/task"/>
+    <import path="path"/>
+    <import path="sync"/>
+    <import path="math/rand"/>
+    <import path="bytes"/>
+    <import path="os"/>
+    <import path="syscall"/>
+    <import path="unsafe"/>
+    <import path="os/exec"/>
+    <import path="strings"/>
+    <import path="github.com/vishvananda/netlink"/>
+    <import path="encoding/binary"/>
+    <import path="github.com/coreos/flannel/backend"/>
+    <import path="github.com/coreos/flannel/subnet"/>
+    <import path="github.com/vishvananda/netlink/nl"/>
+    <import path="C"/>
+  </imports>
+</project>

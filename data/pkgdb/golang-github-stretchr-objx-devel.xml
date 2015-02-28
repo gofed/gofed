@@ -1,0 +1,4332 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/stretchr/objx">
+      <types>
+        <type type="struct" name="Value">
+          <field type="interface" name="data"/>
+        </type>
+        <type name="MSIConvertable" type="interface">
+          <method name="MSI">
+            <paramsList/>
+            <resultsList>
+              <type type="map">
+                <keytype type="ident" def="string"/>
+                <valtype type="interface"/>
+              </type>
+            </resultsList>
+          </method>
+        </type>
+        <type name="Map" type="map">
+          <keytype type="ident" def="string"/>
+          <valtype type="interface"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Data">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="Inter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="MustInter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="InterSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="interface"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustInterSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsInter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsInterSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachInter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="interface"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereInter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="interface"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupInter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="interface"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceInter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="interface"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectInter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="interface"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MSI">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="map">
+                <keytype type="ident" def="string"/>
+                <valtype type="interface"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="interface"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustMSI">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="interface"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MSISlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="map">
+                  <keytype type="ident" def="string"/>
+                  <valtype type="interface"/>
+                </elmtype>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="map">
+                <keytype type="ident" def="string"/>
+                <valtype type="interface"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustMSISlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="map">
+                <keytype type="ident" def="string"/>
+                <valtype type="interface"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsMSI">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsMSISlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachMSI">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="map">
+                  <keytype type="ident" def="string"/>
+                  <valtype type="interface"/>
+                </type>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereMSI">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="map">
+                  <keytype type="ident" def="string"/>
+                  <valtype type="interface"/>
+                </type>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupMSI">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="map">
+                  <keytype type="ident" def="string"/>
+                  <valtype type="interface"/>
+                </type>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceMSI">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="map">
+                  <keytype type="ident" def="string"/>
+                  <valtype type="interface"/>
+                </type>
+              </paramsList>
+              <resultsList>
+                <type type="map">
+                  <keytype type="ident" def="string"/>
+                  <valtype type="interface"/>
+                </type>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectMSI">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="map">
+                  <keytype type="ident" def="string"/>
+                  <valtype type="interface"/>
+                </type>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ObjxMap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="parenthesis">
+                <type type="ident" def="Map"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+          </returnsList>
+        </function>
+        <function name="MustObjxMap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Map"/>
+          </returnsList>
+        </function>
+        <function name="ObjxMapSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="parenthesis">
+                  <type type="ident" def="Map"/>
+                </elmtype>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="parenthesis">
+                <type type="ident" def="Map"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustObjxMapSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="parenthesis">
+                <type type="ident" def="Map"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsObjxMap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsObjxMapSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachObjxMap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="Map"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereObjxMap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="Map"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupObjxMap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="Map"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceObjxMap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="Map"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="Map"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectObjxMap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="Map"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Bool">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="bool"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="MustBool">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="BoolSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="bool"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="bool"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustBoolSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="bool"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsBool">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsBoolSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachBool">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="bool"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereBool">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="bool"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupBool">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="bool"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceBool">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="bool"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectBool">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="bool"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Str">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="MustStr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="StrSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="string"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustStrSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsStr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsStrSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachStr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="string"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereStr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="string"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupStr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="string"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceStr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="string"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectStr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="string"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="int"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="MustInt">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="IntSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="int"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustIntSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsInt">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsIntSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachInt">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereInt">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupInt">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceInt">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="int"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectInt">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="int8"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int8"/>
+          </returnsList>
+        </function>
+        <function name="MustInt8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int8"/>
+          </returnsList>
+        </function>
+        <function name="Int8Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="int8"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int8"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustInt8Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int8"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsInt8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsInt8Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachInt8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int8"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereInt8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int8"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupInt8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int8"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceInt8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int8"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="int8"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectInt8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int8"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="int16"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int16"/>
+          </returnsList>
+        </function>
+        <function name="MustInt16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int16"/>
+          </returnsList>
+        </function>
+        <function name="Int16Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="int16"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int16"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustInt16Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int16"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsInt16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsInt16Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachInt16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int16"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereInt16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int16"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupInt16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int16"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceInt16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int16"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="int16"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectInt16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int16"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="int32"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int32"/>
+          </returnsList>
+        </function>
+        <function name="MustInt32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int32"/>
+          </returnsList>
+        </function>
+        <function name="Int32Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="int32"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustInt32Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsInt32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsInt32Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachInt32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int32"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereInt32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int32"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupInt32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int32"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceInt32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int32"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="int32"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectInt32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int32"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="int64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="MustInt64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Int64Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="int64"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustInt64Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsInt64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsInt64Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachInt64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereInt64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupInt64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceInt64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="int64"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectInt64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="int64"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="uint"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint"/>
+          </returnsList>
+        </function>
+        <function name="MustUint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint"/>
+          </returnsList>
+        </function>
+        <function name="UintSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="uint"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustUintSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsUint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsUintSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachUint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereUint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupUint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceUint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="uint"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectUint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="uint8"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint8"/>
+          </returnsList>
+        </function>
+        <function name="MustUint8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint8"/>
+          </returnsList>
+        </function>
+        <function name="Uint8Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="uint8"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint8"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustUint8Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint8"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsUint8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsUint8Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachUint8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint8"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereUint8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint8"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupUint8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint8"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceUint8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint8"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="uint8"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectUint8">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint8"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="uint16"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+          </returnsList>
+        </function>
+        <function name="MustUint16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+          </returnsList>
+        </function>
+        <function name="Uint16Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="uint16"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint16"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustUint16Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint16"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsUint16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsUint16Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachUint16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint16"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereUint16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint16"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupUint16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint16"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceUint16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint16"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="uint16"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectUint16">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint16"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="uint32"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="MustUint32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="Uint32Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="uint32"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustUint32Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsUint32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsUint32Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachUint32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint32"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereUint32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint32"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupUint32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint32"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceUint32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint32"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="uint32"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectUint32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint32"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="uint64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="MustUint64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="Uint64Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="uint64"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustUint64Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsUint64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsUint64Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachUint64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereUint64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupUint64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceUint64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="uint64"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectUint64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uint64"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uintptr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="uintptr"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uintptr"/>
+          </returnsList>
+        </function>
+        <function name="MustUintptr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uintptr"/>
+          </returnsList>
+        </function>
+        <function name="UintptrSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="uintptr"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uintptr"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustUintptrSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uintptr"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsUintptr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsUintptrSlice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachUintptr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uintptr"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereUintptr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uintptr"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupUintptr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uintptr"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceUintptr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uintptr"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="uintptr"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectUintptr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="uintptr"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Float32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="float32"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float32"/>
+          </returnsList>
+        </function>
+        <function name="MustFloat32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float32"/>
+          </returnsList>
+        </function>
+        <function name="Float32Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="float32"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="float32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustFloat32Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="float32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsFloat32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsFloat32Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachFloat32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="float32"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereFloat32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="float32"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupFloat32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="float32"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceFloat32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="float32"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="float32"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectFloat32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="float32"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Float64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="float64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="MustFloat64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Float64Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="float64"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustFloat64Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsFloat64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsFloat64Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachFloat64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="float64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereFloat64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="float64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupFloat64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="float64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceFloat64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="float64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="float64"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectFloat64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="float64"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Complex64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="complex64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="complex64"/>
+          </returnsList>
+        </function>
+        <function name="MustComplex64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="complex64"/>
+          </returnsList>
+        </function>
+        <function name="Complex64Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="complex64"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="complex64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustComplex64Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="complex64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsComplex64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsComplex64Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachComplex64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="complex64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereComplex64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="complex64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupComplex64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="complex64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceComplex64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="complex64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="complex64"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectComplex64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="complex64"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Complex128">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="complex128"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="complex128"/>
+          </returnsList>
+        </function>
+        <function name="MustComplex128">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="complex128"/>
+          </returnsList>
+        </function>
+        <function name="Complex128Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="slice">
+                <elmtype type="ident" def="complex128"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="complex128"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MustComplex128Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="complex128"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsComplex128">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsComplex128Slice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EachComplex128">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="complex128"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WhereComplex128">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="complex128"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GroupComplex128">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="complex128"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReplaceComplex128">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="complex128"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="complex128"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CollectComplex128">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="complex128"/>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Has">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="IsNil">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="HashWithKey">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Exclude">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+          </returnsList>
+        </function>
+        <function name="Copy">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Map"/>
+          </returnsList>
+        </function>
+        <function name="Merge">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Map"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+          </returnsList>
+        </function>
+        <function name="MergeHere">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Map"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+          </returnsList>
+        </function>
+        <function name="Transform">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="string"/>
+                <type type="interface"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="string"/>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+          </returnsList>
+        </function>
+        <function name="TransformKeys">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+          </returnsList>
+        </function>
+        <function name="Value">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+          </returnsList>
+        </function>
+        <function name="MSI">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+          </returnsList>
+        </function>
+        <function name="MustFromJSON">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+          </returnsList>
+        </function>
+        <function name="FromJSON">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="FromBase64">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MustFromBase64">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+          </returnsList>
+        </function>
+        <function name="FromSignedBase64">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MustFromSignedBase64">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+          </returnsList>
+        </function>
+        <function name="FromURLQuery">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MustFromURLQuery">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+          </returnsList>
+        </function>
+        <function name="JSON">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MustJSON">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Base64">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MustBase64">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="SignedBase64">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MustSignedBase64">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="URLValues">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="url"/>
+              <item value="Values"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="URLQuery">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Value"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="ident" def="Map"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Map"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="Nil"/>
+        <name value="PathSeparator"/>
+        <name value="SignatureSeparator"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="fmt"/>
+    <import path="github.com/stretchr/testify/assert"/>
+    <import path="testing"/>
+    <import path="crypto/sha1"/>
+    <import path="encoding/hex"/>
+    <import path="encoding/base64"/>
+    <import path="encoding/json"/>
+    <import path="errors"/>
+    <import path="io/ioutil"/>
+    <import path="net/url"/>
+    <import path="strings"/>
+    <import path="bytes"/>
+    <import path="regexp"/>
+    <import path="strconv"/>
+  </imports>
+</project>

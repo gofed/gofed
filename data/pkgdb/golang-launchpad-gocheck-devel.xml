@@ -1,0 +1,930 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="launchpad.net/gocheck">
+      <types>
+        <type type="struct" name="C">
+          <field type="pointer" name="method">
+            <type type="ident" def="methodType"/>
+          </field>
+          <field type="ident" def="funcKind" name="kind"/>
+          <field type="ident" def="funcStatus" name="status"/>
+          <field type="pointer" name="logb">
+            <type type="ident" def="logger"/>
+          </field>
+          <field type="selector" name="logw">
+            <prefix value="io"/>
+            <item value="Writer"/>
+          </field>
+          <field type="chan" dir="3" name="done">
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </field>
+          <field type="ident" def="string" name="reason"/>
+          <field type="ident" def="bool" name="mustFail"/>
+          <field type="pointer" name="tempDir">
+            <type type="ident" def="tempDir"/>
+          </field>
+          <field type="ident" def="timer" name=""/>
+        </type>
+        <type type="struct" name="Result">
+          <field type="ident" def="int" name="Succeeded"/>
+          <field type="ident" def="int" name="Failed"/>
+          <field type="ident" def="int" name="Skipped"/>
+          <field type="ident" def="int" name="Panicked"/>
+          <field type="ident" def="int" name="FixturePanicked"/>
+          <field type="ident" def="int" name="ExpectedFailures"/>
+          <field type="ident" def="int" name="Missed"/>
+          <field type="ident" def="error" name="RunError"/>
+        </type>
+        <type type="struct" name="RunConf">
+          <field type="selector" name="Output">
+            <prefix value="io"/>
+            <item value="Writer"/>
+          </field>
+          <field type="ident" def="bool" name="Stream"/>
+          <field type="ident" def="bool" name="Verbose"/>
+          <field type="ident" def="string" name="Filter"/>
+          <field type="ident" def="bool" name="Benchmark"/>
+          <field type="selector" name="BenchmarkTime">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+        </type>
+        <type name="CommentInterface" type="interface">
+          <method name="CheckCommentString">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="Checker" type="interface">
+          <method name="Info">
+            <paramsList/>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="CheckerInfo"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Check">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="interface"/>
+              </type>
+              <type type="slice">
+                <elmtype type="ident" def="string"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="bool"/>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="CheckerInfo">
+          <field type="ident" def="string" name="Name"/>
+          <field type="slice" name="Params">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Suite">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="TestingT">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="testing"/>
+                <item value="T"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RunAll">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="RunConf"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Result"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Run">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="pointer">
+              <type type="ident" def="RunConf"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Result"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ListAll">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="RunConf"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="List">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="pointer">
+              <type type="ident" def="RunConf"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Result"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Result"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Passed">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Result"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Result"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Visit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="linePrinter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="ast"/>
+              <item value="Node"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="ast"/>
+              <item value="Visitor"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Failed">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Fail">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="FailNow">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Succeed">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="SucceedNow">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="ExpectFailure">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Skip">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GetTestLog">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Log">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Logf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Output">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Errorf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Fatalf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Check">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="Checker"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Assert">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="Checker"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="PC">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="methodType"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uintptr"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="methodType"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WriteTo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="logger"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="MkDir">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="outputWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WriteCallStarted">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="outputWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="WriteCallProblem">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="outputWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="WriteCallSuccess">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="outputWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Commentf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="CommentInterface"/>
+          </returnsList>
+        </function>
+        <function name="CheckCommentString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="comment"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Info">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CheckerInfo"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="CheckerInfo"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Not">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Checker"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Checker"/>
+          </returnsList>
+        </function>
+        <function name="Info">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="notChecker"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="CheckerInfo"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Check">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="notChecker"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Check">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="isNilChecker"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Check">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="notNilChecker"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Check">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="equalsChecker"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Check">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="deepEqualsChecker"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Check">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="hasLenChecker"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Check">
+          <recvList>
+            <type type="ident" def="errorMatchesChecker"/>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Check">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="matchesChecker"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Check">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="panicsChecker"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Check">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="panicMatchesChecker"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Check">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="fitsTypeChecker"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Check">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="implementsChecker"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="StartTimer">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="StopTimer">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="ResetTimer">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="SetBytes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="C"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names>
+        <name value="IsNil"/>
+        <name value="NotNil"/>
+        <name value="Equals"/>
+        <name value="DeepEquals"/>
+        <name value="HasLen"/>
+        <name value="ErrorMatches"/>
+        <name value="Matches"/>
+        <name value="Panics"/>
+        <name value="PanicMatches"/>
+        <name value="FitsTypeOf"/>
+        <name value="Implements"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="errors"/>
+    <import path="launchpad.net/gocheck"/>
+    <import path="sync"/>
+    <import path="bufio"/>
+    <import path="flag"/>
+    <import path="fmt"/>
+    <import path="os"/>
+    <import path="testing"/>
+    <import path="time"/>
+    <import path="bytes"/>
+    <import path="go/ast"/>
+    <import path="go/parser"/>
+    <import path="go/printer"/>
+    <import path="go/token"/>
+    <import path="reflect"/>
+    <import path="runtime"/>
+    <import path="strings"/>
+    <import path="regexp"/>
+    <import path="io"/>
+    <import path="math/rand"/>
+    <import path="path"/>
+    <import path="path/filepath"/>
+    <import path="strconv"/>
+    <import path="log"/>
+  </imports>
+</project>

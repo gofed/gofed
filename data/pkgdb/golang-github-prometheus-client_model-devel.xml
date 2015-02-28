@@ -1,0 +1,608 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="github.com/prometheus/client_model/go">
+      <types>
+        <type name="MetricType" type="ident">
+          <type type="ident" def="int32"/>
+        </type>
+        <type type="struct" name="LabelPair">
+          <field type="pointer" name="Name">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Value">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="Gauge">
+          <field type="pointer" name="Value">
+            <type type="ident" def="float64"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="Counter">
+          <field type="pointer" name="Value">
+            <type type="ident" def="float64"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="Quantile">
+          <field type="pointer" name="Quantile">
+            <type type="ident" def="float64"/>
+          </field>
+          <field type="pointer" name="Value">
+            <type type="ident" def="float64"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="Summary">
+          <field type="pointer" name="SampleCount">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="SampleSum">
+            <type type="ident" def="float64"/>
+          </field>
+          <field type="slice" name="Quantile">
+            <elmtype type="pointer">
+              <type type="ident" def="Quantile"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="Untyped">
+          <field type="pointer" name="Value">
+            <type type="ident" def="float64"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="Metric">
+          <field type="slice" name="Label">
+            <elmtype type="pointer">
+              <type type="ident" def="LabelPair"/>
+            </elmtype>
+          </field>
+          <field type="pointer" name="Gauge">
+            <type type="ident" def="Gauge"/>
+          </field>
+          <field type="pointer" name="Counter">
+            <type type="ident" def="Counter"/>
+          </field>
+          <field type="pointer" name="Summary">
+            <type type="ident" def="Summary"/>
+          </field>
+          <field type="pointer" name="Untyped">
+            <type type="ident" def="Untyped"/>
+          </field>
+          <field type="pointer" name="TimestampMs">
+            <type type="ident" def="int64"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="MetricFamily">
+          <field type="pointer" name="Name">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Help">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Type">
+            <type type="ident" def="MetricType"/>
+          </field>
+          <field type="slice" name="Metric">
+            <elmtype type="pointer">
+              <type type="ident" def="Metric"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Enum">
+          <recvList>
+            <type type="ident" def="MetricType"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="MetricType"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="MetricType"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="UnmarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MetricType"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LabelPair"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LabelPair"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LabelPair"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetValue">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LabelPair"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Gauge"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Gauge"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetValue">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Gauge"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Counter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Counter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetValue">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Counter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Quantile"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Quantile"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetQuantile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Quantile"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="GetValue">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Quantile"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Summary"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Summary"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetSampleCount">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Summary"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetSampleSum">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Summary"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="GetQuantile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Summary"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Quantile"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Untyped"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Untyped"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetValue">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Untyped"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Metric"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Metric"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetLabel">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Metric"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="LabelPair"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GetGauge">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Metric"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Gauge"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GetCounter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Metric"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Counter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GetSummary">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Metric"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Summary"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GetUntyped">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Metric"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Untyped"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GetTimestampMs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Metric"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MetricFamily"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MetricFamily"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MetricFamily"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetHelp">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MetricFamily"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetType">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MetricFamily"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="MetricType"/>
+          </returnsList>
+        </function>
+        <function name="GetMetric">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MetricFamily"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Metric"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="MetricType_COUNTER"/>
+        <name value="MetricType_GAUGE"/>
+        <name value="MetricType_SUMMARY"/>
+        <name value="MetricType_UNTYPED"/>
+        <name value="MetricType_name"/>
+        <name value="MetricType_value"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="code.google.com/p/goprotobuf/proto"/>
+    <import path="encoding/json"/>
+    <import path="math"/>
+  </imports>
+</project>

@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit">
+  <packages>
+    <package importpath="code.google.com/p/gosqlite/sqlite">
+      <types>
+        <type name="Errno" type="ident">
+          <type type="ident" def="int"/>
+        </type>
+        <type type="struct" name="Conn">
+          <field type="pointer" name="db">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="sqlite3"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="Backup">
+          <field type="pointer" name="sb">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="sqlite3_backup"/>
+            </type>
+          </field>
+          <field type="pointer" name="dst">
+            <type type="ident" def="Conn"/>
+          </field>
+          <field type="pointer" name="src">
+            <type type="ident" def="Conn"/>
+          </field>
+        </type>
+        <type type="struct" name="BackupStatus">
+          <field type="ident" def="int" name="Remaining"/>
+          <field type="ident" def="int" name="PageCount"/>
+        </type>
+        <type type="struct" name="Stmt">
+          <field type="pointer" name="c">
+            <type type="ident" def="Conn"/>
+          </field>
+          <field type="pointer" name="stmt">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="sqlite3_stmt"/>
+            </type>
+          </field>
+          <field type="ident" def="error" name="err"/>
+          <field type="selector" name="t0">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="ident" def="string" name="sql"/>
+          <field type="ident" def="string" name="args"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="Errno"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Version">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Open">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewBackup">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Backup"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Step">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Backup"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Status">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Backup"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="BackupStatus"/>
+          </returnsList>
+        </function>
+        <function name="Run">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Backup"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="chan" dir="1">
+              <type type="ident" def="BackupStatus"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Backup"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="BusyTimeout">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Exec">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Prepare">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Stmt"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Exec">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stmt"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stmt"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Next">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stmt"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stmt"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Scan">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stmt"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SQL">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stmt"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Nanoseconds">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stmt"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Finalize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stmt"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ErrError"/>
+        <name value="ErrInternal"/>
+        <name value="ErrPerm"/>
+        <name value="ErrAbort"/>
+        <name value="ErrBusy"/>
+        <name value="ErrLocked"/>
+        <name value="ErrNoMem"/>
+        <name value="ErrReadOnly"/>
+        <name value="ErrInterrupt"/>
+        <name value="ErrIOErr"/>
+        <name value="ErrCorrupt"/>
+        <name value="ErrFull"/>
+        <name value="ErrCantOpen"/>
+        <name value="ErrEmpty"/>
+        <name value="ErrSchema"/>
+        <name value="ErrTooBig"/>
+        <name value="ErrConstraint"/>
+        <name value="ErrMismatch"/>
+        <name value="ErrMisuse"/>
+        <name value="ErrNolfs"/>
+        <name value="ErrAuth"/>
+        <name value="ErrFormat"/>
+        <name value="ErrRange"/>
+        <name value="ErrNotDB"/>
+        <name value="Row"/>
+        <name value="Done"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="C"/>
+    <import path="database/sql"/>
+    <import path="database/sql/driver"/>
+    <import path="errors"/>
+    <import path="fmt"/>
+    <import path="io"/>
+    <import path="strings"/>
+    <import path="time"/>
+    <import path="unsafe"/>
+    <import path="reflect"/>
+    <import path="strconv"/>
+  </imports>
+</project>
