@@ -40,6 +40,8 @@ import tempfile
 import Utils
 import Repos
 
+from Utils import getScriptDir
+
 RPM_SCRIPTLETS = ('pre', 'post', 'preun', 'postun', 'pretrans', 'posttrans',
                   'trigger', 'triggerin', 'triggerprein', 'triggerun',
                   'triggerun', 'triggerpostun', 'verifyscript')
@@ -47,106 +49,137 @@ RPM_SCRIPTLETS = ('pre', 'post', 'preun', 'postun', 'pretrans', 'posttrans',
 SECTIONS = ('build', 'changelog', 'check', 'clean', 'description', 'files',
                'install', 'package', 'prep') + RPM_SCRIPTLETS
 
-script_dir = os.path.dirname(os.path.realpath(__file__))
+script_dir = getScriptDir() + "/.."
 
-def readMacros(spec_lines = []):
-	macros = {}
-	for line in spec_lines:
-		line = line.strip()
-		if line == '' or  line.startswith((' ', '\t', '#', '\n')):
-			continue
+GOLANG_IMPORT_PATHS="data/golang.import_paths"
 
-		if line.startswith('%global'):
-			line = re.sub(r'[ \t]+', ' ', line)
-			# %global <name> <body>
-			parts = line.split(' ')
-			macros[parts[1]] = parts[2]
-			continue
-	return macros
+class SpecInfo:
 
-def reevalMacro(old_value, macros):
-	value = ''
-	# what macros are inside? %{...} or %...
-	# no macro in macro use
-	key = ''
-	mfound = False
-	mbracket = False
-	for c in old_value:
-		if c == '%':
-			key = ''
-			mfound = True
-			continue
-		if mfound:
-			if c == '{':
-				if not mbracket:
-					mbracket = True
-					continue
-				else:
-					return '', False
-			if re.match('[a-zA-Z_]', c):
-				key += c
-			else:
-				if key not in macros:
-					return '', False
-				value += macros[key]
-				if not mbracket:
-					mfound = False
-					value += c
-					continue
-				if c != '}':
-					return '', False
-				mbracket = False
-				mfound = False
+	def __init__(self, spec):
+		self.spec = spec
+		lines = self.getRawSpecLines(spec)
+		plines = self.getSpecLines(spec)
+		# read macros
+		self.macros = self.readMacros(lines)
+		# read some tags
+		self.tags = self.parseTags(plines)
+
+	def getMacro(self, name):
+		if name not in self.macros:
+			return ""
 		else:
-			value += c
-	return value, True
+			value, ok = self.evalMacro(name, self.macros)
+			if ok:
+				return value
+			else:
+				return ""
 
-def evalMacro(name, macros):
-	if name not in macros:
-		return '', False
-	
-	value = ''
-	evalue, rc = reevalMacro(macros[name], macros)
-	if rc == False:
-		return '', False
+	def getTag(self, name):
+		if name not in self.tags:
+			return ""
+		else:
+			return self.tags[name]
 
-	while evalue != value:
-		value = evalue
-		evalue, rc = reevalMacro(value, macros)
+	def readMacros(self, spec_lines = []):
+		macros = {}
+		for line in spec_lines:
+			line = line.strip()
+			if line == '' or  line.startswith((' ', '\t', '#', '\n')):
+				continue
+
+			if line.startswith('%global'):
+				line = re.sub(r'[ \t]+', ' ', line)
+				# %global <name> <body>
+				parts = line.split(' ')
+				macros[parts[1]] = parts[2]
+				continue
+		return macros
+
+	def reevalMacro(self, old_value, macros):
+		value = ''
+		# what macros are inside? %{...} or %...
+		# no macro in macro use
+		key = ''
+		mfound = False
+		mbracket = False
+		for c in old_value:
+			if c == '%':
+				key = ''
+				mfound = True
+				continue
+			if mfound:
+				if c == '{':
+					if not mbracket:
+						mbracket = True
+						continue
+					else:
+						return '', False
+				if re.match('[a-zA-Z_]', c):
+					key += c
+				else:
+					if key not in macros:
+						return '', False
+					value += macros[key]
+					if not mbracket:
+						mfound = False
+						value += c
+						continue
+					if c != '}':
+						return '', False
+					mbracket = False
+					mfound = False
+			else:
+				value += c
+		return value, True
+
+	def evalMacro(self, name, macros):
+
+		if name not in macros:
+			return "", False	
+		value = ""
+
+		evalue, rc = self.reevalMacro(macros[name], macros)
 		if rc == False:
 			return '', False
 
-	return value, True
+		while evalue != value:
+			value = evalue
+			evalue, rc = self.reevalMacro(value, macros)
+			if rc == False:
+				return '', False
 
-def parseTags(spec_lines = []):
-	tags = {}
-	for line in spec_lines:
-		line = re.sub(r'[ \t]+', ' ', line.strip())
-		if line.upper().startswith('URL'):
-			tags['url'] = line.split(' ')[1]
-			continue
-		if line.upper().startswith('NAME'):
-			tags['name'] = line.split(' ')[1]
-			continue
-		if line.upper().startswith('SOURCE'):
-			src = line[6:].strip()
-			# now number or : follows
-			if src[0] == ':':
-				tags['source0'] = src[1:].strip()
-			else:
-				items = src.split(':')
-				tags['source%s' % items[0].strip()] = ':'.join(items[1:]).strip()
-	return tags
+		return value, True
 
-def getRawSpecLines(spec):
-	with open(spec, 'r') as file:
-		return file.read().split('\n')
+	def parseTags(self, spec_lines = []):
+		tags = {}
+		for line in spec_lines:
+			line = re.sub(r'[ \t]+', ' ', line.strip())
+			if line.upper().startswith('URL'):
+				tags['url'] = line.split(' ')[1]
+				continue
+			if line.upper().startswith('NAME'):
+				tags['name'] = line.split(' ')[1]
+				continue
+			if line.upper().startswith('SOURCE'):
+				src = line[6:].strip()
+				# now number or : follows
+				if src[0] == ':':
+					tags['source0'] = src[1:].strip()
+				else:
+					items = src.split(':')
+					tags['source%s' % items[0].strip()] = ':'.join(items[1:]).strip()
+		return tags
 
-def getSpecLines(spec):
-	stdout, stderr, rt = Utils.runCommand('rpmspec -P %s' % spec)
-	if rt != 0:
-		return []
-	return stdout.split('\n')
+	def getRawSpecLines(self, spec):
+		with open(spec, 'r') as file:
+			return file.read().split('\n')
+
+	def getSpecLines(self, spec):
+		stdout, stderr, rt = Utils.runCommand('rpmspec -P %s' % spec)
+		if rt != 0:
+			return []
+		return stdout.split('\n')
+
 
 def getBuildsFromFilesSections(spec, pkg_name):
 	stdout, stderr, rc = Utils.runCommand('rpmspec -P %s | grep "^%%files"' % spec)
@@ -242,7 +275,7 @@ def getProvidesFromPackageSections(spec, pkg_name):
 
 def loadImportPaths():
 	lines = []
-	with open('%s/golang.import_paths' % script_dir, 'r') as file:
+	with open('%s/%s' % (script_dir, GOLANG_IMPORT_PATHS), 'r') as file:
 		lines = file.read().split('\n')
 
 	import_paths = {}
@@ -260,7 +293,7 @@ def loadImportPaths():
 
 def loadSubpackageSourceMapping():
 	lines = []
-	with open('%s/golang.sources' % script_dir, 'r') as file:
+	with open('%s/%s' % (script_dir, GOLANG_IMPORT_PATHS), 'r') as file:
 		lines = file.read().split('\n')
 
 	sources = {}
@@ -334,30 +367,26 @@ class SpecTest:
 
 	def __init__(self, spec):
 		self.spec = spec
-		# get spec lines (not evaluated and evaluated)
-		self.lines = getRawSpecLines(spec)
-		self.plines = getSpecLines(spec)
-		# read macros
-		self.macros = readMacros(self.lines)
-		# read some tags
-		self.tags = parseTags(self.plines)
-		url = self.tags['url']
+		self.spec_info = SpecInfo(spec)
+		url = self.spec_info.getTag("url")
+		self.name = self.spec_info.getTag("name")
+		self.import_path = self.spec_info.getMacro("import_path")
+
 		self.repo, self.url = Repos.detectKnownRepos(url)
 		self.import_paths = {}
-		v, rc = evalMacro('import_path', self.macros)
-		if rc:
-			self.import_paths['%s-devel' % (self.tags['name'])] = v
+
+		if self.import_path != "":
+			self.import_paths['%s-devel' % (self.name)] = self.import_path
 
 ##################################
 # TESTS
 ##################################
 	def testImportPath(self, verbose = False):
-		import_path, rc = evalMacro('import_path', self.macros)
-		if rc == False:
+		if self.import_path == "":
 			print "E: missing %global import_path ..."
 			return 1
 		if verbose:
-			print "import_path detected: %s" % import_path
+			print "import_path detected: %s" % self.import_path
 		return 0
 
 	def testPackageName(self, verbose = False):
@@ -371,13 +400,12 @@ class SpecTest:
 	#	elif self.repo == Repos.GOPKG:
 	#		pkg_name = Repos.gopkg2pkgdb(url)
 
-		name = self.tags['name']
 		if pkg_name == '':
 			if verbose:
 				print 'Uknown repo url'
 			return 0
 
-		if pkg_name != name:
+		if pkg_name != self.name:
 			print "W: Incorrect package name, should be %s" % pkg_name
 			return 1
 		if verbose:
@@ -387,12 +415,12 @@ class SpecTest:
 
 	def testCommit(self, verbose = False):
 		commit_label = 'commit'
-		commit, rc = evalMacro(commit_label, self.macros)
-		if rc == False:
+		commit = self.spec_info.getMacro(commit_label)
+		if commit == "":
 			commit_label = 'rev'
-			commit, rc = evalMacro(commit_label, self.macros)
+			commit = self.spec_info.getMacro(commit_label)
 
-		if rc == False:
+		if commit == "":
 			print "E: missing %%global %s ..." % commit_label
 			return 1
 		if verbose:
@@ -452,18 +480,19 @@ class SpecTest:
 	def testBuilds(self, verbose = False):
 		errors = 0
 		warning = 0
-		pkg_name = self.tags['name']
+		pkg_name = self.name
 		builds = getBuildsFromFilesSections(self.spec, pkg_name)
 
 		self.local_ips = loadImportPaths()
 		# tarball lies with a spec file in a branch (from sources the first one?)
 		source_mappings = loadSubpackageSourceMapping()
 		# get sources from a spec
-		if 'source0' not in self.tags:
+		source0 = self.spec_info.getTag("source0")
+		if source0 == "":
 			print "Source or Source0 tag missing in spec file"
 			return 1, 0
 
-		spec_source0 = self.tags['source0'].split('/')[-1]
+		spec_source0 = source0.split('/')[-1]
 		# get source file imports from tarball
 		tar_imports = getTarballImports(spec_source0)
 
