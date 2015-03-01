@@ -41,6 +41,7 @@ SCAN_PACKAGES=18
 BBO=19
 INITPKG=20
 SCANDEPS=21
+SCANSYMBOLS=22
 
 operation=-1
 script_dir=$(dirname $(readlink -f $0))
@@ -71,6 +72,8 @@ function printHelp {
 	echo "	bbo		 buildroot override builds for all branches"
 	echo "	initpkg		 get first build into Fedora from review request"
 	echo "	scandeps	 scan all golang packages for dependencies (e.g. cyclic)"
+	echo "	scansymbols	 scan directory for go symbols"
+
 }
 
 ################################
@@ -120,6 +123,8 @@ elif [ "$1" == "initpkg" ]; then
         operation=$INITPKG
 elif [ "$1" == "scandeps" ]; then
         operation=$SCANDEPS
+elif [ "$1" == "scansymbols" ]; then
+        operation=$SCANSYMBOLS
 fi
 
 ################################
@@ -177,5 +182,7 @@ elif [ $operation -eq $INITPKG ]; then
         $script_dir/initPackageInRepo.sh $@
 elif [ $operation -eq $SCANDEPS ]; then
         $script_dir/discoverPkgDeps.py $@
+elif [ $operation -eq $SCANSYMBOLS ]; then
+        $script_dir/scanGoSymbols.py $@
 fi
 

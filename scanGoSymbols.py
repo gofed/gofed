@@ -64,7 +64,7 @@ def setOptionParser():
 	)
 
 	parser.add_option(
-	    "", "-p", "--prefix", dest="prefix", default = "",
+	    "", "", "--prefix", dest="prefix", default = "",
 	    help = "Prefix prepended to all listed import paths followed by slash /."
 	)
 
@@ -85,7 +85,12 @@ def setOptionParser():
 
 	parser.add_option(
 	    "", "-u", "--usedip", dest="usedip", action = "store_true", default = False,
-	    help = "List all imported paths."
+	    help = "List all imported paths/packages."
+	)
+
+	parser.add_option(
+	    "", "-p", "--provides", dest="provides", action = "store_true", default = False,
+	    help = "List all provided import paths."
 	)
 
 	return parser
@@ -113,7 +118,23 @@ if __name__ == "__main__":
 	#exit(0)
 
 	ip_used = []
-	if options.list:
+	if options.provides:
+		err, ip, _, _ = getSymbolsForImportPaths(go_dir)
+		if err != "":
+			print err
+			exit(1)
+
+		ips = []
+		for pkg in ip:
+			ips.append(ip[pkg])
+
+		for ip in sorted(ips):
+			if ip == "." and options.prefix != "":
+				print options.prefix
+			else:
+				print "%s%s" % (prefix, ip)
+
+	elif options.list:
 		err, ip, symbols, ip_used = getSymbolsForImportPaths(go_dir)
 		if err != "":
 			print err
@@ -131,7 +152,7 @@ if __name__ == "__main__":
 			else:
 				displaySymbols(symbols[pkg], options.all, options.stats)
 
-	if options.usedip:
+	elif options.usedip:
 		if ip_used != []:
 			print ""
 			print "Used import paths:"
