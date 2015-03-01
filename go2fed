@@ -160,9 +160,9 @@ elif [ $operation -eq $SCANINFO ]; then
 elif [ $operation -eq $SCAN ]; then
         $script_dir/inspectPackages.sh $@
 elif [ $operation -eq $LINT ]; then
-        $script_dir/specParser.py $@
+        $script_dir/modules/specParser.py $@
 elif [ $operation -eq $BUMP ]; then
-        $script_dir/updatepackage.sh $@
+        $script_dir/bumpSpec.py $@
 elif [ $operation -eq $CHECK_COMMIT ]; then
         $script_dir/checkCommit.py $@
 elif [ $operation -eq $CHECK_DEPS ]; then
