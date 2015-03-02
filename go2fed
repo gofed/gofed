@@ -42,6 +42,7 @@ BBO=19
 INITPKG=20
 SCANDEPS=21
 SCANSYMBOLS=22
+GCPMASTER=23
 
 operation=-1
 script_dir=$(dirname $(readlink -f $0))
@@ -73,6 +74,7 @@ function printHelp {
 	echo "	initpkg		 get first build into Fedora from review request"
 	echo "	scandeps	 scan all golang packages for dependencies (e.g. cyclic)"
 	echo "	scansymbols	 scan directory for go symbols"
+	echo "	gcpmaster	 git cherry pick master branch"
 
 }
 
@@ -125,6 +127,8 @@ elif [ "$1" == "scandeps" ]; then
         operation=$SCANDEPS
 elif [ "$1" == "scansymbols" ]; then
         operation=$SCANSYMBOLS
+elif [ "$1" == "gcpmaster" ]; then
+        operation=$GCPMASTER
 fi
 
 ################################
@@ -184,5 +188,7 @@ elif [ $operation -eq $SCANDEPS ]; then
         $script_dir/discoverPkgDeps.py $@
 elif [ $operation -eq $SCANSYMBOLS ]; then
         $script_dir/scanGoSymbols.py $@
+elif [ $operation -eq $GCPMASTER ]; then
+        $script_dir/gcpmaster.sh $@
 fi
 
