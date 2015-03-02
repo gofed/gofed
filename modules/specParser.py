@@ -347,16 +347,12 @@ def fetchPkgInfo(pkg, branch):
 	"""
 	f = tempfile.NamedTemporaryFile(delete=True)
 	Utils.runCommand("curl http://pkgs.fedoraproject.org/cgit/%s.git/plain/%s.spec > %s" % (pkg, pkg, f.name))
-	lines = getRawSpecLines(f.name)
+	spec_info = SpecInfo(f.name)
+	commit = spec_info.getMacro('commit')
+	if commit == "":
+		commit = spec_info.getMacro('rev')
+
 	f.close()
-
-	macros = readMacros(lines)
-	commit, rc = evalMacro('commit', macros)
-	if rc == False:
-		commit, rc = evalMacro('rev', macros)
-	if rc == False:
-		commit = ''
-
 	return commit
 
 def getPackageCommits(pkg):
