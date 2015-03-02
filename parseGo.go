@@ -125,7 +125,7 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
-	"os"
+	os "os"
 	"strings"
 	"path"
 	"flag"
@@ -571,6 +571,288 @@ func (symbols * Symbols) AddFunc(decl *ast.FuncDecl) (err int) {
 	return
 }
 
+type usedSymbols struct {
+	selector_level int
+	//for each level a list of variable names
+	variables map[int][]string
+	block_level int
+}
+
+// For each type return a list of all symbols
+func (us usedSymbols) getUsedSymbols(d ast.Expr) (symbols [] string) {
+	switch t := d.(type) {
+	case *ast.BasicLit:
+		return
+	case *ast.Ident:
+		//fmt.Println("IDENT")
+		// Identifier can be int, string, etc.
+		// Or it can be any exported symbol
+		symbols = append(symbols, t.Name)
+		//fmt.Println(t)
+	case *ast.StarExpr:
+		symbols = us.getUsedSymbols(t.X)
+	case *ast.TypeAssertExpr:
+		fmt.Println("TYPEASSERT")
+		// expr
+		syms := us.getUsedSymbols(t.X)
+		for _, sym := range syms {
+			if !us.isSymbolLocal(sym) {
+				symbols = append(symbols, sym)
+			} else {
+				fmt.Println("LOCAL: " + sym)
+			}
+
+		}
+		fmt.Println(syms)
+		// type
+		syms = us.getUsedSymbols(t.Type)
+		for _, sym := range syms {
+			if !us.isSymbolLocal(sym) {
+				symbols = append(symbols, sym)
+			} else {
+				fmt.Println("LOCAL: " + sym)
+			}
+
+		}
+		fmt.Println(syms)
+		
+	case *ast.SelectorExpr:
+		// X.Sel
+		fmt.Println("SELECTOR")
+		us.selector_level += 1
+		syms := us.getUsedSymbols(t.X)
+		if us.selector_level == 1 && len(syms) == 1 {
+			symbols = append(symbols, syms[0] + "." + t.Sel.Name)
+		}
+		us.selector_level -= 1
+	case *ast.CallExpr:
+		fmt.Println("CALLEXPR")
+		syms := us.getUsedSymbols(t.Fun)
+		symbols = append(symbols, syms...)
+		for _, arg := range t.Args {
+			syms = us.getUsedSymbols(arg)
+			symbols = append(symbols, syms...)
+			//fmt.Println(syms)
+		}
+	case *ast.FuncType:
+		//fmt.Println("FUNC")
+		for _, param := range t.Params.List {
+			syms := us.getUsedSymbols(param.Type)
+			symbols = append(symbols, syms...)
+		}
+		for _, result := range t.Results.List {
+			syms := us.getUsedSymbols(result.Type)
+			symbols = append(symbols, syms...)
+		}
+	case *ast.ParenExpr:
+		symbols = us.getUsedSymbols(t.X)
+	case *ast.UnaryExpr:
+		symbols = us.getUsedSymbols(t.X)
+	case *ast.BinaryExpr:
+		syms := us.getUsedSymbols(t.X)
+		symbols = append(symbols, syms...)
+		syms =  us.getUsedSymbols(t.Y)
+		symbols = append(symbols, syms...)
+	case *ast.IndexExpr:
+		syms := us.getUsedSymbols(t.X)
+		for _, sym := range syms {
+			if !us.isSymbolLocal(sym) {
+				symbols = append(symbols, sym)
+			} else {
+				fmt.Println("LOCAL: " + sym)
+			}
+
+		}
+		syms = us.getUsedSymbols(t.Index)
+		for _, sym := range syms {
+			if !us.isSymbolLocal(sym) {
+				symbols = append(symbols, sym)
+			} else {
+				fmt.Println("LOCAL: " + sym)
+			}
+		}
+
+	case *ast.MapType:
+		key_symbols := us.getUsedSymbols(t.Key)
+		val_symbols := us.getUsedSymbols(t.Value)
+		symbols = append(symbols, key_symbols...)
+		symbols = append(symbols, val_symbols...)
+		//fmt.Println(key_symbols)
+		//fmt.Println(val_symbols)
+        case *ast.StructType:
+		for _, f := range t.Fields.List {
+			//fmt.Println(f.Type)
+			syms := us.getUsedSymbols(f.Type)
+			symbols = append(symbols, syms...)
+			//fmt.Println(syms)
+		}
+	default:
+		fmt.Println("NOT IMPLEMENTED")
+		fmt.Println(d)
+	}
+	return
+}
+
+func (us usedSymbols) getUsedSymbolsInFunc(decl *ast.FuncDecl) (symbols []string) {
+	fmt.Println("====SYMBOLS====")
+
+	us.block_level = 0
+	us.variables = make(map[int][]string)
+
+	names := make([]string, 0)
+	if decl.Recv != nil {
+		for _, recv := range decl.Recv.List {
+			syms := us.getUsedSymbols(recv.Type)
+			symbols = append(symbols, syms...)
+			// get variables from receiver
+			for _, name := range recv.Names {
+				//fmt.Println(name)
+				names = append(names, name.Name)
+			}
+		}
+	}
+
+	// get variables from parameters
+	for _, param := range decl.Type.Params.List {
+		for _, name := range param.Names {
+			//fmt.Println(name)
+			names = append(names, name.Name)
+		}
+	}
+	// get variables from results
+	for _, result := range decl.Type.Results.List {
+		for _, name := range result.Names {
+			//fmt.Println(name)
+			names = append(names, name.Name)
+		}
+	}
+
+	us.variables[us.block_level] = names
+
+	syms := us.getUsedSymbols(decl.Type)
+	symbols = append(symbols, syms...)
+	//fmt.Println(syms)
+
+	fmt.Println(symbols)
+
+	if decl.Body != nil {
+		us.block_level = 1
+		us.variables[us.block_level] = make([]string, 0)
+		for _, stmt := range decl.Body.List {
+			syms := us.getUsedSymbolsInStmt(stmt)
+			symbols = append(symbols, syms...)
+			//fmt.Println(syms)
+		}
+	}
+	//syms = getUsedSymbolsInStmt(decl.Body)
+	fmt.Println(symbols)
+	fmt.Println("")
+	fmt.Println("")
+	return
+}
+
+func (us usedSymbols) isSymbolLocal(symbol string) bool {
+	// check if symbols are local
+	// or function/method variables
+	for i := 0; i <= us.block_level; i++ {
+		//fmt.Println(us.variables[i])
+		for _, sym := range us.variables[i] {
+			// symbol is non selector symbols
+			if sym == symbol {
+				return true
+			}
+			// symbol is selector symbol?
+			if strings.HasPrefix(symbol, sym + ".") {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func (us usedSymbols) getUsedSymbolsInStmt(s ast.Stmt) (symbols []string) {
+	switch t := s.(type) {
+        case *ast.ReturnStmt:
+		//us.block_level += 1
+		fmt.Println("RETSTMT")
+		for _, result := range t.Results {
+			syms := us.getUsedSymbols(result)
+			//fmt.Println(syms)
+			for _, sym := range syms {
+				//fmt.Println(sym)
+				if !us.isSymbolLocal(sym) {
+					symbols = append(symbols, sym)
+				} else {
+					fmt.Println("LOCAL: " + sym)
+				}
+
+			}
+		}
+		//us.block_level -= 1
+	case *ast.AssignStmt:
+		fmt.Println("ASSIGN STMT")
+		vars := make([]string, 0)
+
+		// left-hand side
+		for _, name := range t.Lhs {
+			syms := us.getUsedSymbols(name)
+			vars = append(vars, syms...)
+			//fmt.Println(vars)
+		}
+		us.variables[us.block_level] = append(us.variables[us.block_level],  vars...)
+
+		// right-hand side
+		for _, name := range t.Rhs {
+			syms := us.getUsedSymbols(name)
+			for _, sym := range syms {
+				//fmt.Println(sym)
+				if !us.isSymbolLocal(sym) {
+					symbols = append(symbols, sym)
+				} else {
+					fmt.Println("LOCAL: " + sym)
+				}
+			}
+			//fmt.Println(syms)
+		}
+		//fmt.Println(us.variables)
+	case *ast.DeferStmt:
+		symbols = us.getUsedSymbols(t.Call)
+	case *ast.IfStmt:
+		fmt.Println("IF STMT")
+		// init part
+		syms := make([]string, 0)
+		if t.Init != nil {
+			// this will only add new local variables
+			us.getUsedSymbolsInStmt(t.Init)
+		}
+		// condition part
+		syms = us.getUsedSymbols(t.Cond)
+		for _, sym := range syms {
+			//fmt.Println(sym)
+			if !us.isSymbolLocal(sym) {
+				symbols = append(symbols, sym)
+			} else {
+				fmt.Println("LOCAL: " + sym)
+			}
+		}
+		//fmt.Println(syms)
+		us.block_level += 1
+		
+		// body part
+		for _, stmt := range t.Body.List {
+			syms = us.getUsedSymbolsInStmt(stmt)
+			symbols = append(symbols, syms...)
+			//fmt.Println(syms)
+		}
+
+		us.block_level -= 1
+	default:
+		fmt.Println("STMT not implemented")
+	}
+
+	return
+}
+
 func main() {
 
 	var importsFlag = flag.Bool("imports", false, "Parse only imported paths")
@@ -618,24 +900,50 @@ func main() {
 				case *ast.ImportSpec:
 					symbols.AddImport(d)
 				case *ast.ValueSpec:
+					fmt.Println("####VALUESPEC####")
 					if !*importsFlag {
 						symbols.AddVar(d)
+						fmt.Println("")
+						fmt.Println("====SYMBOLS====")
+						//fmt.Println(d.Names)
+						if d.Type != nil {
+							us := new(usedSymbols)
+							syms := us.getUsedSymbols(d.Type)
+							fmt.Println(syms)
+						}
+						for _, value := range d.Values {
+							//fmt.Println(value)
+							us := new(usedSymbols)
+							syms := us.getUsedSymbols(value)
+							fmt.Println(syms)
+							fmt.Println("")
+						}
 					}
 				case *ast.TypeSpec:
+					fmt.Println("####TYPESPEC####")
 					if !*importsFlag {
 						err := symbols.AddTypes(d)
 						if err != 0 {
 							os.Exit(err)
 						}
+						us := new(usedSymbols)
+						syms := us.getUsedSymbols(d.Type)
+						fmt.Println("====SYMBOLS====")
+						fmt.Println(syms)
+						fmt.Println("")
 					}
 				}
 			}
 		case *ast.FuncDecl:
+			fmt.Println("####FUNCSPEC####")
 			if !*importsFlag {
 				symbols.AddFunc(decl)
+				us := new(usedSymbols)
+				us.getUsedSymbolsInFunc(decl)
+				//os.Exit(0)
 			}
 		}
 	}
-	fmt.Println(symbols.ToJSON())
+	//fmt.Println(symbols.ToJSON())
 	os.Exit(0)
 }
