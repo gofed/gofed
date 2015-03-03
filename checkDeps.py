@@ -7,6 +7,7 @@ import modules.specParser
 import modules.Utils
 import optparse
 from modules.Utils import GREEN, RED, ENDC, YELLOW
+from modules.Repos import Repos, IPMap
 
 def getGoDeps(path):
 	deps = {}
@@ -56,8 +57,10 @@ if __name__ == "__main__":
 		print "%s is corrupted or has no dependencies" % json_file
 		exit(1)
 
-	im = modules.Repos.loadIMap()
-	repos = modules.Repos.parseReposInfo()
+	repos_obj = Repos()
+
+	im = IPMap().loadIMap()
+	repos = repos_obj.parseReposInfo()
 	keys = sorted(deps.keys())
 
 	cache = []

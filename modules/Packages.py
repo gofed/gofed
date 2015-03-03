@@ -1,7 +1,5 @@
 #!/bin/python
-from subprocess import Popen, PIPE
-from Utils import getScriptDir
-from Utils import runCommand
+from Utils import getScriptDir, runCommand, inverseMap
 import re
 import os
 import tempfile
@@ -10,6 +8,8 @@ from Repos import detectRepoPrefix
 from ImportPaths import loadImportPathDb
 import operator
 from GoSymbols import ProjectToXml
+from specParser import getPkgURL, fetchProvides
+from Repos import Repos, IPMap
 
 GOLANG_PACKAGES="data/golang.packages"
 GOLANG_PKG_DB="data/pkgdb"
@@ -364,6 +364,100 @@ def getRootPackages(graph):
 			roots.append(u)
 
 	return roots
+
+
+class LocalDB:
+	def loadPackages(self):
+		packages = []
+		with open("%s/%s" % (script_dir, GOLANG_PACKAGES), "r") as file:
+			for line in file.read().split('\n'):
+				line = line.strip()
+				if line == '' or line[0] == '#':
+					continue
+
+				if line not in packages:
+					packages.append(line)
+		return packages
+
+	def savePackages(self, packages):
+		if packages == []:
+			return False
+
+		with open("%s/%s.tmp" % (script_dir, GOLANG_PACKAGES), "w") as file:
+			for pkg in packages:
+				file.write("%s\n" % pkg)	
+
+		return True
+
+	def flush(self):
+		os.rename("%s/%s.tmp" % (script_dir, GOLANG_PACKAGES),
+			"%s/%s" % (script_dir, GOLANG_PACKAGES))
+
+	# 1) get a list of new packages
+	# 2) add the list into golang.packages
+	# 3) update golang.repos (detect import path from import_path macro)
+	# 4) update golang.imap for mapping of import paths into their builds (devel packages)
+	# 5) regenerate golang.importdb (or remove it and use pkg?)
+	# -- if possible, regenerate only a part of golang.importdb/pkg only for new packages
+	def addPackages(self, new_packages):
+		err = []
+
+		if new_packages == []:
+			err.append("No new packages to add")
+			return err, False
+
+		# get current packages
+		curr_pkgs = self.loadPackages()
+		for pkg in new_packages:
+			curr_pkgs.append(pkg)
+
+		# add new packages
+		if not self.savePackages(sorted(curr_pkgs)):
+			err.append("Unable to save new packages")
+			return err, False
+
+		# update golang.repos
+		new_repos = {}
+
+		checked_packages = []
+		for pkg in new_packages:
+			url = getPkgURL(pkg)
+			if url == "":
+				err.append("Unable to get URL tag from %s's spec file" % pkg)	
+				continue
+			checked_packages.append(pkg)
+			# BUILD   go-spew https://github.com/davecgh/go-spew.git
+			dir = os.path.basename(url)
+			git = ("%s.git" % url)
+			new_repos[pkg] = (dir, git)
+
+		new_packages = checked_packages
+		repos = Repos().loadRepos()
+		for repo in new_repos:
+			repos[repo] = new_repos[repo]
+
+		if not Repos().saveRepos(repos):
+			err.append("Unable to save new repositories")
+			return err, False
+
+		# update import paths
+		mapping = IPMap().loadIMap()
+
+		for pkg in new_packages:
+			provides = fetchProvides(pkg, 'master')
+			imap = inverseMap(provides)
+			for arg in imap:
+				for image in imap[arg]:
+					mapping[arg] = (image, imap[arg])
+
+		if not IPMap().saveIMap(mapping):
+			err.append("Unable to save mapping of import paths of new packages")
+			return err, False
+
+		self.flush()
+		Repos().flush()
+		IPMap().flush()
+		return err, True
 
 if __name__ == "__main__":
 	#pkg = Package('golang-googlecode-net')

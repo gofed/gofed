@@ -43,7 +43,8 @@ class Config:
 	def getImportPathDb(self):
 		return self.getValueFromDb('import_path_db')
 		
-
+	def getRepoPathPrefix(self):
+		return self.getValueFromDb('repo_path_prefix')
 
 if __name__ == "__main__":
 	cfg = Config()

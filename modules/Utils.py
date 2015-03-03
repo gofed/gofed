@@ -25,3 +25,18 @@ def runCommand(cmd):
 def getScriptDir():
 	return os.path.dirname(os.path.realpath(__file__))
 
+def inverseMap(mfnc):
+	"""inverse mapping of multifunction
+
+	Keyword arguments:
+	mfnc -- multifunction
+	"""
+	imap = {}
+	for key in mfnc:
+		for image in mfnc[key]:
+			if image not in imap:
+				imap[image] = [key]
+			else:
+				imap[image].append(key)
+	return imap
+

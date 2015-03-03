@@ -7,6 +7,7 @@ import os
 import modules.specParser
 import optparse
 import modules.Repos
+from modules.Repos import Repos, IPMap
 
 if __name__ == "__main__":
 	parser = optparse.OptionParser("%prog {package|-i import_path} ucommit")
@@ -31,7 +32,7 @@ if __name__ == "__main__":
 	commit = args[1]
 
 	if options.ip:
-		im = modules.Repos.loadIMap()
+		im = IPMap().loadIMap()
 		ip = args[0]
 		if 'golang(%s)' % ip in im:
 			pkg, _ = im['golang(%s)' % ip]
@@ -39,7 +40,8 @@ if __name__ == "__main__":
 			print "import path %s not found" % ip
 			exit(1)
 
-	repos = modules.Repos.parseReposInfo()
+	repos_obj = Repos()
+	repos = repos_obj.parseReposInfo()
 	if pkg not in repos:
 		print "package %s not found in golang.repos" % pkg
 		exit(1)

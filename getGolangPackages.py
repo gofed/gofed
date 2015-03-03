@@ -1,6 +1,6 @@
 #!/bin/python
 
-from modules.Packages import getPackagesFromPkgDb, loadPackages
+from modules.Packages import getPackagesFromPkgDb, loadPackages, LocalDB
 
 import optparse
 
@@ -37,6 +37,11 @@ if __name__ == "__main__":
 	    help = "List all golang packages saved in a local database"
 	)
 
+	parser.add_option(
+	    "", "-u", "--update", dest="update", action = "store_true", default = False,
+	    help = "Update local databases with new golang packages"
+	)
+
 	options, args = parser.parse_args()
 
 	# new packages
@@ -49,5 +54,16 @@ if __name__ == "__main__":
 	elif options.list:
 		pkgs = loadPackages()
 		printPkgs(sorted(pkgs))
+	elif options.update:
+		set_pkgdb, set_local = getPkgs()	
+		ldb = LocalDB()
+		new_pkgs = list(set_pkgdb - set_local)
+		err, ret = ldb.addPackages(new_pkgs)
+		if ret:
+			print "%s packages added" % len(new_pkgs)
+			if err != []:
+				print "\n".join(err)
+		else:
+			print "\n".join(err)
 	else:
 		print "Synopsis: [-n] [-r] [-l]"

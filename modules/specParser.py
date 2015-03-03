@@ -40,7 +40,7 @@ import tempfile
 import Utils
 import Repos
 
-from Utils import getScriptDir
+from Utils import getScriptDir, runCommand
 
 RPM_SCRIPTLETS = ('pre', 'post', 'preun', 'postun', 'pretrans', 'posttrans',
                   'trigger', 'triggerin', 'triggerprein', 'triggerun',
@@ -180,6 +180,69 @@ class SpecInfo:
 			return []
 		return stdout.split('\n')
 
+	def getProvidesFromPackageSections(self, spec, pkg_name):
+		stdout, stderr, rc = Utils.runCommand('rpmspec -P %s' % spec)
+		if rc != 0:
+			return []
+
+		provides = {}
+		in_package = False
+		p_name = ''
+		skip = False
+
+		for line in stdout.split('\n'):
+			if line == '':
+				continue
+
+			line = line.strip()
+			for sec in SECTIONS:
+				if line.lower().startswith("%%%s" % sec):
+					if sec == 'package':
+						in_package = True
+						line = re.sub(r'[ \t]+', ' ', line)
+						items = line.split(' ')
+						items_len = len(items)
+						i = 1
+						while i < items_len:
+							item = items[i]
+							i += 1
+							if item.startswith('-n'):
+								p_name = items[i]
+								break
+							if item[0] == '-':
+								continue
+							p_name = '%s-%s' % (pkg_name, item)
+							break
+
+						provides[p_name] = []
+						skip = True
+					else:
+						in_package = False
+					break
+			if skip:
+				skip = False
+				continue
+
+			if in_package:
+				if line.startswith('Provides'):
+					line = re.sub(r'[ \t]+', ' ', line)
+					provides[p_name].append(line.split(' ')[1])
+
+		return provides
+
+def fetchProvides(pkg, branch):
+	"""Fetch a spec file from pkgdb and get provides from all its [sub]packages
+
+	Keyword arguments:
+	pkg -- package name
+	branch -- branch name
+	"""
+	f = tempfile.NamedTemporaryFile(delete=True)
+	runCommand("curl http://pkgs.fedoraproject.org/cgit/%s.git/plain/%s.spec > %s" % (pkg, pkg, f.name))
+	provides = SpecInfo(f.name).getProvidesFromPackageSections(f.name, pkg)
+	f.close()
+	return provides
+
 
 def getBuildsFromFilesSections(spec, pkg_name):
 	stdout, stderr, rc = Utils.runCommand('rpmspec -P %s | grep "^%%files"' % spec)
@@ -222,56 +285,6 @@ def getBuildsFromFilesSections(spec, pkg_name):
 				builds.append("%s-%s" % (pkg_name, name))
 
 	return builds
-
-def getProvidesFromPackageSections(spec, pkg_name):
-	stdout, stderr, rc = Utils.runCommand('rpmspec -P %s' % spec)
-	if rc != 0:
-		return []
-
-	provides = {}
-	in_package = False
-	p_name = ''
-	skip = False
-
-	for line in stdout.split('\n'):
-		if line == '':
-			continue
-
-		line = line.strip()
-		for sec in SECTIONS:
-			if line.lower().startswith("%%%s" % sec):
-				if sec == 'package':
-					in_package = True
-					line = re.sub(r'[ \t]+', ' ', line)
-					items = line.split(' ')
-					items_len = len(items)
-					i = 1
-					while i < items_len:
-						item = items[i]
-						i += 1
-						if item.startswith('-n'):
-							p_name = items[i]
-							break
-						if item[0] == '-':
-							continue
-						p_name = '%s-%s' % (pkg_name, item)
-						break
-
-					provides[p_name] = []
-					skip = True
-				else:
-					in_package = False
-				break
-		if skip:
-			skip = False
-			continue
-
-		if in_package:
-			if line.startswith('Provides'):
-				line = re.sub(r'[ \t]+', ' ', line)
-				provides[p_name].append(line.split(' ')[1])
-
-	return provides
 
 def loadImportPaths():
 	lines = []
@@ -348,15 +361,25 @@ def fetchPkgInfo(pkg, branch):
 	f = tempfile.NamedTemporaryFile(delete=True)
 	Utils.runCommand("curl http://pkgs.fedoraproject.org/cgit/%s.git/plain/%s.spec > %s" % (pkg, pkg, f.name))
 	spec_info = SpecInfo(f.name)
+	info = {}
 	commit = spec_info.getMacro('commit')
 	if commit == "":
 		commit = spec_info.getMacro('rev')
 
+	info["commit"] = commit
+	info["url"] = spec_info.getTag("url")
+
 	f.close()
-	return commit
+	return info
 
 def getPackageCommits(pkg):
-	return fetchPkgInfo(pkg, 'master')
+	info = fetchPkgInfo(pkg, 'master')
+	return info["commit"] 
+
+def getPkgURL(pkg, branch = "master"):
+	info = fetchPkgInfo(pkg, 'master')
+	return info["url"] 
+
 
 
 class SpecTest:
