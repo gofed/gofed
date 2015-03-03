@@ -92,6 +92,17 @@ if __name__ == "__main__":
 
 	options, args = parser.parse_args()
 
+	# must be on master branch
+	so, se, rc = runCommand("git branch | grep '*' | sed 's/*//'")
+	if rc != 0:
+		print "Not in a git repository"
+		exit(1)
+
+	branch = so.split('\n')[0].strip()
+	if branch != "master":
+		print "Not on branch master"
+		exit(1)
+
 	# get spec file
 	print "Searching for spec file"
 	spec = getSpec()
