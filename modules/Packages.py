@@ -406,16 +406,6 @@ class LocalDB:
 			err.append("No new packages to add")
 			return err, False
 
-		# get current packages
-		curr_pkgs = self.loadPackages()
-		for pkg in new_packages:
-			curr_pkgs.append(pkg)
-
-		# add new packages
-		if not self.savePackages(sorted(curr_pkgs)):
-			err.append("Unable to save new packages")
-			return err, False
-
 		# update golang.repos
 		new_repos = {}
 
@@ -432,6 +422,18 @@ class LocalDB:
 			new_repos[pkg] = (dir, git)
 
 		new_packages = checked_packages
+
+		# get current packages
+		curr_pkgs = self.loadPackages()
+		for pkg in new_packages:
+			curr_pkgs.append(pkg)
+
+		# add new packages
+		if not self.savePackages(sorted(curr_pkgs)):
+			err.append("Unable to save new packages")
+			return err, False
+
+
 		repos = Repos().loadRepos()
 		for repo in new_repos:
 			repos[repo] = new_repos[repo]
@@ -448,7 +450,7 @@ class LocalDB:
 			imap = inverseMap(provides)
 			for arg in imap:
 				for image in imap[arg]:
-					mapping[arg] = (image, imap[arg])
+					mapping[arg] = (pkg, image)
 
 		if not IPMap().saveIMap(mapping):
 			err.append("Unable to save mapping of import paths of new packages")
