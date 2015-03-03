@@ -552,7 +552,7 @@ class PackageToXml:
 
 class ProjectToXml:
 
-	def __init__(self, url, go_dir):
+	def __init__(self, url, go_dir, nvr = ""):
 		"""
 		url	prefix used for import paths
 		go_dir	root directory containing go source codes
@@ -565,6 +565,7 @@ class ProjectToXml:
 		self.root = etree.Element("project")
 		self.root.set("url", url)
 		self.root.set("commit", "commit")
+		self.root.set("nvr", nvr)
 
 		packages_node = etree.Element("packages")
 		for pkg in ip:

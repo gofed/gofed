@@ -39,6 +39,7 @@ class Package:
 
 	def __init__(self, pkg_name):
 		self.pkg_name = pkg_name
+		self.latest_build = ""
 		self.initTempDir()
 		cwd = os.getcwd()
 		os.chdir(self.tmp_dir)
@@ -57,11 +58,11 @@ class Package:
 		"""
 		Download all builds in the currect directory
 		"""
-		build = self.getLatestBuilds(tag)
-		if build == "":
+		self.latest_build = self.getLatestBuilds(tag)
+		if self.latest_build == "":
 			return False
 
-		so, se, rc = runCommand("koji download-build %s" % build)
+		so, se, rc = runCommand("koji download-build %s" % self.latest_build)
 		if rc != 0:
 			return False
 
@@ -84,7 +85,7 @@ class Package:
 		build_provides = []
 		build_import_paths = []
 
-		package_xml = ProjectToXml("", "%s/%s" % (os.getcwd(), 'usr/share/gocode/src/'))
+		package_xml = ProjectToXml("", "%s/%s" % (os.getcwd(), 'usr/share/gocode/src/'), self.latest_build)
 
 		# get all possible provided import paths
 		so, se, _ = runCommand("go2fed inspect -p")
