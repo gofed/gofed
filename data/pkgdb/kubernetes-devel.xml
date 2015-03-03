@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit">
+<project url="" commit="commit" nvr="kubernetes-0.11.0-0.5.git6c5b390.fc23">
   <packages>
     <package importpath="github.com/GoogleCloudPlatform/kubernetes/pkg/auth/authorizer/abac">
       <types/>
@@ -10848,6 +10848,20 @@
                   <item value="BoundPod"/>
                 </elmtype>
               </type>
+              <type type="map">
+                <keytype type="selector">
+                  <prefix value="types"/>
+                  <item value="UID"/>
+                </keytype>
+                <valtype type="selector">
+                  <prefix value="metrics"/>
+                  <item value="SyncPodType"/>
+                </valtype>
+              </type>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Time"/>
+              </type>
             </paramsList>
             <resultsList>
               <type type="ident" def="error"/>
@@ -11240,6 +11254,43 @@
             <type type="ident" def="bool"/>
           </returnsList>
         </function>
+        <function name="UpdatePod">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="podWorkers"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="api"/>
+                <item value="BoundPod"/>
+              </type>
+            </type>
+            <type type="func">
+              <paramsList/>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="ForgetNonExistingPodWorkers">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="podWorkers"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="map">
+              <keytype type="selector">
+                <prefix value="types"/>
+                <item value="UID"/>
+              </keytype>
+              <valtype type="ident" def="empty"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
         <function name="NewMainKubelet">
           <recvList/>
           <paramsList>
@@ -11382,21 +11433,6 @@
           </paramsList>
           <returnsList/>
         </function>
-        <function name="Run">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="podWorkers"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="func">
-              <paramsList/>
-              <resultsList/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
         <function name="SyncPods">
           <recvList>
             <type type="pointer">
@@ -11410,9 +11446,54 @@
                 <item value="BoundPod"/>
               </elmtype>
             </type>
+            <type type="map">
+              <keytype type="selector">
+                <prefix value="types"/>
+                <item value="UID"/>
+              </keytype>
+              <valtype type="selector">
+                <prefix value="metrics"/>
+                <item value="SyncPodType"/>
+              </valtype>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
           </paramsList>
           <returnsList>
             <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="podsByCreationTime"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="podsByCreationTime"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="podsByCreationTime"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
           </returnsList>
         </function>
         <function name="GetDockerVersion">
@@ -21608,6 +21689,7 @@
               <item value="Duration"/>
             </type>
             <type type="ident" def="bool"/>
+            <type type="ident" def="bool"/>
           </paramsList>
           <returnsList/>
         </function>
@@ -21646,6 +21728,17 @@
           </returnsList>
         </function>
         <function name="SyncNodeStatus">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NodeController"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="EvictTimeoutedPods">
           <recvList>
             <type type="pointer">
               <type type="ident" def="NodeController"/>
@@ -26948,7 +27041,11 @@
       </names>
     </package>
     <package importpath="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/metrics">
-      <types/>
+      <types>
+        <type name="SyncPodType" type="ident">
+          <type type="ident" def="int"/>
+        </type>
+      </types>
       <functions>
         <function name="Register">
           <recvList/>
@@ -26959,6 +27056,27 @@
             </type>
           </paramsList>
           <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="SyncPodType"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="SinceInMicroseconds">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
         </function>
         <function name="Describe">
           <recvList>
@@ -26994,9 +27112,261 @@
           </paramsList>
           <returnsList/>
         </function>
+        <function name="NewInstrumentedDockerInterface">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="dockertools"/>
+              <item value="DockerInterface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="dockertools"/>
+              <item value="DockerInterface"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ListContainers">
+          <recvList>
+            <type type="ident" def="instrumentedDockerInterface"/>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="docker"/>
+              <item value="ListContainersOptions"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="docker"/>
+                <item value="APIContainers"/>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="InspectContainer">
+          <recvList>
+            <type type="ident" def="instrumentedDockerInterface"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="docker"/>
+                <item value="Container"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CreateContainer">
+          <recvList>
+            <type type="ident" def="instrumentedDockerInterface"/>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="docker"/>
+              <item value="CreateContainerOptions"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="docker"/>
+                <item value="Container"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="StartContainer">
+          <recvList>
+            <type type="ident" def="instrumentedDockerInterface"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="docker"/>
+                <item value="HostConfig"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="StopContainer">
+          <recvList>
+            <type type="ident" def="instrumentedDockerInterface"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RemoveContainer">
+          <recvList>
+            <type type="ident" def="instrumentedDockerInterface"/>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="docker"/>
+              <item value="RemoveContainerOptions"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="InspectImage">
+          <recvList>
+            <type type="ident" def="instrumentedDockerInterface"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="docker"/>
+                <item value="Image"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ListImages">
+          <recvList>
+            <type type="ident" def="instrumentedDockerInterface"/>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="docker"/>
+              <item value="ListImagesOptions"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="docker"/>
+                <item value="APIImages"/>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PullImage">
+          <recvList>
+            <type type="ident" def="instrumentedDockerInterface"/>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="docker"/>
+              <item value="PullImageOptions"/>
+            </type>
+            <type type="selector">
+              <prefix value="docker"/>
+              <item value="AuthConfiguration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RemoveImage">
+          <recvList>
+            <type type="ident" def="instrumentedDockerInterface"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Logs">
+          <recvList>
+            <type type="ident" def="instrumentedDockerInterface"/>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="docker"/>
+              <item value="LogsOptions"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Version">
+          <recvList>
+            <type type="ident" def="instrumentedDockerInterface"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="docker"/>
+                <item value="Env"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CreateExec">
+          <recvList>
+            <type type="ident" def="instrumentedDockerInterface"/>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="docker"/>
+              <item value="CreateExecOptions"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="docker"/>
+                <item value="Exec"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="StartExec">
+          <recvList>
+            <type type="ident" def="instrumentedDockerInterface"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="docker"/>
+              <item value="StartExecOptions"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
       </functions>
       <names>
         <name value="ImagePullLatency"/>
+        <name value="ContainersPerPodCount"/>
+        <name value="SyncPodLatency"/>
+        <name value="SyncPodsLatency"/>
+        <name value="DockerOperationsLatency"/>
+        <name value="SyncPodCreate"/>
+        <name value="SyncPodUpdate"/>
+        <name value="SyncPodSync"/>
       </names>
     </package>
     <package importpath="github.com/GoogleCloudPlatform/kubernetes/pkg/client/clientcmd/api/v1">
@@ -36682,10 +37052,10 @@
     <import path="github.com/GoogleCloudPlatform/kubernetes/pkg/probe/exec"/>
     <import path="github.com/GoogleCloudPlatform/kubernetes/pkg/probe/http"/>
     <import path="github.com/GoogleCloudPlatform/kubernetes/pkg/probe/tcp"/>
+    <import path="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/metrics"/>
     <import path="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/volume/host_path"/>
     <import path="github.com/stretchr/testify/mock"/>
     <import path="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/envvars"/>
-    <import path="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/metrics"/>
     <import path="github.com/GoogleCloudPlatform/kubernetes/pkg/util/mount"/>
     <import path="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/gce"/>
     <import path="github.com/kr/pty"/>
@@ -36694,6 +37064,7 @@
     <import path="crypto/md5"/>
     <import path="encoding/hex"/>
     <import path="os/signal"/>
+    <import path="github.com/docker/docker/pkg/units"/>
     <import path="github.com/spf13/cobra"/>
     <import path="github.com/GoogleCloudPlatform/kubernetes/pkg/util/yaml"/>
     <import path="github.com/GoogleCloudPlatform/kubernetes/pkg/watch/json"/>

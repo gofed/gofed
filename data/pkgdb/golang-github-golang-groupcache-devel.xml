@@ -1,0 +1,1742 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit" nvr="golang-github-golang-groupcache-0-0.1.git604ed57.fc23">
+  <packages>
+    <package importpath="github.com/golang/groupcache/testpb">
+      <types>
+        <type type="struct" name="TestMessage">
+          <field type="pointer" name="Name">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="City">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="TestRequest">
+          <field type="pointer" name="Lower">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="RepeatCount">
+            <type type="ident" def="int32"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="TestResponse">
+          <field type="pointer" name="Value">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="CacheStats">
+          <field type="pointer" name="Items">
+            <type type="ident" def="int64"/>
+          </field>
+          <field type="pointer" name="Bytes">
+            <type type="ident" def="int64"/>
+          </field>
+          <field type="pointer" name="Gets">
+            <type type="ident" def="int64"/>
+          </field>
+          <field type="pointer" name="Hits">
+            <type type="ident" def="int64"/>
+          </field>
+          <field type="pointer" name="Evicts">
+            <type type="ident" def="int64"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="StatsResponse">
+          <field type="pointer" name="Gets">
+            <type type="ident" def="int64"/>
+          </field>
+          <field type="pointer" name="CacheHits">
+            <type type="ident" def="int64"/>
+          </field>
+          <field type="pointer" name="Fills">
+            <type type="ident" def="int64"/>
+          </field>
+          <field type="pointer" name="TotalAlloc">
+            <type type="ident" def="uint64"/>
+          </field>
+          <field type="pointer" name="MainCache">
+            <type type="ident" def="CacheStats"/>
+          </field>
+          <field type="pointer" name="HotCache">
+            <type type="ident" def="CacheStats"/>
+          </field>
+          <field type="pointer" name="ServerIn">
+            <type type="ident" def="int64"/>
+          </field>
+          <field type="pointer" name="Loads">
+            <type type="ident" def="int64"/>
+          </field>
+          <field type="pointer" name="PeerLoads">
+            <type type="ident" def="int64"/>
+          </field>
+          <field type="pointer" name="PeerErrors">
+            <type type="ident" def="int64"/>
+          </field>
+          <field type="pointer" name="LocalLoads">
+            <type type="ident" def="int64"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="Empty">
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TestMessage"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TestMessage"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TestMessage"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetCity">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TestMessage"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TestRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TestRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetLower">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TestRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetRepeatCount">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TestRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int32"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TestResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TestResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetValue">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TestResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CacheStats"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CacheStats"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetItems">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CacheStats"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="GetBytes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CacheStats"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="GetGets">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CacheStats"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="GetHits">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CacheStats"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="GetEvicts">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CacheStats"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetGets">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="GetCacheHits">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="GetFills">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="GetTotalAlloc">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="GetMainCache">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="CacheStats"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GetHotCache">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="CacheStats"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GetServerIn">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="GetLoads">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="GetPeerLoads">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="GetPeerErrors">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="GetLocalLoads">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Empty"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Empty"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+      </functions>
+      <names>
+        <name value="Default_TestRequest_RepeatCount"/>
+      </names>
+    </package>
+    <package importpath="github.com/golang/groupcache/consistenthash">
+      <types>
+        <type name="Hash" type="func">
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="uint32"/>
+          </resultsList>
+        </type>
+        <type type="struct" name="Map">
+          <field type="ident" def="Hash" name="hash"/>
+          <field type="ident" def="int" name="replicas"/>
+          <field type="slice" name="keys">
+            <elmtype type="ident" def="int"/>
+          </field>
+          <field type="map" name="hashMap">
+            <keytype type="ident" def="int"/>
+            <valtype type="ident" def="string"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="Hash"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Map"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsEmpty">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Map"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Map"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Map"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/golang/groupcache/lru">
+      <types>
+        <type type="struct" name="Cache">
+          <field type="ident" def="int" name="MaxEntries"/>
+          <field type="func" name="OnEvicted">
+            <paramsList>
+              <type type="ident" def="Key"/>
+              <type type="interface"/>
+            </paramsList>
+            <resultsList/>
+          </field>
+          <field type="pointer" name="ll">
+            <type type="selector">
+              <prefix value="list"/>
+              <item value="List"/>
+            </type>
+          </field>
+          <field type="map" name="cache">
+            <keytype type="interface"/>
+            <valtype type="pointer">
+              <type type="selector">
+                <prefix value="list"/>
+                <item value="Element"/>
+              </type>
+            </valtype>
+          </field>
+        </type>
+        <type name="Key" type="interface"/>
+      </types>
+      <functions>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Cache"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Key"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Key"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Remove">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cache"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Key"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RemoveOldest">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cache"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cache"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/golang/groupcache">
+      <types>
+        <type name="Sink" type="interface">
+          <method name="SetString">
+            <paramsList>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="SetBytes">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="SetProto">
+            <paramsList>
+              <type type="selector">
+                <prefix value="proto"/>
+                <item value="Message"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="view">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="ByteView"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="Context" type="interface"/>
+        <type name="ProtoGetter" type="interface">
+          <method name="Get">
+            <paramsList>
+              <type type="ident" def="Context"/>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="pb"/>
+                  <item value="GetRequest"/>
+                </type>
+              </type>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="pb"/>
+                  <item value="GetResponse"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="PeerPicker" type="interface">
+          <method name="PickPeer">
+            <paramsList>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="ProtoGetter"/>
+              <type type="ident" def="bool"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="NoPeers"/>
+        <type type="struct" name="HTTPPool">
+          <field type="func" name="Context">
+            <paramsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="http"/>
+                  <item value="Request"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="Context"/>
+            </resultsList>
+          </field>
+          <field type="func" name="Transport">
+            <paramsList>
+              <type type="ident" def="Context"/>
+            </paramsList>
+            <resultsList>
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="RoundTripper"/>
+              </type>
+            </resultsList>
+          </field>
+          <field type="ident" def="string" name="basePath"/>
+          <field type="ident" def="string" name="self"/>
+          <field type="selector" name="mu">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="pointer" name="peers">
+            <type type="selector">
+              <prefix value="consistenthash"/>
+              <item value="Map"/>
+            </type>
+          </field>
+          <field type="map" name="httpGetters">
+            <keytype type="ident" def="string"/>
+            <valtype type="pointer">
+              <type type="ident" def="httpGetter"/>
+            </valtype>
+          </field>
+        </type>
+        <type type="struct" name="HTTPPoolOptions">
+          <field type="ident" def="string" name="BasePath"/>
+          <field type="ident" def="int" name="Replicas"/>
+          <field type="selector" name="HashFn">
+            <prefix value="consistenthash"/>
+            <item value="Hash"/>
+          </field>
+        </type>
+        <type name="Getter" type="interface">
+          <method name="Get">
+            <paramsList>
+              <type type="ident" def="Context"/>
+              <type type="ident" def="string"/>
+              <type type="ident" def="Sink"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="GetterFunc" type="func">
+          <paramsList>
+            <type type="ident" def="Context"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Sink"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </type>
+        <type type="struct" name="Group">
+          <field type="ident" def="string" name="name"/>
+          <field type="ident" def="Getter" name="getter"/>
+          <field type="selector" name="peersOnce">
+            <prefix value="sync"/>
+            <item value="Once"/>
+          </field>
+          <field type="ident" def="PeerPicker" name="peers"/>
+          <field type="ident" def="int64" name="cacheBytes"/>
+          <field type="ident" def="cache" name="mainCache"/>
+          <field type="ident" def="cache" name="hotCache"/>
+          <field type="selector" name="loadGroup">
+            <prefix value="singleflight"/>
+            <item value="Group"/>
+          </field>
+          <field type="ident" def="Stats" name="Stats"/>
+        </type>
+        <type type="struct" name="Stats">
+          <field type="ident" def="AtomicInt" name="Gets"/>
+          <field type="ident" def="AtomicInt" name="CacheHits"/>
+          <field type="ident" def="AtomicInt" name="PeerLoads"/>
+          <field type="ident" def="AtomicInt" name="PeerErrors"/>
+          <field type="ident" def="AtomicInt" name="Loads"/>
+          <field type="ident" def="AtomicInt" name="LoadsDeduped"/>
+          <field type="ident" def="AtomicInt" name="LocalLoads"/>
+          <field type="ident" def="AtomicInt" name="LocalLoadErrs"/>
+          <field type="ident" def="AtomicInt" name="ServerRequests"/>
+        </type>
+        <type name="CacheType" type="ident">
+          <type type="ident" def="int"/>
+        </type>
+        <type name="AtomicInt" type="ident">
+          <type type="ident" def="int64"/>
+        </type>
+        <type type="struct" name="CacheStats">
+          <field type="ident" def="int64" name="Bytes"/>
+          <field type="ident" def="int64" name="Items"/>
+          <field type="ident" def="int64" name="Gets"/>
+          <field type="ident" def="int64" name="Hits"/>
+          <field type="ident" def="int64" name="Evictions"/>
+        </type>
+        <type type="struct" name="ByteView">
+          <field type="slice" name="b">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="string" name="s"/>
+        </type>
+      </types>
+      <functions>
+        <function name="StringSink">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Sink"/>
+          </returnsList>
+        </function>
+        <function name="SetString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="stringSink"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetBytes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="stringSink"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetProto">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="stringSink"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="proto"/>
+              <item value="Message"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ByteViewSink">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="ByteView"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Sink"/>
+          </returnsList>
+        </function>
+        <function name="SetProto">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="byteViewSink"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="proto"/>
+              <item value="Message"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetBytes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="byteViewSink"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="byteViewSink"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ProtoSink">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="proto"/>
+              <item value="Message"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Sink"/>
+          </returnsList>
+        </function>
+        <function name="SetBytes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="protoSink"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="protoSink"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetProto">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="protoSink"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="proto"/>
+              <item value="Message"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AllocatingByteSliceSink">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Sink"/>
+          </returnsList>
+        </function>
+        <function name="SetProto">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="allocBytesSink"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="proto"/>
+              <item value="Message"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetBytes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="allocBytesSink"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="allocBytesSink"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="TruncatingByteSliceSink">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Sink"/>
+          </returnsList>
+        </function>
+        <function name="SetProto">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="truncBytesSink"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="proto"/>
+              <item value="Message"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetBytes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="truncBytesSink"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="truncBytesSink"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PickPeer">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="ProtoGetter"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="RegisterPeerPicker">
+          <recvList/>
+          <paramsList>
+            <type type="func">
+              <paramsList/>
+              <resultsList>
+                <type type="ident" def="PeerPicker"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="NewHTTPPool">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="HTTPPool"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewHTTPPoolOpts">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="HTTPPoolOptions"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="HTTPPool"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPPool"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="PickPeer">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPPool"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="ProtoGetter"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="ServeHTTP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPPool"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="httpGetter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Context"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="pb"/>
+                <item value="GetRequest"/>
+              </type>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="pb"/>
+                <item value="GetResponse"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="ident" def="GetterFunc"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Context"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Sink"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetGroup">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Group"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewGroup">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="Getter"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Group"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RegisterNewGroupHook">
+          <recvList/>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="ident" def="Group"/>
+                </type>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RegisterServerStart">
+          <recvList/>
+          <paramsList>
+            <type type="func">
+              <paramsList/>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Group"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Group"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Context"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Sink"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CacheStats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Group"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="CacheType"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="CacheStats"/>
+          </returnsList>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AtomicInt"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AtomicInt"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AtomicInt"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="ByteView"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="ByteSlice">
+          <recvList>
+            <type type="ident" def="ByteView"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="ByteView"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="At">
+          <recvList>
+            <type type="ident" def="ByteView"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="byte"/>
+          </returnsList>
+        </function>
+        <function name="Slice">
+          <recvList>
+            <type type="ident" def="ByteView"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="ByteView"/>
+          </returnsList>
+        </function>
+        <function name="SliceFrom">
+          <recvList>
+            <type type="ident" def="ByteView"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="ByteView"/>
+          </returnsList>
+        </function>
+        <function name="Copy">
+          <recvList>
+            <type type="ident" def="ByteView"/>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList>
+            <type type="ident" def="ByteView"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="ByteView"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EqualString">
+          <recvList>
+            <type type="ident" def="ByteView"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="EqualBytes">
+          <recvList>
+            <type type="ident" def="ByteView"/>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Reader">
+          <recvList>
+            <type type="ident" def="ByteView"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="ReadSeeker"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ReadAt">
+          <recvList>
+            <type type="ident" def="ByteView"/>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="MainCache"/>
+        <name value="HotCache"/>
+      </names>
+    </package>
+    <package importpath="github.com/golang/groupcache/singleflight">
+      <types>
+        <type type="struct" name="Group">
+          <field type="selector" name="mu">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="map" name="m">
+            <keytype type="ident" def="string"/>
+            <valtype type="pointer">
+              <type type="ident" def="call"/>
+            </valtype>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Do">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Group"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="func">
+              <paramsList/>
+              <resultsList>
+                <type type="interface"/>
+                <type type="ident" def="error"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/golang/groupcache/groupcachepb">
+      <types>
+        <type type="struct" name="GetRequest">
+          <field type="pointer" name="Group">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Key">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="GetResponse">
+          <field type="slice" name="Value">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="pointer" name="MinuteQps">
+            <type type="ident" def="float64"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="GetRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="GetRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetGroup">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="GetRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetKey">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="GetRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="GetResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="GetResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetValue">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="GetResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GetMinuteQps">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="GetResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="errors"/>
+    <import path="github.com/golang/protobuf/proto"/>
+    <import path="github.com/golang/groupcache/groupcachepb"/>
+    <import path="flag"/>
+    <import path="log"/>
+    <import path="net"/>
+    <import path="net/http"/>
+    <import path="os"/>
+    <import path="os/exec"/>
+    <import path="strconv"/>
+    <import path="strings"/>
+    <import path="sync"/>
+    <import path="testing"/>
+    <import path="time"/>
+    <import path="bytes"/>
+    <import path="fmt"/>
+    <import path="io"/>
+    <import path="net/url"/>
+    <import path="github.com/golang/groupcache/consistenthash"/>
+    <import path="hash/crc32"/>
+    <import path="math/rand"/>
+    <import path="reflect"/>
+    <import path="github.com/golang/groupcache/testpb"/>
+    <import path="sync/atomic"/>
+    <import path="github.com/golang/groupcache/lru"/>
+    <import path="github.com/golang/groupcache/singleflight"/>
+    <import path="io/ioutil"/>
+    <import path="encoding/json"/>
+    <import path="math"/>
+    <import path="container/list"/>
+    <import path="sort"/>
+  </imports>
+</project>

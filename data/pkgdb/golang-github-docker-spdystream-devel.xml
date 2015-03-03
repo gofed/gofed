@@ -1,0 +1,996 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit" nvr="golang-github-docker-spdystream-0-0.1.git29e1da2.fc23">
+  <packages>
+    <package importpath="github.com/docker/spdystream/ws">
+      <types>
+        <type type="struct" name="Conn">
+          <field type="pointer" name="">
+            <type type="selector">
+              <prefix value="websocket"/>
+              <item value="Conn"/>
+            </type>
+          </field>
+          <field type="selector" name="reader">
+            <prefix value="io"/>
+            <item value="Reader"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="NewConnection">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="websocket"/>
+                <item value="Conn"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Conn"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="ident" def="Conn"/>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Read">
+          <recvList>
+            <type type="ident" def="Conn"/>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetDeadline">
+          <recvList>
+            <type type="ident" def="Conn"/>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="ident" def="Conn"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/docker/spdystream">
+      <types>
+        <type type="struct" name="Stream">
+          <field type="selector" name="streamId">
+            <prefix value="spdy"/>
+            <item value="StreamId"/>
+          </field>
+          <field type="pointer" name="parent">
+            <type type="ident" def="Stream"/>
+          </field>
+          <field type="pointer" name="conn">
+            <type type="ident" def="Connection"/>
+          </field>
+          <field type="chan" dir="3" name="startChan">
+            <type type="ident" def="error"/>
+          </field>
+          <field type="selector" name="dataLock">
+            <prefix value="sync"/>
+            <item value="RWMutex"/>
+          </field>
+          <field type="chan" dir="3" name="dataChan">
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </field>
+          <field type="slice" name="unread">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="uint8" name="priority"/>
+          <field type="selector" name="headers">
+            <prefix value="http"/>
+            <item value="Header"/>
+          </field>
+          <field type="chan" dir="3" name="headerChan">
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Header"/>
+            </type>
+          </field>
+          <field type="selector" name="finishLock">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="ident" def="bool" name="finished"/>
+          <field type="pointer" name="replyCond">
+            <type type="selector">
+              <prefix value="sync"/>
+              <item value="Cond"/>
+            </type>
+          </field>
+          <field type="ident" def="bool" name="replied"/>
+          <field type="selector" name="closeLock">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="chan" dir="3" name="closeChan">
+            <type type="ident" def="bool"/>
+          </field>
+        </type>
+        <type type="struct" name="PriorityFrameQueue">
+          <field type="pointer" name="queue">
+            <type type="ident" def="frameQueue"/>
+          </field>
+          <field type="pointer" name="c">
+            <type type="selector">
+              <prefix value="sync"/>
+              <item value="Cond"/>
+            </type>
+          </field>
+          <field type="ident" def="int" name="size"/>
+          <field type="ident" def="uint64" name="nextInsertId"/>
+          <field type="ident" def="bool" name="drain"/>
+        </type>
+        <type name="StreamHandler" type="func">
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </type>
+        <type name="AuthHandler" type="func">
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Header"/>
+            </type>
+            <type type="ident" def="uint8"/>
+            <type type="ident" def="uint32"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </type>
+        <type type="struct" name="Connection">
+          <field type="selector" name="conn">
+            <prefix value="net"/>
+            <item value="Conn"/>
+          </field>
+          <field type="pointer" name="framer">
+            <type type="ident" def="idleAwareFramer"/>
+          </field>
+          <field type="selector" name="writeLock">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="chan" dir="3" name="closeChan">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="ident" def="bool" name="goneAway"/>
+          <field type="chan" dir="1" name="lastStreamChan">
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </field>
+          <field type="selector" name="goAwayTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="closeTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="pointer" name="streamLock">
+            <type type="selector">
+              <prefix value="sync"/>
+              <item value="RWMutex"/>
+            </type>
+          </field>
+          <field type="pointer" name="streamCond">
+            <type type="selector">
+              <prefix value="sync"/>
+              <item value="Cond"/>
+            </type>
+          </field>
+          <field type="map" name="streams">
+            <keytype type="selector">
+              <prefix value="spdy"/>
+              <item value="StreamId"/>
+            </keytype>
+            <valtype type="pointer">
+              <type type="ident" def="Stream"/>
+            </valtype>
+          </field>
+          <field type="selector" name="nextIdLock">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="selector" name="receiveIdLock">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="selector" name="nextStreamId">
+            <prefix value="spdy"/>
+            <item value="StreamId"/>
+          </field>
+          <field type="selector" name="receivedStreamId">
+            <prefix value="spdy"/>
+            <item value="StreamId"/>
+          </field>
+          <field type="selector" name="pingIdLock">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="ident" def="uint32" name="pingId"/>
+          <field type="map" name="pingChans">
+            <keytype type="ident" def="uint32"/>
+            <valtype type="chan" dir="3">
+              <type type="ident" def="error"/>
+            </valtype>
+          </field>
+          <field type="selector" name="shutdownLock">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="chan" dir="3" name="shutdownChan">
+            <type type="ident" def="error"/>
+          </field>
+          <field type="ident" def="bool" name="hasShutdown"/>
+        </type>
+      </types>
+      <functions>
+        <function name="WriteData">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Read">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ReadData">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Wait">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WaitTimeout">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CreateSubStream">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Header"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetPriority">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint8"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SendHeader">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Header"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SendReply">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Header"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Refuse">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Cancel">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ReceiveHeader">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Header"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Parent">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Headers">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Header"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Identifier">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="IsFinished">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="LocalAddr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="Addr"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RemoteAddr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="Addr"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetDeadline">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetReadDeadline">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetWriteDeadline">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="frameQueue"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="frameQueue"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="frameQueue"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Push">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="frameQueue"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Pop">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="frameQueue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="NewPriorityFrameQueue">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="PriorityFrameQueue"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Push">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PriorityFrameQueue"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="spdy"/>
+              <item value="Frame"/>
+            </type>
+            <type type="ident" def="uint8"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Pop">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PriorityFrameQueue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="spdy"/>
+              <item value="Frame"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Drain">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PriorityFrameQueue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="MirrorStreamHandler">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="NoOpStreamHandler">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="WriteFrame">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="idleAwareFramer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="spdy"/>
+              <item value="Frame"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ReadFrame">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="idleAwareFramer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="spdy"/>
+              <item value="Frame"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewConnection">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="Conn"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Connection"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Ping">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Connection"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Serve">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Connection"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="StreamHandler"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="CreateStream">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Connection"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Header"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Connection"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CloseWait">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Connection"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Wait">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Connection"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NotifyClose">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Connection"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="chan" dir="1">
+              <type type="pointer">
+                <type type="ident" def="Stream"/>
+              </type>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetCloseTimeout">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Connection"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetIdleTimeout">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Connection"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="PeekNextStreamId">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Connection"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="spdy"/>
+              <item value="StreamId"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="FindStream">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Connection"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint32"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Stream"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CloseChan">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Connection"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="chan" dir="2">
+              <type type="ident" def="bool"/>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="DEBUG"/>
+        <name value="ErrUnreadPartialData"/>
+        <name value="ErrInvalidStreamId"/>
+        <name value="ErrTimeout"/>
+        <name value="ErrReset"/>
+        <name value="ErrWriteClosedStream"/>
+        <name value="FRAME_WORKERS"/>
+        <name value="QUEUE_SIZE"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="log"/>
+    <import path="os"/>
+    <import path="errors"/>
+    <import path="fmt"/>
+    <import path="io"/>
+    <import path="net"/>
+    <import path="net/http"/>
+    <import path="sync"/>
+    <import path="time"/>
+    <import path="code.google.com/p/go.net/spdy"/>
+    <import path="bytes"/>
+    <import path="testing"/>
+    <import path="container/heap"/>
+    <import path="github.com/docker/spdystream"/>
+    <import path="github.com/gorilla/websocket"/>
+    <import path="net/http/httptest"/>
+    <import path="strings"/>
+  </imports>
+</project>

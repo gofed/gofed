@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit">
+<project url="" commit="commit" nvr="golang-github-russross-blackfriday-1.2-5.fc23">
   <packages>
     <package importpath="github.com/russross/blackfriday">
       <types>
@@ -467,6 +467,8 @@
           <field type="ident" def="string" name="AbsolutePrefix"/>
           <field type="ident" def="string" name="FootnoteAnchorPrefix"/>
           <field type="ident" def="string" name="FootnoteReturnLinkContents"/>
+          <field type="ident" def="string" name="HeaderIDPrefix"/>
+          <field type="ident" def="string" name="HeaderIDSuffix"/>
         </type>
         <type type="struct" name="Html">
           <field type="ident" def="int" name="flags"/>
@@ -482,6 +484,10 @@
               <prefix value="bytes"/>
               <item value="Buffer"/>
             </type>
+          </field>
+          <field type="map" name="headerIDs">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="int"/>
           </field>
           <field type="pointer" name="smartypants">
             <type type="ident" def="smartypantsRenderer"/>
@@ -1283,46 +1289,6 @@
           </paramsList>
           <returnsList/>
         </function>
-        <function name="BlockCodeNormal">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Html"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="bytes"/>
-                <item value="Buffer"/>
-              </type>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="BlockCodeGithub">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Html"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="bytes"/>
-                <item value="Buffer"/>
-              </type>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList/>
-        </function>
         <function name="BlockQuote">
           <recvList>
             <type type="pointer">
@@ -1845,6 +1811,21 @@
           </paramsList>
           <returnsList/>
         </function>
+        <function name="TocHeaderWithAnchor">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Html"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
         <function name="TocHeader">
           <recvList>
             <type type="pointer">
@@ -1884,6 +1865,7 @@
         <name value="EXTENSION_NO_EMPTY_LINE_BEFORE_BLOCK"/>
         <name value="EXTENSION_HEADER_IDS"/>
         <name value="EXTENSION_TITLEBLOCK"/>
+        <name value="EXTENSION_AUTO_HEADER_IDS"/>
         <name value="LINK_TYPE_NOT_AUTOLINK"/>
         <name value="LINK_TYPE_NORMAL"/>
         <name value="LINK_TYPE_EMAIL"/>
@@ -1900,18 +1882,17 @@
         <name value="HTML_SKIP_STYLE"/>
         <name value="HTML_SKIP_IMAGES"/>
         <name value="HTML_SKIP_LINKS"/>
-        <name value="HTML_SANITIZE_OUTPUT"/>
         <name value="HTML_SAFELINK"/>
         <name value="HTML_NOFOLLOW_LINKS"/>
         <name value="HTML_HREF_TARGET_BLANK"/>
         <name value="HTML_TOC"/>
         <name value="HTML_OMIT_CONTENTS"/>
         <name value="HTML_COMPLETE_PAGE"/>
-        <name value="HTML_GITHUB_BLOCKCODE"/>
         <name value="HTML_USE_XHTML"/>
         <name value="HTML_USE_SMARTYPANTS"/>
         <name value="HTML_SMARTYPANTS_FRACTIONS"/>
         <name value="HTML_SMARTYPANTS_LATEX_DASHES"/>
+        <name value="HTML_SMARTYPANTS_ANGLED_QUOTES"/>
         <name value="HTML_FOOTNOTE_RETURN_LINKS"/>
       </names>
     </package>
@@ -1921,13 +1902,11 @@
     <import path="path/filepath"/>
     <import path="testing"/>
     <import path="bytes"/>
-    <import path="bufio"/>
-    <import path="code.google.com/p/go.net/html"/>
-    <import path="fmt"/>
-    <import path="io"/>
     <import path="unicode/utf8"/>
     <import path="regexp"/>
     <import path="strings"/>
     <import path="strconv"/>
+    <import path="fmt"/>
+    <import path="github.com/shurcooL/sanitized_anchor_name"/>
   </imports>
 </project>
