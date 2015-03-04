@@ -1,7 +1,7 @@
 #!/bin/python
 
 from modules.Packages import Package
-from modules.Packages import loadPackages, savePackageInfo
+from modules.Packages import loadPackages, savePackageInfo, LocalDB
 import optparse
 from modules.Config import Config
 from modules.ImportPaths import getDevelImportedPaths
@@ -25,12 +25,26 @@ def getImportedPaths(pkg_name, data):
 		lines.append("Imports:%s:%s:%s" % (pkg_name, devel, paths))
 	return lines
 
-def createDB():
+def createDB(full=False):
 	db_path = Config().getImportPathDb()
 	if db_path == "":
 		return False
 
-	packages = loadPackages()
+	scan_time_start = time()
+	packages = []
+	outdated = []
+	found = []
+
+	if full:
+		packages = loadPackages()
+	else:
+		print "Creating list of updated builds..."
+		err, outdated, found = LocalDB().getOutdatedBuilds()
+		if err != []:
+			print "Warning: " + "\nWarning: ".join(err)
+
+		packages = outdated.keys()
+
 	pkg_cnt = len(packages)
 	pkg_idx = 1
 
@@ -41,8 +55,6 @@ def createDB():
 			pkg_name_len = l
 
 	pkg_cnt_len = len("%s" % pkg_cnt)
-
-	scan_time_start = time()
 
 	# create db in a temporary file
 	with open("%s%s" % (db_path, ".tmp"), 'w') as file:
@@ -70,6 +82,9 @@ def createDB():
 	scan_time_end = time()
 	print strftime("Elapsed time %Hh %Mm %Ss", gmtime(scan_time_end - scan_time_start))
 
+	if not full:
+		LocalDB().updateBuildsInCache(found)
+
 	# update db from the temporary file
 	os.rename("%s%s" % (db_path, ".tmp"), db_path)
 
@@ -92,13 +107,18 @@ def displayPaths(paths, prefix = '', minimal = False):
 
 if __name__ == "__main__":
 
-	parser = optparse.OptionParser("%prog [-c] [-i|-p [-s [-m]]]")
+	parser = optparse.OptionParser("%prog [-c [-f]] [-i|-p [-s [-m]]]")
 
 	#parser.add_option_group( optparse.OptionGroup(parser, "directory", "Directory to inspect. If empty, current directory is used.") )
 
 	parser.add_option(
 	    "", "-c", "--create", dest="create", action = "store_true", default = False,
 	    help = "Create database of import and imported paths for all available builds of golang devel source packages"
+	)
+
+	parser.add_option(
+	    "", "-f", "--full", dest="full", action = "store_true", default = False,
+	    help = "Regenerate the entire database. Default is to regenerate only updated builds."
 	)
 
 	parser.add_option(
@@ -128,7 +148,7 @@ if __name__ == "__main__":
 		exit(1)
 
 	if options.create:
-		if createDB():
+		if createDB(options.full):
 			print "DB created"
 		else:
 			print "DB not created"
@@ -140,7 +160,7 @@ if __name__ == "__main__":
 		paths = getDevelProvidedPaths()
 		displayPaths(paths, options.prefix, options.minimal)
 	else:
-		print "Synopsis: prog [-c] [-i|-p [-s [-m]]]"
+		print "Synopsis: prog [-c [-f]] [-i|-p [-s [-m]]]"
 		exit(1)
 
 	exit(0)
