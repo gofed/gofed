@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="docker-io-1.5.0-15.gita61716e.fc23">
+<project url="" commit="commit" nvr="docker-io-1.5.0-17.git0f6704f.fc23">
   <packages>
     <package importpath="github.com/docker/docker/daemon/graphdriver">
       <types>
@@ -293,6 +293,7 @@
         <name value="FsMagicSmbFs"/>
         <name value="FsMagicJffs2Fs"/>
         <name value="FsMagicZfs"/>
+        <name value="FsMagicXfs"/>
         <name value="FsMagicUnsupported"/>
         <name value="DefaultDriver"/>
         <name value="ErrNotSupported"/>
@@ -5217,6 +5218,634 @@
         <name value="CopyHardlink"/>
       </names>
     </package>
+    <package importpath="github.com/docker/docker/pkg/ulimit">
+      <types>
+        <type type="struct" name="Ulimit">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="int64" name="Hard"/>
+          <field type="ident" def="int64" name="Soft"/>
+        </type>
+        <type type="struct" name="Rlimit">
+          <field type="ident" def="int" name="Type"/>
+          <field type="ident" def="uint64" name="Hard"/>
+          <field type="ident" def="uint64" name="Soft"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Parse">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Ulimit"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetRlimit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Ulimit"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Rlimit"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Ulimit"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="RLIMIT_AS"/>
+        <name value="RLIMIT_CORE"/>
+        <name value="RLIMIT_CPU"/>
+        <name value="RLIMIT_DATA"/>
+        <name value="RLIMIT_FSIZE"/>
+        <name value="RLIMIT_LOCKS"/>
+        <name value="RLIMIT_MEMLOCK"/>
+        <name value="RLIMIT_MSGQUEUE"/>
+        <name value="RLIMIT_NICE"/>
+        <name value="RLIMIT_NOFILE"/>
+        <name value="RLIMIT_NPROC"/>
+        <name value="RLIMIT_RSS"/>
+        <name value="RLIMIT_RTPRIO"/>
+        <name value="RLIMIT_RTTIME"/>
+        <name value="RLIMIT_SIGPENDING"/>
+        <name value="RLIMIT_STACK"/>
+      </names>
+    </package>
+    <package importpath="github.com/docker/docker/pkg/truncindex">
+      <types>
+        <type type="struct" name="TruncIndex">
+          <field type="selector" name="">
+            <prefix value="sync"/>
+            <item value="RWMutex"/>
+          </field>
+          <field type="pointer" name="trie">
+            <type type="selector">
+              <prefix value="patricia"/>
+              <item value="Trie"/>
+            </type>
+          </field>
+          <field type="map" name="ids">
+            <keytype type="ident" def="string"/>
+            <type type="struct" name=""/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="NewTruncIndex">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="TruncIndex"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TruncIndex"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Delete">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TruncIndex"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TruncIndex"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ErrEmptyPrefix"/>
+        <name value="ErrAmbiguousPrefix"/>
+      </names>
+    </package>
+    <package importpath="github.com/docker/docker/pkg/system">
+      <types>
+        <type type="struct" name="Stat">
+          <field type="ident" def="uint32" name="mode"/>
+          <field type="ident" def="uint32" name="uid"/>
+          <field type="ident" def="uint32" name="gid"/>
+          <field type="ident" def="uint64" name="rdev"/>
+          <field type="ident" def="int64" name="size"/>
+          <field type="selector" name="mtim">
+            <prefix value="syscall"/>
+            <item value="Timespec"/>
+          </field>
+        </type>
+        <type type="struct" name="MemInfo">
+          <field type="ident" def="int64" name="MemTotal"/>
+          <field type="ident" def="int64" name="MemFree"/>
+          <field type="ident" def="int64" name="SwapTotal"/>
+          <field type="ident" def="int64" name="SwapFree"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Lgetxattr">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Lsetxattr">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Lgetxattr">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Lsetxattr">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LUtimesNano">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="syscall"/>
+                <item value="Timespec"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UtimesNano">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="syscall"/>
+                <item value="Timespec"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LUtimesNano">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="syscall"/>
+                <item value="Timespec"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UtimesNano">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="syscall"/>
+                <item value="Timespec"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LUtimesNano">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="syscall"/>
+                <item value="Timespec"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UtimesNano">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="syscall"/>
+                <item value="Timespec"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LUtimesNano">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="syscall"/>
+                <item value="Timespec"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UtimesNano">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="syscall"/>
+                <item value="Timespec"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Umask">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Umask">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Mode">
+          <recvList>
+            <type type="ident" def="Stat"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="Uid">
+          <recvList>
+            <type type="ident" def="Stat"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="Gid">
+          <recvList>
+            <type type="ident" def="Stat"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="Rdev">
+          <recvList>
+            <type type="ident" def="Stat"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="ident" def="Stat"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+          </returnsList>
+        </function>
+        <function name="Mtim">
+          <recvList>
+            <type type="ident" def="Stat"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="syscall"/>
+              <item value="Timespec"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GetLastModification">
+          <recvList>
+            <type type="ident" def="Stat"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="syscall"/>
+              <item value="Timespec"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Mknod">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint32"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Mkdev">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="Mknod">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint32"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Mkdev">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="ReadMemInfo">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="MemInfo"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ReadMemInfo">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="MemInfo"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Lstat">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Stat"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Lstat">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Stat"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ErrMalformed"/>
+        <name value="ErrNotSupportedPlatform"/>
+      </names>
+    </package>
+    <package importpath="github.com/docker/docker/pkg/jsonlog">
+      <types>
+        <type type="struct" name="JSONLog">
+          <field type="ident" def="string" name="Log"/>
+          <field type="ident" def="string" name="Stream"/>
+          <field type="selector" name="Created">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="MarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="JSONLog"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalJSONBuf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="JSONLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Format">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="JSONLog"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="JSONLog"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="WriteLog">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/docker/docker/pkg/namesgenerator">
+      <types/>
+      <functions>
+        <function name="GetRandomName">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
     <package importpath="github.com/docker/docker/pkg/archive">
       <types>
         <type name="ChangeType" type="ident">
@@ -5779,563 +6408,6 @@
         <name value="Xz"/>
       </names>
     </package>
-    <package importpath="github.com/docker/docker/pkg/truncindex">
-      <types>
-        <type type="struct" name="TruncIndex">
-          <field type="selector" name="">
-            <prefix value="sync"/>
-            <item value="RWMutex"/>
-          </field>
-          <field type="pointer" name="trie">
-            <type type="selector">
-              <prefix value="patricia"/>
-              <item value="Trie"/>
-            </type>
-          </field>
-          <field type="map" name="ids">
-            <keytype type="ident" def="string"/>
-            <type type="struct" name=""/>
-          </field>
-        </type>
-      </types>
-      <functions>
-        <function name="NewTruncIndex">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="string"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="TruncIndex"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Add">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="TruncIndex"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Delete">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="TruncIndex"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Get">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="TruncIndex"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="ErrEmptyPrefix"/>
-        <name value="ErrAmbiguousPrefix"/>
-      </names>
-    </package>
-    <package importpath="github.com/docker/docker/pkg/system">
-      <types>
-        <type type="struct" name="Stat">
-          <field type="ident" def="uint32" name="mode"/>
-          <field type="ident" def="uint32" name="uid"/>
-          <field type="ident" def="uint32" name="gid"/>
-          <field type="ident" def="uint64" name="rdev"/>
-          <field type="ident" def="int64" name="size"/>
-          <field type="selector" name="mtim">
-            <prefix value="syscall"/>
-            <item value="Timespec"/>
-          </field>
-        </type>
-        <type type="struct" name="MemInfo">
-          <field type="ident" def="int64" name="MemTotal"/>
-          <field type="ident" def="int64" name="MemFree"/>
-          <field type="ident" def="int64" name="SwapTotal"/>
-          <field type="ident" def="int64" name="SwapFree"/>
-        </type>
-      </types>
-      <functions>
-        <function name="Lgetxattr">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Lsetxattr">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Lgetxattr">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Lsetxattr">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="LUtimesNano">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="syscall"/>
-                <item value="Timespec"/>
-              </elmtype>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="UtimesNano">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="syscall"/>
-                <item value="Timespec"/>
-              </elmtype>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="LUtimesNano">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="syscall"/>
-                <item value="Timespec"/>
-              </elmtype>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="UtimesNano">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="syscall"/>
-                <item value="Timespec"/>
-              </elmtype>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="LUtimesNano">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="syscall"/>
-                <item value="Timespec"/>
-              </elmtype>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="UtimesNano">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="syscall"/>
-                <item value="Timespec"/>
-              </elmtype>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="LUtimesNano">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="syscall"/>
-                <item value="Timespec"/>
-              </elmtype>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="UtimesNano">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="syscall"/>
-                <item value="Timespec"/>
-              </elmtype>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Umask">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Umask">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Mode">
-          <recvList>
-            <type type="ident" def="Stat"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="uint32"/>
-          </returnsList>
-        </function>
-        <function name="Uid">
-          <recvList>
-            <type type="ident" def="Stat"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="uint32"/>
-          </returnsList>
-        </function>
-        <function name="Gid">
-          <recvList>
-            <type type="ident" def="Stat"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="uint32"/>
-          </returnsList>
-        </function>
-        <function name="Rdev">
-          <recvList>
-            <type type="ident" def="Stat"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="uint64"/>
-          </returnsList>
-        </function>
-        <function name="Size">
-          <recvList>
-            <type type="ident" def="Stat"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int64"/>
-          </returnsList>
-        </function>
-        <function name="Mtim">
-          <recvList>
-            <type type="ident" def="Stat"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="syscall"/>
-              <item value="Timespec"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="GetLastModification">
-          <recvList>
-            <type type="ident" def="Stat"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="syscall"/>
-              <item value="Timespec"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Mknod">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="uint32"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Mkdev">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int64"/>
-            <type type="ident" def="int64"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="uint32"/>
-          </returnsList>
-        </function>
-        <function name="Mknod">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="uint32"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Mkdev">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int64"/>
-            <type type="ident" def="int64"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="uint32"/>
-          </returnsList>
-        </function>
-        <function name="ReadMemInfo">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="MemInfo"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ReadMemInfo">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="MemInfo"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Lstat">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Stat"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Lstat">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Stat"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="ErrMalformed"/>
-        <name value="ErrNotSupportedPlatform"/>
-      </names>
-    </package>
-    <package importpath="github.com/docker/docker/pkg/jsonlog">
-      <types>
-        <type type="struct" name="JSONLog">
-          <field type="ident" def="string" name="Log"/>
-          <field type="ident" def="string" name="Stream"/>
-          <field type="selector" name="Created">
-            <prefix value="time"/>
-            <item value="Time"/>
-          </field>
-        </type>
-      </types>
-      <functions>
-        <function name="MarshalJSON">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="JSONLog"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="MarshalJSONBuf">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="JSONLog"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="bytes"/>
-                <item value="Buffer"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Format">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="JSONLog"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Reset">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="JSONLog"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="WriteLog">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
-            </type>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/docker/docker/pkg/namesgenerator">
-      <types/>
-      <functions>
-        <function name="GetRandomName">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
     <package importpath="github.com/docker/docker/pkg/version">
       <types>
         <type name="Version" type="ident">
@@ -6470,6 +6542,14 @@
             <elmtype type="ident" def="string"/>
           </field>
           <field type="ident" def="bool" name="ReadonlyRootfs"/>
+          <field type="slice" name="Ulimits">
+            <elmtype type="pointer">
+              <type type="selector">
+                <prefix value="ulimit"/>
+                <item value="Ulimit"/>
+              </type>
+            </elmtype>
+          </field>
         </type>
         <type type="struct" name="ConfigAndHostConfig">
           <field type="ident" def="Config" name=""/>
@@ -7095,6 +7175,15 @@
           <field type="ident" def="string" name="TrustKeyPath"/>
           <field type="slice" name="Labels">
             <elmtype type="ident" def="string"/>
+          </field>
+          <field type="map" name="Ulimits">
+            <keytype type="ident" def="string"/>
+            <valtype type="pointer">
+              <type type="selector">
+                <prefix value="ulimit"/>
+                <item value="Ulimit"/>
+              </type>
+            </valtype>
           </field>
         </type>
       </types>
@@ -13386,92 +13475,6 @@
       </functions>
       <names/>
     </package>
-    <package importpath="github.com/docker/docker/api/stats">
-      <types>
-        <type type="struct" name="ThrottlingData">
-          <field type="ident" def="uint64" name="Periods"/>
-          <field type="ident" def="uint64" name="ThrottledPeriods"/>
-          <field type="ident" def="uint64" name="ThrottledTime"/>
-        </type>
-        <type type="struct" name="CpuUsage">
-          <field type="ident" def="uint64" name="TotalUsage"/>
-          <field type="slice" name="PercpuUsage">
-            <elmtype type="ident" def="uint64"/>
-          </field>
-          <field type="ident" def="uint64" name="UsageInKernelmode"/>
-          <field type="ident" def="uint64" name="UsageInUsermode"/>
-        </type>
-        <type type="struct" name="CpuStats">
-          <field type="ident" def="CpuUsage" name="CpuUsage"/>
-          <field type="ident" def="uint64" name="SystemUsage"/>
-          <field type="ident" def="ThrottlingData" name="ThrottlingData"/>
-        </type>
-        <type type="struct" name="MemoryStats">
-          <field type="ident" def="uint64" name="Usage"/>
-          <field type="ident" def="uint64" name="MaxUsage"/>
-          <field type="map" name="Stats">
-            <keytype type="ident" def="string"/>
-            <valtype type="ident" def="uint64"/>
-          </field>
-          <field type="ident" def="uint64" name="Failcnt"/>
-          <field type="ident" def="uint64" name="Limit"/>
-        </type>
-        <type type="struct" name="BlkioStatEntry">
-          <field type="ident" def="uint64" name="Major"/>
-          <field type="ident" def="uint64" name="Minor"/>
-          <field type="ident" def="string" name="Op"/>
-          <field type="ident" def="uint64" name="Value"/>
-        </type>
-        <type type="struct" name="BlkioStats">
-          <field type="slice" name="IoServiceBytesRecursive">
-            <elmtype type="ident" def="BlkioStatEntry"/>
-          </field>
-          <field type="slice" name="IoServicedRecursive">
-            <elmtype type="ident" def="BlkioStatEntry"/>
-          </field>
-          <field type="slice" name="IoQueuedRecursive">
-            <elmtype type="ident" def="BlkioStatEntry"/>
-          </field>
-          <field type="slice" name="IoServiceTimeRecursive">
-            <elmtype type="ident" def="BlkioStatEntry"/>
-          </field>
-          <field type="slice" name="IoWaitTimeRecursive">
-            <elmtype type="ident" def="BlkioStatEntry"/>
-          </field>
-          <field type="slice" name="IoMergedRecursive">
-            <elmtype type="ident" def="BlkioStatEntry"/>
-          </field>
-          <field type="slice" name="IoTimeRecursive">
-            <elmtype type="ident" def="BlkioStatEntry"/>
-          </field>
-          <field type="slice" name="SectorsRecursive">
-            <elmtype type="ident" def="BlkioStatEntry"/>
-          </field>
-        </type>
-        <type type="struct" name="Network">
-          <field type="ident" def="uint64" name="RxBytes"/>
-          <field type="ident" def="uint64" name="RxPackets"/>
-          <field type="ident" def="uint64" name="RxErrors"/>
-          <field type="ident" def="uint64" name="RxDropped"/>
-          <field type="ident" def="uint64" name="TxBytes"/>
-          <field type="ident" def="uint64" name="TxPackets"/>
-          <field type="ident" def="uint64" name="TxErrors"/>
-          <field type="ident" def="uint64" name="TxDropped"/>
-        </type>
-        <type type="struct" name="Stats">
-          <field type="selector" name="Read">
-            <prefix value="time"/>
-            <item value="Time"/>
-          </field>
-          <field type="ident" def="Network" name="Network"/>
-          <field type="ident" def="CpuStats" name="CpuStats"/>
-          <field type="ident" def="MemoryStats" name="MemoryStats"/>
-          <field type="ident" def="BlkioStats" name="BlkioStats"/>
-        </type>
-      </types>
-      <functions/>
-      <names/>
-    </package>
     <package importpath="github.com/docker/docker/registry/v2">
       <types>
         <type type="struct" name="URLBuilder">
@@ -15433,6 +15436,98 @@
       </functions>
       <names/>
     </package>
+    <package importpath="github.com/docker/docker/api/types">
+      <types>
+        <type type="struct" name="ContainerCreateResponse">
+          <field type="ident" def="string" name="ID"/>
+          <field type="slice" name="Warnings">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="ThrottlingData">
+          <field type="ident" def="uint64" name="Periods"/>
+          <field type="ident" def="uint64" name="ThrottledPeriods"/>
+          <field type="ident" def="uint64" name="ThrottledTime"/>
+        </type>
+        <type type="struct" name="CpuUsage">
+          <field type="ident" def="uint64" name="TotalUsage"/>
+          <field type="slice" name="PercpuUsage">
+            <elmtype type="ident" def="uint64"/>
+          </field>
+          <field type="ident" def="uint64" name="UsageInKernelmode"/>
+          <field type="ident" def="uint64" name="UsageInUsermode"/>
+        </type>
+        <type type="struct" name="CpuStats">
+          <field type="ident" def="CpuUsage" name="CpuUsage"/>
+          <field type="ident" def="uint64" name="SystemUsage"/>
+          <field type="ident" def="ThrottlingData" name="ThrottlingData"/>
+        </type>
+        <type type="struct" name="MemoryStats">
+          <field type="ident" def="uint64" name="Usage"/>
+          <field type="ident" def="uint64" name="MaxUsage"/>
+          <field type="map" name="Stats">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="uint64"/>
+          </field>
+          <field type="ident" def="uint64" name="Failcnt"/>
+          <field type="ident" def="uint64" name="Limit"/>
+        </type>
+        <type type="struct" name="BlkioStatEntry">
+          <field type="ident" def="uint64" name="Major"/>
+          <field type="ident" def="uint64" name="Minor"/>
+          <field type="ident" def="string" name="Op"/>
+          <field type="ident" def="uint64" name="Value"/>
+        </type>
+        <type type="struct" name="BlkioStats">
+          <field type="slice" name="IoServiceBytesRecursive">
+            <elmtype type="ident" def="BlkioStatEntry"/>
+          </field>
+          <field type="slice" name="IoServicedRecursive">
+            <elmtype type="ident" def="BlkioStatEntry"/>
+          </field>
+          <field type="slice" name="IoQueuedRecursive">
+            <elmtype type="ident" def="BlkioStatEntry"/>
+          </field>
+          <field type="slice" name="IoServiceTimeRecursive">
+            <elmtype type="ident" def="BlkioStatEntry"/>
+          </field>
+          <field type="slice" name="IoWaitTimeRecursive">
+            <elmtype type="ident" def="BlkioStatEntry"/>
+          </field>
+          <field type="slice" name="IoMergedRecursive">
+            <elmtype type="ident" def="BlkioStatEntry"/>
+          </field>
+          <field type="slice" name="IoTimeRecursive">
+            <elmtype type="ident" def="BlkioStatEntry"/>
+          </field>
+          <field type="slice" name="SectorsRecursive">
+            <elmtype type="ident" def="BlkioStatEntry"/>
+          </field>
+        </type>
+        <type type="struct" name="Network">
+          <field type="ident" def="uint64" name="RxBytes"/>
+          <field type="ident" def="uint64" name="RxPackets"/>
+          <field type="ident" def="uint64" name="RxErrors"/>
+          <field type="ident" def="uint64" name="RxDropped"/>
+          <field type="ident" def="uint64" name="TxBytes"/>
+          <field type="ident" def="uint64" name="TxPackets"/>
+          <field type="ident" def="uint64" name="TxErrors"/>
+          <field type="ident" def="uint64" name="TxDropped"/>
+        </type>
+        <type type="struct" name="Stats">
+          <field type="selector" name="Read">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="ident" def="Network" name="Network"/>
+          <field type="ident" def="CpuStats" name="CpuStats"/>
+          <field type="ident" def="MemoryStats" name="MemoryStats"/>
+          <field type="ident" def="BlkioStats" name="BlkioStats"/>
+        </type>
+      </types>
+      <functions/>
+      <names/>
+    </package>
     <package importpath="github.com/docker/docker/pkg/homedir">
       <types/>
       <functions>
@@ -16520,6 +16615,14 @@
           <field type="ident" def="int64" name="MemorySwap"/>
           <field type="ident" def="int64" name="CpuShares"/>
           <field type="ident" def="string" name="Cpuset"/>
+          <field type="slice" name="Rlimits">
+            <elmtype type="pointer">
+              <type type="selector">
+                <prefix value="ulimit"/>
+                <item value="Rlimit"/>
+              </type>
+            </elmtype>
+          </field>
         </type>
         <type type="struct" name="ResourceStats">
           <field type="pointer" name="">
@@ -16834,6 +16937,40 @@
         </type>
       </types>
       <functions>
+        <function name="NewServer">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="engine"/>
+                <item value="Job"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Server"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewServer">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="engine"/>
+                <item value="Job"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Server"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
         <function name="Serve">
           <recvList>
             <type type="pointer">
@@ -16893,23 +17030,6 @@
             </type>
           </paramsList>
           <returnsList/>
-        </function>
-        <function name="NewServer">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="engine"/>
-                <item value="Job"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Server"/>
-            <type type="ident" def="error"/>
-          </returnsList>
         </function>
         <function name="ServeApi">
           <recvList/>
@@ -20930,6 +21050,17 @@
     </package>
     <package importpath="github.com/docker/docker/opts">
       <types>
+        <type type="struct" name="UlimitOpt">
+          <field type="map" name="values">
+            <keytype type="ident" def="string"/>
+            <valtype type="pointer">
+              <type type="selector">
+                <prefix value="ulimit"/>
+                <item value="Ulimit"/>
+              </type>
+            </valtype>
+          </field>
+        </type>
         <type type="struct" name="ListOpts">
           <field type="pointer" name="values">
             <type type="slice">
@@ -20971,6 +21102,67 @@
         </type>
       </types>
       <functions>
+        <function name="NewUlimitOpt">
+          <recvList/>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="pointer">
+                <type type="selector">
+                  <prefix value="ulimit"/>
+                  <item value="Ulimit"/>
+                </type>
+              </valtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="UlimitOpt"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UlimitOpt"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UlimitOpt"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetList">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="UlimitOpt"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="selector">
+                  <prefix value="ulimit"/>
+                  <item value="Ulimit"/>
+                </type>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
         <function name="ListVar">
           <recvList/>
           <paramsList>
@@ -21055,6 +21247,25 @@
               <type type="slice">
                 <elmtype type="ident" def="string"/>
               </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="UlimitMapVar">
+          <recvList/>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="pointer">
+                <type type="selector">
+                  <prefix value="ulimit"/>
+                  <item value="Ulimit"/>
+                </type>
+              </valtype>
             </type>
             <type type="slice">
               <elmtype type="ident" def="string"/>
@@ -21675,6 +21886,7 @@
     <import path="github.com/docker/docker/pkg/parsers"/>
     <import path="github.com/docker/docker/nat"/>
     <import path="github.com/docker/docker/opts"/>
+    <import path="github.com/docker/docker/pkg/ulimit"/>
     <import path="github.com/docker/docker/utils"/>
     <import path="github.com/docker/docker/registry/v2"/>
     <import path="crypto/sha512"/>
@@ -21725,7 +21937,7 @@
     <import path="unicode"/>
     <import path="text/template"/>
     <import path="github.com/docker/docker/builder/command"/>
-    <import path="github.com/docker/docker/api/stats"/>
+    <import path="github.com/docker/docker/api/types"/>
     <import path="code.google.com/p/go.net/websocket"/>
     <import path="github.com/docker/docker/builtins"/>
     <import path="github.com/docker/docker/daemon"/>
