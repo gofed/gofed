@@ -53,7 +53,7 @@ def getMacros(spec):
 			err = "Unable to detect provider_tld macro"
 			return err, {}
 
-		macros["ip"] = "%s.%s/%s/%s" % (provider, provider_tld, project, repo)
+		macros["ip"] = "%s.%s/%s/%s" % (macros["provider"], macros["provider_tld"], macros["project"], macros["repo"])
 
 	return "", macros
 
