@@ -292,6 +292,66 @@ def getSCC(graph):
 
 	return scc
 
+class ConnectedComponent:
+	def __init__(self, graph, node):
+		self.nodes, self.edges = graph
+		self.reacheable = []
+		self.getAdjacentNodes(node)
+		if node not in self.reacheable:
+			self.reacheable.append(node)
+
+	def getAdjacentNodes(self, node):
+		if node in self.reacheable:
+			return
+
+		if node not in self.nodes:
+			return
+
+		if node not in self.edges:
+			return
+
+		for v in self.edges[node]:
+			self.reacheable.append(v)
+			self.getAdjacentNodes(v)
+
+	def getCC(self):
+		edges = {}
+		for u in self.reacheable:
+			if u not in self.edges:
+				continue
+
+			edges[u] = []
+			for v in self.edges[u]:
+				if v in self.reacheable:
+					edges[u].append(v)
+
+		return (self.reacheable, edges)
+
+def joinGraphs(g1, g2):
+	g1_nodes, g1_edges = g1
+	g2_nodes, g2_edges = g2
+
+	nodes = g1_nodes
+	edges = g2_nodes
+
+	for u in g2_nodes:
+		if u not in nodes:
+			nodes.append(u)
+
+		if u not in g2_edges:
+			continue
+
+		for v in g2_edges[u]:
+			if u in edges:
+				if v in edges[u]:
+					continue
+				edges[u].append(v)
+			else:
+				edges[u] = [v]
+
+	return (nodes, edges)
+
+
 def buildRequirementGraph(verbose=False):
 	# load imported and provided paths
 	ip_provides, ip_imports, pkg_devel_main_pkg = loadImportPathDb()
@@ -335,7 +395,7 @@ def buildRequirementGraph(verbose=False):
 				if provides_mapping[ip] not in edges[pkg_devel]:
 					edges[pkg_devel].append(provides_mapping[ip])
 
-	return (pkgs, edges)
+	return (pkgs, edges), pkg_devel_main_pkg
 
 def getLeafPackages(graph):
 	nodes, edges = graph
@@ -343,7 +403,8 @@ def getLeafPackages(graph):
 	leaves = []
 
 	for u in nodes:
-		if u not in edges:
+		# u has no edges or edges[u] is empty
+		if u not in edges or edges[u] == []:
 			leaves.append(u)
 
 	return leaves
