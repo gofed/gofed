@@ -45,17 +45,27 @@ fi
 function getValue {
         echo $1 | sed 's/[ \t][ \t]*/ /g' | cut -d' ' -f3
 }
+provider=$(getValue "$(cat $spec_file | grep "%global provider")")
 repo=$(getValue "$(cat $spec_file | grep "%global repo")")
 commit=$(getValue "$(cat $spec_file | grep "%global commit")")
 summary=$(cat $spec_file | grep "^Summary" | head -1 | sed 's/[ \t][ \t]*/ /g' | cut -d' ' -f2-)
 echo "Parsing $spec_file file"
+echo "	Provider: $provider"
 echo "	Repo: $repo"
 echo "	Commit: $commit"
 echo "	Summary: $summary"
 echo ""
 
+
 # copy tarball to SOURCES directory
-tarball=$repo-${commit:0:7}.tar.gz
+tarball=""
+if [ "$provider" == "bitbucket" ]; then
+	tarball=${commit:0:12}.zip
+else
+
+	tarball=$repo-${commit:0:7}.tar.gz
+fi
+
 echo "Copying tarball $tarball to ~/rpmbuild/SOURCES"
 cp $tarball ~/rpmbuild/SOURCES/.
 echo ""
