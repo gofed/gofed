@@ -88,6 +88,7 @@ echo "%global provider_sub    code" >> $specfile
 echo "%global provider_tld    com" >> $specfile
 echo "%global project         p" >> $specfile
 echo "%global repo            $rrepo" >> $specfile
+echo "# https://$provider_sub.$provider.$provider_tld/p/$repo" >> $specfile
 echo "%global import_path     %{provider_sub}%{provider}.%{provider_tld}/%{project}/%{repo}" >> $specfile
 echo "%global rev             $rev" >> $specfile
 echo "%global shortrev        %(r=%{rev}; echo \${r:0:12})" >> $specfile

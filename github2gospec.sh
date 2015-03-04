@@ -75,6 +75,7 @@ echo "%global provider        github" >> $specfile
 echo "%global provider_tld    com" >> $specfile
 echo "%global project         $project" >> $specfile
 echo "%global repo            $repo" >> $specfile
+echo "# https://$provider.$provider_tld/$project/$repo" >> $specfile
 echo "%global import_path     %{provider}.%{provider_tld}/%{project}/%{repo}" >> $specfile
 echo "%global commit          $commit" >> $specfile
 echo "%global shortcommit     %(c=%{commit}; echo \${c:0:7})" >> $specfile
