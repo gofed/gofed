@@ -3,7 +3,6 @@
 from modules.Packages import Package
 from modules.Packages import loadPackages, savePackageInfo, LocalDB
 import optparse
-from modules.Config import Config
 from modules.ImportPaths import getDevelImportedPaths
 from modules.ImportPaths import getDevelProvidedPaths
 
@@ -11,25 +10,7 @@ from time import time, strftime, gmtime
 import sys
 import os
 
-def getImportPaths(pkg_name, data):
-	lines = []
-	for devel in data:
-		paths = ",".join(data[devel]['provides'])
-		lines.append("Provides:%s:%s:%s" % (pkg_name, devel, paths))
-	return lines
-
-def getImportedPaths(pkg_name, data):
-	lines = []
-	for devel in data:
-		paths = ",".join(data[devel]['imports'])
-		lines.append("Imports:%s:%s:%s" % (pkg_name, devel, paths))
-	return lines
-
 def createDB(full=False):
-	db_path = Config().getImportPathDb()
-	if db_path == "":
-		return False
-
 	scan_time_start = time()
 	packages = []
 	outdated = []
@@ -56,39 +37,31 @@ def createDB(full=False):
 
 	pkg_cnt_len = len("%s" % pkg_cnt)
 
-	# create db in a temporary file
-	with open("%s%s" % (db_path, ".tmp"), 'w') as file:
-		for package in packages:
-			starttime = time()
-			file.write("# Scanning %s ... \n" % package)
-			# len of pkg_idx
-			pkg_idx_len = len("%s" % pkg_idx)
-			sys.stdout.write("Scanning %s %s %s%s/%s " % (package, (pkg_name_len - len(package) + 3) * ".", (pkg_cnt_len - pkg_idx_len) * " " , pkg_idx, pkg_cnt))
-			pkg = Package(package)
-			info = pkg.getInfo()
-			# save xml into file
-			errs = savePackageInfo(info)
-			if errs != []:
-				print ""
-				print "\n".join(errs)
-			else:
-				valid[pkg] = outdated[pkg]
+	for package in packages:
+		starttime = time()
+		# len of pkg_idx
+		pkg_idx_len = len("%s" % pkg_idx)
+		sys.stdout.write("Scanning %s %s %s%s/%s " % (package, (pkg_name_len - len(package) + 3) * ".", (pkg_cnt_len - pkg_idx_len) * " " , pkg_idx, pkg_cnt))
+		pkg = Package(package)
+		info = pkg.getInfo()
+		# save xml into file
+		errs = savePackageInfo(info)
+		if errs != []:
+			print ""
+			print "\n".join(errs)
+		else:
+			valid[pkg] = outdated[pkg]
 
-			file.write("\n".join(getImportPaths(package, info)) + "\n")
-			file.write("\n".join(getImportedPaths(package, info)) + "\n")
-			pkg_idx += 1
-			endtime = time()
-			elapsedtime = endtime - starttime
-			print strftime("[%Hh %Mm %Ss]", gmtime(elapsedtime))
+		pkg_idx += 1
+		endtime = time()
+		elapsedtime = endtime - starttime
+		print strftime("[%Hh %Mm %Ss]", gmtime(elapsedtime))
 
 	scan_time_end = time()
 	print strftime("Elapsed time %Hh %Mm %Ss", gmtime(scan_time_end - scan_time_start))
 
 	if not full:
 		LocalDB().updateBuildsInCache(valid)
-
-	# update db from the temporary file
-	os.rename("%s%s" % (db_path, ".tmp"), db_path)
 
 	return True
 
