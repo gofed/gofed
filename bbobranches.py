@@ -49,10 +49,6 @@ if __name__ == "__main__":
 	for branch in branches:
 		branch = branch.strip()
 
-		# branch master does not need override, f22 neither so far
-		if branch == "master" or branch == "f22":
-			continue
-
 		if branch not in branch2bc:
 			print "build candidate for %s branch not found" % branch
 			continue
