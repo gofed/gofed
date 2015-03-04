@@ -5,6 +5,8 @@ from modules.Packages import buildRequirementGraph, getSCC, getLeafPackages, get
 from modules.Utils import runCommand
 import tempfile
 import shutil
+from time import time, strftime, gmtime
+
 
 def printSCC(scc):
 	print "Cyclic dep detected (%s): %s" % (len(scc), ", ".join(scc))
@@ -101,7 +103,12 @@ if __name__ == "__main__":
 	options, args = parser.parse_args()
 
 	if options.cyclic or options.leaves or options.roots or options.graphviz:
+
+		print "Reading packages..."
+		scan_time_start = time()
 		graph = buildRequirementGraph(options.verbose)
+		scan_time_end = time()
+		print strftime("Completed in %Hh %Mm %Ss", gmtime(scan_time_end - scan_time_start))
 
 		if options.cyclic:
 			scc = getSCC(graph)
