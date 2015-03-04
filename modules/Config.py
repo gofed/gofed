@@ -40,6 +40,12 @@ class Config:
 	def getBranches(self):
 		return self.getValueFromDb('branches')
 
+	def getUpdates(self):
+		return self.getValueFromDb('updates')
+
+	def getOverrides(self):
+		return self.getValueFromDb('overrides')
+
 	def getImportPathDb(self):
 		return self.getValueFromDb('import_path_db')
 		
