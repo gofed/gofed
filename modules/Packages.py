@@ -10,6 +10,8 @@ import operator
 from GoSymbols import ProjectToXml
 from specParser import getPkgURL, fetchProvides
 from Repos import Repos, IPMap
+from xml.dom import minidom
+from xml.dom.minidom import Node
 
 GOLANG_PACKAGES="data/golang.packages"
 GOLANG_PKG_DB="data/pkgdb"
@@ -366,8 +368,24 @@ def getRootPackages(graph):
 
 	return roots
 
+def compareNVRs(nvr1, nvr2):
+	so, se, rc = runCommand("rpmdev-vercmp %s %s" % (nvr1, nvr2))
+	if rc != 0:
+		# if the command is not working => nvr1 < nvr2
+		return 1;
+
+	so = so.split("\n")[0]
+	if "<" in so:
+		return -1
+	elif ">" in so:
+		return 1
+	return 0
 
 class LocalDB:
+
+	def __init__(self):
+		self.local_pkgs = []
+
 	def loadPackages(self):
 		packages = []
 		with open("%s/%s" % (script_dir, GOLANG_PACKAGES), "r") as file:
@@ -461,6 +479,108 @@ class LocalDB:
 		Repos().flush()
 		IPMap().flush()
 		return err, True
+
+	def loadLatestBuilds(self, cache=False):
+		if cache:
+			return self.loadBuildsFromCache()
+
+		builds = {}
+		for dirName, subdirList, fileList in os.walk("%s/%s" % (script_dir, GOLANG_PKG_DB)):
+			for fname in fileList:
+				if not fname.endswith(".xml"):
+					continue
+				xmldoc = minidom.parse("%s/%s" % (dirName,fname))
+				prj_node = xmldoc.getElementsByTagName('project')
+				if len(prj_node) < 1:
+					continue
+
+				if "nvr" not in prj_node[0].attributes.keys():
+					continue
+
+				nvr = prj_node[0].attributes["nvr"].value
+				parts = nvr.split("-")
+				pkg = "-".join(parts[0:-2])
+				builds[pkg] = nvr	
+
+		self.saveBuildsToCache(builds)
+		return builds
+
+	def saveBuildsToCache(self, builds):
+		with open("%s/%s/nvrs.cache" % (script_dir, GOLANG_PKG_DB), "w") as file:
+			sbuilds = sorted(builds.keys())
+			for build in sbuilds:
+				file.write("%s\n" % builds[build])
+
+	def updateBuildsInCache(self, new_builds):
+		if self.local_pkgs == []:
+			self.local_pkgs = self.loadBuildsFromCache()
+
+		for pkg in new_builds:
+			self.local_pkgs[pkg] = new_builds[pkg]
+
+		self.saveBuildsToCache(self.local_pkgs)
+
+
+	def loadBuildsFromCache(self):
+		builds = {}
+		if not os.path.exists("%s/%s/nvrs.cache" % (script_dir, GOLANG_PKG_DB)):
+			return self.loadLatestBuilds(cache=False)
+
+		with open("%s/%s/nvrs.cache" % (script_dir, GOLANG_PKG_DB), "r") as file:
+			for line in file.read().split("\n"):
+				line = line.strip()
+				if line == "":
+					continue
+
+				parts = line.split("-")
+				pkg = "-".join(parts[0:-2])
+
+				builds[pkg] = line
+
+		return builds
+
+	def fetchLatestBuilds(self, tag="rawhide"):
+		pkgs = self.loadPackages()
+		outdated = {}
+
+		so, se, rc = runCommand("koji -q latest-build %s %s" % (tag, " ".join(pkgs)))
+		if rc != 0:
+			print se
+			return {}
+
+		for line in so.split("\n"):
+			line = line.strip()
+
+			if line == "":
+				continue
+
+			nvr = re.sub(r'[ \t]+', ' ', line).split(' ')[0]
+			parts = nvr.split("-")
+			pkg = "-".join(parts[0:-2])
+			outdated[pkg] = nvr
+
+		return outdated
+
+	def getOutdatedBuilds(self, tag="rawhide"):
+		self.local_pkgs = self.loadLatestBuilds()
+		fetched_pkgs = self.fetchLatestBuilds(tag)
+
+		err = []
+		outdated = {}
+		found = {}
+
+		for pkg in fetched_pkgs:
+			if pkg not in self.local_pkgs:
+				err.append("%s not in localDB" % pkg)
+				outdated[pkg] = fetched_pkgs[pkg]
+				continue
+
+			if compareNVRs(self.local_pkgs[pkg], fetched_pkgs[pkg]):
+				outdated[pkg] = fetched_pkgs[pkg]
+				found[pkg] = fetched_pkgs[pkg]
+				#print "%s %s %s" % (self.local_pkgs[pkg], fetched_pkgs[pkg], compareNVRs(self.local_pkgs[pkg], fetched_pkgs[pkg]))
+
+		return err, outdated, found
 
 if __name__ == "__main__":
 	#pkg = Package('golang-googlecode-net')

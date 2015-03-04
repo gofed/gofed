@@ -515,7 +515,7 @@ class SpecTest:
 		# get source file imports from tarball
 		tar_imports = getTarballImports(spec_source0)
 
-		provides = getProvidesFromPackageSections(self.spec, pkg_name)
+		provides = SpecInfo(self.spec).getProvidesFromPackageSections(self.spec, pkg_name)
 		# test form of provides
 		errors += self.testProvides(builds, provides)
 
