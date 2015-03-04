@@ -48,10 +48,10 @@ name=golang-$provider-$project-$repo
 echo -e "${orange}(1/$total) Checking if the package already exists in PkgDB$NC"
 git ls-remote "http://pkgs.fedoraproject.org/cgit/$name.git/" 2>/dev/null 1>&2
 
-#if [ "$?" -eq 0 ]; then
-#	echo -e "$red\tPackage already exists$NC"
-#	exit 0
-#fi
+if [ "$?" -eq 0 ]; then
+	echo -e "$red\tPackage already exists$NC"
+	exit 0
+fi
 
 # creating basic folder structure
 mkdir -p $name/fedora/$name
