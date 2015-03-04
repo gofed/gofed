@@ -45,7 +45,7 @@ if __name__ == "__main__":
 
 	build = sys.argv[1]
 	cfg = Config()
-	branches = cfg.getBranches().split(" ")
+	branches = cfg.getOverrides().split(" ")
 	for branch in branches:
 		branch = branch.strip()
 
