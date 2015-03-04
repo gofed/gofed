@@ -1,7 +1,7 @@
 #!/bin/python
 
 import optparse
-from modules.Packages import buildRequirementGraph, getSCC, getLeafPackages, getRootPackages
+from modules.Packages import buildRequirementGraph, getSCC, getLeafPackages, getRootPackages, ConnectedComponent, joinGraphs
 from modules.Utils import runCommand
 import tempfile
 import shutil
@@ -63,9 +63,32 @@ def showGraph(graph, out_img = "./graph.png"):
 	# eog test.png
 	shutil.rmtree(tmp_dir)
 
+def truncateGraph(graph, pkg_name, pkg_devel_main_pkg):
+	"""
+	Return graph containing only pkg_name and all its dependencies
+	"""
+	# 1. get all devel subpackages belonging to pkg_name
+	root_nodes = []
+	for devel in pkg_devel_main_pkg:
+		if pkg_devel_main_pkg[devel] == pkg_name:
+			root_nodes.append(devel)
+
+	# 2. create a set of all nodes containg the subpackages and
+	# all nodes reacheable from them
+	subgraph = None
+	for node in root_nodes:
+		cc = ConnectedComponent(graph, node)
+		if subgraph == None:
+			subgraph = cc.getCC()
+		else:
+			subgraph = joinGraphs(subgraph, cc.getCC())
+	print subgraph
+	return subgraph
+	
+
 if __name__ == "__main__":
 
-	parser = optparse.OptionParser("%prog -c|-l|-r|-g [-v]")
+	parser = optparse.OptionParser("%prog -c|-l|-r|-g [-v] [PACKAGE]")
 
 	parser.add_option(
 	    "", "-v", "--verbose", dest="verbose", action = "store_true", default = False,
@@ -97,16 +120,22 @@ if __name__ == "__main__":
 	    help = "Get golang packages not required by any package"
 	)
 
+	parser.add_option_group( optparse.OptionGroup(parser, "PACKAGE", "Display the smallest subgraph containing PACKAGE and all its dependencies.") )
+
 	# get list of tools/packages providing go binary
-	# get option to generate the graph with package name, not build name
 
 	options, args = parser.parse_args()
+	pkg_name = ""
+	if len(args) > 0:
+		pkg_name = args[0]
 
 	if options.cyclic or options.leaves or options.roots or options.graphviz:
 
 		print "Reading packages..."
 		scan_time_start = time()
-		graph = buildRequirementGraph(options.verbose)
+		graph, pkg_devel_main_pkg = buildRequirementGraph(options.verbose)
+		if pkg_name != "":
+			graph = truncateGraph(graph, pkg_name, pkg_devel_main_pkg)
 		scan_time_end = time()
 		print strftime("Completed in %Hh %Mm %Ss", gmtime(scan_time_end - scan_time_start))
 
@@ -135,4 +164,4 @@ if __name__ == "__main__":
 			
 
 	else:
-		print "Synopsis: prog -c|-l|-r|-g [-v]"
+		print "Synopsis: prog -c|-l|-r|-g [-v] [PACKAGE]"
