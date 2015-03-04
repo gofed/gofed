@@ -161,7 +161,6 @@ def loadImportPathDb():
 					continue
 
 				ip_provides[devel_name].append(str(pkg_node.attributes["importpath"].value))
-				#ip_imports[devel_name].append
 
 			imports_nodes = prj_node[0].getElementsByTagName("imports")
 			if len(imports_nodes) != 1:
@@ -175,6 +174,10 @@ def loadImportPathDb():
 				ip = import_node.attributes["path"].value
 				prefix = ip.split('/')[0]
 				if prefix in native_imports:
+					continue
+
+				# does package imports itself?
+				if ip in ip_provides[devel_name]:
 					continue
 
 				ip_imports[devel_name].append(str(ip))
