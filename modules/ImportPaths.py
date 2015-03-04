@@ -6,8 +6,12 @@ from Utils import getScriptDir
 from modules.Repos import detectGithub, detectGooglecode, detectGolangorg, detectGoogleGolangorg, detectGopkg
 from modules.Repos import github2pkgdb, googlecode2pkgdb, googlegolangorg2pkgdb, golangorg2pkgdb 
 from Config import Config
+from xml.dom import minidom
+from xml.dom.minidom import Node
 
 GOLANG_IMPORTS = "data/golang.imports"
+GOLANG_PKG_DB = "data/pkgdb"
+script_dir = getScriptDir() + "/.."
 
 # get imports from a file
 def getFileImports(gofile):
@@ -122,46 +126,67 @@ def decomposeImports(imports):
 	return classes
 
 def loadImportPathDb():
-	db_file = Config().getImportPathDb()
-	lines = []
-	with open(db_file, 'r') as file:
-		lines = file.read().split('\n')
-
+	"""
+	For each subpackage return all imported and provided import paths
+	"""
+	# one package can have more *.xml files
 	ip_provides = {}
 	ip_imports = {}
 	pkg_devel_main_pkg = {}
 
-	for line in lines:
-		line = line.strip()
+	native_imports = getNativeImports()
 
-		if line == "" or line[0] == "#":
-			continue
-
-		if line.startswith("Provides") or line.startswith("Imports:"):
-			parts = line.split(":")
-			if len(parts) != 4:
+	for dirName, subdirList, fileList in os.walk("%s/%s" % (script_dir, GOLANG_PKG_DB)):
+		for fname in fileList:
+			if not fname.endswith(".xml"):
 				continue
 
-			if len(parts[1]) == 0 or len(parts[2]) == 0:
+			xmldoc = minidom.parse("%s/%s" % (dirName,fname))
+			prj_node = xmldoc.getElementsByTagName('project')
+			if len(prj_node) != 1:
 				continue
 
-			#Provides|Import:pkg_name:pkg_devel_name:import_path
-			pkg_name	= parts[1].strip()
-			pkg_devel_name	= parts[2].strip()
-			import_path	= parts[3].strip()
+			pkg_nodes = prj_node[0].getElementsByTagName("packages")
+			if len(pkg_nodes) != 1:
+				continue
 
-			if line.startswith("Provides:"):
-				ip_provides[ pkg_devel_name ] = import_path.split(",")
-			else:
-				ip_imports[ pkg_devel_name ] = import_path.split(",")
+			pkg_nodes = pkg_nodes[0].getElementsByTagName("package")
 
-			if pkg_devel_name not in pkg_devel_main_pkg:
-				pkg_devel_main_pkg[pkg_devel_name] = pkg_name
+			devel_name = fname.split(".")[0]
 
-		else:
-			continue			
+			ip_provides[devel_name] = []
+			ip_imports[devel_name] = []
+			for pkg_node in pkg_nodes:
+				if "importpath" not in pkg_node.attributes.keys():
+					continue
 
-	return (ip_provides, ip_imports, pkg_devel_main_pkg)
+				ip_provides[devel_name].append(str(pkg_node.attributes["importpath"].value))
+				#ip_imports[devel_name].append
+
+			imports_nodes = prj_node[0].getElementsByTagName("imports")
+			if len(imports_nodes) != 1:
+				continue
+
+			import_nodes = imports_nodes[0].getElementsByTagName("import")
+			for import_node in import_nodes:
+				if "path" not in import_node.attributes.keys():
+					continue
+
+				ip = import_node.attributes["path"].value
+				prefix = ip.split('/')[0]
+				if prefix in native_imports:
+					continue
+
+				ip_imports[devel_name].append(str(ip))
+
+			# get NVR
+			if "nvr" not in prj_node[0].attributes.keys():
+				continue
+
+			pkg = "-".join(prj_node[0].attributes["nvr"].value.split("-")[:-2])
+			pkg_devel_main_pkg[devel_name] = str(pkg)
+
+		return ip_provides, ip_imports, pkg_devel_main_pkg
 
 def getDevelImportedPaths():
 	_, ip_i, _ = loadImportPathDb()
