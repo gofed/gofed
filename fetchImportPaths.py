@@ -33,13 +33,13 @@ def createDB(full=False):
 	scan_time_start = time()
 	packages = []
 	outdated = []
-	found = []
+	valid = []
 
 	if full:
 		packages = loadPackages()
 	else:
 		print "Creating list of updated builds..."
-		err, outdated, found = LocalDB().getOutdatedBuilds()
+		err, outdated  = LocalDB().getOutdatedBuilds()
 		if err != []:
 			print "Warning: " + "\nWarning: ".join(err)
 
@@ -71,6 +71,8 @@ def createDB(full=False):
 			if errs != []:
 				print ""
 				print "\n".join(errs)
+			else:
+				valid[pkg] = outdated[pkg]
 
 			file.write("\n".join(getImportPaths(package, info)) + "\n")
 			file.write("\n".join(getImportedPaths(package, info)) + "\n")
@@ -83,7 +85,7 @@ def createDB(full=False):
 	print strftime("Elapsed time %Hh %Mm %Ss", gmtime(scan_time_end - scan_time_start))
 
 	if not full:
-		LocalDB().updateBuildsInCache(found)
+		LocalDB().updateBuildsInCache(valid)
 
 	# update db from the temporary file
 	os.rename("%s%s" % (db_path, ".tmp"), db_path)

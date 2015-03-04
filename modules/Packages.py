@@ -567,7 +567,6 @@ class LocalDB:
 
 		err = []
 		outdated = {}
-		found = {}
 
 		for pkg in fetched_pkgs:
 			if pkg not in self.local_pkgs:
@@ -577,10 +576,9 @@ class LocalDB:
 
 			if compareNVRs(self.local_pkgs[pkg], fetched_pkgs[pkg]):
 				outdated[pkg] = fetched_pkgs[pkg]
-				found[pkg] = fetched_pkgs[pkg]
 				#print "%s %s %s" % (self.local_pkgs[pkg], fetched_pkgs[pkg], compareNVRs(self.local_pkgs[pkg], fetched_pkgs[pkg]))
 
-		return err, outdated, found
+		return err, outdated
 
 if __name__ == "__main__":
 	#pkg = Package('golang-googlecode-net')
