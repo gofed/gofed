@@ -1,9 +1,87 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-googlecode-goprotobuf-0-0.12.git7f07925.fc22">
+<project url="" commit="commit" nvr="golang-googlecode-goprotobuf-0-0.13.gitc22ae3c.fc23">
   <packages>
     <package importpath="code.google.com/p/goprotobuf/protoc-gen-go">
       <types/>
       <functions/>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/goprotobuf/protoc-gen-go/internal/grpc">
+      <types/>
+      <functions>
+        <function name="Name">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="grpc"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="grpc"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="Generator"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="P">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="grpc"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Generate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="grpc"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GenerateImports">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="grpc"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
       <names/>
     </package>
     <package importpath="github.com/golang/protobuf/protoc-gen-go">
@@ -17772,6 +17850,84 @@
       </functions>
       <names/>
     </package>
+    <package importpath="github.com/golang/protobuf/protoc-gen-go/internal/grpc">
+      <types/>
+      <functions>
+        <function name="Name">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="grpc"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="grpc"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="Generator"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="P">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="grpc"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Generate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="grpc"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GenerateImports">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="grpc"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
     <package importpath="github.com/golang/protobuf/proto">
       <types>
         <type type="struct" name="ParseError">
@@ -19227,6 +19383,7 @@
     <import path="os"/>
     <import path="github.com/golang/protobuf/proto"/>
     <import path="github.com/golang/protobuf/protoc-gen-go/generator"/>
+    <import path="github.com/golang/protobuf/protoc-gen-go/internal/grpc"/>
     <import path="testing"/>
     <import path="./multi"/>
     <import path="./my_test"/>
@@ -19236,14 +19393,14 @@
     <import path="path/filepath"/>
     <import path="math"/>
     <import path="github.com/golang/protobuf/protoc-gen-go/descriptor"/>
+    <import path="path"/>
+    <import path="strconv"/>
+    <import path="strings"/>
     <import path="bytes"/>
     <import path="go/parser"/>
     <import path="go/printer"/>
     <import path="go/token"/>
     <import path="log"/>
-    <import path="path"/>
-    <import path="strconv"/>
-    <import path="strings"/>
     <import path="unicode"/>
     <import path="unicode/utf8"/>
     <import path="github.com/golang/protobuf/protoc-gen-go/plugin"/>
@@ -19263,6 +19420,7 @@
     <import path="time"/>
     <import path="code.google.com/p/goprotobuf/proto"/>
     <import path="code.google.com/p/goprotobuf/protoc-gen-go/generator"/>
+    <import path="code.google.com/p/goprotobuf/protoc-gen-go/internal/grpc"/>
     <import path="code.google.com/p/goprotobuf/protoc-gen-go/descriptor"/>
     <import path="code.google.com/p/goprotobuf/protoc-gen-go/plugin"/>
   </imports>
