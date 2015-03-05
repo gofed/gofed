@@ -378,7 +378,7 @@ def joinGraphs(g1, g2):
 	g2_nodes, g2_edges = g2
 
 	nodes = g1_nodes
-	edges = g2_nodes
+	edges = g1_edges
 
 	for u in g2_nodes:
 		if u not in nodes:
