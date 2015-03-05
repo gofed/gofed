@@ -112,7 +112,7 @@ done
 
 echo "Summary:        %{summary}" >> $specfile
 # list Provides section
-for dir in $($script_dir/inspecttarball.py -p $repo-$project-$commit | sort); do
+for dir in $($script_dir/inspecttarball.py -p $project-$repo-$shortcommit | sort); do
 	sufix=""
 	if [ "$dir" != "." ]; then
 		sufix="/$dir"
