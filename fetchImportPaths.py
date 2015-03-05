@@ -13,8 +13,8 @@ import os
 def createDB(full=False):
 	scan_time_start = time()
 	packages = []
-	outdated = []
-	valid = []
+	outdated = {}
+	valid = {}
 
 	if full:
 		packages = loadPackages()
@@ -50,7 +50,7 @@ def createDB(full=False):
 			print ""
 			print "\n".join(errs)
 		else:
-			valid[pkg] = outdated[pkg]
+			valid[package] = outdated[package]
 
 		pkg_idx += 1
 		endtime = time()
