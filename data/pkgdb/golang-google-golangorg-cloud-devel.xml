@@ -1,108 +1,17 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="golang-google-golangorg-cloud-0-0.1.git2e43671.fc22">
   <packages>
-    <package importpath="google.golang.org/cloud/internal/testutil">
-      <types/>
-      <functions>
-        <function name="Context">
-          <recvList/>
-          <paramsList>
-            <type type="ellipsis">
-              <type type="ident" def="string"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NoAuthContext">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="google.golang.org/cloud/container">
+    <package importpath="google.golang.org/cloud/internal">
       <types>
-        <type name="Type" type="ident">
-          <type type="ident" def="string"/>
-        </type>
-        <type name="Status" type="ident">
-          <type type="ident" def="string"/>
-        </type>
-        <type type="struct" name="Resource">
-          <field type="ident" def="string" name="Name"/>
-          <field type="ident" def="string" name="Description"/>
-          <field type="ident" def="string" name="Zone"/>
-          <field type="ident" def="Status" name="Status"/>
-          <field type="ident" def="int64" name="Num"/>
-          <field type="ident" def="string" name="APIVersion"/>
-          <field type="ident" def="string" name="Endpoint"/>
-          <field type="ident" def="string" name="Username"/>
-          <field type="ident" def="string" name="Password"/>
-          <field type="ident" def="string" name="ContainerIPv4CIDR"/>
-          <field type="ident" def="string" name="ServicesIPv4CIDR"/>
-          <field type="ident" def="string" name="MachineType"/>
-          <field type="ident" def="string" name="SourceImage"/>
-          <field type="selector" name="Created">
-            <prefix value="time"/>
-            <item value="Time"/>
+        <type type="struct" name="Transport">
+          <field type="selector" name="Base">
+            <prefix value="http"/>
+            <item value="RoundTripper"/>
           </field>
-        </type>
-        <type type="struct" name="Op">
-          <field type="ident" def="string" name="Name"/>
-          <field type="ident" def="string" name="Zone"/>
-          <field type="ident" def="string" name="TargetURL"/>
-          <field type="ident" def="Type" name="Type"/>
-          <field type="ident" def="Status" name="Status"/>
         </type>
       </types>
       <functions>
-        <function name="Clusters">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="ident" def="Resource"/>
-              </elmtype>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Cluster">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Resource"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="CreateCluster">
+        <function name="WithContext">
           <recvList/>
           <paramsList>
             <type type="selector">
@@ -111,577 +20,99 @@
             </type>
             <type type="ident" def="string"/>
             <type type="pointer">
-              <type type="ident" def="Resource"/>
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Client"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Service">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="selector">
+                    <prefix value="http"/>
+                    <item value="Client"/>
+                  </type>
+                </type>
+              </paramsList>
+              <resultsList>
+                <type type="interface"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="RoundTrip">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transport"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
             </type>
           </paramsList>
           <returnsList>
             <type type="pointer">
-              <type type="ident" def="Resource"/>
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Response"/>
+              </type>
             </type>
             <type type="ident" def="error"/>
           </returnsList>
         </function>
-        <function name="DeleteCluster">
+        <function name="ProjID">
           <recvList/>
           <paramsList>
             <type type="selector">
               <prefix value="context"/>
               <item value="Context"/>
             </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
           </paramsList>
           <returnsList>
-            <type type="ident" def="error"/>
+            <type type="ident" def="string"/>
           </returnsList>
         </function>
-        <function name="Operations">
+        <function name="HTTPClient">
           <recvList/>
           <paramsList>
             <type type="selector">
               <prefix value="context"/>
               <item value="Context"/>
             </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="ident" def="Op"/>
-              </elmtype>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Operation">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
           </paramsList>
           <returnsList>
             <type type="pointer">
-              <type type="ident" def="Op"/>
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Client"/>
+              </type>
             </type>
-            <type type="ident" def="error"/>
           </returnsList>
         </function>
       </functions>
-      <names>
-        <name value="TypeCreate"/>
-        <name value="TypeDelete"/>
-        <name value="Done"/>
-        <name value="Pending"/>
-        <name value="Running"/>
-        <name value="Error"/>
-        <name value="Provisioning"/>
-        <name value="Stopping"/>
-      </names>
-    </package>
-    <package importpath="google.golang.org/cloud/storage">
-      <types>
-        <type type="struct" name="Bucket">
-          <field type="ident" def="string" name="Name"/>
-          <field type="slice" name="ACL">
-            <elmtype type="ident" def="ACLRule"/>
-          </field>
-          <field type="slice" name="DefaultObjectACL">
-            <elmtype type="ident" def="ACLRule"/>
-          </field>
-          <field type="ident" def="string" name="Location"/>
-          <field type="ident" def="int64" name="Metageneration"/>
-          <field type="ident" def="string" name="StorageClass"/>
-          <field type="selector" name="Created">
-            <prefix value="time"/>
-            <item value="Time"/>
-          </field>
-        </type>
-        <type type="struct" name="ObjectAttrs">
-          <field type="ident" def="string" name="Name"/>
-          <field type="ident" def="string" name="ContentType"/>
-          <field type="ident" def="string" name="ContentLanguage"/>
-          <field type="ident" def="string" name="ContentEncoding"/>
-          <field type="slice" name="ACL">
-            <elmtype type="ident" def="ACLRule"/>
-          </field>
-          <field type="map" name="Metadata">
-            <keytype type="ident" def="string"/>
-            <valtype type="ident" def="string"/>
-          </field>
-        </type>
-        <type type="struct" name="Object">
-          <field type="ident" def="string" name="Bucket"/>
-          <field type="ident" def="string" name="Name"/>
-          <field type="ident" def="string" name="ContentType"/>
-          <field type="ident" def="string" name="ContentLanguage"/>
-          <field type="slice" name="ACL">
-            <elmtype type="ident" def="ACLRule"/>
-          </field>
-          <field type="ident" def="string" name="Owner"/>
-          <field type="ident" def="int64" name="Size"/>
-          <field type="ident" def="string" name="ContentEncoding"/>
-          <field type="slice" name="MD5">
-            <elmtype type="ident" def="byte"/>
-          </field>
-          <field type="ident" def="uint32" name="CRC32C"/>
-          <field type="ident" def="string" name="MediaLink"/>
-          <field type="map" name="Metadata">
-            <keytype type="ident" def="string"/>
-            <valtype type="ident" def="string"/>
-          </field>
-          <field type="ident" def="int64" name="Generation"/>
-          <field type="ident" def="int64" name="MetaGeneration"/>
-          <field type="ident" def="string" name="StorageClass"/>
-          <field type="selector" name="Deleted">
-            <prefix value="time"/>
-            <item value="Time"/>
-          </field>
-          <field type="selector" name="Updated">
-            <prefix value="time"/>
-            <item value="Time"/>
-          </field>
-        </type>
-        <type type="struct" name="Query">
-          <field type="ident" def="string" name="Delimiter"/>
-          <field type="ident" def="string" name="Prefix"/>
-          <field type="ident" def="bool" name="Versions"/>
-          <field type="ident" def="string" name="Cursor"/>
-          <field type="ident" def="int" name="MaxResults"/>
-        </type>
-        <type type="struct" name="Objects">
-          <field type="slice" name="Results">
-            <elmtype type="pointer">
-              <type type="ident" def="Object"/>
-            </elmtype>
-          </field>
-          <field type="pointer" name="Next">
-            <type type="ident" def="Query"/>
-          </field>
-          <field type="slice" name="Prefixes">
-            <elmtype type="ident" def="string"/>
-          </field>
-        </type>
-        <type type="struct" name="Writer">
-          <field type="ident" def="ObjectAttrs" name=""/>
-          <field type="selector" name="ctx">
-            <prefix value="context"/>
-            <item value="Context"/>
-          </field>
-          <field type="ident" def="string" name="bucket"/>
-          <field type="ident" def="string" name="name"/>
-          <field type="selector" name="once">
-            <prefix value="sync"/>
-            <item value="Once"/>
-          </field>
-          <field type="ident" def="bool" name="opened"/>
-          <field type="selector" name="r">
-            <prefix value="io"/>
-            <item value="Reader"/>
-          </field>
-          <field type="pointer" name="pw">
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="PipeWriter"/>
-            </type>
-          </field>
-          <field type="chan" dir="3" name="donec">
-            <type type="struct" name=""/>
-          </field>
-          <field type="ident" def="error" name="err"/>
-          <field type="pointer" name="obj">
-            <type type="ident" def="Object"/>
-          </field>
-        </type>
-        <type type="struct" name="SignedURLOptions">
-          <field type="ident" def="string" name="GoogleAccessID"/>
-          <field type="slice" name="PrivateKey">
-            <elmtype type="ident" def="byte"/>
-          </field>
-          <field type="ident" def="string" name="Method"/>
-          <field type="selector" name="Expires">
-            <prefix value="time"/>
-            <item value="Time"/>
-          </field>
-          <field type="ident" def="string" name="ContentType"/>
-          <field type="slice" name="Headers">
-            <elmtype type="ident" def="string"/>
-          </field>
-          <field type="slice" name="MD5">
-            <elmtype type="ident" def="byte"/>
-          </field>
-        </type>
-        <type name="ACLRole" type="ident">
-          <type type="ident" def="string"/>
-        </type>
-        <type name="ACLEntity" type="ident">
-          <type type="ident" def="string"/>
-        </type>
-        <type type="struct" name="ACLRule">
-          <field type="ident" def="ACLEntity" name="Entity"/>
-          <field type="ident" def="ACLRole" name="Role"/>
-        </type>
-      </types>
-      <functions>
-        <function name="ContentType">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="contentTyper"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Write">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Writer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Close">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Writer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Object">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Writer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Object"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="BucketInfo">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Bucket"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ListObjects">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="pointer">
-              <type type="ident" def="Query"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Objects"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="SignedURL">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="pointer">
-              <type type="ident" def="SignedURLOptions"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="StatObject">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Object"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="UpdateAttrs">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="ObjectAttrs"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Object"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="DeleteObject">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="CopyObject">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="ObjectAttrs"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Object"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NewReader">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="ReadCloser"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NewWriter">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Writer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="DefaultACL">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="ACLRule"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="PutDefaultACLRule">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="ACLEntity"/>
-            <type type="ident" def="ACLRole"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="DeleteDefaultACLRule">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="ACLEntity"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="BucketACL">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="ACLRule"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="PutBucketACLRule">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="ACLEntity"/>
-            <type type="ident" def="ACLRole"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="DeleteBucketACLRule">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="ACLEntity"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ACL">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="ACLRule"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="PutACLRule">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="ACLEntity"/>
-            <type type="ident" def="ACLRole"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="DeleteACLRule">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="ACLEntity"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="ErrBucketNotExist"/>
-        <name value="ErrObjectNotExist"/>
-        <name value="ScopeFullControl"/>
-        <name value="ScopeReadOnly"/>
-        <name value="ScopeReadWrite"/>
-        <name value="RoleOwner"/>
-        <name value="RoleReader"/>
-        <name value="AllUsers"/>
-        <name value="AllAuthenticatedUsers"/>
-      </names>
-    </package>
-    <package importpath="google.golang.org/cloud/examples/storage/appengine">
-      <types/>
-      <functions/>
       <names/>
     </package>
     <package importpath="google.golang.org/cloud/internal/datastore">
@@ -3490,16 +2921,27 @@
         <name value="Default_CommitRequest_Mode"/>
       </names>
     </package>
-    <package importpath="google.golang.org/cloud/internal">
-      <types>
-        <type type="struct" name="Transport">
-          <field type="selector" name="Base">
-            <prefix value="http"/>
-            <item value="RoundTripper"/>
-          </field>
-        </type>
-      </types>
+    <package importpath="google.golang.org/cloud">
+      <types/>
       <functions>
+        <function name="NewContext">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Client"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+          </returnsList>
+        </function>
         <function name="WithContext">
           <recvList/>
           <paramsList>
@@ -3522,86 +2964,841 @@
             </type>
           </returnsList>
         </function>
-        <function name="Service">
+      </functions>
+      <names/>
+    </package>
+    <package importpath="google.golang.org/cloud/internal/testutil">
+      <types/>
+      <functions>
+        <function name="Context">
           <recvList/>
           <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
             <type type="selector">
               <prefix value="context"/>
               <item value="Context"/>
             </type>
-            <type type="ident" def="string"/>
-            <type type="func">
-              <paramsList>
-                <type type="pointer">
-                  <type type="selector">
-                    <prefix value="http"/>
-                    <item value="Client"/>
-                  </type>
-                </type>
-              </paramsList>
-              <resultsList>
-                <type type="interface"/>
-              </resultsList>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="interface"/>
           </returnsList>
         </function>
-        <function name="RoundTrip">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Transport"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="Request"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="Response"/>
-              </type>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ProjID">
+        <function name="NoAuthContext">
           <recvList/>
-          <paramsList>
+          <paramsList/>
+          <returnsList>
             <type type="selector">
               <prefix value="context"/>
               <item value="Context"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="HTTPClient">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="Client"/>
-              </type>
             </type>
           </returnsList>
         </function>
       </functions>
+      <names/>
+    </package>
+    <package importpath="google.golang.org/cloud/container">
+      <types>
+        <type name="Type" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+        <type name="Status" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+        <type type="struct" name="Resource">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="Description"/>
+          <field type="ident" def="string" name="Zone"/>
+          <field type="ident" def="Status" name="Status"/>
+          <field type="ident" def="int64" name="Num"/>
+          <field type="ident" def="string" name="APIVersion"/>
+          <field type="ident" def="string" name="Endpoint"/>
+          <field type="ident" def="string" name="Username"/>
+          <field type="ident" def="string" name="Password"/>
+          <field type="ident" def="string" name="ContainerIPv4CIDR"/>
+          <field type="ident" def="string" name="ServicesIPv4CIDR"/>
+          <field type="ident" def="string" name="MachineType"/>
+          <field type="ident" def="string" name="SourceImage"/>
+          <field type="selector" name="Created">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+        </type>
+        <type type="struct" name="Op">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="Zone"/>
+          <field type="ident" def="string" name="TargetURL"/>
+          <field type="ident" def="Type" name="Type"/>
+          <field type="ident" def="Status" name="Status"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Clusters">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Resource"/>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Cluster">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Resource"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CreateCluster">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="Resource"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Resource"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DeleteCluster">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Operations">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Op"/>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Operation">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Op"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="TypeCreate"/>
+        <name value="TypeDelete"/>
+        <name value="Done"/>
+        <name value="Pending"/>
+        <name value="Running"/>
+        <name value="Error"/>
+        <name value="Provisioning"/>
+        <name value="Stopping"/>
+      </names>
+    </package>
+    <package importpath="google.golang.org/cloud/examples/storage/appengine">
+      <types/>
+      <functions/>
+      <names/>
+    </package>
+    <package importpath="google.golang.org/cloud/storage">
+      <types>
+        <type type="struct" name="Bucket">
+          <field type="ident" def="string" name="Name"/>
+          <field type="slice" name="ACL">
+            <elmtype type="ident" def="ACLRule"/>
+          </field>
+          <field type="slice" name="DefaultObjectACL">
+            <elmtype type="ident" def="ACLRule"/>
+          </field>
+          <field type="ident" def="string" name="Location"/>
+          <field type="ident" def="int64" name="Metageneration"/>
+          <field type="ident" def="string" name="StorageClass"/>
+          <field type="selector" name="Created">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+        </type>
+        <type type="struct" name="ObjectAttrs">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="ContentType"/>
+          <field type="ident" def="string" name="ContentLanguage"/>
+          <field type="ident" def="string" name="ContentEncoding"/>
+          <field type="slice" name="ACL">
+            <elmtype type="ident" def="ACLRule"/>
+          </field>
+          <field type="map" name="Metadata">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="Object">
+          <field type="ident" def="string" name="Bucket"/>
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="ContentType"/>
+          <field type="ident" def="string" name="ContentLanguage"/>
+          <field type="slice" name="ACL">
+            <elmtype type="ident" def="ACLRule"/>
+          </field>
+          <field type="ident" def="string" name="Owner"/>
+          <field type="ident" def="int64" name="Size"/>
+          <field type="ident" def="string" name="ContentEncoding"/>
+          <field type="slice" name="MD5">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="uint32" name="CRC32C"/>
+          <field type="ident" def="string" name="MediaLink"/>
+          <field type="map" name="Metadata">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="int64" name="Generation"/>
+          <field type="ident" def="int64" name="MetaGeneration"/>
+          <field type="ident" def="string" name="StorageClass"/>
+          <field type="selector" name="Deleted">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="selector" name="Updated">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+        </type>
+        <type type="struct" name="Query">
+          <field type="ident" def="string" name="Delimiter"/>
+          <field type="ident" def="string" name="Prefix"/>
+          <field type="ident" def="bool" name="Versions"/>
+          <field type="ident" def="string" name="Cursor"/>
+          <field type="ident" def="int" name="MaxResults"/>
+        </type>
+        <type type="struct" name="Objects">
+          <field type="slice" name="Results">
+            <elmtype type="pointer">
+              <type type="ident" def="Object"/>
+            </elmtype>
+          </field>
+          <field type="pointer" name="Next">
+            <type type="ident" def="Query"/>
+          </field>
+          <field type="slice" name="Prefixes">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="Writer">
+          <field type="ident" def="ObjectAttrs" name=""/>
+          <field type="selector" name="ctx">
+            <prefix value="context"/>
+            <item value="Context"/>
+          </field>
+          <field type="ident" def="string" name="bucket"/>
+          <field type="ident" def="string" name="name"/>
+          <field type="selector" name="once">
+            <prefix value="sync"/>
+            <item value="Once"/>
+          </field>
+          <field type="ident" def="bool" name="opened"/>
+          <field type="selector" name="r">
+            <prefix value="io"/>
+            <item value="Reader"/>
+          </field>
+          <field type="pointer" name="pw">
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="PipeWriter"/>
+            </type>
+          </field>
+          <field type="chan" dir="3" name="donec">
+            <type type="struct" name=""/>
+          </field>
+          <field type="ident" def="error" name="err"/>
+          <field type="pointer" name="obj">
+            <type type="ident" def="Object"/>
+          </field>
+        </type>
+        <type type="struct" name="SignedURLOptions">
+          <field type="ident" def="string" name="GoogleAccessID"/>
+          <field type="slice" name="PrivateKey">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="string" name="Method"/>
+          <field type="selector" name="Expires">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="ident" def="string" name="ContentType"/>
+          <field type="slice" name="Headers">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="MD5">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type name="ACLRole" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+        <type name="ACLEntity" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+        <type type="struct" name="ACLRule">
+          <field type="ident" def="ACLEntity" name="Entity"/>
+          <field type="ident" def="ACLRole" name="Role"/>
+        </type>
+      </types>
+      <functions>
+        <function name="ContentType">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="contentTyper"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Writer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Writer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Object">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Writer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Object"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="BucketInfo">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ListObjects">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="Query"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Objects"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SignedURL">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="SignedURLOptions"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="StatObject">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Object"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UpdateAttrs">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="ObjectAttrs"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Object"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DeleteObject">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CopyObject">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="ObjectAttrs"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Object"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewReader">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="ReadCloser"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewWriter">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Writer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="DefaultACL">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="ACLRule"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PutDefaultACLRule">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="ACLEntity"/>
+            <type type="ident" def="ACLRole"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DeleteDefaultACLRule">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="ACLEntity"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="BucketACL">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="ACLRule"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PutBucketACLRule">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="ACLEntity"/>
+            <type type="ident" def="ACLRole"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DeleteBucketACLRule">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="ACLEntity"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ACL">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="ACLRule"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PutACLRule">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="ACLEntity"/>
+            <type type="ident" def="ACLRole"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DeleteACLRule">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="ACLEntity"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ErrBucketNotExist"/>
+        <name value="ErrObjectNotExist"/>
+        <name value="ScopeFullControl"/>
+        <name value="ScopeReadOnly"/>
+        <name value="ScopeReadWrite"/>
+        <name value="RoleOwner"/>
+        <name value="RoleReader"/>
+        <name value="AllUsers"/>
+        <name value="AllAuthenticatedUsers"/>
+      </names>
+    </package>
+    <package importpath="google.golang.org/cloud/compute/metadata">
+      <types>
+        <type name="NotDefinedError" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="NotDefinedError"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="OnGCE">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="ProjectID">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NumericProjectID">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="InternalIP">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ExternalIP">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Hostname">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="InstanceTags">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="InstanceID">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="InstanceAttributes">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ProjectAttributes">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="InstanceAttributeValue">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ProjectAttributeValue">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Scopes">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="google.golang.org/cloud/examples/storage/appenginevm">
+      <types/>
+      <functions/>
       <names/>
     </package>
     <package importpath="google.golang.org/cloud/datastore">
@@ -4509,198 +4706,6 @@
         <name value="ErrInvalidKey"/>
         <name value="ErrNoSuchEntity"/>
       </names>
-    </package>
-    <package importpath="google.golang.org/cloud/compute/metadata">
-      <types>
-        <type name="NotDefinedError" type="ident">
-          <type type="ident" def="string"/>
-        </type>
-      </types>
-      <functions>
-        <function name="Error">
-          <recvList>
-            <type type="ident" def="NotDefinedError"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Get">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="OnGCE">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="ProjectID">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NumericProjectID">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="InternalIP">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ExternalIP">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Hostname">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="InstanceTags">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="string"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="InstanceID">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="InstanceAttributes">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="string"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ProjectAttributes">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="string"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="InstanceAttributeValue">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ProjectAttributeValue">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Scopes">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="string"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="google.golang.org/cloud">
-      <types/>
-      <functions>
-        <function name="NewContext">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="Client"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="WithContext">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="Client"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="context"/>
-              <item value="Context"/>
-            </type>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
     </package>
     <package importpath="google.golang.org/cloud/pubsub">
       <types>

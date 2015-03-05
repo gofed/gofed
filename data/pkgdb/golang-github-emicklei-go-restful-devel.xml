@@ -1,278 +1,6 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="golang-github-emicklei-go-restful-0-0.2.git692a500.fc22">
   <packages>
-    <package importpath="github.com/emicklei/go-restful/swagger">
-      <types>
-        <type type="struct" name="SwaggerService">
-          <field type="ident" def="Config" name="config"/>
-          <field type="map" name="apiDeclarationMap">
-            <keytype type="ident" def="string"/>
-            <valtype type="ident" def="ApiDeclaration"/>
-          </field>
-        </type>
-        <type type="struct" name="DataTypeFields">
-          <field type="pointer" name="Type">
-            <type type="ident" def="string"/>
-          </field>
-          <field type="pointer" name="Ref">
-            <type type="ident" def="string"/>
-          </field>
-          <field type="ident" def="string" name="Format"/>
-          <field type="ident" def="Special" name="DefaultValue"/>
-          <field type="slice" name="Enum">
-            <elmtype type="ident" def="string"/>
-          </field>
-          <field type="ident" def="string" name="Minimum"/>
-          <field type="ident" def="string" name="Maximum"/>
-          <field type="slice" name="Items">
-            <elmtype type="ident" def="Item"/>
-          </field>
-          <field type="pointer" name="UniqueItems">
-            <type type="ident" def="bool"/>
-          </field>
-        </type>
-        <type name="Special" type="ident">
-          <type type="ident" def="string"/>
-        </type>
-        <type type="struct" name="Item">
-          <field type="pointer" name="Type">
-            <type type="ident" def="string"/>
-          </field>
-          <field type="pointer" name="Ref">
-            <type type="ident" def="string"/>
-          </field>
-          <field type="ident" def="string" name="Format"/>
-        </type>
-        <type type="struct" name="ResourceListing">
-          <field type="ident" def="string" name="SwaggerVersion"/>
-          <field type="slice" name="Apis">
-            <elmtype type="ident" def="Resource"/>
-          </field>
-          <field type="ident" def="string" name="ApiVersion"/>
-          <field type="ident" def="Info" name="Info"/>
-          <field type="slice" name="Authorizations">
-            <elmtype type="ident" def="Authorization"/>
-          </field>
-        </type>
-        <type type="struct" name="Resource">
-          <field type="ident" def="string" name="Path"/>
-          <field type="ident" def="string" name="Description"/>
-        </type>
-        <type type="struct" name="Info">
-          <field type="ident" def="string" name="Title"/>
-          <field type="ident" def="string" name="Description"/>
-          <field type="ident" def="string" name="TermsOfServiceUrl"/>
-          <field type="ident" def="string" name="Contact"/>
-          <field type="ident" def="string" name="License"/>
-          <field type="ident" def="string" name="LicensUrl"/>
-        </type>
-        <type type="struct" name="Authorization">
-          <field type="ident" def="string" name="Type"/>
-          <field type="ident" def="string" name="PassAs"/>
-          <field type="ident" def="string" name="Keyname"/>
-          <field type="slice" name="Scopes">
-            <elmtype type="ident" def="Scope"/>
-          </field>
-          <field type="slice" name="GrantTypes">
-            <elmtype type="ident" def="GrantType"/>
-          </field>
-        </type>
-        <type type="struct" name="Scope">
-          <field type="ident" def="string" name="Scope"/>
-          <field type="ident" def="string" name="Description"/>
-        </type>
-        <type type="struct" name="GrantType">
-          <field type="ident" def="Implicit" name="Implicit"/>
-          <field type="ident" def="AuthorizationCode" name="AuthorizationCode"/>
-        </type>
-        <type type="struct" name="Implicit">
-          <field type="ident" def="LoginEndpoint" name="loginEndpoint"/>
-          <field type="ident" def="string" name="TokenName"/>
-        </type>
-        <type type="struct" name="AuthorizationCode">
-          <field type="ident" def="TokenRequestEndpoint" name="TokenRequestEndpoint"/>
-          <field type="ident" def="TokenEndpoint" name="TokenEndpoint"/>
-        </type>
-        <type type="struct" name="LoginEndpoint">
-          <field type="ident" def="string" name="Url"/>
-        </type>
-        <type type="struct" name="TokenRequestEndpoint">
-          <field type="ident" def="string" name="Url"/>
-          <field type="ident" def="string" name="ClientIdName"/>
-          <field type="ident" def="string" name="ClientSecretName"/>
-        </type>
-        <type type="struct" name="TokenEndpoint">
-          <field type="ident" def="string" name="Url"/>
-          <field type="ident" def="string" name="TokenName"/>
-        </type>
-        <type type="struct" name="ApiDeclaration">
-          <field type="ident" def="string" name="SwaggerVersion"/>
-          <field type="ident" def="string" name="ApiVersion"/>
-          <field type="ident" def="string" name="BasePath"/>
-          <field type="ident" def="string" name="ResourcePath"/>
-          <field type="slice" name="Apis">
-            <elmtype type="ident" def="Api"/>
-          </field>
-          <field type="map" name="Models">
-            <keytype type="ident" def="string"/>
-            <valtype type="ident" def="Model"/>
-          </field>
-          <field type="slice" name="Produces">
-            <elmtype type="ident" def="string"/>
-          </field>
-          <field type="slice" name="Consumes">
-            <elmtype type="ident" def="string"/>
-          </field>
-          <field type="slice" name="Authorizations">
-            <elmtype type="ident" def="Authorization"/>
-          </field>
-        </type>
-        <type type="struct" name="Api">
-          <field type="ident" def="string" name="Path"/>
-          <field type="ident" def="string" name="Description"/>
-          <field type="slice" name="Operations">
-            <elmtype type="ident" def="Operation"/>
-          </field>
-        </type>
-        <type type="struct" name="Operation">
-          <field type="ident" def="string" name="Type"/>
-          <field type="ident" def="string" name="Method"/>
-          <field type="ident" def="string" name="Summary"/>
-          <field type="ident" def="string" name="Notes"/>
-          <field type="ident" def="string" name="Nickname"/>
-          <field type="slice" name="Authorizations">
-            <elmtype type="ident" def="Authorization"/>
-          </field>
-          <field type="slice" name="Parameters">
-            <elmtype type="ident" def="Parameter"/>
-          </field>
-          <field type="slice" name="ResponseMessages">
-            <elmtype type="ident" def="ResponseMessage"/>
-          </field>
-          <field type="slice" name="Produces">
-            <elmtype type="ident" def="string"/>
-          </field>
-          <field type="slice" name="Consumes">
-            <elmtype type="ident" def="string"/>
-          </field>
-          <field type="ident" def="string" name="Deprecated"/>
-        </type>
-        <type type="struct" name="Parameter">
-          <field type="ident" def="DataTypeFields" name=""/>
-          <field type="ident" def="string" name="ParamType"/>
-          <field type="ident" def="string" name="Name"/>
-          <field type="ident" def="string" name="Description"/>
-          <field type="ident" def="bool" name="Required"/>
-          <field type="ident" def="bool" name="AllowMultiple"/>
-        </type>
-        <type type="struct" name="ResponseMessage">
-          <field type="ident" def="int" name="Code"/>
-          <field type="ident" def="string" name="Message"/>
-          <field type="ident" def="string" name="ResponseModel"/>
-        </type>
-        <type type="struct" name="Model">
-          <field type="ident" def="string" name="Id"/>
-          <field type="ident" def="string" name="Description"/>
-          <field type="slice" name="Required">
-            <elmtype type="ident" def="string"/>
-          </field>
-          <field type="map" name="Properties">
-            <keytype type="ident" def="string"/>
-            <valtype type="ident" def="ModelProperty"/>
-          </field>
-          <field type="slice" name="SubTypes">
-            <elmtype type="ident" def="string"/>
-          </field>
-          <field type="ident" def="string" name="Discriminator"/>
-        </type>
-        <type type="struct" name="ModelProperty">
-          <field type="ident" def="DataTypeFields" name=""/>
-          <field type="ident" def="string" name="Description"/>
-        </type>
-        <type name="Authorizations" type="map">
-          <keytype type="ident" def="string"/>
-          <valtype type="ident" def="Authorization"/>
-        </type>
-        <type name="ParameterSorter" type="slice">
-          <elmtype type="ident" def="Parameter"/>
-        </type>
-        <type type="struct" name="Config">
-          <field type="ident" def="string" name="WebServicesUrl"/>
-          <field type="ident" def="string" name="ApiPath"/>
-          <field type="ident" def="string" name="SwaggerPath"/>
-          <field type="ident" def="string" name="SwaggerFilePath"/>
-          <field type="slice" name="WebServices">
-            <elmtype type="pointer">
-              <type type="selector">
-                <prefix value="restful"/>
-                <item value="WebService"/>
-              </type>
-            </elmtype>
-          </field>
-          <field type="selector" name="StaticHandler">
-            <prefix value="http"/>
-            <item value="Handler"/>
-          </field>
-          <field type="ident" def="bool" name="DisableCORS"/>
-        </type>
-      </types>
-      <functions>
-        <function name="InstallSwaggerService">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Config"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="RegisterSwaggerService">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Config"/>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="restful"/>
-                <item value="Container"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="ident" def="ParameterSorter"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Swap">
-          <recvList>
-            <type type="ident" def="ParameterSorter"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Less">
-          <recvList>
-            <type type="ident" def="ParameterSorter"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="LogInfo"/>
-      </names>
-    </package>
     <package importpath="github.com/emicklei/go-restful">
       <types>
         <type type="struct" name="WebService">
@@ -2123,6 +1851,278 @@
         <name value="ENCODING_GZIP"/>
         <name value="ENCODING_DEFLATE"/>
         <name value="EnableContentEncoding"/>
+      </names>
+    </package>
+    <package importpath="github.com/emicklei/go-restful/swagger">
+      <types>
+        <type type="struct" name="SwaggerService">
+          <field type="ident" def="Config" name="config"/>
+          <field type="map" name="apiDeclarationMap">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="ApiDeclaration"/>
+          </field>
+        </type>
+        <type type="struct" name="DataTypeFields">
+          <field type="pointer" name="Type">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Ref">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Format"/>
+          <field type="ident" def="Special" name="DefaultValue"/>
+          <field type="slice" name="Enum">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Minimum"/>
+          <field type="ident" def="string" name="Maximum"/>
+          <field type="slice" name="Items">
+            <elmtype type="ident" def="Item"/>
+          </field>
+          <field type="pointer" name="UniqueItems">
+            <type type="ident" def="bool"/>
+          </field>
+        </type>
+        <type name="Special" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+        <type type="struct" name="Item">
+          <field type="pointer" name="Type">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Ref">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Format"/>
+        </type>
+        <type type="struct" name="ResourceListing">
+          <field type="ident" def="string" name="SwaggerVersion"/>
+          <field type="slice" name="Apis">
+            <elmtype type="ident" def="Resource"/>
+          </field>
+          <field type="ident" def="string" name="ApiVersion"/>
+          <field type="ident" def="Info" name="Info"/>
+          <field type="slice" name="Authorizations">
+            <elmtype type="ident" def="Authorization"/>
+          </field>
+        </type>
+        <type type="struct" name="Resource">
+          <field type="ident" def="string" name="Path"/>
+          <field type="ident" def="string" name="Description"/>
+        </type>
+        <type type="struct" name="Info">
+          <field type="ident" def="string" name="Title"/>
+          <field type="ident" def="string" name="Description"/>
+          <field type="ident" def="string" name="TermsOfServiceUrl"/>
+          <field type="ident" def="string" name="Contact"/>
+          <field type="ident" def="string" name="License"/>
+          <field type="ident" def="string" name="LicensUrl"/>
+        </type>
+        <type type="struct" name="Authorization">
+          <field type="ident" def="string" name="Type"/>
+          <field type="ident" def="string" name="PassAs"/>
+          <field type="ident" def="string" name="Keyname"/>
+          <field type="slice" name="Scopes">
+            <elmtype type="ident" def="Scope"/>
+          </field>
+          <field type="slice" name="GrantTypes">
+            <elmtype type="ident" def="GrantType"/>
+          </field>
+        </type>
+        <type type="struct" name="Scope">
+          <field type="ident" def="string" name="Scope"/>
+          <field type="ident" def="string" name="Description"/>
+        </type>
+        <type type="struct" name="GrantType">
+          <field type="ident" def="Implicit" name="Implicit"/>
+          <field type="ident" def="AuthorizationCode" name="AuthorizationCode"/>
+        </type>
+        <type type="struct" name="Implicit">
+          <field type="ident" def="LoginEndpoint" name="loginEndpoint"/>
+          <field type="ident" def="string" name="TokenName"/>
+        </type>
+        <type type="struct" name="AuthorizationCode">
+          <field type="ident" def="TokenRequestEndpoint" name="TokenRequestEndpoint"/>
+          <field type="ident" def="TokenEndpoint" name="TokenEndpoint"/>
+        </type>
+        <type type="struct" name="LoginEndpoint">
+          <field type="ident" def="string" name="Url"/>
+        </type>
+        <type type="struct" name="TokenRequestEndpoint">
+          <field type="ident" def="string" name="Url"/>
+          <field type="ident" def="string" name="ClientIdName"/>
+          <field type="ident" def="string" name="ClientSecretName"/>
+        </type>
+        <type type="struct" name="TokenEndpoint">
+          <field type="ident" def="string" name="Url"/>
+          <field type="ident" def="string" name="TokenName"/>
+        </type>
+        <type type="struct" name="ApiDeclaration">
+          <field type="ident" def="string" name="SwaggerVersion"/>
+          <field type="ident" def="string" name="ApiVersion"/>
+          <field type="ident" def="string" name="BasePath"/>
+          <field type="ident" def="string" name="ResourcePath"/>
+          <field type="slice" name="Apis">
+            <elmtype type="ident" def="Api"/>
+          </field>
+          <field type="map" name="Models">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="Model"/>
+          </field>
+          <field type="slice" name="Produces">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="Consumes">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="Authorizations">
+            <elmtype type="ident" def="Authorization"/>
+          </field>
+        </type>
+        <type type="struct" name="Api">
+          <field type="ident" def="string" name="Path"/>
+          <field type="ident" def="string" name="Description"/>
+          <field type="slice" name="Operations">
+            <elmtype type="ident" def="Operation"/>
+          </field>
+        </type>
+        <type type="struct" name="Operation">
+          <field type="ident" def="string" name="Type"/>
+          <field type="ident" def="string" name="Method"/>
+          <field type="ident" def="string" name="Summary"/>
+          <field type="ident" def="string" name="Notes"/>
+          <field type="ident" def="string" name="Nickname"/>
+          <field type="slice" name="Authorizations">
+            <elmtype type="ident" def="Authorization"/>
+          </field>
+          <field type="slice" name="Parameters">
+            <elmtype type="ident" def="Parameter"/>
+          </field>
+          <field type="slice" name="ResponseMessages">
+            <elmtype type="ident" def="ResponseMessage"/>
+          </field>
+          <field type="slice" name="Produces">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="Consumes">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Deprecated"/>
+        </type>
+        <type type="struct" name="Parameter">
+          <field type="ident" def="DataTypeFields" name=""/>
+          <field type="ident" def="string" name="ParamType"/>
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="Description"/>
+          <field type="ident" def="bool" name="Required"/>
+          <field type="ident" def="bool" name="AllowMultiple"/>
+        </type>
+        <type type="struct" name="ResponseMessage">
+          <field type="ident" def="int" name="Code"/>
+          <field type="ident" def="string" name="Message"/>
+          <field type="ident" def="string" name="ResponseModel"/>
+        </type>
+        <type type="struct" name="Model">
+          <field type="ident" def="string" name="Id"/>
+          <field type="ident" def="string" name="Description"/>
+          <field type="slice" name="Required">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="map" name="Properties">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="ModelProperty"/>
+          </field>
+          <field type="slice" name="SubTypes">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Discriminator"/>
+        </type>
+        <type type="struct" name="ModelProperty">
+          <field type="ident" def="DataTypeFields" name=""/>
+          <field type="ident" def="string" name="Description"/>
+        </type>
+        <type name="Authorizations" type="map">
+          <keytype type="ident" def="string"/>
+          <valtype type="ident" def="Authorization"/>
+        </type>
+        <type name="ParameterSorter" type="slice">
+          <elmtype type="ident" def="Parameter"/>
+        </type>
+        <type type="struct" name="Config">
+          <field type="ident" def="string" name="WebServicesUrl"/>
+          <field type="ident" def="string" name="ApiPath"/>
+          <field type="ident" def="string" name="SwaggerPath"/>
+          <field type="ident" def="string" name="SwaggerFilePath"/>
+          <field type="slice" name="WebServices">
+            <elmtype type="pointer">
+              <type type="selector">
+                <prefix value="restful"/>
+                <item value="WebService"/>
+              </type>
+            </elmtype>
+          </field>
+          <field type="selector" name="StaticHandler">
+            <prefix value="http"/>
+            <item value="Handler"/>
+          </field>
+          <field type="ident" def="bool" name="DisableCORS"/>
+        </type>
+      </types>
+      <functions>
+        <function name="InstallSwaggerService">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Config"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RegisterSwaggerService">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Config"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="restful"/>
+                <item value="Container"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="ParameterSorter"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="ParameterSorter"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="ParameterSorter"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="LogInfo"/>
       </names>
     </package>
   </packages>

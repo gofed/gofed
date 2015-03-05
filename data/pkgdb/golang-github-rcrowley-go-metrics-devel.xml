@@ -1,6 +1,230 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="golang-github-rcrowley-go-metrics-0-0.2.gitdee209f.fc22">
   <packages>
+    <package importpath="github.com/rcrowley/go-metrics/librato">
+      <types>
+        <type type="struct" name="Reporter">
+          <field type="ident" def="string" name="Email"/>
+          <field type="ident" def="string" name="Token"/>
+          <field type="ident" def="string" name="Source"/>
+          <field type="selector" name="Interval">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="Registry">
+            <prefix value="metrics"/>
+            <item value="Registry"/>
+          </field>
+          <field type="slice" name="Percentiles">
+            <elmtype type="ident" def="float64"/>
+          </field>
+          <field type="map" name="TimerAttributes">
+            <keytype type="ident" def="string"/>
+            <valtype type="interface"/>
+          </field>
+          <field type="ident" def="int64" name="intervalSec"/>
+        </type>
+        <type type="struct" name="LibratoClient">
+          <field type="ident" def="string" name="Email"/>
+          <field type="ident" def="string" name="Token"/>
+        </type>
+        <type name="Measurement" type="map">
+          <keytype type="ident" def="string"/>
+          <valtype type="interface"/>
+        </type>
+        <type name="Metric" type="map">
+          <keytype type="ident" def="string"/>
+          <valtype type="interface"/>
+        </type>
+        <type type="struct" name="Batch">
+          <field type="slice" name="Gauges">
+            <elmtype type="ident" def="Measurement"/>
+          </field>
+          <field type="slice" name="Counters">
+            <elmtype type="ident" def="Measurement"/>
+          </field>
+          <field type="ident" def="int64" name="MeasureTime"/>
+          <field type="ident" def="string" name="Source"/>
+        </type>
+      </types>
+      <functions>
+        <function name="NewReporter">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="metrics"/>
+              <item value="Registry"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Librato">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="metrics"/>
+              <item value="Registry"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="ident" def="float64"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Run">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="BuildRequest">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+            <type type="selector">
+              <prefix value="metrics"/>
+              <item value="Registry"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Batch"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PostMetrics">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LibratoClient"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Batch"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="Operations"/>
+        <name value="OperationsShort"/>
+        <name value="Color"/>
+        <name value="DisplayMax"/>
+        <name value="DisplayMin"/>
+        <name value="DisplayUnitsLong"/>
+        <name value="DisplayUnitsShort"/>
+        <name value="DisplayStacked"/>
+        <name value="DisplayTransform"/>
+        <name value="SummarizeFunction"/>
+        <name value="Aggregate"/>
+        <name value="Name"/>
+        <name value="Period"/>
+        <name value="Description"/>
+        <name value="DisplayName"/>
+        <name value="Attributes"/>
+        <name value="MeasureTime"/>
+        <name value="Source"/>
+        <name value="Value"/>
+        <name value="Count"/>
+        <name value="Sum"/>
+        <name value="Max"/>
+        <name value="Min"/>
+        <name value="SumSquares"/>
+        <name value="Counters"/>
+        <name value="Gauges"/>
+        <name value="MetricsPostUrl"/>
+      </names>
+    </package>
+    <package importpath="github.com/rcrowley/go-metrics/stathat">
+      <types/>
+      <functions>
+        <function name="Stathat">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="metrics"/>
+              <item value="Registry"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/rcrowley/go-metrics/influxdb">
+      <types>
+        <type type="struct" name="Config">
+          <field type="ident" def="string" name="Host"/>
+          <field type="ident" def="string" name="Database"/>
+          <field type="ident" def="string" name="Username"/>
+          <field type="ident" def="string" name="Password"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Influxdb">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="metrics"/>
+              <item value="Registry"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Config"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
     <package importpath="github.com/rcrowley/go-metrics">
       <types>
         <type name="Timer" type="interface">
@@ -3663,230 +3887,6 @@
         <name value="DefaultRegistry"/>
         <name value="UseNilMetrics"/>
       </names>
-    </package>
-    <package importpath="github.com/rcrowley/go-metrics/librato">
-      <types>
-        <type type="struct" name="Reporter">
-          <field type="ident" def="string" name="Email"/>
-          <field type="ident" def="string" name="Token"/>
-          <field type="ident" def="string" name="Source"/>
-          <field type="selector" name="Interval">
-            <prefix value="time"/>
-            <item value="Duration"/>
-          </field>
-          <field type="selector" name="Registry">
-            <prefix value="metrics"/>
-            <item value="Registry"/>
-          </field>
-          <field type="slice" name="Percentiles">
-            <elmtype type="ident" def="float64"/>
-          </field>
-          <field type="map" name="TimerAttributes">
-            <keytype type="ident" def="string"/>
-            <valtype type="interface"/>
-          </field>
-          <field type="ident" def="int64" name="intervalSec"/>
-        </type>
-        <type type="struct" name="LibratoClient">
-          <field type="ident" def="string" name="Email"/>
-          <field type="ident" def="string" name="Token"/>
-        </type>
-        <type name="Measurement" type="map">
-          <keytype type="ident" def="string"/>
-          <valtype type="interface"/>
-        </type>
-        <type name="Metric" type="map">
-          <keytype type="ident" def="string"/>
-          <valtype type="interface"/>
-        </type>
-        <type type="struct" name="Batch">
-          <field type="slice" name="Gauges">
-            <elmtype type="ident" def="Measurement"/>
-          </field>
-          <field type="slice" name="Counters">
-            <elmtype type="ident" def="Measurement"/>
-          </field>
-          <field type="ident" def="int64" name="MeasureTime"/>
-          <field type="ident" def="string" name="Source"/>
-        </type>
-      </types>
-      <functions>
-        <function name="NewReporter">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="metrics"/>
-              <item value="Registry"/>
-            </type>
-            <type type="selector">
-              <prefix value="time"/>
-              <item value="Duration"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="ident" def="float64"/>
-            </type>
-            <type type="selector">
-              <prefix value="time"/>
-              <item value="Duration"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Reporter"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Librato">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="metrics"/>
-              <item value="Registry"/>
-            </type>
-            <type type="selector">
-              <prefix value="time"/>
-              <item value="Duration"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="ident" def="float64"/>
-            </type>
-            <type type="selector">
-              <prefix value="time"/>
-              <item value="Duration"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Run">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Reporter"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="BuildRequest">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Reporter"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="time"/>
-              <item value="Time"/>
-            </type>
-            <type type="selector">
-              <prefix value="metrics"/>
-              <item value="Registry"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Batch"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="PostMetrics">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="LibratoClient"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="Batch"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="Operations"/>
-        <name value="OperationsShort"/>
-        <name value="Color"/>
-        <name value="DisplayMax"/>
-        <name value="DisplayMin"/>
-        <name value="DisplayUnitsLong"/>
-        <name value="DisplayUnitsShort"/>
-        <name value="DisplayStacked"/>
-        <name value="DisplayTransform"/>
-        <name value="SummarizeFunction"/>
-        <name value="Aggregate"/>
-        <name value="Name"/>
-        <name value="Period"/>
-        <name value="Description"/>
-        <name value="DisplayName"/>
-        <name value="Attributes"/>
-        <name value="MeasureTime"/>
-        <name value="Source"/>
-        <name value="Value"/>
-        <name value="Count"/>
-        <name value="Sum"/>
-        <name value="Max"/>
-        <name value="Min"/>
-        <name value="SumSquares"/>
-        <name value="Counters"/>
-        <name value="Gauges"/>
-        <name value="MetricsPostUrl"/>
-      </names>
-    </package>
-    <package importpath="github.com/rcrowley/go-metrics/influxdb">
-      <types>
-        <type type="struct" name="Config">
-          <field type="ident" def="string" name="Host"/>
-          <field type="ident" def="string" name="Database"/>
-          <field type="ident" def="string" name="Username"/>
-          <field type="ident" def="string" name="Password"/>
-        </type>
-      </types>
-      <functions>
-        <function name="Influxdb">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="metrics"/>
-              <item value="Registry"/>
-            </type>
-            <type type="selector">
-              <prefix value="time"/>
-              <item value="Duration"/>
-            </type>
-            <type type="pointer">
-              <type type="ident" def="Config"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/rcrowley/go-metrics/stathat">
-      <types/>
-      <functions>
-        <function name="Stathat">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="metrics"/>
-              <item value="Registry"/>
-            </type>
-            <type type="selector">
-              <prefix value="time"/>
-              <item value="Duration"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-      </functions>
-      <names/>
     </package>
   </packages>
   <imports>

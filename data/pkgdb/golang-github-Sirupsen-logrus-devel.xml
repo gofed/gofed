@@ -65,15 +65,50 @@
       </functions>
       <names/>
     </package>
-    <package importpath="github.com/Sirupsen/logrus/hooks/airbrake">
+    <package importpath="github.com/Sirupsen/logrus/hooks/sentry">
       <types>
-        <type type="struct" name="AirbrakeHook"/>
+        <type type="struct" name="SentryHook">
+          <field type="selector" name="Timeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="pointer" name="client">
+            <type type="selector">
+              <prefix value="raven"/>
+              <item value="Client"/>
+            </type>
+          </field>
+          <field type="slice" name="levels">
+            <elmtype type="selector">
+              <prefix value="logrus"/>
+              <item value="Level"/>
+            </elmtype>
+          </field>
+        </type>
       </types>
       <functions>
+        <function name="NewSentryHook">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="logrus"/>
+                <item value="Level"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="SentryHook"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
         <function name="Fire">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="AirbrakeHook"/>
+              <type type="ident" def="SentryHook"/>
             </type>
           </recvList>
           <paramsList>
@@ -91,7 +126,7 @@
         <function name="Levels">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="AirbrakeHook"/>
+              <type type="ident" def="SentryHook"/>
             </type>
           </recvList>
           <paramsList/>
@@ -1407,6 +1442,48 @@
         <name value="DebugLevel"/>
       </names>
     </package>
+    <package importpath="github.com/Sirupsen/logrus/hooks/airbrake">
+      <types>
+        <type type="struct" name="AirbrakeHook"/>
+      </types>
+      <functions>
+        <function name="Fire">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AirbrakeHook"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="logrus"/>
+                <item value="Entry"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Levels">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AirbrakeHook"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="logrus"/>
+                <item value="Level"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
     <package importpath="github.com/Sirupsen/logrus/hooks/syslog">
       <types>
         <type type="struct" name="SyslogHook">
@@ -1461,83 +1538,6 @@
           <recvList>
             <type type="pointer">
               <type type="ident" def="SyslogHook"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="logrus"/>
-                <item value="Level"/>
-              </elmtype>
-            </type>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/Sirupsen/logrus/hooks/sentry">
-      <types>
-        <type type="struct" name="SentryHook">
-          <field type="selector" name="Timeout">
-            <prefix value="time"/>
-            <item value="Duration"/>
-          </field>
-          <field type="pointer" name="client">
-            <type type="selector">
-              <prefix value="raven"/>
-              <item value="Client"/>
-            </type>
-          </field>
-          <field type="slice" name="levels">
-            <elmtype type="selector">
-              <prefix value="logrus"/>
-              <item value="Level"/>
-            </elmtype>
-          </field>
-        </type>
-      </types>
-      <functions>
-        <function name="NewSentryHook">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="logrus"/>
-                <item value="Level"/>
-              </elmtype>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="SentryHook"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Fire">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="SentryHook"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="logrus"/>
-                <item value="Entry"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Levels">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="SentryHook"/>
             </type>
           </recvList>
           <paramsList/>

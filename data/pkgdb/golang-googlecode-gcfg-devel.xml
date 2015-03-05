@@ -1,6 +1,338 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="golang-googlecode-gcfg-0-0.4.gitc2d3050.fc22">
   <packages>
+    <package importpath="code.google.com/p/gcfg">
+      <types/>
+      <functions>
+        <function name="ReadInto">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ReadStringInto">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ReadFileInto">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/gcfg/types">
+      <types>
+        <type name="IntMode" type="ident">
+          <type type="ident" def="uint8"/>
+        </type>
+        <type type="struct" name="EnumParser">
+          <field type="ident" def="string" name="Type"/>
+          <field type="ident" def="bool" name="CaseMatch"/>
+          <field type="map" name="vals">
+            <keytype type="ident" def="string"/>
+            <valtype type="interface"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="ScanFully">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="byte"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="IntMode"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ParseInt">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="IntMode"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AddVals">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EnumParser"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Parse">
+          <recvList>
+            <type type="ident" def="EnumParser"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ParseBool">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="Dec"/>
+        <name value="Hex"/>
+        <name value="Oct"/>
+        <name value="BoolValues"/>
+      </names>
+    </package>
+    <package importpath="code.google.com/p/gcfg/scanner">
+      <types>
+        <type name="ErrorHandler" type="func">
+          <paramsList>
+            <type type="selector">
+              <prefix value="token"/>
+              <item value="Position"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList/>
+        </type>
+        <type type="struct" name="Scanner">
+          <field type="pointer" name="file">
+            <type type="selector">
+              <prefix value="token"/>
+              <item value="File"/>
+            </type>
+          </field>
+          <field type="ident" def="string" name="dir"/>
+          <field type="slice" name="src">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="ErrorHandler" name="err"/>
+          <field type="ident" def="Mode" name="mode"/>
+          <field type="ident" def="rune" name="ch"/>
+          <field type="ident" def="int" name="offset"/>
+          <field type="ident" def="int" name="rdOffset"/>
+          <field type="ident" def="int" name="lineOffset"/>
+          <field type="ident" def="bool" name="nextVal"/>
+          <field type="ident" def="int" name="ErrorCount"/>
+        </type>
+        <type name="Mode" type="ident">
+          <type type="ident" def="uint"/>
+        </type>
+        <type type="struct" name="Error">
+          <field type="selector" name="Pos">
+            <prefix value="token"/>
+            <item value="Position"/>
+          </field>
+          <field type="ident" def="string" name="Msg"/>
+        </type>
+        <type name="ErrorList" type="slice">
+          <elmtype type="pointer">
+            <type type="ident" def="Error"/>
+          </elmtype>
+        </type>
+      </types>
+      <functions>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Scanner"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="token"/>
+                <item value="File"/>
+              </type>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="ErrorHandler"/>
+            <type type="ident" def="Mode"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Scan">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Scanner"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="token"/>
+              <item value="Pos"/>
+            </type>
+            <type type="selector">
+              <prefix value="token"/>
+              <item value="Token"/>
+            </type>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="Error"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ErrorList"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="token"/>
+              <item value="Position"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ErrorList"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="ErrorList"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="ErrorList"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="ErrorList"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Sort">
+          <recvList>
+            <type type="ident" def="ErrorList"/>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="RemoveMultiples">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ErrorList"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="ErrorList"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Err">
+          <recvList>
+            <type type="ident" def="ErrorList"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PrintError">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names>
+        <name value="ScanComments"/>
+      </names>
+    </package>
     <package importpath="code.google.com/p/gcfg/token">
       <types>
         <type name="Token" type="ident">
@@ -388,338 +720,6 @@
         <name value="EOL"/>
         <name value="NoPos"/>
       </names>
-    </package>
-    <package importpath="code.google.com/p/gcfg/scanner">
-      <types>
-        <type name="ErrorHandler" type="func">
-          <paramsList>
-            <type type="selector">
-              <prefix value="token"/>
-              <item value="Position"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList/>
-        </type>
-        <type type="struct" name="Scanner">
-          <field type="pointer" name="file">
-            <type type="selector">
-              <prefix value="token"/>
-              <item value="File"/>
-            </type>
-          </field>
-          <field type="ident" def="string" name="dir"/>
-          <field type="slice" name="src">
-            <elmtype type="ident" def="byte"/>
-          </field>
-          <field type="ident" def="ErrorHandler" name="err"/>
-          <field type="ident" def="Mode" name="mode"/>
-          <field type="ident" def="rune" name="ch"/>
-          <field type="ident" def="int" name="offset"/>
-          <field type="ident" def="int" name="rdOffset"/>
-          <field type="ident" def="int" name="lineOffset"/>
-          <field type="ident" def="bool" name="nextVal"/>
-          <field type="ident" def="int" name="ErrorCount"/>
-        </type>
-        <type name="Mode" type="ident">
-          <type type="ident" def="uint"/>
-        </type>
-        <type type="struct" name="Error">
-          <field type="selector" name="Pos">
-            <prefix value="token"/>
-            <item value="Position"/>
-          </field>
-          <field type="ident" def="string" name="Msg"/>
-        </type>
-        <type name="ErrorList" type="slice">
-          <elmtype type="pointer">
-            <type type="ident" def="Error"/>
-          </elmtype>
-        </type>
-      </types>
-      <functions>
-        <function name="Init">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Scanner"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="token"/>
-                <item value="File"/>
-              </type>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="ErrorHandler"/>
-            <type type="ident" def="Mode"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Scan">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Scanner"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="token"/>
-              <item value="Pos"/>
-            </type>
-            <type type="selector">
-              <prefix value="token"/>
-              <item value="Token"/>
-            </type>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Error">
-          <recvList>
-            <type type="ident" def="Error"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Add">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="ErrorList"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="token"/>
-              <item value="Position"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Reset">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="ErrorList"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="ident" def="ErrorList"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Swap">
-          <recvList>
-            <type type="ident" def="ErrorList"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Less">
-          <recvList>
-            <type type="ident" def="ErrorList"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Sort">
-          <recvList>
-            <type type="ident" def="ErrorList"/>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="RemoveMultiples">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="ErrorList"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="Error">
-          <recvList>
-            <type type="ident" def="ErrorList"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Err">
-          <recvList>
-            <type type="ident" def="ErrorList"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="PrintError">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-            <type type="ident" def="error"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-      </functions>
-      <names>
-        <name value="ScanComments"/>
-      </names>
-    </package>
-    <package importpath="code.google.com/p/gcfg/types">
-      <types>
-        <type name="IntMode" type="ident">
-          <type type="ident" def="uint8"/>
-        </type>
-        <type type="struct" name="EnumParser">
-          <field type="ident" def="string" name="Type"/>
-          <field type="ident" def="bool" name="CaseMatch"/>
-          <field type="map" name="vals">
-            <keytype type="ident" def="string"/>
-            <valtype type="interface"/>
-          </field>
-        </type>
-      </types>
-      <functions>
-        <function name="ScanFully">
-          <recvList/>
-          <paramsList>
-            <type type="interface"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="byte"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="ident" def="IntMode"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="ParseInt">
-          <recvList/>
-          <paramsList>
-            <type type="interface"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="IntMode"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="AddVals">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="EnumParser"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Parse">
-          <recvList>
-            <type type="ident" def="EnumParser"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="interface"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ParseBool">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="Dec"/>
-        <name value="Hex"/>
-        <name value="Oct"/>
-        <name value="BoolValues"/>
-      </names>
-    </package>
-    <package importpath="code.google.com/p/gcfg">
-      <types/>
-      <functions>
-        <function name="ReadInto">
-          <recvList/>
-          <paramsList>
-            <type type="interface"/>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ReadStringInto">
-          <recvList/>
-          <paramsList>
-            <type type="interface"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ReadFileInto">
-          <recvList/>
-          <paramsList>
-            <type type="interface"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
     </package>
   </packages>
   <imports>

@@ -1,16 +1,362 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="golang-googlecode-gomock-0-0.1.hge033c7513ca3.fc22">
   <packages>
-    <package importpath="code.google.com/p/gomock/sample/imp2">
+    <package importpath="code.google.com/p/gomock/gomock/mock_matcher">
       <types>
-        <type type="struct" name="Imp2"/>
+        <type type="struct" name="MockMatcher">
+          <field type="pointer" name="ctrl">
+            <type type="selector">
+              <prefix value="gomock"/>
+              <item value="Controller"/>
+            </type>
+          </field>
+          <field type="pointer" name="recorder">
+            <type type="ident" def="_MockMatcherRecorder"/>
+          </field>
+        </type>
       </types>
-      <functions/>
+      <functions>
+        <function name="NewMockMatcher">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="gomock"/>
+                <item value="Controller"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="MockMatcher"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="EXPECT">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MockMatcher"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="_MockMatcherRecorder"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Matches">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MockMatcher"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Matches">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="_MockMatcherRecorder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="gomock"/>
+                <item value="Call"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MockMatcher"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="_MockMatcherRecorder"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="gomock"/>
+                <item value="Call"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
       <names/>
     </package>
     <package importpath="code.google.com/p/gomock/sample/imp3">
       <types>
         <type type="struct" name="Imp3"/>
+      </types>
+      <functions/>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/gomock/sample">
+      <types>
+        <type name="Index" type="interface">
+          <method name="Get">
+            <paramsList>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="interface"/>
+            </resultsList>
+          </method>
+          <method name="GetTwo">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="interface"/>
+              <type type="interface"/>
+            </resultsList>
+          </method>
+          <method name="Put">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="interface"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Summary">
+            <paramsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="btz"/>
+                  <item value="Buffer"/>
+                </type>
+              </type>
+              <type type="selector">
+                <prefix value="io"/>
+                <item value="Writer"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Other">
+            <paramsList/>
+            <resultsList>
+              <type type="selector">
+                <prefix value="hash"/>
+                <item value="Hash"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Templates">
+            <paramsList>
+              <type type="selector">
+                <prefix value="t1"/>
+                <item value="CSS"/>
+              </type>
+              <type type="selector">
+                <prefix value="t2"/>
+                <item value="FuncMap"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Anon">
+            <paramsList>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="ForeignOne">
+            <paramsList>
+              <type type="selector">
+                <prefix value="imp1"/>
+                <item value="Imp1"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="ForeignTwo">
+            <paramsList>
+              <type type="selector">
+                <prefix value="renamed2"/>
+                <item value="Imp2"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="ForeignThree">
+            <paramsList>
+              <type type="ident" def="Imp3"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="ForeignFour">
+            <paramsList>
+              <type type="selector">
+                <prefix value="imp_four"/>
+                <item value="Imp4"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="NillableRet">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="ConcreteRet">
+            <paramsList/>
+            <resultsList>
+              <type type="chan" dir="1">
+                <type type="ident" def="bool"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Ellip">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="EllipOnly">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="ident" def="string"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Ptr">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="int"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Slice">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="int"/>
+              </type>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="array">
+                <elmtype type="ident" def="int"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Chan">
+            <paramsList>
+              <type type="chan" dir="3">
+                <type type="ident" def="int"/>
+              </type>
+              <type type="chan" dir="1">
+                <type type="selector">
+                  <prefix value="hash"/>
+                  <item value="Hash"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Func">
+            <paramsList>
+              <type type="func">
+                <paramsList>
+                  <type type="selector">
+                    <prefix value="http"/>
+                    <item value="Request"/>
+                  </type>
+                </paramsList>
+                <resultsList>
+                  <type type="ident" def="int"/>
+                  <type type="ident" def="bool"/>
+                </resultsList>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Map">
+            <paramsList>
+              <type type="map">
+                <keytype type="ident" def="int"/>
+                <valtype type="selector">
+                  <prefix value="hash"/>
+                  <item value="Hash"/>
+                </valtype>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type name="Embed" type="interface">
+          <method name="RegularMethod">
+            <paramsList/>
+            <resultsList/>
+          </method>
+        </type>
+        <type name="Embedded" type="interface">
+          <method name="EmbeddedMethod">
+            <paramsList/>
+            <resultsList/>
+          </method>
+        </type>
+      </types>
+      <functions>
+        <function name="Remember">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Index"/>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GrabPointer">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Index"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/gomock/sample/imp4">
+      <types>
+        <type type="struct" name="Imp4"/>
       </types>
       <functions/>
       <names/>
@@ -50,6 +396,724 @@
             <resultsList/>
           </method>
         </type>
+      </types>
+      <functions/>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/gomock/mockgen/model">
+      <types>
+        <type type="struct" name="Package">
+          <field type="ident" def="string" name="Name"/>
+          <field type="slice" name="Interfaces">
+            <elmtype type="pointer">
+              <type type="ident" def="Interface"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="DotImports">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="Interface">
+          <field type="ident" def="string" name="Name"/>
+          <field type="slice" name="Methods">
+            <elmtype type="pointer">
+              <type type="ident" def="Method"/>
+            </elmtype>
+          </field>
+        </type>
+        <type type="struct" name="Method">
+          <field type="ident" def="string" name="Name"/>
+          <field type="slice" name="In">
+            <elmtype type="pointer">
+              <type type="ident" def="Parameter"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="Out">
+            <elmtype type="pointer">
+              <type type="ident" def="Parameter"/>
+            </elmtype>
+          </field>
+          <field type="pointer" name="Variadic">
+            <type type="ident" def="Parameter"/>
+          </field>
+        </type>
+        <type type="struct" name="Parameter">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="Type" name="Type"/>
+        </type>
+        <type name="Type" type="interface">
+          <method name="String">
+            <paramsList>
+              <type type="map">
+                <keytype type="ident" def="string"/>
+                <valtype type="ident" def="string"/>
+              </type>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="addImports">
+            <paramsList>
+              <type type="map">
+                <keytype type="ident" def="string"/>
+                <valtype type="ident" def="bool"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="ArrayType">
+          <field type="ident" def="int" name="Len"/>
+          <field type="ident" def="Type" name="Type"/>
+        </type>
+        <type type="struct" name="ChanType">
+          <field type="ident" def="ChanDir" name="Dir"/>
+          <field type="ident" def="Type" name="Type"/>
+        </type>
+        <type name="ChanDir" type="ident">
+          <type type="ident" def="int"/>
+        </type>
+        <type type="struct" name="FuncType">
+          <field type="slice" name="In">
+            <elmtype type="pointer">
+              <type type="ident" def="Parameter"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="Out">
+            <elmtype type="pointer">
+              <type type="ident" def="Parameter"/>
+            </elmtype>
+          </field>
+          <field type="pointer" name="Variadic">
+            <type type="ident" def="Parameter"/>
+          </field>
+        </type>
+        <type type="struct" name="MapType">
+          <field type="ident" def="Type" name="Key"/>
+          <field type="ident" def="Type" name="Value"/>
+        </type>
+        <type type="struct" name="NamedType">
+          <field type="ident" def="string" name="Package"/>
+          <field type="ident" def="string" name="Type"/>
+        </type>
+        <type type="struct" name="PointerType">
+          <field type="ident" def="Type" name="Type"/>
+        </type>
+        <type name="PredeclaredType" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Print">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Package"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Imports">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Package"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="bool"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Print">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Interface"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Print">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Method"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Print">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ArrayType"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ChanType"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FuncType"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MapType"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NamedType"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PointerType"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="PredeclaredType"/>
+          </recvList>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="InterfaceFromInterfaceType">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="reflect"/>
+              <item value="Type"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Interface"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="RecvDir"/>
+        <name value="SendDir"/>
+      </names>
+    </package>
+    <package importpath="code.google.com/p/gomock/gomock">
+      <types>
+        <type name="Matcher" type="interface">
+          <method name="Matches">
+            <paramsList>
+              <type type="interface"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="bool"/>
+            </resultsList>
+          </method>
+          <method name="String">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="TestReporter" type="interface">
+          <method name="Errorf">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Fatalf">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="Controller">
+          <field type="selector" name="mu">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="ident" def="TestReporter" name="t"/>
+          <field type="ident" def="callSet" name="expectedCalls"/>
+        </type>
+        <type type="struct" name="Call">
+          <field type="ident" def="TestReporter" name="t"/>
+          <field type="interface" name="receiver"/>
+          <field type="ident" def="string" name="method"/>
+          <field type="slice" name="args">
+            <elmtype type="ident" def="Matcher"/>
+          </field>
+          <field type="slice" name="rets">
+            <elmtype type="interface"/>
+          </field>
+          <field type="slice" name="preReqs">
+            <elmtype type="pointer">
+              <type type="ident" def="Call"/>
+            </elmtype>
+          </field>
+          <field type="ident" def="int" name="minCalls"/>
+          <field type="ident" def="int" name="maxCalls"/>
+          <field type="ident" def="int" name="numCalls"/>
+          <field type="selector" name="doFunc">
+            <prefix value="reflect"/>
+            <item value="Value"/>
+          </field>
+          <field type="map" name="setArgs">
+            <keytype type="ident" def="int"/>
+            <valtype type="selector">
+              <prefix value="reflect"/>
+              <item value="Value"/>
+            </valtype>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Matches">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Matches">
+          <recvList>
+            <type type="ident" def="eqMatcher"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="eqMatcher"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Matches">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Matches">
+          <recvList>
+            <type type="ident" def="notMatcher"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="notMatcher"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Any">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Matcher"/>
+          </returnsList>
+        </function>
+        <function name="Eq">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Matcher"/>
+          </returnsList>
+        </function>
+        <function name="Nil">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Matcher"/>
+          </returnsList>
+        </function>
+        <function name="Not">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Matcher"/>
+          </returnsList>
+        </function>
+        <function name="NewController">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="TestReporter"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Controller"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RecordCall">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Controller"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Call">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Controller"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Finish">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Controller"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="ident" def="callSet"/>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Remove">
+          <recvList>
+            <type type="ident" def="callSet"/>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="FindMatch">
+          <recvList>
+            <type type="ident" def="callSet"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="AnyTimes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Do">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Return">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Times">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="SetArg">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="After">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Call"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="InOrder">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="pointer">
+                <type type="ident" def="Call"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/gomock/sample/imp2">
+      <types>
+        <type type="struct" name="Imp2"/>
       </types>
       <functions/>
       <names/>
@@ -1005,1070 +2069,6 @@
               </type>
             </type>
           </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="code.google.com/p/gomock/sample/imp4">
-      <types>
-        <type type="struct" name="Imp4"/>
-      </types>
-      <functions/>
-      <names/>
-    </package>
-    <package importpath="code.google.com/p/gomock/gomock/mock_matcher">
-      <types>
-        <type type="struct" name="MockMatcher">
-          <field type="pointer" name="ctrl">
-            <type type="selector">
-              <prefix value="gomock"/>
-              <item value="Controller"/>
-            </type>
-          </field>
-          <field type="pointer" name="recorder">
-            <type type="ident" def="_MockMatcherRecorder"/>
-          </field>
-        </type>
-      </types>
-      <functions>
-        <function name="NewMockMatcher">
-          <recvList/>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="gomock"/>
-                <item value="Controller"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="MockMatcher"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="EXPECT">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="MockMatcher"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="_MockMatcherRecorder"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Matches">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="MockMatcher"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Matches">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="_MockMatcherRecorder"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="gomock"/>
-                <item value="Call"/>
-              </type>
-            </type>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="MockMatcher"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="_MockMatcherRecorder"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="gomock"/>
-                <item value="Call"/>
-              </type>
-            </type>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="code.google.com/p/gomock/sample">
-      <types>
-        <type name="Index" type="interface">
-          <method name="Get">
-            <paramsList>
-              <type type="ident" def="string"/>
-            </paramsList>
-            <resultsList>
-              <type type="interface"/>
-            </resultsList>
-          </method>
-          <method name="GetTwo">
-            <paramsList>
-              <type type="ident" def="string"/>
-              <type type="ident" def="string"/>
-            </paramsList>
-            <resultsList>
-              <type type="interface"/>
-              <type type="interface"/>
-            </resultsList>
-          </method>
-          <method name="Put">
-            <paramsList>
-              <type type="ident" def="string"/>
-              <type type="interface"/>
-            </paramsList>
-            <resultsList/>
-          </method>
-          <method name="Summary">
-            <paramsList>
-              <type type="pointer">
-                <type type="selector">
-                  <prefix value="btz"/>
-                  <item value="Buffer"/>
-                </type>
-              </type>
-              <type type="selector">
-                <prefix value="io"/>
-                <item value="Writer"/>
-              </type>
-            </paramsList>
-            <resultsList/>
-          </method>
-          <method name="Other">
-            <paramsList/>
-            <resultsList>
-              <type type="selector">
-                <prefix value="hash"/>
-                <item value="Hash"/>
-              </type>
-            </resultsList>
-          </method>
-          <method name="Templates">
-            <paramsList>
-              <type type="selector">
-                <prefix value="t1"/>
-                <item value="CSS"/>
-              </type>
-              <type type="selector">
-                <prefix value="t2"/>
-                <item value="FuncMap"/>
-              </type>
-            </paramsList>
-            <resultsList/>
-          </method>
-          <method name="Anon">
-            <paramsList>
-              <type type="ident" def="string"/>
-            </paramsList>
-            <resultsList/>
-          </method>
-          <method name="ForeignOne">
-            <paramsList>
-              <type type="selector">
-                <prefix value="imp1"/>
-                <item value="Imp1"/>
-              </type>
-            </paramsList>
-            <resultsList/>
-          </method>
-          <method name="ForeignTwo">
-            <paramsList>
-              <type type="selector">
-                <prefix value="renamed2"/>
-                <item value="Imp2"/>
-              </type>
-            </paramsList>
-            <resultsList/>
-          </method>
-          <method name="ForeignThree">
-            <paramsList>
-              <type type="ident" def="Imp3"/>
-            </paramsList>
-            <resultsList/>
-          </method>
-          <method name="ForeignFour">
-            <paramsList>
-              <type type="selector">
-                <prefix value="imp_four"/>
-                <item value="Imp4"/>
-              </type>
-            </paramsList>
-            <resultsList/>
-          </method>
-          <method name="NillableRet">
-            <paramsList/>
-            <resultsList>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-          <method name="ConcreteRet">
-            <paramsList/>
-            <resultsList>
-              <type type="chan" dir="1">
-                <type type="ident" def="bool"/>
-              </type>
-            </resultsList>
-          </method>
-          <method name="Ellip">
-            <paramsList>
-              <type type="ident" def="string"/>
-              <type type="ellipsis">
-                <type type="interface"/>
-              </type>
-            </paramsList>
-            <resultsList/>
-          </method>
-          <method name="EllipOnly">
-            <paramsList>
-              <type type="ellipsis">
-                <type type="ident" def="string"/>
-              </type>
-            </paramsList>
-            <resultsList/>
-          </method>
-          <method name="Ptr">
-            <paramsList>
-              <type type="pointer">
-                <type type="ident" def="int"/>
-              </type>
-            </paramsList>
-            <resultsList/>
-          </method>
-          <method name="Slice">
-            <paramsList>
-              <type type="slice">
-                <elmtype type="ident" def="int"/>
-              </type>
-              <type type="slice">
-                <elmtype type="ident" def="byte"/>
-              </type>
-            </paramsList>
-            <resultsList>
-              <type type="array">
-                <elmtype type="ident" def="int"/>
-              </type>
-            </resultsList>
-          </method>
-          <method name="Chan">
-            <paramsList>
-              <type type="chan" dir="3">
-                <type type="ident" def="int"/>
-              </type>
-              <type type="chan" dir="1">
-                <type type="selector">
-                  <prefix value="hash"/>
-                  <item value="Hash"/>
-                </type>
-              </type>
-            </paramsList>
-            <resultsList/>
-          </method>
-          <method name="Func">
-            <paramsList>
-              <type type="func">
-                <paramsList>
-                  <type type="selector">
-                    <prefix value="http"/>
-                    <item value="Request"/>
-                  </type>
-                </paramsList>
-                <resultsList>
-                  <type type="ident" def="int"/>
-                  <type type="ident" def="bool"/>
-                </resultsList>
-              </type>
-            </paramsList>
-            <resultsList/>
-          </method>
-          <method name="Map">
-            <paramsList>
-              <type type="map">
-                <keytype type="ident" def="int"/>
-                <valtype type="selector">
-                  <prefix value="hash"/>
-                  <item value="Hash"/>
-                </valtype>
-              </type>
-            </paramsList>
-            <resultsList/>
-          </method>
-        </type>
-        <type name="Embed" type="interface">
-          <method name="RegularMethod">
-            <paramsList/>
-            <resultsList/>
-          </method>
-        </type>
-        <type name="Embedded" type="interface">
-          <method name="EmbeddedMethod">
-            <paramsList/>
-            <resultsList/>
-          </method>
-        </type>
-      </types>
-      <functions>
-        <function name="Remember">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Index"/>
-            <type type="slice">
-              <elmtype type="ident" def="string"/>
-            </type>
-            <type type="slice">
-              <elmtype type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="GrabPointer">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Index"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="code.google.com/p/gomock/mockgen/model">
-      <types>
-        <type type="struct" name="Package">
-          <field type="ident" def="string" name="Name"/>
-          <field type="slice" name="Interfaces">
-            <elmtype type="pointer">
-              <type type="ident" def="Interface"/>
-            </elmtype>
-          </field>
-          <field type="slice" name="DotImports">
-            <elmtype type="ident" def="string"/>
-          </field>
-        </type>
-        <type type="struct" name="Interface">
-          <field type="ident" def="string" name="Name"/>
-          <field type="slice" name="Methods">
-            <elmtype type="pointer">
-              <type type="ident" def="Method"/>
-            </elmtype>
-          </field>
-        </type>
-        <type type="struct" name="Method">
-          <field type="ident" def="string" name="Name"/>
-          <field type="slice" name="In">
-            <elmtype type="pointer">
-              <type type="ident" def="Parameter"/>
-            </elmtype>
-          </field>
-          <field type="slice" name="Out">
-            <elmtype type="pointer">
-              <type type="ident" def="Parameter"/>
-            </elmtype>
-          </field>
-          <field type="pointer" name="Variadic">
-            <type type="ident" def="Parameter"/>
-          </field>
-        </type>
-        <type type="struct" name="Parameter">
-          <field type="ident" def="string" name="Name"/>
-          <field type="ident" def="Type" name="Type"/>
-        </type>
-        <type name="Type" type="interface">
-          <method name="String">
-            <paramsList>
-              <type type="map">
-                <keytype type="ident" def="string"/>
-                <valtype type="ident" def="string"/>
-              </type>
-              <type type="ident" def="string"/>
-            </paramsList>
-            <resultsList>
-              <type type="ident" def="string"/>
-            </resultsList>
-          </method>
-          <method name="addImports">
-            <paramsList>
-              <type type="map">
-                <keytype type="ident" def="string"/>
-                <valtype type="ident" def="bool"/>
-              </type>
-            </paramsList>
-            <resultsList/>
-          </method>
-        </type>
-        <type type="struct" name="ArrayType">
-          <field type="ident" def="int" name="Len"/>
-          <field type="ident" def="Type" name="Type"/>
-        </type>
-        <type type="struct" name="ChanType">
-          <field type="ident" def="ChanDir" name="Dir"/>
-          <field type="ident" def="Type" name="Type"/>
-        </type>
-        <type name="ChanDir" type="ident">
-          <type type="ident" def="int"/>
-        </type>
-        <type type="struct" name="FuncType">
-          <field type="slice" name="In">
-            <elmtype type="pointer">
-              <type type="ident" def="Parameter"/>
-            </elmtype>
-          </field>
-          <field type="slice" name="Out">
-            <elmtype type="pointer">
-              <type type="ident" def="Parameter"/>
-            </elmtype>
-          </field>
-          <field type="pointer" name="Variadic">
-            <type type="ident" def="Parameter"/>
-          </field>
-        </type>
-        <type type="struct" name="MapType">
-          <field type="ident" def="Type" name="Key"/>
-          <field type="ident" def="Type" name="Value"/>
-        </type>
-        <type type="struct" name="NamedType">
-          <field type="ident" def="string" name="Package"/>
-          <field type="ident" def="string" name="Type"/>
-        </type>
-        <type type="struct" name="PointerType">
-          <field type="ident" def="Type" name="Type"/>
-        </type>
-        <type name="PredeclaredType" type="ident">
-          <type type="ident" def="string"/>
-        </type>
-      </types>
-      <functions>
-        <function name="Print">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Package"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Imports">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Package"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="ident" def="bool"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Print">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Interface"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Print">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Method"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Print">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Parameter"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="ArrayType"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="ident" def="string"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="ChanType"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="ident" def="string"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="FuncType"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="ident" def="string"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="MapType"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="ident" def="string"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="NamedType"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="ident" def="string"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="PointerType"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="ident" def="string"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="ident" def="PredeclaredType"/>
-          </recvList>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="ident" def="string"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="InterfaceFromInterfaceType">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="reflect"/>
-              <item value="Type"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Interface"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="RecvDir"/>
-        <name value="SendDir"/>
-      </names>
-    </package>
-    <package importpath="code.google.com/p/gomock/gomock">
-      <types>
-        <type name="Matcher" type="interface">
-          <method name="Matches">
-            <paramsList>
-              <type type="interface"/>
-            </paramsList>
-            <resultsList>
-              <type type="ident" def="bool"/>
-            </resultsList>
-          </method>
-          <method name="String">
-            <paramsList/>
-            <resultsList>
-              <type type="ident" def="string"/>
-            </resultsList>
-          </method>
-        </type>
-        <type name="TestReporter" type="interface">
-          <method name="Errorf">
-            <paramsList>
-              <type type="ident" def="string"/>
-              <type type="ellipsis">
-                <type type="interface"/>
-              </type>
-            </paramsList>
-            <resultsList/>
-          </method>
-          <method name="Fatalf">
-            <paramsList>
-              <type type="ident" def="string"/>
-              <type type="ellipsis">
-                <type type="interface"/>
-              </type>
-            </paramsList>
-            <resultsList/>
-          </method>
-        </type>
-        <type type="struct" name="Controller">
-          <field type="selector" name="mu">
-            <prefix value="sync"/>
-            <item value="Mutex"/>
-          </field>
-          <field type="ident" def="TestReporter" name="t"/>
-          <field type="ident" def="callSet" name="expectedCalls"/>
-        </type>
-        <type type="struct" name="Call">
-          <field type="ident" def="TestReporter" name="t"/>
-          <field type="interface" name="receiver"/>
-          <field type="ident" def="string" name="method"/>
-          <field type="slice" name="args">
-            <elmtype type="ident" def="Matcher"/>
-          </field>
-          <field type="slice" name="rets">
-            <elmtype type="interface"/>
-          </field>
-          <field type="slice" name="preReqs">
-            <elmtype type="pointer">
-              <type type="ident" def="Call"/>
-            </elmtype>
-          </field>
-          <field type="ident" def="int" name="minCalls"/>
-          <field type="ident" def="int" name="maxCalls"/>
-          <field type="ident" def="int" name="numCalls"/>
-          <field type="selector" name="doFunc">
-            <prefix value="reflect"/>
-            <item value="Value"/>
-          </field>
-          <field type="map" name="setArgs">
-            <keytype type="ident" def="int"/>
-            <valtype type="selector">
-              <prefix value="reflect"/>
-              <item value="Value"/>
-            </valtype>
-          </field>
-        </type>
-      </types>
-      <functions>
-        <function name="Matches">
-          <recvList/>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Matches">
-          <recvList>
-            <type type="ident" def="eqMatcher"/>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="ident" def="eqMatcher"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Matches">
-          <recvList/>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Matches">
-          <recvList>
-            <type type="ident" def="notMatcher"/>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="ident" def="notMatcher"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Any">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="Matcher"/>
-          </returnsList>
-        </function>
-        <function name="Eq">
-          <recvList/>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Matcher"/>
-          </returnsList>
-        </function>
-        <function name="Nil">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="Matcher"/>
-          </returnsList>
-        </function>
-        <function name="Not">
-          <recvList/>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Matcher"/>
-          </returnsList>
-        </function>
-        <function name="NewController">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="TestReporter"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Controller"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="RecordCall">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Controller"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-            <type type="ident" def="string"/>
-            <type type="ellipsis">
-              <type type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Call">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Controller"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-            <type type="ident" def="string"/>
-            <type type="ellipsis">
-              <type type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="interface"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Finish">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Controller"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="Add">
-          <recvList>
-            <type type="ident" def="callSet"/>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Remove">
-          <recvList>
-            <type type="ident" def="callSet"/>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="FindMatch">
-          <recvList>
-            <type type="ident" def="callSet"/>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="AnyTimes">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Do">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Return">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ellipsis">
-              <type type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Times">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="SetArg">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="After">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Call"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="InOrder">
-          <recvList/>
-          <paramsList>
-            <type type="ellipsis">
-              <type type="pointer">
-                <type type="ident" def="Call"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList/>
         </function>
       </functions>
       <names/>

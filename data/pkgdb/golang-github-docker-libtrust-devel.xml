@@ -1,83 +1,286 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="golang-github-docker-libtrust-0-0.2.git6b78349.fc22">
   <packages>
-    <package importpath="github.com/docker/libtrust/testutil">
-      <types/>
+    <package importpath="github.com/docker/libtrust/trustgraph">
+      <types>
+        <type type="struct" name="Statement">
+          <field type="ident" def="jsonStatement" name=""/>
+          <field type="pointer" name="signature">
+            <type type="selector">
+              <prefix value="libtrust"/>
+              <item value="JSONSignature"/>
+            </type>
+          </field>
+        </type>
+        <type name="TrustGraph" type="interface">
+          <method name="Verify">
+            <paramsList>
+              <type type="selector">
+                <prefix value="libtrust"/>
+                <item value="PublicKey"/>
+              </type>
+              <type type="ident" def="string"/>
+              <type type="ident" def="uint16"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="bool"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="GetGrants">
+            <paramsList>
+              <type type="selector">
+                <prefix value="libtrust"/>
+                <item value="PublicKey"/>
+              </type>
+              <type type="ident" def="string"/>
+              <type type="ident" def="uint16"/>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="slice">
+                  <elmtype type="pointer">
+                    <type type="ident" def="Grant"/>
+                  </elmtype>
+                </elmtype>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="Grant">
+          <field type="ident" def="string" name="Subject"/>
+          <field type="ident" def="uint16" name="Permission"/>
+          <field type="ident" def="string" name="Grantee"/>
+          <field type="pointer" name="statement">
+            <type type="ident" def="Statement"/>
+          </field>
+        </type>
+      </types>
       <functions>
-        <function name="GenerateTrustCA">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="crypto"/>
-              <item value="PublicKey"/>
+        <function name="Grant">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="jsonGrant"/>
             </type>
-            <type type="selector">
-              <prefix value="crypto"/>
-              <item value="PrivateKey"/>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Statement"/>
             </type>
           </paramsList>
           <returnsList>
             <type type="pointer">
-              <type type="selector">
-                <prefix value="x509"/>
-                <item value="Certificate"/>
-              </type>
+              <type type="ident" def="Grant"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="IsExpired">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Statement"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Bytes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Statement"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="error"/>
           </returnsList>
         </function>
-        <function name="GenerateIntermediate">
+        <function name="LoadStatement">
           <recvList/>
           <paramsList>
             <type type="selector">
-              <prefix value="crypto"/>
-              <item value="PublicKey"/>
-            </type>
-            <type type="selector">
-              <prefix value="crypto"/>
-              <item value="PrivateKey"/>
+              <prefix value="io"/>
+              <item value="Reader"/>
             </type>
             <type type="pointer">
               <type type="selector">
                 <prefix value="x509"/>
-                <item value="Certificate"/>
+                <item value="CertPool"/>
               </type>
             </type>
           </paramsList>
           <returnsList>
             <type type="pointer">
-              <type type="selector">
-                <prefix value="x509"/>
-                <item value="Certificate"/>
-              </type>
+              <type type="ident" def="Statement"/>
             </type>
             <type type="ident" def="error"/>
           </returnsList>
         </function>
-        <function name="GenerateTrustCert">
+        <function name="CreateStatement">
           <recvList/>
           <paramsList>
             <type type="selector">
-              <prefix value="crypto"/>
-              <item value="PublicKey"/>
+              <prefix value="io"/>
+              <item value="Reader"/>
             </type>
             <type type="selector">
-              <prefix value="crypto"/>
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="selector">
+              <prefix value="libtrust"/>
               <item value="PrivateKey"/>
             </type>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="x509"/>
-                <item value="Certificate"/>
-              </type>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="selector">
+                  <prefix value="x509"/>
+                  <item value="Certificate"/>
+                </type>
+              </elmtype>
             </type>
           </paramsList>
           <returnsList>
             <type type="pointer">
-              <type type="selector">
-                <prefix value="x509"/>
-                <item value="Certificate"/>
-              </type>
+              <type type="ident" def="Statement"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="statementList"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="statementList"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="statementList"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="CollapseStatements">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Statement"/>
+              </elmtype>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Grant"/>
+              </elmtype>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="FilterStatements">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Grant"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Statement"/>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewMemoryGraph">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Grant"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="TrustGraph"/>
+          </returnsList>
+        </function>
+        <function name="Verify">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="memoryGraph"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="libtrust"/>
+              <item value="PublicKey"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint16"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetGrants">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="memoryGraph"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="libtrust"/>
+              <item value="PublicKey"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint16"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="slice">
+                <elmtype type="pointer">
+                  <type type="ident" def="Grant"/>
+                </elmtype>
+              </elmtype>
             </type>
             <type type="ident" def="error"/>
           </returnsList>
@@ -1198,286 +1401,83 @@
         <name value="ErrMissingSignatureKey"/>
       </names>
     </package>
-    <package importpath="github.com/docker/libtrust/trustgraph">
-      <types>
-        <type type="struct" name="Statement">
-          <field type="ident" def="jsonStatement" name=""/>
-          <field type="pointer" name="signature">
-            <type type="selector">
-              <prefix value="libtrust"/>
-              <item value="JSONSignature"/>
-            </type>
-          </field>
-        </type>
-        <type name="TrustGraph" type="interface">
-          <method name="Verify">
-            <paramsList>
-              <type type="selector">
-                <prefix value="libtrust"/>
-                <item value="PublicKey"/>
-              </type>
-              <type type="ident" def="string"/>
-              <type type="ident" def="uint16"/>
-            </paramsList>
-            <resultsList>
-              <type type="ident" def="bool"/>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-          <method name="GetGrants">
-            <paramsList>
-              <type type="selector">
-                <prefix value="libtrust"/>
-                <item value="PublicKey"/>
-              </type>
-              <type type="ident" def="string"/>
-              <type type="ident" def="uint16"/>
-            </paramsList>
-            <resultsList>
-              <type type="slice">
-                <elmtype type="slice">
-                  <elmtype type="pointer">
-                    <type type="ident" def="Grant"/>
-                  </elmtype>
-                </elmtype>
-              </type>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-        </type>
-        <type type="struct" name="Grant">
-          <field type="ident" def="string" name="Subject"/>
-          <field type="ident" def="uint16" name="Permission"/>
-          <field type="ident" def="string" name="Grantee"/>
-          <field type="pointer" name="statement">
-            <type type="ident" def="Statement"/>
-          </field>
-        </type>
-      </types>
+    <package importpath="github.com/docker/libtrust/testutil">
+      <types/>
       <functions>
-        <function name="Grant">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="jsonGrant"/>
-            </type>
-          </recvList>
+        <function name="GenerateTrustCA">
+          <recvList/>
           <paramsList>
-            <type type="pointer">
-              <type type="ident" def="Statement"/>
+            <type type="selector">
+              <prefix value="crypto"/>
+              <item value="PublicKey"/>
+            </type>
+            <type type="selector">
+              <prefix value="crypto"/>
+              <item value="PrivateKey"/>
             </type>
           </paramsList>
           <returnsList>
             <type type="pointer">
-              <type type="ident" def="Grant"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="IsExpired">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Statement"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Bytes">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Statement"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
+              <type type="selector">
+                <prefix value="x509"/>
+                <item value="Certificate"/>
+              </type>
             </type>
             <type type="ident" def="error"/>
           </returnsList>
         </function>
-        <function name="LoadStatement">
+        <function name="GenerateIntermediate">
           <recvList/>
           <paramsList>
             <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
+              <prefix value="crypto"/>
+              <item value="PublicKey"/>
+            </type>
+            <type type="selector">
+              <prefix value="crypto"/>
+              <item value="PrivateKey"/>
             </type>
             <type type="pointer">
               <type type="selector">
                 <prefix value="x509"/>
-                <item value="CertPool"/>
+                <item value="Certificate"/>
               </type>
             </type>
           </paramsList>
           <returnsList>
             <type type="pointer">
-              <type type="ident" def="Statement"/>
+              <type type="selector">
+                <prefix value="x509"/>
+                <item value="Certificate"/>
+              </type>
             </type>
             <type type="ident" def="error"/>
           </returnsList>
         </function>
-        <function name="CreateStatement">
+        <function name="GenerateTrustCert">
           <recvList/>
           <paramsList>
             <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
+              <prefix value="crypto"/>
+              <item value="PublicKey"/>
             </type>
             <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
-            </type>
-            <type type="selector">
-              <prefix value="time"/>
-              <item value="Duration"/>
-            </type>
-            <type type="selector">
-              <prefix value="libtrust"/>
+              <prefix value="crypto"/>
               <item value="PrivateKey"/>
             </type>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="selector">
-                  <prefix value="x509"/>
-                  <item value="Certificate"/>
-                </type>
-              </elmtype>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="x509"/>
+                <item value="Certificate"/>
+              </type>
             </type>
           </paramsList>
           <returnsList>
             <type type="pointer">
-              <type type="ident" def="Statement"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="ident" def="statementList"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Less">
-          <recvList>
-            <type type="ident" def="statementList"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Swap">
-          <recvList>
-            <type type="ident" def="statementList"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="CollapseStatements">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="ident" def="Statement"/>
-              </elmtype>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="ident" def="Grant"/>
-              </elmtype>
-            </type>
-            <type type="selector">
-              <prefix value="time"/>
-              <item value="Time"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="FilterStatements">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="ident" def="Grant"/>
-              </elmtype>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="ident" def="Statement"/>
-              </elmtype>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NewMemoryGraph">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="ident" def="Grant"/>
-              </elmtype>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="TrustGraph"/>
-          </returnsList>
-        </function>
-        <function name="Verify">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="memoryGraph"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="libtrust"/>
-              <item value="PublicKey"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="uint16"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="GetGrants">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="memoryGraph"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="libtrust"/>
-              <item value="PublicKey"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="uint16"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="slice">
-                <elmtype type="pointer">
-                  <type type="ident" def="Grant"/>
-                </elmtype>
-              </elmtype>
+              <type type="selector">
+                <prefix value="x509"/>
+                <item value="Certificate"/>
+              </type>
             </type>
             <type type="ident" def="error"/>
           </returnsList>

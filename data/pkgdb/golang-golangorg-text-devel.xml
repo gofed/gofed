@@ -1,14 +1,498 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="golang-googlecode-text-0-0.3.hg5b2527008a4c.fc22">
   <packages>
-    <package importpath="golang.org/x/text/encoding/charmap">
+    <package importpath="golang.org/x/text/internal/triegen">
+      <types>
+        <type name="Option" type="func">
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="builder"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </type>
+        <type type="struct" name="Trie">
+          <field type="pointer" name="root">
+            <type type="ident" def="node"/>
+          </field>
+          <field type="ident" def="hiddenTrie" name=""/>
+        </type>
+        <type name="Compacter" type="interface">
+          <method name="Size">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="uint64"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="int"/>
+              <type type="ident" def="bool"/>
+            </resultsList>
+          </method>
+          <method name="Store">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="uint64"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="uint32"/>
+            </resultsList>
+          </method>
+          <method name="Print">
+            <paramsList>
+              <type type="selector">
+                <prefix value="io"/>
+                <item value="Writer"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Handler">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+        </type>
+      </types>
+      <functions>
+        <function name="Compact">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Compacter"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Option"/>
+          </returnsList>
+        </function>
+        <function name="Gen">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Trie"/>
+              </elmtype>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="Option"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewTrie">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Gen">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="Option"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Insert">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="rune"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="builder"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="simpleCompacter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Store">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="simpleCompacter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint64"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="Print">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="simpleCompacter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Handler">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="simpleCompacter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="golang.org/x/text/encoding">
+      <types>
+        <type name="Encoding" type="interface">
+          <method name="NewDecoder">
+            <paramsList/>
+            <resultsList>
+              <type type="selector">
+                <prefix value="transform"/>
+                <item value="Transformer"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="NewEncoder">
+            <paramsList/>
+            <resultsList>
+              <type type="selector">
+                <prefix value="transform"/>
+                <item value="Transformer"/>
+              </type>
+            </resultsList>
+          </method>
+        </type>
+      </types>
+      <functions>
+        <function name="NewDecoder">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewEncoder">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewDecoder">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewEncoder">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Transform">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Transform">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Transform">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ASCIISub"/>
+        <name value="Nop"/>
+        <name value="Replacement"/>
+        <name value="ErrInvalidUTF8"/>
+        <name value="UTF8Validator"/>
+      </names>
+    </package>
+    <package importpath="golang.org/x/text/encoding/korean">
       <types/>
       <functions>
         <function name="NewDecoder">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewEncoder">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Transform">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Transform">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="EUCKR"/>
+      </names>
+    </package>
+    <package importpath="golang.org/x/text/encoding/simplifiedchinese">
+      <types/>
+      <functions>
+        <function name="NewDecoder">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewEncoder">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="charmap"/>
+              <type type="ident" def="hzGB2312Decoder"/>
             </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Transform">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="hzGB2312Decoder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="hzGB2312Encoder"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Transform">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="hzGB2312Encoder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewDecoder">
+          <recvList>
+            <type type="ident" def="gbk"/>
           </recvList>
           <paramsList/>
           <returnsList>
@@ -20,9 +504,7 @@
         </function>
         <function name="NewEncoder">
           <recvList>
-            <type type="pointer">
-              <type type="ident" def="charmap"/>
-            </type>
+            <type type="ident" def="gbk"/>
           </recvList>
           <paramsList/>
           <returnsList>
@@ -34,9 +516,7 @@
         </function>
         <function name="String">
           <recvList>
-            <type type="pointer">
-              <type type="ident" def="charmap"/>
-            </type>
+            <type type="ident" def="gbk"/>
           </recvList>
           <paramsList/>
           <returnsList>
@@ -45,7 +525,7 @@
         </function>
         <function name="Transform">
           <recvList>
-            <type type="ident" def="charmapDecoder"/>
+            <type type="ident" def="gbkDecoder"/>
           </recvList>
           <paramsList>
             <type type="slice">
@@ -64,7 +544,7 @@
         </function>
         <function name="Transform">
           <recvList>
-            <type type="ident" def="charmapEncoder"/>
+            <type type="ident" def="gbkEncoder"/>
           </recvList>
           <paramsList>
             <type type="slice">
@@ -83,35 +563,454 @@
         </function>
       </functions>
       <names>
-        <name value="CodePage437"/>
-        <name value="CodePage866"/>
-        <name value="ISO8859_2"/>
-        <name value="ISO8859_3"/>
-        <name value="ISO8859_4"/>
-        <name value="ISO8859_5"/>
-        <name value="ISO8859_6"/>
-        <name value="ISO8859_7"/>
-        <name value="ISO8859_8"/>
-        <name value="ISO8859_10"/>
-        <name value="ISO8859_13"/>
-        <name value="ISO8859_14"/>
-        <name value="ISO8859_15"/>
-        <name value="ISO8859_16"/>
-        <name value="KOI8R"/>
-        <name value="KOI8U"/>
-        <name value="Macintosh"/>
-        <name value="MacintoshCyrillic"/>
-        <name value="Windows874"/>
-        <name value="Windows1250"/>
-        <name value="Windows1251"/>
-        <name value="Windows1252"/>
-        <name value="Windows1253"/>
-        <name value="Windows1254"/>
-        <name value="Windows1255"/>
-        <name value="Windows1256"/>
-        <name value="Windows1257"/>
-        <name value="Windows1258"/>
-        <name value="XUserDefined"/>
+        <name value="HZGB2312"/>
+        <name value="GB18030"/>
+        <name value="GBK"/>
+      </names>
+    </package>
+    <package importpath="golang.org/x/text/display">
+      <types>
+        <type name="Namer" type="interface">
+          <method name="Name">
+            <paramsList>
+              <type type="interface"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="Dictionary">
+          <field type="pointer" name="parent">
+            <type type="ident" def="Dictionary"/>
+          </field>
+          <field type="ident" def="header" name="lang"/>
+          <field type="ident" def="header" name="script"/>
+          <field type="ident" def="header" name="region"/>
+        </type>
+        <type type="struct" name="SelfNamer">
+          <field type="selector" name="Supported">
+            <prefix value="language"/>
+            <item value="Coverage"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Tags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="tagSet"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="language"/>
+                <item value="Tag"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Languages">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="language"/>
+              <item value="Tag"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Namer"/>
+          </returnsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="ident" def="languageNamer"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Scripts">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="language"/>
+              <item value="Tag"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Namer"/>
+          </returnsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="ident" def="scriptNamer"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Regions">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="language"/>
+              <item value="Tag"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Namer"/>
+          </returnsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="ident" def="regionNamer"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Tags">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="language"/>
+              <item value="Tag"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Namer"/>
+          </returnsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="ident" def="tagNamer"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Tags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Dictionary"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Namer"/>
+          </returnsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="ident" def="dictTags"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Languages">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Dictionary"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Namer"/>
+          </returnsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="ident" def="dictLanguages"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Scripts">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Dictionary"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Namer"/>
+          </returnsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="ident" def="dictScripts"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Regions">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Dictionary"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Namer"/>
+          </returnsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="ident" def="dictRegions"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="ident" def="SelfNamer"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="Version"/>
+        <name value="Supported"/>
+        <name value="Values"/>
+        <name value="Self"/>
+        <name value="Afrikaans"/>
+        <name value="Amharic"/>
+        <name value="Arabic"/>
+        <name value="ModernStandardArabic"/>
+        <name value="Azerbaijani"/>
+        <name value="Bulgarian"/>
+        <name value="Bengali"/>
+        <name value="Catalan"/>
+        <name value="Czech"/>
+        <name value="Danish"/>
+        <name value="German"/>
+        <name value="Greek"/>
+        <name value="English"/>
+        <name value="AmericanEnglish"/>
+        <name value="BritishEnglish"/>
+        <name value="Spanish"/>
+        <name value="EuropeanSpanish"/>
+        <name value="LatinAmericanSpanish"/>
+        <name value="Estonian"/>
+        <name value="Persian"/>
+        <name value="Finnish"/>
+        <name value="Filipino"/>
+        <name value="French"/>
+        <name value="Gujarati"/>
+        <name value="Hebrew"/>
+        <name value="Hindi"/>
+        <name value="Croatian"/>
+        <name value="Hungarian"/>
+        <name value="Armenian"/>
+        <name value="Indonesian"/>
+        <name value="Icelandic"/>
+        <name value="Italian"/>
+        <name value="Japanese"/>
+        <name value="Georgian"/>
+        <name value="Kazakh"/>
+        <name value="Khmer"/>
+        <name value="Kannada"/>
+        <name value="Korean"/>
+        <name value="Kirghiz"/>
+        <name value="Lao"/>
+        <name value="Lithuanian"/>
+        <name value="Latvian"/>
+        <name value="Macedonian"/>
+        <name value="Malayalam"/>
+        <name value="Mongolian"/>
+        <name value="Marathi"/>
+        <name value="Malay"/>
+        <name value="Burmese"/>
+        <name value="Nepali"/>
+        <name value="Dutch"/>
+        <name value="Norwegian"/>
+        <name value="Punjabi"/>
+        <name value="Polish"/>
+        <name value="Portuguese"/>
+        <name value="BrazilianPortuguese"/>
+        <name value="EuropeanPortuguese"/>
+        <name value="Romanian"/>
+        <name value="Russian"/>
+        <name value="Sinhala"/>
+        <name value="Slovak"/>
+        <name value="Slovenian"/>
+        <name value="Albanian"/>
+        <name value="Serbian"/>
+        <name value="Swedish"/>
+        <name value="Swahili"/>
+        <name value="Tamil"/>
+        <name value="Telugu"/>
+        <name value="Thai"/>
+        <name value="Turkish"/>
+        <name value="Ukrainian"/>
+        <name value="Urdu"/>
+        <name value="Uzbek"/>
+        <name value="Vietnamese"/>
+        <name value="Chinese"/>
+        <name value="SimplifiedChinese"/>
+        <name value="TraditionalChinese"/>
+        <name value="Zulu"/>
+      </names>
+    </package>
+    <package importpath="golang.org/x/text/encoding/unicode">
+      <types>
+        <type name="BOMPolicy" type="ident">
+          <type type="ident" def="bool"/>
+        </type>
+        <type name="Endianness" type="ident">
+          <type type="ident" def="bool"/>
+        </type>
+      </types>
+      <functions>
+        <function name="UTF16">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Endianness"/>
+            <type type="ident" def="BOMPolicy"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="encoding"/>
+              <item value="Encoding"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewDecoder">
+          <recvList>
+            <type type="ident" def="utf16Encoding"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewEncoder">
+          <recvList>
+            <type type="ident" def="utf16Encoding"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="utf16Encoding"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="utf16Decoder"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Transform">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="utf16Decoder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="utf16Encoder"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Transform">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="utf16Encoder"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="IgnoreBOM"/>
+        <name value="ExpectBOM"/>
+        <name value="BigEndian"/>
+        <name value="LittleEndian"/>
+        <name value="ErrMissingBOM"/>
       </names>
     </package>
     <package importpath="golang.org/x/text/language">
@@ -1199,1194 +2098,6 @@
         <name value="Supported"/>
       </names>
     </package>
-    <package importpath="golang.org/x/text/encoding">
-      <types>
-        <type name="Encoding" type="interface">
-          <method name="NewDecoder">
-            <paramsList/>
-            <resultsList>
-              <type type="selector">
-                <prefix value="transform"/>
-                <item value="Transformer"/>
-              </type>
-            </resultsList>
-          </method>
-          <method name="NewEncoder">
-            <paramsList/>
-            <resultsList>
-              <type type="selector">
-                <prefix value="transform"/>
-                <item value="Transformer"/>
-              </type>
-            </resultsList>
-          </method>
-        </type>
-      </types>
-      <functions>
-        <function name="NewDecoder">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NewEncoder">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NewDecoder">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NewEncoder">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Transform">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Transform">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Transform">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="ASCIISub"/>
-        <name value="Nop"/>
-        <name value="Replacement"/>
-        <name value="ErrInvalidUTF8"/>
-        <name value="UTF8Validator"/>
-      </names>
-    </package>
-    <package importpath="golang.org/x/text/collate/colltab">
-      <types>
-        <type name="Weigher" type="interface">
-          <method name="Start">
-            <paramsList>
-              <type type="ident" def="int"/>
-              <type type="slice">
-                <elmtype type="ident" def="byte"/>
-              </type>
-            </paramsList>
-            <resultsList>
-              <type type="ident" def="int"/>
-            </resultsList>
-          </method>
-          <method name="StartString">
-            <paramsList>
-              <type type="ident" def="int"/>
-              <type type="ident" def="string"/>
-            </paramsList>
-            <resultsList>
-              <type type="ident" def="int"/>
-            </resultsList>
-          </method>
-          <method name="AppendNext">
-            <paramsList>
-              <type type="slice">
-                <elmtype type="ident" def="Elem"/>
-              </type>
-              <type type="slice">
-                <elmtype type="ident" def="byte"/>
-              </type>
-            </paramsList>
-            <resultsList>
-              <type type="slice">
-                <elmtype type="ident" def="Elem"/>
-              </type>
-              <type type="ident" def="int"/>
-            </resultsList>
-          </method>
-          <method name="AppendNextString">
-            <paramsList>
-              <type type="slice">
-                <elmtype type="ident" def="Elem"/>
-              </type>
-              <type type="ident" def="string"/>
-            </paramsList>
-            <resultsList>
-              <type type="slice">
-                <elmtype type="ident" def="Elem"/>
-              </type>
-              <type type="ident" def="int"/>
-            </resultsList>
-          </method>
-          <method name="Domain">
-            <paramsList/>
-            <resultsList>
-              <type type="slice">
-                <elmtype type="ident" def="string"/>
-              </type>
-            </resultsList>
-          </method>
-          <method name="Top">
-            <paramsList/>
-            <resultsList>
-              <type type="ident" def="uint32"/>
-            </resultsList>
-          </method>
-        </type>
-        <type name="Level" type="ident">
-          <type type="ident" def="int"/>
-        </type>
-        <type name="Elem" type="ident">
-          <type type="ident" def="uint32"/>
-        </type>
-      </types>
-      <functions>
-        <function name="AppendNext">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="table"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="Elem"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="Elem"/>
-            </type>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="AppendNextString">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="table"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="Elem"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="Elem"/>
-            </type>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Start">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="table"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="StartString">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="table"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Domain">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="table"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="string"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Top">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="table"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="uint32"/>
-          </returnsList>
-        </function>
-        <function name="Init">
-          <recvList/>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Weigher"/>
-          </returnsList>
-        </function>
-        <function name="MakeElem">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="uint8"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Elem"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="MakeQuaternary">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Elem"/>
-          </returnsList>
-        </function>
-        <function name="Mask">
-          <recvList>
-            <type type="ident" def="Elem"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="Level"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="uint32"/>
-          </returnsList>
-        </function>
-        <function name="CCC">
-          <recvList>
-            <type type="ident" def="Elem"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="uint8"/>
-          </returnsList>
-        </function>
-        <function name="Primary">
-          <recvList>
-            <type type="ident" def="Elem"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Secondary">
-          <recvList>
-            <type type="ident" def="Elem"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Tertiary">
-          <recvList>
-            <type type="ident" def="Elem"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="uint8"/>
-          </returnsList>
-        </function>
-        <function name="Quaternary">
-          <recvList>
-            <type type="ident" def="Elem"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Weight">
-          <recvList>
-            <type type="ident" def="Elem"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="Level"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="Primary"/>
-        <name value="Secondary"/>
-        <name value="Tertiary"/>
-        <name value="Quaternary"/>
-        <name value="Identity"/>
-        <name value="NumLevels"/>
-        <name value="MaxQuaternary"/>
-        <name value="PrivateUse"/>
-        <name value="Ignore"/>
-      </names>
-    </package>
-    <package importpath="golang.org/x/text/transform">
-      <types>
-        <type name="Transformer" type="interface">
-          <method name="Transform">
-            <paramsList>
-              <type type="slice">
-                <elmtype type="ident" def="byte"/>
-              </type>
-              <type type="slice">
-                <elmtype type="ident" def="byte"/>
-              </type>
-              <type type="ident" def="bool"/>
-            </paramsList>
-            <resultsList>
-              <type type="ident" def="int"/>
-              <type type="ident" def="int"/>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-          <method name="Reset">
-            <paramsList/>
-            <resultsList/>
-          </method>
-        </type>
-        <type type="struct" name="NopResetter"/>
-        <type type="struct" name="Reader">
-          <field type="selector" name="r">
-            <prefix value="io"/>
-            <item value="Reader"/>
-          </field>
-          <field type="ident" def="Transformer" name="t"/>
-          <field type="ident" def="error" name="err"/>
-          <field type="slice" name="dst">
-            <elmtype type="ident" def="byte"/>
-          </field>
-          <field type="ident" def="int" name="dst0"/>
-          <field type="ident" def="int" name="dst1"/>
-          <field type="slice" name="src">
-            <elmtype type="ident" def="byte"/>
-          </field>
-          <field type="ident" def="int" name="src0"/>
-          <field type="ident" def="int" name="src1"/>
-          <field type="ident" def="bool" name="transformComplete"/>
-        </type>
-        <type type="struct" name="Writer">
-          <field type="selector" name="w">
-            <prefix value="io"/>
-            <item value="Writer"/>
-          </field>
-          <field type="ident" def="Transformer" name="t"/>
-          <field type="slice" name="dst">
-            <elmtype type="ident" def="byte"/>
-          </field>
-          <field type="slice" name="src">
-            <elmtype type="ident" def="byte"/>
-          </field>
-          <field type="ident" def="int" name="n"/>
-        </type>
-      </types>
-      <functions>
-        <function name="Reset">
-          <recvList/>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="NewReader">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
-            </type>
-            <type type="ident" def="Transformer"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Reader"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Read">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Reader"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NewWriter">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-            <type type="ident" def="Transformer"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Writer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Write">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Writer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Close">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Writer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Transform">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Transform">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Chain">
-          <recvList/>
-          <paramsList>
-            <type type="ellipsis">
-              <type type="ident" def="Transformer"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Transformer"/>
-          </returnsList>
-        </function>
-        <function name="Reset">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="chain"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="Transform">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="chain"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="RemoveFunc">
-          <recvList/>
-          <paramsList>
-            <type type="func">
-              <paramsList>
-                <type type="ident" def="rune"/>
-              </paramsList>
-              <resultsList>
-                <type type="ident" def="bool"/>
-              </resultsList>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Transformer"/>
-          </returnsList>
-        </function>
-        <function name="Reset">
-          <recvList/>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="Transform">
-          <recvList>
-            <type type="ident" def="removeF"/>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Transformer"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Bytes">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Transformer"/>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="ErrShortDst"/>
-        <name value="ErrShortSrc"/>
-        <name value="Discard"/>
-        <name value="Nop"/>
-      </names>
-    </package>
-    <package importpath="golang.org/x/text/encoding/traditionalchinese">
-      <types/>
-      <functions>
-        <function name="NewDecoder">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NewEncoder">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Transform">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Transform">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="Big5"/>
-      </names>
-    </package>
-    <package importpath="golang.org/x/text/internal/triegen">
-      <types>
-        <type name="Option" type="func">
-          <paramsList>
-            <type type="pointer">
-              <type type="ident" def="builder"/>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </type>
-        <type type="struct" name="Trie">
-          <field type="pointer" name="root">
-            <type type="ident" def="node"/>
-          </field>
-          <field type="ident" def="hiddenTrie" name=""/>
-        </type>
-        <type name="Compacter" type="interface">
-          <method name="Size">
-            <paramsList>
-              <type type="slice">
-                <elmtype type="ident" def="uint64"/>
-              </type>
-            </paramsList>
-            <resultsList>
-              <type type="ident" def="int"/>
-              <type type="ident" def="bool"/>
-            </resultsList>
-          </method>
-          <method name="Store">
-            <paramsList>
-              <type type="slice">
-                <elmtype type="ident" def="uint64"/>
-              </type>
-            </paramsList>
-            <resultsList>
-              <type type="ident" def="uint32"/>
-            </resultsList>
-          </method>
-          <method name="Print">
-            <paramsList>
-              <type type="selector">
-                <prefix value="io"/>
-                <item value="Writer"/>
-              </type>
-            </paramsList>
-            <resultsList>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-          <method name="Handler">
-            <paramsList/>
-            <resultsList>
-              <type type="ident" def="string"/>
-            </resultsList>
-          </method>
-        </type>
-      </types>
-      <functions>
-        <function name="Compact">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Compacter"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Option"/>
-          </returnsList>
-        </function>
-        <function name="Gen">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="ident" def="Trie"/>
-              </elmtype>
-            </type>
-            <type type="ellipsis">
-              <type type="ident" def="Option"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NewTrie">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Trie"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Gen">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Trie"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-            <type type="ellipsis">
-              <type type="ident" def="Option"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Insert">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Trie"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="rune"/>
-            <type type="ident" def="uint64"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Size">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="builder"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Size">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="simpleCompacter"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="uint64"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Store">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="simpleCompacter"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="uint64"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="uint32"/>
-          </returnsList>
-        </function>
-        <function name="Print">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="simpleCompacter"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Handler">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="simpleCompacter"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="golang.org/x/text/encoding/japanese">
-      <types/>
-      <functions>
-        <function name="NewDecoder">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NewEncoder">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Transform">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Transform">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NewDecoder">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NewEncoder">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Reset">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="iso2022JPDecoder"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="Transform">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="iso2022JPDecoder"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Reset">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="iso2022JPEncoder"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="Transform">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="iso2022JPEncoder"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NewDecoder">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NewEncoder">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Transform">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Transform">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="ShiftJIS"/>
-        <name value="ISO2022JP"/>
-        <name value="EUCJP"/>
-      </names>
-    </package>
     <package importpath="golang.org/x/text/internal/ucd">
       <types>
         <type name="Option" type="func">
@@ -2650,299 +2361,6 @@
         <name value="SimpleLowercaseMapping"/>
         <name value="SimpleTitlecaseMapping"/>
         <name value="KeepRanges"/>
-      </names>
-    </package>
-    <package importpath="golang.org/x/text/encoding/simplifiedchinese">
-      <types/>
-      <functions>
-        <function name="NewDecoder">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NewEncoder">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Reset">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="hzGB2312Decoder"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="Transform">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="hzGB2312Decoder"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Reset">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="hzGB2312Encoder"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="Transform">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="hzGB2312Encoder"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NewDecoder">
-          <recvList>
-            <type type="ident" def="gbk"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NewEncoder">
-          <recvList>
-            <type type="ident" def="gbk"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="ident" def="gbk"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Transform">
-          <recvList>
-            <type type="ident" def="gbkDecoder"/>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Transform">
-          <recvList>
-            <type type="ident" def="gbkEncoder"/>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="HZGB2312"/>
-        <name value="GB18030"/>
-        <name value="GBK"/>
-      </names>
-    </package>
-    <package importpath="golang.org/x/text/encoding/unicode">
-      <types>
-        <type name="BOMPolicy" type="ident">
-          <type type="ident" def="bool"/>
-        </type>
-        <type name="Endianness" type="ident">
-          <type type="ident" def="bool"/>
-        </type>
-      </types>
-      <functions>
-        <function name="UTF16">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Endianness"/>
-            <type type="ident" def="BOMPolicy"/>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="encoding"/>
-              <item value="Encoding"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NewDecoder">
-          <recvList>
-            <type type="ident" def="utf16Encoding"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NewEncoder">
-          <recvList>
-            <type type="ident" def="utf16Encoding"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="transform"/>
-              <item value="Transformer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="ident" def="utf16Encoding"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Reset">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="utf16Decoder"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="Transform">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="utf16Decoder"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Reset">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="utf16Encoder"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="Transform">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="utf16Encoder"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="IgnoreBOM"/>
-        <name value="ExpectBOM"/>
-        <name value="BigEndian"/>
-        <name value="LittleEndian"/>
-        <name value="ErrMissingBOM"/>
       </names>
     </package>
     <package importpath="golang.org/x/text/cldr">
@@ -6336,6 +5754,570 @@
         <name value="Unconfirmed"/>
       </names>
     </package>
+    <package importpath="golang.org/x/text/collate/colltab">
+      <types>
+        <type name="Weigher" type="interface">
+          <method name="Start">
+            <paramsList>
+              <type type="ident" def="int"/>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="int"/>
+            </resultsList>
+          </method>
+          <method name="StartString">
+            <paramsList>
+              <type type="ident" def="int"/>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="int"/>
+            </resultsList>
+          </method>
+          <method name="AppendNext">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="Elem"/>
+              </type>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="Elem"/>
+              </type>
+              <type type="ident" def="int"/>
+            </resultsList>
+          </method>
+          <method name="AppendNextString">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="Elem"/>
+              </type>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="Elem"/>
+              </type>
+              <type type="ident" def="int"/>
+            </resultsList>
+          </method>
+          <method name="Domain">
+            <paramsList/>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="string"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Top">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="uint32"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="Level" type="ident">
+          <type type="ident" def="int"/>
+        </type>
+        <type name="Elem" type="ident">
+          <type type="ident" def="uint32"/>
+        </type>
+      </types>
+      <functions>
+        <function name="AppendNext">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="table"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="Elem"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Elem"/>
+            </type>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="AppendNextString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="table"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="Elem"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Elem"/>
+            </type>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Start">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="table"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="StartString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="table"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Domain">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="table"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Top">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="table"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="Init">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Weigher"/>
+          </returnsList>
+        </function>
+        <function name="MakeElem">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="uint8"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Elem"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MakeQuaternary">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Elem"/>
+          </returnsList>
+        </function>
+        <function name="Mask">
+          <recvList>
+            <type type="ident" def="Elem"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Level"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="CCC">
+          <recvList>
+            <type type="ident" def="Elem"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint8"/>
+          </returnsList>
+        </function>
+        <function name="Primary">
+          <recvList>
+            <type type="ident" def="Elem"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Secondary">
+          <recvList>
+            <type type="ident" def="Elem"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Tertiary">
+          <recvList>
+            <type type="ident" def="Elem"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint8"/>
+          </returnsList>
+        </function>
+        <function name="Quaternary">
+          <recvList>
+            <type type="ident" def="Elem"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Weight">
+          <recvList>
+            <type type="ident" def="Elem"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Level"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="Primary"/>
+        <name value="Secondary"/>
+        <name value="Tertiary"/>
+        <name value="Quaternary"/>
+        <name value="Identity"/>
+        <name value="NumLevels"/>
+        <name value="MaxQuaternary"/>
+        <name value="PrivateUse"/>
+        <name value="Ignore"/>
+      </names>
+    </package>
+    <package importpath="golang.org/x/text/cases">
+      <types>
+        <type type="struct" name="Caser">
+          <field type="selector" name="t">
+            <prefix value="transform"/>
+            <item value="Transformer"/>
+          </field>
+        </type>
+        <type name="Option" type="func">
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="options"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </type>
+      </types>
+      <functions>
+        <function name="Transform">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="undUpperCaser"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Transform">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="simpleCaser"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Transform">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="lowerCaser"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Transform">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="titleCaser"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="context"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Bytes">
+          <recvList>
+            <type type="ident" def="Caser"/>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="Caser"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="ident" def="Caser"/>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Transform">
+          <recvList>
+            <type type="ident" def="Caser"/>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Upper">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="language"/>
+              <item value="Tag"/>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="Option"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Caser"/>
+          </returnsList>
+        </function>
+        <function name="Lower">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="language"/>
+              <item value="Tag"/>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="Option"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Caser"/>
+          </returnsList>
+        </function>
+        <function name="Title">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="language"/>
+              <item value="Tag"/>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="Option"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Caser"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="Supported"/>
+        <name value="NoLower"/>
+      </names>
+    </package>
+    <package importpath="golang.org/x/text/encoding/traditionalchinese">
+      <types/>
+      <functions>
+        <function name="NewDecoder">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewEncoder">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Transform">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Transform">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="Big5"/>
+      </names>
+    </package>
     <package importpath="golang.org/x/text/collate/build">
       <types>
         <type type="struct" name="Builder">
@@ -6766,7 +6748,394 @@
       </functions>
       <names/>
     </package>
-    <package importpath="golang.org/x/text/encoding/korean">
+    <package importpath="golang.org/x/text/collate">
+      <types>
+        <type name="Lister" type="interface">
+          <method name="Len">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int"/>
+            </resultsList>
+          </method>
+          <method name="Swap">
+            <paramsList>
+              <type type="ident" def="int"/>
+              <type type="ident" def="int"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Bytes">
+            <paramsList>
+              <type type="ident" def="int"/>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="Option">
+          <field type="ident" def="int" name="priority"/>
+          <field type="func" name="f">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="options"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </field>
+        </type>
+        <type type="struct" name="Collator">
+          <field type="ident" def="options" name=""/>
+          <field type="ident" def="sorter" name="sorter"/>
+          <field type="array" name="_iter">
+            <elmtype type="ident" def="iter"/>
+          </field>
+        </type>
+        <type type="struct" name="Buffer">
+          <field type="array" name="buf">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="slice" name="key">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="sorter"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="sorter"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="sorter"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Sort">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Collator"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Lister"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SortStrings">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Collator"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="prioritizedOptions"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="prioritizedOptions"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="prioritizedOptions"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="OptionsFromTag">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="language"/>
+              <item value="Tag"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Option"/>
+          </returnsList>
+        </function>
+        <function name="Reorder">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Option"/>
+          </returnsList>
+        </function>
+        <function name="TrieIndex">
+          <recvList>
+            <type type="ident" def="tableIndex"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint16"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="TrieValues">
+          <recvList>
+            <type type="ident" def="tableIndex"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="FirstBlockOffsets">
+          <recvList>
+            <type type="ident" def="tableIndex"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint16"/>
+            <type type="ident" def="uint16"/>
+          </returnsList>
+        </function>
+        <function name="ExpandElems">
+          <recvList>
+            <type type="ident" def="tableIndex"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ContractTries">
+          <recvList>
+            <type type="ident" def="tableIndex"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <type type="struct" name="">
+                <field type="ident" def="uint8" name="l"/>
+                <field type="ident" def="uint8" name="h"/>
+                <field type="ident" def="uint8" name="n"/>
+                <field type="ident" def="uint8" name="i"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ContractElems">
+          <recvList>
+            <type type="ident" def="tableIndex"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="uint32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MaxContractLen">
+          <recvList>
+            <type type="ident" def="tableIndex"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="VariableTop">
+          <recvList>
+            <type type="ident" def="tableIndex"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="Supported">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="language"/>
+                <item value="Tag"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="language"/>
+              <item value="Tag"/>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="Option"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Collator"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewFromTable">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="colltab"/>
+              <item value="Weigher"/>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="Option"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Collator"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Compare">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Collator"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="CompareString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Collator"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Key">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Collator"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="KeyFromString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Collator"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="IgnoreCase"/>
+        <name value="IgnoreDiacritics"/>
+        <name value="IgnoreWidth"/>
+        <name value="Loose"/>
+        <name value="Force"/>
+        <name value="Numeric"/>
+      </names>
+    </package>
+    <package importpath="golang.org/x/text/encoding/japanese">
       <types/>
       <functions>
         <function name="NewDecoder">
@@ -6830,96 +7199,46 @@
             <type type="ident" def="error"/>
           </returnsList>
         </function>
-      </functions>
-      <names>
-        <name value="EUCKR"/>
-      </names>
-    </package>
-    <package importpath="golang.org/x/text/cases">
-      <types>
-        <type type="struct" name="Caser">
-          <field type="selector" name="t">
-            <prefix value="transform"/>
-            <item value="Transformer"/>
-          </field>
-        </type>
-        <type name="Option" type="func">
-          <paramsList>
-            <type type="pointer">
-              <type type="ident" def="options"/>
+        <function name="NewDecoder">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
             </type>
-          </paramsList>
-          <resultsList/>
-        </type>
-      </types>
-      <functions>
-        <function name="Transform">
+          </returnsList>
+        </function>
+        <function name="NewEncoder">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="undUpperCaser"/>
+              <type type="ident" def="iso2022JPDecoder"/>
             </type>
           </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
+          <paramsList/>
+          <returnsList/>
         </function>
         <function name="Transform">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="simpleCaser"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Transform">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="lowerCaser"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Transform">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="titleCaser"/>
+              <type type="ident" def="iso2022JPDecoder"/>
             </type>
           </recvList>
           <paramsList>
@@ -6940,48 +7259,146 @@
         <function name="Reset">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="context"/>
+              <type type="ident" def="iso2022JPEncoder"/>
             </type>
           </recvList>
           <paramsList/>
           <returnsList/>
         </function>
-        <function name="Bytes">
+        <function name="Transform">
           <recvList>
-            <type type="ident" def="Caser"/>
+            <type type="pointer">
+              <type type="ident" def="iso2022JPEncoder"/>
+            </type>
           </recvList>
           <paramsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </paramsList>
-          <returnsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewDecoder">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewEncoder">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Transform">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Transform">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ShiftJIS"/>
+        <name value="ISO2022JP"/>
+        <name value="EUCJP"/>
+      </names>
+    </package>
+    <package importpath="golang.org/x/text/encoding/charmap">
+      <types/>
+      <functions>
+        <function name="NewDecoder">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="charmap"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewEncoder">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="charmap"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="transform"/>
+              <item value="Transformer"/>
             </type>
           </returnsList>
         </function>
         <function name="String">
           <recvList>
-            <type type="ident" def="Caser"/>
+            <type type="pointer">
+              <type type="ident" def="charmap"/>
+            </type>
           </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
+          <paramsList/>
           <returnsList>
             <type type="ident" def="string"/>
           </returnsList>
         </function>
-        <function name="Reset">
-          <recvList>
-            <type type="ident" def="Caser"/>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
         <function name="Transform">
           <recvList>
-            <type type="ident" def="Caser"/>
+            <type type="ident" def="charmapDecoder"/>
           </recvList>
           <paramsList>
             <type type="slice">
@@ -6998,375 +7415,345 @@
             <type type="ident" def="error"/>
           </returnsList>
         </function>
-        <function name="Upper">
-          <recvList/>
+        <function name="Transform">
+          <recvList>
+            <type type="ident" def="charmapEncoder"/>
+          </recvList>
           <paramsList>
-            <type type="selector">
-              <prefix value="language"/>
-              <item value="Tag"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
             </type>
-            <type type="ellipsis">
-              <type type="ident" def="Option"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
             </type>
+            <type type="ident" def="bool"/>
           </paramsList>
           <returnsList>
-            <type type="ident" def="Caser"/>
-          </returnsList>
-        </function>
-        <function name="Lower">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="language"/>
-              <item value="Tag"/>
-            </type>
-            <type type="ellipsis">
-              <type type="ident" def="Option"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Caser"/>
-          </returnsList>
-        </function>
-        <function name="Title">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="language"/>
-              <item value="Tag"/>
-            </type>
-            <type type="ellipsis">
-              <type type="ident" def="Option"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Caser"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
           </returnsList>
         </function>
       </functions>
       <names>
-        <name value="Supported"/>
-        <name value="NoLower"/>
+        <name value="CodePage437"/>
+        <name value="CodePage866"/>
+        <name value="ISO8859_2"/>
+        <name value="ISO8859_3"/>
+        <name value="ISO8859_4"/>
+        <name value="ISO8859_5"/>
+        <name value="ISO8859_6"/>
+        <name value="ISO8859_7"/>
+        <name value="ISO8859_8"/>
+        <name value="ISO8859_10"/>
+        <name value="ISO8859_13"/>
+        <name value="ISO8859_14"/>
+        <name value="ISO8859_15"/>
+        <name value="ISO8859_16"/>
+        <name value="KOI8R"/>
+        <name value="KOI8U"/>
+        <name value="Macintosh"/>
+        <name value="MacintoshCyrillic"/>
+        <name value="Windows874"/>
+        <name value="Windows1250"/>
+        <name value="Windows1251"/>
+        <name value="Windows1252"/>
+        <name value="Windows1253"/>
+        <name value="Windows1254"/>
+        <name value="Windows1255"/>
+        <name value="Windows1256"/>
+        <name value="Windows1257"/>
+        <name value="Windows1258"/>
+        <name value="XUserDefined"/>
       </names>
     </package>
-    <package importpath="golang.org/x/text/display">
+    <package importpath="golang.org/x/text/transform">
       <types>
-        <type name="Namer" type="interface">
-          <method name="Name">
+        <type name="Transformer" type="interface">
+          <method name="Transform">
             <paramsList>
-              <type type="interface"/>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+              <type type="ident" def="bool"/>
             </paramsList>
             <resultsList>
-              <type type="ident" def="string"/>
+              <type type="ident" def="int"/>
+              <type type="ident" def="int"/>
+              <type type="ident" def="error"/>
             </resultsList>
           </method>
+          <method name="Reset">
+            <paramsList/>
+            <resultsList/>
+          </method>
         </type>
-        <type type="struct" name="Dictionary">
-          <field type="pointer" name="parent">
-            <type type="ident" def="Dictionary"/>
+        <type type="struct" name="NopResetter"/>
+        <type type="struct" name="Reader">
+          <field type="selector" name="r">
+            <prefix value="io"/>
+            <item value="Reader"/>
           </field>
-          <field type="ident" def="header" name="lang"/>
-          <field type="ident" def="header" name="script"/>
-          <field type="ident" def="header" name="region"/>
+          <field type="ident" def="Transformer" name="t"/>
+          <field type="ident" def="error" name="err"/>
+          <field type="slice" name="dst">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="int" name="dst0"/>
+          <field type="ident" def="int" name="dst1"/>
+          <field type="slice" name="src">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="int" name="src0"/>
+          <field type="ident" def="int" name="src1"/>
+          <field type="ident" def="bool" name="transformComplete"/>
         </type>
-        <type type="struct" name="SelfNamer">
-          <field type="selector" name="Supported">
-            <prefix value="language"/>
-            <item value="Coverage"/>
+        <type type="struct" name="Writer">
+          <field type="selector" name="w">
+            <prefix value="io"/>
+            <item value="Writer"/>
           </field>
+          <field type="ident" def="Transformer" name="t"/>
+          <field type="slice" name="dst">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="slice" name="src">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="int" name="n"/>
         </type>
       </types>
       <functions>
-        <function name="Tags">
+        <function name="Reset">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="NewReader">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+            <type type="ident" def="Transformer"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Reader"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Read">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="tagSet"/>
+              <type type="ident" def="Reader"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewWriter">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+            <type type="ident" def="Transformer"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Writer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Writer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Writer"/>
             </type>
           </recvList>
           <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Transform">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Transform">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Chain">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="Transformer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Transformer"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="chain"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Transform">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="chain"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RemoveFunc">
+          <recvList/>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="rune"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Transformer"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Transform">
+          <recvList>
+            <type type="ident" def="removeF"/>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Transformer"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Bytes">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Transformer"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
           <returnsList>
             <type type="slice">
-              <elmtype type="selector">
-                <prefix value="language"/>
-                <item value="Tag"/>
-              </elmtype>
+              <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
-        </function>
-        <function name="Languages">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="language"/>
-              <item value="Tag"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Namer"/>
-          </returnsList>
-        </function>
-        <function name="Name">
-          <recvList>
-            <type type="ident" def="languageNamer"/>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Scripts">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="language"/>
-              <item value="Tag"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Namer"/>
-          </returnsList>
-        </function>
-        <function name="Name">
-          <recvList>
-            <type type="ident" def="scriptNamer"/>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Regions">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="language"/>
-              <item value="Tag"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Namer"/>
-          </returnsList>
-        </function>
-        <function name="Name">
-          <recvList>
-            <type type="ident" def="regionNamer"/>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Tags">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="language"/>
-              <item value="Tag"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Namer"/>
-          </returnsList>
-        </function>
-        <function name="Name">
-          <recvList>
-            <type type="ident" def="tagNamer"/>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Tags">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Dictionary"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="Namer"/>
-          </returnsList>
-        </function>
-        <function name="Name">
-          <recvList>
-            <type type="ident" def="dictTags"/>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Languages">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Dictionary"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="Namer"/>
-          </returnsList>
-        </function>
-        <function name="Name">
-          <recvList>
-            <type type="ident" def="dictLanguages"/>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Scripts">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Dictionary"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="Namer"/>
-          </returnsList>
-        </function>
-        <function name="Name">
-          <recvList>
-            <type type="ident" def="dictScripts"/>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Regions">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Dictionary"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="Namer"/>
-          </returnsList>
-        </function>
-        <function name="Name">
-          <recvList>
-            <type type="ident" def="dictRegions"/>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Name">
-          <recvList>
-            <type type="ident" def="SelfNamer"/>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
           </returnsList>
         </function>
       </functions>
       <names>
-        <name value="Version"/>
-        <name value="Supported"/>
-        <name value="Values"/>
-        <name value="Self"/>
-        <name value="Afrikaans"/>
-        <name value="Amharic"/>
-        <name value="Arabic"/>
-        <name value="ModernStandardArabic"/>
-        <name value="Azerbaijani"/>
-        <name value="Bulgarian"/>
-        <name value="Bengali"/>
-        <name value="Catalan"/>
-        <name value="Czech"/>
-        <name value="Danish"/>
-        <name value="German"/>
-        <name value="Greek"/>
-        <name value="English"/>
-        <name value="AmericanEnglish"/>
-        <name value="BritishEnglish"/>
-        <name value="Spanish"/>
-        <name value="EuropeanSpanish"/>
-        <name value="LatinAmericanSpanish"/>
-        <name value="Estonian"/>
-        <name value="Persian"/>
-        <name value="Finnish"/>
-        <name value="Filipino"/>
-        <name value="French"/>
-        <name value="Gujarati"/>
-        <name value="Hebrew"/>
-        <name value="Hindi"/>
-        <name value="Croatian"/>
-        <name value="Hungarian"/>
-        <name value="Armenian"/>
-        <name value="Indonesian"/>
-        <name value="Icelandic"/>
-        <name value="Italian"/>
-        <name value="Japanese"/>
-        <name value="Georgian"/>
-        <name value="Kazakh"/>
-        <name value="Khmer"/>
-        <name value="Kannada"/>
-        <name value="Korean"/>
-        <name value="Kirghiz"/>
-        <name value="Lao"/>
-        <name value="Lithuanian"/>
-        <name value="Latvian"/>
-        <name value="Macedonian"/>
-        <name value="Malayalam"/>
-        <name value="Mongolian"/>
-        <name value="Marathi"/>
-        <name value="Malay"/>
-        <name value="Burmese"/>
-        <name value="Nepali"/>
-        <name value="Dutch"/>
-        <name value="Norwegian"/>
-        <name value="Punjabi"/>
-        <name value="Polish"/>
-        <name value="Portuguese"/>
-        <name value="BrazilianPortuguese"/>
-        <name value="EuropeanPortuguese"/>
-        <name value="Romanian"/>
-        <name value="Russian"/>
-        <name value="Sinhala"/>
-        <name value="Slovak"/>
-        <name value="Slovenian"/>
-        <name value="Albanian"/>
-        <name value="Serbian"/>
-        <name value="Swedish"/>
-        <name value="Swahili"/>
-        <name value="Tamil"/>
-        <name value="Telugu"/>
-        <name value="Thai"/>
-        <name value="Turkish"/>
-        <name value="Ukrainian"/>
-        <name value="Urdu"/>
-        <name value="Uzbek"/>
-        <name value="Vietnamese"/>
-        <name value="Chinese"/>
-        <name value="SimplifiedChinese"/>
-        <name value="TraditionalChinese"/>
-        <name value="Zulu"/>
+        <name value="ErrShortDst"/>
+        <name value="ErrShortSrc"/>
+        <name value="Discard"/>
+        <name value="Nop"/>
       </names>
     </package>
     <package importpath="golang.org/x/text/unicode/norm">
@@ -7819,393 +8206,6 @@
         <name value="NFKD"/>
         <name value="MaxSegmentSize"/>
         <name value="GraphemeJoiner"/>
-      </names>
-    </package>
-    <package importpath="golang.org/x/text/collate">
-      <types>
-        <type name="Lister" type="interface">
-          <method name="Len">
-            <paramsList/>
-            <resultsList>
-              <type type="ident" def="int"/>
-            </resultsList>
-          </method>
-          <method name="Swap">
-            <paramsList>
-              <type type="ident" def="int"/>
-              <type type="ident" def="int"/>
-            </paramsList>
-            <resultsList/>
-          </method>
-          <method name="Bytes">
-            <paramsList>
-              <type type="ident" def="int"/>
-            </paramsList>
-            <resultsList>
-              <type type="slice">
-                <elmtype type="ident" def="byte"/>
-              </type>
-            </resultsList>
-          </method>
-        </type>
-        <type type="struct" name="Option">
-          <field type="ident" def="int" name="priority"/>
-          <field type="func" name="f">
-            <paramsList>
-              <type type="pointer">
-                <type type="ident" def="options"/>
-              </type>
-            </paramsList>
-            <resultsList/>
-          </field>
-        </type>
-        <type type="struct" name="Collator">
-          <field type="ident" def="options" name=""/>
-          <field type="ident" def="sorter" name="sorter"/>
-          <field type="array" name="_iter">
-            <elmtype type="ident" def="iter"/>
-          </field>
-        </type>
-        <type type="struct" name="Buffer">
-          <field type="array" name="buf">
-            <elmtype type="ident" def="byte"/>
-          </field>
-          <field type="slice" name="key">
-            <elmtype type="ident" def="byte"/>
-          </field>
-        </type>
-      </types>
-      <functions>
-        <function name="Len">
-          <recvList>
-            <type type="ident" def="sorter"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Less">
-          <recvList>
-            <type type="ident" def="sorter"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Swap">
-          <recvList>
-            <type type="ident" def="sorter"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Sort">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Collator"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="Lister"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="SortStrings">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Collator"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="string"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="ident" def="prioritizedOptions"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Swap">
-          <recvList>
-            <type type="ident" def="prioritizedOptions"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Less">
-          <recvList>
-            <type type="ident" def="prioritizedOptions"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="OptionsFromTag">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="language"/>
-              <item value="Tag"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Option"/>
-          </returnsList>
-        </function>
-        <function name="Reorder">
-          <recvList/>
-          <paramsList>
-            <type type="ellipsis">
-              <type type="ident" def="string"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Option"/>
-          </returnsList>
-        </function>
-        <function name="TrieIndex">
-          <recvList>
-            <type type="ident" def="tableIndex"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="uint16"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="TrieValues">
-          <recvList>
-            <type type="ident" def="tableIndex"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="uint32"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="FirstBlockOffsets">
-          <recvList>
-            <type type="ident" def="tableIndex"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="uint16"/>
-            <type type="ident" def="uint16"/>
-          </returnsList>
-        </function>
-        <function name="ExpandElems">
-          <recvList>
-            <type type="ident" def="tableIndex"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="uint32"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="ContractTries">
-          <recvList>
-            <type type="ident" def="tableIndex"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <type type="struct" name="">
-                <field type="ident" def="uint8" name="l"/>
-                <field type="ident" def="uint8" name="h"/>
-                <field type="ident" def="uint8" name="n"/>
-                <field type="ident" def="uint8" name="i"/>
-              </type>
-            </type>
-          </returnsList>
-        </function>
-        <function name="ContractElems">
-          <recvList>
-            <type type="ident" def="tableIndex"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="uint32"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="MaxContractLen">
-          <recvList>
-            <type type="ident" def="tableIndex"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="VariableTop">
-          <recvList>
-            <type type="ident" def="tableIndex"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="uint32"/>
-          </returnsList>
-        </function>
-        <function name="Supported">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="language"/>
-                <item value="Tag"/>
-              </elmtype>
-            </type>
-          </returnsList>
-        </function>
-        <function name="New">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="language"/>
-              <item value="Tag"/>
-            </type>
-            <type type="ellipsis">
-              <type type="ident" def="Option"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Collator"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NewFromTable">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="colltab"/>
-              <item value="Weigher"/>
-            </type>
-            <type type="ellipsis">
-              <type type="ident" def="Option"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Collator"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Reset">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="Compare">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Collator"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="CompareString">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Collator"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Key">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Collator"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="KeyFromString">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Collator"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="IgnoreCase"/>
-        <name value="IgnoreDiacritics"/>
-        <name value="IgnoreWidth"/>
-        <name value="Loose"/>
-        <name value="Force"/>
-        <name value="Numeric"/>
       </names>
     </package>
   </packages>

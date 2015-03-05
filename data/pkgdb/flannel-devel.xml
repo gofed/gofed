@@ -1,6 +1,274 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="flannel-0.2.0-6.fc23">
   <packages>
+    <package importpath="github.com/coreos/flannel/backend/vxlan">
+      <types>
+        <type type="struct" name="VXLANBackend">
+          <field type="pointer" name="sm">
+            <type type="selector">
+              <prefix value="subnet"/>
+              <item value="SubnetManager"/>
+            </type>
+          </field>
+          <field type="selector" name="rawCfg">
+            <prefix value="json"/>
+            <item value="RawMessage"/>
+          </field>
+          <type type="struct" name="cfg">
+            <field type="ident" def="int" name="VNI"/>
+            <field type="ident" def="int" name="Port"/>
+          </type>
+          <field type="pointer" name="dev">
+            <type type="ident" def="vxlanDevice"/>
+          </field>
+          <field type="chan" dir="3" name="stop">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="selector" name="wg">
+            <prefix value="sync"/>
+            <item value="WaitGroup"/>
+          </field>
+          <field type="ident" def="routes" name="rts"/>
+        </type>
+      </types>
+      <functions>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="subnet"/>
+                <item value="SubnetManager"/>
+              </type>
+            </type>
+            <type type="selector">
+              <prefix value="json"/>
+              <item value="RawMessage"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="backend"/>
+              <item value="Backend"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="VXLANBackend"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="Interface"/>
+              </type>
+            </type>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="backend"/>
+                <item value="SubnetDef"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Run">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="VXLANBackend"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Stop">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="VXLANBackend"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="VXLANBackend"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="MarshalJSON">
+          <recvList>
+            <type type="ident" def="hardwareAddr"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UnmarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="hardwareAddr"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Configure">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="ip"/>
+              <item value="IP4Net"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Destroy">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="MACAddr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="HardwareAddr"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="MTU">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="MonitorMisses">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="chan" dir="3">
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="netlink"/>
+                  <item value="Neigh"/>
+                </type>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="AddL2">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="HardwareAddr"/>
+            </type>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DelL2">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="HardwareAddr"/>
+            </type>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AddL3">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="vxlanDevice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="HardwareAddr"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
     <package importpath="github.com/coreos/flannel/subnet">
       <types>
         <type type="struct" name="LeaseAttrs">
@@ -315,6 +583,56 @@
       <names>
         <name value="ErrCanceled"/>
       </names>
+    </package>
+    <package importpath="github.com/coreos/flannel/backend">
+      <types>
+        <type type="struct" name="SubnetDef">
+          <field type="selector" name="Net">
+            <prefix value="ip"/>
+            <item value="IP4Net"/>
+          </field>
+          <field type="ident" def="int" name="MTU"/>
+        </type>
+        <type name="Backend" type="interface">
+          <method name="Init">
+            <paramsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="net"/>
+                  <item value="Interface"/>
+                </type>
+              </type>
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="IP"/>
+              </type>
+              <type type="ident" def="bool"/>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="SubnetDef"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Run">
+            <paramsList/>
+            <resultsList/>
+          </method>
+          <method name="Stop">
+            <paramsList/>
+            <resultsList/>
+          </method>
+          <method name="Name">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+        </type>
+      </types>
+      <functions/>
+      <names/>
     </package>
     <package importpath="github.com/coreos/flannel/pkg/ip">
       <types>
@@ -838,324 +1156,6 @@
           </returnsList>
         </function>
       </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/coreos/flannel/backend/vxlan">
-      <types>
-        <type type="struct" name="VXLANBackend">
-          <field type="pointer" name="sm">
-            <type type="selector">
-              <prefix value="subnet"/>
-              <item value="SubnetManager"/>
-            </type>
-          </field>
-          <field type="selector" name="rawCfg">
-            <prefix value="json"/>
-            <item value="RawMessage"/>
-          </field>
-          <type type="struct" name="cfg">
-            <field type="ident" def="int" name="VNI"/>
-            <field type="ident" def="int" name="Port"/>
-          </type>
-          <field type="pointer" name="dev">
-            <type type="ident" def="vxlanDevice"/>
-          </field>
-          <field type="chan" dir="3" name="stop">
-            <type type="ident" def="bool"/>
-          </field>
-          <field type="selector" name="wg">
-            <prefix value="sync"/>
-            <item value="WaitGroup"/>
-          </field>
-          <field type="ident" def="routes" name="rts"/>
-        </type>
-      </types>
-      <functions>
-        <function name="New">
-          <recvList/>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="subnet"/>
-                <item value="SubnetManager"/>
-              </type>
-            </type>
-            <type type="selector">
-              <prefix value="json"/>
-              <item value="RawMessage"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="backend"/>
-              <item value="Backend"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Init">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="VXLANBackend"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="net"/>
-                <item value="Interface"/>
-              </type>
-            </type>
-            <type type="selector">
-              <prefix value="net"/>
-              <item value="IP"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="backend"/>
-                <item value="SubnetDef"/>
-              </type>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Run">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="VXLANBackend"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="Stop">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="VXLANBackend"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="Name">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="VXLANBackend"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="MarshalJSON">
-          <recvList>
-            <type type="ident" def="hardwareAddr"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="UnmarshalJSON">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="hardwareAddr"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Configure">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="vxlanDevice"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="ip"/>
-              <item value="IP4Net"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Destroy">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="vxlanDevice"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="MACAddr">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="vxlanDevice"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="net"/>
-              <item value="HardwareAddr"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="MTU">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="vxlanDevice"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="MonitorMisses">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="vxlanDevice"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="chan" dir="3">
-              <type type="pointer">
-                <type type="selector">
-                  <prefix value="netlink"/>
-                  <item value="Neigh"/>
-                </type>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="AddL2">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="vxlanDevice"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="net"/>
-              <item value="HardwareAddr"/>
-            </type>
-            <type type="selector">
-              <prefix value="net"/>
-              <item value="IP"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="DelL2">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="vxlanDevice"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="net"/>
-              <item value="HardwareAddr"/>
-            </type>
-            <type type="selector">
-              <prefix value="net"/>
-              <item value="IP"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="AddL3">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="vxlanDevice"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="net"/>
-              <item value="IP"/>
-            </type>
-            <type type="selector">
-              <prefix value="net"/>
-              <item value="HardwareAddr"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/coreos/flannel/backend">
-      <types>
-        <type type="struct" name="SubnetDef">
-          <field type="selector" name="Net">
-            <prefix value="ip"/>
-            <item value="IP4Net"/>
-          </field>
-          <field type="ident" def="int" name="MTU"/>
-        </type>
-        <type name="Backend" type="interface">
-          <method name="Init">
-            <paramsList>
-              <type type="pointer">
-                <type type="selector">
-                  <prefix value="net"/>
-                  <item value="Interface"/>
-                </type>
-              </type>
-              <type type="selector">
-                <prefix value="net"/>
-                <item value="IP"/>
-              </type>
-              <type type="ident" def="bool"/>
-            </paramsList>
-            <resultsList>
-              <type type="pointer">
-                <type type="ident" def="SubnetDef"/>
-              </type>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-          <method name="Run">
-            <paramsList/>
-            <resultsList/>
-          </method>
-          <method name="Stop">
-            <paramsList/>
-            <resultsList/>
-          </method>
-          <method name="Name">
-            <paramsList/>
-            <resultsList>
-              <type type="ident" def="string"/>
-            </resultsList>
-          </method>
-        </type>
-      </types>
-      <functions/>
       <names/>
     </package>
   </packages>

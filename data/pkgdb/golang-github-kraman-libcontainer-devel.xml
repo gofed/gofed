@@ -1,6 +1,32 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="golang-github-kraman-libcontainer-0-0.2.gitd700e5b.fc21">
   <packages>
+    <package importpath="github.com/kraman/libcontainer/utils">
+      <types/>
+      <functions>
+        <function name="WaitOnPid">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GenerateRandomName">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
     <package importpath="github.com/kraman/libcontainer">
       <types>
         <type name="Namespace" type="ident">
@@ -107,32 +133,6 @@
             </type>
           </paramsList>
           <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/kraman/libcontainer/utils">
-      <types/>
-      <functions>
-        <function name="WaitOnPid">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="GenerateRandomName">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
             <type type="ident" def="error"/>
           </returnsList>
         </function>

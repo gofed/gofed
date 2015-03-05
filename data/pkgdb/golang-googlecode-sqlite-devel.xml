@@ -336,6 +336,231 @@
         <name value="Done"/>
       </names>
     </package>
+    <package importpath="code.google.com/p/gosqlite/sqlite3">
+      <types/>
+      <functions>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="errno"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Open">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="driver"/>
+              <item value="Conn"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Prepare">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="conn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="driver"/>
+              <item value="Stmt"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="conn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Begin">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="conn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="driver"/>
+              <item value="Tx"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Commit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="tx"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Rollback">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="tx"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="stmt"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NumInput">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="stmt"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Exec">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="stmt"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="driver"/>
+                <item value="Value"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="driver"/>
+              <item value="Result"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Query">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="stmt"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="driver"/>
+                <item value="Value"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="driver"/>
+              <item value="Rows"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Columns">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rows"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Next">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rows"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="driver"/>
+                <item value="Value"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rows"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="LastInsertId">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="result"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RowsAffected">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="result"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
   </packages>
   <imports>
     <import path="C"/>

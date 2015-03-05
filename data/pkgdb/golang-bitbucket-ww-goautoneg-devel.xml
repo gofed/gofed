@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit" nvr="golang-bitbucket-ww-goautoneg-0-0.2.git75cd24fc2f2c.fc23">
+  <packages>
+    <package importpath="bitbucket.org/ww/goautoneg">
+      <types>
+        <type type="struct" name="Accept">
+          <field type="ident" def="string" name="Type"/>
+          <field type="ident" def="string" name="SubType"/>
+          <field type="ident" def="float64" name="Q"/>
+          <field type="map" name="Params">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="accept_slice"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="accept_slice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="accept_slice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="ParseAccept">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Accept"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Negotiate">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="testing"/>
+    <import path="sort"/>
+    <import path="strconv"/>
+    <import path="strings"/>
+  </imports>
+</project>

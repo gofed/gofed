@@ -1,30 +1,6 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="golang-github-miekg-dns-0-0.1.gita07be6b.fc22">
   <packages>
-    <package importpath="github.com/miekg/dns/idn">
-      <types/>
-      <functions>
-        <function name="ToPunycode">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="FromPunycode">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
     <package importpath="github.com/miekg/dns">
       <types>
         <type type="struct" name="ParseError">
@@ -4799,6 +4775,30 @@
         <name value="MinMsgSize"/>
         <name value="MaxMsgSize"/>
       </names>
+    </package>
+    <package importpath="github.com/miekg/dns/idn">
+      <types/>
+      <functions>
+        <function name="ToPunycode">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="FromPunycode">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
     </package>
   </packages>
   <imports>

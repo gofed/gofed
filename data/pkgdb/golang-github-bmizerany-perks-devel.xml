@@ -1,6 +1,137 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="golang-github-bmizerany-perks-0-0.1.gitd9a9656.fc23">
   <packages>
+    <package importpath="github.com/bmizerany/perks/histogram">
+      <types>
+        <type type="struct" name="Bin">
+          <field type="ident" def="int" name="Count"/>
+          <field type="ident" def="float64" name="Sum"/>
+        </type>
+        <type name="Bins" type="slice">
+          <elmtype type="pointer">
+            <type type="ident" def="Bin"/>
+          </elmtype>
+        </type>
+        <type type="struct" name="Histogram">
+          <field type="pointer" name="res">
+            <type type="ident" def="reservoir"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Update">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bin"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Bin"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Mean">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bin"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="float64"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="Bins"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="Bins"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="Bins"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Push">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bins"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Pop">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bins"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="interface"/>
+          </returnsList>
+        </function>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Histogram"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Insert">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Histogram"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Bins">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Histogram"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Bins"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
     <package importpath="github.com/bmizerany/perks/quantile">
       <types>
         <type type="struct" name="Sample">
@@ -251,137 +382,6 @@
           <paramsList/>
           <returnsList>
             <type type="ident" def="Samples"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/bmizerany/perks/histogram">
-      <types>
-        <type type="struct" name="Bin">
-          <field type="ident" def="int" name="Count"/>
-          <field type="ident" def="float64" name="Sum"/>
-        </type>
-        <type name="Bins" type="slice">
-          <elmtype type="pointer">
-            <type type="ident" def="Bin"/>
-          </elmtype>
-        </type>
-        <type type="struct" name="Histogram">
-          <field type="pointer" name="res">
-            <type type="ident" def="reservoir"/>
-          </field>
-        </type>
-      </types>
-      <functions>
-        <function name="Update">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Bin"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="ident" def="Bin"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Mean">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Bin"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="float64"/>
-          </returnsList>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="ident" def="Bins"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Less">
-          <recvList>
-            <type type="ident" def="Bins"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Swap">
-          <recvList>
-            <type type="ident" def="Bins"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Push">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Bins"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Pop">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Bins"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="interface"/>
-          </returnsList>
-        </function>
-        <function name="New">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Histogram"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Insert">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Histogram"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="float64"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Bins">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Histogram"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="Bins"/>
           </returnsList>
         </function>
       </functions>

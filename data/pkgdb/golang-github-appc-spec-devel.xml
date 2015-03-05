@@ -1,6 +1,273 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="golang-github-appc-spec-0.3.0-2.gitfa6d3af.fc23">
   <packages>
+    <package importpath="github.com/appc/spec/schema">
+      <types>
+        <type type="struct" name="Kind">
+          <field type="selector" name="ACVersion">
+            <prefix value="types"/>
+            <item value="SemVer"/>
+          </field>
+          <field type="selector" name="ACKind">
+            <prefix value="types"/>
+            <item value="ACKind"/>
+          </field>
+        </type>
+        <type type="struct" name="ImageManifest">
+          <field type="selector" name="ACKind">
+            <prefix value="types"/>
+            <item value="ACKind"/>
+          </field>
+          <field type="selector" name="ACVersion">
+            <prefix value="types"/>
+            <item value="SemVer"/>
+          </field>
+          <field type="selector" name="Name">
+            <prefix value="types"/>
+            <item value="ACName"/>
+          </field>
+          <field type="selector" name="Labels">
+            <prefix value="types"/>
+            <item value="Labels"/>
+          </field>
+          <field type="pointer" name="App">
+            <type type="selector">
+              <prefix value="types"/>
+              <item value="App"/>
+            </type>
+          </field>
+          <field type="selector" name="Annotations">
+            <prefix value="types"/>
+            <item value="Annotations"/>
+          </field>
+          <field type="selector" name="Dependencies">
+            <prefix value="types"/>
+            <item value="Dependencies"/>
+          </field>
+          <field type="slice" name="PathWhitelist">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="ContainerRuntimeManifest">
+          <field type="selector" name="ACVersion">
+            <prefix value="types"/>
+            <item value="SemVer"/>
+          </field>
+          <field type="selector" name="ACKind">
+            <prefix value="types"/>
+            <item value="ACKind"/>
+          </field>
+          <field type="selector" name="UUID">
+            <prefix value="types"/>
+            <item value="UUID"/>
+          </field>
+          <field type="ident" def="AppList" name="Apps"/>
+          <field type="slice" name="Volumes">
+            <elmtype type="selector">
+              <prefix value="types"/>
+              <item value="Volume"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="Isolators">
+            <elmtype type="selector">
+              <prefix value="types"/>
+              <item value="Isolator"/>
+            </elmtype>
+          </field>
+          <field type="selector" name="Annotations">
+            <prefix value="types"/>
+            <item value="Annotations"/>
+          </field>
+        </type>
+        <type name="AppList" type="slice">
+          <elmtype type="ident" def="RuntimeApp"/>
+        </type>
+        <type type="struct" name="Mount">
+          <field type="selector" name="Volume">
+            <prefix value="types"/>
+            <item value="ACName"/>
+          </field>
+          <field type="selector" name="MountPoint">
+            <prefix value="types"/>
+            <item value="ACName"/>
+          </field>
+        </type>
+        <type type="struct" name="RuntimeApp">
+          <field type="selector" name="Name">
+            <prefix value="types"/>
+            <item value="ACName"/>
+          </field>
+          <field type="selector" name="ImageID">
+            <prefix value="types"/>
+            <item value="Hash"/>
+          </field>
+          <field type="slice" name="Mounts">
+            <elmtype type="ident" def="Mount"/>
+          </field>
+          <field type="slice" name="Isolators">
+            <elmtype type="selector">
+              <prefix value="types"/>
+              <item value="Isolator"/>
+            </elmtype>
+          </field>
+          <field type="selector" name="Annotations">
+            <prefix value="types"/>
+            <item value="Annotations"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="UnmarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Kind"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalJSON">
+          <recvList>
+            <type type="ident" def="Kind"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="BlankImageManifest">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="ImageManifest"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="UnmarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ImageManifest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalJSON">
+          <recvList>
+            <type type="ident" def="ImageManifest"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetLabel">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ImageManifest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="GetAnnotation">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ImageManifest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="BlankContainerRuntimeManifest">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="ContainerRuntimeManifest"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="UnmarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ContainerRuntimeManifest"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalJSON">
+          <recvList>
+            <type type="ident" def="ContainerRuntimeManifest"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="ident" def="AppList"/>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="types"/>
+              <item value="ACName"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="RuntimeApp"/>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="AppContainerVersion"/>
+        <name value="ACIExtension"/>
+        <name value="ImageManifestKind"/>
+        <name value="ContainerRuntimeManifestKind"/>
+      </names>
+    </package>
     <package importpath="github.com/appc/spec/aci">
       <types>
         <type name="ArchiveWriter" type="interface">
@@ -236,133 +503,6 @@
             </type>
           </paramsList>
           <returnsList/>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/appc/spec/discovery">
-      <types>
-        <type type="struct" name="App">
-          <field type="selector" name="Name">
-            <prefix value="types"/>
-            <item value="ACName"/>
-          </field>
-          <field type="map" name="Labels">
-            <keytype type="ident" def="string"/>
-            <valtype type="ident" def="string"/>
-          </field>
-        </type>
-        <type type="struct" name="ACIEndpoint">
-          <field type="ident" def="string" name="ACI"/>
-          <field type="ident" def="string" name="ASC"/>
-        </type>
-        <type type="struct" name="Endpoints">
-          <field type="slice" name="ACIEndpoints">
-            <elmtype type="ident" def="ACIEndpoint"/>
-          </field>
-          <field type="slice" name="Keys">
-            <elmtype type="ident" def="string"/>
-          </field>
-        </type>
-        <type name="DiscoverWalkFunc" type="func">
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="pointer">
-              <type type="ident" def="Endpoints"/>
-            </type>
-            <type type="ident" def="error"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </type>
-        <type type="struct" name="FailedAttempt">
-          <field type="ident" def="string" name="Prefix"/>
-          <field type="ident" def="error" name="Error"/>
-        </type>
-      </types>
-      <functions>
-        <function name="NewApp">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="ident" def="string"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="App"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NewAppFromString">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="App"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Append">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Endpoints"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="Endpoints"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="DiscoverWalk">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="App"/>
-            <type type="ident" def="bool"/>
-            <type type="ident" def="DiscoverWalkFunc"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="DiscoverEndpoints">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="App"/>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Endpoints"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="FailedAttempt"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="DiscoverPublicKeys">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="App"/>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Endpoints"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="FailedAttempt"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
         </function>
       </functions>
       <names/>
@@ -1281,272 +1421,132 @@
         <name value="ErrNoACKind"/>
       </names>
     </package>
-    <package importpath="github.com/appc/spec/schema">
+    <package importpath="github.com/appc/spec/discovery">
       <types>
-        <type type="struct" name="Kind">
-          <field type="selector" name="ACVersion">
-            <prefix value="types"/>
-            <item value="SemVer"/>
-          </field>
-          <field type="selector" name="ACKind">
-            <prefix value="types"/>
-            <item value="ACKind"/>
-          </field>
-        </type>
-        <type type="struct" name="ImageManifest">
-          <field type="selector" name="ACKind">
-            <prefix value="types"/>
-            <item value="ACKind"/>
-          </field>
-          <field type="selector" name="ACVersion">
-            <prefix value="types"/>
-            <item value="SemVer"/>
-          </field>
+        <type type="struct" name="App">
           <field type="selector" name="Name">
             <prefix value="types"/>
             <item value="ACName"/>
           </field>
-          <field type="selector" name="Labels">
-            <prefix value="types"/>
-            <item value="Labels"/>
+          <field type="map" name="Labels">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
           </field>
-          <field type="pointer" name="App">
-            <type type="selector">
-              <prefix value="types"/>
-              <item value="App"/>
-            </type>
+        </type>
+        <type type="struct" name="ACIEndpoint">
+          <field type="ident" def="string" name="ACI"/>
+          <field type="ident" def="string" name="ASC"/>
+        </type>
+        <type type="struct" name="Endpoints">
+          <field type="slice" name="ACIEndpoints">
+            <elmtype type="ident" def="ACIEndpoint"/>
           </field>
-          <field type="selector" name="Annotations">
-            <prefix value="types"/>
-            <item value="Annotations"/>
-          </field>
-          <field type="selector" name="Dependencies">
-            <prefix value="types"/>
-            <item value="Dependencies"/>
-          </field>
-          <field type="slice" name="PathWhitelist">
+          <field type="slice" name="Keys">
             <elmtype type="ident" def="string"/>
           </field>
         </type>
-        <type type="struct" name="ContainerRuntimeManifest">
-          <field type="selector" name="ACVersion">
-            <prefix value="types"/>
-            <item value="SemVer"/>
-          </field>
-          <field type="selector" name="ACKind">
-            <prefix value="types"/>
-            <item value="ACKind"/>
-          </field>
-          <field type="selector" name="UUID">
-            <prefix value="types"/>
-            <item value="UUID"/>
-          </field>
-          <field type="ident" def="AppList" name="Apps"/>
-          <field type="slice" name="Volumes">
-            <elmtype type="selector">
-              <prefix value="types"/>
-              <item value="Volume"/>
-            </elmtype>
-          </field>
-          <field type="slice" name="Isolators">
-            <elmtype type="selector">
-              <prefix value="types"/>
-              <item value="Isolator"/>
-            </elmtype>
-          </field>
-          <field type="selector" name="Annotations">
-            <prefix value="types"/>
-            <item value="Annotations"/>
-          </field>
+        <type name="DiscoverWalkFunc" type="func">
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="Endpoints"/>
+            </type>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
         </type>
-        <type name="AppList" type="slice">
-          <elmtype type="ident" def="RuntimeApp"/>
-        </type>
-        <type type="struct" name="Mount">
-          <field type="selector" name="Volume">
-            <prefix value="types"/>
-            <item value="ACName"/>
-          </field>
-          <field type="selector" name="MountPoint">
-            <prefix value="types"/>
-            <item value="ACName"/>
-          </field>
-        </type>
-        <type type="struct" name="RuntimeApp">
-          <field type="selector" name="Name">
-            <prefix value="types"/>
-            <item value="ACName"/>
-          </field>
-          <field type="selector" name="ImageID">
-            <prefix value="types"/>
-            <item value="Hash"/>
-          </field>
-          <field type="slice" name="Mounts">
-            <elmtype type="ident" def="Mount"/>
-          </field>
-          <field type="slice" name="Isolators">
-            <elmtype type="selector">
-              <prefix value="types"/>
-              <item value="Isolator"/>
-            </elmtype>
-          </field>
-          <field type="selector" name="Annotations">
-            <prefix value="types"/>
-            <item value="Annotations"/>
-          </field>
+        <type type="struct" name="FailedAttempt">
+          <field type="ident" def="string" name="Prefix"/>
+          <field type="ident" def="error" name="Error"/>
         </type>
       </types>
       <functions>
-        <function name="UnmarshalJSON">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Kind"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="MarshalJSON">
-          <recvList>
-            <type type="ident" def="Kind"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="BlankImageManifest">
+        <function name="NewApp">
           <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="ImageManifest"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="UnmarshalJSON">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="ImageManifest"/>
-            </type>
-          </recvList>
           <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
+            <type type="ident" def="string"/>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
             </type>
           </paramsList>
           <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="MarshalJSON">
-          <recvList>
-            <type type="ident" def="ImageManifest"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
+            <type type="pointer">
+              <type type="ident" def="App"/>
             </type>
             <type type="ident" def="error"/>
           </returnsList>
         </function>
-        <function name="GetLabel">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="ImageManifest"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="GetAnnotation">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="ImageManifest"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="BlankContainerRuntimeManifest">
+        <function name="NewAppFromString">
           <recvList/>
-          <paramsList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
           <returnsList>
             <type type="pointer">
-              <type type="ident" def="ContainerRuntimeManifest"/>
+              <type type="ident" def="App"/>
             </type>
+            <type type="ident" def="error"/>
           </returnsList>
         </function>
-        <function name="UnmarshalJSON">
+        <function name="Append">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="ContainerRuntimeManifest"/>
+              <type type="ident" def="Endpoints"/>
             </type>
           </recvList>
           <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
+            <type type="ident" def="Endpoints"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="DiscoverWalk">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="App"/>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="DiscoverWalkFunc"/>
           </paramsList>
           <returnsList>
             <type type="ident" def="error"/>
           </returnsList>
         </function>
-        <function name="MarshalJSON">
-          <recvList>
-            <type type="ident" def="ContainerRuntimeManifest"/>
-          </recvList>
-          <paramsList/>
+        <function name="DiscoverEndpoints">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="App"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
           <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Endpoints"/>
+            </type>
             <type type="slice">
-              <elmtype type="ident" def="byte"/>
+              <elmtype type="ident" def="FailedAttempt"/>
             </type>
             <type type="ident" def="error"/>
           </returnsList>
         </function>
-        <function name="Get">
-          <recvList>
-            <type type="ident" def="AppList"/>
-          </recvList>
+        <function name="DiscoverPublicKeys">
+          <recvList/>
           <paramsList>
-            <type type="selector">
-              <prefix value="types"/>
-              <item value="ACName"/>
-            </type>
+            <type type="ident" def="App"/>
+            <type type="ident" def="bool"/>
           </paramsList>
           <returnsList>
             <type type="pointer">
-              <type type="ident" def="RuntimeApp"/>
+              <type type="ident" def="Endpoints"/>
             </type>
+            <type type="slice">
+              <elmtype type="ident" def="FailedAttempt"/>
+            </type>
+            <type type="ident" def="error"/>
           </returnsList>
         </function>
       </functions>
-      <names>
-        <name value="AppContainerVersion"/>
-        <name value="ACIExtension"/>
-        <name value="ImageManifestKind"/>
-        <name value="ContainerRuntimeManifestKind"/>
-      </names>
+      <names/>
     </package>
   </packages>
   <imports>

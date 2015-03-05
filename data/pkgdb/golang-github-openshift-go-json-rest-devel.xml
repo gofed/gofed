@@ -1,112 +1,6 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="golang-github-openshift-go-json-rest-0-0.2.git7715b15.fc21">
   <packages>
-    <package importpath="github.com/openshift/go-json-rest/trie">
-      <types>
-        <type type="struct" name="Match">
-          <field type="interface" name="Route"/>
-          <field type="map" name="Params">
-            <keytype type="ident" def="string"/>
-            <valtype type="ident" def="string"/>
-          </field>
-        </type>
-        <type type="struct" name="Trie">
-          <field type="pointer" name="root">
-            <type type="ident" def="node"/>
-          </field>
-        </type>
-      </types>
-      <functions>
-        <function name="New">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Trie"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="AddRoute">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Trie"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="FindRoutes">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Trie"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="ident" def="Match"/>
-              </elmtype>
-            </type>
-          </returnsList>
-        </function>
-        <function name="FindRoutesAndPathMatched">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Trie"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="ident" def="Match"/>
-              </elmtype>
-            </type>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="FindRoutesForPath">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Trie"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="ident" def="Match"/>
-              </elmtype>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Compress">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Trie"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-      </functions>
-      <names/>
-    </package>
     <package importpath="github.com/openshift/go-json-rest/test">
       <types>
         <type type="struct" name="Recorded">
@@ -626,6 +520,112 @@
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
           </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/openshift/go-json-rest/trie">
+      <types>
+        <type type="struct" name="Match">
+          <field type="interface" name="Route"/>
+          <field type="map" name="Params">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="Trie">
+          <field type="pointer" name="root">
+            <type type="ident" def="node"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="New">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="AddRoute">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="FindRoutes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Match"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="FindRoutesAndPathMatched">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Match"/>
+              </elmtype>
+            </type>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="FindRoutesForPath">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Match"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Compress">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Trie"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
         </function>
       </functions>
       <names/>

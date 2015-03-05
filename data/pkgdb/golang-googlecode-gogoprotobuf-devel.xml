@@ -1,365 +1,6 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="golang-googlecode-gogoprotobuf-0-0.10.gitbc946d0.fc23">
   <packages>
-    <package importpath="code.google.com/p/gogoprotobuf/protoc-gen-gogo">
-      <types/>
-      <functions/>
-      <names/>
-    </package>
-    <package importpath="code.google.com/p/gogoprotobuf/protoc-gen-gogo/version">
-      <types/>
-      <functions>
-        <function name="Get">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="AtLeast">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="code.google.com/p/gogoprotobuf/parser">
-      <types/>
-      <functions>
-        <function name="Error">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="errCmd"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="ParseFile">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ellipsis">
-              <type type="ident" def="string"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="descriptor"/>
-                <item value="FileDescriptorSet"/>
-              </type>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="code.google.com/p/gogoprotobuf/io">
-      <types>
-        <type name="Writer" type="interface">
-          <method name="WriteMsg">
-            <paramsList>
-              <type type="selector">
-                <prefix value="proto"/>
-                <item value="Message"/>
-              </type>
-            </paramsList>
-            <resultsList>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-        </type>
-        <type name="WriteCloser" type="interface"/>
-        <type name="Reader" type="interface">
-          <method name="ReadMsg">
-            <paramsList>
-              <type type="selector">
-                <prefix value="proto"/>
-                <item value="Message"/>
-              </type>
-            </paramsList>
-            <resultsList>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-        </type>
-        <type name="ReadCloser" type="interface"/>
-      </types>
-      <functions>
-        <function name="NewDelimitedWriter">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="WriteCloser"/>
-          </returnsList>
-        </function>
-        <function name="WriteMsg">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="varintWriter"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="proto"/>
-              <item value="Message"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Close">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="varintWriter"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NewDelimitedReader">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
-            </type>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="ReadCloser"/>
-          </returnsList>
-        </function>
-        <function name="ReadMsg">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="varintReader"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="proto"/>
-              <item value="Message"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Close">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="varintReader"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NewUint32DelimitedWriter">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-            <type type="selector">
-              <prefix value="binary"/>
-              <item value="ByteOrder"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="WriteCloser"/>
-          </returnsList>
-        </function>
-        <function name="NewSizeUint32DelimitedWriter">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-            <type type="selector">
-              <prefix value="binary"/>
-              <item value="ByteOrder"/>
-            </type>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="WriteCloser"/>
-          </returnsList>
-        </function>
-        <function name="WriteMsg">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="uint32Writer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="proto"/>
-              <item value="Message"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Close">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="uint32Writer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NewUint32DelimitedReader">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
-            </type>
-            <type type="selector">
-              <prefix value="binary"/>
-              <item value="ByteOrder"/>
-            </type>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="ReadCloser"/>
-          </returnsList>
-        </function>
-        <function name="ReadMsg">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="uint32Reader"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="proto"/>
-              <item value="Message"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Close">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="uint32Reader"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NewFullWriter">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="WriteCloser"/>
-          </returnsList>
-        </function>
-        <function name="WriteMsg">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="fullWriter"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="proto"/>
-              <item value="Message"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Close">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="fullWriter"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NewFullReader">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
-            </type>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="ReadCloser"/>
-          </returnsList>
-        </function>
-        <function name="ReadMsg">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="fullReader"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="proto"/>
-              <item value="Message"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Close">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="fullReader"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
     <package importpath="code.google.com/p/gogoprotobuf/plugin/defaultcheck">
       <types/>
       <functions>
@@ -486,200 +127,6 @@
           <recvList>
             <type type="pointer">
               <type type="ident" def="unmarshal"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="FileDescriptor"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="code.google.com/p/gogoprotobuf/plugin/gostring">
-      <types/>
-      <functions>
-        <function name="NewTest">
-          <recvList/>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="Generator"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="testgen"/>
-              <item value="TestPlugin"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Generate">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="test"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="generator"/>
-              <item value="PluginImports"/>
-            </type>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="FileDescriptor"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="NewGoString">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="gostring"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Name">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="gostring"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Init">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="gostring"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="Generator"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Generate">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="gostring"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="FileDescriptor"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="code.google.com/p/gogoprotobuf/plugin/size">
-      <types/>
-      <functions>
-        <function name="NewTest">
-          <recvList/>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="Generator"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="testgen"/>
-              <item value="TestPlugin"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Generate">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="test"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="generator"/>
-              <item value="PluginImports"/>
-            </type>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="FileDescriptor"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="NewSize">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="size"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Name">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="size"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Init">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="size"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="Generator"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Generate">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="size"/>
             </type>
           </recvList>
           <paramsList>
@@ -1642,187 +1089,14 @@
       </functions>
       <names/>
     </package>
-    <package importpath="code.google.com/p/gogoprotobuf/proto">
+    <package importpath="code.google.com/p/gogoprotobuf/io">
       <types>
-        <type type="struct" name="ParseError">
-          <field type="ident" def="string" name="Message"/>
-          <field type="ident" def="int" name="Line"/>
-          <field type="ident" def="int" name="Offset"/>
-        </type>
-        <type type="struct" name="StructProperties">
-          <field type="slice" name="Prop">
-            <elmtype type="pointer">
-              <type type="ident" def="Properties"/>
-            </elmtype>
-          </field>
-          <field type="ident" def="int" name="reqCount"/>
-          <field type="ident" def="tagMap" name="decoderTags"/>
-          <field type="map" name="decoderOrigNames">
-            <keytype type="ident" def="string"/>
-            <valtype type="ident" def="int"/>
-          </field>
-          <field type="slice" name="order">
-            <elmtype type="ident" def="int"/>
-          </field>
-          <field type="ident" def="field" name="unrecField"/>
-          <field type="ident" def="bool" name="extendable"/>
-        </type>
-        <type type="struct" name="Properties">
-          <field type="ident" def="string" name="Name"/>
-          <field type="ident" def="string" name="OrigName"/>
-          <field type="ident" def="string" name="Wire"/>
-          <field type="ident" def="int" name="WireType"/>
-          <field type="ident" def="int" name="Tag"/>
-          <field type="ident" def="bool" name="Required"/>
-          <field type="ident" def="bool" name="Optional"/>
-          <field type="ident" def="bool" name="Repeated"/>
-          <field type="ident" def="bool" name="Packed"/>
-          <field type="ident" def="string" name="Enum"/>
-          <field type="ident" def="string" name="Default"/>
-          <field type="ident" def="bool" name="HasDefault"/>
-          <field type="ident" def="string" name="CustomType"/>
-          <field type="ident" def="uint64" name="def_uint64"/>
-          <field type="ident" def="encoder" name="enc"/>
-          <field type="ident" def="valueEncoder" name="valEnc"/>
-          <field type="ident" def="field" name="field"/>
-          <field type="slice" name="tagcode">
-            <elmtype type="ident" def="byte"/>
-          </field>
-          <field type="array" name="tagbuf">
-            <elmtype type="ident" def="byte"/>
-          </field>
-          <field type="selector" name="stype">
-            <prefix value="reflect"/>
-            <item value="Type"/>
-          </field>
-          <field type="selector" name="sstype">
-            <prefix value="reflect"/>
-            <item value="Type"/>
-          </field>
-          <field type="selector" name="ctype">
-            <prefix value="reflect"/>
-            <item value="Type"/>
-          </field>
-          <field type="pointer" name="sprop">
-            <type type="ident" def="StructProperties"/>
-          </field>
-          <field type="ident" def="bool" name="isMarshaler"/>
-          <field type="ident" def="bool" name="isUnmarshaler"/>
-          <field type="ident" def="sizer" name="size"/>
-          <field type="ident" def="valueSizer" name="valSize"/>
-          <field type="ident" def="decoder" name="dec"/>
-          <field type="ident" def="valueDecoder" name="valDec"/>
-          <field type="ident" def="decoder" name="packedDec"/>
-        </type>
-        <type type="struct" name="MessageSet">
-          <field type="slice" name="Item">
-            <elmtype type="pointer">
-              <type type="ident" def="_MessageSet_Item"/>
-            </elmtype>
-          </field>
-          <field type="slice" name="XXX_unrecognized">
-            <elmtype type="ident" def="byte"/>
-          </field>
-        </type>
-        <type name="Message" type="interface">
-          <method name="Reset">
-            <paramsList/>
-            <resultsList/>
-          </method>
-          <method name="String">
-            <paramsList/>
-            <resultsList>
-              <type type="ident" def="string"/>
-            </resultsList>
-          </method>
-          <method name="ProtoMessage">
-            <paramsList/>
-            <resultsList/>
-          </method>
-        </type>
-        <type type="struct" name="Stats">
-          <field type="ident" def="uint64" name="Emalloc"/>
-          <field type="ident" def="uint64" name="Dmalloc"/>
-          <field type="ident" def="uint64" name="Encode"/>
-          <field type="ident" def="uint64" name="Decode"/>
-          <field type="ident" def="uint64" name="Chit"/>
-          <field type="ident" def="uint64" name="Cmiss"/>
-          <field type="ident" def="uint64" name="Size"/>
-        </type>
-        <type type="struct" name="Buffer">
-          <field type="slice" name="buf">
-            <elmtype type="ident" def="byte"/>
-          </field>
-          <field type="ident" def="int" name="index"/>
-          <field type="slice" name="bools">
-            <elmtype type="ident" def="bool"/>
-          </field>
-          <field type="slice" name="uint32s">
-            <elmtype type="ident" def="uint32"/>
-          </field>
-          <field type="slice" name="uint64s">
-            <elmtype type="ident" def="uint64"/>
-          </field>
-          <field type="slice" name="int32s">
-            <elmtype type="ident" def="int32"/>
-          </field>
-          <field type="slice" name="int64s">
-            <elmtype type="ident" def="int64"/>
-          </field>
-          <field type="slice" name="float32s">
-            <elmtype type="ident" def="float32"/>
-          </field>
-          <field type="slice" name="float64s">
-            <elmtype type="ident" def="float64"/>
-          </field>
-        </type>
-        <type type="struct" name="ExtensionRange">
-          <field type="ident" def="int32" name="Start"/>
-          <field type="ident" def="int32" name="End"/>
-        </type>
-        <type type="struct" name="ExtensionDesc">
-          <field type="ident" def="Message" name="ExtendedType"/>
-          <field type="interface" name="ExtensionType"/>
-          <field type="ident" def="int32" name="Field"/>
-          <field type="ident" def="string" name="Name"/>
-          <field type="ident" def="string" name="Tag"/>
-        </type>
-        <type type="struct" name="Extension">
-          <field type="pointer" name="desc">
-            <type type="ident" def="ExtensionDesc"/>
-          </field>
-          <field type="interface" name="value"/>
-          <field type="slice" name="enc">
-            <elmtype type="ident" def="byte"/>
-          </field>
-        </type>
-        <type name="Sizer" type="interface">
-          <method name="Size">
-            <paramsList/>
-            <resultsList>
-              <type type="ident" def="int"/>
-            </resultsList>
-          </method>
-        </type>
-        <type type="struct" name="RequiredNotSetError">
-          <field type="ident" def="string" name="field"/>
-        </type>
-        <type name="Marshaler" type="interface">
-          <method name="Marshal">
-            <paramsList/>
-            <resultsList>
-              <type type="slice">
-                <elmtype type="ident" def="byte"/>
-              </type>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-        </type>
-        <type name="Unmarshaler" type="interface">
-          <method name="Unmarshal">
+        <type name="Writer" type="interface">
+          <method name="WriteMsg">
             <paramsList>
-              <type type="slice">
-                <elmtype type="ident" def="byte"/>
+              <type type="selector">
+                <prefix value="proto"/>
+                <item value="Message"/>
               </type>
             </paramsList>
             <resultsList>
@@ -1830,1555 +1104,284 @@
             </resultsList>
           </method>
         </type>
+        <type name="WriteCloser" type="interface"/>
+        <type name="Reader" type="interface">
+          <method name="ReadMsg">
+            <paramsList>
+              <type type="selector">
+                <prefix value="proto"/>
+                <item value="Message"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="ReadCloser" type="interface"/>
       </types>
       <functions>
-        <function name="Error">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="ParseError"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="token"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="UnmarshalText">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="WriteString">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="textWriter"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Write">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="textWriter"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="WriteByte">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="textWriter"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="byte"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="ident" def="int32Slice"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Less">
-          <recvList>
-            <type type="ident" def="int32Slice"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Swap">
-          <recvList>
-            <type type="ident" def="int32Slice"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="MarshalText">
+        <function name="NewDelimitedWriter">
           <recvList/>
           <paramsList>
             <type type="selector">
               <prefix value="io"/>
               <item value="Writer"/>
             </type>
-            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="WriteCloser"/>
+          </returnsList>
+        </function>
+        <function name="WriteMsg">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="varintWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="proto"/>
+              <item value="Message"/>
+            </type>
           </paramsList>
           <returnsList>
             <type type="ident" def="error"/>
           </returnsList>
         </function>
-        <function name="MarshalTextString">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Message"/>
-          </paramsList>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="varintWriter"/>
+            </type>
+          </recvList>
+          <paramsList/>
           <returnsList>
-            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
           </returnsList>
         </function>
-        <function name="CompactText">
+        <function name="NewDelimitedReader">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="ReadCloser"/>
+          </returnsList>
+        </function>
+        <function name="ReadMsg">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="varintReader"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="proto"/>
+              <item value="Message"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="varintReader"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewUint32DelimitedWriter">
           <recvList/>
           <paramsList>
             <type type="selector">
               <prefix value="io"/>
               <item value="Writer"/>
             </type>
-            <type type="ident" def="Message"/>
+            <type type="selector">
+              <prefix value="binary"/>
+              <item value="ByteOrder"/>
+            </type>
           </paramsList>
           <returnsList>
-            <type type="ident" def="error"/>
+            <type type="ident" def="WriteCloser"/>
           </returnsList>
         </function>
-        <function name="CompactTextString">
+        <function name="NewSizeUint32DelimitedWriter">
           <recvList/>
           <paramsList>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Skip">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
             </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="StructProperties"/>
+            <type type="selector">
+              <prefix value="binary"/>
+              <item value="ByteOrder"/>
             </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Less">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="StructProperties"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
           <returnsList>
-            <type type="ident" def="bool"/>
+            <type type="ident" def="WriteCloser"/>
           </returnsList>
         </function>
-        <function name="Swap">
+        <function name="WriteMsg">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="StructProperties"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Properties"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Parse">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Properties"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Init">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Properties"/>
+              <type type="ident" def="uint32Writer"/>
             </type>
           </recvList>
           <paramsList>
             <type type="selector">
-              <prefix value="reflect"/>
-              <item value="Type"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="reflect"/>
-                <item value="StructField"/>
-              </type>
+              <prefix value="proto"/>
+              <item value="Message"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
         </function>
-        <function name="GetProperties">
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint32Writer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewUint32DelimitedReader">
           <recvList/>
           <paramsList>
             <type type="selector">
-              <prefix value="reflect"/>
-              <item value="Type"/>
+              <prefix value="io"/>
+              <item value="Reader"/>
             </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="StructProperties"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="RegisterEnum">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="map">
-              <keytype type="ident" def="int32"/>
-              <valtype type="ident" def="string"/>
-            </type>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="ident" def="int32"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="IsValid">
-          <recvList>
-            <type type="ident" def="field"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="structPointerSlice"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Index">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="structPointerSlice"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="structPointer"/>
-          </returnsList>
-        </function>
-        <function name="Append">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="structPointerSlice"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="structPointer"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Append">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="word32Slice"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="uint32"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="word32Slice"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Index">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="word32Slice"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="uint32"/>
-          </returnsList>
-        </function>
-        <function name="Append">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="word64Slice"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="uint64"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="word64Slice"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Index">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="word64Slice"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="uint64"/>
-          </returnsList>
-        </function>
-        <function name="IsValid">
-          <recvList>
-            <type type="ident" def="field"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="ident" def="structPointerSlice"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Index">
-          <recvList>
-            <type type="ident" def="structPointerSlice"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="structPointer"/>
-          </returnsList>
-        </function>
-        <function name="Append">
-          <recvList>
-            <type type="ident" def="structPointerSlice"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="structPointer"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Append">
-          <recvList>
-            <type type="ident" def="word32Slice"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="uint32"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="ident" def="word32Slice"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Index">
-          <recvList>
-            <type type="ident" def="word32Slice"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="uint32"/>
-          </returnsList>
-        </function>
-        <function name="Append">
-          <recvList>
-            <type type="ident" def="word64Slice"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="uint64"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="ident" def="word64Slice"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Index">
-          <recvList>
-            <type type="ident" def="word64Slice"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="uint64"/>
-          </returnsList>
-        </function>
-        <function name="Has">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="MessageSet"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Unmarshal">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="MessageSet"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Marshal">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="MessageSet"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Reset">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="MessageSet"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="MessageSet"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="ProtoMessage">
-          <recvList/>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="MarshalMessageSet">
-          <recvList/>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="int32"/>
-              <valtype type="ident" def="Extension"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="UnmarshalMessageSet">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="map">
-              <keytype type="ident" def="int32"/>
-              <valtype type="ident" def="Extension"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="MarshalMessageSetJSON">
-          <recvList/>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="int32"/>
-              <valtype type="ident" def="Extension"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="UnmarshalMessageSetJSON">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="map">
-              <keytype type="ident" def="int32"/>
-              <valtype type="ident" def="Extension"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="RegisterMessageSetType">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Message"/>
-            <type type="ident" def="int32"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="MarshalJSONEnum">
-          <recvList/>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="int32"/>
-              <valtype type="ident" def="string"/>
-            </type>
-            <type type="ident" def="int32"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="GetStats">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="Stats"/>
-          </returnsList>
-        </function>
-        <function name="NewBuffer">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Reset">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="SetBuf">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Bytes">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Bool">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="bool"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Int32">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int32"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="int32"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Int">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="int32"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Int64">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int64"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="int64"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Float32">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="float32"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="float32"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Float64">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="float64"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="float64"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Uint32">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="uint32"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="uint32"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Uint64">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="uint64"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="uint64"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="string"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="EnumName">
-          <recvList/>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="int32"/>
-              <valtype type="ident" def="string"/>
-            </type>
-            <type type="ident" def="int32"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="UnmarshalJSONEnum">
-          <recvList/>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="ident" def="int32"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int32"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="DebugPrint">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="SetDefaults">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="GetBoolExtension">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="extendableProto"/>
-            <type type="pointer">
-              <type type="ident" def="ExtensionDesc"/>
-            </type>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Equal">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Extension"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="ident" def="Extension"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="SizeOfExtensionMap">
-          <recvList/>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="int32"/>
-              <valtype type="ident" def="Extension"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="ident" def="sortableExtensions"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Swap">
-          <recvList>
-            <type type="ident" def="sortableExtensions"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Less">
-          <recvList>
-            <type type="ident" def="sortableExtensions"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="ident" def="sortableExtensions"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="StringFromExtensionsMap">
-          <recvList/>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="int32"/>
-              <valtype type="ident" def="Extension"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="StringFromExtensionsBytes">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="EncodeExtensionMap">
-          <recvList/>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="int32"/>
-              <valtype type="ident" def="Extension"/>
-            </type>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="GetRawExtension">
-          <recvList/>
-          <paramsList>
-            <type type="map">
-              <keytype type="ident" def="int32"/>
-              <valtype type="ident" def="Extension"/>
-            </type>
-            <type type="ident" def="int32"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="BytesToExtensionsMap">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="map">
-              <keytype type="ident" def="int32"/>
-              <valtype type="ident" def="Extension"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="NewExtension">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Extension"/>
-          </returnsList>
-        </function>
-        <function name="GoString">
-          <recvList>
-            <type type="ident" def="Extension"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="SetUnsafeExtension">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="extendableProto"/>
-            <type type="ident" def="int32"/>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="GetUnsafeExtension">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="extendableProto"/>
-            <type type="ident" def="int32"/>
-          </paramsList>
-          <returnsList>
-            <type type="interface"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="SetRawExtension">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="extendableProto"/>
-            <type type="ident" def="int32"/>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="HasExtension">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="extendableProto"/>
-            <type type="pointer">
-              <type type="ident" def="ExtensionDesc"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="ClearExtension">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="extendableProto"/>
-            <type type="pointer">
-              <type type="ident" def="ExtensionDesc"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="GetExtension">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="extendableProto"/>
-            <type type="pointer">
-              <type type="ident" def="ExtensionDesc"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="interface"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="GetExtensions">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Message"/>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="ident" def="ExtensionDesc"/>
-              </elmtype>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="interface"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="SetExtension">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="extendableProto"/>
-            <type type="pointer">
-              <type type="ident" def="ExtensionDesc"/>
-            </type>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="RegisterExtension">
-          <recvList/>
-          <paramsList>
-            <type type="pointer">
-              <type type="ident" def="ExtensionDesc"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="RegisteredExtensions">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList>
-            <type type="map">
-              <keytype type="ident" def="int32"/>
-              <valtype type="pointer">
-                <type type="ident" def="ExtensionDesc"/>
-              </valtype>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Equal">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Message"/>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Error">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="RequiredNotSetError"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="EncodeVarint">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="uint64"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="EncodeVarint">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="uint64"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="EncodeFixed64">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="uint64"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="EncodeFixed32">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="uint64"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="EncodeZigzag64">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="uint64"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="EncodeZigzag32">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="uint64"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="EncodeRawBytes">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="EncodeStringBytes">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Marshal">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Marshal">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Size">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="DecodeVarint">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="uint64"/>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="DecodeVarint">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="uint64"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="DecodeFixed64">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="uint64"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="DecodeFixed32">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="uint64"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="DecodeZigzag64">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="uint64"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="DecodeZigzag32">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="uint64"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="DecodeRawBytes">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="bool"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="DecodeStringBytes">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Unmarshal">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="UnmarshalMerge">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Unmarshal">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Clone">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Message"/>
-          </returnsList>
-        </function>
-        <function name="Merge">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="Message"/>
-            <type type="ident" def="Message"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-      </functions>
-      <names>
-        <name value="WireVarint"/>
-        <name value="WireFixed64"/>
-        <name value="WireBytes"/>
-        <name value="WireStartGroup"/>
-        <name value="WireEndGroup"/>
-        <name value="WireFixed32"/>
-        <name value="ErrNoMessageTypeId"/>
-        <name value="ErrMissingExtension"/>
-        <name value="ErrRepeatedHasNil"/>
-        <name value="ErrNil"/>
-      </names>
-    </package>
-    <package importpath="code.google.com/p/gogoprotobuf/plugin/union">
-      <types/>
-      <functions>
-        <function name="NewTest">
-          <recvList/>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="Generator"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
             <type type="selector">
-              <prefix value="testgen"/>
-              <item value="TestPlugin"/>
+              <prefix value="binary"/>
+              <item value="ByteOrder"/>
             </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="ReadCloser"/>
           </returnsList>
         </function>
-        <function name="Generate">
+        <function name="ReadMsg">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="test"/>
+              <type type="ident" def="uint32Reader"/>
             </type>
           </recvList>
           <paramsList>
             <type type="selector">
-              <prefix value="generator"/>
-              <item value="PluginImports"/>
-            </type>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="FileDescriptor"/>
-              </type>
+              <prefix value="proto"/>
+              <item value="Message"/>
             </type>
           </paramsList>
           <returnsList>
-            <type type="ident" def="bool"/>
+            <type type="ident" def="error"/>
           </returnsList>
         </function>
-        <function name="NewUnion">
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="uint32Reader"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewFullWriter">
           <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="union"/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
             </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="WriteCloser"/>
           </returnsList>
         </function>
-        <function name="Name">
+        <function name="WriteMsg">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="union"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Init">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="union"/>
+              <type type="ident" def="fullWriter"/>
             </type>
           </recvList>
           <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="Generator"/>
-              </type>
+            <type type="selector">
+              <prefix value="proto"/>
+              <item value="Message"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
         </function>
-        <function name="Generate">
+        <function name="Close">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="union"/>
+              <type type="ident" def="fullWriter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewFullReader">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="ReadCloser"/>
+          </returnsList>
+        </function>
+        <function name="ReadMsg">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="fullReader"/>
             </type>
           </recvList>
           <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="FileDescriptor"/>
-              </type>
+            <type type="selector">
+              <prefix value="proto"/>
+              <item value="Message"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="fullReader"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
         </function>
       </functions>
       <names/>
@@ -8623,7 +6626,1969 @@
       </functions>
       <names/>
     </package>
-    <package importpath="code.google.com/p/gogoprotobuf/plugin/stringer">
+    <package importpath="code.google.com/p/gogoprotobuf/proto">
+      <types>
+        <type type="struct" name="ParseError">
+          <field type="ident" def="string" name="Message"/>
+          <field type="ident" def="int" name="Line"/>
+          <field type="ident" def="int" name="Offset"/>
+        </type>
+        <type type="struct" name="StructProperties">
+          <field type="slice" name="Prop">
+            <elmtype type="pointer">
+              <type type="ident" def="Properties"/>
+            </elmtype>
+          </field>
+          <field type="ident" def="int" name="reqCount"/>
+          <field type="ident" def="tagMap" name="decoderTags"/>
+          <field type="map" name="decoderOrigNames">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="int"/>
+          </field>
+          <field type="slice" name="order">
+            <elmtype type="ident" def="int"/>
+          </field>
+          <field type="ident" def="field" name="unrecField"/>
+          <field type="ident" def="bool" name="extendable"/>
+        </type>
+        <type type="struct" name="Properties">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="OrigName"/>
+          <field type="ident" def="string" name="Wire"/>
+          <field type="ident" def="int" name="WireType"/>
+          <field type="ident" def="int" name="Tag"/>
+          <field type="ident" def="bool" name="Required"/>
+          <field type="ident" def="bool" name="Optional"/>
+          <field type="ident" def="bool" name="Repeated"/>
+          <field type="ident" def="bool" name="Packed"/>
+          <field type="ident" def="string" name="Enum"/>
+          <field type="ident" def="string" name="Default"/>
+          <field type="ident" def="bool" name="HasDefault"/>
+          <field type="ident" def="string" name="CustomType"/>
+          <field type="ident" def="uint64" name="def_uint64"/>
+          <field type="ident" def="encoder" name="enc"/>
+          <field type="ident" def="valueEncoder" name="valEnc"/>
+          <field type="ident" def="field" name="field"/>
+          <field type="slice" name="tagcode">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="array" name="tagbuf">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="selector" name="stype">
+            <prefix value="reflect"/>
+            <item value="Type"/>
+          </field>
+          <field type="selector" name="sstype">
+            <prefix value="reflect"/>
+            <item value="Type"/>
+          </field>
+          <field type="selector" name="ctype">
+            <prefix value="reflect"/>
+            <item value="Type"/>
+          </field>
+          <field type="pointer" name="sprop">
+            <type type="ident" def="StructProperties"/>
+          </field>
+          <field type="ident" def="bool" name="isMarshaler"/>
+          <field type="ident" def="bool" name="isUnmarshaler"/>
+          <field type="ident" def="sizer" name="size"/>
+          <field type="ident" def="valueSizer" name="valSize"/>
+          <field type="ident" def="decoder" name="dec"/>
+          <field type="ident" def="valueDecoder" name="valDec"/>
+          <field type="ident" def="decoder" name="packedDec"/>
+        </type>
+        <type type="struct" name="MessageSet">
+          <field type="slice" name="Item">
+            <elmtype type="pointer">
+              <type type="ident" def="_MessageSet_Item"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type name="Message" type="interface">
+          <method name="Reset">
+            <paramsList/>
+            <resultsList/>
+          </method>
+          <method name="String">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="ProtoMessage">
+            <paramsList/>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="Stats">
+          <field type="ident" def="uint64" name="Emalloc"/>
+          <field type="ident" def="uint64" name="Dmalloc"/>
+          <field type="ident" def="uint64" name="Encode"/>
+          <field type="ident" def="uint64" name="Decode"/>
+          <field type="ident" def="uint64" name="Chit"/>
+          <field type="ident" def="uint64" name="Cmiss"/>
+          <field type="ident" def="uint64" name="Size"/>
+        </type>
+        <type type="struct" name="Buffer">
+          <field type="slice" name="buf">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="int" name="index"/>
+          <field type="slice" name="bools">
+            <elmtype type="ident" def="bool"/>
+          </field>
+          <field type="slice" name="uint32s">
+            <elmtype type="ident" def="uint32"/>
+          </field>
+          <field type="slice" name="uint64s">
+            <elmtype type="ident" def="uint64"/>
+          </field>
+          <field type="slice" name="int32s">
+            <elmtype type="ident" def="int32"/>
+          </field>
+          <field type="slice" name="int64s">
+            <elmtype type="ident" def="int64"/>
+          </field>
+          <field type="slice" name="float32s">
+            <elmtype type="ident" def="float32"/>
+          </field>
+          <field type="slice" name="float64s">
+            <elmtype type="ident" def="float64"/>
+          </field>
+        </type>
+        <type type="struct" name="ExtensionRange">
+          <field type="ident" def="int32" name="Start"/>
+          <field type="ident" def="int32" name="End"/>
+        </type>
+        <type type="struct" name="ExtensionDesc">
+          <field type="ident" def="Message" name="ExtendedType"/>
+          <field type="interface" name="ExtensionType"/>
+          <field type="ident" def="int32" name="Field"/>
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="Tag"/>
+        </type>
+        <type type="struct" name="Extension">
+          <field type="pointer" name="desc">
+            <type type="ident" def="ExtensionDesc"/>
+          </field>
+          <field type="interface" name="value"/>
+          <field type="slice" name="enc">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type name="Sizer" type="interface">
+          <method name="Size">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="RequiredNotSetError">
+          <field type="ident" def="string" name="field"/>
+        </type>
+        <type name="Marshaler" type="interface">
+          <method name="Marshal">
+            <paramsList/>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="Unmarshaler" type="interface">
+          <method name="Unmarshal">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+      </types>
+      <functions>
+        <function name="Error">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ParseError"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="token"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="UnmarshalText">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WriteString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="textWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="textWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WriteByte">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="textWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="byte"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="int32Slice"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="int32Slice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="int32Slice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="MarshalText">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalTextString">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="CompactText">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CompactTextString">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Skip">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StructProperties"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StructProperties"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StructProperties"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Properties"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Parse">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Properties"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Properties"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="reflect"/>
+              <item value="Type"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="reflect"/>
+                <item value="StructField"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GetProperties">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="reflect"/>
+              <item value="Type"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="StructProperties"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RegisterEnum">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="map">
+              <keytype type="ident" def="int32"/>
+              <valtype type="ident" def="string"/>
+            </type>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="int32"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="IsValid">
+          <recvList>
+            <type type="ident" def="field"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="structPointerSlice"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Index">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="structPointerSlice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="structPointer"/>
+          </returnsList>
+        </function>
+        <function name="Append">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="structPointerSlice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="structPointer"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Append">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="word32Slice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint32"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="word32Slice"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Index">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="word32Slice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="Append">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="word64Slice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="word64Slice"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Index">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="word64Slice"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="IsValid">
+          <recvList>
+            <type type="ident" def="field"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="structPointerSlice"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Index">
+          <recvList>
+            <type type="ident" def="structPointerSlice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="structPointer"/>
+          </returnsList>
+        </function>
+        <function name="Append">
+          <recvList>
+            <type type="ident" def="structPointerSlice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="structPointer"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Append">
+          <recvList>
+            <type type="ident" def="word32Slice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint32"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="word32Slice"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Index">
+          <recvList>
+            <type type="ident" def="word32Slice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint32"/>
+          </returnsList>
+        </function>
+        <function name="Append">
+          <recvList>
+            <type type="ident" def="word64Slice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="word64Slice"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Index">
+          <recvList>
+            <type type="ident" def="word64Slice"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+          </returnsList>
+        </function>
+        <function name="Has">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MessageSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Unmarshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MessageSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Marshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MessageSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MessageSet"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MessageSet"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="MarshalMessageSet">
+          <recvList/>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="int32"/>
+              <valtype type="ident" def="Extension"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UnmarshalMessageSet">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="map">
+              <keytype type="ident" def="int32"/>
+              <valtype type="ident" def="Extension"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="MarshalMessageSetJSON">
+          <recvList/>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="int32"/>
+              <valtype type="ident" def="Extension"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UnmarshalMessageSetJSON">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="map">
+              <keytype type="ident" def="int32"/>
+              <valtype type="ident" def="Extension"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RegisterMessageSetType">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Message"/>
+            <type type="ident" def="int32"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="MarshalJSONEnum">
+          <recvList/>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="int32"/>
+              <valtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="int32"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetStats">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="Stats"/>
+          </returnsList>
+        </function>
+        <function name="NewBuffer">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="SetBuf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Bytes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Bool">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="bool"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int32">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int32"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Int64">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="int64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Float32">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="float32"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="float32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Float64">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="float64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="float64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint32">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="uint32"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint32"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Uint64">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="uint64"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="EnumName">
+          <recvList/>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="int32"/>
+              <valtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="int32"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="UnmarshalJSONEnum">
+          <recvList/>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="int32"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int32"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DebugPrint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetDefaults">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GetBoolExtension">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="extendableProto"/>
+            <type type="pointer">
+              <type type="ident" def="ExtensionDesc"/>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Extension"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Extension"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="SizeOfExtensionMap">
+          <recvList/>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="int32"/>
+              <valtype type="ident" def="Extension"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="sortableExtensions"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="sortableExtensions"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="sortableExtensions"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="sortableExtensions"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="StringFromExtensionsMap">
+          <recvList/>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="int32"/>
+              <valtype type="ident" def="Extension"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="StringFromExtensionsBytes">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="EncodeExtensionMap">
+          <recvList/>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="int32"/>
+              <valtype type="ident" def="Extension"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetRawExtension">
+          <recvList/>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="int32"/>
+              <valtype type="ident" def="Extension"/>
+            </type>
+            <type type="ident" def="int32"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="BytesToExtensionsMap">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="map">
+              <keytype type="ident" def="int32"/>
+              <valtype type="ident" def="Extension"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="NewExtension">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Extension"/>
+          </returnsList>
+        </function>
+        <function name="GoString">
+          <recvList>
+            <type type="ident" def="Extension"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="SetUnsafeExtension">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="extendableProto"/>
+            <type type="ident" def="int32"/>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetUnsafeExtension">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="extendableProto"/>
+            <type type="ident" def="int32"/>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetRawExtension">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="extendableProto"/>
+            <type type="ident" def="int32"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="HasExtension">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="extendableProto"/>
+            <type type="pointer">
+              <type type="ident" def="ExtensionDesc"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="ClearExtension">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="extendableProto"/>
+            <type type="pointer">
+              <type type="ident" def="ExtensionDesc"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GetExtension">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="extendableProto"/>
+            <type type="pointer">
+              <type type="ident" def="ExtensionDesc"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetExtensions">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Message"/>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="ExtensionDesc"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="SetExtension">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="extendableProto"/>
+            <type type="pointer">
+              <type type="ident" def="ExtensionDesc"/>
+            </type>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RegisterExtension">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="ExtensionDesc"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="RegisteredExtensions">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="map">
+              <keytype type="ident" def="int32"/>
+              <valtype type="pointer">
+                <type type="ident" def="ExtensionDesc"/>
+              </valtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Equal">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Message"/>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RequiredNotSetError"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="EncodeVarint">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="EncodeVarint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="EncodeFixed64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="EncodeFixed32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="EncodeZigzag64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="EncodeZigzag32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="EncodeRawBytes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="EncodeStringBytes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Marshal">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Marshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DecodeVarint">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="DecodeVarint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecodeFixed64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecodeFixed32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecodeZigzag64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecodeZigzag32">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecodeRawBytes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DecodeStringBytes">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Unmarshal">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="UnmarshalMerge">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Unmarshal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Clone">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Message"/>
+          </returnsList>
+        </function>
+        <function name="Merge">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Message"/>
+            <type type="ident" def="Message"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names>
+        <name value="WireVarint"/>
+        <name value="WireFixed64"/>
+        <name value="WireBytes"/>
+        <name value="WireStartGroup"/>
+        <name value="WireEndGroup"/>
+        <name value="WireFixed32"/>
+        <name value="ErrNoMessageTypeId"/>
+        <name value="ErrMissingExtension"/>
+        <name value="ErrRepeatedHasNil"/>
+        <name value="ErrNil"/>
+      </names>
+    </package>
+    <package importpath="code.google.com/p/gogoprotobuf/plugin/testgen">
+      <types>
+        <type name="TestPlugin" type="interface">
+          <method name="Generate">
+            <paramsList>
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="PluginImports"/>
+              </type>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="generator"/>
+                  <item value="FileDescriptor"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="bool"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="NewTestPlugin" type="func">
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="Generator"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="TestPlugin"/>
+          </resultsList>
+        </type>
+      </types>
+      <functions>
+        <function name="RegisterTestPlugin">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="NewTestPlugin"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="NewPlugin">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="plugin"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="plugin"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="plugin"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="Generator"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Generate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="plugin"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Generate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="testProto"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="generator"/>
+              <item value="PluginImports"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Generate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="testJson"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="generator"/>
+              <item value="PluginImports"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Generate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="testText"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="generator"/>
+              <item value="PluginImports"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/gogoprotobuf/plugin/enumstringer">
+      <types/>
+      <functions>
+        <function name="NewEnumStringer">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="enumstringer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="enumstringer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="enumstringer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="Generator"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Generate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="enumstringer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/gogoprotobuf/plugin/embedcheck">
+      <types/>
+      <functions>
+        <function name="NewPlugin">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="plugin"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="plugin"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="plugin"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="Generator"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Generate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="plugin"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GenerateImports">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="plugin"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/gogoprotobuf/protoc-gen-gogo/version">
+      <types/>
+      <functions>
+        <function name="Get">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="AtLeast">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/gogoprotobuf/plugin/size">
       <types/>
       <functions>
         <function name="NewTest">
@@ -8665,19 +8630,19 @@
             <type type="ident" def="bool"/>
           </returnsList>
         </function>
-        <function name="NewStringer">
+        <function name="NewSize">
           <recvList/>
           <paramsList/>
           <returnsList>
             <type type="pointer">
-              <type type="ident" def="stringer"/>
+              <type type="ident" def="size"/>
             </type>
           </returnsList>
         </function>
         <function name="Name">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="stringer"/>
+              <type type="ident" def="size"/>
             </type>
           </recvList>
           <paramsList/>
@@ -8688,7 +8653,7 @@
         <function name="Init">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="stringer"/>
+              <type type="ident" def="size"/>
             </type>
           </recvList>
           <paramsList>
@@ -8704,7 +8669,7 @@
         <function name="Generate">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="stringer"/>
+              <type type="ident" def="size"/>
             </type>
           </recvList>
           <paramsList>
@@ -8720,7 +8685,7 @@
       </functions>
       <names/>
     </package>
-    <package importpath="code.google.com/p/gogoprotobuf/plugin/description">
+    <package importpath="code.google.com/p/gogoprotobuf/plugin/face">
       <types/>
       <functions>
         <function name="NewTest">
@@ -8814,21 +8779,239 @@
           </paramsList>
           <returnsList/>
         </function>
-        <function name="GenerateImports">
+      </functions>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/gogoprotobuf/protoc-gen-gogo">
+      <types/>
+      <functions/>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/gogoprotobuf/protoc-gen-gogo/plugin">
+      <types>
+        <type type="struct" name="CodeGeneratorRequest">
+          <field type="slice" name="FileToGenerate">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Parameter">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="slice" name="ProtoFile">
+            <elmtype type="pointer">
+              <type type="selector">
+                <prefix value="google_protobuf"/>
+                <item value="FileDescriptorProto"/>
+              </type>
+            </elmtype>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="CodeGeneratorResponse">
+          <field type="pointer" name="Error">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="slice" name="File">
+            <elmtype type="pointer">
+              <type type="ident" def="CodeGeneratorResponse_File"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="CodeGeneratorResponse_File">
+          <field type="pointer" name="Name">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="InsertionPoint">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Content">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Reset">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="plugin"/>
+              <type type="ident" def="CodeGeneratorRequest"/>
             </type>
           </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="FileDescriptor"/>
-              </type>
-            </type>
-          </paramsList>
+          <paramsList/>
           <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CodeGeneratorRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetFileToGenerate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CodeGeneratorRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GetParameter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CodeGeneratorRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetProtoFile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CodeGeneratorRequest"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="selector">
+                  <prefix value="google_protobuf"/>
+                  <item value="FileDescriptorProto"/>
+                </type>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CodeGeneratorResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CodeGeneratorResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetError">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CodeGeneratorResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetFile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CodeGeneratorResponse"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="CodeGeneratorResponse_File"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CodeGeneratorResponse_File"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CodeGeneratorResponse_File"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="GetName">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CodeGeneratorResponse_File"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetInsertionPoint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CodeGeneratorResponse_File"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="GetContent">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CodeGeneratorResponse_File"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
         </function>
       </functions>
       <names/>
@@ -8957,9 +9140,145 @@
       </functions>
       <names/>
     </package>
-    <package importpath="code.google.com/p/gogoprotobuf/plugin/embedcheck">
+    <package importpath="code.google.com/p/gogoprotobuf/plugin/gostring">
       <types/>
       <functions>
+        <function name="NewTest">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="Generator"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="testgen"/>
+              <item value="TestPlugin"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Generate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="test"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="generator"/>
+              <item value="PluginImports"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="NewGoString">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="gostring"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="gostring"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="gostring"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="Generator"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Generate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="gostring"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/gogoprotobuf/plugin/equal">
+      <types/>
+      <functions>
+        <function name="NewTest">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="Generator"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="testgen"/>
+              <item value="TestPlugin"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Generate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="test"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="generator"/>
+              <item value="PluginImports"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
         <function name="NewPlugin">
           <recvList/>
           <paramsList/>
@@ -9012,10 +9331,91 @@
           </paramsList>
           <returnsList/>
         </function>
-        <function name="GenerateImports">
+      </functions>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/gogoprotobuf/plugin/union">
+      <types/>
+      <functions>
+        <function name="NewTest">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="Generator"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="testgen"/>
+              <item value="TestPlugin"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Generate">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="plugin"/>
+              <type type="ident" def="test"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="generator"/>
+              <item value="PluginImports"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="NewUnion">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="union"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="union"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="union"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="Generator"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Generate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="union"/>
             </type>
           </recvList>
           <paramsList>
@@ -11878,236 +12278,7 @@
         <name value="Default_EnumOptions_AllowAlias"/>
       </names>
     </package>
-    <package importpath="code.google.com/p/gogoprotobuf/protoc-gen-gogo/plugin">
-      <types>
-        <type type="struct" name="CodeGeneratorRequest">
-          <field type="slice" name="FileToGenerate">
-            <elmtype type="ident" def="string"/>
-          </field>
-          <field type="pointer" name="Parameter">
-            <type type="ident" def="string"/>
-          </field>
-          <field type="slice" name="ProtoFile">
-            <elmtype type="pointer">
-              <type type="selector">
-                <prefix value="google_protobuf"/>
-                <item value="FileDescriptorProto"/>
-              </type>
-            </elmtype>
-          </field>
-          <field type="slice" name="XXX_unrecognized">
-            <elmtype type="ident" def="byte"/>
-          </field>
-        </type>
-        <type type="struct" name="CodeGeneratorResponse">
-          <field type="pointer" name="Error">
-            <type type="ident" def="string"/>
-          </field>
-          <field type="slice" name="File">
-            <elmtype type="pointer">
-              <type type="ident" def="CodeGeneratorResponse_File"/>
-            </elmtype>
-          </field>
-          <field type="slice" name="XXX_unrecognized">
-            <elmtype type="ident" def="byte"/>
-          </field>
-        </type>
-        <type type="struct" name="CodeGeneratorResponse_File">
-          <field type="pointer" name="Name">
-            <type type="ident" def="string"/>
-          </field>
-          <field type="pointer" name="InsertionPoint">
-            <type type="ident" def="string"/>
-          </field>
-          <field type="pointer" name="Content">
-            <type type="ident" def="string"/>
-          </field>
-          <field type="slice" name="XXX_unrecognized">
-            <elmtype type="ident" def="byte"/>
-          </field>
-        </type>
-      </types>
-      <functions>
-        <function name="Reset">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="CodeGeneratorRequest"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="CodeGeneratorRequest"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="ProtoMessage">
-          <recvList/>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="GetFileToGenerate">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="CodeGeneratorRequest"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="string"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="GetParameter">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="CodeGeneratorRequest"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="GetProtoFile">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="CodeGeneratorRequest"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="selector">
-                  <prefix value="google_protobuf"/>
-                  <item value="FileDescriptorProto"/>
-                </type>
-              </elmtype>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Reset">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="CodeGeneratorResponse"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="CodeGeneratorResponse"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="ProtoMessage">
-          <recvList/>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="GetError">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="CodeGeneratorResponse"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="GetFile">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="CodeGeneratorResponse"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="ident" def="CodeGeneratorResponse_File"/>
-              </elmtype>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Reset">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="CodeGeneratorResponse_File"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="CodeGeneratorResponse_File"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="ProtoMessage">
-          <recvList/>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="GetName">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="CodeGeneratorResponse_File"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="GetInsertionPoint">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="CodeGeneratorResponse_File"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="GetContent">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="CodeGeneratorResponse_File"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="code.google.com/p/gogoprotobuf/plugin/equal">
+    <package importpath="code.google.com/p/gogoprotobuf/plugin/description">
       <types/>
       <functions>
         <function name="NewTest">
@@ -12201,10 +12372,61 @@
           </paramsList>
           <returnsList/>
         </function>
+        <function name="GenerateImports">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="plugin"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="generator"/>
+                <item value="FileDescriptor"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
       </functions>
       <names/>
     </package>
-    <package importpath="code.google.com/p/gogoprotobuf/plugin/face">
+    <package importpath="code.google.com/p/gogoprotobuf/parser">
+      <types/>
+      <functions>
+        <function name="Error">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="errCmd"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="ParseFile">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="descriptor"/>
+                <item value="FileDescriptorSet"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/gogoprotobuf/plugin/stringer">
       <types/>
       <functions>
         <function name="NewTest">
@@ -12246,19 +12468,19 @@
             <type type="ident" def="bool"/>
           </returnsList>
         </function>
-        <function name="NewPlugin">
+        <function name="NewStringer">
           <recvList/>
           <paramsList/>
           <returnsList>
             <type type="pointer">
-              <type type="ident" def="plugin"/>
+              <type type="ident" def="stringer"/>
             </type>
           </returnsList>
         </function>
         <function name="Name">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="plugin"/>
+              <type type="ident" def="stringer"/>
             </type>
           </recvList>
           <paramsList/>
@@ -12269,7 +12491,7 @@
         <function name="Init">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="plugin"/>
+              <type type="ident" def="stringer"/>
             </type>
           </recvList>
           <paramsList>
@@ -12285,7 +12507,7 @@
         <function name="Generate">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="plugin"/>
+              <type type="ident" def="stringer"/>
             </type>
           </recvList>
           <paramsList>
@@ -12297,228 +12519,6 @@
             </type>
           </paramsList>
           <returnsList/>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="code.google.com/p/gogoprotobuf/plugin/enumstringer">
-      <types/>
-      <functions>
-        <function name="NewEnumStringer">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="enumstringer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Name">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="enumstringer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Init">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="enumstringer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="Generator"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Generate">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="enumstringer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="FileDescriptor"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="code.google.com/p/gogoprotobuf/plugin/testgen">
-      <types>
-        <type name="TestPlugin" type="interface">
-          <method name="Generate">
-            <paramsList>
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="PluginImports"/>
-              </type>
-              <type type="pointer">
-                <type type="selector">
-                  <prefix value="generator"/>
-                  <item value="FileDescriptor"/>
-                </type>
-              </type>
-            </paramsList>
-            <resultsList>
-              <type type="ident" def="bool"/>
-            </resultsList>
-          </method>
-        </type>
-        <type name="NewTestPlugin" type="func">
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="Generator"/>
-              </type>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="TestPlugin"/>
-          </resultsList>
-        </type>
-      </types>
-      <functions>
-        <function name="RegisterTestPlugin">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="NewTestPlugin"/>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="NewPlugin">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="plugin"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Name">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="plugin"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Init">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="plugin"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="Generator"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Generate">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="plugin"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="FileDescriptor"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="Generate">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="testProto"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="generator"/>
-              <item value="PluginImports"/>
-            </type>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="FileDescriptor"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Generate">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="testJson"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="generator"/>
-              <item value="PluginImports"/>
-            </type>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="FileDescriptor"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Generate">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="testText"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="generator"/>
-              <item value="PluginImports"/>
-            </type>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="generator"/>
-                <item value="FileDescriptor"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
         </function>
       </functions>
       <names/>

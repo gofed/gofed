@@ -1,1078 +1,19 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="golang-github-onsi-gomega-0-0.3.git8adf9e1.fc22">
   <packages>
-    <package importpath="github.com/onsi/gomega/matchers/support/goraph/node">
-      <types>
-        <type type="struct" name="Node">
-          <field type="ident" def="int" name="Id"/>
-        </type>
-        <type name="NodeOrderedSet" type="slice">
-          <elmtype type="ident" def="Node"/>
-        </type>
-      </types>
-      <functions/>
-      <names/>
-    </package>
-    <package importpath="github.com/onsi/gomega/ghttp">
-      <types>
-        <type type="struct" name="Server">
-          <field type="pointer" name="HTTPTestServer">
-            <type type="selector">
-              <prefix value="httptest"/>
-              <item value="Server"/>
-            </type>
-          </field>
-          <field type="ident" def="bool" name="AllowUnhandledRequests"/>
-          <field type="ident" def="int" name="UnhandledRequestStatusCode"/>
-          <field type="slice" name="receivedRequests">
-            <elmtype type="pointer">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="Request"/>
-              </type>
-            </elmtype>
-          </field>
-          <field type="slice" name="requestHandlers">
-            <elmtype type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </elmtype>
-          </field>
-          <field type="slice" name="routedHandlers">
-            <elmtype type="ident" def="routedHandler"/>
-          </field>
-          <field type="pointer" name="writeLock">
-            <type type="selector">
-              <prefix value="sync"/>
-              <item value="Mutex"/>
-            </type>
-          </field>
-          <field type="ident" def="int" name="calls"/>
-        </type>
-      </types>
-      <functions>
-        <function name="NewServer">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Server"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NewUnstartedServer">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Server"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NewTLSServer">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Server"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Start">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Server"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="URL">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Server"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Addr">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Server"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Close">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Server"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="ServeHTTP">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Server"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="ResponseWriter"/>
-            </type>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="Request"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="ReceivedRequests">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Server"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="selector">
-                  <prefix value="http"/>
-                  <item value="Request"/>
-                </type>
-              </elmtype>
-            </type>
-          </returnsList>
-        </function>
-        <function name="RouteToHandler">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Server"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="interface"/>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="AppendHandlers">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Server"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ellipsis">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="HandlerFunc"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="SetHandler">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Server"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="GetHandler">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Server"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="WrapHandler">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Server"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="CloseClientConnections">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Server"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
-        </function>
-        <function name="CombineHandlers">
-          <recvList/>
-          <paramsList>
-            <type type="ellipsis">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="HandlerFunc"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="VerifyRequest">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="interface"/>
-            <type type="ellipsis">
-              <type type="ident" def="string"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="VerifyContentType">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="VerifyBasicAuth">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="VerifyHeader">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="Header"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="VerifyHeaderKV">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ellipsis">
-              <type type="ident" def="string"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="VerifyJSON">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="VerifyJSONRepresenting">
-          <recvList/>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="RespondWith">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="interface"/>
-            <type type="ellipsis">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="Header"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="RespondWithPtr">
-          <recvList/>
-          <paramsList>
-            <type type="pointer">
-              <type type="ident" def="int"/>
-            </type>
-            <type type="interface"/>
-            <type type="ellipsis">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="Header"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="RespondWithJSONEncoded">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="interface"/>
-            <type type="ellipsis">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="Header"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="RespondWithJSONEncodedPtr">
-          <recvList/>
-          <paramsList>
-            <type type="pointer">
-              <type type="ident" def="int"/>
-            </type>
-            <type type="pointer">
-              <type type="interface"/>
-            </type>
-            <type type="ellipsis">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="Header"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="http"/>
-              <item value="HandlerFunc"/>
-            </type>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/onsi/gomega/internal/asyncassertion">
-      <types>
-        <type name="AsyncAssertionType" type="ident">
-          <type type="ident" def="uint"/>
-        </type>
-        <type type="struct" name="AsyncAssertion">
-          <field type="ident" def="AsyncAssertionType" name="asyncType"/>
-          <field type="interface" name="actualInput"/>
-          <field type="selector" name="timeoutInterval">
-            <prefix value="time"/>
-            <item value="Duration"/>
-          </field>
-          <field type="selector" name="pollingInterval">
-            <prefix value="time"/>
-            <item value="Duration"/>
-          </field>
-          <field type="selector" name="fail">
-            <prefix value="types"/>
-            <item value="GomegaFailHandler"/>
-          </field>
-          <field type="ident" def="int" name="offset"/>
-        </type>
-      </types>
-      <functions>
-        <function name="New">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="AsyncAssertionType"/>
-            <type type="interface"/>
-            <type type="selector">
-              <prefix value="types"/>
-              <item value="GomegaFailHandler"/>
-            </type>
-            <type type="selector">
-              <prefix value="time"/>
-              <item value="Duration"/>
-            </type>
-            <type type="selector">
-              <prefix value="time"/>
-              <item value="Duration"/>
-            </type>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="AsyncAssertion"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Should">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="AsyncAssertion"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="types"/>
-              <item value="GomegaMatcher"/>
-            </type>
-            <type type="ellipsis">
-              <type type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="ShouldNot">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="AsyncAssertion"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="types"/>
-              <item value="GomegaMatcher"/>
-            </type>
-            <type type="ellipsis">
-              <type type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="AsyncAssertionTypeEventually"/>
-        <name value="AsyncAssertionTypeConsistently"/>
-      </names>
-    </package>
-    <package importpath="github.com/onsi/gomega/gexec">
-      <types>
-        <type type="struct" name="Session">
-          <field type="pointer" name="Command">
-            <type type="selector">
-              <prefix value="exec"/>
-              <item value="Cmd"/>
-            </type>
-          </field>
-          <field type="pointer" name="Out">
-            <type type="selector">
-              <prefix value="gbytes"/>
-              <item value="Buffer"/>
-            </type>
-          </field>
-          <field type="pointer" name="Err">
-            <type type="selector">
-              <prefix value="gbytes"/>
-              <item value="Buffer"/>
-            </type>
-          </field>
-          <field type="chan" dir="2" name="Exited">
-            <type type="struct" name=""/>
-          </field>
-          <field type="pointer" name="lock">
-            <type type="selector">
-              <prefix value="sync"/>
-              <item value="Mutex"/>
-            </type>
-          </field>
-          <field type="ident" def="int" name="exitCode"/>
-        </type>
-        <type type="struct" name="PrefixedWriter">
-          <field type="slice" name="prefix">
-            <elmtype type="ident" def="byte"/>
-          </field>
-          <field type="selector" name="writer">
-            <prefix value="io"/>
-            <item value="Writer"/>
-          </field>
-          <field type="pointer" name="lock">
-            <type type="selector">
-              <prefix value="sync"/>
-              <item value="Mutex"/>
-            </type>
-          </field>
-          <field type="ident" def="bool" name="atStartOfLine"/>
-        </type>
-        <type name="Exiter" type="interface">
-          <method name="ExitCode">
-            <paramsList/>
-            <resultsList>
-              <type type="ident" def="int"/>
-            </resultsList>
-          </method>
-        </type>
-      </types>
-      <functions>
-        <function name="Start">
-          <recvList/>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="exec"/>
-                <item value="Cmd"/>
-              </type>
-            </type>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Session"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Buffer">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Session"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="gbytes"/>
-                <item value="Buffer"/>
-              </type>
-            </type>
-          </returnsList>
-        </function>
-        <function name="ExitCode">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Session"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="Wait">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Session"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ellipsis">
-              <type type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Session"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Kill">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Session"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Session"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Interrupt">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Session"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Session"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Terminate">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Session"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Session"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Signal">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Session"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="os"/>
-              <item value="Signal"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Session"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="NewPrefixedWriter">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Writer"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="PrefixedWriter"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Write">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="PrefixedWriter"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Exit">
-          <recvList/>
-          <paramsList>
-            <type type="ellipsis">
-              <type type="ident" def="int"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="exitMatcher"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Match">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="exitMatcher"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="FailureMessage">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="exitMatcher"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="NegatedFailureMessage">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="exitMatcher"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="MatchMayChangeInTheFuture">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="exitMatcher"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Build">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ellipsis">
-              <type type="ident" def="string"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="BuildIn">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ellipsis">
-              <type type="ident" def="string"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="CleanupBuildArtifacts">
-          <recvList/>
-          <paramsList/>
-          <returnsList/>
-        </function>
-      </functions>
-      <names>
-        <name value="INVALID_EXIT_CODE"/>
-      </names>
-    </package>
-    <package importpath="github.com/onsi/gomega/format">
+    <package importpath="github.com/onsi/gomega/internal/testingtsupport">
       <types/>
       <functions>
-        <function name="Message">
+        <function name="BuildTestingTGomegaFailHandler">
           <recvList/>
           <paramsList>
-            <type type="interface"/>
-            <type type="ident" def="string"/>
-            <type type="ellipsis">
-              <type type="interface"/>
-            </type>
+            <type type="ident" def="gomegaTestingT"/>
           </paramsList>
           <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Object">
-          <recvList/>
-          <paramsList>
-            <type type="interface"/>
-            <type type="ident" def="uint"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="IndentString">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="uint"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="MaxDepth"/>
-        <name value="UseStringerRepresentation"/>
-        <name value="Indent"/>
-      </names>
-    </package>
-    <package importpath="github.com/onsi/gomega/internal/fakematcher">
-      <types>
-        <type type="struct" name="FakeMatcher">
-          <field type="interface" name="ReceivedActual"/>
-          <field type="ident" def="bool" name="MatchesToReturn"/>
-          <field type="ident" def="error" name="ErrToReturn"/>
-        </type>
-      </types>
-      <functions>
-        <function name="Match">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="FakeMatcher"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="FailureMessage">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="FakeMatcher"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="NegatedFailureMessage">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="FakeMatcher"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/onsi/gomega/internal/assertion">
-      <types>
-        <type type="struct" name="Assertion">
-          <field type="interface" name="actualInput"/>
-          <field type="selector" name="fail">
-            <prefix value="types"/>
-            <item value="GomegaFailHandler"/>
-          </field>
-          <field type="ident" def="int" name="offset"/>
-          <field type="slice" name="extra">
-            <elmtype type="interface"/>
-          </field>
-        </type>
-      </types>
-      <functions>
-        <function name="New">
-          <recvList/>
-          <paramsList>
-            <type type="interface"/>
             <type type="selector">
               <prefix value="types"/>
               <item value="GomegaFailHandler"/>
             </type>
-            <type type="ident" def="int"/>
-            <type type="ellipsis">
-              <type type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Assertion"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Should">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Assertion"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="types"/>
-              <item value="GomegaMatcher"/>
-            </type>
-            <type type="ellipsis">
-              <type type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="ShouldNot">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Assertion"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="types"/>
-              <item value="GomegaMatcher"/>
-            </type>
-            <type type="ellipsis">
-              <type type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="To">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Assertion"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="types"/>
-              <item value="GomegaMatcher"/>
-            </type>
-            <type type="ellipsis">
-              <type type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="ToNot">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Assertion"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="types"/>
-              <item value="GomegaMatcher"/>
-            </type>
-            <type type="ellipsis">
-              <type type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="NotTo">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Assertion"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="types"/>
-              <item value="GomegaMatcher"/>
-            </type>
-            <type type="ellipsis">
-              <type type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
           </returnsList>
         </function>
       </functions>
@@ -1690,6 +631,58 @@
         <name value="GOMEGA_VERSION"/>
       </names>
     </package>
+    <package importpath="github.com/onsi/gomega/internal/fakematcher">
+      <types>
+        <type type="struct" name="FakeMatcher">
+          <field type="interface" name="ReceivedActual"/>
+          <field type="ident" def="bool" name="MatchesToReturn"/>
+          <field type="ident" def="error" name="ErrToReturn"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Match">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FakeMatcher"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="FailureMessage">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FakeMatcher"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="NegatedFailureMessage">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FakeMatcher"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
     <package importpath="github.com/onsi/gomega/matchers/support/goraph/util">
       <types/>
       <functions>
@@ -1704,6 +697,1357 @@
         </function>
       </functions>
       <names/>
+    </package>
+    <package importpath="github.com/onsi/gomega/gbytes">
+      <types>
+        <type name="BufferProvider" type="interface">
+          <method name="Buffer">
+            <paramsList/>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="Buffer"/>
+              </type>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="Buffer">
+          <field type="slice" name="contents">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="uint64" name="readCursor"/>
+          <field type="pointer" name="lock">
+            <type type="selector">
+              <prefix value="sync"/>
+              <item value="Mutex"/>
+            </type>
+          </field>
+          <field type="chan" dir="3" name="detectCloser">
+            <type type="interface"/>
+          </field>
+          <field type="ident" def="bool" name="closed"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Say">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="sayMatcher"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Match">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sayMatcher"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="FailureMessage">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sayMatcher"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="NegatedFailureMessage">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sayMatcher"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="MatchMayChangeInTheFuture">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="sayMatcher"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="NewBuffer">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="BufferWithBytes">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Read">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Closed">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Contents">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Detect">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="chan" dir="3">
+              <type type="ident" def="bool"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="CancelDetects">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Buffer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/onsi/gomega/matchers/support/goraph/bipartitegraph">
+      <types>
+        <type type="struct" name="BipartiteGraph">
+          <field type="ident" def="NodeOrderedSet" name="Left"/>
+          <field type="ident" def="NodeOrderedSet" name="Right"/>
+          <field type="ident" def="EdgeSet" name="Edges"/>
+        </type>
+      </types>
+      <functions>
+        <function name="LargestMatching">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BipartiteGraph"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="EdgeSet"/>
+          </returnsList>
+        </function>
+        <function name="NewBipartiteGraph">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="func">
+              <paramsList>
+                <type type="interface"/>
+                <type type="interface"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+                <type type="ident" def="error"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="BipartiteGraph"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/onsi/gomega/format">
+      <types/>
+      <functions>
+        <function name="Message">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Object">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="uint"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="IndentString">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="MaxDepth"/>
+        <name value="UseStringerRepresentation"/>
+        <name value="Indent"/>
+      </names>
+    </package>
+    <package importpath="github.com/onsi/gomega/internal/assertion">
+      <types>
+        <type type="struct" name="Assertion">
+          <field type="interface" name="actualInput"/>
+          <field type="selector" name="fail">
+            <prefix value="types"/>
+            <item value="GomegaFailHandler"/>
+          </field>
+          <field type="ident" def="int" name="offset"/>
+          <field type="slice" name="extra">
+            <elmtype type="interface"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="selector">
+              <prefix value="types"/>
+              <item value="GomegaFailHandler"/>
+            </type>
+            <type type="ident" def="int"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Assertion"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Should">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Assertion"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="types"/>
+              <item value="GomegaMatcher"/>
+            </type>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="ShouldNot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Assertion"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="types"/>
+              <item value="GomegaMatcher"/>
+            </type>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="To">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Assertion"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="types"/>
+              <item value="GomegaMatcher"/>
+            </type>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="ToNot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Assertion"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="types"/>
+              <item value="GomegaMatcher"/>
+            </type>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="NotTo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Assertion"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="types"/>
+              <item value="GomegaMatcher"/>
+            </type>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/onsi/gomega/ghttp">
+      <types>
+        <type type="struct" name="Server">
+          <field type="pointer" name="HTTPTestServer">
+            <type type="selector">
+              <prefix value="httptest"/>
+              <item value="Server"/>
+            </type>
+          </field>
+          <field type="ident" def="bool" name="AllowUnhandledRequests"/>
+          <field type="ident" def="int" name="UnhandledRequestStatusCode"/>
+          <field type="slice" name="receivedRequests">
+            <elmtype type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </elmtype>
+          </field>
+          <field type="slice" name="requestHandlers">
+            <elmtype type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="routedHandlers">
+            <elmtype type="ident" def="routedHandler"/>
+          </field>
+          <field type="pointer" name="writeLock">
+            <type type="selector">
+              <prefix value="sync"/>
+              <item value="Mutex"/>
+            </type>
+          </field>
+          <field type="ident" def="int" name="calls"/>
+        </type>
+      </types>
+      <functions>
+        <function name="NewServer">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewUnstartedServer">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewTLSServer">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Start">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="URL">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Addr">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="ServeHTTP">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="ReceivedRequests">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="selector">
+                  <prefix value="http"/>
+                  <item value="Request"/>
+                </type>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RouteToHandler">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="AppendHandlers">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="HandlerFunc"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="SetHandler">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="GetHandler">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="WrapHandler">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="CloseClientConnections">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList/>
+        </function>
+        <function name="CombineHandlers">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="HandlerFunc"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="VerifyRequest">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="VerifyContentType">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="VerifyBasicAuth">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="VerifyHeader">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="Header"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="VerifyHeaderKV">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="VerifyJSON">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="VerifyJSONRepresenting">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RespondWith">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Header"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RespondWithPtr">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int"/>
+            </type>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Header"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RespondWithJSONEncoded">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Header"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="RespondWithJSONEncodedPtr">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="int"/>
+            </type>
+            <type type="pointer">
+              <type type="interface"/>
+            </type>
+            <type type="ellipsis">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Header"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="HandlerFunc"/>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/onsi/gomega/matchers/support/goraph/node">
+      <types>
+        <type type="struct" name="Node">
+          <field type="ident" def="int" name="Id"/>
+        </type>
+        <type name="NodeOrderedSet" type="slice">
+          <elmtype type="ident" def="Node"/>
+        </type>
+      </types>
+      <functions/>
+      <names/>
+    </package>
+    <package importpath="github.com/onsi/gomega/matchers/support/goraph/edge">
+      <types>
+        <type type="struct" name="Edge">
+          <field type="ident" def="Node" name="Node1"/>
+          <field type="ident" def="Node" name="Node2"/>
+        </type>
+        <type name="EdgeSet" type="slice">
+          <elmtype type="ident" def="Edge"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Free">
+          <recvList>
+            <type type="ident" def="EdgeSet"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Node"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Contains">
+          <recvList>
+            <type type="ident" def="EdgeSet"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Edge"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="FindByNodes">
+          <recvList>
+            <type type="ident" def="EdgeSet"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Node"/>
+            <type type="ident" def="Node"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="Edge"/>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="SymmetricDifference">
+          <recvList>
+            <type type="ident" def="EdgeSet"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="EdgeSet"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="EdgeSet"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/onsi/gomega/internal/asyncassertion">
+      <types>
+        <type name="AsyncAssertionType" type="ident">
+          <type type="ident" def="uint"/>
+        </type>
+        <type type="struct" name="AsyncAssertion">
+          <field type="ident" def="AsyncAssertionType" name="asyncType"/>
+          <field type="interface" name="actualInput"/>
+          <field type="selector" name="timeoutInterval">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="pollingInterval">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="fail">
+            <prefix value="types"/>
+            <item value="GomegaFailHandler"/>
+          </field>
+          <field type="ident" def="int" name="offset"/>
+        </type>
+      </types>
+      <functions>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="AsyncAssertionType"/>
+            <type type="interface"/>
+            <type type="selector">
+              <prefix value="types"/>
+              <item value="GomegaFailHandler"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="AsyncAssertion"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Should">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AsyncAssertion"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="types"/>
+              <item value="GomegaMatcher"/>
+            </type>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="ShouldNot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AsyncAssertion"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="types"/>
+              <item value="GomegaMatcher"/>
+            </type>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="AsyncAssertionTypeEventually"/>
+        <name value="AsyncAssertionTypeConsistently"/>
+      </names>
+    </package>
+    <package importpath="github.com/onsi/gomega/gexec">
+      <types>
+        <type type="struct" name="Session">
+          <field type="pointer" name="Command">
+            <type type="selector">
+              <prefix value="exec"/>
+              <item value="Cmd"/>
+            </type>
+          </field>
+          <field type="pointer" name="Out">
+            <type type="selector">
+              <prefix value="gbytes"/>
+              <item value="Buffer"/>
+            </type>
+          </field>
+          <field type="pointer" name="Err">
+            <type type="selector">
+              <prefix value="gbytes"/>
+              <item value="Buffer"/>
+            </type>
+          </field>
+          <field type="chan" dir="2" name="Exited">
+            <type type="struct" name=""/>
+          </field>
+          <field type="pointer" name="lock">
+            <type type="selector">
+              <prefix value="sync"/>
+              <item value="Mutex"/>
+            </type>
+          </field>
+          <field type="ident" def="int" name="exitCode"/>
+        </type>
+        <type type="struct" name="PrefixedWriter">
+          <field type="slice" name="prefix">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="selector" name="writer">
+            <prefix value="io"/>
+            <item value="Writer"/>
+          </field>
+          <field type="pointer" name="lock">
+            <type type="selector">
+              <prefix value="sync"/>
+              <item value="Mutex"/>
+            </type>
+          </field>
+          <field type="ident" def="bool" name="atStartOfLine"/>
+        </type>
+        <type name="Exiter" type="interface">
+          <method name="ExitCode">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int"/>
+            </resultsList>
+          </method>
+        </type>
+      </types>
+      <functions>
+        <function name="Start">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="exec"/>
+                <item value="Cmd"/>
+              </type>
+            </type>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Session"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Buffer">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Session"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="gbytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="ExitCode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Session"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="Wait">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Session"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Session"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Kill">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Session"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Session"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Interrupt">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Session"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Session"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Terminate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Session"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Session"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Signal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Session"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="os"/>
+              <item value="Signal"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="Session"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="NewPrefixedWriter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="PrefixedWriter"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="PrefixedWriter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Exit">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="int"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="exitMatcher"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Match">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="exitMatcher"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="FailureMessage">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="exitMatcher"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="NegatedFailureMessage">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="exitMatcher"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="MatchMayChangeInTheFuture">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="exitMatcher"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="Build">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="BuildIn">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CleanupBuildArtifacts">
+          <recvList/>
+          <paramsList/>
+          <returnsList/>
+        </function>
+      </functions>
+      <names>
+        <name value="INVALID_EXIT_CODE"/>
+      </names>
     </package>
     <package importpath="github.com/onsi/gomega/matchers">
       <types>
@@ -2911,350 +3255,6 @@
           <returnsList>
             <type type="ident" def="string"/>
           </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/onsi/gomega/internal/testingtsupport">
-      <types/>
-      <functions>
-        <function name="BuildTestingTGomegaFailHandler">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="gomegaTestingT"/>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="types"/>
-              <item value="GomegaFailHandler"/>
-            </type>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/onsi/gomega/matchers/support/goraph/edge">
-      <types>
-        <type type="struct" name="Edge">
-          <field type="ident" def="Node" name="Node1"/>
-          <field type="ident" def="Node" name="Node2"/>
-        </type>
-        <type name="EdgeSet" type="slice">
-          <elmtype type="ident" def="Edge"/>
-        </type>
-      </types>
-      <functions>
-        <function name="Free">
-          <recvList>
-            <type type="ident" def="EdgeSet"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="Node"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Contains">
-          <recvList>
-            <type type="ident" def="EdgeSet"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="Edge"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="FindByNodes">
-          <recvList>
-            <type type="ident" def="EdgeSet"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="Node"/>
-            <type type="ident" def="Node"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="Edge"/>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="SymmetricDifference">
-          <recvList>
-            <type type="ident" def="EdgeSet"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="EdgeSet"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="EdgeSet"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/onsi/gomega/matchers/support/goraph/bipartitegraph">
-      <types>
-        <type type="struct" name="BipartiteGraph">
-          <field type="ident" def="NodeOrderedSet" name="Left"/>
-          <field type="ident" def="NodeOrderedSet" name="Right"/>
-          <field type="ident" def="EdgeSet" name="Edges"/>
-        </type>
-      </types>
-      <functions>
-        <function name="LargestMatching">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="BipartiteGraph"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="EdgeSet"/>
-          </returnsList>
-        </function>
-        <function name="NewBipartiteGraph">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="interface"/>
-            </type>
-            <type type="slice">
-              <elmtype type="interface"/>
-            </type>
-            <type type="func">
-              <paramsList>
-                <type type="interface"/>
-                <type type="interface"/>
-              </paramsList>
-              <resultsList>
-                <type type="ident" def="bool"/>
-                <type type="ident" def="error"/>
-              </resultsList>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="BipartiteGraph"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/onsi/gomega/gbytes">
-      <types>
-        <type name="BufferProvider" type="interface">
-          <method name="Buffer">
-            <paramsList/>
-            <resultsList>
-              <type type="pointer">
-                <type type="ident" def="Buffer"/>
-              </type>
-            </resultsList>
-          </method>
-        </type>
-        <type type="struct" name="Buffer">
-          <field type="slice" name="contents">
-            <elmtype type="ident" def="byte"/>
-          </field>
-          <field type="ident" def="uint64" name="readCursor"/>
-          <field type="pointer" name="lock">
-            <type type="selector">
-              <prefix value="sync"/>
-              <item value="Mutex"/>
-            </type>
-          </field>
-          <field type="chan" dir="3" name="detectCloser">
-            <type type="interface"/>
-          </field>
-          <field type="ident" def="bool" name="closed"/>
-        </type>
-      </types>
-      <functions>
-        <function name="Say">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ellipsis">
-              <type type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="sayMatcher"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Match">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="sayMatcher"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="FailureMessage">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="sayMatcher"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="NegatedFailureMessage">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="sayMatcher"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="MatchMayChangeInTheFuture">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="sayMatcher"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="interface"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="NewBuffer">
-          <recvList/>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="BufferWithBytes">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Write">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Read">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Close">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Closed">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="Contents">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Detect">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ellipsis">
-              <type type="interface"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="chan" dir="3">
-              <type type="ident" def="bool"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="CancelDetects">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Buffer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList/>
         </function>
       </functions>
       <names/>

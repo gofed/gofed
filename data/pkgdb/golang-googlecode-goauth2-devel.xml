@@ -1,12 +1,47 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="golang-googlecode-goauth2-0-0.5.hg267028f.fc22">
   <packages>
-    <package importpath="golang.org/x/oauth2/github">
+    <package importpath="golang.org/x/oauth2/internal">
       <types/>
-      <functions/>
-      <names>
-        <name value="Endpoint"/>
-      </names>
+      <functions>
+        <function name="ParseKey">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="rsa"/>
+                <item value="PrivateKey"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ParseINI">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="map">
+                <keytype type="ident" def="string"/>
+                <valtype type="ident" def="string"/>
+              </valtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
     </package>
     <package importpath="golang.org/x/oauth2/jws">
       <types>
@@ -68,79 +103,6 @@
           </paramsList>
           <returnsList>
             <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="golang.org/x/oauth2/jwt">
-      <types>
-        <type type="struct" name="Config">
-          <field type="ident" def="string" name="Email"/>
-          <field type="slice" name="PrivateKey">
-            <elmtype type="ident" def="byte"/>
-          </field>
-          <field type="ident" def="string" name="Subject"/>
-          <field type="slice" name="Scopes">
-            <elmtype type="ident" def="string"/>
-          </field>
-          <field type="ident" def="string" name="TokenURL"/>
-        </type>
-      </types>
-      <functions>
-        <function name="TokenSource">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Config"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="oauth2"/>
-              <item value="Context"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="oauth2"/>
-              <item value="TokenSource"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Client">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Config"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="oauth2"/>
-              <item value="Context"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="Client"/>
-              </type>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Token">
-          <recvList>
-            <type type="ident" def="jwtSource"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="oauth2"/>
-                <item value="Token"/>
-              </type>
-            </type>
             <type type="ident" def="error"/>
           </returnsList>
         </function>
@@ -351,6 +313,79 @@
         <name value="Endpoint"/>
         <name value="JWTTokenURL"/>
       </names>
+    </package>
+    <package importpath="golang.org/x/oauth2/jwt">
+      <types>
+        <type type="struct" name="Config">
+          <field type="ident" def="string" name="Email"/>
+          <field type="slice" name="PrivateKey">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="string" name="Subject"/>
+          <field type="slice" name="Scopes">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="TokenURL"/>
+        </type>
+      </types>
+      <functions>
+        <function name="TokenSource">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Config"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="oauth2"/>
+              <item value="Context"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="oauth2"/>
+              <item value="TokenSource"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Client">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Config"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="oauth2"/>
+              <item value="Context"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Client"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Token">
+          <recvList>
+            <type type="ident" def="jwtSource"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="oauth2"/>
+                <item value="Token"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
     </package>
     <package importpath="golang.org/x/oauth2">
       <types>
@@ -714,47 +749,12 @@
         <name value="HTTPClient"/>
       </names>
     </package>
-    <package importpath="golang.org/x/oauth2/internal">
+    <package importpath="golang.org/x/oauth2/github">
       <types/>
-      <functions>
-        <function name="ParseKey">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="byte"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="rsa"/>
-                <item value="PrivateKey"/>
-              </type>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ParseINI">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="map">
-                <keytype type="ident" def="string"/>
-                <valtype type="ident" def="string"/>
-              </valtype>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
+      <functions/>
+      <names>
+        <name value="Endpoint"/>
+      </names>
     </package>
   </packages>
   <imports>

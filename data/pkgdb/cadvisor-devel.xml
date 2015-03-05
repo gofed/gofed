@@ -1,6 +1,164 @@
 <?xml version='1.0' encoding='ASCII'?>
 <project url="" commit="commit" nvr="cadvisor-0.6.2-0.1.git89088df.fc22">
   <packages>
+    <package importpath="github.com/google/cadvisor/utils/fs">
+      <types>
+        <type name="FileSystem" type="interface">
+          <method name="Open">
+            <paramsList>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="File"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="File" type="interface"/>
+      </types>
+      <functions>
+        <function name="Open">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="File"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Stat">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="os"/>
+              <item value="FileInfo"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ChangeFileSystem">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="FileSystem"/>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="Open">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="File"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/google/cadvisor/storage/influxdb">
+      <types/>
+      <functions>
+        <function name="OverrideReadyToFlush">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="influxdbStorage"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList/>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="AddStats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="influxdbStorage"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="info"/>
+              <item value="ContainerReference"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="info"/>
+                <item value="ContainerStats"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RecentStats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="influxdbStorage"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="selector">
+                  <prefix value="info"/>
+                  <item value="ContainerStats"/>
+                </type>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="influxdbStorage"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="influxdbStorage"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
     <package importpath="github.com/google/cadvisor/info">
       <types>
         <type type="struct" name="FsInfo">
@@ -274,379 +432,136 @@
         <name value="VERSION"/>
       </names>
     </package>
-    <package importpath="github.com/google/cadvisor/container/docker">
-      <types/>
-      <functions>
-        <function name="ContainerReference">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="dockerContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="info"/>
-              <item value="ContainerReference"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="GetSpec">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="dockerContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="info"/>
-              <item value="ContainerSpec"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="GetStats">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="dockerContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="info"/>
-                <item value="ContainerStats"/>
-              </type>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ListContainers">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="dockerContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="container"/>
-              <item value="ListType"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="info"/>
-                <item value="ContainerReference"/>
-              </elmtype>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ListThreads">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="dockerContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="container"/>
-              <item value="ListType"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="int"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ListProcesses">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="dockerContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="container"/>
-              <item value="ListType"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="int"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="WatchSubcontainers">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="dockerContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="chan" dir="3">
-              <type type="selector">
-                <prefix value="container"/>
-                <item value="SubcontainerEvent"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="StopWatchingSubcontainers">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="dockerContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="dockerFactory"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="NewContainerHandler">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="dockerFactory"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="container"/>
-              <item value="ContainerHandler"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="IsDockerContainerName">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="ContainerNameToDockerId">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="FullContainerName">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="CanHandle">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="dockerFactory"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Register">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="info"/>
-              <item value="MachineInfoFactory"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="ArgDockerEndpoint"/>
-        <name value="DockerNamespace"/>
-      </names>
-    </package>
-    <package importpath="github.com/google/cadvisor/fs">
+    <package importpath="github.com/google/cadvisor/storage/bigquery/client">
       <types>
-        <type type="struct" name="DeviceInfo">
-          <field type="ident" def="string" name="Device"/>
-          <field type="ident" def="uint" name="Major"/>
-          <field type="ident" def="uint" name="Minor"/>
-        </type>
-        <type type="struct" name="Fs">
-          <field type="ident" def="DeviceInfo" name=""/>
-          <field type="ident" def="uint64" name="Capacity"/>
-          <field type="ident" def="uint64" name="Free"/>
-          <field type="ident" def="DiskStats" name="DiskStats"/>
-        </type>
-        <type type="struct" name="DiskStats">
-          <field type="ident" def="uint64" name="ReadsCompleted"/>
-          <field type="ident" def="uint64" name="ReadsMerged"/>
-          <field type="ident" def="uint64" name="SectorsRead"/>
-          <field type="ident" def="uint64" name="ReadTime"/>
-          <field type="ident" def="uint64" name="WritesCompleted"/>
-          <field type="ident" def="uint64" name="WritesMerged"/>
-          <field type="ident" def="uint64" name="SectorsWritten"/>
-          <field type="ident" def="uint64" name="WriteTime"/>
-          <field type="ident" def="uint64" name="IoInProgress"/>
-          <field type="ident" def="uint64" name="IoTime"/>
-          <field type="ident" def="uint64" name="WeightedIoTime"/>
-        </type>
-        <type name="FsInfo" type="interface">
-          <method name="GetGlobalFsInfo">
-            <paramsList/>
-            <resultsList>
-              <type type="slice">
-                <elmtype type="ident" def="Fs"/>
-              </type>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-          <method name="GetFsInfoForPath">
-            <paramsList>
-              <type type="map">
-                <keytype type="ident" def="string"/>
-                <type type="struct" name=""/>
-              </type>
-            </paramsList>
-            <resultsList>
-              <type type="slice">
-                <elmtype type="ident" def="Fs"/>
-              </type>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-          <method name="GetDirUsage">
-            <paramsList>
-              <type type="ident" def="string"/>
-            </paramsList>
-            <resultsList>
-              <type type="ident" def="uint64"/>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-          <method name="GetDirFsDevice">
-            <paramsList>
-              <type type="ident" def="string"/>
-            </paramsList>
-            <resultsList>
-              <type type="pointer">
-                <type type="ident" def="DeviceInfo"/>
-              </type>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-        </type>
-        <type type="struct" name="RealFsInfo">
-          <field type="map" name="partitions">
-            <keytype type="ident" def="string"/>
-            <valtype type="ident" def="partition"/>
+        <type type="struct" name="Client">
+          <field type="pointer" name="service">
+            <type type="selector">
+              <prefix value="bigquery"/>
+              <item value="Service"/>
+            </type>
           </field>
+          <field type="pointer" name="token">
+            <type type="selector">
+              <prefix value="oauth"/>
+              <item value="Token"/>
+            </type>
+          </field>
+          <field type="ident" def="string" name="datasetId"/>
+          <field type="ident" def="string" name="tableId"/>
         </type>
       </types>
       <functions>
-        <function name="NewFsInfo">
+        <function name="NewClient">
           <recvList/>
           <paramsList/>
           <returnsList>
-            <type type="ident" def="FsInfo"/>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
             <type type="ident" def="error"/>
           </returnsList>
         </function>
-        <function name="GetFsInfoForPath">
+        <function name="Close">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="RealFsInfo"/>
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="PrintDatasets">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CreateDataset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CreateTable">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bigquery"/>
+                <item value="TableSchema"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="InsertRow">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
             </type>
           </recvList>
           <paramsList>
             <type type="map">
               <keytype type="ident" def="string"/>
-              <type type="struct" name=""/>
+              <valtype type="interface"/>
             </type>
           </paramsList>
           <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="Fs"/>
-            </type>
             <type type="ident" def="error"/>
           </returnsList>
         </function>
-        <function name="GetGlobalFsInfo">
+        <function name="GetTableName">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="RealFsInfo"/>
+              <type type="ident" def="Client"/>
             </type>
           </recvList>
           <paramsList/>
           <returnsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Query">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Client"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
             <type type="slice">
-              <elmtype type="ident" def="Fs"/>
+              <elmtype type="ident" def="string"/>
             </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="GetDirFsDevice">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="RealFsInfo"/>
+            <type type="slice">
+              <elmtype type="slice">
+                <elmtype type="interface"/>
+              </elmtype>
             </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="DeviceInfo"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="GetDirUsage">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="RealFsInfo"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="uint64"/>
             <type type="ident" def="error"/>
           </returnsList>
         </function>
@@ -1004,28 +919,174 @@
         <name value="SubcontainerDelete"/>
       </names>
     </package>
-    <package importpath="github.com/google/cadvisor/api">
+    <package importpath="github.com/google/cadvisor/container/docker">
       <types/>
       <functions>
-        <function name="RegisterHandlers">
-          <recvList/>
+        <function name="ContainerReference">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dockerContainerHandler"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="info"/>
+              <item value="ContainerReference"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetSpec">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dockerContainerHandler"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="info"/>
+              <item value="ContainerSpec"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetStats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dockerContainerHandler"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="info"/>
+                <item value="ContainerStats"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ListContainers">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dockerContainerHandler"/>
+            </type>
+          </recvList>
           <paramsList>
             <type type="selector">
-              <prefix value="manager"/>
-              <item value="Manager"/>
+              <prefix value="container"/>
+              <item value="ListType"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="info"/>
+                <item value="ContainerReference"/>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ListThreads">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dockerContainerHandler"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="container"/>
+              <item value="ListType"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ListProcesses">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dockerContainerHandler"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="container"/>
+              <item value="ListType"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WatchSubcontainers">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dockerContainerHandler"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="chan" dir="3">
+              <type type="selector">
+                <prefix value="container"/>
+                <item value="SubcontainerEvent"/>
+              </type>
             </type>
           </paramsList>
           <returnsList>
             <type type="ident" def="error"/>
           </returnsList>
         </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/google/cadvisor/utils">
-      <types/>
-      <functions>
-        <function name="FileExists">
+        <function name="StopWatchingSubcontainers">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dockerContainerHandler"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dockerFactory"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="NewContainerHandler">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dockerFactory"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="container"/>
+              <item value="ContainerHandler"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="IsDockerContainerName">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
@@ -1034,68 +1095,368 @@
             <type type="ident" def="bool"/>
           </returnsList>
         </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/google/cadvisor/healthz">
-      <types/>
-      <functions>
-        <function name="RegisterHandler">
+        <function name="ContainerNameToDockerId">
           <recvList/>
-          <paramsList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="FullContainerName">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="CanHandle">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dockerFactory"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Register">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="info"/>
+              <item value="MachineInfoFactory"/>
+            </type>
+          </paramsList>
           <returnsList>
             <type type="ident" def="error"/>
           </returnsList>
         </function>
       </functions>
-      <names/>
+      <names>
+        <name value="ArgDockerEndpoint"/>
+        <name value="DockerNamespace"/>
+      </names>
     </package>
-    <package importpath="github.com/google/cadvisor/storage">
+    <package importpath="github.com/google/cadvisor/storage/memory">
       <types>
-        <type name="StorageDriver" type="interface">
-          <method name="AddStats">
-            <paramsList>
+        <type type="struct" name="StatsBuffer">
+          <field type="slice" name="buffer">
+            <elmtype type="selector">
+              <prefix value="info"/>
+              <item value="ContainerStats"/>
+            </elmtype>
+          </field>
+          <field type="ident" def="int" name="size"/>
+          <field type="ident" def="int" name="index"/>
+        </type>
+        <type type="struct" name="InMemoryStorage">
+          <field type="selector" name="lock">
+            <prefix value="sync"/>
+            <item value="RWMutex"/>
+          </field>
+          <field type="map" name="containerStorageMap">
+            <keytype type="ident" def="string"/>
+            <valtype type="pointer">
+              <type type="ident" def="containerStorage"/>
+            </valtype>
+          </field>
+          <field type="ident" def="int" name="maxNumStats"/>
+          <field type="selector" name="backend">
+            <prefix value="storage"/>
+            <item value="StorageDriver"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="NewStatsBuffer">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="StatsBuffer"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsBuffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
               <type type="selector">
                 <prefix value="info"/>
-                <item value="ContainerReference"/>
+                <item value="ContainerStats"/>
               </type>
-              <type type="pointer">
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="FirstN">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsBuffer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="info"/>
+                <item value="ContainerStats"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StatsBuffer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="int"/>
+          </returnsList>
+        </function>
+        <function name="AddStats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="containerStorage"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="info"/>
+                <item value="ContainerStats"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RecentStats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="containerStorage"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
                 <type type="selector">
                   <prefix value="info"/>
                   <item value="ContainerStats"/>
                 </type>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="AddStats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="InMemoryStorage"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="info"/>
+              <item value="ContainerReference"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="info"/>
+                <item value="ContainerStats"/>
               </type>
-            </paramsList>
-            <resultsList>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-          <method name="RecentStats">
-            <paramsList>
-              <type type="ident" def="string"/>
-              <type type="ident" def="int"/>
-            </paramsList>
-            <resultsList>
-              <type type="slice">
-                <elmtype type="pointer">
-                  <type type="selector">
-                    <prefix value="info"/>
-                    <item value="ContainerStats"/>
-                  </type>
-                </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RecentStats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="InMemoryStorage"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="selector">
+                  <prefix value="info"/>
+                  <item value="ContainerStats"/>
+                </type>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="InMemoryStorage"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="selector">
+              <prefix value="storage"/>
+              <item value="StorageDriver"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="InMemoryStorage"/>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/google/cadvisor/info/test">
+      <types/>
+      <functions>
+        <function name="GenerateRandomStats">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="selector">
+                  <prefix value="info"/>
+                  <item value="ContainerStats"/>
+                </type>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GenerateRandomContainerSpec">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="info"/>
+              <item value="ContainerSpec"/>
+            </type>
+          </returnsList>
+        </function>
+        <function name="GenerateRandomContainerInfo">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="info"/>
+                <item value="ContainerInfoRequest"/>
               </type>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-          <method name="Close">
-            <paramsList/>
-            <resultsList>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-        </type>
-      </types>
-      <functions/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="info"/>
+                <item value="ContainerInfo"/>
+              </type>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/google/cadvisor/container/libcontainer">
+      <types/>
+      <functions>
+        <function name="GetStats">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="cgroups"/>
+                <item value="Cgroup"/>
+              </type>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="libcontainer"/>
+                <item value="State"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="info"/>
+                <item value="ContainerStats"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="DiskStatsCopy">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="cgroups"/>
+                <item value="BlkioStatEntry"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="info"/>
+                <item value="PerDiskStats"/>
+              </elmtype>
+            </type>
+          </returnsList>
+        </function>
+      </functions>
       <names/>
     </package>
     <package importpath="github.com/google/cadvisor/utils/fs/mockfs">
@@ -1208,301 +1569,6 @@
             <type type="pointer">
               <type type="ident" def="FakeFile"/>
             </type>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/google/cadvisor/storage/influxdb">
-      <types/>
-      <functions>
-        <function name="OverrideReadyToFlush">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="influxdbStorage"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="func">
-              <paramsList/>
-              <resultsList>
-                <type type="ident" def="bool"/>
-              </resultsList>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="AddStats">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="influxdbStorage"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="info"/>
-              <item value="ContainerReference"/>
-            </type>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="info"/>
-                <item value="ContainerStats"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="RecentStats">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="influxdbStorage"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="selector">
-                  <prefix value="info"/>
-                  <item value="ContainerStats"/>
-                </type>
-              </elmtype>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Close">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="influxdbStorage"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="New">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="bool"/>
-            <type type="selector">
-              <prefix value="time"/>
-              <item value="Duration"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="influxdbStorage"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/google/cadvisor/container/raw">
-      <types/>
-      <functions>
-        <function name="ContainerReference">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="rawContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="info"/>
-              <item value="ContainerReference"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="GetSpec">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="rawContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="selector">
-              <prefix value="info"/>
-              <item value="ContainerSpec"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="GetStats">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="rawContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="info"/>
-                <item value="ContainerStats"/>
-              </type>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ListContainers">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="rawContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="container"/>
-              <item value="ListType"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="info"/>
-                <item value="ContainerReference"/>
-              </elmtype>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ListThreads">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="rawContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="container"/>
-              <item value="ListType"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="int"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="ListProcesses">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="rawContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="container"/>
-              <item value="ListType"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="ident" def="int"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="WatchSubcontainers">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="rawContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="chan" dir="3">
-              <type type="selector">
-                <prefix value="container"/>
-                <item value="SubcontainerEvent"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="StopWatchingSubcontainers">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="rawContainerHandler"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="String">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="rawFactory"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="NewContainerHandler">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="rawFactory"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="container"/>
-              <item value="ContainerHandler"/>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="CanHandle">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="rawFactory"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Register">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="info"/>
-              <item value="MachineInfoFactory"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
           </returnsList>
         </function>
       </functions>
@@ -1840,6 +1906,159 @@
         <name value="HousekeepingInterval"/>
       </names>
     </package>
+    <package importpath="github.com/google/cadvisor/fs">
+      <types>
+        <type type="struct" name="DeviceInfo">
+          <field type="ident" def="string" name="Device"/>
+          <field type="ident" def="uint" name="Major"/>
+          <field type="ident" def="uint" name="Minor"/>
+        </type>
+        <type type="struct" name="Fs">
+          <field type="ident" def="DeviceInfo" name=""/>
+          <field type="ident" def="uint64" name="Capacity"/>
+          <field type="ident" def="uint64" name="Free"/>
+          <field type="ident" def="DiskStats" name="DiskStats"/>
+        </type>
+        <type type="struct" name="DiskStats">
+          <field type="ident" def="uint64" name="ReadsCompleted"/>
+          <field type="ident" def="uint64" name="ReadsMerged"/>
+          <field type="ident" def="uint64" name="SectorsRead"/>
+          <field type="ident" def="uint64" name="ReadTime"/>
+          <field type="ident" def="uint64" name="WritesCompleted"/>
+          <field type="ident" def="uint64" name="WritesMerged"/>
+          <field type="ident" def="uint64" name="SectorsWritten"/>
+          <field type="ident" def="uint64" name="WriteTime"/>
+          <field type="ident" def="uint64" name="IoInProgress"/>
+          <field type="ident" def="uint64" name="IoTime"/>
+          <field type="ident" def="uint64" name="WeightedIoTime"/>
+        </type>
+        <type name="FsInfo" type="interface">
+          <method name="GetGlobalFsInfo">
+            <paramsList/>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="Fs"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="GetFsInfoForPath">
+            <paramsList>
+              <type type="map">
+                <keytype type="ident" def="string"/>
+                <type type="struct" name=""/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="Fs"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="GetDirUsage">
+            <paramsList>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="uint64"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="GetDirFsDevice">
+            <paramsList>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="DeviceInfo"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="RealFsInfo">
+          <field type="map" name="partitions">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="partition"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="NewFsInfo">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="FsInfo"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetFsInfoForPath">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RealFsInfo"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <type type="struct" name=""/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Fs"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetGlobalFsInfo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RealFsInfo"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="Fs"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetDirFsDevice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RealFsInfo"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="pointer">
+              <type type="ident" def="DeviceInfo"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetDirUsage">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="RealFsInfo"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
     <package importpath="github.com/google/cadvisor/client">
       <types>
         <type type="struct" name="Client">
@@ -1976,21 +2195,15 @@
       </functions>
       <names/>
     </package>
-    <package importpath="github.com/google/cadvisor/pages/static">
+    <package importpath="github.com/google/cadvisor/api">
       <types/>
       <functions>
-        <function name="HandleRequest">
+        <function name="RegisterHandlers">
           <recvList/>
           <paramsList>
             <type type="selector">
-              <prefix value="http"/>
-              <item value="ResponseWriter"/>
-            </type>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="url"/>
-                <item value="URL"/>
-              </type>
+              <prefix value="manager"/>
+              <item value="Manager"/>
             </type>
           </paramsList>
           <returnsList>
@@ -1998,9 +2211,204 @@
           </returnsList>
         </function>
       </functions>
-      <names>
-        <name value="StaticResource"/>
-      </names>
+      <names/>
+    </package>
+    <package importpath="github.com/google/cadvisor/storage/test">
+      <types>
+        <type name="TestStorageDriver" type="interface">
+          <method name="StatsEq">
+            <paramsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="info"/>
+                  <item value="ContainerStats"/>
+                </type>
+              </type>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="info"/>
+                  <item value="ContainerStats"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="bool"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="MockStorageDriver">
+          <field type="selector" name="">
+            <prefix value="mock"/>
+            <item value="Mock"/>
+          </field>
+          <field type="ident" def="bool" name="MockCloseMethod"/>
+        </type>
+      </types>
+      <functions>
+        <function name="TimeEq">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="DefaultStatsEq">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="info"/>
+                <item value="ContainerStats"/>
+              </type>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="info"/>
+                <item value="ContainerStats"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+          </returnsList>
+        </function>
+        <function name="StorageDriverFillRandomStatsFunc">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="TestStorageDriver"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="testing"/>
+                <item value="T"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="StorageDriverTestRetrievePartialRecentStats">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="TestStorageDriver"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="testing"/>
+                <item value="T"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="StorageDriverTestRetrieveAllRecentStats">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="TestStorageDriver"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="testing"/>
+                <item value="T"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="StorageDriverTestNoRecentStats">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="TestStorageDriver"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="testing"/>
+                <item value="T"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="StorageDriverTestRetrieveZeroRecentStats">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="TestStorageDriver"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="testing"/>
+                <item value="T"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList/>
+        </function>
+        <function name="AddStats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MockStorageDriver"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="info"/>
+              <item value="ContainerReference"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="info"/>
+                <item value="ContainerStats"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="RecentStats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MockStorageDriver"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="selector">
+                  <prefix value="info"/>
+                  <item value="ContainerStats"/>
+                </type>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MockStorageDriver"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
     </package>
     <package importpath="github.com/google/cadvisor/storage/bigquery">
       <types/>
@@ -2093,371 +2501,6 @@
         </function>
       </functions>
       <names/>
-    </package>
-    <package importpath="github.com/google/cadvisor/storage/memory">
-      <types>
-        <type type="struct" name="StatsBuffer">
-          <field type="slice" name="buffer">
-            <elmtype type="selector">
-              <prefix value="info"/>
-              <item value="ContainerStats"/>
-            </elmtype>
-          </field>
-          <field type="ident" def="int" name="size"/>
-          <field type="ident" def="int" name="index"/>
-        </type>
-        <type type="struct" name="InMemoryStorage">
-          <field type="selector" name="lock">
-            <prefix value="sync"/>
-            <item value="RWMutex"/>
-          </field>
-          <field type="map" name="containerStorageMap">
-            <keytype type="ident" def="string"/>
-            <valtype type="pointer">
-              <type type="ident" def="containerStorage"/>
-            </valtype>
-          </field>
-          <field type="ident" def="int" name="maxNumStats"/>
-          <field type="selector" name="backend">
-            <prefix value="storage"/>
-            <item value="StorageDriver"/>
-          </field>
-        </type>
-      </types>
-      <functions>
-        <function name="NewStatsBuffer">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="StatsBuffer"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Add">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="StatsBuffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="info"/>
-                <item value="ContainerStats"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList/>
-        </function>
-        <function name="FirstN">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="StatsBuffer"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="info"/>
-                <item value="ContainerStats"/>
-              </elmtype>
-            </type>
-          </returnsList>
-        </function>
-        <function name="Size">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="StatsBuffer"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="int"/>
-          </returnsList>
-        </function>
-        <function name="AddStats">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="containerStorage"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="info"/>
-                <item value="ContainerStats"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="RecentStats">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="containerStorage"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="selector">
-                  <prefix value="info"/>
-                  <item value="ContainerStats"/>
-                </type>
-              </elmtype>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="AddStats">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="InMemoryStorage"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="info"/>
-              <item value="ContainerReference"/>
-            </type>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="info"/>
-                <item value="ContainerStats"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="RecentStats">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="InMemoryStorage"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="selector">
-                  <prefix value="info"/>
-                  <item value="ContainerStats"/>
-                </type>
-              </elmtype>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Close">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="InMemoryStorage"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="New">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="selector">
-              <prefix value="storage"/>
-              <item value="StorageDriver"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="ident" def="InMemoryStorage"/>
-            </type>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/google/cadvisor/info/test">
-      <types/>
-      <functions>
-        <function name="GenerateRandomStats">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-            <type type="selector">
-              <prefix value="time"/>
-              <item value="Duration"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="pointer">
-                <type type="selector">
-                  <prefix value="info"/>
-                  <item value="ContainerStats"/>
-                </type>
-              </elmtype>
-            </type>
-          </returnsList>
-        </function>
-        <function name="GenerateRandomContainerSpec">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <returnsList>
-            <type type="selector">
-              <prefix value="info"/>
-              <item value="ContainerSpec"/>
-            </type>
-          </returnsList>
-        </function>
-        <function name="GenerateRandomContainerInfo">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="int"/>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="info"/>
-                <item value="ContainerInfoRequest"/>
-              </type>
-            </type>
-            <type type="selector">
-              <prefix value="time"/>
-              <item value="Duration"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="info"/>
-                <item value="ContainerInfo"/>
-              </type>
-            </type>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/google/cadvisor/container/libcontainer">
-      <types/>
-      <functions>
-        <function name="GetStats">
-          <recvList/>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="cgroups"/>
-                <item value="Cgroup"/>
-              </type>
-            </type>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="libcontainer"/>
-                <item value="State"/>
-              </type>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="info"/>
-                <item value="ContainerStats"/>
-              </type>
-            </type>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="DiskStatsCopy">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="cgroups"/>
-                <item value="BlkioStatEntry"/>
-              </elmtype>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="slice">
-              <elmtype type="selector">
-                <prefix value="info"/>
-                <item value="PerDiskStats"/>
-              </elmtype>
-            </type>
-          </returnsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/google/cadvisor/pages">
-      <types>
-        <type name="ByteSize" type="ident">
-          <type type="ident" def="float64"/>
-        </type>
-      </types>
-      <functions>
-        <function name="RegisterHandlers">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="manager"/>
-              <item value="Manager"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="error"/>
-          </returnsList>
-        </function>
-        <function name="Size">
-          <recvList>
-            <type type="ident" def="ByteSize"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-        <function name="Unit">
-          <recvList>
-            <type type="ident" def="ByteSize"/>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="string"/>
-          </returnsList>
-        </function>
-      </functions>
-      <names>
-        <name value="DockerPage"/>
-        <name value="ContainersPage"/>
-        <name value="KB"/>
-        <name value="MB"/>
-        <name value="GB"/>
-        <name value="TB"/>
-        <name value="PB"/>
-        <name value="EB"/>
-        <name value="ZB"/>
-        <name value="YB"/>
-      </names>
     </package>
     <package importpath="github.com/google/cadvisor/utils/procfs">
       <types>
@@ -2624,6 +2667,355 @@
               <prefix value="time"/>
               <item value="Duration"/>
             </type>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/google/cadvisor/pages/static">
+      <types/>
+      <functions>
+        <function name="HandleRequest">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="url"/>
+                <item value="URL"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="StaticResource"/>
+      </names>
+    </package>
+    <package importpath="github.com/google/cadvisor/container/raw">
+      <types/>
+      <functions>
+        <function name="ContainerReference">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rawContainerHandler"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="info"/>
+              <item value="ContainerReference"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetSpec">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rawContainerHandler"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="selector">
+              <prefix value="info"/>
+              <item value="ContainerSpec"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="GetStats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rawContainerHandler"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="info"/>
+                <item value="ContainerStats"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ListContainers">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rawContainerHandler"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="container"/>
+              <item value="ListType"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="info"/>
+                <item value="ContainerReference"/>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ListThreads">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rawContainerHandler"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="container"/>
+              <item value="ListType"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="ListProcesses">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rawContainerHandler"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="container"/>
+              <item value="ListType"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="slice">
+              <elmtype type="ident" def="int"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="WatchSubcontainers">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rawContainerHandler"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="chan" dir="3">
+              <type type="selector">
+                <prefix value="container"/>
+                <item value="SubcontainerEvent"/>
+              </type>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="StopWatchingSubcontainers">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rawContainerHandler"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rawFactory"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="NewContainerHandler">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rawFactory"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="selector">
+              <prefix value="container"/>
+              <item value="ContainerHandler"/>
+            </type>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="CanHandle">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="rawFactory"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Register">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="info"/>
+              <item value="MachineInfoFactory"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/google/cadvisor/storage">
+      <types>
+        <type name="StorageDriver" type="interface">
+          <method name="AddStats">
+            <paramsList>
+              <type type="selector">
+                <prefix value="info"/>
+                <item value="ContainerReference"/>
+              </type>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="info"/>
+                  <item value="ContainerStats"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="RecentStats">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ident" def="int"/>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="pointer">
+                  <type type="selector">
+                    <prefix value="info"/>
+                    <item value="ContainerStats"/>
+                  </type>
+                </elmtype>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Close">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+      </types>
+      <functions/>
+      <names/>
+    </package>
+    <package importpath="github.com/google/cadvisor/healthz">
+      <types/>
+      <functions>
+        <function name="RegisterHandler">
+          <recvList/>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/google/cadvisor/pages">
+      <types>
+        <type name="ByteSize" type="ident">
+          <type type="ident" def="float64"/>
+        </type>
+      </types>
+      <functions>
+        <function name="RegisterHandlers">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="manager"/>
+              <item value="Manager"/>
+            </type>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="error"/>
+          </returnsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="ident" def="ByteSize"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+        <function name="Unit">
+          <recvList>
+            <type type="ident" def="ByteSize"/>
+          </recvList>
+          <paramsList/>
+          <returnsList>
+            <type type="ident" def="string"/>
+          </returnsList>
+        </function>
+      </functions>
+      <names>
+        <name value="DockerPage"/>
+        <name value="ContainersPage"/>
+        <name value="KB"/>
+        <name value="MB"/>
+        <name value="GB"/>
+        <name value="TB"/>
+        <name value="PB"/>
+        <name value="EB"/>
+        <name value="ZB"/>
+        <name value="YB"/>
+      </names>
+    </package>
+    <package importpath="github.com/google/cadvisor/utils">
+      <types/>
+      <functions>
+        <function name="FileExists">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <returnsList>
+            <type type="ident" def="bool"/>
           </returnsList>
         </function>
       </functions>
