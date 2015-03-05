@@ -41,10 +41,13 @@
 [  ] - script to check which golang packages are stable, testing, not updated yet (el6 basically)
 [  ] - script to list all dependencies (recursivelly) for a given package
 [  ] - add option to go2fed inspect to skip some directories (example, ...)
+[  ] - write a scan of all golang packages for conflicting files (does any two packages install the same file?)
 
 ====version-1====
 
 ====TODO===
+[  ] - When I update a package, go2fed scan-imports will update local db. But list of import paths provided by spec files is not updated. go2fed scan-packages -u has to update those import paths as well.
+[  ] - from go2fed scandeps list of missing import paths
 [  ] - sort all symbols in an alphabetical order before saving to xml file
 [  ] - rename go2fed to gofed
 [  ] - rewrite all *.sh scripts into python, replace go2fed calls with a python module function
