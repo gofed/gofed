@@ -289,6 +289,21 @@ class DFS:
 		self.time += 1
 		self.f[node] = self.time
 
+	def DFSSimpleWalk(self, start_node):
+		for node in self.nodes:
+			self.color[node] = self.WHITE
+			self.pred[node] = ""
+
+		self.time = 0
+		self.DFSVisit(start_node)
+
+		reachable = []		
+		for node in self.nodes:
+			if self.color[node] != self.WHITE:
+				reachable.append(node)
+
+		return reachable
+
 	def DFSWalk(self, f = []):
 		for node in self.nodes:
 			self.color[node] = self.WHITE
@@ -342,24 +357,8 @@ def getSCC(graph):
 class ConnectedComponent:
 	def __init__(self, graph, node):
 		self.nodes, self.edges = graph
-		self.reacheable = []
-		self.getAdjacentNodes(node)
-		if node not in self.reacheable:
-			self.reacheable.append(node)
-
-	def getAdjacentNodes(self, node):
-		if node in self.reacheable:
-			return
-
-		if node not in self.nodes:
-			return
-
-		if node not in self.edges:
-			return
-
-		for v in self.edges[node]:
-			self.reacheable.append(v)
-			self.getAdjacentNodes(v)
+		dfs = DFS(graph)
+		self.reacheable = dfs.DFSSimpleWalk(node)
 
 	def getCC(self):
 		edges = {}
