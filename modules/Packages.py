@@ -498,8 +498,20 @@ class LocalDB:
 			checked_packages.append(pkg)
 			# BUILD   go-spew https://github.com/davecgh/go-spew.git
 			dir = os.path.basename(url)
-			git = ("%s.git" % url)
-			new_repos[pkg] = (dir, git)
+			# git or hg?
+			repo = ""
+			# github
+			if url.startswith("https://github.com"):
+				repo = "%s.git" % url
+			elif url.startswith("http://github.com"):
+				repo = "%s.git" % url
+			elif url.startswith("github.com"):
+				repo = "%s.git" % url
+			# bitbucker, googlecode, ...
+			else:
+				repo = url
+
+			new_repos[pkg] = (dir, repo)
 
 		new_packages = checked_packages
 
