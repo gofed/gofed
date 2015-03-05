@@ -82,7 +82,7 @@ def truncateGraph(graph, pkg_name, pkg_devel_main_pkg):
 			subgraph = cc.getCC()
 		else:
 			subgraph = joinGraphs(subgraph, cc.getCC())
-	print subgraph
+
 	return subgraph
 	
 
