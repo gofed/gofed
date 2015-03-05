@@ -604,6 +604,9 @@ class ProjectToXml:
 		else:
 			return ""
 
+	def getProject(self):
+		return self.root
+
 	def getError(self):
 		return self.err
 

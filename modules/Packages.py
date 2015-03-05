@@ -42,6 +42,7 @@ class Package:
 	def __init__(self, pkg_name):
 		self.pkg_name = pkg_name
 		self.latest_build = ""
+		self.other_builds = []
 		self.initTempDir()
 		cwd = os.getcwd()
 		os.chdir(self.tmp_dir)
@@ -149,12 +150,58 @@ class Package:
 
 			name = "-".join(parts[:-2])
 
+			# all devel packages should end with devel sufix
 			if name.endswith('devel'):
 				info = self.analyzeDevelBuild(line)
 				if info != {}:
 					builds[name] = info
+			# but some does not have to
+			# 1) must be binary free or not? Maybe scripts are allowed?
+			# 2) must contain at least one package different from
+			#    example*, main
+			else:
+				info = self.analyzeDevelBuild(line)
+				if info == {} or "xmlobj" not in info:
+					continue
+
+				if self.isBuildMinimalDevel(info["xmlobj"]):
+					builds[name] = info
+				else:
+					self.other_builds.append(name)
 
 		return builds
+
+	def isBuildMinimalDevel(self, xmlobj):
+		if not xmlobj.getStatus():
+			return False
+
+		root = xmlobj.getProject()
+		# xml is valid
+		pkgs = None
+		imports = None
+		for node in root:
+			if node.tag == "packages":
+				pkgs = node
+			elif node.tag == "imports":
+				imports = node
+
+		# find at least one packages not starting with example prefix
+		# main is filter out during parsing
+		for pkg in pkgs:
+			if pkg.tag != "package":
+				continue
+
+			pkg_name = os.path.basename(pkg.get("importpath"))
+
+			if pkg_name.startswith("example"):
+				continue
+
+			return True
+
+		return False
+
+	def getOtherBuilds(self):
+		return self.other_builds
 
 	def initTempDir(self):
 		self.tmp_dir = tempfile.mkdtemp()
