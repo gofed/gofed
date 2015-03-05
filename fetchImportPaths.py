@@ -50,7 +50,8 @@ def createDB(full=False):
 			print ""
 			print "\n".join(errs)
 		else:
-			valid[package] = outdated[package]
+			if not full:
+				valid[package] = outdated[package]
 
 		pkg_idx += 1
 		endtime = time()

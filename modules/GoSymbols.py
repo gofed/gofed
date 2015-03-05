@@ -134,6 +134,7 @@ def getSymbolsForImportPaths(go_dir, imports_only=False):
 		#if sufix == ".":
 		#	sufix = bname
 		pkg_name = ""
+		prefix = ""
 		jsons = {}
 		for go_file in dir_info['files']:
 			go_file_json = {}
