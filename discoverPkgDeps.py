@@ -85,7 +85,6 @@ def truncateGraph(graph, pkg_name, pkg_devel_main_pkg):
 
 	return subgraph
 	
-
 if __name__ == "__main__":
 
 	parser = optparse.OptionParser("%prog -c|-l|-r|-g [-v] [PACKAGE]")
@@ -134,10 +133,21 @@ if __name__ == "__main__":
 		print "Reading packages..."
 		scan_time_start = time()
 		graph, pkg_devel_main_pkg = buildRequirementGraph(options.verbose)
+		nodes, _ = graph
+		graph_cnt = len(nodes)
+
 		if pkg_name != "":
 			graph = truncateGraph(graph, pkg_name, pkg_devel_main_pkg)
+			nodes, _ = graph
+			subgraph_cnt = len(nodes)
+			
 		scan_time_end = time()
 		print strftime("Completed in %Hh %Mm %Ss", gmtime(scan_time_end - scan_time_start))
+		if pkg_name != "":
+			print "%s nodes of %s" % (graph_cnt, subgraph_cnt)
+		else:
+			print "%s nodes in total" % (graph_cnt)
+
 
 		if options.cyclic:
 			scc = getSCC(graph)
