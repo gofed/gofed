@@ -20,7 +20,7 @@ def printPkgs(pkgs):
 
 if __name__ == "__main__":
 
-	parser = optparse.OptionParser("%prog [-n] [-r] [-l]")
+	parser = optparse.OptionParser("%prog [-n] [-r] [-l] [-u]")
 
 	parser.add_option(
 	    "", "-n", "--new", dest="new", action = "store_true", default = False,
@@ -66,4 +66,4 @@ if __name__ == "__main__":
 		else:
 			print "\n".join(err)
 	else:
-		print "Synopsis: [-n] [-r] [-l]"
+		print "Synopsis: [-n] [-r] [-l] [-u]"
