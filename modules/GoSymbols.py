@@ -163,17 +163,20 @@ def getSymbolsForImportPaths(go_dir, imports_only=False):
 
 			pkg_name = pname
 
-			if pkg_name not in jsons:
-				jsons[pkg_name] = [go_file_json]
+			# build can contain two different prefixes
+			# but with the same package name.
+			prefix = dir_info["dir"] + ":" + pkg_name
+			if prefix not in jsons:
+				jsons[prefix] = [go_file_json]
 			else:
-				jsons[pkg_name].append(go_file_json)
+				jsons[prefix].append(go_file_json)
 
 		#print dir_info["dir"]
 		#print dir_info['files']
 		#print "#%s#" % pkg_name
-		if pkg_name in jsons:
-			go_packages[pkg_name] = mergeGoSymbols(jsons[pkg_name])
-			ip_packages[pkg_name] = dir_info["dir"]
+		if prefix in jsons:
+			go_packages[prefix] = mergeGoSymbols(jsons[prefix])
+			ip_packages[prefix] = dir_info["dir"]
 
 	return "", ip_packages, go_packages, ip_used
 
@@ -568,12 +571,12 @@ class ProjectToXml:
 		self.root.set("nvr", nvr)
 
 		packages_node = etree.Element("packages")
-		for pkg in ip:
-			full_import_path = "%s/%s" % (url, ip[pkg])
+		for prefix in ip:
+			full_import_path = "%s/%s" % (url, ip[prefix])
 			if url == "":
-				full_import_path = ip[pkg]
+				full_import_path = ip[prefix]
 
-			obj = PackageToXml(symbols[pkg], full_import_path, imports=False)
+			obj = PackageToXml(symbols[prefix], full_import_path, imports=False)
 			if not obj.getStatus():
 				self.err = obj.getError()
 				return
