@@ -37,6 +37,11 @@ def createDB(full=False):
 
 	pkg_cnt_len = len("%s" % pkg_cnt)
 
+	err, ret = LocalDB().updatePackages(packages)
+	if not ret:
+		print "Error:\n" + "\n".join(err)
+		return False
+
 	for package in packages:
 		starttime = time()
 		# len of pkg_idx
@@ -125,9 +130,9 @@ if __name__ == "__main__":
 
 	if options.create:
 		if createDB(options.full):
-			print "DB created"
+			print "DB updated"
 		else:
-			print "DB not created"
+			print "DB not updated"
 
 	elif options.imports:
 		paths = getDevelImportedPaths()
