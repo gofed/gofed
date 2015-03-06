@@ -37,6 +37,7 @@ def createDB(full=False):
 
 	pkg_cnt_len = len("%s" % pkg_cnt)
 
+	print "Updating spec file provides..."
 	err, ret = LocalDB().updatePackages(packages)
 	if not ret:
 		print "Error:\n" + "\n".join(err)
