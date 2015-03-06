@@ -70,7 +70,7 @@ if __name__ == "__main__":
 				if dir != ".":
 					print "Provides: golang(%%{import_path}/%s) = %%{version}-%%{release}" % (dir)
 				else:
-					print "Provides: golang(%%{import_path}) = %%{version}-%%{release}"
+					print "Provides: golang(%{import_path}) = %{version}-%{release}"
 			else:
 				print dir
 	elif options.test:
