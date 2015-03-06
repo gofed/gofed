@@ -43,6 +43,11 @@ if __name__ == "__main__":
 	)
 
 	parser.add_option(
+	    "", "-s", "--spec", dest="spec", action="store_true", default = "",
+	    help = "If set with -p options, print list of provided paths in spec file format."
+	)
+
+	parser.add_option(
             "", "-d", "--dirs", dest="dirs", action = "store_true", default = False,
             help = "Display all direct directories"
         )
@@ -59,13 +64,22 @@ if __name__ == "__main__":
 		path = args[0]
 
 	if options.provides:
-		for dir in getGoDirs(path):
-			print dir
+		sdirs = getGoDirs(path)
+		for dir in sorted(sdirs):
+			if options.spec != "":
+				if dir != ".":
+					print "Provides: golang(%%{import_path}/%s) = %%{version}-%%{release}" % (dir)
+				else:
+					print "Provides: golang(%%{import_path}) = %%{version}-%%{release}"
+			else:
+				print dir
 	elif options.test:
-		for dir in getGoDirs(path, test = True):
+		sdirs = sorted(getGoDirs(path, test = True))
+		for dir in sdirs:
 			print dir
 	elif options.dirs:
-		for dir in getSubdirs(path):
+		sdirs = sorted(getSubdirs(path))
+		for dir in sdirs:
 			print dir
 	else:
 		print "Usage: prog [-p] [-d] [-t] [directory]"
