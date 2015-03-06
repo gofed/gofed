@@ -84,45 +84,10 @@ class Package:
 		runCommand('rm -rf *')
 		runCommand('rpm2cpio ../%s | cpio -idmv' % name)
 
-		build_prefix = []
-		build_provides = []
-		build_import_paths = []
-
+		# scan builds using native golang parser
 		package_xml = ProjectToXml("", "%s/%s" % (os.getcwd(), 'usr/share/gocode/src/'), self.latest_build)
 
-		# get all possible provided import paths
-		so, se, _ = runCommand("go2fed inspect -p")
-		for line in so.split('\n'):
-			line = line.strip()
-
-			if line == '':
-				continue
-			
-			if line.startswith('usr/share/gocode/src/'):
-				line = line[21:]
-				prefix = detectRepoPrefix(line)
-				if prefix not in build_prefix:
-					build_prefix.append(prefix)
-				build_provides.append(line)
-			else:
-				os.chdir('..')
-				return {}
-
-		so, se, _ = runCommand("go2fed ggi")
-		for line in so.split('\n'):
-			line = line.strip()
-
-			if line == '':
-				continue
-
-			for prefix in build_prefix:
-				if not line.startswith(prefix):
-					build_import_paths.append(line)
-		os.chdir('..')
-
 		return {
-			"provides": build_provides,
-			"imports":  build_import_paths,
 			"xmlobj": package_xml
 			}
 	
@@ -595,6 +560,68 @@ class LocalDB:
 			return err, False
 
 		self.flush()
+		Repos().flush()
+		IPMap().flush()
+		return err, True
+
+	def updatePackages(self, outdated_packages):
+		err = []
+
+		if outdated_packages == []:
+			err.append("No outdated packages to add")
+			return err, False
+
+		# update golang.repos
+		new_repos = {}
+
+		checked_packages = []
+		for pkg in outdated_packages:
+			url = getPkgURL(pkg)
+			if url == "":
+				err.append("Unable to get URL tag from %s's spec file" % pkg)	
+				continue
+			checked_packages.append(pkg)
+			# BUILD   go-spew https://github.com/davecgh/go-spew.git
+			dir = os.path.basename(url)
+			# git or hg?
+			repo = ""
+			# github
+			if url.startswith("https://github.com"):
+				repo = "%s.git" % url
+			elif url.startswith("http://github.com"):
+				repo = "%s.git" % url
+			elif url.startswith("github.com"):
+				repo = "%s.git" % url
+			# bitbucker, googlecode, ...
+			else:
+				repo = url
+
+			new_repos[pkg] = (dir, repo)
+
+		outdated_packages = checked_packages
+
+		repos = Repos().loadRepos()
+		for repo in new_repos:
+			repos[repo] = new_repos[repo]
+
+		if not Repos().saveRepos(repos):
+			err.append("Unable to save updated repositories")
+			return err, False
+
+		# update import paths
+		mapping = IPMap().loadIMap()
+
+		for pkg in outdated_packages:
+			provides = fetchProvides(pkg, 'master')
+			imap = inverseMap(provides)
+			for arg in imap:
+				for image in imap[arg]:
+					mapping[arg] = (pkg, image)
+
+		if not IPMap().saveIMap(mapping):
+			err.append("Unable to save mapping of import paths of updated packages")
+			return err, False
+
 		Repos().flush()
 		IPMap().flush()
 		return err, True
