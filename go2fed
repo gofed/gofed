@@ -44,6 +44,7 @@ SCANDEPS=21
 SCANSYMBOLS=22
 GCPMASTER=23
 BITBUCKET2SPEC=24
+WIZARD=25
 
 operation=-1
 script_dir=$(dirname $(readlink -f $0))
@@ -77,6 +78,7 @@ function printHelp {
 	echo "	scratch-build	 scratch build all fedora branches"
 	echo "	scan-packages	 scan PkgDB for possible golang packages"
 	echo "	update		 update all fedora branches"
+	echo "	wizard		 run phases of bulding, updating, ... at once"
 }
 
 ################################
@@ -132,6 +134,8 @@ elif [ "$1" == "gcpmaster" ]; then
         operation=$GCPMASTER
 elif [ "$1" == "bitbucket2gospec" ]; then
         operation=$BITBUCKET2SPEC
+elif [ "$1" == "wizard" ]; then
+        operation=$WIZARD
 fi
 
 ################################
@@ -195,5 +199,7 @@ elif [ $operation -eq $GCPMASTER ]; then
         $script_dir/gcpmaster.sh $@
 elif [ $operation -eq $BITBUCKET2SPEC ]; then
         $script_dir/bitbucket2gospec.sh $@
+elif [ $operation -eq $WIZARD ]; then
+        $script_dir/wizard.py $@
 fi
 
