@@ -27,6 +27,9 @@ def compareNames(names1, names2):
 
 class CompareTypes:
 
+	def __init__(self, debug=False):
+		self.debug = debug
+
 	def compareIdents(self, ident1, ident2):
 		"""
 		Identifier is defined by type (def attribute) and name (name attribute).
@@ -46,7 +49,8 @@ class CompareTypes:
 			if ident1.get("name") != ident2.get("name"):
 				err.append("identifiers differ in name: %s != %s" % (ident1.get("name"), ident2.get("name")))
 
-			print "#NAME: " + ident1.get("name")
+			if self.debug:
+				print "#NAME: " + ident1.get("name")
 
 		return err
 
@@ -302,7 +306,8 @@ class CompareTypes:
 	def compareInterfaces(self, interface1, interface2):
 
 		err = []
-		print "#INTERFACE: %s" % interface1.get("name")
+		if self.debug:
+			print "#INTERFACE: %s" % interface1.get("name")
 
 		m1_set = set(map(lambda m: m.get("name"), interface1[:]))
 		m2_set = set(map(lambda m: m.get("name"), interface2[:]))
@@ -336,7 +341,8 @@ class CompareTypes:
 			if e != []:
 				err += e
 
-			print "#METHOD: %s" % method_name
+			if self.debug:
+				print "#METHOD: %s" % method_name
 
 		return err
 
@@ -373,7 +379,7 @@ class CompareTypes:
 
 		return []
 
-	def constructTypeQualifiedName(self, type):
+	def constructTypeQualifiedName(self, type, full=False):
 		"""
 		For given type construct its full qualified name.
 
@@ -383,7 +389,8 @@ class CompareTypes:
 		"""
 		t = type.get("type")
 		if t == "ident":
-			print "#FQN: %s" % type.get("def")
+			if self.debug:
+				print "#FQN: %s" % type.get("def")
 			return type.get("def")
 		elif t == "pointer":
 			return self.constructTypeQualifiedName(type[0])
@@ -394,19 +401,20 @@ class CompareTypes:
 					expr = node.get("value")
 				elif node.tag == "item":
 					sel = node.get("value")
-
-			return "%s.%s" % (expr, sel)
+			if full:
+				return "%s.%s" % (expr, sel)
+			else:
+				return sel
 		else:
 			print "Type %s can not be used for FQN" % t
 			return ""
 
 	def compareStructs(self, struct1, struct2):
-
 		"""
 		Struct is defined by its fields.
 		Field consists of a name (name attribute) and type definition.
 
-		Order of fields is important.
+		Order of fields is important but can be different.
 
 		For anonymous field an unqualified type name is taken.
 
@@ -415,32 +423,84 @@ class CompareTypes:
 
 		struct1, struct2: etree.Element nodes
 		"""
-
 		err = []
 
-		if len(struct1) != len(struct2):
+		if self.debug:
+			print "#STRUCT: %s" % struct1.get("name")
+
+		# get a list of field names (with anynomous as well)
+		fs1 = map(lambda f: f.get("name") if f.get("name") != ""
+			else self.constructTypeQualifiedName(f), struct1)
+		fs2 = map(lambda f: f.get("name") if f.get("name") != ""
+			else self.constructTypeQualifiedName(f), struct2)
+
+		index1, index2 = 0, 0
+		l1, l2 = len(struct1), len(struct2)
+
+		if l1 != l2:
 			err.append("struct %s has different number of"
 				" fields" % struct1.get("name"))
-			return err
+
+		while index1 < l1 and index2 < l2:
+
+			name1 = fs1[index1]
+			name2 = fs2[index2]
+
+			if name1 != name2:
+				err.append("fields are not in the same order")
+				break
+
+			index1 += 1
+			index2 += 1
+
+		s1_dict, s2_dict = {}, {}
+		for node in struct1:
+			name = node.get("name")
+			if name == "":
+				name = self.constructTypeQualifiedName(node)
+
+			s1_dict[name] = node
+
+		for node in struct2:
+			name = node.get("name")
+			if name == "":
+				name = self.constructTypeQualifiedName(node)
+
+			s2_dict[name] = node
 
 		# check individual fields
-		print "#STRUCT: %s" % struct1.get("name")
-		for i in range(0, len(struct1)):
-			name = struct1[i].get("name")
-			if name != "":
-				if name != struct2[i].get("name"):
-					err.append("%s-th field differs: '%s' != '%s'" % (i, name, struct2[i].get("name")))
-			# is field anonymous
+		fs1 = sorted(fs1)
+		fs2 = sorted(fs2)
+		while index1 < l1 and index2 < l2:
+			# check types
+			name1 = fs1[index1]
+			name2 = fs2[index2]
+			if name1 == name2:
+				index1 += 1
+				index2 += 1
+				e = self.compareTypes(s1_dict[name1],
+					s2_dict[name2])
+				if e != []:
+					err += e
 			else:
-				anon1 = self.constructTypeQualifiedName(struct1[i])
-				anon2 = self.constructTypeQualifiedName(struct2[i])
+				if name1 < name2:
+					index1 += 1
+					err.append("%s field is missing" %
+						name1)
+				else:
+					index2 += 1
+					err.append("new '%s' field detected" %
+						name2)
 
-				if anon1 != anon2:
-					err.append("%s-th field (anonymous) differs: '%s' != '%s'" % (i, name, struct2[i].get("name")))
-			
-			e = self.compareTypes(struct1[i], struct2[i])
-			if e != []:
-				err += e
+		# some fields not checked?
+		while index1 < l1:
+			err.append("field '%s' removed" % fs1[index1])
+			index1 += 1
+
+		while index2 < l2:
+			err.append("new field '%s' detected" % fs2[index2])
+			index2 += 1
+
 		return err
 
 def compareFunctions(funcs1, funcs2):
@@ -453,7 +513,8 @@ def compareFunctions(funcs1, funcs2):
 	rem_funcs = list(funcs1_set - funcs2_set)
 	com_funcs = list(funcs1_set & funcs2_set)
 
-	print rem_funcs
+	#print new_funcs
+	#print com_funcs
 
 def compareTypes(type1, type2):
 
