@@ -39,13 +39,18 @@
 [  ] - for a given package, list all its deps and for this deps, list all its deps, and so on
 [  ] - make an online graph of golang deps and info about them (plus changelog of fedora packaging and known issues = cyclic deps, missing [Build]Requires, ...?)
 [  ] - script to check which golang packages are stable, testing, not updated yet (el6 basically)
-[  ] - script to list all dependencies (recursivelly) for a given package
+[  ] - script to list all dependencies (recursivelly) for a given package {partially by go2fed scandeps -g PKGNAME}
 [  ] - add option to go2fed inspect to skip some directories (example, ...)
 [  ] - write a scan of all golang packages for conflicting files (does any two packages install the same file?)
 
 ====version-1====
 
 ====TODO===
+[  ] - /tmp/test/etcd-2.0.3/client/http.go has interface in interface which is not present in exported symbols (type SyncableHTTPClient interface)
+[  ] - when running bbo, untag all bbo before the current bbo
+[  ] - cache imported and provided paths of local packages (takes about 13-16 seconds to generate one graph)
+[  ] - write a short document about gofed tool (after renaming it to gofed). But just about the graph and what it tells about the system. Publish individual use case rather then the whole tool. Still young to make a version 1.
+[  ] - obsolete launchpad package
 [  ] - replace ggi and inspect with scansymbols
 [  ] - When I update a package, go2fed scan-imports will update local db. But list of import paths provided by spec files is not updated. go2fed scan-packages -u has to update those import paths as well.
 [  ] - from go2fed scandeps list of missing import paths
