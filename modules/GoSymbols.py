@@ -418,7 +418,7 @@ class PackageToXml:
 			node.append(results_node)
 
 		elif type_name == TYPE_STRUCT:
-			ret = self.structToXML(type_def)
+			ret = self.structToXML(type_def, elm_name)
 			self.level -= 1
 			return ret
 
@@ -428,8 +428,8 @@ class PackageToXml:
 		self.level -= 1
 		return "", node
 
-	def structToXML(self, str_def):
-		root = etree.Element("type")
+	def structToXML(self, str_def, elm_name = "type"):
+		root = etree.Element(elm_name)
 		root.set("type", "struct")
 		root.set("name", str_def["name"])
 		for field in str_def["def"]:
@@ -679,11 +679,11 @@ class CompareTypes:
 				item2 = node
 
 		if prefix1.get("value") != prefix2.get("value"):
-			err.append("-Selectors differ in selector: %s != %s" %
+			err.append("-Selector differs in selector: %s != %s" %
 			(prefix1.get("value"), prefix2.get("value")))
 
 		if item1.get("value") != item2.get("value"):
-			err.append("-Selectors differ in expression: %s != %s" %
+			err.append("-Selector differs in expression: %s != %s" %
 			(item1.get("value"), item2.get("value")))
 
 		return err
@@ -924,7 +924,7 @@ class CompareTypes:
 		com_ms = list(m1_set & m2_set)
 
 		if new_ms != []:
-			print "+new methods: " + ", ".join(new_ms)
+			err.append("+new methods: " + ", ".join(new_ms))
 
 		if rem_ms != []:
 			err.append("-interface %s removed methods: %s" %
@@ -953,15 +953,38 @@ class CompareTypes:
 
 		return err
 
+	def skipParenthesis(self, parent1, parent2):
+		"""
+		Parenthesis is defined by expression it surrounds.
+
+		Skip all parenthesis in a way. Why? What about selector?
+		- all types are transparent to paranthesis (no matter if
+		  the parenthesis are used, its definition is unchanged).
+		- selector always consists only of two identifiers separeted
+		  by dot.
+		"""
+		# <type type="parenthesis">
+		#  <type type="ident" def="Map"/>
+		# </type>
+		while parent1.get("type") == TYPE_PARENTHESIS:
+			parent1 = parent1[0]
+
+		while parent2.get("type") == TYPE_PARENTHESIS:
+			parent2 = parent2[0]
+
+		return parent1, parent2
+
 	def compareTypes(self, type1, type2):
 
 		err = []
+
+		type1, type2 = self.skipParenthesis(type1, type2)
+
 		type = type1.get("type")
 		if type != type2.get("type"):
 			err.append("-type differs")
 			return err
 
-		#print type
 		if type == TYPE_INTERFACE:
 			return self.compareInterfaces(type1, type2)
 		elif type == TYPE_IDENT:
@@ -984,8 +1007,6 @@ class CompareTypes:
 			return self.compareFunctions(type1, type2)
 		else:
 			#TYPE_ARRAY = "array"
-			#TYPE_METHOD = "method"
-			#TYPE_PARENTHESIS = "parenthesis"
 			print "%s type not implemented yet" % type
 			exit(0)
 			return []
@@ -1201,7 +1222,6 @@ class ComparePackages:
 				types2_dir[type.get("name")] = type
 
 		for type in com_types:
-			#print types1_dir[type].get("name")
 			err = CompareTypes().compareTypes(types1_dir[type], types2_dir[type])
 			if err != []:
 				msg += err

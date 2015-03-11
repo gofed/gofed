@@ -57,11 +57,11 @@ if __name__ == "__main__":
 
 	# list new packages
 	if new_ips != []:
-		print "new symbols: " + str(new_ips)
+		print "+new packages: " + str(new_ips)
 
 	# list removed packages
-	if new_ips != []:
-		print "removed symbols: " + str(rem_ips)
+	if rem_ips != []:
+		print "-removed packages: " + str(rem_ips)
 
 	# compare common packages
 	for pkg in com_ips:
