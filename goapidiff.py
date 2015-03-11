@@ -19,26 +19,32 @@ MSG_NEUTRAL=4
 def displayApiDifference(status, color=True, msg_type=MSG_POS & MSG_NEUTRAL & MSG_NEG):
 	spkgs = sorted(status.keys())
 	for pkg in spkgs:
-		if color:
-			print "%sPackage: %s%s" % (YELLOW, pkg, ENDC)
-		else:
-			print "Package: %s" % pkg
+		lines = []
 		for msg in status[pkg]:
 			if msg[0] == "-":
 				if msg_type & MSG_NEG > 0:
 					if color:
-						print "\t%s%s%s" % (RED, msg, ENDC)
+						lines.append("\t%s%s%s" % (RED, msg, ENDC))
 					else:
-						print "\t%s" % msg
+						lines.append("\t%s" % msg)
 			elif msg[0] == "+":
 				if msg_type & MSG_POS > 0:
 					if color:
-						print "\t%s%s%s" % (BLUE, msg, ENDC)
+						lines.append("\t%s%s%s" % (BLUE, msg, ENDC))
 					else:
-						print "\t%s%s%s" % msg
+						lines.append("\t%s" % msg)
 			else:
 				if msg_type & MSG_NEUTRAL > 0:
-					print "\t%s" % msg
+					lines.append("\t%s" % msg)
+
+		if lines != []:
+			if color:
+				print "%sPackage: %s%s" % (YELLOW, pkg, ENDC)
+			else:
+				print "Package: %s" % pkg
+
+			for line in lines:
+				print line
 
 if __name__ == "__main__":
 
@@ -80,7 +86,7 @@ if __name__ == "__main__":
 	cmp_src = CompareSourceCodes(go_dir1, go_dir2)
 
 	for e in cmp_src.getError():
-		print e
+		print "Error: %s" % e
 
 	if not options.error:
 		status = cmp_src.getStatus()
