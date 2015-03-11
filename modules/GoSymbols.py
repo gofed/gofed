@@ -469,7 +469,7 @@ class PackageToXml:
 
 		root.append(list_node)
 
-		list_node = etree.Element("returnsList")
+		list_node = etree.Element("resultsList")
 		for item in func_def["def"]["returns"]:
 			err, type_def = self.typeToXML(item)
 			if err != "":
