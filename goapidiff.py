@@ -46,7 +46,7 @@ class CompareTypes:
 			if ident1.get("name") != ident2.get("name"):
 				err.append("identifiers differ in name: %s != %s" % (ident1.get("name"), ident2.get("name")))
 
-			print "NAME: " + ident1.get("name")
+			print "#NAME: " + ident1.get("name")
 
 		return err
 
@@ -64,12 +64,13 @@ class CompareTypes:
 		"""
 		Selector is defined by prefix and item.
 
-		prefix.item
+		expression.selector
 
 		Two selectors are identical if they have the same
-		prefix (prefix tag) and item (item tag)
-		"""
+		expression (prefix tag) and selector (item tag).
 
+		Expression is always identifier.
+		"""
 		err = []
 
 		prefix1, prefix2 = None, None
@@ -87,11 +88,150 @@ class CompareTypes:
 			elif node.tag == "item":
 				item2 = node
 
-		print err
+		if prefix1.get("value") != prefix2.get("value"):
+			err.append("Selectors differ in selector: %s != %s" %
+			(prefix1.get("value"), prefix2.get("value")))
+
+		if item1.get("value") != item2.get("value"):
+			err.append("Selectors differ in expression: %s != %s" %
+			(item1.get("value"), item2.get("value")))
+
 		return err
 
-	def compareSlices(self, slice1, slice2):
+	def compareChannels(self, chan1, chan2):
+		"""
+		Channel is defined by a direction (dir attribute)
+		and type (type tag).
+
+		Channels are identical if their direction and type
+		are identical.
+
+		chan1, chan2: etree.Element nodes
+		"""
+		#<field type="chan" dir="3" name="stop">
+		#  <type type="struct" name=""/>
+		#</field>
 		err = []
+
+		if chan1.get("dir") != chan2.get("dir"):
+			err.append("Channels has different direction:"
+			  " %s != %s" % (chan1.get("dir"), chan2.get("dir")))
+
+		e = self.compareTypes(chan1[0], chan2[0])
+		if e != []:
+			err += e
+
+		return err	
+
+	def compareSlices(self, slice1, slice2):
+		"""
+		Slice is defined by element type (elmtype tag).
+
+		Slices are identical if element types are identical.
+		"""
+		# <elmtype type="ident" def="string"/>
+		return self.compareTypes(slice1[0], slice2[0])
+
+	def compareMaps(self, map1, map2):
+
+		"""
+		Map is defined by a keytype (keytype tag) and
+		valuetype (valuetype tag).
+
+		Two maps are identical if keytypes and valuetypes
+		are identical.
+
+		map1, map2: etree.Element nodes
+		"""
+		err = []
+
+		value1, value2 = None, None
+		key1, key2 = None, None
+
+		for node in map1:
+			if node.tag == "keytype":
+				key1 = node
+			elif node.tag == "valtype":
+				value1 = node
+
+		for node in map2:
+			if node.tag == "keytype":
+				key2 = node
+			elif node.tag == "valtype":
+				value2 = node
+
+		e = self.compareTypes(key1, key2)
+		if e != []:
+			err += e
+
+		e = self.compareTypes(value1, value2)
+		if e != []:
+			err += e
+
+		return err
+
+	def compareFunctions(self, function1, function2):
+		"""
+		Function is defined by signature.
+		Signature consists of:
+		  methods' name (name attribute)
+		  list of parameters (<paramsList>)
+		  list of results (<resultsList>)
+
+		Two functions are identical if their signatures are identical.
+
+		function1, function2: etree.Element nodes
+
+		"""
+		#<type name="InterruptHandler" type="func">
+		#   <paramsList/>
+		#   <resultsList/>
+		#</type>
+		err = []
+
+		# check names
+		if function1.get("name") != function2.get("name"):
+			err.append("Function's name differs: %s != %s" %
+				(function1.get("name"), function2.get("name")))
+			return err
+
+		params1 = None
+		params2 = None
+		results1 = None
+		results2 = None
+
+		for node in function1:
+			if node.tag == "paramsList":
+				params1 = node
+			elif node.tag == "resultsList":
+				results1 = node
+		for node in function2:
+			if node.tag == "paramsList":
+				params2 = node
+			elif node.tag == "resultsList":
+				results2 = node
+
+		# check parameters
+		if len(params1) != len(params2):
+			err.append("Functions differs in parameter count")
+			return err
+
+		for i in range(0, len(params1)):
+			e = self.compareTypes(params1[i], params2[i])
+			if e != []:
+				err += e
+
+		# check results
+		if len(results1) != len(results2):
+			err.append("Functions differs in result count")
+			return err
+
+		for i in range(0, len(results1)):
+			e = self.compareTypes(results1[i], results2[i])
+			if e != []:
+				err += e
+
+		return err
 
 	def compareMethods(self, method1, method2):
 		"""
@@ -125,12 +265,16 @@ class CompareTypes:
 				params1 = node
 			elif node.tag == "resultsList":
 				results1 = node
+			else:
+				print "method receiver tag????"
 
 		for node in method2:
 			if node.tag == "paramsList":
 				params2 = node
 			elif node.tag == "resultsList":
 				results2 = node
+			else:
+				print "method receiver tag????"
 
 		# check parameters
 		if len(params1) != len(params2):
@@ -138,12 +282,27 @@ class CompareTypes:
 			return err
 
 		for i in range(0, len(params1)):
-			self.compareTypes(params1[i], params2[i])
-			print params1[i].tag
-			print params2[i].tag
+			e = self.compareTypes(params1[i], params2[i])
+			if e != []:
+				err += e
+
+		# check results
+		if len(results1) != len(results2):
+			err.append("Methods differs in result count")
+			return err
+
+		for i in range(0, len(results1)):
+			e = self.compareTypes(results1[i], results2[i])
+			if e != []:
+				err += e
+
+		# check receivers?
+		return err
 
 	def compareInterfaces(self, interface1, interface2):
-		print "interface %s" % interface1.get("name")
+
+		err = []
+		print "#INTERFACE: %s" % interface1.get("name")
 
 		m1_set = set(map(lambda m: m.get("name"), interface1[:]))
 		m2_set = set(map(lambda m: m.get("name"), interface2[:]))
@@ -152,12 +311,12 @@ class CompareTypes:
 		rem_ms = list(m1_set - m2_set)
 		com_ms = list(m1_set & m2_set)
 
-
 		if new_ms != []:
 			print "New methods: " + ", ".join(new_ms)
 
 		if rem_ms != []:
-			print "Removed methods: " + ", ".join(rem_ms)
+			err.append("Interface %s removed methods: %s" %
+				(interface1.get("name"), ", ".join(rem_ms)))
 
 		m1s_dir = {}
 		m2s_dir = {}
@@ -172,17 +331,14 @@ class CompareTypes:
 				m2s_dir[name] = method
 
 		for method_name in com_ms:
-			self.compareMethods(m1s_dir[method_name],
+			e = self.compareMethods(m1s_dir[method_name],
 				m2s_dir[method_name])
+			if e != []:
+				err += e
 
-			print method_name
+			print "#METHOD: %s" % method_name
 
-
-		#for method in type1:
-		#	print method.tag
-			#self.compareMethods(
-
-		exit(0)
+		return err
 
 	def compareTypes(self, type1, type2):
 		err = []
@@ -200,8 +356,16 @@ class CompareTypes:
 			return self.comparePointers(type1, type2)
 		elif type == "selector":
 			return self.compareSelectors(type1, type2)
+		elif type == "chan":	
+			return self.compareChannels(type1, type2)
+		elif type == "slice":
+			return self.compareSlices(type1, type2)
+		elif type == "map":
+			return self.compareMaps(type1, type2)
 		elif type == "struct":
 			return self.compareStructs(type1, type2)
+		elif type == "func":
+			return self.compareFunctions(type1, type2)
 		else:
 			print "%s type not implemented yet" % type
 			exit(0)
@@ -213,56 +377,83 @@ class CompareTypes:
 		"""
 		For given type construct its full qualified name.
 
-		
+		AnonymousField = [ "*" ] TypeName .
+		TypeName  = identifier | QualifiedIdent .
+		QualifiedIdent = PackageName "." identifier .
 		"""
 		t = type.get("type")
 		if t == "ident":
-			print "FQN: %s" % type.get("def")
+			print "#FQN: %s" % type.get("def")
 			return type.get("def")
 		elif t == "pointer":
 			return self.constructTypeQualifiedName(type[0])
+		elif t == "selector":
+			expr, sel = None, None
+			for node in type:
+				if node.tag == "prefix":
+					expr = node.get("value")
+				elif node.tag == "item":
+					sel = node.get("value")
+
+			return "%s.%s" % (expr, sel)
 		else:
-			print "FQN type not implemented: %s" % t
-			exit(0)
+			print "Type %s can not be used for FQN" % t
 			return ""
 
-	# struct must have the same number of fields and their corresponding names
 	def compareStructs(self, struct1, struct2):
+
 		"""
 		Struct is defined by its fields.
 		Field consists of a name (name attribute) and type definition.
 
-		Order of fields is not important (not implemented yet).
-		Only name:type are.
+		Order of fields is important.
 
 		For anonymous field an unqualified type name is taken.
 
+		Structs are identical if they have the same number of fields
+		and list of fiels are identical.
+
 		struct1, struct2: etree.Element nodes
 		"""
+
 		err = []
-		# check fields
-		for field in struct1:
-			print self.constructTypeQualifiedName(field)
-		#print map(lambda i: i, struct1[:])
-		#f1_set = set(struct1[:])
-		#print f1_set
 
 		if len(struct1) != len(struct2):
-			err.append("Error: structs have different number of arguments")
+			err.append("struct %s has different number of"
+				" fields" % struct1.get("name"))
 			return err
 
 		# check individual fields
-		# maybe order of fields is not important?
-		print "Struct's name: %s" % struct1.get("name")
+		print "#STRUCT: %s" % struct1.get("name")
 		for i in range(0, len(struct1)):
+			name = struct1[i].get("name")
+			if name != "":
+				if name != struct2[i].get("name"):
+					err.append("%s-th field differs: '%s' != '%s'" % (i, name, struct2[i].get("name")))
+			# is field anonymous
+			else:
+				anon1 = self.constructTypeQualifiedName(struct1[i])
+				anon2 = self.constructTypeQualifiedName(struct2[i])
 
-			if struct1[i].get("name") != struct2[i].get("name"):
-				err.append("Error: %s-th field differs: %s != %s" % (i, struct1[i].get("name"), struct2[i].get("name")))
-				return err
+				if anon1 != anon2:
+					err.append("%s-th field (anonymous) differs: '%s' != '%s'" % (i, name, struct2[i].get("name")))
+			
+			e = self.compareTypes(struct1[i], struct2[i])
+			if e != []:
+				err += e
+		return err
 
-			err = self.compareTypes(struct1[i], struct2[i])
-			if err:
-				print err
+def compareFunctions(funcs1, funcs2):
+
+	# get types names
+	funcs1_set = set(map(lambda x: x.get("name"), funcs1[:]))
+	funcs2_set = set(map(lambda x: x.get("name"), funcs2[:]))
+
+	new_funcs = list(funcs2_set - funcs1_set)
+	rem_funcs = list(funcs1_set - funcs2_set)
+	com_funcs = list(funcs1_set & funcs2_set)
+
+	print rem_funcs
 
 def compareTypes(type1, type2):
 
@@ -291,26 +482,12 @@ def compareTypes(type1, type2):
 			types2_dir[type.get("name")] = type
 
 	for type in com_types:
-		CompareTypes().compareTypes(types1_dir[type], types2_dir[type])
-
-
-		continue
-		print types1_dir[type].get("type")
-		print types2_dir[type].get("type")
-
-		if types1_dir[type].get("type") != types2_dir[type].get("type"):
-			print "%s's type is diffrent from %s's type" % (types1_dir[type].get("name"), types2_dir[type].get("name"))
-			continue
-
-		t = types1_dir[type].get("type")
-		if t == "struct":
-			CompareTypes().compareStructs(types1_dir[type], types2_dir[type])
-
-		print ""
+		#print types1_dir[type].get("name")
+		err = CompareTypes().compareTypes(types1_dir[type], types2_dir[type])
+		if err != []:
+			print "ERR:\n" + "\n".join(err)
 
 	return
-
-	#compareNodes(type1, type2)
 
 def comparePackages(pkg1, pkg2):
 	types1 = None
@@ -343,7 +520,9 @@ def comparePackages(pkg1, pkg2):
 	# check types
 	compareTypes(types1, types2)
 
-	#print pkg2
+	# check funcs
+	compareFunctions(types1, types2)
+
 
 if __name__ == "__main__":
 
@@ -377,7 +556,7 @@ if __name__ == "__main__":
 		print "%s: %s" % (go_dir1, err)
 		exit(1)
 
-	err, ip2, symbols2, ip_used2 = getSymbolsForImportPaths(go_dir1)
+	err, ip2, symbols2, ip_used2 = getSymbolsForImportPaths(go_dir2)
 	if err != "":
 		print "%s: %s" % (go_dir2, err)
 		exit(1)
@@ -398,6 +577,7 @@ if __name__ == "__main__":
 		print "removed symbols: " + str(rem_ips)
 
 	# compare common packages
+	counter = 1
 	for pkg in com_ips:
 		obj1 = PackageToXml(symbols1[pkg], "%s" % (ip1[pkg]), imports=False)
 		if not obj1.getStatus():
@@ -409,8 +589,12 @@ if __name__ == "__main__":
 
 		print pkg
 		comparePackages(obj1.getPackage(), obj2.getPackage())
-		break
+		counter += 1
 
+		#if counter == 5:
+		#	break
+
+		print ""
 
 	exit(0)
 
