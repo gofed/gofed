@@ -45,6 +45,7 @@ SCANSYMBOLS=22
 GCPMASTER=23
 BITBUCKET2SPEC=24
 WIZARD=25
+APIDIFF=26
 
 operation=-1
 script_dir=$(dirname $(readlink -f $0))
@@ -55,6 +56,7 @@ function printHelp {
 	echo "Synopsis: go2fed command [arg1 [arg2 ...]]"
 	echo ""
 	echo "command:"
+	echo "	apidiff		 compare API of two commits of the same golang project"
 	echo "	bbo		 buildroot override builds for all branches"
 	echo "	bitbucket2spec	 generate spec file from bitbucket"
 	echo "	build 		 build all fedora branches"
@@ -136,6 +138,8 @@ elif [ "$1" == "bitbucket2gospec" ]; then
         operation=$BITBUCKET2SPEC
 elif [ "$1" == "wizard" ]; then
         operation=$WIZARD
+elif [ "$1" == "apidiff" ]; then
+        operation=$APIDIFF
 fi
 
 ################################
@@ -201,5 +205,7 @@ elif [ $operation -eq $BITBUCKET2SPEC ]; then
         $script_dir/bitbucket2gospec.sh $@
 elif [ $operation -eq $WIZARD ]; then
         $script_dir/wizard.py $@
+elif [ $operation -eq $APIDIFF ]; then
+        $script_dir/goapidiff.py $@
 fi
 
