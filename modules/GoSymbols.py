@@ -615,6 +615,7 @@ class CompareTypes:
 
 	def __init__(self, debug=False):
 		self.debug = debug
+		self.position = []
 
 	def compareIdents(self, ident1, ident2):
 		"""
@@ -679,12 +680,16 @@ class CompareTypes:
 				item2 = node
 
 		if prefix1.get("value") != prefix2.get("value"):
-			err.append("-Selector differs in selector: %s != %s" %
-			(prefix1.get("value"), prefix2.get("value")))
+			msg = "-Selector differs in selector: %s != %s, at %s"
+			pos = " -> ".join(self.position)
+			err.append(msg % (prefix1.get("value"),
+				prefix2.get("value"), pos))
 
 		if item1.get("value") != item2.get("value"):
-			err.append("-Selector differs in expression: %s != %s" %
-			(item1.get("value"), item2.get("value")))
+			msg = "-Selector differs in expression: %s != %s, at %s"
+			pos = " -> ".join(self.position)
+			err.append(msg % (item1.get("value"),
+				item2.get("value"), pos))
 
 		return err
 
@@ -800,6 +805,8 @@ class CompareTypes:
 				(function1.get("name"), function2.get("name")))
 			return err
 
+		self.position.append("function: %s" % function1.get("name"))
+
 		params1 = None
 		params2 = None
 		results1 = None
@@ -842,6 +849,8 @@ class CompareTypes:
 			if e != []:
 				err += e
 
+		self.position.pop()
+
 		return err
 
 	def compareMethods(self, method1, method2):
@@ -865,6 +874,8 @@ class CompareTypes:
 			err.append("-method's name differs: %s != %s" %
 				(method1.get("name"), method2.get("name")))
 			return err
+
+		self.position.append("method:%s" % method1.get("name"))
 
 		params1 = None
 		params2 = None
@@ -908,11 +919,20 @@ class CompareTypes:
 				err += e
 
 		# check receivers?
+		self.position.pop()
 		return err
 
 	def compareInterfaces(self, interface1, interface2):
-
 		err = []
+
+		# check names
+		if interface1.get("name") != interface2.get("name"):
+			err.append("-interface name differs: %s != %s" %
+			    (interface1.get("name"), interface2.get("name")))
+			return err
+
+		self.position.append("interface:%s" % interface1.get("name"))
+
 		if self.debug:
 			print "#INTERFACE: %s" % interface1.get("name")
 
@@ -951,6 +971,8 @@ class CompareTypes:
 			if self.debug:
 				print "#METHOD: %s" % method_name
 
+		self.position.pop()
+
 		return err
 
 	def skipParenthesis(self, parent1, parent2):
@@ -982,7 +1004,7 @@ class CompareTypes:
 
 		type = type1.get("type")
 		if type != type2.get("type"):
-			err.append("-type differs")
+			err.append("-type differs: %s != %s" % (type, type2.get("type")))
 			return err
 
 		if type == TYPE_INTERFACE:
@@ -1062,6 +1084,8 @@ class CompareTypes:
 		if self.debug:
 			print "#STRUCT: %s" % struct1.get("name")
 
+		self.position.append("struct")
+
 		# get a list of field names (with anynomous as well)
 		fs1 = map(lambda f: f.get("name") if f.get("name") != ""
 			else self.constructTypeQualifiedName(f), struct1)
@@ -1137,12 +1161,23 @@ class CompareTypes:
 				(struct1.get("name"), fs2[index2]))
 			index2 += 1
 
+		self.position.pop()
+
 		return err
 
 class ComparePackages:
 
-	def __init__(self, pkg_name):
+	def __init__(self, pkg_name, debug=False):
 		self.pkg_name = pkg_name
+		self.debug = debug
+		self.msg = []
+
+	def getStatus(self):
+
+		return {
+			"name": self.pkg_name,
+			"status": self.msg
+		}
 
 	def compareNames(self, names1, names2):
 		msg = []
@@ -1229,13 +1264,12 @@ class ComparePackages:
 		return msg
 
 	def comparePackages(self, pkg1, pkg2):
+
 		"""
 		Top most definitions can contain method definition.
 		However as the method is field of a struct, it is already
 		checked during checking of all types.
 		"""
-		msg = []
-
 		types1 = None
 		funcs1 = None
 		names1 = None
@@ -1261,15 +1295,73 @@ class ComparePackages:
 				names2 = elm
 
 		# check names
-		msg += self.compareNames(names1, names2)
-
+		self.msg += self.compareNames(names1, names2)
 		# check types
-		msg += self.compareTypes(types1, types2)
-
+		self.msg += self.compareTypes(types1, types2)
 		# check funcs
-		msg += self.compareFunctions(funcs1, funcs2)
+		self.msg += self.compareFunctions(funcs1, funcs2)
 
-		if msg != []:
+		if self.debug and self.msg != []:
 			print "Package: %s" % self.pkg_name
-			print "\n".join(map(lambda m: "\t" + m, msg))
+			print "\n".join(map(lambda m: "\t" + m, self.msg))
+
+class CompareSourceCodes:
+
+	def __init__(self, directory_old, directory_new):
+		self.err = []
+		self.status = {}
+		self.compare(directory_old, directory_new)
+
+	def compare(self, directory_old, directory_new):
+		msg = []
+
+		e, ip1, symbols1, ip_used2 = getSymbolsForImportPaths(directory_old)
+		if e != "":
+			self.err.append("Error at %s: %s" % (directory_old, e))
+			return
+
+		e, ip2, symbols2, ip_used2 = getSymbolsForImportPaths(directory_new)
+		if e != "":
+			self.err.append("Error at %s: %s" % (directory_new, e))
+			return
+
+		ip1_set = set(ip1.keys())
+		ip2_set = set(ip2.keys())
+
+		new_ips = list( ip2_set - ip1_set )
+		rem_ips = list( ip1_set - ip2_set )
+		com_ips = sorted(list( ip1_set & ip2_set ))
+
+		# list new packages
+		if new_ips != []:
+			msg.append("+new packages: " + ", ".join(map(lambda i: i.split(":")[0], new_ips)))
+
+		# list removed packages
+		if rem_ips != []:
+			msg.append("-removed packages: " + ", ".join(map(lambda i: i.split(":")[0], rem_ips)))
+
+		# compare common packages
+		for pkg in com_ips:
+			pkg_name = pkg.split(":")[0]
+			obj1 = PackageToXml(symbols1[pkg], "%s" % (ip1[pkg]), imports=False)
+			if not obj1.getStatus():
+				self.err.append("Error at %s due to json2xml parsing: " % (pkg_name, obj1.getError()))
+				continue
+
+			obj2 = PackageToXml(symbols2[pkg], "%s" % (ip2[pkg]), imports=False)
+			if not obj2.getStatus():
+				self.err.append("Error at %s due to json2xml parsing: " % (pkg_name, obj2.getError()))
+				continue
+
+			comp_pkgs = ComparePackages(pkg.split(":")[0])
+			comp_pkgs.comparePackages(obj1.getPackage(), obj2.getPackage())
+			status = comp_pkgs.getStatus()
+			if status["status"] != []:
+				self.status[pkg_name] = status["status"]
+
+	def getStatus(self):
+		return self.status
+
+	def getError(self):
+		return self.err
 

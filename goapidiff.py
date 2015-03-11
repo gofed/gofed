@@ -9,22 +9,62 @@
 # as a built or install time dependency until they stabilize.
 
 import optparse
-from modules.GoSymbols import getSymbolsForImportPaths, PackageToXml, ProjectToXml, ComparePackages
+from modules.GoSymbols import CompareSourceCodes
+from modules.Utils import YELLOW, RED, BLUE, ENDC
+
+MSG_NEG=1
+MSG_POS=2
+MSG_NEUTRAL=4
+
+def displayApiDifference(status, color=True, msg_type=MSG_POS & MSG_NEUTRAL & MSG_NEG):
+	spkgs = sorted(status.keys())
+	for pkg in spkgs:
+		if color:
+			print "%sPackage: %s%s" % (YELLOW, pkg, ENDC)
+		else:
+			print "Package: %s" % pkg
+		for msg in status[pkg]:
+			if msg[0] == "-":
+				if msg_type & MSG_NEG > 0:
+					if color:
+						print "\t%s%s%s" % (RED, msg, ENDC)
+					else:
+						print "\t%s" % msg
+			elif msg[0] == "+":
+				if msg_type & MSG_POS > 0:
+					if color:
+						print "\t%s%s%s" % (BLUE, msg, ENDC)
+					else:
+						print "\t%s%s%s" % msg
+			else:
+				if msg_type & MSG_NEUTRAL > 0:
+					print "\t%s" % msg
 
 if __name__ == "__main__":
 
 	parser = optparse.OptionParser("%prog [-e] [-d] DIR1 DIR2")
 
-        parser.add_option_group( optparse.OptionGroup(parser, "file", "Xml file with scanned results") )
+        parser.add_option_group( optparse.OptionGroup(parser, "DIR1", "Directory with old source codes") )
+        parser.add_option_group( optparse.OptionGroup(parser, "DIR2", "Directory with new source codes") )
 
 	parser.add_option(
-	    "", "-d", "--detail", dest="detail", action = "store_true", default = False,
-	    help = "Display more information about affected branches"
+	    "", "-c", "--color", dest="color", action = "store_true", default = False,
+	    help = "Color output."
 	)
 
 	parser.add_option(
-	    "", "-e", "--executable", dest="executables", action = "store_true", default = False,
-	    help = "Include executables in summary"
+	    "", "-v", "--verbose", dest="verbose", action = "store_true", default = False,
+	    help = "Verbose mode."
+	)
+
+	parser.add_option(
+	    "", "-e", "--error", dest="error", action = "store_true", default = False,
+	    help = "Show errors only."
+	)
+
+	parser.add_option(
+	    "", "-a", "--all", dest="all", action = "store_true", default = False,
+	    help = "Show all differences between APIs."
 	)
 
 	options, args = parser.parse_args()
@@ -37,41 +77,17 @@ if __name__ == "__main__":
 
 	# 1) check if all provided import paths are the same
 	# 2) check each package for new/removed/changed symbols
+	cmp_src = CompareSourceCodes(go_dir1, go_dir2)
 
-	err, ip1, symbols1, ip_used2 = getSymbolsForImportPaths(go_dir1)
-	if err != "":
-		print "%s: %s" % (go_dir1, err)
-		exit(1)
+	for e in cmp_src.getError():
+		print e
 
-	err, ip2, symbols2, ip_used2 = getSymbolsForImportPaths(go_dir2)
-	if err != "":
-		print "%s: %s" % (go_dir2, err)
-		exit(1)
+	if not options.error:
+		status = cmp_src.getStatus()
+		msg_type = MSG_NEG
+		if options.all:
+			msg_type = MSG_POS | MSG_NEUTRAL | MSG_NEG
+		elif options.verbose:
+			msg_type = MSG_POS | MSG_NEG
 
-	ip1_set = set(ip1.keys())
-	ip2_set = set(ip2.keys())
-
-	new_ips = list( ip2_set - ip1_set )
-	rem_ips = list( ip1_set - ip2_set )
-	com_ips = sorted(list( ip1_set & ip2_set ))
-
-	# list new packages
-	if new_ips != []:
-		print "+new packages: " + str(new_ips)
-
-	# list removed packages
-	if rem_ips != []:
-		print "-removed packages: " + str(rem_ips)
-
-	# compare common packages
-	for pkg in com_ips:
-		obj1 = PackageToXml(symbols1[pkg], "%s" % (ip1[pkg]), imports=False)
-		if not obj1.getStatus():
-			print obj1.getError()
-
-		obj2 = PackageToXml(symbols2[pkg], "%s" % (ip2[pkg]), imports=False)
-		if not obj2.getStatus():
-			print obj2.getError()
-
-		ComparePackages(pkg.split(":")[0]).comparePackages(obj1.getPackage(), obj2.getPackage())
-
+		displayApiDifference(status, options.color, msg_type)
