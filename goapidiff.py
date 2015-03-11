@@ -175,6 +175,7 @@ class CompareTypes:
 		return err
 
 	def compareFunctions(self, function1, function2):
+
 		"""
 		Function is defined by signature.
 		Signature consists of:
@@ -195,7 +196,7 @@ class CompareTypes:
 
 		# check names
 		if function1.get("name") != function2.get("name"):
-			err.append("Function's name differs: %s != %s" %
+			err.append("function's name changed: %s -> %s" %
 				(function1.get("name"), function2.get("name")))
 			return err
 
@@ -219,7 +220,7 @@ class CompareTypes:
 		l1 = len(params1)
 		l2 = len(params2)
 		if l1 != l2:
-			err.append("Function %s differ in parameter count: "
+			err.append("function %s: parameter count changed: "
 				"%s -> %s" % (function1.get("name"), l1, l2))
 			return err
 
@@ -229,8 +230,11 @@ class CompareTypes:
 				err += e
 
 		# check results
-		if len(results1) != len(results2):
-			err.append("Functions differs in result count")
+		l1 = len(results1)
+		l2 = len(results2)
+		if l1 != l2:
+			err.append("function %s: result count changed: "
+				"%s -> %s" % (function1.get("name"), l1, l2))
 			return err
 
 		for i in range(0, len(results1)):
@@ -453,7 +457,8 @@ class CompareTypes:
 			name2 = fs2[index2]
 
 			if name1 != name2:
-				err.append("fields are not in the same order")
+				err.append("struct %s: fields are reordered" %
+					struct1.get("name"))
 				break
 
 			index1 += 1
@@ -488,23 +493,24 @@ class CompareTypes:
 					s2_dict[name2])
 				if e != []:
 					err += e
+			elif name1 < name2:
+				index1 += 1
+				err.append("struct %s: %s field removed" %
+					(struct1.get("name"), name1))
 			else:
-				if name1 < name2:
-					index1 += 1
-					err.append("%s field is missing" %
-						name1)
-				else:
-					index2 += 1
-					err.append("new '%s' field detected" %
-						name2)
+				index2 += 1
+				err.append("struct %s: new field '%s'" %
+					(struct1.get("name"), name2))
 
 		# some fields not checked?
 		while index1 < l1:
-			err.append("field '%s' removed" % fs1[index1])
+			err.append("struct %s: field '%s' removed" %
+				(struct1.get("name"), fs1[index1]))
 			index1 += 1
 
 		while index2 < l2:
-			err.append("new field '%s' detected" % fs2[index2])
+			err.append("struct %s: new field '%s' detected" %
+				(struct1.get("name"), fs2[index2]))
 			index2 += 1
 
 		return err
@@ -524,10 +530,10 @@ class ComparePackages:
 		rem_names = list(names1_set - names2_set)
 
 		if new_names != []:
-			msg.append("New names: " + ", ".join(new_names))
+			msg.append("new variables/constants: " + ", ".join(new_names))
 
 		if rem_names != []:
-			msg.append("Removed names: " + ", ".join(rem_names))
+			msg.append("removed variables/constants: " + ", ".join(rem_names))
 
 		return msg
 
@@ -543,10 +549,10 @@ class ComparePackages:
 		com_funcs = list(funcs1_set & funcs2_set)
 
 		if new_funcs != []:
-			msg.append("New functions: " + ", ".join(new_funcs))
+			msg.append("new functions: " + ", ".join(new_funcs))
 
 		if rem_funcs != []:
-			msg.append("Removed functions: " + ", ".join(rem_funcs))
+			msg.append("removed functions: " + ", ".join(rem_funcs))
 
 		fs1_dict, fs2_dict = {}, {}
 		for node in funcs1:
@@ -576,10 +582,10 @@ class ComparePackages:
 		com_types = list(type1_set & type2_set)
 
 		if new_types != []:
-			msg.append("New types: " + ", ".join(new_types))
+			msg.append("new types: " + ", ".join(new_types))
 
 		if rem_types != []:
-			msg.append("Removed types: " + ", ".join(rem_types))
+			msg.append("removed types: " + ", ".join(rem_types))
 
 		types1_dir = {}
 		types2_dir = {}
@@ -642,8 +648,7 @@ class ComparePackages:
 
 		if msg != []:
 			print "Package: %s" % self.pkg_name
-			print "\n".join(msg)
-			print ""
+			print "\n".join(map(lambda m: "\t" + m, msg))
 
 if __name__ == "__main__":
 
@@ -707,5 +712,5 @@ if __name__ == "__main__":
 		if not obj2.getStatus():
 			print obj2.getError()
 
-		ComparePackages(pkg).comparePackages(obj1.getPackage(), obj2.getPackage())
+		ComparePackages(pkg.split(":")[0]).comparePackages(obj1.getPackage(), obj2.getPackage())
 
