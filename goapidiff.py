@@ -11,20 +11,6 @@
 import optparse
 from modules.GoSymbols import getSymbolsForImportPaths, PackageToXml, ProjectToXml
 
-def compareNames(names1, names2):
-
-	names1_set = set(map(lambda i: i.get('value'), names1))
-	names2_set = set(map(lambda i: i.get('value'), names2))
-
-	new_names = list(names2_set - names1_set)
-	rem_names = list(names1_set - names2_set)
-
-	if new_names != []:
-		print "New names: " + ", ".join(new_names)
-
-	if rem_names != []:
-		print "Removed names: " + ", ".join(rem_names)
-
 class CompareTypes:
 
 	def __init__(self, debug=False):
@@ -127,6 +113,20 @@ class CompareTypes:
 
 		return err	
 
+	def compareEllipsises(self, ellipsis1, ellipsis2):
+
+		"""
+		Ellipsis is defined by a type (type tag).
+
+		Two ellipsises are identical if their types are identical.
+
+		ellipsis1, ellipsis2: etree.Element nodes
+		"""
+		#<type type="ellipsis">
+		#  <type type="ident" def="string"/>
+		#</type>
+		return self.compareTypes(ellipsis1[0], ellipsis2[0])
+
 	def compareSlices(self, slice1, slice2):
 		"""
 		Slice is defined by element type (elmtype tag).
@@ -216,8 +216,11 @@ class CompareTypes:
 				results2 = node
 
 		# check parameters
-		if len(params1) != len(params2):
-			err.append("Functions differs in parameter count")
+		l1 = len(params1)
+		l2 = len(params2)
+		if l1 != l2:
+			err.append("Function %s differ in parameter count: "
+				"%s -> %s" % (function1.get("name"), l1, l2))
 			return err
 
 		for i in range(0, len(params1)):
@@ -347,6 +350,7 @@ class CompareTypes:
 		return err
 
 	def compareTypes(self, type1, type2):
+
 		err = []
 		type = type1.get("type")
 		if type != type2.get("type"):
@@ -364,6 +368,8 @@ class CompareTypes:
 			return self.compareSelectors(type1, type2)
 		elif type == "chan":	
 			return self.compareChannels(type1, type2)
+		elif type == "ellipsis":
+			return self.compareEllipsises(type1, type2)
 		elif type == "slice":
 			return self.compareSlices(type1, type2)
 		elif type == "map":
@@ -503,87 +509,141 @@ class CompareTypes:
 
 		return err
 
-def compareFunctions(funcs1, funcs2):
+class ComparePackages:
 
-	# get types names
-	funcs1_set = set(map(lambda x: x.get("name"), funcs1[:]))
-	funcs2_set = set(map(lambda x: x.get("name"), funcs2[:]))
+	def __init__(self, pkg_name):
+		self.pkg_name = pkg_name
 
-	new_funcs = list(funcs2_set - funcs1_set)
-	rem_funcs = list(funcs1_set - funcs2_set)
-	com_funcs = list(funcs1_set & funcs2_set)
+	def compareNames(self, names1, names2):
+		msg = []
 
-	#print new_funcs
-	#print com_funcs
+		names1_set = set(map(lambda i: i.get('value'), names1))
+		names2_set = set(map(lambda i: i.get('value'), names2))
 
-def compareTypes(type1, type2):
+		new_names = list(names2_set - names1_set)
+		rem_names = list(names1_set - names2_set)
 
-	# get types names
-	type1_set = set(map(lambda x: x.get("name"), type1[:]))
-	type2_set = set(map(lambda x: x.get("name"), type2[:]))
+		if new_names != []:
+			msg.append("New names: " + ", ".join(new_names))
 
-	new_types = list(type2_set - type1_set)
-	rem_types = list(type1_set - type2_set)
-	com_types = list(type1_set & type2_set)
+		if rem_names != []:
+			msg.append("Removed names: " + ", ".join(rem_names))
 
-	if new_types != []:
-		print "New types: " + ", ".join(new_types)
+		return msg
 
-	if rem_types != []:
-		print "Removed types: " + ", ".join(rem_types)
+	def compareFunctions(self, funcs1, funcs2):
+		msg = []
 
-	types1_dir = {}
-	types2_dir = {}
-	for type in type1:
-		if type.get("name") in com_types:
-			types1_dir[type.get("name")] = type
+		# get types names
+		funcs1_set = set(map(lambda x: x.get("name"), funcs1[:]))
+		funcs2_set = set(map(lambda x: x.get("name"), funcs2[:]))
 
-	for type in type2:
-		if type.get("name") in com_types:
-			types2_dir[type.get("name")] = type
+		new_funcs = list(funcs2_set - funcs1_set)
+		rem_funcs = list(funcs1_set - funcs2_set)
+		com_funcs = list(funcs1_set & funcs2_set)
 
-	for type in com_types:
-		#print types1_dir[type].get("name")
-		err = CompareTypes().compareTypes(types1_dir[type], types2_dir[type])
-		if err != []:
-			print "ERR:\n" + "\n".join(err)
+		if new_funcs != []:
+			msg.append("New functions: " + ", ".join(new_funcs))
 
-	return
+		if rem_funcs != []:
+			msg.append("Removed functions: " + ", ".join(rem_funcs))
 
-def comparePackages(pkg1, pkg2):
-	types1 = None
-	funcs1 = None
-	names1 = None
+		fs1_dict, fs2_dict = {}, {}
+		for node in funcs1:
+			node.set("type", "func")
+			fs1_dict[node.get("name")] = node
 
-	types2 = None
-	funcs2 = None
-	names2 = None
+		for node in funcs2:
+			node.set("type", "func")
+			fs2_dict[node.get("name")] = node
 
-	for elm in pkg1:
-		if elm.tag == "types":
-			types1 = elm
-		elif elm.tag == "functions":
-			funcs1 = elm
-		elif elm.tag == "names":
-			names1 = elm
+		for name in com_funcs:
+			e = CompareTypes().compareTypes(fs1_dict[name], fs2_dict[name])
+			if e != []:
+				msg += e
 
-	for elm in pkg2:
-		if elm.tag == "types":
-			types2 = elm
-		elif elm.tag == "functions":
-			funcs2 = elm
-		elif elm.tag == "names":
-			names2 = elm
+		return msg
 
-	# check names
-	compareNames(names1, names2)
+	def compareTypes(self, type1, type2):
+		msg = []
 
-	# check types
-	compareTypes(types1, types2)
+		# get types names
+		type1_set = set(map(lambda x: x.get("name"), type1[:]))
+		type2_set = set(map(lambda x: x.get("name"), type2[:]))
 
-	# check funcs
-	compareFunctions(types1, types2)
+		new_types = list(type2_set - type1_set)
+		rem_types = list(type1_set - type2_set)
+		com_types = list(type1_set & type2_set)
 
+		if new_types != []:
+			msg.append("New types: " + ", ".join(new_types))
+
+		if rem_types != []:
+			msg.append("Removed types: " + ", ".join(rem_types))
+
+		types1_dir = {}
+		types2_dir = {}
+		for type in type1:
+			if type.get("name") in com_types:
+				types1_dir[type.get("name")] = type
+
+		for type in type2:
+			if type.get("name") in com_types:
+				types2_dir[type.get("name")] = type
+
+		for type in com_types:
+			#print types1_dir[type].get("name")
+			err = CompareTypes().compareTypes(types1_dir[type], types2_dir[type])
+			if err != []:
+				msg += err
+
+		return msg
+
+	def comparePackages(self, pkg1, pkg2):
+		"""
+		Top most definitions can contain method definition.
+		However as the method is field of a struct, it is already
+		checked during checking of all types.
+		"""
+		msg = []
+
+		types1 = None
+		funcs1 = None
+		names1 = None
+
+		types2 = None
+		funcs2 = None
+		names2 = None
+
+		for elm in pkg1:
+			if elm.tag == "types":
+				types1 = elm
+			elif elm.tag == "functions":
+				funcs1 = elm
+			elif elm.tag == "names":
+				names1 = elm
+
+		for elm in pkg2:
+			if elm.tag == "types":
+				types2 = elm
+			elif elm.tag == "functions":
+				funcs2 = elm
+			elif elm.tag == "names":
+				names2 = elm
+
+		# check names
+		msg += self.compareNames(names1, names2)
+
+		# check types
+		msg += self.compareTypes(types1, types2)
+
+		# check funcs
+		msg += self.compareFunctions(funcs1, funcs2)
+
+		if msg != []:
+			print "Package: %s" % self.pkg_name
+			print "\n".join(msg)
+			print ""
 
 if __name__ == "__main__":
 
@@ -638,7 +698,6 @@ if __name__ == "__main__":
 		print "removed symbols: " + str(rem_ips)
 
 	# compare common packages
-	counter = 1
 	for pkg in com_ips:
 		obj1 = PackageToXml(symbols1[pkg], "%s" % (ip1[pkg]), imports=False)
 		if not obj1.getStatus():
@@ -648,24 +707,5 @@ if __name__ == "__main__":
 		if not obj2.getStatus():
 			print obj2.getError()
 
-		print pkg
-		comparePackages(obj1.getPackage(), obj2.getPackage())
-		counter += 1
-
-		#if counter == 5:
-		#	break
-
-		print ""
-
-	exit(0)
-
-	for pkg in ip:
-		print "Import path: %s" % (ip[pkg])
-
-		obj = PackageToXml(symbols[pkg], "%s" % (ip[pkg]),  imports=False)
-		if obj.getStatus():
-			print obj#.getError()
-		else:
-			print obj.getError()
-
+		ComparePackages(pkg).comparePackages(obj1.getPackage(), obj2.getPackage())
 
