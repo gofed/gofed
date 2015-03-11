@@ -1,0 +1,39 @@
+====Open problems====
+##########################################
+# [1] - back-compatibility among updates #
+##########################################
+
+====Problem description====
+In general tools can depend on different commits of the same dependency
+(upstream project). If those commits are not back-compatible with each other,
+problems arise:
+
+- we have to package all those commits in order to be able to built every tool
+- we have to do this for every branch (5 at the moment)
+- one devel subpackage must be up2date with the latest upstream commit
+- developer usually use "go get" to install the latest source codes (which
+  commit it is?)
+- with update of the dependency you replace its source codes with non
+  back-compatible ones. User can no longer build his local project.
+- we need latest commits because of kubernetes and other tools being under
+  busy development
+- we have to keep a number of subpackage as low as possible otherwise we end
+  with a packaging nightmare. Having 10 subpackages for one package for all 5
+  branches ends with 50 builds. Each branch can require different commits.
+  With security patch we have to fix up to 50 subpackages.
+
+====Suggested solution====
+Bundle all dependencies breaking back-compatibility
+
+====Notes====
+If different commits of the dependency are subpackaged, maintainer has to fix
+all subpackages on his own. On the other hand if they are bundlel in each tool,
+responsibility for fixing is broken up between each maintainer. At the end we
+still have the sama number of [sub]packages to be fixed.
+
+##################################
+# [2] - vendored vs dependencies #
+##################################
+
+====Problem description====
+
