@@ -2,13 +2,13 @@
 %global provider        github
 %global provider_tld    com
 %global project        	ingvagabund
-%global repo            GolangPackageGenerator
-%global commit		a655e365927782128ba55b7aed8d45bd24607e6c
+%global repo            gofed
+%global commit		3b5f0811a4c77ae5abeac2f8f1327618db038494
 %global shortcommit	%(c=%{commit}; echo ${c:0:7})
 
 Name:		gofed
 Version:	0
-Release:	19%{?dist}
+Release:	20%{?dist}
 Summary:	Tool for development of golang devel packages
 License:	GPLv2+
 URL:		https://github.com/ingvagabund/GolangPackageGenerator
@@ -53,8 +53,8 @@ cp -r data %{buildroot}/usr/share/%{name}/.
 # copy the tool script
 cp %{name} %{buildroot}/usr/share/%{name}/.
 # directory for local database
-mkdir -p /var/lib/%{name}
-chmod 0777 /var/lib/%{name}
+mkdir -p %{buildroot}/var/lib/%{name}
+chmod 0777 %{buildroot}/var/lib/%{name}
 
 %post
 if [ "$1" -eq 1 ]; then
@@ -73,8 +73,12 @@ fi
 /etc/bash_completion.d/%{name}
 /usr/share/%{name}
 /usr/share/man/man1/gofed.1.gz
+/var/lib/%{name}
 
 %changelog
+* Thu Mar 12 2015 jchaloup <jchaloup@redhat.com> - 0-20
+- Bump to upstream 3b5f0811a4c77ae5abeac2f8f1327618db038494
+
 * Wed Mar 11 2015 jchaloup <jchaloup@redhat.com> - 0-19
 - Bump to upstream a655e365927782128ba55b7aed8d45bd24607e6c
 
