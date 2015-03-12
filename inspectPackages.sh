@@ -22,7 +22,7 @@
 script_dir=$(realpath $(dirname $0))
 
 # get packages names
-packages=$(cat $script_dir/golang.packages)
+packages=$(cat $script_dir/data/golang.packages)
 
 # run scan
 rm -f scan.log
