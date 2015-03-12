@@ -1188,11 +1188,11 @@ class ComparePackages:
 		new_names = list(names2_set - names1_set)
 		rem_names = list(names1_set - names2_set)
 
-		if new_names != []:
-			msg.append("+new variables/constants: " + ", ".join(new_names))
+		for item in new_names:
+			msg.append("+%s variable/constant added" % item)
 
-		if rem_names != []:
-			msg.append("-removed variables/constants: " + ", ".join(rem_names))
+		for item in rem_names:
+			msg.append("-%s variable/constant removed" % item)
 
 		return msg
 
@@ -1207,11 +1207,11 @@ class ComparePackages:
 		rem_funcs = list(funcs1_set - funcs2_set)
 		com_funcs = list(funcs1_set & funcs2_set)
 
-		if new_funcs != []:
-			msg.append("+new functions: " + ", ".join(new_funcs))
+		for item in new_funcs:
+			msg.append("+%s func added" % item)
 
-		if rem_funcs != []:
-			msg.append("-removed functions: " + ", ".join(rem_funcs))
+		for item in rem_funcs:
+			msg.append("-%s func removed" % item)
 
 		fs1_dict, fs2_dict = {}, {}
 		for node in funcs1:
@@ -1240,11 +1240,12 @@ class ComparePackages:
 		rem_types = list(type1_set - type2_set)
 		com_types = list(type1_set & type2_set)
 
-		if new_types != []:
-			msg.append("+new types: " + ", ".join(new_types))
+	
+		for item in new_types:
+			msg.append("+%s type added" % item)
 
-		if rem_types != []:
-			msg.append("-removed types: " + ", ".join(rem_types))
+		for item in rem_types:
+			msg.append("-%s type removed" % item)
 
 		types1_dir = {}
 		types2_dir = {}
