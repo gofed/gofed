@@ -38,7 +38,8 @@ class Config:
 		return ""
 
 	def getBranches(self):
-		return self.getValueFromDb('branches')
+		branches = self.getValueFromDb('branches').split(" ")
+		return filter(lambda b: b != "", branches) 
 
 	def getUpdates(self):
 		return self.getValueFromDb('updates')

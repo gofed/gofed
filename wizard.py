@@ -69,7 +69,7 @@ if __name__ == "__main__":
 		print "Missing options, run --help."
 		exit(1)
 
-	branches = filter(lambda b: b != "", Config().getBranches().split(" "))
+	branches = Config().getBranches()
 
 	for i in range(1, 11):
 		if i < phase:
