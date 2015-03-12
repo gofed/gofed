@@ -1,7 +1,7 @@
 #!/bin/python
 
 # ####################################################################
-# go2fed - set of tools to automize packaging of golang devel codes
+# gofed - set of tools to automize packaging of golang devel codes
 # Copyright (C) 2014  Jan Chaloupka, jchaloup@redhat.com
 #
 # This program is free software; you can redistribute it and/or

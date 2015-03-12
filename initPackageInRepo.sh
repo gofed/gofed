@@ -80,12 +80,12 @@ function hasResolves {
 
 ############# clone master to all other branches #############
 function cloneMasterToBranches {
-	go2fed tools --gcp
+	gofed tools --gcp
 }
 
 ############# scratch build of all branches #############
 function scratchBuildBranches {
-	go2fed scratch-build
+	gofed scratch-build
 	ret=$?
 	echo "Return value: $ret"
 	read -p "Continue? [y/n]: " input
@@ -96,8 +96,8 @@ function scratchBuildBranches {
 
 ############# push and build of all branches #############
 function pushAndBuildBranches {
-	go2fed parallel-push
-	go2fed build
+	gofed parallel-push
+	gofed build
 	ret=$?
 	echo "Return value: $ret"
 	read -p "Continue? [y/n]: " input
@@ -108,7 +108,7 @@ function pushAndBuildBranches {
 
 ############# update all branches except master and f22 #############
 function updateBranches {
-	go2fed update
+	gofed update
 }
 
 # $1 ... srpm
@@ -118,11 +118,11 @@ function bboBuilds {
 	if [ "$input" == "n" ]; then
 		exit 1
 	fi
-	go2fed bbo $build
+	gofed bbo $build
 }
 
 state_file=".initpkg.state"
-#echo "#### cache of go2fed initpkg ####" > $state_file
+#echo "#### cache of gofed initpkg ####" > $state_file
 
 e=$(dirExists $pkg_name)
 if [ "$e" -eq 0 ]; then

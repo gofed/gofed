@@ -6,7 +6,7 @@
 # 2) for each file in each directory list all its symbols
 # 3) merge symbols belonging to the same package
 # 4) for each import path make a database of all symbols
-# 5) create go2fed gosymbols script (--list, --importpath, --status)
+# 5) create gofed gosymbols script (--list, --importpath, --status)
 #
 # ========imported symbols (file units)========
 # 1) for each file list all imports
@@ -26,7 +26,7 @@
 # This will be used as a source for "used symbols" matching
 #
 ###############################################################################
-# Using GoSymbols scan will replace go2fed scan-imports as it has a list of all
+# Using GoSymbols scan will replace gofed scan-imports as it has a list of all
 # packages and all imports. Exported symbols gives more informations about what
 # is provided. Local database format has to be replaced with a more expressive
 # one. Using xml for that as it can be read as it is.

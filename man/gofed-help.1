@@ -1,66 +1,66 @@
 .TH GO2FED 1  2015-02-09
 .SH NAME
-go2fed-help,
-go2fed-scratch-build,
-go2fed-build,
-go2fed-update,
-go2fed-ggi,
-go2fed-github2spec,
-go2fed-googlecode2spec,
-go2fed-review,
-go2fed-pull,
-go2fed-inspect,
-go2fed-scan,
-go2fed-scaninfo,
-go2fed-lint,
-go2fed-check-commit,
-go2fed-check-deps,
-go2fed-scan-imports,
+gofed-help,
+gofed-scratch-build,
+gofed-build,
+gofed-update,
+gofed-ggi,
+gofed-github2spec,
+gofed-googlecode2spec,
+gofed-review,
+gofed-pull,
+gofed-inspect,
+gofed-scan,
+gofed-scaninfo,
+gofed-lint,
+gofed-check-commit,
+gofed-check-deps,
+gofed-scan-imports,
 scan-packages 
 \- tools to automize packaging of golang devel source codes
 .SH SYNOPSIS
-\fBgo2fed\fR COMMANDS [\fIARGUMENTS\fR]
+\fBgofed\fR COMMANDS [\fIARGUMENTS\fR]
 .SH DESCPRIPTION
-.B go2fed
+.B gofed
 is a tool providing ...
 .SH COMMANDS
 .PP
-.B go2fed help
+.B gofed help
 .RS 4
 Prints help
 .RE
 .PP
-.B go2fed scratch-build
+.B gofed scratch-build
 .RS 4
 Scratch build all fedora branches
 .RE
 .PP
-.B go2fed build
+.B gofed build
 .RS 4
 Build all fedora branches
 .RE
 .PP
-.B go2fed update
+.B gofed update
 .RS 4
 Update all fedora branches
 .RE
 .PP
-.B go2fed ggi
+.B gofed ggi
 .RS 4
 Get golang imports
 .RE
 .PP
-.B go2fed github2spec PROJECT REPO COMMIT
+.B gofed github2spec PROJECT REPO COMMIT
 .RS 4
 Generate spec file from github.com
 .RE
 .PP
-.B go2fed googlecode2spec REPO REVISION
+.B gofed googlecode2spec REPO REVISION
 .RS 4
 Generate spec file from code.google.com
 .RE
 .PP
-.B go2fed review SPEC USER
+.B gofed review SPEC USER
 .RS 4
 Creates review request for Bugzilla.
 .B SPEC
@@ -74,48 +74,48 @@ If all steps are succesfull, Preview Summary and Preview Description are printed
 Followed by a link to Review Request template.
 .RE
 .PP
-.B go2fed pull
+.B gofed pull
 .RS 4
 Pull from branches.
 .RE
 .PP
-.B go2fed inspect
+.B gofed inspect
 .RS 4
 Inspect decompressed tarball/directory for test files, list indirect/direct directories.
 .RE
 .PP
-.B go2fed scan
+.B gofed scan
 .RS 4
 Scan golang packages listed in golang.packages file
 .RE
 .PP
-.B go2fed scaninfo
+.B gofed scaninfo
 .RS 4
 Analyze information from scan of all golang packages listed in golang.packages file
 .RE
 .PP
-.B go2fed lint
+.B gofed lint
 .RS 4
 Analyze spec file (golang specific checks)
 .RE
 .PP
-.B go2fed check-commit
+.B gofed check-commit
 .RS 4
 For given package name (or import path) and upstream commit check if the package is up2date with the commit
 .RE
 .PP
-.B go2fed check-deps
+.B gofed check-deps
 .RS 4
 For given list of project dependencies in JSON format (i.e. Godeps.json),
 check if all dependencies are up2date in PkgDB.
 .RE
 .PP
-.B go2fed scan-imports
+.B gofed scan-imports
 .RS 4
 Command to search for available used and provided import paths across golang devel packages in PkgDB.
 .RE
 .PP
-.B go2fed scan-packages
+.B gofed scan-packages
 .RS 4
 Scan PkgDB for possible golang packages.
 .RE

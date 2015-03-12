@@ -1,4 +1,4 @@
-- toiol name is go2fed
+- tool name is gofed
 - groups: spec, scan, check, build
 	spec: github2spec, googlecode2spec, review, bump, lint
 	scan: ggi, inspect, scan, scaninfo, scan-imports, scan-packages, scandeps, scansymbols
@@ -14,9 +14,9 @@
 ====version-2====
 ====TODO===
 [  ] - write a tool to generate Godeps.json file (but how to detect) {https://github.com/jingweno/nut}
-[  ] - when running go2fed scan-imports -c and the connection is down, make an option to continue in the database update from the last script run
-[  ] - rewrite go2fed github2spec to use only github url [plus optional commit]
-[  ] - when running go2fed bump, add check for missing/superfluous provides and [build]requires
+[  ] - when running gofed scan-imports -c and the connection is down, make an option to continue in the database update from the last script run
+[  ] - rewrite gofed github2spec to use only github url [plus optional commit]
+[  ] - when running gofed bump, add check for missing/superfluous provides and [build]requires
 [  ] - from spec file extract its changelog and get the latest related or resolves
 [  ] - when searching for new golang packages, repoquery those which depends on golang devel packages
 [  ] - write a script to check for ownership of golang directories (to have an overview)
@@ -24,9 +24,9 @@
 [  ] - measure computation time of scripts used in cron job[s] and optimize them
 [  ] - make a script to compare provides in spec and in tarball (handy for updates)
 [  ] - for each scan make a temp file that holds all items that were already succesefully checked (in case of a failed check, check only those that did not pass)
-[  ] - add options to run individual parts of build phase or all phases from a given phase number (go2fed initpkg, possibly rename the command) or decompose it into subpackages
-[  ] - go2fed [scratch-]build: add options to specify branches to use only
-[  ] - after go2fed created -c test if some lines were removed and ask for confirmation (add -y option as yes for all) 
+[  ] - add options to run individual parts of build phase or all phases from a given phase number (gofed initpkg, possibly rename the command) or decompose it into subpackages
+[  ] - gofed [scratch-]build: add options to specify branches to use only
+[  ] - after gofed created -c test if some lines were removed and ask for confirmation (add -y option as yes for all) 
 [  ] - statistics of number of golang commits/builds/updates/overrides per day (from koji, updates, ...)
 [  ] - write a script to detect if all packages are up to date, use https://api.github.com/repos/<repo>/<project>/commits, e.g. https://api.github.com/repos/spf13/hugo/commits
 [  ] - check koji for overrides: koji latest-build does not always returns the latest rawhide build => need to sync it and untag relevant overrides to get the latest builds
@@ -39,30 +39,32 @@
 [  ] - for a given package, list all its deps and for this deps, list all its deps, and so on
 [  ] - make an online graph of golang deps and info about them (plus changelog of fedora packaging and known issues = cyclic deps, missing [Build]Requires, ...?)
 [  ] - script to check which golang packages are stable, testing, not updated yet (el6 basically)
-[  ] - script to list all dependencies (recursivelly) for a given package {partially by go2fed scandeps -g PKGNAME}
-[  ] - add option to go2fed inspect to skip some directories (example, ...)
+[  ] - script to list all dependencies (recursivelly) for a given package {partially by gofed scandeps -g PKGNAME}
+[  ] - add option to gofed inspect to skip some directories (example, ...)
 [  ] - write a scan of all golang packages for conflicting files (does any two packages install the same file?)
 
 ====version-1====
 
 ====TODO===
+[  ] - run apidiff for all commits of a given package (graph: y #+/-, x commits)
+[  ] - add options to run wizard only for a single branch
 [  ] - /tmp/test/etcd-2.0.3/client/http.go has interface in interface which is not present in exported symbols (type SyncableHTTPClient interface)
 [  ] - when running bbo, untag all bbo before the current bbo
 [  ] - cache imported and provided paths of local packages (takes about 13-16 seconds to generate one graph)
 [  ] - write a short document about gofed tool (after renaming it to gofed). But just about the graph and what it tells about the system. Publish individual use case rather then the whole tool. Still young to make a version 1.
 [  ] - obsolete launchpad package
 [  ] - replace ggi and inspect with scansymbols
-[  ] - When I update a package, go2fed scan-imports will update local db. But list of import paths provided by spec files is not updated. go2fed scan-packages -u has to update those import paths as well.
-[  ] - from go2fed scandeps list of missing import paths
+[  ] - When I update a package, gofed scan-imports will update local db. But list of import paths provided by spec files is not updated. gofed scan-packages -u has to update those import paths as well.
+[  ] - from gofed scandeps list of missing import paths
 [  ] - sort all symbols in an alphabetical order before saving to xml file
-[  ] - rename go2fed to gofed
-[  ] - rewrite all *.sh scripts into python, replace go2fed calls with a python module function
+[  ] - rename gofed to gofed
+[  ] - rewrite all *.sh scripts into python, replace gofed calls with a python module function
 [  ] - create a service file to run daily/hourly scans (updates of local pkgdb)
 [  ] - move path of all local databases to config file
 [  ] - document, document, document, ...
-[  ] - go2fed check-api URL: make an overview of changes of all symbols through out all commits
-[  ] - go2fed scansymbols: dont list provided import paths for packages that has exported symbols only from _test.go files
-[  ] - go2fed ggi - filter out all import paths in provides that defines only main packages
+[  ] - gofed check-api URL: make an overview of changes of all symbols through out all commits
+[  ] - gofed scansymbols: dont list provided import paths for packages that has exported symbols only from _test.go files
+[  ] - gofed ggi - filter out all import paths in provides that defines only main packages
 [  ] - script to check a structure of spec file of every golang package
 [  ] - add to description of every package some information to be parsed by scripts, e.g. commit, upstream url, ...
 
@@ -71,15 +73,15 @@
 [OK] - script to check if given dependency is already in fedora (list of all deps plus links to repo, which deps are no longer needed, ...)
 [OK] - add a script to check which golang packages provides binaries (which version of golang was used to built it?) and rebuild them eventuelly
 [OK] - make a graph of golang deps/imports
-[--] - rename some go2fed commands and decompose them into more suitable tools
+[--] - rename some gofed commands and decompose them into more suitable tools
 [OK] - rewrite detection of imports using go/parser (Golang has its own parser of Go source codes)
 [OK] - when generating spec file for a new package, add evaluated import path before import path macro so it can be copied into webbrowser (handy for updates)
 [OK] - go through http://godoc.org/golang.org/x/tools/godoc/analysis
-[OK] - when running go2fed create, add NVR into generated xml
-[OK] - before go2fed scan-imports -c, backup the old database
-[OK] - make a graph of dependencies (from go2fed scan-imports)
-[OK] - add go2fed fetch-importpaths to update all provided import paths in spec files and append new to local db
-[OK] - go2fed scan-packages: add option to append new packages into db instead of doing this manually
+[OK] - when running gofed create, add NVR into generated xml
+[OK] - before gofed scan-imports -c, backup the old database
+[OK] - make a graph of dependencies (from gofed scan-imports)
+[OK] - add gofed fetch-importpaths to update all provided import paths in spec files and append new to local db
+[OK] - gofed scan-packages: add option to append new packages into db instead of doing this manually
 [OK] - improve ggi script to filter out imports in comments
 [OK] - script to parallel scratch-builds
 [OK] - display a list of ggi as a classes (filter out golang imports)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #############################################################################
 # File          : Repos.py
-# Package       : go2fed
+# Package       : gofed
 # Author        : Jan Chaloupka
 # Created on    : Sat Jan  17 11:08:14 2014
 # Purpose       : ---check the spec file of a source rpm.

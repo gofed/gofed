@@ -33,9 +33,9 @@ In order to speed up querying over found import paths, local database is created
 You can run:
 
 ```vim
-    $ go2fed scan-imports -c    # create local databases of import and imported paths
-    $ go2fed scan-imports -i -p code.google.code/p/     # list all imported paths starting with code.google.code/p/
-    $ go2fed scan-imports -l -p golang.org/x/ -m        # list only packages that imports paths starting with golang.org/x/
+    $ gofed scan-imports -c    # create local databases of import and imported paths
+    $ gofed scan-imports -i -p code.google.code/p/     # list all imported paths starting with code.google.code/p/
+    $ gofed scan-imports -l -p golang.org/x/ -m        # list only packages that imports paths starting with golang.org/x/
 ```
 
 Other problem is a removal of already provided import paths.
@@ -49,18 +49,18 @@ All golang packages are saved into a local database. These package usually start
 You can run the following command to find new packages not yet saved in the local database:
 
 ```vim
-   $ go2fed scan-packages -n
+   $ gofed scan-packages -n
 ```
 
 To list all the packages in the database, you can run:
 
 ```vim
-   $ go2fed scan-packages -l
+   $ gofed scan-packages -l
 ```
 
 Tools like etcd, kubernetes or flannel does not start with the prefix.
 These must be added to the database manually.
-So it is important to know them otherwise go2fed scan-imports does not have to tell you about used import paths.
+So it is important to know them otherwise gofed scan-imports does not have to tell you about used import paths.
 If you know about golang packages that does not start with "golang-" prefix and are not in the database,
 send them to jchaloup@redhat.com, subject "Golang new package name". Thanks.
 
@@ -76,7 +76,7 @@ and should not provide any source codes, only binaries.
 To list all possible paths that can be provided, run the following command in a source code root directory:
 
 ```vim
-$ go2fed inspect -p
+$ gofed inspect -p
 ```
 
 This command will list paths to all directories containing at least one golang file (*.go).

@@ -5,7 +5,7 @@ from Utils import getScriptDir
 class Config:
 
 	def __init__(self):
-		cfg_file = getScriptDir() + "/../config/go2fed.conf"
+		cfg_file = getScriptDir() + "/../config/gofed.conf"
 		self.db = {}
 		self.parseConfigFile(cfg_file)
 

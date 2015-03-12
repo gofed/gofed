@@ -35,7 +35,7 @@ code.google.com -> googlecode_import_path
 golang.org -> golangorg_import_path
 gopkg.in -> gopkg_import_path
 - more import paths in one subpackage or unknown repos?
-- I guess more like a configuration file in go2fed tool
+- I guess more like a configuration file in gofed tool
 - some packages are specific (more versions, more import paths, ...)
 
 ====devel====
@@ -66,8 +66,8 @@ What can be detected and from what source
 	+ Intuitive for a developer
 	+ All used import paths can be queried (independent of any tools used to scan used import paths)
 
-	- With each update I have to modify the list (we have go2fed inspect -p + grep to filter out incorrent import paths)
-	- Harder to automize it (go2fed inspect -p + grep)
+	- With each update I have to modify the list (we have gofed inspect -p + grep to filter out incorrent import paths)
+	- Harder to automize it (gofed inspect -p + grep)
 
 	Anyway this is not an issue, all used import paths must be used (because of a case of influxdb: client, datastore, devel)
 

@@ -3,12 +3,12 @@
 %global provider_tld    com
 %global project        	ingvagabund
 %global repo            GolangPackageGenerator
-%global commit		a257a2ff395a2d2bbdf26a7c4158a451332a9331
+%global commit		a655e365927782128ba55b7aed8d45bd24607e6c
 %global shortcommit	%(c=%{commit}; echo ${c:0:7})
 
-Name:		go2fed
+Name:		gofed
 Version:	0
-Release:	18%{?dist}
+Release:	19%{?dist}
 Summary:	Tool for development of golang devel packages
 License:	GPLv2+
 URL:		https://github.com/ingvagabund/GolangPackageGenerator
@@ -38,7 +38,7 @@ mkdir -p %{buildroot}/etc/bash_completion.d/
 ./gen_bash_completion.sh %{name} > %{buildroot}/etc/bash_completion.d/%{name}
 # copy man page
 mkdir -p %{buildroot}/usr/share/man/man1
-cp man/go2fed-help.1 %{buildroot}/usr/share/man/man1/go2fed.1
+cp man/gofed-help.1 %{buildroot}/usr/share/man/man1/gofed.1
 # copy scripts
 mkdir -p %{buildroot}/usr/share/%{name}
 cp *.sh %{buildroot}/usr/share/%{name}/.
@@ -47,7 +47,7 @@ cp -r modules %{buildroot}/usr/share/%{name}/.
 cp parseGo %{buildroot}/usr/share/%{name}/.
 # copy config
 mkdir -p %{buildroot}/usr/share/%{name}/config
-cp config/go2fed.conf %{buildroot}/usr/share/%{name}/config/.
+cp config/gofed.conf %{buildroot}/usr/share/%{name}/config/.
 # copy golang list and native imports
 cp -r data %{buildroot}/usr/share/%{name}/.
 # copy the tool script
@@ -55,7 +55,7 @@ cp %{name} %{buildroot}/usr/share/%{name}/.
 
 %post
 if [ "$1" -eq 1 ]; then
-	# make a symlink to go2fed
+	# make a symlink to gofed
 	ln -s /usr/share/%{name}/%{name} /usr/bin/%{name}
 fi
 
@@ -66,12 +66,15 @@ fi
 
 %files
 %doc README.md LICENSE
-%config /usr/share/%{name}/config/go2fed.conf
+%config /usr/share/%{name}/config/gofed.conf
 /etc/bash_completion.d/%{name}
 /usr/share/%{name}
-/usr/share/man/man1/go2fed.1.gz
+/usr/share/man/man1/gofed.1.gz
 
 %changelog
+* Wed Mar 11 2015 jchaloup <jchaloup@redhat.com> - 0-19
+- Bump to upstream a655e365927782128ba55b7aed8d45bd24607e6c
+
 * Wed Mar 04 2015 jchaloup <jchaloup@redhat.com> - 0-18
 - Bump to upstream a257a2ff395a2d2bbdf26a7c4158a451332a9331
 
