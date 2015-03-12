@@ -62,7 +62,7 @@ if __name__ == "__main__":
 		pushBranches(branches)
 	if options.scratch:
 		branches = Config().getBranches()
-		if scratchBuildBranches(branches)
+		if scratchBuildBranches(branches):
 			exit(0)
 		else:
 			exit(1)
