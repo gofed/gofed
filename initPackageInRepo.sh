@@ -80,15 +80,7 @@ function hasResolves {
 
 ############# clone master to all other branches #############
 function cloneMasterToBranches {
-	branches=$(cat $script_dir/config/go2fed.conf | grep "^branches:" | cut -d':' -f2 | sed 's/master//')
-	if [ "$branches" == "" ]; then
-	        branches=$(git branch --list | sed 's/\*//g' | grep -v "el6")
-	fi
-
-	for branch in $branches; do
-		fedpkg switch-branch $branch
-	        git reset --hard master
-	done
+	go2fed tools --gcp
 }
 
 ############# scratch build of all branches #############

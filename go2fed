@@ -46,6 +46,7 @@ GCPMASTER=23
 BITBUCKET2SPEC=24
 WIZARD=25
 APIDIFF=26
+TOOLS=27
 
 operation=-1
 script_dir=$(dirname $(readlink -f $0))
@@ -140,6 +141,8 @@ elif [ "$1" == "wizard" ]; then
         operation=$WIZARD
 elif [ "$1" == "apidiff" ]; then
         operation=$APIDIFF
+elif [ "$1" == "tools" ]; then
+        operation=$TOOLS
 fi
 
 ################################
@@ -156,13 +159,13 @@ shift
 if [ $operation -eq $HELP ]; then
 	printHelp
 elif [ $operation -eq $SCRATCH ]; then
-	$script_dir/scratchbuildbranches.sh
+	$script_dir/tools.py --scratch $@
 elif [ $operation -eq $BUILD ]; then
-	$script_dir/scratchbuildbranches.sh raw
+	$script_dir/tools.py --build $@
 elif [ $operation -eq $PARALLEL ]; then
-	$script_dir/push2allbranches.sh
+	$script_dir/tools.py --push $@
 elif [ $operation -eq $UPDATE ]; then
-	$script_dir/updateallbuilds.sh
+	$script_dir/tools.py --update $@
 elif [ $operation -eq $GGI ]; then
 	$script_dir/ggi.py $@
 elif [ $operation -eq $GITHUB2SPEC ]; then
@@ -172,7 +175,7 @@ elif [ $operation -eq $GOOGLECODE2SPEC ]; then
 elif [ $operation -eq $REVIEW ]; then
         $script_dir/preparePackageReview.sh $@
 elif [ $operation -eq $PULL ]; then
-        $script_dir/pullallbranches.sh
+        $script_dir/tools.py --pull $@
 elif [ $operation -eq $INSPECT ]; then
         $script_dir/inspecttarball.py $@
 elif [ $operation -eq $SCANINFO ]; then
@@ -200,12 +203,14 @@ elif [ $operation -eq $SCANDEPS ]; then
 elif [ $operation -eq $SCANSYMBOLS ]; then
         $script_dir/scanGoSymbols.py $@
 elif [ $operation -eq $GCPMASTER ]; then
-        $script_dir/gcpmaster.sh $@
+        $script_dir/tools.py --gcp $@
 elif [ $operation -eq $BITBUCKET2SPEC ]; then
         $script_dir/bitbucket2gospec.sh $@
 elif [ $operation -eq $WIZARD ]; then
         $script_dir/wizard.py $@
 elif [ $operation -eq $APIDIFF ]; then
         $script_dir/goapidiff.py $@
+elif [ $operation -eq $TOOLS ]; then
+        $script_dir/tools.py $@
 fi
 
