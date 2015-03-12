@@ -6,9 +6,9 @@ What it basically supports:
 * spec file generator for github.com, code.google.com and bitbucket.org repositories
 * preparation of Fedora's Review Request for a new golang package
 * golang imports discovering (dependency on other imports/packages)
-* comparsion of APIs (exported symbols) of two golang projects
+* comparision of APIs (exported symbols) of two golang projects
 * scan of available golang packages, construction of dependency graphs of packages
-* other usefull commands (parallel push, pull or update of all chosen branches, ...)
+* other useful commands (parallel push, pull or update of all chosen branches, ...)
 
 ## Instalation
 The repo provides a spec file for Fedora. The package can be build as:
