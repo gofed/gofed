@@ -1,6 +1,6 @@
 ## About
 
-**GolangPackageGenerator** is a set of tools with a goal to automate packaging of golang devel source codes.
+**Gofed** is a set of tools with a goal to automate packaging of golang devel source codes.
 
 What it basically supports:
 * spec file generator for github.com, code.google.com and bitbucket.org repositories
