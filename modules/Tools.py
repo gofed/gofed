@@ -4,6 +4,7 @@ from Utils import runCommand
 from Config import Config
 import os
 import threading
+import subprocess
 
 ####################### build and scratch build routines ######################
 
@@ -208,10 +209,7 @@ def pushBranch(branch):
 	return ""
 
 def updateBranch(branch):
-	so, se, rc = runCommand("fedpkg update")
-	if rc != 0:
-		return se
-
+	subprocess.call("fedpkg update", shell=True)
 	return ""
 
 def pullBranches(branches):
@@ -268,12 +266,47 @@ def updateBranches(branches):
 
 	return all_done
 
+####################### git cherry-pick from master ###########################
+def cherryPickMaster(branches, verbose=True):
+	err = []
+	for branch in branches:
+		if branch == "master":
+			continue
+
+		_, _, rc = runCommand("fedpkg switch-branch %s" % branch)
+		if rc != 0:
+			err.append("Unable to switch to %s branch" % branch)
+			err.append("Skipping %s branch" % branch)
+			if verbose:
+				print "\n".join(err)
+			continue
+
+		if verbose:
+			print "Switched to %s branch" % branch
+
+		_, se, rc = runCommand("git cherry-pick master")
+		if rc != 0:
+			err.append("%s: unable to cherry pick master: %s" % (branch, se))
+			if verbose:
+				print err[-1]
+
+	return err
+
+def resetBranchesToOrigin(branches):
+	for branch in branches:
+		_, _, rc = runCommand("fedpkg switch-branch %s" % branch)
+		if rc != 0:
+			print "Warning: unable to switch to %s branch" % branch
+			print "Skipping %s branch" % branch
+			continue
+
+		print "Switched to %s branch" % branch
+		so, se, rc = runCommand("git reset --hard remotes/origin/%s" %
+			branch)
+
 if __name__ == "__main__":
 
-	branches = filter(lambda b: b != "", Config().getBranches().split(" "))
-	if scratchBuildBranches(branches):
-		print "ALL DONE"
-	else:
-		print "SOME DONE"
-
+	branches = Config().getBranches()
+	#cherryPickMaster(branches)
+	#resetBranchesToOrigin(branches)
 
