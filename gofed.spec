@@ -52,6 +52,9 @@ cp config/gofed.conf %{buildroot}/usr/share/%{name}/config/.
 cp -r data %{buildroot}/usr/share/%{name}/.
 # copy the tool script
 cp %{name} %{buildroot}/usr/share/%{name}/.
+# directory for local database
+mkdir -p /var/lib/%{name}
+chmod 0777 /var/lib/%{name}
 
 %post
 if [ "$1" -eq 1 ]; then
