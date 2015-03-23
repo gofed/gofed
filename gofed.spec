@@ -3,12 +3,12 @@
 %global provider_tld    com
 %global project        	ingvagabund
 %global repo            gofed
-%global commit		22ccc4fe83eac53d524a9a5641ede8cc62f02fd6
+%global commit		837cc974bd366a2093991a0edb6d3beb6b5b256e
 %global shortcommit	%(c=%{commit}; echo ${c:0:7})
 
 Name:		gofed
 Version:	0
-Release:	0.2.git%{shortcommit}%{?dist}
+Release:	0.1.git%{shortcommit}%{?dist}
 Summary:	Tool for development of golang devel packages
 License:	GPLv2+
 URL:		https://github.com/%{project}/%{repo}
@@ -77,9 +77,6 @@ fi
 /var/lib/%{name}
 
 %changelog
-* Mon Mar 23 2015 jchaloup <jchaloup@redhat.com> - 0-0.2.git22ccc4f
-- Bump to upstream 22ccc4fe83eac53d524a9a5641ede8cc62f02fd6
-
 * Mon Mar 23 2015 jchaloup <jchaloup@redhat.com> - 0-0.1.git3b5f081
 - Initial commit for Fedora
 
