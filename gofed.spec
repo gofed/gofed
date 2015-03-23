@@ -3,12 +3,12 @@
 %global provider_tld    com
 %global project        	ingvagabund
 %global repo            gofed
-%global commit		3b5f0811a4c77ae5abeac2f8f1327618db038494
+%global commit		90a86655c3618a137d8b50e66ff05dd30851478e
 %global shortcommit	%(c=%{commit}; echo ${c:0:7})
 
 Name:		gofed
 Version:	0
-Release:	20%{?dist}
+Release:	0.1.git%{shortcommit}%{?dist}
 Summary:	Tool for development of golang devel packages
 License:	GPLv2+
 URL:		https://github.com/ingvagabund/GolangPackageGenerator
@@ -76,64 +76,6 @@ fi
 /var/lib/%{name}
 
 %changelog
-* Thu Mar 12 2015 jchaloup <jchaloup@redhat.com> - 0-20
-- Bump to upstream 3b5f0811a4c77ae5abeac2f8f1327618db038494
-
-* Wed Mar 11 2015 jchaloup <jchaloup@redhat.com> - 0-19
-- Bump to upstream a655e365927782128ba55b7aed8d45bd24607e6c
-
-* Wed Mar 04 2015 jchaloup <jchaloup@redhat.com> - 0-18
-- Bump to upstream a257a2ff395a2d2bbdf26a7c4158a451332a9331
-
-* Sat Feb 28 2015 jchaloup <jchaloup@redhat.com> - 0-17
-- Bump to upstream a9bf0df51ab014dba5b7da8f79dc656772cff249
-
-* Fri Feb 20 2015 jchaloup <jchaloup@redhat.com> - 0-16
-- Bump to upstream 78df015bc5191022fd905eb367f59d087b0d5f7f
-
-* Fri Feb 20 2015 jchaloup <jchaloup@redhat.com> - 0-15
-- Bump to upstream 6e2988a737e5fd9eb6dcc5176616dada75c2f1c3
-
-* Fri Feb 20 2015 jchaloup <jchaloup@redhat.com> - 0-14
-- Bump to upstream 173ae3e5765d816bcd8f75549df2f6cedfa54727
-
-* Thu Feb 19 2015 jchaloup <jchaloup@redhat.com> - 0-13
-- Bump to upstream 0eeacb4af7558fe754c08b693f262d43fb575fee
-
-* Wed Feb 18 2015 jchaloup <jchaloup@redhat.com> - 0-12
-- Bump to upstream 4d257eb9b58a9cd3f554b1bfbb6255c2beda0282
-
-* Mon Feb 16 2015 jchaloup <jchaloup@redhat.com> - 0-11
-- Bump to upstream 99ec1aad9367ee1482e9386dd9db4969d1ed9130
-
-* Wed Feb 11 2015 jchaloup <jchaloup@redhat.com> - 0-10
-- Bump to upstream bb8cc08c193bfa34287fdbc2ee132f36b811f41c
-
-* Tue Feb 10 2015 jchaloup <jchaloup@redhat.com> - 0-9
-- Bump to upstream 1d0006008ddacaf7e143c47abc5f356bf61b5288
-
-* Tue Feb 10 2015 jchaloup <jchaloup@redhat.com> - 0-8
-- Bump to upstream 0da9d0676ec39c8555178c0d5e483fbba8b8613f
-
-* Tue Feb 10 2015 jchaloup <jchaloup@redhat.com> - 0-7
-- Bump to upstream 8608cdba646113dbc31ac1edd47cf06c86fa13c6
-
-* Mon Feb 09 2015 jchaloup <jchaloup@redhat.com> - 0-6
-- Bump to upstream cd28b3a544b2af7de49dc90072266d60c4365e94
-
-* Mon Feb 09 2015 jchaloup <jchaloup@redhat.com> - 0-5
-- Bump to upstream a16c74d5be4afc693d9c4d2a4ff069199f9927e6
-
-* Mon Feb 09 2015 jchaloup <jchaloup@redhat.com> - 0-4
-- Bump to upstream 46db1fa5e7c380cd7eddd87c0bb9f1675b8992ea
-
-* Mon Feb 09 2015 jchaloup <jchaloup@redhat.com> - 0-3
-- Bump to upstream f6bbc7c683601e6cbd4bd3c3bceeb616e840511b
-
-* Mon Feb 09 2015 jchaloup <jchaloup@redhat.com> - 0-2
-- Bump to upstream 6a1b91cb818b88e0c40f68b6c8a3bd2ab75b6340
-
-* Fri Oct 24 2014 jchaloup <jchaloup@redhat.com>
-- Initial package
-
+* Mon Mar 23 2015 jchaloup <jchaloup@redhat.com> - 0-0.1.git3b5f081
+- Initial commit for Fedora
 
