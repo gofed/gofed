@@ -213,7 +213,7 @@ def updateBranch(branch):
 	return ""
 
 def pullBranches(branches):
-	print "Pulling from branches: %s" % ",".join(branches)
+	print "Pulling from branches: %s" % ", ".join(branches)
 	all_done = True
 	for branch in branches:
 		print "Branch %s" % branch
