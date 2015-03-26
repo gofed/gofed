@@ -164,10 +164,19 @@ symbols that has been changed and break back-compatibility.
 Running with \fI--prefix\fP option, all import paths are prefixed:
 
 .nf
-	$ \fBgofed apidiff\fP etcd-2.0.5 etcd-2.0.7 \fI--prefix\fP=github.com/coreos
+	$ \fBgofed apidiff\fP etcd-2.0.5 etcd-2.0.7 --prefix=github.com/coreos
 	Package: github.com/coreos/etcdserver
 		...
 	Package: github.com/coreos/wal
 		...
+.fi
+
+.SS Example 2: List all symbols for a golang project
+
+To display all exported symbols of all packages of a golang project in DIR
+directory, run 'gofed scansymbols -l DIR'. E.g. for etcd-2.0.5:
+
+.nf
+	$ \fBgofed apidiff\fP -l etcd-2.0.5
 .fi
 
