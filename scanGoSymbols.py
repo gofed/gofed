@@ -1,5 +1,3 @@
-#!/bin/python
-
 import optparse
 from modules.GoSymbols import getSymbolsForImportPaths, PackageToXml, ProjectToXml
 import json

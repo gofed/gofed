@@ -1,4 +1,3 @@
-#!/bin/python
 from Utils import getScriptDir, runCommand, inverseMap
 import re
 import os

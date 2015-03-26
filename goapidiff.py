@@ -1,5 +1,3 @@
-#!/bin/python
-
 # Check difference of APIs of two commits
 
 # Output is number of symbols added and removed.
