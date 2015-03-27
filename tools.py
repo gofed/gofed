@@ -44,33 +44,46 @@ if __name__ == "__main__":
 	    help = "fedpkg update all branches"
 	)
 
+	parser.add_option(
+	    "", "", "--branches", dest="branches", default = "",
+	    help = "use only listed branches"
+	)
+
 	options, args = parser.parse_args()
 
+	branches = Config().getBranches()
+	if options.branches != "":
+		bs = filter(lambda b: b != "", options.branches.split(","))
+		for branch in bs:
+			if branch in branches:
+				continue
+
+			print "%s branch in a list of all branches" % branch
+			exit(1)
+
+		branches = bs
+
 	if options.gcp:
-		branches = Config().getBranches()
 		cherryPickMaster(branches)
 	if options.greset:
-		branches = Config().getBranches()
 		resetBranchesToOrigin(branches)
 	if options.pull:
-		branches = Config().getBranches()
 		pullBranches(branches)
 	if options.push:
-		branches = Config().getBranches()
 		pushBranches(branches)
 	if options.scratch:
-		branches = Config().getBranches()
 		if scratchBuildBranches(branches):
 			exit(0)
 		else:
 			exit(1)
 	if options.build:
-		branches = Config().getBranches()
 		if buildBranches(branches):
 			exit(0)
 		else:
 			exit(1)
 	if options.update:
-		branches = Config().getBranches()
+		if options.branches == "":
+			branches = Config().getUpdates()
+
 		updateBranches(branches)
 
