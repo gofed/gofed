@@ -1,9 +1,9 @@
-%global debug_package   %{nil}
+%global _dwz_low_mem_die_limit 0
 %global provider        github
 %global provider_tld    com
 %global project        	ingvagabund
 %global repo            gofed
-%global commit		837cc974bd366a2093991a0edb6d3beb6b5b256e
+%global commit		cab0f0b7fc74c7f7eb38b597c30347a87c83c832
 %global shortcommit	%(c=%{commit}; echo ${c:0:7})
 
 Name:		gofed
@@ -31,7 +31,8 @@ If possible, all in one command.
 %setup -q -n %{repo}-%{commit}
 
 %build
-go build parseGo.go
+function gobuild { go build -a -ldflags "-B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n')" -v -x "$@"; }
+gobuild parseGo.go
 
 %install
 # copy bash completition
@@ -56,27 +57,19 @@ cp %{name} %{buildroot}/usr/share/%{name}/.
 # directory for local database
 mkdir -p %{buildroot}/var/lib/%{name}
 install -m 755 -d %{buildroot}/var/lib/%{name}
-
-%post
-if [ "$1" -eq 1 ]; then
-	# make a symlink to gofed
-	ln -s /usr/share/%{name}/%{name} /usr/bin/%{name}
-fi
-
-%preun
-if [ "$1" -eq 0 ]; then
-	rm /usr/bin/%{name}
-fi
+install -m 755 -d %{buildroot}/usr/bin
+ln -s /usr/share/%{name}/%{name} %{buildroot}/usr/bin/%{name}
 
 %files
 %doc README.md LICENSE
-%config /usr/share/%{name}/config/gofed.conf
+%config(noreplace) /usr/share/%{name}/config/gofed.conf
 /etc/bash_completion.d/%{name}
 /usr/share/%{name}
 /usr/share/man/man1/gofed.1.gz
 /var/lib/%{name}
+/usr/bin/%{name}
 
 %changelog
-* Mon Mar 23 2015 jchaloup <jchaloup@redhat.com> - 0-0.1.git3b5f081
+* Mon Mar 23 2015 jchaloup <jchaloup@redhat.com> - 0-0.1.gitcab0f0b
 - Initial commit for Fedora
 
