@@ -3,7 +3,7 @@
 %global provider_tld    com
 %global project        	ingvagabund
 %global repo            gofed
-%global commit		cab0f0b7fc74c7f7eb38b597c30347a87c83c832
+%global commit		e49fd74d7288ee3405ffb3e4be56a2140743dc53
 %global shortcommit	%(c=%{commit}; echo ${c:0:7})
 
 Name:		gofed
@@ -68,6 +68,16 @@ ln -s /usr/share/%{name}/%{name} %{buildroot}/usr/bin/%{name}
 /usr/share/man/man1/gofed.1.gz
 /var/lib/%{name}
 /usr/bin/%{name}
+
+%check
+function gofed { %{buildroot}/usr/share/%{name}/%{name} "$@" --dry; }
+gofed scratch-build
+gofed build
+gofed pull
+gofed push
+gofed update
+gofed gcpmaster
+gofed tools --git-reset
 
 %changelog
 * Mon Mar 23 2015 jchaloup <jchaloup@redhat.com> - 0-0.1.gitcab0f0b
