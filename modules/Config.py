@@ -40,7 +40,8 @@ class Config:
 		return filter(lambda b: b != "", branches) 
 
 	def getUpdates(self):
-		return self.getValueFromDb('updates')
+		branches = self.getValueFromDb('updates').split(" ")
+		return filter(lambda b: b != "", branches) 
 
 	def getOverrides(self):
 		return self.getValueFromDb('overrides')
