@@ -72,6 +72,7 @@ function printHelp {
 	echo "	inspect		 inspect golang tarball"
 	echo "	lint		 golang spec file checker"
 	echo "	pull		 pull from branches"
+	echo "	push		 pull from branches"
 	echo "	review		 creates review for Bugzilla"
 	echo "	scandeps	 scan all golang packages for dependencies (e.g. cyclic)"
 	echo "	scan-imports	 scan devel builds for possible import paths and imported paths"
@@ -93,7 +94,7 @@ elif [ "$1" == "scratch-build" ]; then
 	operation=$SCRATCH
 elif [ "$1" == "build" ]; then
 	operation=$BUILD
-elif [ "$1" == "parallel-push" ]; then
+elif [ "$1" == "push" ]; then
 	operation=$PARALLEL
 elif [ "$1" == "update" ]; then
 	operation=$UPDATE
