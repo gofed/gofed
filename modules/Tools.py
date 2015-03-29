@@ -4,93 +4,238 @@ import os
 import threading
 import subprocess
 
-####################### build and scratch build routines ######################
+BUILDURL="http://koji.fedoraproject.org/koji/taskinfo?taskID=%s"
 
-def makeSRPM():
-	so, se, rc = runCommand("fedpkg srpm")
-	if rc != 0:
-		return ""
+# DRY MODE
+# - don't run any command changing a state
+#
+# DECOMPOSITION
+# - low level commands
+# - simple commands (wrappers over low level commands)
+# - multi commands (running simple commands over chosen branches)
 
-	for line in so.split("\n"):
-		line = line.strip()
-		if line == "":
-			continue
+class LowLevelCommand:
 
-		parts = line.split(" ")
-		if len(parts) != 2:
-			continue
+	def __init__(self, dry=False, debug=False):
+		self.dry = dry
+		self.debug = debug
 
-		return parts[1]
+	def runFedpkgSrpm(self):
+		"""
+		Run 'fedpkg srpm'.
+		It returns so, se, rc triple.
+		"""
+		if self.debug == True:
+			print "Running 'fedpkg srpm'"
 
-	return ""
+		if self.dry == True:
+			so = "Wrote: gofed-test-0.6.2-0.3.git89088df.fc20.src.rpm"
+			se = ""
+			rc = 0
+			return so, se, rc
+		else:
+			return runCommand("fedpkg srpm")
 
-def runBuild():
-	so, se, rc = runCommand("fedpkg build --nowait")
-	if rc != 0:
-		return -1
+	def runFedpkgScratchBuild(self, srpm):
+		"""
+		Run 'fedpkg scratch-build --nowait --srpm=SRPM'
+		"""
+		if self.debug == True:
+			print "Running 'fedpkg scratch-build --nowait --srpm=SRPM'"
 
-	task_lines = filter(lambda l: l.startswith("Created task:"), so.split("\n"))
-	if len(task_lines) != 1:
-		return -1
+		if self.dry == True:
+			so = "Created task: 1"
+			se = ""
+			rc = 0
+			return so, se, rc
+		else:
+			return runCommand("fedpkg scratch-build --nowait --srpm=%s" % srpm)
 
-	task_id = task_lines[0].strip().split(" ")[-1]
-	if task_id.isdigit():
-		return int(task_id)
+	def runFedpkgBuild(self):
+		"""
+		Run 'fedpkg build --nowait'
+		"""
+		if self.debug == True:
+			print "Running 'fedpkg build --nowait'"
 
-	return -1
+		if self.dry == True:
+			so = "Created task: 1"
+			se = ""
+			rc = 0
+			return so, se, rc
+		else:
+			return runCommand("fedpkg build --nowait")
 
-def runScratchBuild(srpm):
-	so, se, rc = runCommand("fedpkg scratch-build --nowait --srpm=%s" % srpm)
-	if rc != 0:
-		return -1
+	def runGitPull(self):
+		"""
+		Run 'git pull'.
+		It returns so, se, rc triple.
+		"""
+		if self.debug == True:
+			print "Running 'git pull'"
 
-	task_lines = filter(lambda l: l.startswith("Created task:"), so.split("\n"))
-	if len(task_lines) != 1:
-		return -1
+		if self.dry == True:
+			so = ""
+			se = ""
+			rc = 0
+			return so, se, rc
+		else:
+			return runCommand("git pull")
 
-	task_id = task_lines[0].strip().split(" ")[-1]
-	if task_id.isdigit():
-		return int(task_id)
+	def runFedpkgPush(self):
+		"""
+		Run 'fedpkg push'.
+		It returns so, se, rc triple.
+		"""
+		if self.debug == True:
+			print "Running 'fedpkg push'"
 
-	return -1
+		if self.dry == True:
+			so = ""
+			se = ""
+			rc = 0
+			return so, se, rc
+		else:
+			return runCommand("fedpkg push")
 
-def _buildBranches(branches, scratch=True):
+	def runFedpkgUpdate(self):
+		"""
+		Run 'fedpkg update'.
+		It returns so, se, rc triple.
+		"""
+		if self.debug == True:
+			print "Running 'fedpkg update'"
 
-	task_ids = {}
+		if self.dry == True:
+			so = ""
+			se = ""
+			rc = 0
+			return so, se, rc
+		else:
+			subprocess.call("fedpkg update", shell=True)
+			return ""
 
-	# init [scratch] builds
-	for branch in branches:
-		print "Branch %s" % branch
-		so, _, rc = runCommand("fedpkg switch-branch %s" % branch)
+	def runFedpkgSwitchBranch(self, branch):
+		"""
+		Run 'fedpkg switch-branch'.
+		It returns so, se, rc triple.
+		"""
+		if self.debug == True:
+			print "Running 'fedpkg switch-branch'"
+
+		if self.dry == True:
+			so = ""
+			se = ""
+			rc = 0
+			return so, se, rc
+		else:
+			return runCommand("fedpkg switch-branch %s" % branch)
+
+	def runFedpkgCherryPick(self, branch):
+		"""
+		Run 'git cherry-pick BRANCH'.
+		It returns so, se, rc triple.
+		"""
+		if self.debug == True:
+			print "Running 'git cherry-pick BRANCH'"
+
+		if self.dry == True:
+			so = ""
+			se = ""
+			rc = 0
+			return so, se, rc
+		else:
+			return runCommand("git cherry-pick %s" % branch)
+
+	def runGitReset(self, branch):
+		"""
+		Run 'git reset --hard remotes/origin/BRANCH'.
+		It returns so, se, rc triple.
+		"""
+		if self.debug == True:
+			print "Running 'git reset --hard remotes/origin/%s'" % branch
+
+		if self.dry == True:
+			so = ""
+			se = ""
+			rc = 0
+			return so, se, rc
+		else:
+			return runCommand("git reset --hard remotes/origin/%s" % branch)
+
+class SimpleCommand:
+
+	def __init__(self, dry=False, debug=False):
+		self.dry = dry
+		self.debug = debug
+		self.llc = LowLevelCommand(dry=self.dry, debug=self.debug)
+
+	def makeSRPM(self):	
+		so, _, rc = self.llc.runFedpkgSrpm()
 		if rc != 0:
-			print "Unable to switch to %s branch" % branch
-			continue
+			return ""
 
-		srpm = ""
-		if scratch:
-			srpm = makeSRPM()
-			if srpm == "":
-				print "Unable to create srpm"
+		for line in so.split("\n"):
+			line = line.strip()
+			if line == "":
 				continue
 
-		task_id = -1
-		if scratch:
-			task_id = runScratchBuild(srpm)
-		else:
-			task_id = runBuild()
+			parts = line.split(" ")
+			if len(parts) != 2:
+				continue
 
-		if task_id == -1:
-			print "Unable to initiate task"
-			continue
+			return parts[1]
 
-		task_ids[branch] = task_id
-		
-		if scratch:
-			print "Scratch build http://koji.fedoraproject.org/koji/taskinfo?taskID=%s initiated" % task_id
-		else:
-			print "Build http://koji.fedoraproject.org/koji/taskinfo?taskID=%s initiated" % task_id
+		return ""
 
-	return task_ids
+	def runBuild(self):
+		so, _, rc = self.llc.runFedpkgBuild()
+		if rc != 0:
+			return -1
+
+		task_lines = filter(lambda l: l.startswith("Created task:"), so.split("\n"))
+		if len(task_lines) != 1:
+			return -1
+
+		task_id = task_lines[0].strip().split(" ")[-1]
+		if task_id.isdigit():
+			return int(task_id)
+
+		return -1
+
+	def runScratchBuild(self, srpm):
+		so, _, rc = self.llc.runFedpkgScratchBuild(srpm)
+		if rc != 0:
+			return -1
+
+		task_lines = filter(lambda l: l.startswith("Created task:"), so.split("\n"))
+		if len(task_lines) != 1:
+			return -1
+
+		task_id = task_lines[0].strip().split(" ")[-1]
+		if task_id.isdigit():
+			return int(task_id)
+
+		return -1
+
+	def pullBranch(self, branch):
+		so, se, rc = self.llc.runGitPull()
+		if rc != 0:
+			return se
+
+		return ""
+
+	def pushBranch(self, branch):
+		so, se, rc = self.llc.runFedpkgPush()
+		if rc != 0:
+			return se
+
+		return ""
+
+	def updateBranch(self, branch):
+		self.llc.runFedpkgUpdate()
+
+		return ""
 
 class WatchTaskThread(threading.Thread):
 	def __init__(self, task_id):
@@ -103,21 +248,6 @@ class WatchTaskThread(threading.Thread):
 
 	def getError(self):
 		return self.err
-
-def _waitForTasks(task_ids):
-
-	thread_list = {}
-	for branch in task_ids:
-		task_id = task_ids[branch]
-		print "Watching %s branch, http://koji.fedoraproject.org/koji/taskinfo?taskID=%s" % (branch, task_id)
-		thread_list[branch] = WatchTaskThread(task_id)
-		thread_list[branch].start()
-
-	for branch in task_ids:
-		thread_list[branch].join()
-		err = thread_list[branch].getError()
-		if err != "":
-			print err
 
 class WaitTaskThread(threading.Thread):
 	def __init__(self, task_id):
@@ -144,167 +274,211 @@ class WaitTaskThread(threading.Thread):
 	def getError(self):
 		return self.err
 
-def _checkTasks(task_ids):
-	all_done = True
-	print "Checking finished tasks..."
-	thread_list = {}
-	for branch in task_ids:
-		task_id = task_ids[branch]
-		thread_list[branch] = WaitTaskThread(task_id)
-		thread_list[branch].start()
+class MultiCommand:
 
-	for branch in task_ids:
-		thread_list[branch].join()
+	def __init__(self, dry=False, debug=False):
+		self.dry = dry
+		self.debug = debug
+		self.sc = SimpleCommand(debug=self.debug, dry=self.dry)
+		self.llc = LowLevelCommand(debug=self.debug, dry=self.dry)
 
-	for branch in task_ids:
-		if thread_list[branch].getState():
-			print "%s: closed" % branch
-		else:
-			all_done = False
-			print "%s: failed" % branch
+	def _buildBranches(self, branches, scratch=True):
 
-	return all_done
+		task_ids = {}
+		# init [scratch] builds
+		for branch in branches:
+			print "Branch %s" % branch
 
-def scratchBuildBranches(branches):
-	# init [scratch] builds
-	task_ids = _buildBranches(branches)
-	print ""
+			so, _, rc = self.llc.runFedpkgSwitchBranch(branch)
+			if rc != 0:
+				print "Unable to switch to %s branch" % branch
+				continue
 
-	# wait for builds
-	_waitForTasks(task_ids)
-	print ""
+			srpm = ""
+			if scratch:
+				srpm = self.sc.makeSRPM()
+				if srpm == "":
+					print "Unable to create srpm"
+					continue
 
-	# check out builds
-	return _checkTasks(task_ids)
+			task_id = -1
+			if scratch:
+				task_id = self.sc.runScratchBuild(srpm)
+			else:
+				task_id = self.sc.runBuild()
 
-def buildBranches(branches):
+			if task_id == -1:
+				print "Unable to initiate task"
+				continue
 
-	# init [scratch] builds
-	task_ids = _buildBranches(branches, scratch=False)
-	print ""
+			task_ids[branch] = task_id
+		
+			if scratch:
+				print "Scratch build %s initiated" % (BUILDURL % task_id)
+			else:
+				print "Build %s initiated" % (BUILDURL % task_id)
 
-	# wait for builds
-	_waitForTasks(task_ids)
-	print ""
+		return task_ids
 
-	# check out builds
-	return _checkTasks(task_ids)
+	def _waitForTasks(self, task_ids):
 
-####################### pull, push and update routines ########################
+		thread_list = {}
+		for branch in task_ids:
+			task_id = task_ids[branch]
+			print "Watching %s branch, %s" % (branch, BUILDURL % task_id)
+			if self.dry == False:
+				thread_list[branch] = WatchTaskThread(task_id)
+				thread_list[branch].start()
 
-def pullBranch(branch):
-	so, se, rc = runCommand("git pull")
-	if rc != 0:
-		return se
+		if self.dry == False:
+			for branch in task_ids:
+				thread_list[branch].join()
+				err = thread_list[branch].getError()
+				if err != "":
+					print err
 
-	return ""
+	def _checkTasks(self, task_ids):
+		all_done = True
+		print "Checking finished tasks..."
+		thread_list = {}
 
-def pushBranch(branch):
-	so, se, rc = runCommand("fedpkg push")
-	if rc != 0:
-		return se
+		if self.dry == False:
+			for branch in task_ids:
+				task_id = task_ids[branch]
+				thread_list[branch] = WaitTaskThread(task_id)
+				thread_list[branch].start()
 
-	return ""
+			for branch in task_ids:
+				thread_list[branch].join()
 
-def updateBranch(branch):
-	subprocess.call("fedpkg update", shell=True)
-	return ""
+		for branch in task_ids:
+			if self.dry == True:
+				print "%s: closed" % branch
+				continue
 
-def pullBranches(branches):
-	print "Pulling from branches: %s" % ", ".join(branches)
-	all_done = True
-	for branch in branches:
-		print "Branch %s" % branch
-		so, _, rc = runCommand("fedpkg switch-branch %s" % branch)
-		if rc != 0:
-			print "Unable to switch to %s branch" % branch
-			all_done = False
-			continue
+			if thread_list[branch].getState():
+				print "%s: closed" % branch
+			else:
+				all_done = False
+				print "%s: failed" % branch
 
-		err = pullBranch(branch)
-		if err != "":
-			print "%s: %s" % (branch, err)
-			all_done = False
+		return all_done
 
-	return all_done
+	def scratchBuildBranches(self, branches):
+		# init [scratch] builds
+		task_ids = self._buildBranches(branches)
+		print ""
 
-def pushBranches(branches):
-	print "Pushing to branches: %s" % ",".join(branches)
-	all_done = True
-	for branch in branches:
-		print "Branch %s" % branch
-		so, _, rc = runCommand("fedpkg switch-branch %s" % branch)
-		if rc != 0:
-			print "Unable to switch to %s branch" % branch
-			all_done = False
-			continue
+		# wait for builds
+		self._waitForTasks(task_ids)
+		print ""
 
-		err = pushBranch(branch)
-		if err != "":
-			print "%s: %s" % (branch, err)
-			all_done = False
+		# check out builds
+		return self._checkTasks(task_ids)
 
-	return all_done
+	def buildBranches(self, branches):
 
-def updateBranches(branches):
-	print "Pushing to branches: %s" % ",".join(branches)
-	all_done = True
-	for branch in branches:
-		print "Branch %s" % branch
-		so, _, rc = runCommand("fedpkg switch-branch %s" % branch)
-		if rc != 0:
-			print "Unable to switch to %s branch" % branch
-			all_done = False
-			continue
+		# init [scratch] builds
+		task_ids = self._buildBranches(branches, scratch=False)
+		print ""
 
-		err = updateBranch(branch)
-		if err != "":
-			print "%s: %s" % (branch, err)
-			all_done = False
+		# wait for builds
+		self._waitForTasks(task_ids)
+		print ""
 
-	return all_done
+		# check out builds
+		return self._checkTasks(task_ids)
 
-####################### git cherry-pick from master ###########################
-def cherryPickMaster(branches, verbose=True):
-	err = []
-	for branch in branches:
-		if branch == "master":
-			continue
+	def pullBranches(self, branches):
+		print "Pulling from branches: %s" % ", ".join(branches)
 
-		_, _, rc = runCommand("fedpkg switch-branch %s" % branch)
-		if rc != 0:
-			err.append("Unable to switch to %s branch" % branch)
-			err.append("Skipping %s branch" % branch)
+		all_done = True
+		for branch in branches:
+			print "Branch %s" % branch
+			so, _, rc = self.llc.runFedpkgSwitchBranch(branch)
+			if rc != 0:
+				print "Unable to switch to %s branch" % branch
+				all_done = False
+				continue
+
+			err = self.sc.pullBranch(branch)
+			if err != "":
+				print "%s: %s" % (branch, err)
+				all_done = False
+
+		return all_done
+
+	def pushBranches(self, branches):
+		print "Pushing to branches: %s" % ",".join(branches)
+
+		all_done = True
+		for branch in branches:
+			print "Branch %s" % branch
+			so, _, rc = self.llc.runFedpkgSwitchBranch(branch)
+			if rc != 0:
+				print "Unable to switch to %s branch" % branch
+				all_done = False
+				continue
+
+			err = self.sc.pushBranch(branch)
+			if err != "":
+				print "%s: %s" % (branch, err)
+				all_done = False
+
+		return all_done
+
+	def updateBranches(self, branches):
+		print "Updating branches: %s" % ",".join(branches)
+
+		all_done = True
+		for branch in branches:
+			print "Branch %s" % branch
+			so, _, rc = self.llc.runFedpkgSwitchBranch(branch)
+			if rc != 0:
+				print "Unable to switch to %s branch" % branch
+				all_done = False
+				continue
+
+			err = self.sc.updateBranch(branch)
+			if err != "":
+				print "%s: %s" % (branch, err)
+				all_done = False
+
+		return all_done
+
+	def cherryPickMaster(self, branches, verbose=True):
+		err = []
+		for branch in branches:
+			if branch == "master":
+				continue
+
+			_, _, rc = self.llc.runFedpkgSwitchBranch(branch)
+			if rc != 0:
+				err.append("Unable to switch to %s branch" % branch)
+				err.append("Skipping %s branch" % branch)
+				if verbose:
+					print "\n".join(err)
+				continue
+
 			if verbose:
-				print "\n".join(err)
-			continue
+				print "Switched to %s branch" % branch
 
-		if verbose:
+			_, se, rc = self.llc.runFedpkgCherryPick("master")
+			if rc != 0:
+				err.append("%s: unable to cherry pick master: %s" % (branch, se))
+				if verbose:
+					print err[-1]
+
+		return err
+
+	def resetBranchesToOrigin(self, branches):
+		for branch in branches:
+			_, _, rc = self.llc.runFedpkgSwitchBranch(branch)
+			if rc != 0:
+				print "Warning: unable to switch to %s branch" % branch
+				print "Skipping %s branch" % branch
+				continue
+
 			print "Switched to %s branch" % branch
-
-		_, se, rc = runCommand("git cherry-pick master")
-		if rc != 0:
-			err.append("%s: unable to cherry pick master: %s" % (branch, se))
-			if verbose:
-				print err[-1]
-
-	return err
-
-def resetBranchesToOrigin(branches):
-	for branch in branches:
-		_, _, rc = runCommand("fedpkg switch-branch %s" % branch)
-		if rc != 0:
-			print "Warning: unable to switch to %s branch" % branch
-			print "Skipping %s branch" % branch
-			continue
-
-		print "Switched to %s branch" % branch
-		so, se, rc = runCommand("git reset --hard remotes/origin/%s" %
-			branch)
-
-if __name__ == "__main__":
-
-	branches = Config().getBranches()
-	#cherryPickMaster(branches)
-	#resetBranchesToOrigin(branches)
+			so, se, rc = self.llc.runGitReset(branch)
 

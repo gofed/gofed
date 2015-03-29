@@ -1,8 +1,6 @@
 import os
 import optparse
-from modules.Tools import cherryPickMaster, resetBranchesToOrigin
-from modules.Tools import pullBranches, pushBranches, updateBranches
-from modules.Tools import scratchBuildBranches, buildBranches
+from modules.Tools import MultiCommand
 from modules.Config import Config
 
 if __name__ == "__main__":
@@ -49,6 +47,21 @@ if __name__ == "__main__":
 	    help = "use only listed branches"
 	)
 
+	parser.add_option(
+	    "", "", "--ebranches", dest="ebranches", default = "",
+	    help = "use all branches except listed ones"
+	)
+
+	parser.add_option(
+	    "", "", "--dry", dest="dry", action = "store_true", default = False,
+	    help = "run the command in dry mode"
+	)
+
+	parser.add_option(
+	    "", "", "--verbose", dest="debug", action = "store_true", default = False,
+	    help = "be more verbose "
+	)
+
 	options, args = parser.parse_args()
 
 	branches = Config().getBranches()
@@ -58,26 +71,39 @@ if __name__ == "__main__":
 			if branch in branches:
 				continue
 
-			print "%s branch in a list of all branches" % branch
+			print "%s branch not in a list of all branches" % branch
 			exit(1)
 
 		branches = bs
 
+	if options.ebranches != "":
+		ebs = filter(lambda b: b != "", options.ebranches.split(","))
+		for branch in ebs:
+			if branch in branches:
+				continue
+
+			print "%s branch not in a list of all branches" % branch
+			exit(1)
+	
+		branches = sorted(list(set(branches) - set(ebs)))
+
+	mc = MultiCommand(debug=options.debug, dry=options.dry)
+
 	if options.gcp:
-		cherryPickMaster(branches)
+		mc.cherryPickMaster(branches)
 	if options.greset:
-		resetBranchesToOrigin(branches)
+		mc.resetBranchesToOrigin(branches)
 	if options.pull:
-		pullBranches(branches)
+		mc.pullBranches(branches)
 	if options.push:
-		pushBranches(branches)
+		mc.pushBranches(branches)
 	if options.scratch:
-		if scratchBuildBranches(branches):
+		if mc.scratchBuildBranches(branches):
 			exit(0)
 		else:
 			exit(1)
 	if options.build:
-		if buildBranches(branches):
+		if mc.buildBranches(branches):
 			exit(0)
 		else:
 			exit(1)
@@ -85,5 +111,5 @@ if __name__ == "__main__":
 		if options.branches == "":
 			branches = Config().getUpdates()
 
-		updateBranches(branches)
+		mc.updateBranches(branches)
 
