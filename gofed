@@ -47,6 +47,7 @@ BITBUCKET2SPEC=24
 WIZARD=25
 APIDIFF=26
 TOOLS=27
+VERSION=28
 
 operation=-1
 script_dir=$(dirname $(readlink -f $0))
@@ -82,6 +83,7 @@ function printHelp {
 	echo "	scratch-build	 scratch build all fedora branches"
 	echo "	scan-packages	 scan PkgDB for possible golang packages"
 	echo "	update		 update all fedora branches"
+	echo "	version		 print gofed version"
 	echo "	wizard		 run phases of bulding, updating, ... at once"
 }
 
@@ -144,6 +146,8 @@ elif [ "$1" == "apidiff" ]; then
         operation=$APIDIFF
 elif [ "$1" == "tools" ]; then
         operation=$TOOLS
+elif [ "$1" == "version" ]; then
+        operation=$VERSION
 fi
 
 ################################
@@ -213,5 +217,7 @@ elif [ $operation -eq $APIDIFF ]; then
         python $script_dir/goapidiff.py $@
 elif [ $operation -eq $TOOLS ]; then
         python $script_dir/tools.py $@
+elif [ $operation -eq $VERSION ]; then
+        python $script_dir/version.py $@
 fi
 
