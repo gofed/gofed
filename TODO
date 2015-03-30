@@ -42,14 +42,25 @@
 [  ] - script to list all dependencies (recursivelly) for a given package {partially by gofed scandeps -g PKGNAME}
 [  ] - add option to gofed inspect to skip some directories (example, ...)
 [  ] - write a scan of all golang packages for conflicting files (does any two packages install the same file?)
+[  ] - when running [scratch]build, check for state of a build? (every 10 seconds get if it is doing mock, building, instaling, ...?)
+[  ] - api check: if a type is change to its super type, report it but without minus symbol "-" => upgrade the check and for a given type list all its supertypes as well (second walk through go symbols)
 
 ====version-1====
 
 ====TODO===
+[  ] - gofed bump should check if the version has changed and report it on stdout
+[  ] - godep check-deps is using data/golang.imap, which has to updated by gofed scan-imports
+[  ] - bash autocompletion for options
+[  ] - add --dry option to all commands
+[  ] - strip every binary (kubernetes, cadvisor, flannel, fleet, ...)
+[OK] - add gofed version
+[  ] - add logger to gofed
+[  ] - check all os.chdir in all modules (no rm -rf on directories unless I am 100% sure where I am)
+[  ] - use gofed inspect to list all directories containing *.go files and make it a dep of all golang packages? What other things can gofed provide? List of provides, ...?
+[  ] - until go source codes are back-compatible, don't use BuildRequires in devel subpackages (tool will list the complete list of all deps (and their versions). No [build]dependencies among devel? No Requires? What are consequences?
 [OK] - gofed apidiff: add --prefix to specify import path prefix
 [  ] - do "more good than harm" analysis
 [  ] - gofed apidiff libcontainer-1.2.0 libcontainer-1.4.0 -c: some messages still miss its location (is it parameter, is it type, ...)
-[  ] - api check: if a type is change to its super type, report it but without minus symbol "-" => upgrade the check and for a given type list all its supertypes as well (second walk through go symbols)
 [  ] - run apidiff for all commits of a given package (graph: y #+/-, x commits)
 [  ] - add options to run wizard only for a single branch
 [  ] - /tmp/test/etcd-2.0.3/client/http.go has interface in interface which is not present in exported symbols (type SyncableHTTPClient interface)
