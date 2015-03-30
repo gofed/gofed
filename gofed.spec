@@ -3,7 +3,7 @@
 %global provider_tld    com
 %global project        	ingvagabund
 %global repo            gofed
-%global commit		e49fd74d7288ee3405ffb3e4be56a2140743dc53
+%global commit		017a53870771817ff3bccb8dd6d6b0fcaa605649
 %global shortcommit	%(c=%{commit}; echo ${c:0:7})
 
 Name:		gofed
@@ -59,6 +59,8 @@ mkdir -p %{buildroot}/var/lib/%{name}
 install -m 755 -d %{buildroot}/var/lib/%{name}
 install -m 755 -d %{buildroot}/usr/bin
 ln -s /usr/share/%{name}/%{name} %{buildroot}/usr/bin/%{name}
+# symlinks
+cp build gcp pull push scratch-build update %{buildroot}/usr/share/%{name}/.
 
 %files
 %doc README.md LICENSE
@@ -78,8 +80,9 @@ gofed push
 gofed update
 gofed gcpmaster
 gofed tools --git-reset
+gofed wizard --scratch --dry
 
 %changelog
-* Mon Mar 23 2015 jchaloup <jchaloup@redhat.com> - 0-0.1.gitcab0f0b
+* Mon Mar 30 2015 jchaloup <jchaloup@redhat.com> - 0-0.1.git017a538
 - Initial commit for Fedora
 
