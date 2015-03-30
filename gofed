@@ -138,7 +138,7 @@ elif [ "$1" == "scansymbols" ]; then
         operation=$SCANSYMBOLS
 elif [ "$1" == "gcpmaster" ]; then
         operation=$GCPMASTER
-elif [ "$1" == "bitbucket2gospec" ]; then
+elif [ "$1" == "bitbucket2spec" ]; then
         operation=$BITBUCKET2SPEC
 elif [ "$1" == "wizard" ]; then
         operation=$WIZARD
@@ -164,13 +164,13 @@ shift
 if [ $operation -eq $HELP ]; then
 	printHelp
 elif [ $operation -eq $SCRATCH ]; then
-        python $script_dir/tools.py --scratch $@
+        python $script_dir/scratch-build --scratch $@
 elif [ $operation -eq $BUILD ]; then
-        python $script_dir/tools.py --build $@
+        python $script_dir/build --build $@
 elif [ $operation -eq $PARALLEL ]; then
-        python $script_dir/tools.py --push $@
+        python $script_dir/push --push $@
 elif [ $operation -eq $UPDATE ]; then
-        python $script_dir/tools.py --update $@
+        python $script_dir/update --update $@
 elif [ $operation -eq $GGI ]; then
         python $script_dir/ggi.py $@
 elif [ $operation -eq $GITHUB2SPEC ]; then
@@ -180,7 +180,7 @@ elif [ $operation -eq $GOOGLECODE2SPEC ]; then
 elif [ $operation -eq $REVIEW ]; then
         $script_dir/preparePackageReview.sh $@
 elif [ $operation -eq $PULL ]; then
-        python $script_dir/tools.py --pull $@
+        python $script_dir/pull --pull $@
 elif [ $operation -eq $INSPECT ]; then
         python $script_dir/inspecttarball.py $@
 elif [ $operation -eq $SCANINFO ]; then
@@ -208,7 +208,7 @@ elif [ $operation -eq $SCANDEPS ]; then
 elif [ $operation -eq $SCANSYMBOLS ]; then
         python $script_dir/scanGoSymbols.py $@
 elif [ $operation -eq $GCPMASTER ]; then
-        python $script_dir/tools.py --gcp $@
+        python $script_dir/gcp --gcp $@
 elif [ $operation -eq $BITBUCKET2SPEC ]; then
         $script_dir/bitbucket2gospec.sh $@
 elif [ $operation -eq $WIZARD ]; then

@@ -2,44 +2,49 @@ import os
 import optparse
 from modules.Tools import MultiCommand
 from modules.Config import Config
+import sys
 
 if __name__ == "__main__":
 
 	parser = optparse.OptionParser("%prog")
 
+	sln = not (os.path.basename(sys.argv[0]) == "tools.py")
+
+	SH = optparse.SUPPRESS_HELP
+
 	parser.add_option(
 	    "", "", "--gcp", dest="gcp", action = "store_true", default = False,
-	    help = "git cherry-pick master all branches"
+	    help = SH if sln else "git cherry-pick master all branches"
 	)
 
 	parser.add_option(
 	    "", "", "--git-reset", dest="greset", action = "store_true", default = False,
-	    help = "git reset --hard all branches to remotes/origin/*"
+	    help = SH if sln else "git reset --hard all branches to remotes/origin/*"
 	)
 
 	parser.add_option(
 	    "", "", "--pull", dest="pull", action = "store_true", default = False,
-	    help = "git pull all branches"
+	    help = SH if sln else "git pull all branches"
 	)
 
 	parser.add_option(
 	    "", "", "--push", dest="push", action = "store_true", default = False,
-	    help = "fedpkg push all branches"
+	    help = SH if sln else "fedpkg push all branches"
 	)
 
 	parser.add_option(
 	    "", "", "--scratch", dest="scratch", action = "store_true", default = False,
-	    help = "fedpkg scratch-build all branches"
+	    help = SH if sln else "fedpkg scratch-build all branches"
 	)
 
 	parser.add_option(
 	    "", "", "--build", dest="build", action = "store_true", default = False,
-	    help = "fedpkg build all branches"
+	    help = SH if sln else "fedpkg build all branches"
 	)
 
 	parser.add_option(
 	    "", "", "--update", dest="update", action = "store_true", default = False,
-	    help = "fedpkg update all branches"
+	    help = SH if sln else "fedpkg update all branches"
 	)
 
 	parser.add_option(
