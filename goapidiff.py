@@ -51,7 +51,7 @@ def displayApiDifference(status, color=True, msg_type=MSG_POS & MSG_NEUTRAL & MS
 
 if __name__ == "__main__":
 
-	parser = optparse.OptionParser("%prog [-e] [-d] DIR1 DIR2")
+	parser = optparse.OptionParser("prog [-e] [-d] DIR1 DIR2")
 
         parser.add_option_group( optparse.OptionGroup(parser, "DIR1", "Directory with old source codes") )
         parser.add_option_group( optparse.OptionGroup(parser, "DIR2", "Directory with new source codes") )

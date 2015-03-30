@@ -19,6 +19,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 # ####################################################################
 
+if [ "$1" == "--help" ]; then
+	echo ""
+	exit 0
+fi
+
 script_dir=$(realpath $(dirname $0))
 
 # get packages names
