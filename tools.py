@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
 	parser.add_option(
 	    "", "", "--git-reset", dest="greset", action = "store_true", default = False,
-	    help = "git reset --hard all branches to remoter/origin/*"
+	    help = "git reset --hard all branches to remotes/origin/*"
 	)
 
 	parser.add_option(
