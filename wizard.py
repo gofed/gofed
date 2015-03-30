@@ -1,32 +1,9 @@
 # TODO
 # [  ] - add check I am in a package folder
 
-import modules.Tools
+from modules.Tools import PhaseMethods
 import optparse
 from modules.Config import Config
-
-STEP_CLONE_REPO=1
-STEP_DOWNLOAD_SRPM=2
-STEP_IMPORT_SRPM=3
-STEP_HAS_RESOLVES=4
-STEP_CLONE_TO_BRANCHES=5
-STEP_SCRATCH_BUILD=6
-STEP_PUSH=7
-STEP_BUILD=8
-STEP_UPDATE=9
-STEP_OVERRIDE=10
-
-phase_methods = {}
-phase_methods[STEP_SCRATCH_BUILD] = modules.Tools.scratchBuildBranches
-phase_methods[STEP_PUSH] = modules.Tools.pushBranches
-phase_methods[STEP_BUILD] = modules.Tools.buildBranches
-#phase_methods[STEP_UPDATE] = modules.Tools.updateBranches
-
-phase_name = {}
-phase_name[STEP_SCRATCH_BUILD] = "Scratch build phase"
-phase_name[STEP_PUSH] = "Push phase"
-phase_name[STEP_BUILD] = "Build phase"
-phase_name[STEP_UPDATE] = "Update phase"
 
 if __name__ == "__main__":
 
@@ -52,34 +29,57 @@ if __name__ == "__main__":
 	    help = "Start from update"
 	)
 
+	parser.add_option(
+	    "", "", "--dry", dest="dry", action = "store_true", default = False,
+	    help = "Use dry mode"
+	)
+
+	parser.add_option(
+	    "", "", "--verbose", dest="debug", action = "store_true", default = False,
+	    help = "Be more verbose"
+	)
+
+	parser.add_option(
+	    "", "", "--branches", dest="branches", default = "",
+	    help = "use only listed branches"
+	)
+
+	parser.add_option(
+	    "", "", "--ebranches", dest="ebranches", default = "",
+	    help = "use all branches except listed ones"
+	)
+
 	options, args = parser.parse_args()
 
-	phase = -1
+	pm = PhaseMethods(dry=options.dry, debug=options.debug)
+
+	# check branches
+	if options.branches:
+		branches = Config().getBranches()
+		sb = filter(lambda b: b != "", options.branches.split(","))
+		for b in sb:
+			if b not in branches:
+				print "%s branch not in common branches" % b
+				exit(1)
+		pm.setBranches(sorted(sb))
+
+	if options.ebranches:
+		branches = Config().getBranches()
+		sb = filter(lambda b: b != "", options.ebranches.split(","))
+		branches = list(set(branches) - set(sb))
+		pm.setBranches(sorted(branches))
+
 	if options.scratch:
-		phase = STEP_SCRATCH_BUILD
+		pm.startWithScratchBuild()
 	elif options.push:
-		phase = STEP_PUSH
+		pm.startWithPush()
 	elif options.build:
-		phase = STEP_BUILD
+		pm.startWithBuild()
 	elif options.update:
-		phase = STEP_UPDATE
+		pm.startWithUpdate()
 	else:
 		print "Missing options, run --help."
 		exit(1)
 
-	branches = Config().getBranches()
+	pm.run()
 
-	for i in range(1, 11):
-		if i < phase:
-			continue
-
-		if i not in phase_methods:
-			print "Unable to find method for %s" % phase_name[i]
-			break
-
-		print ""
-		print phase_name[i]
-		print ""
-
-		if not phase_methods[i](branches):
-			break

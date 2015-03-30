@@ -482,3 +482,91 @@ class MultiCommand:
 			print "Switched to %s branch" % branch
 			so, se, rc = self.llc.runGitReset(branch)
 
+
+STEP_CLONE_REPO=1
+STEP_DOWNLOAD_SRPM=2
+STEP_IMPORT_SRPM=3
+STEP_HAS_RESOLVES=4
+STEP_CLONE_TO_BRANCHES=5
+STEP_SCRATCH_BUILD=6
+STEP_PUSH=7
+STEP_BUILD=8
+STEP_UPDATE=9
+STEP_OVERRIDE=10
+
+STEP_END=10
+
+class PhaseMethods:
+
+	def __init__(self, dry=False, debug=False):
+		self.phase = STEP_END
+		self.mc = MultiCommand(dry=dry, debug=debug)
+		self.branches = Config().getBranches()
+
+	def setBranches(self, branches):
+		self.branches = branches
+
+	def startWithScratchBuild(self):
+		self.phase = STEP_SCRATCH_BUILD
+
+	def startWithPush(self):
+		self.phase = STEP_PUSH
+
+	def startWithBuild(self):
+		self.phase = STEP_BUILD
+
+	def startWithUpdate(self):
+		self.phase = STEP_UPDATE
+
+	def runPhase(self, phase):
+		if phase == STEP_SCRATCH_BUILD:
+			return self.mc.scratchBuildBranches(self.branches)
+
+		if phase == STEP_PUSH:
+			return self.mc.pushBranches(self.branches)
+
+		if phase == STEP_BUILD:
+			return self.mc.buildBranches(self.branches)
+
+		if phase == STEP_UPDATE:
+			branches = Config().getUpdates()
+			branches = list(set(branches) & set(self.branches))
+			return self.mc.updateBranches(branches)
+
+		return 1
+
+	def getPhaseName(self, phase):
+		if phase == STEP_SCRATCH_BUILD:
+			return "Scratch build phase"
+
+		if phase == STEP_PUSH:
+			return "Push phase"
+
+		if phase == STEP_BUILD:
+			return "Build phase"
+
+		if phase == STEP_UPDATE:
+			return "Update phase"
+
+		return ""	
+
+	def run(self):
+
+		for i in range(1, STEP_END):
+			if i < self.phase:
+				continue
+
+			phase_name = self.getPhaseName(i)
+			if phase_name == "":
+				print "Phase %s unknown" % i
+				break
+
+			print 60*"#"
+			sl = len(phase_name)
+			print ((60-sl)/2)*" " + phase_name
+			print 60*"#"
+			print ""
+
+			if not self.runPhase(i):
+				break	
+
