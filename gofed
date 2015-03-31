@@ -200,7 +200,7 @@ elif [ $operation -eq $SCAN_IMPORTS ]; then
 elif [ $operation -eq $SCAN_PACKAGES ]; then
         python $script_dir/getGolangPackages.py $@
 elif [ $operation -eq $BBO ]; then
-        python $script_dir/bbobranches.py $@
+        python $script_dir/bbobranches --bbo $@
 elif [ $operation -eq $INITPKG ]; then
         $script_dir/initPackageInRepo.sh $@
 elif [ $operation -eq $SCANDEPS ]; then
