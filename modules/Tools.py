@@ -14,6 +14,29 @@ BUILDURL="http://koji.fedoraproject.org/koji/taskinfo?taskID=%s"
 # - simple commands (wrappers over low level commands)
 # - multi commands (running simple commands over chosen branches)
 
+# mappings of branches to build candidates
+branch2bc = {
+	'f20': 'f20-candidate',
+	'f21': 'f21-candidate',
+	'f22': 'f22-candidate',
+	'el6': 'el6-candidate'
+}
+
+branch2build = {
+	'f20': 'f20-build',
+	'f21': 'f21-build',
+	'f22': 'f22-build',
+	'el6': 'dist-6E-epel-build'
+}
+
+branch2tag = {
+	'f20': 'fc20',
+	'f21': 'fc21',
+	'f22': 'fc22',
+	'el6': 'el6'
+}
+
+
 class LowLevelCommand:
 
 	def __init__(self, dry=False, debug=False):
@@ -163,6 +186,45 @@ class LowLevelCommand:
 		else:
 			return runCommand("git reset --hard remotes/origin/%s" % branch)
 
+	def runBodhiOverride(self, branch, name):
+		"""
+		Run 'bodhi --buildroot-override=BUILD for TAG --duration=DURATION --notes=NOTES'.
+		It returns so, se, rc triple.
+		"""
+		build = "%s.%s" % (name, branch2tag[branch])
+		long_tag = branch2bc[branch]
+		build_tag = branch2build[branch]
+
+		if self.debug == True:
+			print "Running 'bodhi --buildroot-override=%s for %s --duration=20 --notes='temp non-stable dependecy waiting for stable''" % (build, long_tag)
+
+		if self.dry == True:
+			so = ""
+			se = ""
+			rc = 0
+			return so, se, rc
+		else:
+			return runCommand("bodhi --buildroot-override=%s for %s --duration=20 --notes='temp non-stable dependecy waiting for stable'" % (build, long_tag))
+
+	def runKojiWaitOverride(self, branch, name):
+		"""
+		Run 'koji wait-repo TAG --build=BUILD'.
+		It returns so, se, rc triple.
+		"""
+		build = "%s.%s" % (name, branch2tag[branch])
+		build_tag = branch2build[branch]
+
+		if self.debug == True:
+			print "Running 'koji wait-repo %s --build=%s'" % (build_tag, build)
+
+		if self.dry == True:
+			so = ""
+			se = ""
+			rc = 0
+			return so, se, rc
+		else:
+			return runCommand("koji wait-repo %s --build=%s" % (build_tag, build))
+
 class SimpleCommand:
 
 	def __init__(self, dry=False, debug=False):
@@ -234,6 +296,20 @@ class SimpleCommand:
 
 	def updateBranch(self, branch):
 		self.llc.runFedpkgUpdate()
+
+		return ""
+
+	def overrideBuild(self, branch, name):
+		so, se, rc = self.llc.runBodhiOverride(branch, name)
+		if rc != 0:
+			return se
+
+		return ""
+
+	def waitForOverrideBuild(self, branch, name):
+		so, se, rc = self.llc.runKojiWaitOverride(branch, name)
+		if rc != 0:
+			return se
 
 		return ""
 
@@ -440,6 +516,46 @@ class MultiCommand:
 				continue
 
 			err = self.sc.updateBranch(branch)
+			if err != "":
+				print "%s: %s" % (branch, err)
+				all_done = False
+
+		return all_done
+
+	def overrideBuilds(self, branches, name):
+		print "Overriding builds for branches: %s" % ",".join(branches)
+
+		all_done = True
+		for branch in branches:
+			print "Branch %s" % branch
+			so, _, rc = self.llc.runFedpkgSwitchBranch(branch)
+			if rc != 0:
+				print "Unable to switch to %s branch" % branch
+				all_done = False
+				continue
+
+			print "Overriding..."
+			err = self.sc.overrideBuild(branch, name)
+			if err != "":
+				print "%s: %s" % (branch, err)
+				all_done = False
+
+		return all_done
+
+	def waitForOverrides(self, branches, name):
+		print "Waiting for overrided builds for branches: %s" % ",".join(branches)
+
+		all_done = True
+		for branch in branches:
+			print "Branch %s" % branch
+			so, _, rc = self.llc.runFedpkgSwitchBranch(branch)
+			if rc != 0:
+				print "Unable to switch to %s branch" % branch
+				all_done = False
+				continue
+
+			print "Waiting..."
+			err = self.sc.waitForOverrideBuild(branch, name)
 			if err != "":
 				print "%s: %s" % (branch, err)
 				all_done = False

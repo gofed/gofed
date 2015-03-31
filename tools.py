@@ -48,6 +48,21 @@ if __name__ == "__main__":
 	)
 
 	parser.add_option(
+	    "", "", "--bbo", dest="bbo", action="store_true", default = False,
+	    help = SH if sln else "buildroot override build for branches"
+	)
+
+	parser.add_option(
+	    "", "", "--wait", dest="wait", action = "store_true", default = False,
+	    help = SH if sln else "wait for buildroot override, can be used with --bbo"
+	)
+
+	parser.add_option(
+	    "", "", "--waitbbo", dest="waitbbo", action = "store_true", default = False,
+	    help = SH if sln else "wait for buildroot override"
+	)
+
+	parser.add_option(
 	    "", "", "--branches", dest="branches", default = "",
 	    help = "use only listed branches"
 	)
@@ -113,8 +128,29 @@ if __name__ == "__main__":
 		else:
 			exit(1)
 	if options.update:
-		if options.branches == "":
+		if options.branches == "" and options.ebranches == "":
 			branches = Config().getUpdates()
+		else:
+			branches = list(set(branches) & set(Config().getUpdates()))
 
 		mc.updateBranches(branches)
 
+	if options.bbo or options.waitbbo or options.wait:
+		if len(args) < 1:
+			print "Missing build name"
+			exit(1)
+
+		build = args[0]
+
+		if options.branches == "" and options.ebranches == "":
+			branches = Config().getOverrides()
+		else:
+			branches = list(set(branches) & set(Config().getOverrides()))
+
+		if options.bbo:
+			done = mc.overrideBuilds(branches, build)
+			if done and options.wait:
+				mc.waitForOverrides(branches, build)
+
+		if options.waitbbo or options.wait:
+			mc.waitForOverrides(branches, build)
