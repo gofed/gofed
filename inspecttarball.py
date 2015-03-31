@@ -20,6 +20,7 @@
 import os
 import optparse
 from modules.GoSymbols import getGoDirs
+from modules.GoSymbols import getSymbolsForImportPaths
 
 directory = "/home/jchaloup/Packages/golang-github-influxdb-influxdb/fedora/golang-github-influxdb-influxdb/influxdb-67f9869b82672b62c1200adaf21179565c5b75c3"
 directory = "/home/jchaloup/Packages/golang-googlecode-gcfg/fedora/golang-googlecode-gcfg/gcfg-c2d3050044d0"
@@ -62,15 +63,24 @@ if __name__ == "__main__":
 		path = args[0]
 
 	if options.provides:
-		sdirs = getGoDirs(path)
-		for dir in sorted(sdirs):
+		err, ip, _, _ = getSymbolsForImportPaths(path)
+		if err != "":
+			print err
+			exit(1)
+
+		ips = []
+		for pkg in ip:
+			ips.append(ip[pkg])
+
+		for ip in sorted(ips):
 			if options.spec != "":
-				if dir != ".":
-					print "Provides: golang(%%{import_path}/%s) = %%{version}-%%{release}" % (dir)
+				if ip != ".":
+					print "Provides: golang(%%{import_path}/%s) = %%{version}-%%{release}" % (ip)
 				else:
 					print "Provides: golang(%{import_path}) = %{version}-%{release}"
 			else:
-				print dir
+				print ip
+
 	elif options.test:
 		sdirs = sorted(getGoDirs(path, test = True))
 		for dir in sdirs:
