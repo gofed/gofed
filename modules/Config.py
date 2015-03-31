@@ -44,7 +44,8 @@ class Config:
 		return filter(lambda b: b != "", branches) 
 
 	def getOverrides(self):
-		return self.getValueFromDb('overrides')
+		branches = self.getValueFromDb('overrides').split(" ")
+		return filter(lambda b: b != "", branches)
 
 	def getImportPathDb(self):
 		return self.getValueFromDb('import_path_db')
