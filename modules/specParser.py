@@ -158,6 +158,10 @@ class SpecInfo:
 			if line.upper().startswith('NAME'):
 				tags['name'] = line.split(' ')[1]
 				continue
+			if line.upper().startswith('SUMMARY'):
+				if "summary" not in tags:
+					tags['summary'] = " ".join(line.split(' ')[1:])
+				continue
 			if line.upper().startswith('SOURCE'):
 				src = line[6:].strip()
 				# now number or : follows

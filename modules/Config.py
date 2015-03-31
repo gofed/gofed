@@ -53,6 +53,9 @@ class Config:
 	def getRepoPathPrefix(self):
 		return self.getValueFromDb('repo_path_prefix')
 
+	def getFASUsername(self):
+		return self.getValueFromDb('fasuser')
+
 if __name__ == "__main__":
 	cfg = Config()
 	print cfg.getBranches()
