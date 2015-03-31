@@ -48,46 +48,48 @@
 [  ] - add logger to gofed
 [  ] - use gofed inspect to list all directories containing *.go files and make it a dep of all golang packages? What other things can gofed provide? List of provides, ...?
 [  ] - when running bbo, untag all bbo before the current bbo
+[  ] - if I run more gofed check-deps at the same time, will it collide?
+[  ] - gofed bbo\bbe - if no build specified, use the latest (how to find the latest built in koji? construct the name from spec file, i.e. Name, Version, Release tags)
+[  ] - run apidiff for all commits of a given package (graph: y #+/-, x commits)
+[  ] - sort all symbols in an alphabetical order before saving to xml file
+[  ] - create a service file to run daily/hourly scans (updates of local pkgdb)
+[  ] - gofed check-api URL: make an overview of changes of all symbols through out all commits
+[  ] - from gofed scandeps list of missing import paths in spec file
 
 ====version-1====
 
-====TODO===
-[  ] - gofed bbo\bbe - if no build specified, use the latest (how to find the latest built in koji? construct the name from spec file, i.e. Name, Version, Release tags)
-[OK] - gofed bbo - add --wait option to wait for overrides
-[OK] - add --branches and --ebranches to bbobranches.py
-[  ] - if I run more gofed check-deps at the same time, will it collide?
-[  ] - godep check-deps is using data/golang.imap, which has to updated by gofed scan-imports
+====NOTCRITICAL====
 [  ] - bash autocompletion for options
 [  ] - add --dry option to all commands
-[  ] - strip every binary (kubernetes, cadvisor, flannel, fleet, ...)
-[OK] - add gofed version
-[  ] - check all os.chdir in all modules (no rm -rf on directories unless I am 100% sure where I am)
-[--] - until go source codes are back-compatible, don't use BuildRequires in devel subpackages (tool will list the complete list of all deps (and their versions). No [build]dependencies among devel? No Requires? What are consequences? {PKG_DRAFT}
-[OK] - gofed apidiff: add --prefix to specify import path prefix
-[  ] - do "more good than harm" analysis
-[  ] - gofed apidiff libcontainer-1.2.0 libcontainer-1.4.0 -c: some messages still miss its location (is it parameter, is it type, ...)
-[  ] - run apidiff for all commits of a given package (graph: y #+/-, x commits)
-[OK] - add options to run wizard only for a single branch
-[  ] - /tmp/test/etcd-2.0.3/client/http.go has interface in interface which is not present in exported symbols (type SyncableHTTPClient interface)
 [  ] - cache imported and provided paths of local packages (takes about 13-16 seconds to generate one graph)
-[  ] - write a short document about gofed tool (after renaming it to gofed). But just about the graph and what it tells about the system. Publish individual use case rather then the whole tool. Still young to make a version 1.
-[  ] - obsolete launchpad package
-[  ] - replace ggi and inspect with scansymbols
-[  ] - When I update a package, gofed scan-imports will update local db. But list of import paths provided by spec files is not updated. gofed scan-packages -u has to update those import paths as well.
-[  ] - from gofed scandeps list of missing import paths
-[  ] - sort all symbols in an alphabetical order before saving to xml file
-[  ] - rename gofed to gofed
-[  ] - rewrite all *.sh scripts into python, replace gofed calls with a python module function
-[  ] - create a service file to run daily/hourly scans (updates of local pkgdb)
-[  ] - move path of all local databases to config file
-[  ] - document, document, document, ...
-[  ] - gofed check-api URL: make an overview of changes of all symbols through out all commits
-[  ] - gofed scansymbols: dont list provided import paths for packages that has exported symbols only from _test.go files
-[  ] - gofed ggi - filter out all import paths in provides that defines only main packages
-[  ] - script to check a structure of spec file of every golang package
+[  ] - gofed apidiff libcontainer-1.2.0 libcontainer-1.4.0 -c: some messages still miss its location (is it parameter, is it type, ...)
 [  ] - add to description of every package some information to be parsed by scripts, e.g. commit, upstream url, ...
 
+====TODO===
+[  ] - DOC: godep check-deps is using data/golang.imap, which has to updated by gofed scan-imports
+[  ] - DOC: write a short document about gofed tool (after renaming it to gofed). But just about the graph and what it tells about the system. Publish individual use case rather then the whole tool. Still young to make a version 1.
+[  ] - DOC: document, document, document, ...
+[  ] - DOC: when running gofed review, ssh-copy-key must be used (no password)
+[  ] - do "more good than harm" analysis
+
+[  ] - /tmp/test/etcd-2.0.3/client/http.go has interface in interface which is not present in exported symbols (type SyncableHTTPClient interface)
+[  ] - When I update a package, gofed scan-imports will update local db. But list of import paths provided by spec files is not updated. gofed scan-packages -u has to update those import paths as well.
+[  ] - rewrite all *.sh scripts into python, replace gofed calls with a python module function
+[  ] - move path of all local databases to config file
+[  ] - gofed scansymbols: dont list provided import paths for packages that has exported symbols only from _test.go files
+[  ] - script to check a structure of spec file of every golang package
+
 ====DONE====
+[OK] - rename go2fed to gofed
+[OK] - gofed ggi - filter out all import paths in provides that defines only main packages
+[OK] - gofed bbo - add --wait option to wait for overrides
+[OK] - add --branches and --ebranches to bbobranches.py
+[OK] - add gofed version
+[OK] - check all os.chdir in all modules (no rm -rf on directories unless I am 100% sure where I am)
+[--] - until go source codes are back-compatible, don't use BuildRequires in devel subpackages (tool will list the complete list of all deps (and their versions). No [build]dependencies among devel? No Requires? What are consequences? {PKG_DRAFT}
+[OK] - gofed apidiff: add --prefix to specify import path prefix
+[OK] - add options to run wizard only for a single branch
+[OK] - replace ggi and inspect with scansymbols
 [--] - script to check new commits for golang packages {for github only right now}
 [OK] - script to check if given dependency is already in fedora (list of all deps plus links to repo, which deps are no longer needed, ...)
 [OK] - add a script to check which golang packages provides binaries (which version of golang was used to built it?) and rebuild them eventuelly
