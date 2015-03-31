@@ -24,11 +24,12 @@ import urllib2
 import optparse
 from subprocess import Popen, PIPE
 from modules.Utils import GREEN, RED, ENDC
-from modules.ImportPaths import getFileTreeImports, getNativeImports
+from modules.ImportPaths import getNativeImports
 from modules.Repos import getMappings
 from modules.ImportPaths import decomposeImports
 from modules.Packages import packageInPkgdb
 from modules.Repos import repo2pkgName
+from modules.GoSymbols import getSymbolsForImportPaths
 
 if __name__ == "__main__":
 	parser = optparse.OptionParser("%prog [-a] [-c] [-d [-v]] [directory]")
@@ -71,7 +72,12 @@ if __name__ == "__main__":
 	if len(args):
 		path = args[0]
 
-	classes = decomposeImports(getFileTreeImports(path))
+	err, _, _, ip_used = getSymbolsForImportPaths(path, imports_only=True)
+	if err != "":
+		print err
+		exit(1)
+	
+	classes = decomposeImports(ip_used)
 	sorted_classes = sorted(classes.keys())
 
 	for element in sorted_classes:
