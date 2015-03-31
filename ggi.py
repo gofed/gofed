@@ -60,6 +60,11 @@ if __name__ == "__main__":
             help = "Display just classes without its imports"
         )
 
+	parser.add_option(
+            "", "", "--spec", dest="spec", action = "store_true", default = False,
+            help = "Display import path for spec file"
+        )
+
 	options, args = parser.parse_args()
 
 	path = "."
@@ -87,8 +92,12 @@ if __name__ == "__main__":
 			else:
 				print "Class: %s" % element
 		if not options.classes or not options.short:
-			for gimport in classes[element]:
-				print "\t%s" % gimport
-			if options.classes:
-				print ""
+			if options.spec:
+				for gimport in classes[element]:
+					print "BuildRequires:\tgolang(%s)" % gimport
+			else:
+				for gimport in classes[element]:
+					print "\t%s" % gimport
+				if options.classes:
+					print ""
 
