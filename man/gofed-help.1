@@ -1,23 +1,28 @@
-.TH GO2FED 1  2015-02-09
+.TH GO2FED 1  2015-04-01
 .SH NAME
-gofed-help,
-gofed-scratch-build,
+gofed-apidiff,
+gofed-bbo,
+gofed-bitbucket2spec,
 gofed-build,
-gofed-update,
+gofed-check-commit,
+gofed-check-deps,
+gofed-gcpmaster,
 gofed-ggi,
 gofed-github2spec,
 gofed-googlecode2spec,
-gofed-review,
-gofed-pull,
+gofed-help,
 gofed-inspect,
-gofed-scan,
-gofed-scaninfo,
-gofed-lint,
-gofed-check-commit,
-gofed-check-deps,
+gofed-pull,
+gofed-push,
+gofed-review,
+gofed-scandeps,
 gofed-scan-imports,
-gofed-apidiff,
-scan-packages 
+gofed-scansymbols,
+gofed-scratch-build,
+gofed-scan-packages,
+gofed-update,
+gofed-version,
+gofed-wizard
 \- tools to automize packaging of golang devel source codes
 .SH SYNOPSIS
 \fBgofed\fR COMMANDS [\fIARGUMENTS\fR]
@@ -25,43 +30,96 @@ scan-packages
 .B gofed
 is a tool providing ...
 .SH COMMANDS
+
 .PP
-.B gofed help
+.B gofed apidiff
 .RS 4
-Prints help
+Compare two commits of the same upstream project/package.
 .RE
+
 .PP
-.B gofed scratch-build
+.B gofed bbo
 .RS 4
-Scratch build all fedora branches
+Buildroot override build for branches (all implicitly).
 .RE
+
+.PP
+.B gofed bitbucket2spec PROJECT REPO COMMIT
+.RS 4
+Generate spec file from bitbucket.org repository.
+.RE
+
 .PP
 .B gofed build
 .RS 4
-Build all fedora branches
+Build fedora branches (all implicitly).
 .RE
+
 .PP
-.B gofed update
+.B gofed check-commit
 .RS 4
-Update all fedora branches
+For given package name (or import path) and upstream commit check
+if the package is up2date with the commit.
 .RE
+
+.PP
+.B gofed check-deps
+.RS 4
+For given list of project dependencies in JSON format (i.e. Godeps.json),
+check if all dependencies are up2date in PkgDB.
+.RE
+
+.PP
+.B gofed gcpmaster
+.RS 4
+All branches git cherry-pick master branch.
+.RE
+
 .PP
 .B gofed ggi
 .RS 4
-Get golang imports
+Get golang imports (imported packages)
 .RE
+
 .PP
 .B gofed github2spec PROJECT REPO COMMIT
 .RS 4
-Generate spec file from github.com
+Generate spec file from github.com repository.
 .RE
+
 .PP
 .B gofed googlecode2spec REPO REVISION
 .RS 4
-Generate spec file from code.google.com
+Generate spec file from code.google.com repository.
 .RE
+
 .PP
-.B gofed review SPEC USER
+.B gofed help
+.RS 4
+Prints help.
+.RE
+
+.PP
+.B gofed inspect
+.RS 4
+Inspect decompressed tarball/directory for test files, list direct
+directories, list provided packages (import paths).
+.RE
+
+.PP
+.B gofed pull
+.RS 4
+Pull from branches (all implicitly).
+.RE
+
+.PP
+.B gofed push
+.RS 4
+Push to branches (all implicitly).
+.RE
+
+.PP
+.B gofed review SPEC [--user] [--skip-koji]
 .RS 4
 Creates review request for Bugzilla.
 .B SPEC
@@ -69,51 +127,38 @@ is a name of a spec file (with .spec extension)
 First it builds the spec file.
 Then scratch builds the resulting srpm in koji.
 After successfull build,
-the srpm and spec file are uploaded to USER's fedora acount under public_html/reviews/spec_without_extension folder.
+the srpm and spec file are uploaded to user's fedora acount under
+public_html/reviews/spec_without_extension folder.
 If the folder does not exist, it is created.
-If all steps are succesfull, Preview Summary and Preview Description are printed to stdout.
+User is read from configuration file.
+It can be specified by \fI\-\-user\fP option.
+If all steps are succesfull, Preview Summary and Preview Description
+are printed to stdout.
 Followed by a link to Review Request template.
 .RE
-.PP
-.B gofed pull
-.RS 4
-Pull from branches.
-.RE
-.PP
-.B gofed inspect
-.RS 4
-Inspect decompressed tarball/directory for test files, list indirect/direct directories.
-.RE
-.PP
-.B gofed scan
-.RS 4
-Scan golang packages listed in golang.packages file
-.RE
-.PP
-.B gofed scaninfo
-.RS 4
-Analyze information from scan of all golang packages listed in golang.packages file
-.RE
-.PP
-.B gofed lint
-.RS 4
-Analyze spec file (golang specific checks)
-.RE
-.PP
-.B gofed check-commit
-.RS 4
-For given package name (or import path) and upstream commit check if the package is up2date with the commit
-.RE
-.PP
-.B gofed check-deps
-.RS 4
-For given list of project dependencies in JSON format (i.e. Godeps.json),
-check if all dependencies are up2date in PkgDB.
-.RE
+
 .PP
 .B gofed scan-imports
 .RS 4
-Command to search for available used and provided import paths across golang devel packages in PkgDB.
+Command to search for available used and provided import paths across golang devel packages.
+.RE
+
+.PP
+.B gofed scansymbols
+.RS 4
+Scan directory for go symbols.
+.RE
+
+.PP
+.B gofed scratch-build
+.RS 4
+Scratch build fedora branches (all implicitly).
+.RE
+
+.PP
+.B gofed update
+.RS 4
+Update fedora branches (all implicitly).
 .RE
 
 .PP
@@ -123,9 +168,15 @@ Scan PkgDB for possible golang packages.
 .RE
 
 .PP
-.B gofed apidiff
+.B gofed version
 .RS 4
-Compare two commits of the same upstream project/package.
+Prints version.
+.RE
+
+.PP
+.B gofed wizard
+.RS 4
+Run phases of building, updating, ... at once.
 .RE
 
 .SH EXAMPLES
@@ -180,3 +231,7 @@ directory, run 'gofed scansymbols -l DIR'. E.g. for etcd-2.0.5:
 	$ \fBgofed apidiff\fP -l etcd-2.0.5
 .fi
 
+.SH COLOPHON
+
+Any bug reports send to jchaloup@redhat.com or
+https://github.com/ingvagabund/gofed
