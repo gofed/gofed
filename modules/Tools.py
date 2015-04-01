@@ -301,7 +301,7 @@ class SimpleCommand:
 
 	def overrideBuild(self, branch, name):
 		so, se, rc = self.llc.runBodhiOverride(branch, name)
-		if rc != 0:
+		if rc != 0 or se != "":
 			return se
 
 		return ""
@@ -528,12 +528,6 @@ class MultiCommand:
 		all_done = True
 		for branch in branches:
 			print "Branch %s" % branch
-			so, _, rc = self.llc.runFedpkgSwitchBranch(branch)
-			if rc != 0:
-				print "Unable to switch to %s branch" % branch
-				all_done = False
-				continue
-
 			print "Overriding..."
 			err = self.sc.overrideBuild(branch, name)
 			if err != "":
@@ -548,12 +542,6 @@ class MultiCommand:
 		all_done = True
 		for branch in branches:
 			print "Branch %s" % branch
-			so, _, rc = self.llc.runFedpkgSwitchBranch(branch)
-			if rc != 0:
-				print "Unable to switch to %s branch" % branch
-				all_done = False
-				continue
-
 			print "Waiting..."
 			err = self.sc.waitForOverrideBuild(branch, name)
 			if err != "":
