@@ -3,7 +3,7 @@
 %global provider_tld    com
 %global project        	ingvagabund
 %global repo            gofed
-%global commit		017a53870771817ff3bccb8dd6d6b0fcaa605649
+%global commit		a4c915e2a742578caf792158305c7d19a8e2c764
 %global shortcommit	%(c=%{commit}; echo ${c:0:7})
 
 Name:		gofed
@@ -43,7 +43,8 @@ mkdir -p %{buildroot}/usr/share/man/man1
 cp man/gofed-help.1 %{buildroot}/usr/share/man/man1/gofed.1
 # copy scripts
 mkdir -p %{buildroot}/usr/share/%{name}
-cp *.sh %{buildroot}/usr/share/%{name}/.
+cp bitbucket2gospec.sh gen_bash_completion.sh github2gospec.sh \
+   googlecode2gospec.sh %{buildroot}/usr/share/%{name}/.
 cp *.py %{buildroot}/usr/share/%{name}/.
 cp -r modules %{buildroot}/usr/share/%{name}/.
 cp parseGo %{buildroot}/usr/share/%{name}/.
@@ -60,7 +61,7 @@ install -m 755 -d %{buildroot}/var/lib/%{name}
 install -m 755 -d %{buildroot}/usr/bin
 ln -s /usr/share/%{name}/%{name} %{buildroot}/usr/bin/%{name}
 # symlinks
-cp build gcp pull push scratch-build update %{buildroot}/usr/share/%{name}/.
+cp build gcp pull push scratch-build update bbobranches %{buildroot}/usr/share/%{name}/.
 
 %files
 %doc README.md LICENSE
@@ -80,9 +81,12 @@ gofed push
 gofed update
 gofed gcpmaster
 gofed tools --git-reset
+gofed tools --bbo --dry test
+gofed tools --bbo --wait --dry test
+gofed tools --waitbbo --dry test
 gofed wizard --scratch --dry
 
 %changelog
-* Mon Mar 30 2015 jchaloup <jchaloup@redhat.com> - 0-0.1.git017a538
+* Wed Apr 01 2015 jchaloup <jchaloup@redhat.com> - 0-0.1.gita4c915e
 - Initial commit for Fedora
 
