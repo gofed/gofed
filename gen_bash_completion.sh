@@ -32,21 +32,20 @@ cat << EOF
 _$pkg()
 {
     local cur prev opts
+    _init_completion -s || return
     COMPREPLY=()
-    cur="\${COMP_WORDS[COMP_CWORD]}"
-    prev="\${COMP_WORDS[COMP_CWORD-1]}"
 EOF
 echo "    opts=\"$ops\""
-echo "    case "\${prev}" in"
+echo "    case "\${words[1]}" in"
 
 for operation in $ops; do
 	opts=$(cat tools.options | grep "^$operation:" | cut -d':' -f2)
+	echo "        $operation)"
 	if [ "$opts" != "" ]; then
-		echo "        $operation)"
-		echo "            COMPREPLY=( \$(compgen -W '$opts') )"
-	        echo "            return 0"
-	        echo "            ;;"
+		echo "            COMPREPLY=( \$(compgen -W '$opts' -- \${cur}) )"
 	fi
+        echo "            return 0"
+        echo "            ;;"
 done
 
 cat << EOF
