@@ -1,16 +1,3 @@
-- tool name is gofed
-- groups: spec, scan, check, build
-	spec: github2spec, googlecode2spec, review, bump, lint
-	scan: ggi, inspect, scan, scaninfo, scan-imports, scan-packages, scandeps, scansymbols
-	check: check-commit, check-deps, 
-	build: scratch-build, build, update, pull, bbo, gcpmaster, initpkg
-
-- gofed COMMAND [OPTIONS]
-- gofed-spec [COMMAND] [OPTIONS]
-- gofed-scan [COMMAND] [OPTIONS]
-- gofed-check [COMMAND] [OPTIONS]
-- gofed-build [COMMAND] [OPTIONS]
-
 ====version-2====
 ====TODO===
 [  ] - write a tool to generate Godeps.json file (but how to detect) {https://github.com/jingweno/nut}
@@ -30,9 +17,7 @@
 [  ] - statistics of number of golang commits/builds/updates/overrides per day (from koji, updates, ...)
 [  ] - write a script to detect if all packages are up to date, use https://api.github.com/repos/<repo>/<project>/commits, e.g. https://api.github.com/repos/spf13/hugo/commits
 [  ] - check koji for overrides: koji latest-build does not always returns the latest rawhide build => need to sync it and untag relevant overrides to get the latest builds
-[  ] - add --skip-branch into build/scratchbuild
 [  ] - gopkg.in spec file generator
-[  ] - bitbucket spec file generator
 [  ] - create fedora mailing list to register new golang packages
 [  ] - bodhi --new --type newpackage --notes 'First package for Fedora' golang-github-vaughan0-go-ini-0-0.2.gita98ad7e.el6
 [  ] - update packaging draft for golang
@@ -55,15 +40,24 @@
 [  ] - create a service file to run daily/hourly scans (updates of local pkgdb)
 [  ] - gofed check-api URL: make an overview of changes of all symbols through out all commits
 [  ] - from gofed scandeps list of missing import paths in spec file
+[  ] - gofed ggi,inspect, .. should implicitelly skip Gofeds folder (and report it to stdin/stderr)
+[  ] - when generating list of [B]R or Provides, sort it alphabetically
+[  ] - finish inspectpackage.sh
+[  ] - replace initPackageInRepo.sh with gofed wizard
+[  ] - rewrite all *.sh scripts into python, replace gofed calls with a python module function
+[  ] - gofed scansymbols: dont list provided import paths for packages that has exported symbols only from _test.go files
+[  ] - move path of all local databases to config file
+[  ] - script to check a structure of spec file of every golang package
 
 ====version-1====
 
 ====NOTCRITICAL====
-[  ] - bash autocompletion for options
 [  ] - add --dry option to all commands
 [  ] - cache imported and provided paths of local packages (takes about 13-16 seconds to generate one graph)
 [  ] - gofed apidiff libcontainer-1.2.0 libcontainer-1.4.0 -c: some messages still miss its location (is it parameter, is it type, ...)
 [  ] - add to description of every package some information to be parsed by scripts, e.g. commit, upstream url, ...
+[  ] - /tmp/test/etcd-2.0.3/client/http.go has interface in interface which is not present in exported symbols (type SyncableHTTPClient interface)
+[  ] - bash completion for directory paths (some commands neeed it and the current bash completion does not complete it)
 
 ====TODO===
 [  ] - DOC: godep check-deps is using data/golang.imap, which has to updated by gofed scan-imports
@@ -72,14 +66,11 @@
 [  ] - DOC: when running gofed review, ssh-copy-key must be used (no password)
 [  ] - do "more good than harm" analysis
 
-[  ] - /tmp/test/etcd-2.0.3/client/http.go has interface in interface which is not present in exported symbols (type SyncableHTTPClient interface)
-[  ] - When I update a package, gofed scan-imports will update local db. But list of import paths provided by spec files is not updated. gofed scan-packages -u has to update those import paths as well.
-[  ] - rewrite all *.sh scripts into python, replace gofed calls with a python module function
-[  ] - move path of all local databases to config file
-[  ] - gofed scansymbols: dont list provided import paths for packages that has exported symbols only from _test.go files
-[  ] - script to check a structure of spec file of every golang package
-
 ====DONE====
+[OK] - bitbucket spec file generator
+[OK] - add --skip-branch into build/scratchbuild
+[OK] - bash autocompletion for options
+[OK] - When I update a package, gofed scan-imports will update local db. But list of import paths provided by spec files is not updated. gofed scan-packages -u has to update those import paths as well.
 [OK] - rename go2fed to gofed
 [OK] - gofed ggi - filter out all import paths in provides that defines only main packages
 [OK] - gofed bbo - add --wait option to wait for overrides
