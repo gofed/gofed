@@ -129,6 +129,8 @@ Then scratch builds the resulting srpm in koji.
 After successfull build,
 the srpm and spec file are uploaded to user's fedora acount under
 public_html/reviews/spec_without_extension folder.
+Srpm and spec file are copied via scp so use ssh-copy-id to copy your key
+to fedarapeople.org.
 If the folder does not exist, it is created.
 User is read from configuration file.
 It can be specified by \fI\-\-user\fP option.
@@ -140,7 +142,8 @@ Followed by a link to Review Request template.
 .PP
 .B gofed scan-imports
 .RS 4
-Command to search for available used and provided import paths across golang devel packages.
+Command to search for available used and provided import paths
+across golang devel packages.
 .RE
 
 .PP
