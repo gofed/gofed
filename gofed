@@ -70,7 +70,6 @@ function printHelp {
 	echo "	googlecode2spec  generate spec file from googlecode"
 	echo "	help		 prints this help"
 	echo "	inspect		 inspect golang tarball"
-	echo "	lint		 golang spec file checker"
 	echo "	pull		 pull from branches"
 	echo "	push		 pull from branches"
 	echo "	review		 creates review for Bugzilla"
@@ -109,8 +108,6 @@ elif [ "$1" == "pull" ]; then
         operation=$PULL
 elif [ "$1" == "inspect" ]; then
         operation=$INSPECT
-elif [ "$1" == "lint" ]; then
-        operation=$LINT
 elif [ "$1" == "bump" ]; then
         operation=$BUMP
 elif [ "$1" == "check-commit" ]; then
@@ -174,8 +171,6 @@ elif [ $operation -eq $PULL ]; then
         python $script_dir/pull --pull $@
 elif [ $operation -eq $INSPECT ]; then
         python $script_dir/inspecttarball.py $@
-elif [ $operation -eq $LINT ]; then
-        python $script_dir/modules/specParser.py $@
 elif [ $operation -eq $BUMP ]; then
         python $script_dir/bumpSpec.py $@
 elif [ $operation -eq $CHECK_COMMIT ]; then
