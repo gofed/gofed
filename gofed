@@ -69,7 +69,6 @@ function printHelp {
 	echo "	github2spec	 generate spec file from github"
 	echo "	googlecode2spec  generate spec file from googlecode"
 	echo "	help		 prints this help"
-	echo "	initpkg		 get first build into Fedora from review request"
 	echo "	inspect		 inspect golang tarball"
 	echo "	lint		 golang spec file checker"
 	echo "	pull		 pull from branches"
@@ -77,8 +76,6 @@ function printHelp {
 	echo "	review		 creates review for Bugzilla"
 	echo "	scandeps	 scan all golang packages for dependencies (e.g. cyclic)"
 	echo "	scan-imports	 scan devel builds for possible import paths and imported paths"
-	echo "	scaninfo	 sumarize info from packages scan"
-	echo "	scan		 scan golang packages listed in golang.packages"
 	echo "	scansymbols	 scan directory for go symbols"
 	echo "	scratch-build	 scratch build all fedora branches"
 	echo "	scan-packages	 scan PkgDB for possible golang packages"
@@ -112,10 +109,6 @@ elif [ "$1" == "pull" ]; then
         operation=$PULL
 elif [ "$1" == "inspect" ]; then
         operation=$INSPECT
-elif [ "$1" == "scaninfo" ]; then
-        operation=$SCANINFO
-elif [ "$1" == "scan" ]; then
-        operation=$SCAN
 elif [ "$1" == "lint" ]; then
         operation=$LINT
 elif [ "$1" == "bump" ]; then
@@ -130,8 +123,6 @@ elif [ "$1" == "scan-packages" ]; then
         operation=$SCAN_PACKAGES
 elif [ "$1" == "bbo" ]; then
 	operation=$BBO
-elif [ "$1" == "initpkg" ]; then
-        operation=$INITPKG
 elif [ "$1" == "scandeps" ]; then
         operation=$SCANDEPS
 elif [ "$1" == "scansymbols" ]; then
@@ -183,10 +174,6 @@ elif [ $operation -eq $PULL ]; then
         python $script_dir/pull --pull $@
 elif [ $operation -eq $INSPECT ]; then
         python $script_dir/inspecttarball.py $@
-elif [ $operation -eq $SCANINFO ]; then
-        python $script_dir/xml2info.py $@
-elif [ $operation -eq $SCAN ]; then
-        $script_dir/inspectPackages.sh $@
 elif [ $operation -eq $LINT ]; then
         python $script_dir/modules/specParser.py $@
 elif [ $operation -eq $BUMP ]; then
@@ -201,8 +188,6 @@ elif [ $operation -eq $SCAN_PACKAGES ]; then
         python $script_dir/getGolangPackages.py $@
 elif [ $operation -eq $BBO ]; then
         python $script_dir/bbobranches --bbo $@
-elif [ $operation -eq $INITPKG ]; then
-        $script_dir/initPackageInRepo.sh $@
 elif [ $operation -eq $SCANDEPS ]; then
         python $script_dir/discoverPkgDeps.py $@
 elif [ $operation -eq $SCANSYMBOLS ]; then
