@@ -136,6 +136,10 @@ if __name__ == "__main__":
 
 		if pkg_name != "":
 			graph = truncateGraph(graph, pkg_name, pkg_devel_main_pkg)
+			if graph == None:
+				print "No graph generated, package probably does not exist"
+				exit(0)
+
 			nodes, _ = graph
 			subgraph_cnt = len(nodes)
 			
