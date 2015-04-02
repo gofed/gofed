@@ -142,7 +142,7 @@ Import path: raft/raftpb
 Type stands for types, func for functions and methods and
 var for variables and constants.
 
-##### Comparson of two APIs
+##### Comparison of two APIs
 
 To compare two APIs you can run:
 
