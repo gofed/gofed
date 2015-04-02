@@ -7,7 +7,7 @@
 %global shortcommit	%(c=%{commit}; echo ${c:0:7})
 
 Name:		gofed
-Version:	0
+Version:	0.0.1
 Release:	0.1.git%{shortcommit}%{?dist}
 Summary:	Tool for development of golang devel packages
 License:	GPLv2+
@@ -87,6 +87,6 @@ gofed tools --waitbbo --dry test
 gofed wizard --scratch --dry
 
 %changelog
-* Wed Apr 01 2015 jchaloup <jchaloup@redhat.com> - 0-0.1.gita4c915e
+* Thu Apr 02 2015 jchaloup <jchaloup@redhat.com> - 0.0.1-0.1.gita4c915e
 - Initial commit for Fedora
 
