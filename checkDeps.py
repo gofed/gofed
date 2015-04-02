@@ -4,6 +4,7 @@ import modules.Repos
 import modules.specParser
 import modules.Utils
 import optparse
+import os
 from modules.Utils import GREEN, RED, ENDC, YELLOW
 from modules.Repos import Repos, IPMap
 
@@ -49,6 +50,11 @@ if __name__ == "__main__":
 		exit(1)
 
 	json_file = args[0]
+
+	# json file exists?
+	if not os.path.exists(json_file):
+		print "JSON file %s not found" % json_file
+		exit(1)
 
 	deps = getGoDeps(json_file)
 	if deps == {}:
