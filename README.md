@@ -62,7 +62,7 @@ Output:
 
 Running with -d option, the gofed checks if the dependency is already packaged in PkgDB.
 
-#### Check of up2date dependencides in Fedora
+#### Check of up2date dependencies in Fedora
 To check if all dependencies of a package are at least up2date in Fedora (e.g. kubernetes), run the following command on its Godeps.json file:
 
    ```vim
@@ -91,8 +91,8 @@ In order to create a local database of exported symbols, provided import paths a
    ```
    
    This will download every build providing source codes. Each build is parsed and exported symbols are extracted. Every golang project consists of package. Every package in a project is defined by its path and a set of symbols developer can use. Once the scan finished, all symbols are locally saved in xml files. These files can be further analyzed.
-   Extracted information can be queried for used or provided import paths. It is aloso used for construction of a dependency graph for a given package.
-   Implicitelly, only outdated packages are scanned so once you have the database, you don't have to regenerate it for all packages again.
+   Extracted information can be queried for used or provided import paths. It is also used for construction of a dependency graph for a given package.
+   Implicitly, only outdated packages are scanned so once you have the database, you don't have to regenerate it for all packages again.
    
 #### Golang dependency graph
 
