@@ -83,7 +83,7 @@ send them to jchaloup@redhat.com, subject "Golang new package name". Thanks.
 
 Every golang package should consist of one devel subpackage at least.
 This package provides source codes which can be imported in other packages
-and thus it is good to used "-devel" sufix for its name.
+and thus it is good to use "-devel" sufix for its name.
 At most cases, every golang package will consists of this package only.
 Some projects can be built.
 Builds of golang source codes belongs to the main package
