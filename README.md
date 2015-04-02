@@ -10,7 +10,7 @@ What it basically supports:
 * scan of available golang packages, construction of dependency graphs of packages
 * other useful commands (parallel push, pull or update of all chosen branches, ...)
 
-## Instalation
+## Installation
 The repo provides a spec file for Fedora. The package can be build as:
 
    ```vim
