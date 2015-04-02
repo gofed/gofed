@@ -6,7 +6,7 @@ What it basically supports:
 * spec file generator for github.com, code.google.com and bitbucket.org repositories
 * preparation of Fedora's Review Request for a new golang package
 * golang imports discovering (dependency on other imports/packages)
-* comparision of APIs (exported symbols) of two golang projects
+* comparison of APIs (exported symbols) of two golang projects
 * scan of available golang packages, construction of dependency graphs of packages
 * other useful commands (parallel push, pull or update of all chosen branches, ...)
 
