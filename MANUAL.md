@@ -86,7 +86,7 @@ This package provides source codes which can be imported in other packages
 and thus it is good to use "-devel" sufix for its name.
 At most cases, every golang package will consists of this package only.
 Some projects can be built.
-Builds of golang source codes belongs to the main package
+Builds of golang source codes belong to the main package
 and should not provide any source codes, only binaries.
 
 To list all possible paths that can be provided, run the following command
