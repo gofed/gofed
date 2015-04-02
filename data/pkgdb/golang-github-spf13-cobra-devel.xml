@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-spf13-cobra-0-0.6.gitf8e1ec5.fc23">
+<project url="" commit="commit" nvr="golang-github-spf13-cobra-0-0.7.git79bd93d.fc23">
   <packages>
     <package importpath="github.com/spf13/cobra">
       <types>
@@ -19,6 +19,12 @@
             </type>
           </field>
           <field type="pointer" name="pflags">
+            <type type="selector">
+              <prefix value="flag"/>
+              <item value="FlagSet"/>
+            </type>
+          </field>
+          <field type="pointer" name="lflags">
             <type type="selector">
               <prefix value="flag"/>
               <item value="FlagSet"/>
@@ -108,7 +114,7 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Out">
           <recvList>
@@ -117,12 +123,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="io"/>
               <item value="Writer"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetOutput">
           <recvList>
@@ -136,7 +142,7 @@
               <item value="Writer"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetUsageFunc">
           <recvList>
@@ -156,7 +162,7 @@
               </resultsList>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetUsageTemplate">
           <recvList>
@@ -167,7 +173,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetHelpFunc">
           <recvList>
@@ -188,7 +194,7 @@
               <resultsList/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetHelpCommand">
           <recvList>
@@ -201,7 +207,7 @@
               <type type="ident" def="Command"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetHelpTemplate">
           <recvList>
@@ -212,7 +218,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="UsageFunc">
           <recvList>
@@ -221,7 +227,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="func">
               <paramsList>
                 <type type="pointer">
@@ -232,7 +238,7 @@
                 <type type="ident" def="error"/>
               </resultsList>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="HelpFunc">
           <recvList>
@@ -241,7 +247,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="func">
               <paramsList>
                 <type type="pointer">
@@ -253,7 +259,7 @@
               </paramsList>
               <resultsList/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="UsagePadding">
           <recvList>
@@ -262,9 +268,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CommandPathPadding">
           <recvList>
@@ -273,9 +279,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NamePadding">
           <recvList>
@@ -284,9 +290,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="UsageTemplate">
           <recvList>
@@ -295,9 +301,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="HelpTemplate">
           <recvList>
@@ -306,9 +312,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Find">
           <recvList>
@@ -321,7 +327,7 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Command"/>
             </type>
@@ -329,7 +335,7 @@
               <elmtype type="ident" def="string"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Root">
           <recvList>
@@ -338,11 +344,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Command"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Execute">
           <recvList>
@@ -351,9 +357,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ResetCommands">
           <recvList>
@@ -362,7 +368,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Commands">
           <recvList>
@@ -371,13 +377,13 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="pointer">
                 <type type="ident" def="Command"/>
               </elmtype>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AddCommand">
           <recvList>
@@ -392,7 +398,22 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
+        </function>
+        <function name="RemoveCommand">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="pointer">
+                <type type="ident" def="Command"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
         </function>
         <function name="Print">
           <recvList>
@@ -405,7 +426,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Println">
           <recvList>
@@ -418,7 +439,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Printf">
           <recvList>
@@ -432,7 +453,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Usage">
           <recvList>
@@ -441,9 +462,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Help">
           <recvList>
@@ -452,9 +473,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="UsageString">
           <recvList>
@@ -463,9 +484,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CommandPath">
           <recvList>
@@ -474,9 +495,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="UseLine">
           <recvList>
@@ -485,9 +506,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DebugFlags">
           <recvList>
@@ -496,7 +517,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Name">
           <recvList>
@@ -505,9 +526,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="HasAlias">
           <recvList>
@@ -518,9 +539,9 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NameAndAliases">
           <recvList>
@@ -529,9 +550,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="HasExample">
           <recvList>
@@ -540,9 +561,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Runnable">
           <recvList>
@@ -551,9 +572,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="HasSubCommands">
           <recvList>
@@ -562,9 +583,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="HasParent">
           <recvList>
@@ -573,9 +594,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Flags">
           <recvList>
@@ -584,14 +605,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="flag"/>
                 <item value="FlagSet"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LocalFlags">
           <recvList>
@@ -600,14 +621,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="flag"/>
                 <item value="FlagSet"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="InheritedFlags">
           <recvList>
@@ -616,14 +637,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="flag"/>
                 <item value="FlagSet"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NonInheritedFlags">
           <recvList>
@@ -632,14 +653,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="flag"/>
                 <item value="FlagSet"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PersistentFlags">
           <recvList>
@@ -648,30 +669,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="flag"/>
                 <item value="FlagSet"/>
               </type>
             </type>
-          </returnsList>
-        </function>
-        <function name="AllPersistentFlags">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Command"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="flag"/>
-                <item value="FlagSet"/>
-              </type>
-            </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ResetFlags">
           <recvList>
@@ -680,7 +685,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="HasFlags">
           <recvList>
@@ -689,9 +694,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="HasPersistentFlags">
           <recvList>
@@ -700,20 +705,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
-        </function>
-        <function name="HasAnyPersistentFlags">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Command"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="HasLocalFlags">
           <recvList>
@@ -722,9 +716,20 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
+        </function>
+        <function name="HasInheritedFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
         </function>
         <function name="Flag">
           <recvList>
@@ -735,14 +740,14 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="flag"/>
                 <item value="Flag"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ParseFlags">
           <recvList>
@@ -755,9 +760,9 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Parent">
           <recvList>
@@ -766,11 +771,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Command"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="OnInitialize">
           <recvList/>
@@ -782,7 +787,7 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Gt">
           <recvList/>
@@ -790,9 +795,9 @@
             <type type="interface"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Eq">
           <recvList/>
@@ -800,9 +805,9 @@
             <type type="interface"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>
@@ -811,14 +816,14 @@
     </package>
   </packages>
   <imports>
+    <import path="reflect"/>
+    <import path="testing"/>
     <import path="bytes"/>
     <import path="fmt"/>
     <import path="io"/>
     <import path="os"/>
     <import path="strings"/>
     <import path="github.com/spf13/pflag"/>
-    <import path="testing"/>
-    <import path="reflect"/>
     <import path="strconv"/>
     <import path="text/template"/>
   </imports>

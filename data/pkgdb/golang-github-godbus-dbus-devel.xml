@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-godbus-dbus-0-0.2.gitcb98efb.fc21">
+<project url="" commit="commit" nvr="golang-github-godbus-dbus-2-0.1.git939230d.fc23">
   <packages>
     <package importpath="github.com/godbus/dbus/prop">
       <types>
@@ -84,11 +84,11 @@
               </valtype>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Properties"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Get">
           <recvList>
@@ -100,7 +100,7 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="dbus"/>
               <item value="Variant"/>
@@ -111,7 +111,7 @@
                 <item value="Error"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetAll">
           <recvList>
@@ -122,7 +122,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="map">
               <keytype type="ident" def="string"/>
               <valtype type="selector">
@@ -136,7 +136,7 @@
                 <item value="Error"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetMust">
           <recvList>
@@ -148,9 +148,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Introspection">
           <recvList>
@@ -161,14 +161,14 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="selector">
                 <prefix value="introspect"/>
                 <item value="Property"/>
               </elmtype>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Set">
           <recvList>
@@ -184,14 +184,14 @@
               <item value="Variant"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="dbus"/>
                 <item value="Error"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetMust">
           <recvList>
@@ -204,7 +204,7 @@
             <type type="ident" def="string"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
       </functions>
       <names>
@@ -296,16 +296,16 @@
               <type type="ident" def="Node"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Introspectable"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Introspect">
           <recvList>
             <type type="ident" def="Introspectable"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
             <type type="pointer">
               <type type="selector">
@@ -313,18 +313,18 @@
                 <item value="Error"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Methods">
           <recvList/>
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="Method"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Call">
           <recvList/>
@@ -336,16 +336,17 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Node"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>
         <name value="IntrospectData"/>
+        <name value="IntrospectDeclarationString"/>
         <name value="IntrospectDataString"/>
       </names>
     </package>
@@ -354,6 +355,11 @@
         <type type="struct" name="Variant">
           <field type="ident" def="Signature" name="sig"/>
           <field type="interface" name="value"/>
+        </type>
+        <type type="struct" name="Ucred">
+          <field type="ident" def="int32" name="Pid"/>
+          <field type="ident" def="uint32" name="Uid"/>
+          <field type="ident" def="uint32" name="Gid"/>
         </type>
         <type type="struct" name="Signature">
           <field type="ident" def="string" name="str"/>
@@ -460,7 +466,7 @@
             <prefix value="sync"/>
             <item value="RWMutex"/>
           </field>
-          <field type="chan" dir="3" name="out">
+          <field type="channel" dir="3" name="out">
             <type type="pointer">
               <type type="ident" def="Message"/>
             </type>
@@ -471,7 +477,7 @@
             <item value="RWMutex"/>
           </field>
           <field type="slice" name="signals">
-            <elmtype type="chan" dir="1">
+            <elmtype type="channel" dir="1">
               <type type="pointer">
                 <type type="ident" def="Signal"/>
               </type>
@@ -481,7 +487,7 @@
             <prefix value="sync"/>
             <item value="Mutex"/>
           </field>
-          <field type="chan" dir="1" name="eavesdropped">
+          <field type="channel" dir="1" name="eavesdropped">
             <type type="pointer">
               <type type="ident" def="Message"/>
             </type>
@@ -512,7 +518,7 @@
           <field type="slice" name="Args">
             <elmtype type="interface"/>
           </field>
-          <field type="chan" dir="3" name="Done">
+          <field type="channel" dir="3" name="Done">
             <type type="pointer">
               <type type="ident" def="Call"/>
             </type>
@@ -566,18 +572,18 @@
             <type type="ident" def="varTypeError"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Empty">
           <recvList>
             <type type="ident" def="sigSet"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Intersect">
           <recvList>
@@ -586,56 +592,56 @@
           <paramsList>
             <type type="ident" def="sigSet"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="sigSet"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Single">
           <recvList>
             <type type="ident" def="sigSet"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Signature"/>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ToArray">
           <recvList>
             <type type="ident" def="sigSet"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="sigSet"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Infer">
           <recvList>
             <type type="ident" def="numNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Signature"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="numNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sigs">
           <recvList>
             <type type="ident" def="numNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="sigSet"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Value">
           <recvList>
@@ -644,38 +650,38 @@
           <paramsList>
             <type type="ident" def="Signature"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Infer">
           <recvList>
             <type type="ident" def="stringNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Signature"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="stringNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sigs">
           <recvList>
             <type type="ident" def="stringNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="sigSet"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Value">
           <recvList>
@@ -684,34 +690,34 @@
           <paramsList>
             <type type="ident" def="Signature"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Infer">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Signature"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="boolNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sigs">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="sigSet"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Value">
           <recvList>
@@ -720,38 +726,38 @@
           <paramsList>
             <type type="ident" def="Signature"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Infer">
           <recvList>
             <type type="ident" def="arrayNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Signature"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="arrayNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sigs">
           <recvList>
             <type type="ident" def="arrayNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="sigSet"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Value">
           <recvList>
@@ -760,34 +766,34 @@
           <paramsList>
             <type type="ident" def="Signature"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Infer">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Signature"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="variantNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sigs">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="sigSet"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Value">
           <recvList>
@@ -796,38 +802,38 @@
           <paramsList>
             <type type="ident" def="Signature"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Infer">
           <recvList>
             <type type="ident" def="dictNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Signature"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="dictNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sigs">
           <recvList>
             <type type="ident" def="dictNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="sigSet"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Value">
           <recvList>
@@ -836,36 +842,36 @@
           <paramsList>
             <type type="ident" def="Signature"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Infer">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Signature"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="byteStringNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sigs">
           <recvList>
             <type type="ident" def="byteStringNode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="sigSet"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Value">
           <recvList>
@@ -874,19 +880,19 @@
           <paramsList>
             <type type="ident" def="Signature"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="MakeVariant">
           <recvList/>
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Variant"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ParseVariant">
           <recvList/>
@@ -894,37 +900,37 @@
             <type type="ident" def="string"/>
             <type type="ident" def="Signature"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Variant"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Signature">
           <recvList>
             <type type="ident" def="Variant"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Signature"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="Variant"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Value">
           <recvList>
             <type type="ident" def="Variant"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SendNullByte">
           <recvList>
@@ -933,9 +939,50 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
+        </function>
+        <function name="UnixCredentials">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Ucred"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="ParseUnixCredentials">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="syscall"/>
+                <item value="SocketControlMessage"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Ucred"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SendNullByte">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="unixTransport"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
         </function>
         <function name="Read">
           <recvList>
@@ -948,10 +995,10 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="EnableUnixFDs">
           <recvList>
@@ -960,7 +1007,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="ReadMessage">
           <recvList>
@@ -969,12 +1016,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Message"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SendMessage">
           <recvList>
@@ -987,9 +1034,9 @@
               <type type="ident" def="Message"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SupportsUnixFDs">
           <recvList>
@@ -998,46 +1045,46 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SendNullByte">
           <recvList>
             <type type="ident" def="genericTransport"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SupportsUnixFDs">
           <recvList>
             <type type="ident" def="genericTransport"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="EnableUnixFDs">
           <recvList>
             <type type="ident" def="genericTransport"/>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="ReadMessage">
           <recvList>
             <type type="ident" def="genericTransport"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Message"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SendMessage">
           <recvList>
@@ -1048,9 +1095,9 @@
               <type type="ident" def="Message"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SendNullByte">
           <recvList>
@@ -1059,9 +1106,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SignatureOf">
           <recvList/>
@@ -1070,9 +1117,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Signature"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SignatureOfType">
           <recvList/>
@@ -1082,82 +1129,82 @@
               <item value="Type"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Signature"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ParseSignature">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Signature"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ParseSignatureMust">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Signature"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Empty">
           <recvList>
             <type type="ident" def="Signature"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Single">
           <recvList>
             <type type="ident" def="Signature"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="Signature"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Error">
           <recvList>
             <type type="ident" def="SignatureError"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="Type"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Error">
           <recvList>
             <type type="ident" def="InvalidMessageError"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DecodeMessage">
           <recvList/>
@@ -1167,12 +1214,12 @@
               <item value="Reader"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Message"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="EncodeTo">
           <recvList>
@@ -1190,9 +1237,9 @@
               <item value="ByteOrder"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="IsValid">
           <recvList>
@@ -1201,9 +1248,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serial">
           <recvList>
@@ -1212,9 +1259,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="uint32"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -1223,9 +1270,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Emit">
           <recvList>
@@ -1240,9 +1287,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Export">
           <recvList>
@@ -1255,9 +1302,9 @@
             <type type="ident" def="ObjectPath"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ReleaseName">
           <recvList>
@@ -1268,10 +1315,10 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="ReleaseNameReply"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RequestName">
           <recvList>
@@ -1283,10 +1330,10 @@
             <type type="ident" def="string"/>
             <type type="ident" def="RequestNameFlags"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="RequestNameReply"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Encode">
           <recvList>
@@ -1299,9 +1346,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Decode">
           <recvList>
@@ -1312,30 +1359,30 @@
           <paramsList>
             <type type="ident" def="Signature"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="interface"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Error">
           <recvList>
             <type type="ident" def="FormatError"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Error">
           <recvList>
             <type type="ident" def="InvalidTypeError"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Store">
           <recvList/>
@@ -1347,70 +1394,70 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="IsValid">
           <recvList>
             <type type="ident" def="ObjectPath"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SessionBus">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Conn"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SessionBusPrivate">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Conn"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SystemBus">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Conn"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SystemBusPrivate">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Conn"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Dial">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Conn"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewConn">
           <recvList/>
@@ -1420,12 +1467,12 @@
               <item value="ReadWriteCloser"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Conn"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="BusObject">
           <recvList>
@@ -1434,11 +1481,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Object"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Close">
           <recvList>
@@ -1447,9 +1494,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Eavesdrop">
           <recvList>
@@ -1458,13 +1505,13 @@
             </type>
           </recvList>
           <paramsList>
-            <type type="chan" dir="1">
+            <type type="channel" dir="1">
               <type type="pointer">
                 <type type="ident" def="Message"/>
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Hello">
           <recvList>
@@ -1473,9 +1520,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Names">
           <recvList>
@@ -1484,11 +1531,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="string"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Object">
           <recvList>
@@ -1500,11 +1547,11 @@
             <type type="ident" def="string"/>
             <type type="ident" def="ObjectPath"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Object"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Send">
           <recvList>
@@ -1516,17 +1563,17 @@
             <type type="pointer">
               <type type="ident" def="Message"/>
             </type>
-            <type type="chan" dir="3">
+            <type type="channel" dir="3">
               <type type="pointer">
                 <type type="ident" def="Call"/>
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Call"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Signal">
           <recvList>
@@ -1535,13 +1582,13 @@
             </type>
           </recvList>
           <paramsList>
-            <type type="chan" dir="1">
+            <type type="channel" dir="1">
               <type type="pointer">
                 <type type="ident" def="Signal"/>
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SupportsUnixFDs">
           <recvList>
@@ -1550,18 +1597,18 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Error">
           <recvList>
             <type type="ident" def="Error"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Store">
           <recvList>
@@ -1574,9 +1621,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Call">
           <recvList>
@@ -1591,11 +1638,11 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Call"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetProperty">
           <recvList>
@@ -1606,10 +1653,10 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Variant"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Go">
           <recvList>
@@ -1620,7 +1667,7 @@
           <paramsList>
             <type type="ident" def="string"/>
             <type type="ident" def="Flags"/>
-            <type type="chan" dir="3">
+            <type type="channel" dir="3">
               <type type="pointer">
                 <type type="ident" def="Call"/>
               </type>
@@ -1629,11 +1676,11 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Call"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Destination">
           <recvList>
@@ -1642,9 +1689,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Path">
           <recvList>
@@ -1653,9 +1700,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="ObjectPath"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AuthCookieSha1">
           <recvList/>
@@ -1663,16 +1710,16 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Auth"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="FirstData">
           <recvList>
             <type type="ident" def="authCookieSha1"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
@@ -1680,7 +1727,7 @@
               <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="AuthStatus"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="HandleData">
           <recvList>
@@ -1691,28 +1738,28 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="AuthStatus"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AuthExternal">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Auth"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="FirstData">
           <recvList>
             <type type="ident" def="authExternal"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
@@ -1720,7 +1767,7 @@
               <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="AuthStatus"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="HandleData">
           <recvList>
@@ -1731,12 +1778,12 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="AuthStatus"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Auth">
           <recvList>
@@ -1749,12 +1796,13 @@
               <elmtype type="ident" def="Auth"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>
+        <name value="SizeofUcred"/>
         <name value="FlagNoReplyExpected"/>
         <name value="FlagNoAutoStart"/>
         <name value="TypeMethodCall"/>
@@ -1800,6 +1848,8 @@
     <import path="unicode"/>
     <import path="os"/>
     <import path="syscall"/>
+    <import path="C"/>
+    <import path="unsafe"/>
     <import path="encoding/binary"/>
     <import path="net"/>
     <import path="io/ioutil"/>

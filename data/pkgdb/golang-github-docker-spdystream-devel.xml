@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-docker-spdystream-0-0.2.gite9bf991.fc23">
+<project url="" commit="commit" nvr="golang-github-docker-spdystream-0-0.3.gite731c8f.fc23">
   <packages>
     <package importpath="github.com/docker/spdystream/ws">
       <types>
@@ -27,11 +27,11 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Conn"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Write">
           <recvList>
@@ -42,10 +42,10 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Read">
           <recvList>
@@ -56,10 +56,10 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetDeadline">
           <recvList>
@@ -71,18 +71,18 @@
               <item value="Time"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Close">
           <recvList>
             <type type="ident" def="Conn"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>
@@ -100,14 +100,14 @@
           <field type="pointer" name="conn">
             <type type="ident" def="Connection"/>
           </field>
-          <field type="chan" dir="3" name="startChan">
+          <field type="channel" dir="3" name="startChan">
             <type type="ident" def="error"/>
           </field>
           <field type="selector" name="dataLock">
             <prefix value="sync"/>
             <item value="RWMutex"/>
           </field>
-          <field type="chan" dir="3" name="dataChan">
+          <field type="channel" dir="3" name="dataChan">
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
@@ -120,7 +120,7 @@
             <prefix value="http"/>
             <item value="Header"/>
           </field>
-          <field type="chan" dir="3" name="headerChan">
+          <field type="channel" dir="3" name="headerChan">
             <type type="selector">
               <prefix value="http"/>
               <item value="Header"/>
@@ -142,7 +142,7 @@
             <prefix value="sync"/>
             <item value="Mutex"/>
           </field>
-          <field type="chan" dir="3" name="closeChan">
+          <field type="channel" dir="3" name="closeChan">
             <type type="ident" def="bool"/>
           </field>
         </type>
@@ -189,15 +189,11 @@
           <field type="pointer" name="framer">
             <type type="ident" def="idleAwareFramer"/>
           </field>
-          <field type="selector" name="writeLock">
-            <prefix value="sync"/>
-            <item value="Mutex"/>
-          </field>
-          <field type="chan" dir="3" name="closeChan">
+          <field type="channel" dir="3" name="closeChan">
             <type type="ident" def="bool"/>
           </field>
           <field type="ident" def="bool" name="goneAway"/>
-          <field type="chan" dir="1" name="lastStreamChan">
+          <field type="channel" dir="1" name="lastStreamChan">
             <type type="pointer">
               <type type="ident" def="Stream"/>
             </type>
@@ -254,7 +250,7 @@
           <field type="ident" def="uint32" name="pingId"/>
           <field type="map" name="pingChans">
             <keytype type="ident" def="uint32"/>
-            <valtype type="chan" dir="3">
+            <valtype type="channel" dir="3">
               <type type="ident" def="error"/>
             </valtype>
           </field>
@@ -262,7 +258,7 @@
             <prefix value="sync"/>
             <item value="Mutex"/>
           </field>
-          <field type="chan" dir="3" name="shutdownChan">
+          <field type="channel" dir="3" name="shutdownChan">
             <type type="ident" def="error"/>
           </field>
           <field type="ident" def="bool" name="hasShutdown"/>
@@ -281,9 +277,9 @@
             </type>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Write">
           <recvList>
@@ -296,10 +292,10 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Read">
           <recvList>
@@ -312,10 +308,10 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ReadData">
           <recvList>
@@ -324,12 +320,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Wait">
           <recvList>
@@ -338,9 +334,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WaitTimeout">
           <recvList>
@@ -354,9 +350,9 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Close">
           <recvList>
@@ -365,9 +361,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Reset">
           <recvList>
@@ -376,9 +372,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CreateSubStream">
           <recvList>
@@ -393,12 +389,12 @@
             </type>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Stream"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetPriority">
           <recvList>
@@ -409,7 +405,7 @@
           <paramsList>
             <type type="ident" def="uint8"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SendHeader">
           <recvList>
@@ -424,9 +420,9 @@
             </type>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SendReply">
           <recvList>
@@ -441,9 +437,9 @@
             </type>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Refuse">
           <recvList>
@@ -452,9 +448,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Cancel">
           <recvList>
@@ -463,9 +459,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ReceiveHeader">
           <recvList>
@@ -474,13 +470,13 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="http"/>
               <item value="Header"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Parent">
           <recvList>
@@ -489,11 +485,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Stream"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Headers">
           <recvList>
@@ -502,12 +498,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="http"/>
               <item value="Header"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -516,9 +512,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Identifier">
           <recvList>
@@ -527,9 +523,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="uint32"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="IsFinished">
           <recvList>
@@ -538,9 +534,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LocalAddr">
           <recvList>
@@ -549,12 +545,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="net"/>
               <item value="Addr"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RemoteAddr">
           <recvList>
@@ -563,12 +559,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="net"/>
               <item value="Addr"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetDeadline">
           <recvList>
@@ -582,9 +578,9 @@
               <item value="Time"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetReadDeadline">
           <recvList>
@@ -598,9 +594,9 @@
               <item value="Time"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetWriteDeadline">
           <recvList>
@@ -614,18 +610,18 @@
               <item value="Time"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
             <type type="ident" def="frameQueue"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Less">
           <recvList>
@@ -635,9 +631,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Swap">
           <recvList>
@@ -647,7 +643,7 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Push">
           <recvList>
@@ -658,7 +654,7 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Pop">
           <recvList>
@@ -667,20 +663,20 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewPriorityFrameQueue">
           <recvList/>
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="PriorityFrameQueue"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Push">
           <recvList>
@@ -695,7 +691,7 @@
             </type>
             <type type="ident" def="uint8"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Pop">
           <recvList>
@@ -704,12 +700,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="spdy"/>
               <item value="Frame"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Drain">
           <recvList>
@@ -718,7 +714,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="MirrorStreamHandler">
           <recvList/>
@@ -727,7 +723,7 @@
               <type type="ident" def="Stream"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="NoOpStreamHandler">
           <recvList/>
@@ -736,7 +732,7 @@
               <type type="ident" def="Stream"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="WriteFrame">
           <recvList>
@@ -750,9 +746,9 @@
               <item value="Frame"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ReadFrame">
           <recvList>
@@ -761,13 +757,13 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="spdy"/>
               <item value="Frame"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewConnection">
           <recvList/>
@@ -778,12 +774,12 @@
             </type>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Connection"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Ping">
           <recvList>
@@ -792,13 +788,13 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="time"/>
               <item value="Duration"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serve">
           <recvList>
@@ -809,7 +805,7 @@
           <paramsList>
             <type type="ident" def="StreamHandler"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="CreateStream">
           <recvList>
@@ -827,12 +823,12 @@
             </type>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Stream"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Close">
           <recvList>
@@ -841,9 +837,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CloseWait">
           <recvList>
@@ -852,9 +848,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Wait">
           <recvList>
@@ -868,9 +864,9 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NotifyClose">
           <recvList>
@@ -879,7 +875,7 @@
             </type>
           </recvList>
           <paramsList>
-            <type type="chan" dir="1">
+            <type type="channel" dir="1">
               <type type="pointer">
                 <type type="ident" def="Stream"/>
               </type>
@@ -889,7 +885,7 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetCloseTimeout">
           <recvList>
@@ -903,7 +899,7 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetIdleTimeout">
           <recvList>
@@ -917,7 +913,7 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="PeekNextStreamId">
           <recvList>
@@ -926,12 +922,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="spdy"/>
               <item value="StreamId"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="FindStream">
           <recvList>
@@ -942,11 +938,11 @@
           <paramsList>
             <type type="ident" def="uint32"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Stream"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CloseChan">
           <recvList>
@@ -955,11 +951,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
-            <type type="chan" dir="2">
+          <resultsList>
+            <type type="channel" dir="2">
               <type type="ident" def="bool"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>
@@ -985,12 +981,13 @@
     <import path="sync"/>
     <import path="time"/>
     <import path="code.google.com/p/go.net/spdy"/>
+    <import path="bufio"/>
     <import path="bytes"/>
+    <import path="net/http/httptest"/>
     <import path="testing"/>
     <import path="container/heap"/>
     <import path="github.com/docker/spdystream"/>
     <import path="github.com/gorilla/websocket"/>
-    <import path="net/http/httptest"/>
     <import path="strings"/>
   </imports>
 </project>

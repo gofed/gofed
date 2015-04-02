@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-coreos-go-etcd-0.4.6-0.1.rc1.git6aa2da5.fc23">
+<project url="" commit="commit" nvr="golang-github-coreos-go-etcd-0.4.6-0.2.rc1.git2af7a95.fc23">
   <packages>
     <package importpath="github.com/coreos/go-etcd/etcd">
       <types>
@@ -52,7 +52,7 @@
             <prefix value="url"/>
             <item value="Values"/>
           </field>
-          <field type="chan" dir="2" name="Cancel">
+          <field type="channel" dir="2" name="Cancel">
             <type type="ident" def="bool"/>
           </field>
         </type>
@@ -71,6 +71,7 @@
           <field type="slice" name="Machines">
             <elmtype type="ident" def="string"/>
           </field>
+          <field type="ident" def="int" name="picked"/>
         </type>
         <type type="struct" name="Config">
           <field type="ident" def="string" name="CertFile"/>
@@ -99,7 +100,7 @@
             <prefix value="io"/>
             <item value="Writer"/>
           </field>
-          <field type="chan" dir="3" name="cURLch">
+          <field type="channel" dir="3" name="cURLch">
             <type type="ident" def="string"/>
           </field>
           <field type="func" name="CheckRetry">
@@ -131,21 +132,21 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
             <type type="ident" def="bool"/>
-            <type type="chan" dir="3">
+            <type type="channel" dir="3">
               <type type="pointer">
                 <type type="ident" def="Response"/>
               </type>
             </type>
-            <type type="chan" dir="3">
+            <type type="channel" dir="3">
               <type type="ident" def="bool"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RawWatch">
           <recvList>
@@ -157,21 +158,21 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
             <type type="ident" def="bool"/>
-            <type type="chan" dir="3">
+            <type type="channel" dir="3">
               <type type="pointer">
                 <type type="ident" def="RawResponse"/>
               </type>
             </type>
-            <type type="chan" dir="3">
+            <type type="channel" dir="3">
               <type type="ident" def="bool"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RawResponse"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Set">
           <recvList>
@@ -184,12 +185,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetDir">
           <recvList>
@@ -201,12 +202,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CreateDir">
           <recvList>
@@ -218,12 +219,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="UpdateDir">
           <recvList>
@@ -235,12 +236,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Create">
           <recvList>
@@ -253,12 +254,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CreateInOrder">
           <recvList>
@@ -271,12 +272,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Update">
           <recvList>
@@ -289,12 +290,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RawUpdateDir">
           <recvList>
@@ -306,12 +307,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RawResponse"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RawCreateDir">
           <recvList>
@@ -323,12 +324,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RawResponse"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RawSet">
           <recvList>
@@ -341,12 +342,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RawResponse"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RawSetDir">
           <recvList>
@@ -358,12 +359,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RawResponse"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RawUpdate">
           <recvList>
@@ -376,12 +377,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RawResponse"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RawCreate">
           <recvList>
@@ -394,12 +395,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RawResponse"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RawCreateInOrder">
           <recvList>
@@ -412,12 +413,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RawResponse"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Unmarshal">
           <recvList>
@@ -426,21 +427,21 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
             <type type="ident" def="Nodes"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Less">
           <recvList>
@@ -450,9 +451,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Swap">
           <recvList>
@@ -462,7 +463,7 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="NewRawRequest">
           <recvList/>
@@ -473,15 +474,15 @@
               <prefix value="url"/>
               <item value="Values"/>
             </type>
-            <type type="chan" dir="2">
+            <type type="channel" dir="2">
               <type type="ident" def="bool"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RawRequest"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SendRequest">
           <recvList>
@@ -494,12 +495,12 @@
               <type type="ident" def="RawRequest"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RawResponse"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DefaultCheckRetry">
           <recvList/>
@@ -514,9 +515,9 @@
             </type>
             <type type="ident" def="error"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Get">
           <recvList>
@@ -529,12 +530,12 @@
             <type type="ident" def="bool"/>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RawGet">
           <recvList>
@@ -547,21 +548,21 @@
             <type type="ident" def="bool"/>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RawResponse"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Error">
           <recvList>
             <type type="ident" def="EtcdError"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Delete">
           <recvList>
@@ -573,12 +574,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeleteDir">
           <recvList>
@@ -589,12 +590,12 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RawDelete">
           <recvList>
@@ -607,12 +608,12 @@
             <type type="ident" def="bool"/>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RawResponse"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetLogger">
           <recvList/>
@@ -624,19 +625,19 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="GetLogger">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="log"/>
                 <item value="Logger"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Debug">
           <recvList>
@@ -649,7 +650,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Debugf">
           <recvList>
@@ -663,7 +664,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warning">
           <recvList>
@@ -676,7 +677,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warningf">
           <recvList>
@@ -690,7 +691,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="CompareAndSwap">
           <recvList>
@@ -705,12 +706,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RawCompareAndSwap">
           <recvList>
@@ -725,12 +726,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RawResponse"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CompareAndDelete">
           <recvList>
@@ -743,12 +744,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RawCompareAndDelete">
           <recvList>
@@ -761,12 +762,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RawResponse"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewCluster">
           <recvList/>
@@ -775,11 +776,11 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Cluster"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewClient">
           <recvList/>
@@ -788,11 +789,11 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Client"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewTLSClient">
           <recvList/>
@@ -804,24 +805,24 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Client"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewClientFromFile">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Client"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewClientFromReader">
           <recvList/>
@@ -831,12 +832,12 @@
               <item value="Reader"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Client"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetTransport">
           <recvList>
@@ -852,7 +853,7 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetPersistence">
           <recvList>
@@ -866,7 +867,7 @@
               <item value="Writer"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetConsistency">
           <recvList>
@@ -877,9 +878,9 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetDialTimeout">
           <recvList>
@@ -893,7 +894,7 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="AddRootCA">
           <recvList>
@@ -904,9 +905,9 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetCluster">
           <recvList>
@@ -919,9 +920,9 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetCluster">
           <recvList>
@@ -930,11 +931,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="string"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SyncCluster">
           <recvList>
@@ -943,9 +944,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="OpenCURL">
           <recvList>
@@ -954,7 +955,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="CloseCURL">
           <recvList>
@@ -963,7 +964,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="RecvCURL">
           <recvList>
@@ -972,9 +973,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="MarshalJSON">
           <recvList>
@@ -983,12 +984,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="UnmarshalJSON">
           <recvList>
@@ -1001,9 +1002,9 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AddChildDir">
           <recvList>
@@ -1015,12 +1016,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AddChild">
           <recvList>
@@ -1033,12 +1034,12 @@
             <type type="ident" def="string"/>
             <type type="ident" def="uint64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Response"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>
@@ -1049,6 +1050,7 @@
         <name value="VALID_POST_OPTIONS"/>
         <name value="VALID_DELETE_OPTIONS"/>
         <name value="ErrCodeEtcdNotReachable"/>
+        <name value="ErrCodeUnhandledHTTPStatus"/>
         <name value="STRONG_CONSISTENCY"/>
         <name value="WEAK_CONSISTENCY"/>
       </names>
@@ -1065,16 +1067,17 @@
     <import path="strconv"/>
     <import path="io"/>
     <import path="io/ioutil"/>
-    <import path="math/rand"/>
+    <import path="net"/>
     <import path="net/url"/>
     <import path="path"/>
     <import path="strings"/>
     <import path="sync"/>
     <import path="reflect"/>
     <import path="log"/>
-    <import path="net"/>
+    <import path="math/rand"/>
     <import path="os"/>
     <import path="crypto/tls"/>
     <import path="crypto/x509"/>
+    <import path="github.com/coreos/etcd/etcdserver/etcdhttp/httptypes"/>
   </imports>
 </project>
