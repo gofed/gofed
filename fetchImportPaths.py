@@ -8,7 +8,7 @@ from time import time, strftime, gmtime
 import sys
 import os
 
-def createDB(full=False):
+def createDB(full=False, verbose=False):
 	scan_time_start = time()
 	packages = []
 	outdated = {}
@@ -23,6 +23,12 @@ def createDB(full=False):
 			print "Warning: " + "\nWarning: ".join(err)
 
 		packages = outdated.keys()
+
+	if verbose:
+		print "Packages to be scanned:"
+		for pkg in packages:
+			print "\t%s" % pkg
+		print ""
 
 	pkg_cnt = len(packages)
 	pkg_idx = 1
@@ -121,6 +127,11 @@ if __name__ == "__main__":
 	    help = "List only packages. Used with -s option."
 	)
 
+	parser.add_option(
+	    "", "-v", "--verbose", dest="verbose", action = "store_true",  default = False,
+	    help = "Verbose mode."
+	)
+
 	options, args = parser.parse_args()
 
 	if options.imports and options.provides:
@@ -128,7 +139,7 @@ if __name__ == "__main__":
 		exit(1)
 
 	if options.create:
-		if createDB(options.full):
+		if createDB(full=options.full, verbose=options.verbose):
 			print "DB updated"
 		else:
 			print "DB not updated"
