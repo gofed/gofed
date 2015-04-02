@@ -23,7 +23,7 @@ and what is provided.
 Secondly, import paths can be divided into two types:
 * import paths packages use, i.e. imports
 * import paths packages provides, i.e. path to all golang files in a given
-file hiearchy
+file hierarchy
 
 One of many problems to deal with is a back-compatibility.
 Once from time to time some golang projects change their import path prefix,
@@ -97,7 +97,7 @@ $ gofed inspect -p
 ```
 
 This command will list all golang packages (possible import paths)
-in directory hiearchy.
+in directory hierarchy.
 Some paths can be project specific and be used only for testing.
 So the list should be investigated and inessential paths removed.
 
