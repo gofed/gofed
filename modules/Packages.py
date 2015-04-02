@@ -79,9 +79,9 @@ class Package:
 		cwd = os.getcwd()
 		if os.path.exists("%s/%s" % (cwd, 'build')):
 			return {}
-
-		_, _, rc = runCommand("mkdir build")
-		if rc != 0:
+		try:
+			os.mkdir("build", 0755);
+		except OSError as error:
 			return {}
 
 		os.chdir('build')
@@ -89,6 +89,14 @@ class Package:
 
 		# scan builds using native golang parser
 		package_xml = ProjectToXml("", "%s/%s" % (os.getcwd(), 'usr/share/gocode/src/'), self.latest_build)
+
+		os.chdir(cwd)
+
+		try:
+			shutil.rmtree("build")
+		except OSError as error:
+			return {}
+
 
 		return {
 			"xmlobj": package_xml
