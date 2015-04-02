@@ -45,7 +45,7 @@ Output:
 First it checks fedora repo if the package already exists. If not, it creates a spec file (needs to be filled for missing data), downloads the tarball and lists all dependencies (classes of imports decomposed by a repository (common import path prefix).
 
 #### Dependency discovering
-To discover imports and dependecies on packages for https://github.com/rackspace/gophercloud, run the following command on its tarball:
+To discover imports and dependencies on packages for https://github.com/rackspace/gophercloud, run the following command on its tarball:
 
    ```vim
    $ gofed ggi -c -s -d
@@ -63,7 +63,7 @@ Output:
 Running with -d option, the gofed checks if the dependency is already packaged in PkgDB.
 
 #### Check of up2date dependencides in Fedora
-To check if all dependecies of a package are at least up2date in Fedora (e.g. kubernetes), run the following command on its Godeps.json file:
+To check if all dependencies of a package are at least up2date in Fedora (e.g. kubernetes), run the following command on its Godeps.json file:
 
    ```vim
    $ gofed check-deps Godeps.json
