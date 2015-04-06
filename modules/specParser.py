@@ -39,6 +39,9 @@ import Utils
 import Repos
 
 from Utils import getScriptDir, runCommand
+from modules.GoSymbols import getSymbolsForImportPaths
+from modules.ImportPaths import decomposeImports
+from modules.GoSymbols import getGoDirs
 
 RPM_SCRIPTLETS = ('pre', 'post', 'preun', 'postun', 'pretrans', 'posttrans',
                   'trigger', 'triggerin', 'triggerprein', 'triggerun',
@@ -553,6 +556,214 @@ class SpecTest:
 				warning += 1
 
 		return errors, warning
+
+# [  ] - add option to control spacing of 'key: value'
+class SpecGenerator:
+
+	def __init__(self, provider, provider_tld, project, repo, commit, tarball_path):
+		self.provider = provider
+		self.provider_tld = provider_tld
+		self.project = project
+		self.repo = repo
+		self.url = "%s.%s/%s/%s" % (provider, provider_tld, project, repo)
+		self.commit = commit
+		self.tarball_path = tarball_path
+		self.file = sys.stdout
+		self.init = False
+
+	def setOutputFile(self, file):
+		self.file = file
+
+	def initGenerator(self):
+		self.err, self.imported, self.provided = self.getGoSymbols(self.tarball_path)
+		self.init = True
+		return self.err
+
+	def getImportedPaths(self):
+		if not self.init:
+			return []
+
+		if self.err != "":
+			return []
+
+		return self.imported
+
+	def getGoSymbols(self, path):
+                err, packages, _, ip_used = getSymbolsForImportPaths(path)
+                if err != "":
+			return err, [], []
+
+                ips_imported = []
+		ips_provided = []
+
+		# imported paths
+		classes = decomposeImports(ip_used)
+	        sorted_classes = sorted(classes.keys())
+
+		for ip_class in sorted_classes:
+			if ip_class == "Native":
+				continue
+
+			for ip in classes[ip_class]:
+				ips_imported.append(ip)
+
+		# provided paths
+		for pkg in packages:
+			ips_provided.append(packages[pkg])
+
+		return "", ips_imported, ips_provided
+
+	def hasTarballDirectGoFiles(self, path):
+		so, se, rc = runCommand("ls %s/*.go" % path)
+		if rc != 0:
+			return False
+		return True
+
+	def getDocFiles(self, path):
+		docs = []
+
+		so, _, rc = runCommand("ls %s/*.md" % path)
+		if rc == 0:
+			print so
+
+		for doc in ['Readme', 'README', 'LICENSE', 'AUTHORS']:
+			_, _, rc = runCommand("ls %s/%s" % (path, doc))
+			if rc == 0:
+				docs.append(doc)
+
+		return docs
+
+	def write(self):
+		if not self.init:
+			return "Generator not initiated"
+
+		if self.err != "":
+			return self.err
+
+		deps = self.imported
+		provides = self.provided
+
+		err, deps, provides = self.getGoSymbols(self.tarball_path)
+		if err != "":
+			return err
+
+		# basic package information
+		self.file.write(
+"""%%global debug_package   %%{nil}
+%%global provider        %s
+%%global provider_tld    %s
+%%global project         %s
+%%global repo            %s
+# https://%s
+%%global import_path     %%{provider}.%%{provider_tld}/%%{project}/%%{repo}
+%%global commit          %s
+%%global shortcommit     %%(c=%%{commit}; echo ${c:0:7})
+
+Name:           golang-%%{provider}-%%{project}-%%{repo}
+Version:        0
+Release:        0.0.git%%{shortcommit}%%{?dist}
+Summary:        !!!!FILL!!!!
+License:        !!!!FILL!!!!
+URL:            https://%%{import_path}
+Source0:        https://%%{import_path}/archive/%%{commit}/%%{repo}-%%{shortcommit}.tar.gz
+%%if 0%%{?fedora} >= 19 || 0%%{?rhel} >= 7
+BuildArch:      noarch
+%%else
+ExclusiveArch:  %%{ix86} x86_64 %%{arm}
+%%endif
+
+%%description
+%%{summary}
+"""
+%
+(self.provider, self.provider_tld, self.project, self.repo, self.url, self.commit)
+)
+		# subpackage information
+		self.file.write(
+"""%package devel
+Summary:       %{summary}
+"""
+)
+
+		# dependencies
+		self.file.write("BuildRequires: golang >= 1.2.1-3\n")
+		for dep in deps:
+			self.file.write("BuildRequires: golang(%s)\n" % (dep))
+
+		self.file.write("Requires:      golang >= 1.2.1-3\n")
+		for dep in deps:
+			self.file.write("Requires:      golang(%s)\n" % (dep))
+
+		# provides
+		for path in provides:
+			sufix = ""
+			if path != ".":
+				sufix = "/%s" % path
+
+			self.file.write("Provides:      golang(%%{import_path}%s) = %%{version}-%%{release}\n" % sufix)
+
+		# description
+		self.file.write("""
+%description devel
+%{summary}
+
+This package contains library source intended for
+building other packages which use %{project}/%{repo}.
+
+%prep
+%setup -q -n %{repo}-%{commit}
+
+%build
+
+%install
+install -d -p %{buildroot}/%{gopath}/src/%{import_path}/
+"""
+)
+
+		# go files in tarball_path?
+		if self.hasTarballDirectGoFiles(self.tarball_path):
+			self.file.write("cp -pav *.go %{buildroot}/%{gopath}/src/%{import_path}/\n")
+
+		# read all dirs in the tarball
+		self.file.write(
+"""
+# copy directories
+for dir in */ ; do
+    cp -rpav $dir %{buildroot}%{gopath}/src/%{import_path}/
+done
+
+""")
+
+		# check section
+		self.file.write("%check\n")
+
+		sdirs = sorted(getGoDirs(self.tarball_path, test = True))
+                for dir in sdirs:
+			sufix = ""
+			if dir != ".":
+				sufix = "/%s" % dir
+
+                        self.file.write("GOPATH=%%{buildroot}/%%{gopath}:%%{gopath} go test %%{import_path}%s\n" % sufix)
+
+		# files section
+		self.file.write("\n%files devel\n")
+
+		# doc all *.md files
+		docs = self.getDocFiles(self.tarball_path)
+		if docs != []:
+			self.file.write("%%doc %s" % (" ".join(docs)))
+
+		self.file.write(
+"""%dir %{gopath}/src/%{provider}.%{provider_tld}/%{project}
+# http://www.rpm.org/max-rpm/s1-rpm-inside-files-list-directives.html
+# it takes every dir and file recursively
+%{gopath}/src/%{import_path}
+
+%changelog
+
+""")
+
+		return ""
 
 ##################################
 # MAIN
