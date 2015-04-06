@@ -728,8 +728,10 @@ install -d -p %{buildroot}/%{gopath}/src/%{import_path}/
 		self.file.write(
 """
 # copy directories
-for dir in */ ; do
-    cp -rpav $dir %{buildroot}%{gopath}/src/%{import_path}/
+for file in * ; do
+    if [ -d $file ]; then
+        cp -rpav $dir %{buildroot}%{gopath}/src/%{import_path}/
+    fi
 done
 
 """)
@@ -751,12 +753,12 @@ done
 		# doc all *.md files
 		docs = self.getDocFiles(self.tarball_path)
 		if docs != []:
-			self.file.write("%%doc %s" % (" ".join(docs)))
+			self.file.write("%%doc %s\n" % (" ".join(docs)))
 
+		# http://www.rpm.org/max-rpm/s1-rpm-inside-files-list-directives.html
+		# it takes every dir and file recursively
 		self.file.write(
 """%dir %{gopath}/src/%{provider}.%{provider_tld}/%{project}
-# http://www.rpm.org/max-rpm/s1-rpm-inside-files-list-directives.html
-# it takes every dir and file recursively
 %{gopath}/src/%{import_path}
 
 %changelog
