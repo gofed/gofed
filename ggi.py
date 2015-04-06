@@ -66,6 +66,11 @@ if __name__ == "__main__":
             help = "Display import path for spec file"
         )
 
+	parser.add_option(
+            "", "", "--importpath", dest="importpath", default = "",
+            help = "Don't display class belonging to IMPORTPATH prefix"
+        )
+
 	options, args = parser.parse_args()
 
 	path = "."
@@ -82,6 +87,9 @@ if __name__ == "__main__":
 
 	for element in sorted_classes:
 		if not options.all and element == "Native":
+			continue
+
+		if options.importpath != "" and element.startswith(options.importpath):
 			continue
 
 		pkg_name = repo2pkgName(element)
