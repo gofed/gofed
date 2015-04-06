@@ -22,10 +22,6 @@ import optparse
 from modules.GoSymbols import getGoDirs
 from modules.GoSymbols import getSymbolsForImportPaths
 
-directory = "/home/jchaloup/Packages/golang-github-influxdb-influxdb/fedora/golang-github-influxdb-influxdb/influxdb-67f9869b82672b62c1200adaf21179565c5b75c3"
-directory = "/home/jchaloup/Packages/golang-googlecode-gcfg/fedora/golang-googlecode-gcfg/gcfg-c2d3050044d0"
-
-
 def getSubdirs(directory):
 	return [name for name in os.listdir(directory)
             if os.path.isdir(os.path.join(directory, name))]
