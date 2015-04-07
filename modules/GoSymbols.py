@@ -145,8 +145,14 @@ def getSymbolsForImportPaths(go_dir, imports_only=False):
 				go_file_json = json.loads(output)
 
 			for path in go_file_json["imports"]:
-				if path["path"] not in ip_used:
-					ip_used.append(path["path"])
+				# filter out all import paths starting with ./
+				if path["path"].startswith("./"):
+					continue
+
+				if path["path"] in ip_used:
+					continue
+
+				ip_used.append(path["path"])
 
 			# don't check test files, read their import paths only
 			if go_file.endswith("_test.go"):
