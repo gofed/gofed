@@ -1,12 +1,14 @@
 import optparse
-from modules.Utils import ENDC, YELLOW, RED, GREEN
+from modules.Utils import ENDC, YELLOW, RED, GREEN, BLUE
 from modules.Utils import runCommand
 from modules.Repos import github2pkgdb, googlecode2pkgdb, bitbucket2pkgdb
 from modules.Packages import packageInPkgdb
 from modules.ImportPaths import decomposeImports
-from modules.Repos import repo2pkgName
+from modules.Repos import repo2pkgName, getGithubLatestCommit, getBitbucketLatestCommit
+
 from modules.specParser import SpecGenerator, PROVIDER_GITHUB, PROVIDER_GOOGLECODE, PROVIDER_BITBUCKET
 import os
+import sys
 import errno
 
 
@@ -14,35 +16,65 @@ import errno
 def setOptions():
 	parser = optparse.OptionParser("%prog [-e] [-d] file [file [file ...]]")
 
+	sln = not (os.path.basename(sys.argv[0]) == "repo2spec.py")
+	github = os.path.basename(sys.argv[0]) == "github2gospec"
+	googlecode = os.path.basename(sys.argv[0]) == "googlecode2gospec"
+	bitbucket = os.path.basename(sys.argv[0]) == "bitbucket2gospec"
+
+	SH = optparse.SUPPRESS_HELP
+
 	parser.add_option(
 	    "", "", "--github", dest="github", action="store_true", default = False,
-	    help = "github.com repository"
+	    help = SH if sln else "github.com repository"
 	)
 
 	parser.add_option(
 	    "", "", "--googlecode", dest="googlecode", action="store_true", default = False,
-	    help = "code.google.com repository"
+	    help = SH if sln else "code.google.com repository"
 	)
 
 	parser.add_option(
 	    "", "", "--bitbucket", dest="bitbucket", action="store_true", default = False,
-	    help = "bitbucket.org repository"
+	    help = SH if sln else "bitbucket.org repository"
 	)
+
+	if github:
+		help_text = "Repository name, github.com/project/REPO"
+	elif googlecode:
+		help_text = "Repository name, code.google.com/p/REPO"
+	elif bitbucket:
+		help_text = "Repository name, bitbucket.org/project/REPO"
+	else:
+		help_text = "Repository name, e.g. github.com/project/REPO"
+	
 
 	parser.add_option(
 	    "", "-r", "--repo", dest="repo", default = "",
-	    help = "Repository name, github.com/project/REPO"
+	    help = help_text
 	)
+
+	if github:
+		help_text = "Repository name, github.com/PROJECT/repository"
+	elif bitbucket:
+		help_text = "Repository name, bitbucket.org/PROJECT/repository"
+	else:
+		help_text = "Repository name, e.g. github.com/PROJECT/repository"
 
 	parser.add_option(
 	    "", "-p", "--project", dest="project", default = "",
-	    help = "Project name, github.com/PROJECT/repository"
+	    help = SH if googlecode else help_text
 	)
 
-	parser.add_option(
-	    "", "-c", "--commit", dest="commit", default = "",
-	    help = "Commit/Revision"
-	)
+	if googlecode:
+		parser.add_option(
+		    "", "-c", "--rev", dest="revision", default = "",
+		    help = "Revision"
+		)
+	else:
+		parser.add_option(
+		    "", "-c", "--commit", dest="commit", default = "",
+		    help = "Commit. If not specified the latest is taken."
+		)
 
 	parser.add_option(
 	    "", "-f", "--format", dest="format", action="store_true", default = False,
@@ -73,9 +105,9 @@ def checkOptions(options):
 			print "Project missing"
 			fail = True
 
-	if options.github or options.googlecode or options.bitbucket:
-		if options.commit == "":
-			print "Commit/Rev missing"
+	if options.googlecode:
+		if options.revision == "":
+			print "Revision missing"
 			fail = True
 
 
@@ -122,16 +154,25 @@ if __name__ == "__main__":
 		ENDC = ""
 		YELLOW = ""
 		RED = ""
+		BLUE = ""
 
 	# collect spec file information
 	project = options.project
 	repo = options.repo
-	commit = options.commit
 
 	if options.github:
 		provider = PROVIDER_GITHUB
 		url = "github.com/%s/%s" % (project, repo)
 		name = github2pkgdb(url)
+		if options.commit == "":
+			print "%sGetting the latest commit from %s%s" % (BLUE, url, ENDC)
+			commit = getGithubLatestCommit(project, repo)
+			if commit == "":
+				print "%sUnable to get the latest commit%s" % (RED, ENDC)
+				exit(1)
+			print ""
+		else:
+			commit = options.commit
 		shortcommit = commit[:7]
 		archive = "%s-%s.tar.gz" % (repo, shortcommit)
 		archive_dir = "%s-%s" % (repo, commit)
@@ -140,6 +181,7 @@ if __name__ == "__main__":
 		provider = PROVIDER_GOOGLECODE
 		url = "coge.google.com/p/%s" % repo
 		name = googlecode2pkgdb(url)
+		commit = options.revision
 		shortcommit = commit[:12]
 		archive = "%s.tar.gz" % (commit)
 		archive_dir = "%s-%s" % (repo, commit)
@@ -160,6 +202,15 @@ if __name__ == "__main__":
 		provider = PROVIDER_BITBUCKET
 		url = "bitbucket.org/%s/%s" % (project, repo)
 		name = bitbucket2pkgdb(url)
+		if options.commit == "":
+			print "%sGetting the latest commit from %s%s" % (BLUE, url, ENDC)
+			commit = getBitbucketLatestCommit(project, repo)
+			if commit == "":
+				print "%sUnable to get the latest commit%s" % (RED, ENDC)
+				exit(1)
+			print ""
+		else:
+			commit = options.commit
 		shortcommit = commit[:12]
 		archive = "%s.tar.gz" % (shortcommit)
 		archive_dir = "%s-%s-%s" % (project, repo, shortcommit)
