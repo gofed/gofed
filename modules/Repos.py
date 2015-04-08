@@ -25,6 +25,7 @@ GITHUB = 1
 GOOGLECODE = 2
 GOLANGORG = 3
 GOPKG = 4
+BITBUCKET = 5
 
 # for the given list of imports, divide them into
 # classes (native, github, googlecode, bucket, ...)
@@ -41,6 +42,8 @@ def detectKnownRepos(url):
 		return GOLANGORG, url
 	if url.startswith('gopkg.in'):
 		return GOPKG, url
+	if url.startswith('bitbucket.org'):
+		return BITBUCKET, url
 
 	return UNKNOWN, ''
 
@@ -49,6 +52,11 @@ def detectKnownRepos(url):
 ##########################################################
 # only github.com/<project>/<repo> denote a class
 def detectGithub(path):
+	parts = path.split('/')
+	return '/'.join(parts[:3])
+
+# only bitbucket.org/<project>/<repo> denote a class
+def detectBitbucket(path):
 	parts = path.split('/')
 	return '/'.join(parts[:3])
 
@@ -84,6 +92,14 @@ def github2pkgdb(github):
 	parts = github.split('/')
 	if len(parts) == 3:
 		return "golang-github-%s-%s" % (parts[1], parts[2])
+	else:
+		return ""
+
+def bitbucket2pkgdb(bitbucket):
+	# bitbucket.org/<project>/<repo>
+	parts = bitbucket.split('/')
+	if len(parts) == 3:
+		return "golang-bitbucket-%s-%s" % (parts[1], parts[2])
 	else:
 		return ""
 
@@ -143,6 +159,8 @@ def detectRepoPrefix(element):
 		return detectGoogleGolangorg(element)
 	elif element.startswith('gopkg.in'):
 		return detectGopkg(element)
+	elif element.startswith('bitbucket'):
+		return detectBitbucket(element)
 
 	return ""
 
@@ -179,6 +197,10 @@ def repo2pkgName(element):
 			pkg_name = googlegolangorg2pkgdb(element)
 	elif element.startswith('gopkg.in'):
 		key = detectGopkg(element)
+		if key in mappings:
+			pkg_name = mappings[key]
+	elif element.startswith('bitbucket.org'):
+		key = detectBitbucket(element)
 		if key in mappings:
 			pkg_name = mappings[key]
 
