@@ -162,9 +162,9 @@ elif [ $operation -eq $UPDATE ]; then
 elif [ $operation -eq $GGI ]; then
         python $script_dir/ggi.py $@
 elif [ $operation -eq $GITHUB2SPEC ]; then
-        $script_dir/github2gospec.sh $@
+        python $script_dir/github2gospec --github $@
 elif [ $operation -eq $GOOGLECODE2SPEC ]; then
-        $script_dir/googlecode2gospec.sh $@
+        python $script_dir/googlecode2gospec --googlecode $@
 elif [ $operation -eq $REVIEW ]; then
         python $script_dir/prepareReview.py $@
 elif [ $operation -eq $PULL ]; then
@@ -190,7 +190,7 @@ elif [ $operation -eq $SCANSYMBOLS ]; then
 elif [ $operation -eq $GCPMASTER ]; then
         python $script_dir/gcp --gcp $@
 elif [ $operation -eq $BITBUCKET2SPEC ]; then
-        $script_dir/bitbucket2gospec.sh $@
+        python $script_dir/bitbucket2gospec --bitbucket $@
 elif [ $operation -eq $WIZARD ]; then
         python $script_dir/wizard.py $@
 elif [ $operation -eq $APIDIFF ]; then
