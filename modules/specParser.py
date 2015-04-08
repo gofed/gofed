@@ -558,18 +558,49 @@ class SpecTest:
 		return errors, warning
 
 # [  ] - add option to control spacing of 'key: value'
+PROVIDER_GITHUB=0
+PROVIDER_GOOGLECODE=1
+PROVIDER_BITBUCKET=2
 class SpecGenerator:
 
-	def __init__(self, provider, provider_tld, project, repo, commit, tarball_path):
-		self.provider = provider
-		self.provider_tld = provider_tld
-		self.project = project
-		self.repo = repo
-		self.url = "%s.%s/%s/%s" % (provider, provider_tld, project, repo)
+	def __init__(self, provider, project, repo, commit, tarball_path, noGodeps=True):
+		self.provider_type = provider
+		if provider == PROVIDER_GITHUB:
+			self.provider = "github"
+			self.provider_tld = "com"
+			self.project = project
+			self.repo = repo
+			self.url = "%s.%s/%s/%s" % (self.provider, self.provider_tld, self.project, self.repo)
+		elif provider == PROVIDER_GOOGLECODE:
+			self.provider = "google"
+			self.provider_tld = "com"
+			self.provider_sub = "code"
+			self.project = "p"
+			self.repo = repo
+			parts = repo.split(".")
+			lp = len(parts)
+			if lp > 2:
+				print "Repository name contains more than 1 dot"
+				exit(1)
+
+			if lp == 2:
+				self.rrepo = "%s.%s" % (parts[1], parts[0])
+			else:
+				self.rrepo = repo
+
+			self.url = "%s.%s.%s/%s/%s" % (self.provider_sub, self.provider, self.provider_tld, self.project, self.repo)
+		elif provider == PROVIDER_BITBUCKET:
+			self.provider = "bitbucket"
+			self.provider_tld = "org"
+			self.project = project
+			self.repo = repo
+			self.url = "%s.%s/%s/%s" % (self.provider, self.provider_tld, self.project, self.repo)
+
 		self.commit = commit
 		self.tarball_path = tarball_path
 		self.file = sys.stdout
 		self.init = False
+		self.noGodeps = noGodeps
 
 	def setOutputFile(self, file):
 		self.file = file
@@ -585,8 +616,9 @@ class SpecGenerator:
 
 		if self.err != "":
 			return []
+		else:
+			return self.imported
 
-		return self.imported
 
 	def getGoSymbols(self, path):
                 err, packages, _, ip_used = getSymbolsForImportPaths(path)
@@ -611,7 +643,7 @@ class SpecGenerator:
 		for pkg in packages:
 			ips_provided.append(packages[pkg])
 
-		return "", ips_imported, ips_provided
+		return "", sorted(ips_imported), sorted(ips_provided)
 
 	def hasTarballDirectGoFiles(self, path):
 		so, se, rc = runCommand("ls %s/*.go" % path)
@@ -624,7 +656,12 @@ class SpecGenerator:
 
 		so, _, rc = runCommand("ls %s/*.md" % path)
 		if rc == 0:
-			print so
+			for doc in so.split("\n"):
+				doc = doc.strip()
+				if doc == "":
+					continue
+
+				docs.append(os.path.basename(doc))
 
 		for doc in ['Readme', 'README', 'LICENSE', 'AUTHORS']:
 			_, _, rc = runCommand("ls %s/%s" % (path, doc))
@@ -648,8 +685,10 @@ class SpecGenerator:
 			return err
 
 		# basic package information
-		self.file.write(
-"""%%global debug_package   %%{nil}
+		self.file.write("""%global debug_package   %{nil}""")
+
+		if self.provider_type == PROVIDER_GITHUB:
+			self.file.write("""
 %%global provider        %s
 %%global provider_tld    %s
 %%global project         %s
@@ -666,18 +705,69 @@ Summary:        !!!!FILL!!!!
 License:        !!!!FILL!!!!
 URL:            https://%%{import_path}
 Source0:        https://%%{import_path}/archive/%%{commit}/%%{repo}-%%{shortcommit}.tar.gz
-%%if 0%%{?fedora} >= 19 || 0%%{?rhel} >= 7
-BuildArch:      noarch
-%%else
-ExclusiveArch:  %%{ix86} x86_64 %%{arm}
-%%endif
-
-%%description
-%%{summary}
 """
 %
 (self.provider, self.provider_tld, self.project, self.repo, self.url, self.commit)
 )
+		elif self.provider_type == PROVIDER_GOOGLECODE:
+			stripped_repo = self.repo.split(".")[-1]
+			self.file.write("""
+%%global provider        %s
+%%global provider_sub    %s
+%%global provider_tld    %s
+%%global project         %s
+%%global repo            %s
+%%global rrepo           %s
+# https://%s
+%%global import_path     %%{provider_sub}%%{provider}.%%{provider_tld}/%%{project}/%%{repo}
+%%global rev             %s
+%%global shortrev        %%(c=%%{rev}; echo ${c:0:12})
+
+Name:           golang-%%{provider}-%%{provider_sub}-%s
+Version:        0
+Release:        0.0.git%%{shortrev}%%{?dist}
+Summary:        !!!!FILL!!!!
+License:        !!!!FILL!!!!
+URL:            https://%%{import_path}
+Source0:        https://%%{rrepo}%%{provider}%%{provider_sub}.%%{provider_tld}/archive/%%{rev}.tar.gz
+"""
+%
+(self.provider, self.provider_sub, self.provider_tld, self.project, self.repo, self.rrepo, self.url, self.commit, stripped_repo)
+)
+
+		elif self.provider_type == PROVIDER_BITBUCKET:
+			self.file.write("""
+%%global provider        %s
+%%global provider_tld    %s
+%%global project         %s
+%%global repo            %s
+# https://%s
+%%global import_path     %%{provider}.%%{provider_tld}/%%{project}/%%{repo}
+%%global commit          %s
+%%global shortcommit     %%(c=%%{commit}; echo ${c:0:12})
+
+Name:           golang-%%{provider}-%%{project}-%%{repo}
+Version:        0
+Release:        0.0.git%%{shortcommit}%%{?dist}
+Summary:        !!!!FILL!!!!
+License:        !!!!FILL!!!!
+URL:            https://%%{import_path}
+Source0:        https://%%{import_path}/get/%%{shortcommit}.tar.gz
+"""
+%
+(self.provider, self.provider_tld, self.project, self.repo, self.url, self.commit)
+)
+
+		self.file.write("""
+%if 0%{?fedora} >= 19 || 0%{?rhel} >= 7
+BuildArch:      noarch
+%else
+ExclusiveArch:  %{ix86} x86_64 %{arm}
+%endif
+
+%description
+%{summary}
+""")
 		# subpackage information
 		self.file.write(
 """%package devel
@@ -688,10 +778,16 @@ Summary:       %{summary}
 		# dependencies
 		self.file.write("BuildRequires: golang >= 1.2.1-3\n")
 		for dep in deps:
+			if dep.startswith(self.url):
+				continue
+
 			self.file.write("BuildRequires: golang(%s)\n" % (dep))
 
 		self.file.write("Requires:      golang >= 1.2.1-3\n")
 		for dep in deps:
+			if dep.startswith(self.url):
+				continue
+
 			self.file.write("Requires:      golang(%s)\n" % (dep))
 
 		# provides
@@ -711,14 +807,24 @@ This package contains library source intended for
 building other packages which use %{project}/%{repo}.
 
 %prep
-%setup -q -n %{repo}-%{commit}
+""")
+
+
+		if self.provider_type == PROVIDER_GOOGLECODE:
+			self.file.write("""%setup -q -n %{rrepo}-%{shortrev}""")
+		elif self.provider_type == PROVIDER_BITBUCKET:
+			self.file.write("""%setup -q -n %{project}-%{repo}-%{shortcommit}""")
+		else:
+			self.file.write("""%setup -q -n %{repo}-%{commit}""")
+
+		self.file.write("""
 
 %build
 
 %install
 install -d -p %{buildroot}/%{gopath}/src/%{import_path}/
 """
-)
+) 
 
 		# go files in tarball_path?
 		if self.hasTarballDirectGoFiles(self.tarball_path):
@@ -728,9 +834,9 @@ install -d -p %{buildroot}/%{gopath}/src/%{import_path}/
 		self.file.write(
 """
 # copy directories
-for file in * ; do
+for file in ./* ; do
     if [ -d $file ]; then
-        cp -rpav $dir %{buildroot}%{gopath}/src/%{import_path}/
+        cp -rpav $file %{buildroot}%{gopath}/src/%{import_path}/
     fi
 done
 
@@ -741,6 +847,9 @@ done
 
 		sdirs = sorted(getGoDirs(self.tarball_path, test = True))
                 for dir in sdirs:
+			if self.noGodeps and dir.startswith("Godeps"):
+				continue
+
 			sufix = ""
 			if dir != ".":
 				sufix = "/%s" % dir
@@ -757,7 +866,16 @@ done
 
 		# http://www.rpm.org/max-rpm/s1-rpm-inside-files-list-directives.html
 		# it takes every dir and file recursively
-		self.file.write(
+		if self.provider_type == PROVIDER_GOOGLECODE:
+			self.file.write(
+"""%dir %{gopath}/src/%{provider_sub}%{provider}.%{provider_tld}/%{project}
+%{gopath}/src/%{import_path}
+
+%changelog
+
+""")
+		else:
+			self.file.write(
 """%dir %{gopath}/src/%{provider}.%{provider_tld}/%{project}
 %{gopath}/src/%{import_path}
 
