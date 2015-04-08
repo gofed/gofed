@@ -11,6 +11,8 @@ import os
 from Utils import getScriptDir
 from Utils import runCommand
 from Config import Config
+import urllib
+import json
 
 script_dir = getScriptDir() + "/.."
 repo_mappings = {}
@@ -374,6 +376,37 @@ def getRepoCommits(path, repo, pull=True):
 	os.chdir(cwd)
 	return commits
 
+#################################################
+# github.com, bitbucket.org auxiliary functions #
+#################################################
+def getGithubLatestCommit(project, repo):
+	link = "https://api.github.com/repos/%s/%s/commits" % (project, repo)
+	f = urllib.urlopen(link)
+	c_file = f.read()
+	# get the latest commit
+	commits = json.loads(c_file)
+	if len(commits) == 0:
+		return ""
+	else:
+		return commits[0]["sha"]
+
+def getBitbucketLatestCommit(project, repo):
+	link = "https://bitbucket.org/api/1.0/repositories/%s/%s/changesets?limit=1" % (project, repo)
+	f = urllib.urlopen(link)
+	c_file = f.read()
+	# get the latest commit
+	data = json.loads(c_file)
+	if 'changesets' not in data:
+		return ""
+
+	commits = data['changesets']
+	if len(commits) == 0:
+		return ""
+	else:
+		if 'raw_node' not in commits[0]:
+			return ""
+
+		return commits[0]["raw_node"]
 
 if __name__ == '__main__':
 	# test detectGithub

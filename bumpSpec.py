@@ -1,19 +1,7 @@
 import optparse
-import urllib
-import json
 from modules.Utils import runCommand
 from modules.specParser import SpecInfo
-
-def getGithubLatestCommit(project, repo):
-	link = "https://api.github.com/repos/%s/%s/commits" % (project, repo)
-	f = urllib.urlopen(link)
-	c_file = f.read()
-	# get the latest commit
-	commits = json.loads(c_file)
-	if len(commits) == 0:
-		return ""
-	else:
-		return commits[0]["sha"]
+from modules.Repos import getGithubLatestCommit, getBitbucketLatestCommit
 
 def getSpec():
 	so, se, rc = runCommand("ls *.spec")
@@ -29,6 +17,7 @@ def getMacros(spec):
 	obj = SpecInfo(spec)
 	macros["project"] = obj.getMacro("project")
 	macros["repo"] = obj.getMacro("repo")
+	macros["provider"] = obj.getMacro("provider")
 
 	if macros["project"] == "":
 		err = "Unable to detect project macro"
@@ -38,14 +27,13 @@ def getMacros(spec):
 		err = "Unable to detect repo macro"
 		return err, {}
 
+	if macros["provider"] == "":
+		err = "unable to detect provider macro"
+		return err, {}
+
 	macros["ip"] = obj.getMacro("import_path")
 	if macros["ip"] == "":
-		macros["provider"] = obj.getMacro("provider")
 		macros["provider_tld"] = obj.getMacro("provider_tld")
-
-		if macros["provider"] == "":
-			err = "unable to detect provider macro"
-			return err, {}
 
 		if macros["provider_tld"] == "":
 			err = "Unable to detect provider_tld macro"
@@ -55,15 +43,11 @@ def getMacros(spec):
 
 	return "", macros
 
-def downloadTarball(import_path, commit, repo):
-	shortcommit = commit[:7]
-	so, se, rc = runCommand("wget https://%s/archive/%s/%s-%s.tar.gz" % (
-		import_path, commit, repo, shortcommit))
-
-	if rc != 0:
-		return False
-	else:
-		return True
+def downloadTarball(archive_url):
+	so, se, rc = runCommand("wget -nv %s --no-check-certificate" % archive_url)
+	if rc != 0:		
+		print "%sUnable to download tarball:\n%s%s" % (RED, se, ENDC)
+		exit(1)
 
 def updateSpec(spec, commit):
 	so, se, rc = runCommand("sed -i -e \"s/%%global commit\([[:space:]]\+\)[[:xdigit:]]\{40\}/%%global commit\\1%s/\" %s" % (commit, spec))
@@ -115,20 +99,39 @@ if __name__ == "__main__":
 		print err
 		exit(2)
 
+	provider = macros["provider"]
+	project = macros["project"]
+	repo = macros["repo"]
+	# only github so far
+	if provider != "github" and provider != "bitbucket":
+		print "Only githum.com and bitbucket.org are supported"
+		exit(2)
+
 	commit = options.commit
 	if commit == "":
 		# get latest commit
 		print "Getting the latest commit from %s" % macros["ip"]
-		commit = getGithubLatestCommit(macros["project"], macros["repo"])
+		if provider == "github":
+			commit = getGithubLatestCommit(project, repo)
+		else:
+			commit = getBitbucketLatestCommit(project, repo)	
 		if commit == "":
 			print "Unable to get the latest commit"
 			exit(3)
 
+	# don't bump if the commit is the as at htel atest
+
 	# download tarball
 	print "Download tarball"
-	if not downloadTarball(macros["ip"], commit, macros["repo"]):
-		print "Unable to download tarball"
-		exit(4)
+	if provider == "github":
+		shortcommit = commit[:7]
+		archive = "%s-%s.tar.gz" % (repo, shortcommit)
+		archive_url = "https://github.com/%s/%s/archive/%s/%s" % (project, repo, commit, archive)
+	else:
+		shortcommit = commit[:12]
+		archive = "%s.tar.gz" % (shortcommit)
+		archive_url = "https://bitbucket.org/%s/%s/get/%s" % (project, repo, archive)
+	downloadTarball(archive_url)
 
 	# update spec file
 	print "Updating spec file"
