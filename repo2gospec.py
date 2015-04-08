@@ -1,16 +1,33 @@
 import optparse
 from modules.Utils import ENDC, YELLOW, RED, GREEN
 from modules.Utils import runCommand
-from modules.Repos import github2pkgdb
+from modules.Repos import github2pkgdb, googlecode2pkgdb, bitbucket2pkgdb
 from modules.Packages import packageInPkgdb
 from modules.ImportPaths import decomposeImports
 from modules.Repos import repo2pkgName
-from modules.specParser import SpecGenerator
+from modules.specParser import SpecGenerator, PROVIDER_GITHUB, PROVIDER_GOOGLECODE, PROVIDER_BITBUCKET
 import os
 import errno
 
+
+
 def setOptions():
 	parser = optparse.OptionParser("%prog [-e] [-d] file [file [file ...]]")
+
+	parser.add_option(
+	    "", "", "--github", dest="github", action="store_true", default = False,
+	    help = "github.com repository"
+	)
+
+	parser.add_option(
+	    "", "", "--googlecode", dest="googlecode", action="store_true", default = False,
+	    help = "code.google.com repository"
+	)
+
+	parser.add_option(
+	    "", "", "--bitbucket", dest="bitbucket", action="store_true", default = False,
+	    help = "bitbucket.org repository"
+	)
 
 	parser.add_option(
 	    "", "-r", "--repo", dest="repo", default = "",
@@ -24,7 +41,7 @@ def setOptions():
 
 	parser.add_option(
 	    "", "-c", "--commit", dest="commit", default = "",
-	    help = "Commit"
+	    help = "Commit/Revision"
 	)
 
 	parser.add_option(
@@ -42,17 +59,25 @@ def setOptions():
 def checkOptions(options):
 	fail = False
 
-	if options.repo == "":
-		print "Repository missing"
+	if not options.github and not options.googlecode and not options.bitbucket:
+		print "No provider specified"
 		fail = True
 
-	if options.project == "":
-		print "Project missing"
-		fail = True
+	if options.github or options.googlecode or options.bitbucket:
+		if options.repo == "":
+			print "Repository missing"
+			fail = True
 
-	if options.commit == "":
-		print "Commit missing"
-		fail = True
+	if options.github or options.bitbucket:
+		if options.project == "":
+			print "Project missing"
+			fail = True
+
+	if options.github or options.googlecode or options.bitbucket:
+		if options.commit == "":
+			print "Commit/Rev missing"
+			fail = True
+
 
 	return fail
 
@@ -79,8 +104,8 @@ def createBasicDirectories(name):
 	make_sure_path_exists("%s/fedora/%s" % (name, name))
 	os.chdir("%s/fedora/%s" % (name, name))
 
-def downloadTarball(tar_url):
-	so, se, rc = runCommand("wget -nv %s" % tar_url)
+def downloadTarball(archive_url):
+	so, se, rc = runCommand("wget -nv %s --no-check-certificate" % archive_url)
 	if rc != 0:		
 		print "%sUnable to download tarball:\n%s%s" % (RED, se, ENDC)
 		exit(1)
@@ -99,17 +124,48 @@ if __name__ == "__main__":
 		RED = ""
 
 	# collect spec file information
-	provider = "github"
-	provider_tld = "com"
 	project = options.project
 	repo = options.repo
-	url = "%s.%s/%s/%s" % (provider, provider_tld, project, repo)
 	commit = options.commit
-	shortcommit = commit[:7]
 
-	name = github2pkgdb(url)
+	if options.github:
+		provider = PROVIDER_GITHUB
+		url = "github.com/%s/%s" % (project, repo)
+		name = github2pkgdb(url)
+		shortcommit = commit[:7]
+		archive = "%s-%s.tar.gz" % (repo, shortcommit)
+		archive_dir = "%s-%s" % (repo, commit)
+		archive_url = "https://github.com/%s/%s/archive/%s/%s" % (project, repo, commit, archive)
+	elif options.googlecode:
+		provider = PROVIDER_GOOGLECODE
+		url = "coge.google.com/p/%s" % repo
+		name = googlecode2pkgdb(url)
+		shortcommit = commit[:12]
+		archive = "%s.tar.gz" % (commit)
+		archive_dir = "%s-%s" % (repo, commit)
+		archive_url = "https://github.com/%s/%s/archive/%s/%s" % (project, repo, commit, archive)
+		parts = repo.split(".")
+		lp = len(parts)
+		if lp > 2:
+			print "Repository name contains more than 1 dot"
+			exit(1)
+
+		if lp == 2:
+			rrepo = "%s.%s" % (parts[1], parts[0])
+		else:
+			rrepo = repo
+
+		archive_url = "https://%s.googlecode.com/archive/%s" % (rrepo, archive)
+	else:
+		provider = PROVIDER_BITBUCKET
+		url = "bitbucket.org/%s/%s" % (project, repo)
+		name = bitbucket2pkgdb(url)
+		shortcommit = commit[:12]
+		archive = "%s.tar.gz" % (shortcommit)
+		archive_dir = "%s-%s-%s" % (project, repo, shortcommit)
+		archive_url = "https://bitbucket.org/%s/%s/get/%s" % (project, repo, archive)
 	if name == "":
-		print "Unable to generate package name for %s provider" % provider
+		print "Unable to generate package name for %s" % url
 		exit(1)
 
 	specfile = "%s.spec" % name
@@ -122,17 +178,14 @@ if __name__ == "__main__":
 	# is the package already in Fedora
 	print "%s(1/%s) Checking if the package already exists in PkgDB%s" \
 		% (YELLOW, total, ENDC)
-	#isPkgInPkgDB(name, options.force)
+	isPkgInPkgDB(name, options.force)
 
 	# creating basic folder structure
 	createBasicDirectories(name)
 
 	# download tarball
 	print "%s(2/%s) Downloading tarball%s" % (YELLOW, total, ENDC)
-	archive = "%s-%s.tar.gz" % (repo, shortcommit)
-	archive_dir = "%s-%s" % (repo, commit)
-	archive_url = "https://github.com/%s/%s/archive/%s/%s" % (project, repo, commit, archive)
-	#downloadTarball(tar_url)
+	downloadTarball(archive_url)
 	so, se, rc = runCommand("tar -xf %s" % archive)
 	if rc != 0:
 		print "Unable to extract %s" % archive
@@ -140,7 +193,7 @@ if __name__ == "__main__":
 
 	# generate spec file
 	print "%s(3/%s) Generating spec file%s" % (YELLOW, total, ENDC)
-	spec = SpecGenerator(provider, provider_tld, project, repo, commit, archive_dir)
+	spec = SpecGenerator(provider, project, repo, commit, archive_dir)
 	spec.initGenerator()
 
 	try:
