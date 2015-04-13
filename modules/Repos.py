@@ -385,10 +385,16 @@ def getGithubLatestCommit(project, repo):
 	c_file = f.read()
 	# get the latest commit
 	commits = json.loads(c_file)
+	if type(commits) != type([]):
+		return ""
+
 	if len(commits) == 0:
 		return ""
-	else:
-		return commits[0]["sha"]
+
+	if "sha" not in commits[0]:
+		return ""
+
+	return commits[0]["sha"]
 
 def getBitbucketLatestCommit(project, repo):
 	link = "https://bitbucket.org/api/1.0/repositories/%s/%s/changesets?limit=1" % (project, repo)
@@ -400,13 +406,16 @@ def getBitbucketLatestCommit(project, repo):
 		return ""
 
 	commits = data['changesets']
+	if type(commits) != type([]):
+		return ""
+
 	if len(commits) == 0:
 		return ""
-	else:
-		if 'raw_node' not in commits[0]:
-			return ""
 
-		return commits[0]["raw_node"]
+	if 'raw_node' not in commits[0]:
+		return ""
+
+	return commits[0]["raw_node"]
 
 if __name__ == '__main__':
 	# test detectGithub
