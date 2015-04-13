@@ -155,6 +155,7 @@ if __name__ == "__main__":
 		YELLOW = ""
 		RED = ""
 		BLUE = ""
+		GREEN = ""
 
 	# collect spec file information
 	project = options.project
