@@ -23,6 +23,11 @@ if __name__ == "__main__":
 	)
 
 	parser.add_option(
+	    "", "", "--from", dest="commit", default = "",
+	    help = SH if sln else "git cherry-pick master starting from COMMIT, used with --gcp option"
+	)
+
+	parser.add_option(
 	    "", "", "--pull", dest="pull", action = "store_true", default = False,
 	    help = SH if sln else "git pull all branches"
 	)
@@ -110,7 +115,9 @@ if __name__ == "__main__":
 	mc = MultiCommand(debug=options.debug, dry=options.dry)
 
 	if options.gcp:
-		mc.cherryPickMaster(branches)
+		err = mc.cherryPickMaster(branches, start_commit=options.commit, verbose=options.debug)
+		if err != []:
+			print "\n".join(err)
 	if options.greset:
 		mc.resetBranchesToOrigin(branches)
 	if options.pull:
