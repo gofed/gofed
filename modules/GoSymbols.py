@@ -123,7 +123,7 @@ def mergeGoSymbols(jsons = []):
 
 	return symbols
 
-def getSymbolsForImportPaths(go_dir, imports_only=False):
+def getSymbolsForImportPaths(go_dir, imports_only=False, noGodeps=[]):
 	bname = os.path.basename(go_dir)
 	go_packages = {}
 	ip_packages = {}
@@ -134,6 +134,15 @@ def getSymbolsForImportPaths(go_dir, imports_only=False):
 		pkg_name = ""
 		prefix = ""
 		jsons = {}
+		if noGodeps != []:
+			skip = False
+			for nodir in noGodeps:
+				if dir_info['dir'].startswith(nodir):
+					skip = True
+					break
+			if skip:
+				continue
+
 		for go_file in dir_info['files']:
 			go_file_json = {}
 			err, output = getGoSymbols("%s/%s/%s" % 
