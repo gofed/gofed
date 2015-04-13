@@ -95,23 +95,27 @@ if __name__ == "__main__":
 		pkg_name = repo2pkgName(element)
 		pkg_in_pkgdb = False
 
+		skip = False
 		if options.classes:
 			if options.pkgdb and pkg_name != "":
 				pkg_in_pkgdb = packageInPkgdb(pkg_name)
 				if pkg_in_pkgdb:
 					if options.verbose:
 						print (GREEN + "Class: %s (%s) PkgDB=%s" + ENDC) % (element, pkg_name, pkg_in_pkgdb)
+					skip = True
 				else:
 					print (RED + "Class: %s (%s) PkgDB=%s" + ENDC ) % (element, pkg_name, pkg_in_pkgdb)
 			else:
 				print "Class: %s" % element
+
 		if not options.classes or not options.short:
 			if options.spec:
 				for gimport in classes[element]:
 					print "BuildRequires:\tgolang(%s)" % gimport
 			else:
-				for gimport in classes[element]:
-					print "\t%s" % gimport
-				if options.classes:
-					print ""
+				if skip == False:
+					for gimport in classes[element]:
+						print "\t%s" % gimport
+					if options.classes:
+						print ""
 
