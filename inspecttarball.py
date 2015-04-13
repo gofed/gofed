@@ -38,6 +38,11 @@ if __name__ == "__main__":
 	)
 
 	parser.add_option(
+	    "", "", "--prefix", dest="prefix", default = "",
+	    help = "Prefix all provided import paths, used with -p option"
+	)
+
+	parser.add_option(
 	    "", "-s", "--spec", dest="spec", action="store_true", default = "",
 	    help = "If set with -p options, print list of provided paths in spec file format."
 	)
@@ -74,6 +79,11 @@ if __name__ == "__main__":
 					print "Provides: golang(%%{import_path}/%s) = %%{version}-%%{release}" % (ip)
 				else:
 					print "Provides: golang(%{import_path}) = %{version}-%{release}"
+			if options.prefix != "":
+				if ip != ".":
+					print "%s/%s" % (options.prefix, ip)
+				else:
+					print options.prefix
 			else:
 				print ip
 
