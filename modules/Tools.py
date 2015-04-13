@@ -154,13 +154,13 @@ class LowLevelCommand:
 		else:
 			return runCommand("fedpkg switch-branch %s" % branch)
 
-	def runFedpkgCherryPick(self, branch):
+	def runGitCherryPick(self, commit="master"):
 		"""
-		Run 'git cherry-pick BRANCH'.
+		Run 'git cherry-pick COMMIT'.
 		It returns so, se, rc triple.
 		"""
 		if self.debug == True:
-			print "Running 'git cherry-pick BRANCH'"
+			print "Running 'git cherry-pick %s'" % commit
 
 		if self.dry == True:
 			so = ""
@@ -168,7 +168,7 @@ class LowLevelCommand:
 			rc = 0
 			return so, se, rc
 		else:
-			return runCommand("git cherry-pick %s" % branch)
+			return runCommand("git cherry-pick %s" % commit)
 
 	def runGitReset(self, branch):
 		"""
@@ -224,6 +224,31 @@ class LowLevelCommand:
 			return so, se, rc
 		else:
 			return runCommand("koji wait-repo %s --build=%s" % (build_tag, build))
+
+	def runGitLog(self, depth):
+		"""
+		Run 'git log --pretty=format:"%%H" -n DEPTH'.
+		It returns so, se, rc triple.
+		"""
+		if self.debug == True:
+			print "Running 'git log --pretty=format:\"%%H\" -n %s'" % depth
+
+		if self.dry == True:
+			so = """4e604fecc22b498e0d46854ee4bfccdfc1932b12
+c46cdd60710b184f834b54cff80502027b66c5e0
+6170e22ecb5923bbd22a311f172fcf59c5f16c08
+0fc92e675c90e7b9e1eaba0c4837093b9b365317
+21cf1880e696fd7047f8b0f5605ffa72dde6c504
+8025678aab1c404aecdd6d7e5b3afaf9942ef6c6
+6ed91011294946fd7ca6e6382b9686e12deda9be
+ec0ebc48684bccbd4793b83edf14c59076edb1eb
+adf728db9355a86332e17436a78f54a769e194be"""
+			se = ""
+			rc = 0
+			return so, se, rc
+		else:
+			return runCommand("git log --pretty=format:\"%%H\" -n %s" % depth)
+
 
 class SimpleCommand:
 
@@ -312,6 +337,20 @@ class SimpleCommand:
 			return se
 
 		return ""
+
+	def getGitCommits(self, depth):
+		so, sr, rc = self.llc.runGitLog(depth)
+		if rc != 0:
+			return "Unable to list commits: %s" % se, []
+
+		commits = []
+		for line in so.split("\n"):
+			line = line.strip()
+			if line == "":
+				continue
+			commits.append(line)
+
+		return "", commits
 
 class WatchTaskThread(threading.Thread):
 	def __init__(self, task_id):
@@ -550,8 +589,31 @@ class MultiCommand:
 
 		return all_done
 
-	def cherryPickMaster(self, branches, verbose=True):
+	def cherryPickMaster(self, branches, verbose=True, start_commit="", depth=10):
 		err = []
+		gcp_commits = ["master"]
+		if start_commit != "":
+			if verbose:
+				print "Searching for %s commit in the last %s commits" % (start_commit, depth)
+
+			e, commits = self.sc.getGitCommits(depth)
+			if e != "":
+				err.append(e)
+				return err
+
+			try:
+				index = commits.index(start_commit)
+				gcp_commits = commits[:index + 1]
+				gcp_commits = gcp_commits[::-1]
+			except ValueError:
+				err.append("Commit %s not found in the last %s commits" % (start_commit, depth))
+				return err
+
+			if verbose:
+				print "Commits found:"
+				for commit in gcp_commits:
+					print commit
+
 		for branch in branches:
 			if branch == "master":
 				continue
@@ -567,11 +629,12 @@ class MultiCommand:
 			if verbose:
 				print "Switched to %s branch" % branch
 
-			_, se, rc = self.llc.runFedpkgCherryPick("master")
-			if rc != 0:
-				err.append("%s: unable to cherry pick master: %s" % (branch, se))
-				if verbose:
-					print err[-1]
+			for commit in gcp_commits:
+				_, se, rc = self.llc.runGitCherryPick(commit)
+				if rc != 0:
+					err.append("%s: unable to cherry pick master: %s" % (branch, se))
+					if verbose:
+						print err[-1]
 
 		return err
 
