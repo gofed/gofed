@@ -79,7 +79,7 @@ if __name__ == "__main__":
 					print "Provides: golang(%%{import_path}/%s) = %%{version}-%%{release}" % (ip)
 				else:
 					print "Provides: golang(%{import_path}) = %{version}-%{release}"
-			if options.prefix != "":
+			elif options.prefix != "":
 				if ip != ".":
 					print "%s/%s" % (options.prefix, ip)
 				else:
