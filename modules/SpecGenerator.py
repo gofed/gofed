@@ -81,7 +81,7 @@ class SpecGenerator:
                 self.file.write("%{summary}\n")
                 self.file.write("\n")
 
-	def generateDevelHeader(self, project):
+	def generateDevelHeader(self, project, prefix):
                 self.file.write("%package devel\n")
                 self.file.write("Summary:       %{summary}\n")
                 self.file.write("\n")
@@ -90,14 +90,14 @@ class SpecGenerator:
 		imported_packages = project.getImportedPackages()
 		self.file.write("BuildRequires: golang >= 1.2.1-3\n")
 		for dep in imported_packages:
-			if dep.startswith(self.url):
+			if dep.startswith(prefix):
 				continue
 
 			self.file.write("BuildRequires: golang(%s)\n" % (dep))
 
 		self.file.write("Requires:      golang >= 1.2.1-3\n")
 		for dep in imported_packages:
-			if dep.startswith(self.url):
+			if dep.startswith(prefix):
 				continue
 
 			self.file.write("Requires:      golang(%s)\n" % (dep))
@@ -194,6 +194,7 @@ class SpecGenerator:
 		commit = repo_info.getCommit()
 		url = ip_info.getPrefix()
 		archive_dir = archive_info.archive_dir
+		prefix = ip_info.getPrefix()
 
 		# generate header
 		self.file.write("%global debug_package   %{nil}\n")
@@ -208,7 +209,7 @@ class SpecGenerator:
 		self.generateHeaderPrologue()
 
 		# generate devel subpackage
-		self.generateDevelHeader(prj_info)
+		self.generateDevelHeader(prj_info, prefix)
 		self.file.write("\n")
 
 		# generate prep section
