@@ -599,7 +599,7 @@ func main() {
 	f, err := parser.ParseFile(fset, gofile, nil, 0)
 	if err != nil {
 		fmt.Println(err)
-		return
+		os.Exit(1)
 	}
 
 	symbols := new(Symbols)
