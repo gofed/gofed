@@ -5,6 +5,7 @@ from modules.Packages import packageInPkgdb
 from modules.ImportPaths import decomposeImports
 from modules.Repos import repo2pkgName
 
+from modules.ImportPath import ImportPath
 from modules.PackageInfo import PackageInfo
 from modules.SpecGenerator import SpecGenerator
 
@@ -296,7 +297,12 @@ if __name__ == "__main__":
 		if element.startswith(url):
 			continue
 
-		pkg_name = repo2pkgName(element)
+		ip_obj = ImportPath(element)
+		if not ip_obj.parse():
+			fmt_obj.printWarning("Unable to translate %s to package name" % element)
+			continue
+
+		pkg_name = ip_obj.getPackageName()
 		pkg_in_pkgdb = False
 
 		if pkg_name != "":
