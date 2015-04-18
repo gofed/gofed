@@ -30,6 +30,8 @@ from modules.ImportPaths import decomposeImports
 from modules.Packages import packageInPkgdb
 from modules.Repos import repo2pkgName
 from modules.GoSymbols import getSymbolsForImportPaths
+from modules.Utils import FormatedPrint
+from modules.ImportPath import ImportPath
 
 if __name__ == "__main__":
 	parser = optparse.OptionParser("%prog [-a] [-c] [-d [-v]] [directory]")
@@ -67,6 +69,11 @@ if __name__ == "__main__":
         )
 
 	parser.add_option(
+            "", "", "--skip-errors", dest="skiperrors", action = "store_true", default = False,
+            help = "Skip all errors during Go symbol parsing"
+        )
+
+	parser.add_option(
             "", "", "--importpath", dest="importpath", default = "",
             help = "Don't display class belonging to IMPORTPATH prefix"
         )
@@ -77,7 +84,9 @@ if __name__ == "__main__":
 	if len(args):
 		path = args[0]
 
-	err, _, _, ip_used = getSymbolsForImportPaths(path, imports_only=True)
+	fmt_obj = FormatedPrint()
+
+	err, _, _, ip_used, _ = getSymbolsForImportPaths(path, imports_only=True, skip_errors=options.skiperrors)
 	if err != "":
 		print err
 		exit(1)
@@ -92,7 +101,12 @@ if __name__ == "__main__":
 		if options.importpath != "" and element.startswith(options.importpath):
 			continue
 
-		pkg_name = repo2pkgName(element)
+		ip_obj = ImportPath(element)
+		if not ip_obj.parse():
+			fmt_obj.printWarning("Unable to translate %s to package name" % element)
+			continue
+
+		pkg_name = ip_obj.getPackageName()
 		pkg_in_pkgdb = False
 
 		skip = False
