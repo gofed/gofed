@@ -48,6 +48,7 @@ WIZARD=25
 APIDIFF=26
 TOOLS=27
 VERSION=28
+REPO2SPEC=29
 
 operation=-1
 script_dir=$(dirname $(readlink -f $0))
@@ -73,6 +74,7 @@ function printHelp {
 	echo "	pull		 pull from branches"
 	echo "	push		 pull from branches"
 	echo "	review		 creates review for Bugzilla"
+	echo "  repo2spec	 generate spec file from repository import path"
 	echo "	scandeps	 scan all golang packages for dependencies (e.g. cyclic)"
 	echo "	scan-imports	 scan devel builds for possible import paths and imported paths"
 	echo "	scansymbols	 scan directory for go symbols"
@@ -136,6 +138,8 @@ elif [ "$1" == "tools" ]; then
         operation=$TOOLS
 elif [ "$1" == "version" ]; then
         operation=$VERSION
+elif [ "$1" == "repo2spec" ]; then
+        operation=$REPO2SPEC
 fi
 
 ################################
@@ -199,5 +203,7 @@ elif [ $operation -eq $TOOLS ]; then
         python $script_dir/tools.py $@
 elif [ $operation -eq $VERSION ]; then
         python $script_dir/version.py $@
+elif [ $operation -eq $REPO2SPEC ]; then
+        python $script_dir/repo2gospec.py $@
 fi
 
