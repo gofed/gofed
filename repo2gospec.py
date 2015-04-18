@@ -1,12 +1,13 @@
 import optparse
-from modules.Utils import ENDC, YELLOW, RED, GREEN, BLUE
-from modules.Utils import runCommand
-from modules.Repos import github2pkgdb, googlecode2pkgdb, bitbucket2pkgdb
+from modules.Utils import ENDC, RED, GREEN
+from modules.Utils import runCommand, FormatedPrint
 from modules.Packages import packageInPkgdb
 from modules.ImportPaths import decomposeImports
-from modules.Repos import repo2pkgName, getGithubLatestCommit, getBitbucketLatestCommit
+from modules.Repos import repo2pkgName
 
-from modules.specParser import SpecGenerator, PROVIDER_GITHUB, PROVIDER_GOOGLECODE, PROVIDER_BITBUCKET
+from modules.PackageInfo import PackageInfo
+from modules.SpecGenerator import SpecGenerator
+
 import os
 import sys
 import errno
@@ -16,7 +17,7 @@ import errno
 def setOptions():
 	parser = optparse.OptionParser("%prog [-e] [-d] file [file [file ...]]")
 
-	sln = not (os.path.basename(sys.argv[0]) == "repo2spec.py")
+	sln = not (os.path.basename(sys.argv[0]) == "repo2gospec.py")
 	github = os.path.basename(sys.argv[0]) == "github2gospec"
 	googlecode = os.path.basename(sys.argv[0]) == "googlecode2gospec"
 	bitbucket = os.path.basename(sys.argv[0]) == "bitbucket2gospec"
@@ -36,6 +37,16 @@ def setOptions():
 	parser.add_option(
 	    "", "", "--bitbucket", dest="bitbucket", action="store_true", default = False,
 	    help = SH if sln else "bitbucket.org repository"
+	)
+
+	parser.add_option(
+	    "", "", "--detect", dest="detect", default = "",
+	    help = SH if sln else "Detect repository from import path"
+	)
+
+	parser.add_option(
+	    "", "", "--skip-errors", dest="skiperrors", action="store_true", default = False,
+	    help = SH if sln else "Skip errors during Go symbol parsing"
 	)
 
 	if github:
@@ -91,6 +102,9 @@ def setOptions():
 def checkOptions(options):
 	fail = False
 
+	if options.detect != "":
+		return False
+
 	if not options.github and not options.googlecode and not options.bitbucket:
 		print "No provider specified"
 		fail = True
@@ -113,10 +127,11 @@ def checkOptions(options):
 
 	return fail
 
-def printBasicInfo(url, commit, name):
-	print "%sRepo URL: %s%s" % (YELLOW, url, ENDC)
-	print "%sCommit: %s%s" % (YELLOW, commit, ENDC)
-	print "%sName: %s%s" % (YELLOW, name, ENDC)
+def printBasicInfo(url, commit, name, formated=True):
+	fmt_obj = FormatedPrint(formated)
+	fmt_obj.printInfo("Repo URL: %s" % url)
+	fmt_obj.printInfo("Commit: %s" % commit)
+	fmt_obj.printInfo("Name: %s" % name)
 
 # http://stackoverflow.com/questions/273192/in-python-check-if-a-directory-exists-and-create-it-if-necessary
 def make_sure_path_exists(path):
@@ -142,7 +157,6 @@ def downloadTarball(archive_url):
 		print "%sUnable to download tarball:\n%s%s" % (RED, se, ENDC)
 		exit(1)
 
-
 if __name__ == "__main__":
 
 	options, args = setOptions()
@@ -150,130 +164,131 @@ if __name__ == "__main__":
 	if checkOptions(options):
 		exit(1)
 
+	fmt_obj = FormatedPrint(options.format)
+
 	if not options.format:
 		ENDC = ""
-		YELLOW = ""
 		RED = ""
-		BLUE = ""
 		GREEN = ""
 
-	# collect spec file information
-	project = options.project
-	repo = options.repo
-
-	if options.github:
-		provider = PROVIDER_GITHUB
-		url = "github.com/%s/%s" % (project, repo)
-		name = github2pkgdb(url)
-		if options.commit == "":
-			print "%sGetting the latest commit from %s%s" % (BLUE, url, ENDC)
-			commit = getGithubLatestCommit(project, repo)
-			if commit == "":
-				print "%sUnable to get the latest commit%s" % (RED, ENDC)
-				exit(1)
-			print ""
-		else:
-			commit = options.commit
-		shortcommit = commit[:7]
-		archive = "%s-%s.tar.gz" % (repo, shortcommit)
-		archive_dir = "%s-%s" % (repo, commit)
-		archive_url = "https://github.com/%s/%s/archive/%s/%s" % (project, repo, commit, archive)
-	elif options.googlecode:
-		provider = PROVIDER_GOOGLECODE
-		url = "coge.google.com/p/%s" % repo
-		name = googlecode2pkgdb(url)
-		commit = options.revision
-		shortcommit = commit[:12]
-		archive = "%s.tar.gz" % (commit)
-		archive_dir = "%s-%s" % (repo, commit)
-		archive_url = "https://github.com/%s/%s/archive/%s/%s" % (project, repo, commit, archive)
-		parts = repo.split(".")
-		lp = len(parts)
-		if lp > 2:
-			print "Repository name contains more than 1 dot"
+	if options.detect == "":
+		# collect spec file information
+		project = options.project
+		repo = options.repo
+		if project == "":
+			fmt_obj.printError("Project missing")
 			exit(1)
 
-		if lp == 2:
-			rrepo = "%s.%s" % (parts[1], parts[0])
-		else:
-			rrepo = repo
+		if repo == "":
+			fmt_obj.printError("Repository missing")
+			exit(1)
 
-		archive_url = "https://%s.googlecode.com/archive/%s" % (rrepo, archive)
-	else:
-		provider = PROVIDER_BITBUCKET
-		url = "bitbucket.org/%s/%s" % (project, repo)
-		name = bitbucket2pkgdb(url)
-		if options.commit == "":
-			print "%sGetting the latest commit from %s%s" % (BLUE, url, ENDC)
-			commit = getBitbucketLatestCommit(project, repo)
-			if commit == "":
-				print "%sUnable to get the latest commit%s" % (RED, ENDC)
-				exit(1)
-			print ""
-		else:
+		if options.github:
+			import_path = "github.com/%s/%s" % (project, repo)
 			commit = options.commit
-		shortcommit = commit[:12]
-		archive = "%s.tar.gz" % (shortcommit)
-		archive_dir = "%s-%s-%s" % (project, repo, shortcommit)
-		archive_url = "https://bitbucket.org/%s/%s/get/%s" % (project, repo, archive)
+		elif options.googlecode:
+			import_path = "code.google.com/p/%s" % repo
+			commit = options.rev
+		elif options.bitbucket:
+			import_path = "bitbucket.org/%s/%s" % (project, repo)
+			commit = options.commit
+		else:
+			fmt_obj.printError("Provider not supported")
+			exit(1)
+
+	else:
+		import_path = options.detect
+		commit = options.commit
+
+	# 1. decode some package info (name, archive url, ...)
+	# 2. set path to downloaded tarball
+	# 3. retrieve project info from tarball
+	# 4. generate spec file
+	
+	pkg_obj = PackageInfo(import_path, commit)
+	if not pkg_obj.decodeRepository():
+		fmt_obj.printError(pkg_obj.getError())
+		exit(1)
+
+	name = pkg_obj.getName()
 	if name == "":
-		print "Unable to generate package name for %s" % url
+		fmt_obj.printError("Unable to generate package name for %s" % url)
 		exit(1)
 
 	specfile = "%s.spec" % name
 	total = 4
 
 	# print basic information
-	printBasicInfo(url, commit, name)
+	repository_info = pkg_obj.getRepositoryInfo()
+	if repository_info == None:
+		fmt_obj.printError("RepositoryInfo not set")
+		exit(1)
+
+	url = repository_info.getImportPathInfo().getPrefix()
+	commit = repository_info.getCommit()
+	printBasicInfo(url, commit, name, options.format)
 	print ""
 
 	# is the package already in Fedora
-	print "%s(1/%s) Checking if the package already exists in PkgDB%s" \
-		% (YELLOW, total, ENDC)
-	isPkgInPkgDB(name, options.force)
+	fmt_obj.printProgress("(1/%s) Checking if the package already exists in PkgDB" % total)
+	#isPkgInPkgDB(name, options.force)
 
 	# creating basic folder structure
 	createBasicDirectories(name)
 
 	# download tarball
-	print "%s(2/%s) Downloading tarball%s" % (YELLOW, total, ENDC)
-	downloadTarball(archive_url)
-	so, se, rc = runCommand("tar -xf %s" % archive)
-	if rc != 0:
-		print "Unable to extract %s" % archive
-		exit(1)
+	fmt_obj.printProgress("(2/%s) Downloading tarball" % total)
+	#downloadTarball(archive_url)
+	#so, se, rc = runCommand("tar -xf %s" % archive)
+	#if rc != 0:
+	#	fmt_obj.printErr("Unable to extract %s" % archive)
+	#	exit(1)
 
 	# generate spec file
-	print "%s(3/%s) Generating spec file%s" % (YELLOW, total, ENDC)
-	spec = SpecGenerator(provider, project, repo, commit, archive_dir)
-	spec.initGenerator()
+	fmt_obj.printProgress("(3/%s) Generating spec file" % total)
+
+	if not pkg_obj.decodeProject(os.getcwd()):
+		fmt_obj.printError(pkg_obj.getError())
+		exit(1)
+
+	spec = SpecGenerator(import_path, commit, skiperrors = options.skiperrors)
+	spec.setPackageInfo(pkg_obj)
 
 	try:
 		file = open("%s" % specfile, "w")
 		spec.setOutputFile(file)
-		err = spec.write()
-		if err != "":
-			print "Unable to generate spec file: %s" % err
+		if not spec.generate():
+			fmt_obj.printErr("Unable to generate spec file: %s" % spec.getError())
 			exit(1)
 	except IOError:
-		print "Error: can\'t open %s file" % specfile
+		fmt_obj.printErr("Error: can\'t open %s file" % specfile)
+		exit(1)
 
 	file.close()
 
 	so, se, rc = runCommand("rpmdev-bumpspec %s -c \"First package for Fedora\"" % specfile)
 	if rc != 0:
-		print "Unable to bump spec file: %s" % se
+		fmt_obj.printErr("Unable to bump spec file: %s" % se)
 		exit(1)
 
-	print "%s(4/%s) Discovering golang dependencies%s" % (YELLOW, total, ENDC)
+	fmt_obj.printProgress("(4/%s) Discovering golang dependencies" % total)
 
-	ip_used = spec.getImportedPaths()
+	prj_info = pkg_obj.getProjectInfo()
+	if prj_info == None:
+		fmt_obj.printErr("Unable to bump spec file: %s" % se)
+		exit(1)
+
+	ip_used = prj_info.getImportedPackages()
 
 	classes = decomposeImports(ip_used)
 	sorted_classes = sorted(classes.keys())
 
 	for element in sorted_classes:
 		if element == "Native":
+			continue
+
+		if element == "Unknown":
+			fmt_obj.printWarning("Some import paths were not detected. Please run gofed ggi -c on extracted tarball manually")
 			continue
 
 		if element.startswith(url):
@@ -291,6 +306,4 @@ if __name__ == "__main__":
 
 
 	print ""
-	print "%sSpec file %s at %s%s" % (YELLOW, specfile, os.getcwd(), ENDC)
-
-
+	fmt_obj.printInfo("Spec file %s at %s" % (specfile, os.getcwd()))
