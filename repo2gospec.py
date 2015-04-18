@@ -226,23 +226,25 @@ if __name__ == "__main__":
 
 	url = repository_info.getImportPathInfo().getPrefix()
 	commit = repository_info.getCommit()
+	archive_url = repository_info.getArchiveInfo().archive_url
+	archive = repository_info.getArchiveInfo().archive
 	printBasicInfo(url, commit, name, options.format)
 	print ""
 
 	# is the package already in Fedora
 	fmt_obj.printProgress("(1/%s) Checking if the package already exists in PkgDB" % total)
-	#isPkgInPkgDB(name, options.force)
+	isPkgInPkgDB(name, options.force)
 
 	# creating basic folder structure
 	createBasicDirectories(name)
 
 	# download tarball
 	fmt_obj.printProgress("(2/%s) Downloading tarball" % total)
-	#downloadTarball(archive_url)
-	#so, se, rc = runCommand("tar -xf %s" % archive)
-	#if rc != 0:
-	#	fmt_obj.printErr("Unable to extract %s" % archive)
-	#	exit(1)
+	downloadTarball(archive_url)
+	so, se, rc = runCommand("tar -xf %s" % archive)
+	if rc != 0:
+		fmt_obj.printErr("Unable to extract %s" % archive)
+		exit(1)
 
 	# generate spec file
 	fmt_obj.printProgress("(3/%s) Generating spec file" % total)
