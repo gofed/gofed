@@ -1,4 +1,5 @@
 import re
+from Utils import getScriptDir
 
 UNKNOWN = 0
 GITHUB = 1
@@ -7,6 +8,9 @@ GOOGLEGOLANGORG = 3
 GOLANGORG = 4
 GOPKG = 5
 BITBUCKET = 6
+
+script_dir = getScriptDir() + "/.."
+GOLANG_MAPPING="data/golang.mapping"
 
 class ImportPath(object):
 	"""
@@ -144,6 +148,11 @@ class ImportPath(object):
 		return repo
 
 	def getPackageName(self):
+		mappings = self.getMappings()
+
+		if self.prefix in mappings:
+			return mappings[self.prefix]
+
 		if self.provider == GITHUB:
 			return self.github2pkgdb(self.project, self.repository)
 		if self.provider == BITBUCKET:
@@ -185,4 +194,18 @@ class ImportPath(object):
 	def golangorg2pkgdb(self, repository):
 		# golang.org/x/<repo>
 		return "golang-golangorg-%s" % repository
+
+	def getMappings(self):
+		with open('%s/%s' % (script_dir, GOLANG_MAPPING), 'r') as file:
+			maps = {}
+	                content = file.read()
+			for line in content.split('\n'):
+				if line == "" or line[0] == '#':
+					continue
+				line = re.sub(r'[\t ]+', ' ', line).split(' ')
+				if len(line) != 2:
+					continue
+				maps[line[0]] = line[1]
+
+			return maps
 
