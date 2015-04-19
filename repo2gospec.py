@@ -2,12 +2,11 @@ import optparse
 from modules.Utils import ENDC, RED, GREEN
 from modules.Utils import runCommand, FormatedPrint
 from modules.Packages import packageInPkgdb
-from modules.ImportPaths import decomposeImports
-from modules.Repos import repo2pkgName
 
 from modules.ImportPath import ImportPath
 from modules.PackageInfo import PackageInfo
 from modules.SpecGenerator import SpecGenerator
+from modules.ImportPathsDecomposer import ImportPathsDecomposer
 
 import os
 import sys
@@ -283,7 +282,13 @@ if __name__ == "__main__":
 
 	ip_used = prj_info.getImportedPackages()
 
-	classes = decomposeImports(ip_used)
+	ipd = ImportPathsDecomposer(ip_used)
+	ipd.decompose()
+	warn = ipd.getWarning()
+	if warn != "":
+		sys.stderr.write("Warning: %s\n")
+
+	classes = ipd.getClasses()
 	sorted_classes = sorted(classes.keys())
 
 	for element in sorted_classes:

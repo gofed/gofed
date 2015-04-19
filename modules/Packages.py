@@ -3,7 +3,6 @@ import re
 import os
 import tempfile
 import shutil
-from Repos import detectRepoPrefix
 from ImportPaths import loadImportPathDb
 import operator
 from GoSymbols import ProjectToXml

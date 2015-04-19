@@ -62,6 +62,12 @@ class ImportPath(object):
 			info = self.parseGooglecodeImportPath(url)
 		elif repo == BITBUCKET:
 			info = self.parseBitbucketImportPath(url)
+		elif repo == GOPKG:
+			info = self.parseGopkgImportPath(url)
+		elif repo == GOOGLEGOLANGORG:
+			info = self.parseGooglegolangImportPath(url)
+		elif repo == GOLANGORG:
+			info = self.parseGolangorgImportPath(url)
 		else:
 			self.err = "Import path %s not supported" % url
 			return False
@@ -90,6 +96,8 @@ class ImportPath(object):
 			return GOPKG
 		if url.startswith('bitbucket.org'):
 			return BITBUCKET
+		if url.startswith('google.golang.org'):
+			return GOOGLEGOLANGORG
 
 		return UNKNOWN
 
@@ -147,6 +155,75 @@ class ImportPath(object):
 
 		return repo
 
+	def parseGopkgImportPath(self, path):
+		"""
+		Definition: gopkg.in/<v>/<repo> || gopkg.in/<repo>.<v>
+		"""		
+		parts = path.split('/')
+		if re.match('v[0-9]+', parts[1]):
+			if len(parts) < 3:
+				self.err = "Import path %s is not in gopkg.in/<v>/<repo> form" % path
+				return {}
+
+			repository = parts[2]
+			prefix = "/".join(parts[:3])
+		else:
+			if len(parts) < 2:
+				self.err = "Import path %s is not in gopkg.in/<repo>.<v> form" % path
+				return {}
+
+			prefix = "/".join(parts[:2])
+			parts = parts[1].split(".")
+			if len(parts) != 2:
+				self.err = "Import path %s is not in gopkg.in/<repo>.<v> form" % path
+				return {}
+
+			repository = parts[0]
+
+		repo = {}
+		repo["provider"] = GOPKG
+		repo["project"] = ""
+		repo["repo"] = repository
+		repo["prefix"] = prefix
+
+		return repo
+
+	def parseGooglegolangImportPath(self, path):
+		"""
+		Definition:  google.golang.org/<repo>
+		"""
+		parts = path.split("/")
+
+		if len(parts) < 2:
+			self.err = "Import path %s is not in google.golang.org/<repo> form" % path
+			return {}
+
+		repo = {}
+		repo["provider"] = GOOGLEGOLANGORG
+		repo["project"] = ""
+		repo["repo"] = parts[1]
+		repo["prefix"] = "/".join(parts[:2])
+
+		return repo
+
+	def parseGolangorgImportPath(self, path):
+		"""
+		Definition:  golang.org/x/<repo>
+		"""
+		parts = path.split("/")
+
+		if len(parts) < 3:
+			self.err = "Import path %s is not in golang.org/x/<repo> form" % path
+			return {}
+
+		repo = {}
+		repo["provider"] = GOLANGORG
+		repo["project"] = ""
+		repo["repo"] = parts[2]
+		repo["prefix"] = "/".join(parts[:3])
+
+		return repo
+
 	def getPackageName(self):
 		mappings = self.getMappings()
 
@@ -163,6 +240,8 @@ class ImportPath(object):
 			return self.googlegolangorg2pkgdb(self.repository) 
 		if self.provider == GOLANGORG:
 			return self.golangorg2pkgdb(self.repository)
+		if self.provider == GOPKG:
+			return self.gopkg2pkgdb(self.repository)
 
 		self.err = "Provider not supported"
 		return ""
@@ -194,6 +273,11 @@ class ImportPath(object):
 	def golangorg2pkgdb(self, repository):
 		# golang.org/x/<repo>
 		return "golang-golangorg-%s" % repository
+
+	def gopkg2pkgdb(self, repository):
+		# only gopkg.in/<v>/<repo>
+		# or   gopkg.in/<repo>.<v>
+		return "golang-gopkg-%s" % repository
 
 	def getMappings(self):
 		with open('%s/%s' % (script_dir, GOLANG_MAPPING), 'r') as file:

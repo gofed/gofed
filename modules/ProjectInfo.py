@@ -1,5 +1,5 @@
 from modules.GoSymbols import getSymbolsForImportPaths
-from modules.ImportPaths import decomposeImports
+from modules.ImportPathsDecomposer import ImportPathsDecomposer
 from glob import glob
 from os import path
 
@@ -56,7 +56,14 @@ class ProjectInfo:
 		ips_provided = []
 
 		# imported paths
-		classes = decomposeImports(ip_used)
+		ipd = ImportPathsDecomposer(ip_used)
+		ipd.decompose()
+		warn = ipd.getWarning()
+		# or maybe error instead warning?
+		if warn != "":
+			sys.stderr.write("Warning: %s\n")
+
+		classes = ipd.getClasses()
 	        sorted_classes = sorted(classes.keys())
 
 		for ip_class in sorted_classes:

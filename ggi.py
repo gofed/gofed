@@ -25,13 +25,11 @@ import optparse
 from subprocess import Popen, PIPE
 from modules.Utils import GREEN, RED, ENDC
 from modules.ImportPaths import getNativeImports
-from modules.Repos import getMappings
-from modules.ImportPaths import decomposeImports
 from modules.Packages import packageInPkgdb
-from modules.Repos import repo2pkgName
 from modules.GoSymbols import getSymbolsForImportPaths
 from modules.Utils import FormatedPrint
 from modules.ImportPath import ImportPath
+from modules.ImportPathsDecomposer import ImportPathsDecomposer
 
 if __name__ == "__main__":
 	parser = optparse.OptionParser("%prog [-a] [-c] [-d [-v]] [directory]")
@@ -90,8 +88,14 @@ if __name__ == "__main__":
 	if err != "":
 		print err
 		exit(1)
-	
-	classes = decomposeImports(ip_used)
+
+	ipd = ImportPathsDecomposer(ip_used)
+	ipd.decompose()
+	warn = ipd.getWarning()
+	if warn != "":
+		sys.stderr.write("Warning: %s\n")
+
+	classes = ipd.getClasses()
 	sorted_classes = sorted(classes.keys())
 
 	for element in sorted_classes:
@@ -101,35 +105,47 @@ if __name__ == "__main__":
 		if options.importpath != "" and element.startswith(options.importpath):
 			continue
 
-		ip_obj = ImportPath(element)
-		if not ip_obj.parse():
-			fmt_obj.printWarning("Unable to translate %s to package name" % element)
-			continue
-
-		pkg_name = ip_obj.getPackageName()
-		pkg_in_pkgdb = False
-
-		skip = False
 		if options.classes:
-			if options.pkgdb and pkg_name != "":
+			# Native class is just printed
+			if options.all and element == "Native":
+				# does not make sense to check Native class in PkgDB
+				if options.pkgdb:
+					continue
+				print "Class: %s" % element
+				if not options.short:
+					for gimport in classes[element]:
+						print "\t%s" % gimport
+				continue
+
+			# Translate non-native class into package name (if -d option)
+			if options.pkgdb:
+				ip_obj = ImportPath(element)
+				if not ip_obj.parse():
+					fmt_obj.printWarning("Unable to translate %s to package name" % element)
+					continue
+
+				pkg_name = ip_obj.getPackageName()
 				pkg_in_pkgdb = packageInPkgdb(pkg_name)
 				if pkg_in_pkgdb:
 					if options.verbose:
 						print (GREEN + "Class: %s (%s) PkgDB=%s" + ENDC) % (element, pkg_name, pkg_in_pkgdb)
-					skip = True
 				else:
 					print (RED + "Class: %s (%s) PkgDB=%s" + ENDC ) % (element, pkg_name, pkg_in_pkgdb)
-			else:
-				print "Class: %s" % element
+				continue
 
-		if not options.classes or not options.short:
-			if options.spec:
+			# Print class
+			print "Class: %s" % element
+			if not options.short:
 				for gimport in classes[element]:
-					print "BuildRequires:\tgolang(%s)" % gimport
-			else:
-				if skip == False:
-					for gimport in classes[element]:
-						print "\t%s" % gimport
-					if options.classes:
-						print ""
+					print "\t%s" % gimport
+			continue
 
+		# Spec file BR
+		if options.spec:
+			for gimport in classes[element]:
+				print "BuildRequires:\tgolang(%s)" % gimport
+			continue
+
+		# Just a list of all import paths
+		for gimport in classes[element]:
+			print "\t%s" % gimport

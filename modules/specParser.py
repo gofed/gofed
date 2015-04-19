@@ -39,6 +39,7 @@ import Utils
 import Repos
 
 from Utils import getScriptDir, runCommand
+from ImportPath import ImportPath
 
 RPM_SCRIPTLETS = ('pre', 'post', 'preun', 'postun', 'pretrans', 'posttrans',
                   'trigger', 'triggerin', 'triggerprein', 'triggerun',
@@ -393,7 +394,14 @@ class SpecTest:
 		self.name = self.spec_info.getTag("name")
 		self.import_path = self.spec_info.getMacro("import_path")
 
-		self.repo, self.url = Repos.detectKnownRepos(url)
+		ip_obj = ImportPath(url)
+		if not ip_obj.parse():
+			self.url = ""
+			self.repo = UNKNOWN
+		else:
+			self.repo = ip_obj.getProvider()
+			self.url = ip_obj.getPrefix()
+
 		self.import_paths = {}
 
 		if self.import_path != "":
@@ -411,16 +419,13 @@ class SpecTest:
 		return 0
 
 	def testPackageName(self, verbose = False):
-		pkg_name = ''
-		if self.repo == Repos.GITHUB:
-			pkg_name = Repos.github2pkgdb(self.url)
-		elif self.repo == Repos.GOOGLECODE:
-			pkg_name = Repos.googlecode2pkgdb(self.url)
-		elif self.repo == Repos.GOLANGORG:
-			pkg_name = Repos.golangorg2pkgdb(self.url)
-	#	elif self.repo == Repos.GOPKG:
-	#		pkg_name = Repos.gopkg2pkgdb(url)
-
+		ip_obj = ImportPath(self.url)
+		if not ip_obj.parse():
+			if verbose:
+				print ip_obj.getError()
+			return 0
+		
+		pkg_name = ip_obj.getPackageName()
 		if pkg_name == '':
 			if verbose:
 				print 'Uknown repo url'

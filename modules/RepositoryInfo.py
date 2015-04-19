@@ -1,5 +1,5 @@
 from ImportPath import ImportPath
-from ImportPath import UNKNOWN, GITHUB, GOOGLECODE, GOLANGORG, GOPKG, BITBUCKET
+from ImportPath import UNKNOWN, GITHUB, GOOGLECODE, GOLANGORG, GOPKG, BITBUCKET, GOOGLEGOLANGORG
 import urllib
 import json
 
