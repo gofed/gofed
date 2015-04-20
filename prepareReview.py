@@ -19,6 +19,11 @@ if __name__ == "__main__":
 	    help = "don't run koji build"
         )
 
+	parser.add_option(
+	    "", "", "--skip-rpmlint-errors", dest="skiprpmlint", action = "store_true", default = False,
+	    help = "skip rpmlint errors if any"
+        )
+
 	options, args = parser.parse_args()
 
 	if len(args) != 1:
@@ -100,12 +105,14 @@ if __name__ == "__main__":
 	# rpmlint
 	print "Running rpmlint %s" % " ".join(builds)
 	so, se, rc = runCommand("rpmlint %s" % " ".join(builds))
-	if rc != 0:
-		print "Unable to run rpmlint: %s" % se
-		exit(1)
 
 	rpmlint = so
 	print so
+
+	if rc != 0 and not options.skiprpmlint:
+		print "Unable to run rpmlint: %s" % se
+		exit(1)
+
 
 	# build in koji
 	if not options.skipkoji:
@@ -125,9 +132,10 @@ if __name__ == "__main__":
 
 		print "  Watching rawhide build, http://koji.fedoraproject.org/koji/taskinfo?taskID=%s" % task_id
 
-		_, se, rc = runCommand("koji watch-task %s --quiet" % task_id)
+		print "koji watch-task %s --quiet" % task_id
+		_, _, rc = runCommand("koji watch-task %s --quiet" % task_id)
 		if rc != 0:
-			print "Unable to wait for the task: %s" % se
+			print "Koji watch task failed"
 			exit(1)
 
 		so, se, rc = runCommand("koji taskinfo %s" % task_id)
@@ -166,19 +174,19 @@ if __name__ == "__main__":
 	rc = 0
 	print "Uploading srpm and spec file to @fedorapeople.org"
 	print '%s@fedorapeople.org "mkdir -p public_html/reviews/%s"' % (user, name)
-	#so, se, rc = runCommand('ssh %s@fedorapeople.org "mkdir -p public_html/reviews/%s"' % (user, name))
+	so, se, rc = runCommand('ssh %s@fedorapeople.org "mkdir -p public_html/reviews/%s"' % (user, name))
 	if rc != 0:
 		print "Unable to create public_html/reviews/%s dir: %s" % (name, se)
 		exit(1)
 
 	print "scp %s %s@fedorapeople.org:public_html/reviews/%s/." % (srpm, user, name)
-	#so, se, rc = runCommand("scp %s %s@fedorapeople.org:public_html/reviews/%s/." % (srpm, user, name))
+	so, se, rc = runCommand("scp %s %s@fedorapeople.org:public_html/reviews/%s/." % (srpm, user, name))
 	if rc != 0:
 		print "Unable to copy srpm to fedorapeople.org: %s" % se
 		exit(1)
 
 	print "scp %s %s@fedorapeople.org:public_html/reviews/%s/." % (specfile, user, name)
-	#so, se, rc = runCommand("scp %s %s@fedorapeople.org:public_html/reviews/%s/." % (specfile, user, name))
+	so, se, rc = runCommand("scp %s %s@fedorapeople.org:public_html/reviews/%s/." % (specfile, user, name))
 	if rc != 0:
 		print "Unable to copy spec file to fedorapeople: %s" % se
 		exit(1)
@@ -189,7 +197,7 @@ if __name__ == "__main__":
 	# generate summary and header information
 	print "Generating Review Request"
 	print "###############################################################"
-	print "Review Request: %s- %s" % (name, summary)
+	print "Review Request: %s - %s" % (name, summary)
 	print "###############################################################"
 	print "Spec URL: https://%s.fedorapeople.org/reviews/%s/%s" % (user, name, os.path.basename(specfile))
 	print ""
