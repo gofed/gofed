@@ -20,7 +20,7 @@
 import os
 import optparse
 from modules.GoSymbols import getGoDirs
-from modules.GoSymbols import getSymbolsForImportPaths
+from modules.GoSymbolsExtractor import GoSymbolsExtractor
 
 def getSubdirs(directory):
 	return [name for name in os.listdir(directory)
@@ -64,10 +64,12 @@ if __name__ == "__main__":
 		path = args[0]
 
 	if options.provides:
-		err, ip, _, _, _ = getSymbolsForImportPaths(path)
-		if err != "":
-			print err
+		gse_obj = GoSymbolsExtractor(path)
+		if not gse_obj.extract():
+			print gse_obj.getError()
 			exit(1)
+
+		ip = gse_obj.getSymbolsPosition()
 
 		ips = []
 		for pkg in ip:

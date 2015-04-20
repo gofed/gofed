@@ -26,10 +26,10 @@ from subprocess import Popen, PIPE
 from modules.Utils import GREEN, RED, ENDC
 from modules.ImportPaths import getNativeImports
 from modules.Packages import packageInPkgdb
-from modules.GoSymbols import getSymbolsForImportPaths
 from modules.Utils import FormatedPrint
 from modules.ImportPath import ImportPath
 from modules.ImportPathsDecomposer import ImportPathsDecomposer
+from modules.GoSymbolsExtractor import GoSymbolsExtractor
 
 if __name__ == "__main__":
 	parser = optparse.OptionParser("%prog [-a] [-c] [-d [-v]] [directory]")
@@ -84,11 +84,12 @@ if __name__ == "__main__":
 
 	fmt_obj = FormatedPrint()
 
-	err, _, _, ip_used, _ = getSymbolsForImportPaths(path, imports_only=True, skip_errors=options.skiperrors)
-	if err != "":
-		print err
+	gse_obj = GoSymbolsExtractor(path, imports_only=True, skip_errors=options.skiperrors)
+	if not gse_obj.extract():
+		fmt_obj.printError(gse_obj.getError())
 		exit(1)
 
+	ip_used = gse_obj.getImportedPackages()
 	ipd = ImportPathsDecomposer(ip_used)
 	ipd.decompose()
 	warn = ipd.getWarning()

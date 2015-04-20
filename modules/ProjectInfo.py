@@ -1,4 +1,4 @@
-from modules.GoSymbols import getSymbolsForImportPaths
+from modules.GoSymbolsExtractor import GoSymbolsExtractor
 from modules.ImportPathsDecomposer import ImportPathsDecomposer
 from glob import glob
 from os import path
@@ -47,10 +47,14 @@ class ProjectInfo:
 			self.err = "Directory %s does not exist" % directory
 			return False
 
-		err, packages, _, ip_used, tests = getSymbolsForImportPaths(directory, skip_errors = skip_errors)
-                if err != "":
-			self.err = err
+		gse_obj = GoSymbolsExtractor(directory, skip_errors=skip_errors)
+		if not gse_obj.extract():
+			self.err = gse_obj.getError()
 			return False
+
+		ip_used = gse_obj.getImportedPackages()
+		packages = gse_obj.getSymbolsPosition()
+		tests = gse_obj.getTestDirectories()
 
                 ips_imported = []
 		ips_provided = []

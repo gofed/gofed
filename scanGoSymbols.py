@@ -1,6 +1,7 @@
 import optparse
-from modules.GoSymbols import getSymbolsForImportPaths, PackageToXml, ProjectToXml
+from modules.GoSymbols import PackageToXml, ProjectToXml
 import json
+from modules.GoSymbolsExtractor import GoSymbolsExtractor
 
 def displaySymbols(symbols, all = False, stats = False):
 	# types, funcs, vars
@@ -115,13 +116,13 @@ if __name__ == "__main__":
 	#print obj.getError()
 	#exit(0)
 
-	ip_used = []
-	if options.provides:
-		err, ip, _, _ = getSymbolsForImportPaths(go_dir)
-		if err != "":
-			print err
-			exit(1)
+	gse_obj = GoSymbolsExtractor(go_dir)
+	if not gse_obj.extract():
+		print gse_obj.getError()
+		exit(1)
 
+	if options.provides:
+		ip = gse_obj.getSymbolsPosition()
 		ips = []
 		for pkg in ip:
 			ips.append(ip[pkg])
@@ -133,10 +134,10 @@ if __name__ == "__main__":
 				print "%s%s" % (prefix, ip)
 
 	elif options.list:
-		err, ip, symbols, ip_used = getSymbolsForImportPaths(go_dir)
-		if err != "":
-			print err
-			exit(1)
+		ip = gse_obj.getSymbolsPosition()
+		symbols = gse_obj.getSymbols()
+		ip_used = gse_obj.getImportedPackages()
+
 		for pkg in ip:
 			print "Import path: %s%s" % (prefix, ip[pkg])
 			#print json.dumps(symbols[pkg])
@@ -151,15 +152,8 @@ if __name__ == "__main__":
 				displaySymbols(symbols[pkg], options.all, options.stats)
 
 	elif options.usedip:
-		if ip_used != []:
-			print ""
-			print "Used import paths:"
-		else:
-			err, _, _, ip_used = getSymbolsForImportPaths(go_dir, imports_only=True)
-			if err != "":
-				print err
-				exit(1)
-	
+		ip_used = gse_obj.getImportedPackages()
+
 		for uip in sorted(ip_used):
 			print uip
 

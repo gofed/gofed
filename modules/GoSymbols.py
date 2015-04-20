@@ -35,169 +35,9 @@
 
 import os
 import sys
-from Utils import runCommand, getScriptDir
 import json
 from lxml import etree
-
-def getGoDirs(directory, test = False):
-	go_dirs = []
-	for dirName, subdirList, fileList in os.walk(directory):
-		# does the dirName contains *.go files
-		nogo = True
-		for fname in fileList:
-			# find any *.go file
-			if test == False and fname.endswith(".go"):
-				nogo = False
-				break
-			elif test == True and fname.endswith("_test.go"):
-				nogo = False
-				break
-
-		if nogo:
-			continue
-
-		relative_path = os.path.relpath(dirName, directory)
-		go_dirs.append(relative_path)
-
-	return go_dirs	
-
-def getGoFiles(directory):
-	go_dirs = []
-	for dirName, subdirList, fileList in os.walk(directory):
-		# skip all directories with no file
-		if fileList == []:
-			continue
-
-		go_files = []
-		for fname in fileList:
-			# find any *.go file
-			# but skip all test files
-#			if fname.endswith("_test.go"):
-#				continue
-
-			if fname.endswith(".go"):
-				go_files.append(fname)
-
-		# skipp all directories with no *.go file
-		if go_files == []:
-			continue
-
-		relative_path = os.path.relpath(dirName, directory)
-		go_dirs.append({
-			'dir': relative_path,
-			'files': go_files,
-		})
-
-	return go_dirs
-
-def getGoSymbols(path, imports_only=False):
-	script_dir = getScriptDir() + "/.."
-	options = ""
-	if imports_only:
-		options = "-imports"
-
-	so, se, rc = runCommand("%s/parseGo %s %s" % (script_dir, options, path))
-	if rc != 0:
-		return (1, se)
-
-	return (0, so)
-
-def mergeGoSymbols(jsons = []):
-	"""
-	Exported symbols for a given package does not have any prefix.
-	So I can drop all import paths that are file specific and merge
-	all symbols.
-	Assuming all files in the given package has mutual exclusive symbols.
-	"""
-	# <siXy> imports are per file, exports are per package
-	# on the highest level we have: pkgname, types, funcs, vars, imports.
-
-	symbols = {}
-	symbols["types"] = []
-	symbols["funcs"] = []
-	symbols["vars"]  = []
-	for file_json in jsons:
-		symbols["types"] += file_json["types"]
-		symbols["funcs"] += file_json["funcs"]
-		symbols["vars"]  += file_json["vars"]
-
-	return symbols
-
-def getSymbolsForImportPaths(go_dir, imports_only=False, noGodeps=[], skip_errors=False):
-	bname = os.path.basename(go_dir)
-	go_packages = {}
-	ip_packages = {}
-	test_directories = []
-	ip_used = []
-	for dir_info in getGoFiles(go_dir):
-		#if sufix == ".":
-		#	sufix = bname
-		pkg_name = ""
-		prefix = ""
-		jsons = {}
-		if noGodeps != []:
-			skip = False
-			for nodir in noGodeps:
-				if dir_info['dir'].startswith(nodir):
-					skip = True
-					break
-			if skip:
-				continue
-
-		for go_file in dir_info['files']:
-			go_file_json = {}
-			err, output = getGoSymbols("%s/%s/%s" % 
-				(go_dir, dir_info['dir'], go_file), imports_only)
-			if err != 0:
-				if skip_errors:
-					continue
-				else:
-					return "Error parsing %s: %s" % ("%s/%s" % (dir_info['dir'], go_file), output), {}, {}, {}, {}
-			else:
-				#print go_file
-				go_file_json = json.loads(output)
-
-			for path in go_file_json["imports"]:
-				# filter out all import paths starting with ./
-				if path["path"].startswith("./"):
-					continue
-
-				if path["path"] in ip_used:
-					continue
-
-				ip_used.append(path["path"])
-
-			# don't check test files, read their import paths only
-			if go_file.endswith("_test.go"):
-				test_directories.append(dir_info['dir'])
-				continue
-
-			pname = go_file_json["pkgname"]
-			# skip all main packages
-			if pname == "main":
-				continue
-
-			if pkg_name != "" and pkg_name != pname:
-				return "Error: directory %s contains defines of more packages, i.e. %s" % (dir_info['dir'], pkg_name), {}, {}, {}, {}
-
-			pkg_name = pname
-
-			# build can contain two different prefixes
-			# but with the same package name.
-			prefix = dir_info["dir"] + ":" + pkg_name
-			if prefix not in jsons:
-				jsons[prefix] = [go_file_json]
-			else:
-				jsons[prefix].append(go_file_json)
-
-		#print dir_info["dir"]
-		#print dir_info['files']
-		#print "#%s#" % pkg_name
-		if prefix in jsons:
-			go_packages[prefix] = mergeGoSymbols(jsons[prefix])
-			ip_packages[prefix] = dir_info["dir"]
-
-	return "", ip_packages, go_packages, ip_used, test_directories
+from GoSymbolsExtractor import GoSymbolsExtractor
 
 ###############################################################################
 # XML inner data representation
@@ -579,10 +419,14 @@ class ProjectToXml:
 		url	prefix used for import paths
 		go_dir	root directory containing go source codes
 		"""
-
-		self.err, ip, symbols, ip_used = getSymbolsForImportPaths(go_dir)
-		if self.err != "":
+		gse_obj = GoSymbolsExtractor(go_dir)
+		if not gse_obj.extract():
+			self.err = gse_obj.getError()
 			return
+
+		ip = gse_obj.getSymbolsPosition()
+		symbols = gse_obj.getSymbols()
+		ip_used = gse_obj.getImportedPackages()
 
 		self.root = etree.Element("project")
 		self.root.set("url", url)
@@ -1334,15 +1178,20 @@ class CompareSourceCodes:
 	def compare(self, directory_old, directory_new):
 		msg = []
 
-		e, ip1, symbols1, ip_used2 = getSymbolsForImportPaths(directory_old)
-		if e != "":
-			self.err.append("Error at %s: %s" % (directory_old, e))
+		gse_obj1 = GoSymbolsExtractor(directory_old)
+		if not gse_obj1.extract():
+			self.err.append("Error at %s: %s" % (directory_old, gse_obj1.getError()))
 			return
 
-		e, ip2, symbols2, ip_used2 = getSymbolsForImportPaths(directory_new)
-		if e != "":
-			self.err.append("Error at %s: %s" % (directory_new, e))
+		gse_obj2 = GoSymbolsExtractor(directory_new)
+		if not gse_obj2.extract():
+			self.err.append("Error at %s: %s" % (directory_new, gse_obj2.getError()))
 			return
+
+		ip1 = gse_obj1.getSymbolsPosition()
+		symbols1 = gse_obj1.getSymbols()
+		ip2 = gse_obj2.getSymbolsPosition()
+		symbols2 = gse_obj2.getSymbols()
 
 		ip1_set = set(ip1.keys())
 		ip2_set = set(ip2.keys())
