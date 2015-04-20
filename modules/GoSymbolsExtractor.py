@@ -173,7 +173,7 @@ class GoSymbolsExtractor:
 		self.symbols = go_packages
 		self.symbols_position = ip_packages
 		self.imported_packages = ip_used
-		self.test_directories = test_directories
+		self.test_directories = list(set(test_directories))
 
 		return True
 
