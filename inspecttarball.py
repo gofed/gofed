@@ -19,12 +19,7 @@
 
 import os
 import optparse
-from modules.GoSymbols import getGoDirs
 from modules.GoSymbolsExtractor import GoSymbolsExtractor
-
-def getSubdirs(directory):
-	return [name for name in os.listdir(directory)
-            if os.path.isdir(os.path.join(directory, name))]
 
 if __name__ == "__main__":
 
@@ -63,12 +58,12 @@ if __name__ == "__main__":
 	if len(args):
 		path = args[0]
 
-	if options.provides:
-		gse_obj = GoSymbolsExtractor(path)
-		if not gse_obj.extract():
-			print gse_obj.getError()
-			exit(1)
+	gse_obj = GoSymbolsExtractor(path)
+	if not gse_obj.extract():
+		print gse_obj.getError()
+		exit(1)
 
+	if options.provides:
 		ip = gse_obj.getSymbolsPosition()
 
 		ips = []
@@ -90,11 +85,16 @@ if __name__ == "__main__":
 				print ip
 
 	elif options.test:
-		sdirs = sorted(getGoDirs(path, test = True))
+		sdirs = sorted(gse_obj.getTestDirectories())
 		for dir in sdirs:
 			print dir
 	elif options.dirs:
-		sdirs = sorted(getSubdirs(path))
+		dirs = gse_obj.getSymbolsPosition().values() + gse_obj.getTestDirectories()
+		sdirs = []
+		for dir in dirs:
+			sdirs.append( dir.split("/")[0] )
+
+		sdirs = sorted(list(set(sdirs)))
 		for dir in sdirs:
 			print dir
 	else:
