@@ -64,7 +64,7 @@ if __name__ == "__main__":
 		path = args[0]
 
 	if options.provides:
-		err, ip, _, _ = getSymbolsForImportPaths(path)
+		err, ip, _, _, _ = getSymbolsForImportPaths(path)
 		if err != "":
 			print err
 			exit(1)
