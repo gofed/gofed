@@ -56,6 +56,14 @@ class Config:
 	def getFASUsername(self):
 		return self.getValueFromDb('fasuser')
 
+	def getSkippedDirectories(self):
+		branches = self.getValueFromDb('skipped_directories').split(" ")
+		return filter(lambda b: b != "", branches) 
+
+	def getSkippedProvidesWithPrefix(self):
+		branches = self.getValueFromDb('skipped_provides_with_prefix').split(" ")
+		return filter(lambda b: b != "", branches) 
+
 if __name__ == "__main__":
 	cfg = Config()
 	print cfg.getBranches()

@@ -20,6 +20,7 @@
 import os
 import optparse
 from modules.GoSymbolsExtractor import GoSymbolsExtractor
+from modules.Config import Config
 
 if __name__ == "__main__":
 
@@ -52,13 +53,28 @@ if __name__ == "__main__":
 	    help = "Display all directories containing *.go test files"
 	)
 
+	parser.add_option(
+            "", "", "--scan-all-dirs", dest="scanalldirs", action = "store_true", default = False,
+            help = "Scan all dirs, including Godeps directory"
+        )
+
+	parser.add_option(
+            "", "", "--skip-dirs", dest="skipdirs", default = "",
+            help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
+        )
+
 	options, args = parser.parse_args()
 
 	path = "."
 	if len(args):
 		path = args[0]
 
-	gse_obj = GoSymbolsExtractor(path)
+	if not options.scanalldirs:
+		noGodeps = Config().getSkippedDirectories()
+	else:
+		noGodeps = []
+
+	gse_obj = GoSymbolsExtractor(path, noGodeps=noGodeps)
 	if not gse_obj.extract():
 		print gse_obj.getError()
 		exit(1)
@@ -70,7 +86,18 @@ if __name__ == "__main__":
 		for pkg in ip:
 			ips.append(ip[pkg])
 
+		skipped_provides_with_prefix = Config().getSkippedProvidesWithPrefix()
+
 		for ip in sorted(ips):
+			skip = False
+			for prefix in skipped_provides_with_prefix:
+				if ip.startswith(prefix):
+					skip = True
+					break
+
+			if skip:
+				continue
+
 			if options.spec != "":
 				if ip != ".":
 					print "Provides: golang(%%{import_path}/%s) = %%{version}-%%{release}" % (ip)

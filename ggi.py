@@ -30,6 +30,7 @@ from modules.Utils import FormatedPrint
 from modules.ImportPath import ImportPath
 from modules.ImportPathsDecomposer import ImportPathsDecomposer
 from modules.GoSymbolsExtractor import GoSymbolsExtractor
+from modules.Config import Config
 
 if __name__ == "__main__":
 	parser = optparse.OptionParser("%prog [-a] [-c] [-d [-v]] [directory]")
@@ -81,6 +82,16 @@ if __name__ == "__main__":
             help = "Don't display class belonging to IMPORTPATH prefix"
         )
 
+	parser.add_option(
+            "", "", "--scan-all-dirs", dest="scanalldirs", action = "store_true", default = False,
+            help = "Scan all dirs, including Godeps directory"
+        )
+
+	parser.add_option(
+            "", "", "--skip-dirs", dest="skipdirs", default = "",
+            help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
+        )
+
 	options, args = parser.parse_args()
 
 	path = "."
@@ -89,7 +100,19 @@ if __name__ == "__main__":
 
 	fmt_obj = FormatedPrint()
 
-	gse_obj = GoSymbolsExtractor(path, imports_only=True, skip_errors=options.skiperrors)
+	if not options.scanalldirs:
+		noGodeps = Config().getSkippedDirectories()
+	else:
+		noGodeps = []
+
+	if options.skipdirs:
+		for dir in options.skipdirs.split(','):
+			dir = dir.strip()
+			if dir == "":
+				continue
+			noGodeps.append(dir)
+
+	gse_obj = GoSymbolsExtractor(path, imports_only=True, skip_errors=options.skiperrors, noGodeps=noGodeps)
 	if not gse_obj.extract():
 		fmt_obj.printError(gse_obj.getError())
 		exit(1)
