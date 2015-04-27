@@ -48,8 +48,14 @@
 [  ] - gofed scansymbols: dont list provided import paths for packages that has exported symbols only from _test.go files
 [  ] - move path of all local databases to config file
 [  ] - script to check a structure of spec file of every golang package
+[  ] - add locks (gofed scan-imports can modify local db, it is not good to run gofed scandeps or other commands)
+[  ] - hourly scan of golang packages => create server for that
+[  ] - write a script to get a list of all builds ready to be pushed to stable (7 days expired, ...)
+[  ] - create a tool that for a given project creates a list of all dependencies (use go get to download all deps) => graph of deps
 
 ====version-1====
+[  ] - run a scan of all packages to check if they are up2date with upstream or not
+[  ] - bodhi --new --release f21 --file bodhi.template golang-github-onsi-ginkgo-1.1.0-1.fc21 --username jchaloup
 
 ====NOTCRITICAL====
 [  ] - add --dry option to all commands
@@ -58,6 +64,7 @@
 [  ] - add to description of every package some information to be parsed by scripts, e.g. commit, upstream url, ...
 [  ] - /tmp/test/etcd-2.0.3/client/http.go has interface in interface which is not present in exported symbols (type SyncableHTTPClient interface)
 [  ] - bash completion for directory paths (some commands neeed it and the current bash completion does not complete it)
+[  ] - error messages prefixed by Error
 
 ====TODO===
 [  ] - DOC: godep check-deps is using data/golang.imap, which has to updated by gofed scan-imports
@@ -65,8 +72,18 @@
 [  ] - DOC: document, document, document, ...
 [  ] - DOC: when running gofed review, ssh-copy-key must be used (no password)
 [  ] - do "more good than harm" analysis
+[  ] - create a subpackage of gofed to provide only inspect utilities (list of imports, list of directories providing go source codes, ...) and replace copying of directories in an %install section
+[  ] - use go get to retrieve all tarballs? universal spec generator?
+[  ] - gofed ggi: if class unknown, add some hints how to handle it
+[  ] - golang-github-influxdb-influxdb-client and https://github.com/guelfey/go.dbus, fix golang.repos
+[  ] - run all commands without internet connection (print no internet connection error, catch exception, gofed bump, gofed repo2spec --detect, ...)
+[  ] - add time measurement to all commands, optimize what can be optimized
+[  ] - read all local database paths from config file, don't use wired ones
 
 ====DONE====
+[OK] - check for the latest release and set version tag based on it so we don't have always 0-0.1.git...
+[OK] - http://camlistore.org/pkg/throttle not shown in ggi (if there is Unknown class => report it during spec file generator)
+[OK] - gofed ggi/inspect - skip Godeps directory (imlicit, add option not to skip it)
 [OK] - bitbucket spec file generator
 [OK] - add --skip-branch into build/scratchbuild
 [OK] - bash autocompletion for options
