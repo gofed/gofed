@@ -3,6 +3,8 @@ from modules.Utils import runCommand
 from modules.specParser import SpecInfo
 from modules.Repos import getGithubLatestCommit, getBitbucketLatestCommit
 
+from modules.RepositoryInfo import RepositoryInfo
+
 def getSpec():
 	so, se, rc = runCommand("ls *.spec")
 	if rc != 0:
@@ -18,6 +20,7 @@ def getMacros(spec):
 	macros["project"] = obj.getMacro("project")
 	macros["repo"] = obj.getMacro("repo")
 	macros["provider"] = obj.getMacro("provider")
+	macros["commit"] = obj.getMacro("commit")
 
 	if macros["project"] == "":
 		err = "Unable to detect project macro"
@@ -29,6 +32,10 @@ def getMacros(spec):
 
 	if macros["provider"] == "":
 		err = "unable to detect provider macro"
+		return err, {}
+
+	if macros["commit"] == "":
+		err = "unable to detect commit macro"
 		return err, {}
 
 	macros["ip"] = obj.getMacro("import_path")
@@ -72,18 +79,24 @@ if __name__ == "__main__":
 	    help = "Bump spec file to commit."
 	)
 
+	parser.add_option(
+	    "", "-s", "--skip-master", dest="skipmaster", action="store_true", default = False,
+	    help = "Skip master branch test."
+	)
+
 	options, args = parser.parse_args()
 
 	# must be on master branch
-	so, se, rc = runCommand("git branch | grep '*' | sed 's/*//'")
-	if rc != 0:
-		print "Not in a git repository"
-		exit(1)
+	if not options.skipmaster:
+		so, se, rc = runCommand("git branch | grep '*' | sed 's/*//'")
+		if rc != 0:
+			print "Not in a git repository"
+			exit(1)
 
-	branch = so.split('\n')[0].strip()
-	if branch != "master":
-		print "Not on branch master"
-		exit(1)
+		branch = so.split('\n')[0].strip()
+		if branch != "master":
+			print "Not on branch master"
+			exit(1)
 
 	# get spec file
 	print "Searching for spec file"
@@ -102,6 +115,8 @@ if __name__ == "__main__":
 	provider = macros["provider"]
 	project = macros["project"]
 	repo = macros["repo"]
+	current_commit = macros["commit"]
+
 	# only github so far
 	if provider != "github" and provider != "bitbucket":
 		print "Only githum.com and bitbucket.org are supported"
@@ -119,7 +134,21 @@ if __name__ == "__main__":
 			print "Unable to get the latest commit"
 			exit(3)
 
-	# don't bump if the commit is the as at htel atest
+	# don't bump if the commit is the as at the latest
+	if commit == current_commit:
+		print "The latest commit equals the current commit"
+		exit(1)
+
+	if provider == "github":
+		ri_obj = RepositoryInfo("github.com/%s/%s" % (project, repo))
+		if not ri_obj.retrieve():
+			exit(1)
+
+		tags = ri_obj.getGithubTags(project, repo)
+		releases = ri_obj.getGithubReleases(project, repo)
+
+		print "Tags: " + ", ".join(tags[:5])
+		print "Releases: " + ", ".join(releases[:5])
 
 	# download tarball
 	print "Download tarball"
