@@ -122,7 +122,7 @@ if __name__ == "__main__":
 	ipd.decompose()
 	warn = ipd.getWarning()
 	if warn != "":
-		sys.stderr.write("Warning: %s\n")
+		fmt_obj.printWarning("Warning: %s" % warn)
 
 	classes = ipd.getClasses()
 	sorted_classes = sorted(classes.keys())
@@ -131,7 +131,18 @@ if __name__ == "__main__":
 		if not options.all and element == "Native":
 			continue
 
+		# class name starts with prefix => filter out
 		if options.importpath != "" and element.startswith(options.importpath):
+			continue
+
+		# filter out all members of a class prefixed by prefix
+		gimports = []
+		for gimport in classes[element]:
+			if options.importpath != "" and gimport.startswith(options.importpath):
+				continue
+			gimports.append(gimport)
+
+		if gimports == []:
 			continue
 
 		if options.classes:
@@ -142,7 +153,7 @@ if __name__ == "__main__":
 					continue
 				print "Class: %s" % element
 				if not options.short:
-					for gimport in classes[element]:
+					for gimport in gimports:
 						print "\t%s" % gimport
 				continue
 
@@ -165,7 +176,7 @@ if __name__ == "__main__":
 			# Print class
 			print "Class: %s" % element
 			if not options.short:
-				for gimport in classes[element]:
+				for gimport in sorted(gimports):
 					print "\t%s" % gimport
 			continue
 
@@ -179,5 +190,5 @@ if __name__ == "__main__":
 			continue
 
 		# Just a list of all import paths
-		for gimport in classes[element]:
+		for gimport in sorted(classes[element]):
 			print "\t%s" % gimport
