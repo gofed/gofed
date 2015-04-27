@@ -50,27 +50,27 @@ class FormatedPrint:
 
 	def printError(self, msg):
 		if self.formated:
-			print "%sError: %s%s" % (RED, msg, ENDC)
+			sys.stderr.write("%sError: %s%s\n" % (RED, msg, ENDC))
 		else:
-			print "Error: %s" % msg
+			sys.stderr.write("Error: %s\n" % msg)
 
 	def printWarning(self, msg):
 		if self.formated:
-			print "%sWarning: %s%s" % (YELLOW, msg, ENDC)
+			sys.stderr.write("%sWarning: %s%s\n" % (YELLOW, msg, ENDC))
 		else:
-			print "Warning: %s" % msg
+			sys.stderr.write("Warning: %s\n" % msg)
 
 	def printInfo(self, msg):
 		if self.formated:
-			print "%s%s%s" % (BLUE, msg, ENDC)
+			sys.stdout.write("%s%s%s\n" % (BLUE, msg, ENDC))
 		else:
-			print "%s" % msg
+			sys.stdout.write("%s\n" % msg)
 
 	def printProgress(self, msg):
 		if self.formated:
-			print "%s%s%s" % (YELLOW, msg, ENDC)
+			sys.stdout.write("%s%s%s\n" % (CYAN, msg, ENDC))
 		else:
-			print "%s" % msg
+			sys.stdout.write("%s\n" % msg)
 
 
 def runCommand(cmd):
