@@ -129,6 +129,7 @@ import (
 	"strings"
 	"path"
 	"flag"
+	"log"
 )
 
 // array2JSON transforms an array of strings into JSON.
@@ -580,13 +581,13 @@ func main() {
 
 	if !*importsFlag {
 		if len(os.Args) < 2 {
-			fmt.Println("prog [-imports] GOFILE")
+			log.Println("prog [-imports] GOFILE")
 			return
 		}
 		gofile = os.Args[1]
 	} else {
 		if len(os.Args) < 3 {
-			fmt.Println("prog [-imports] GOFILE")
+			log.Println("prog [-imports] GOFILE")
 			return
 		}
 		gofile = os.Args[2]
@@ -598,7 +599,7 @@ func main() {
 	// but stop after processing the imports.
 	f, err := parser.ParseFile(fset, gofile, nil, 0)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		os.Exit(1)
 	}
 
