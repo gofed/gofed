@@ -419,6 +419,8 @@ class ProjectToXml:
 		url	prefix used for import paths
 		go_dir	root directory containing go source codes
 		"""
+		self.err = ""
+
 		gse_obj = GoSymbolsExtractor(go_dir)
 		if not gse_obj.extract():
 			self.err = gse_obj.getError()
