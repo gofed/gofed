@@ -8,12 +8,16 @@ class ProjectInfo:
 
 	def __init__(self):
 		self.err = ""
+		self.warn = ""
 		self.imported_packages = []
 		self.provided_packages = []
 		self.docs = []
 
 	def getError(self):
 		return self.err
+
+	def getWarning(self):
+		return self.warn
 
 	def getImportedPackages(self):
 		return self.imported_packages
@@ -63,10 +67,7 @@ class ProjectInfo:
 		# imported paths
 		ipd = ImportPathsDecomposer(ip_used)
 		ipd.decompose()
-		warn = ipd.getWarning()
-		# or maybe error instead warning?
-		if warn != "":
-			sys.stderr.write("Warning: %s\n" % warn)
+		self.warn = ipd.getWarning()
 
 		classes = ipd.getClasses()
 	        sorted_classes = sorted(classes.keys())

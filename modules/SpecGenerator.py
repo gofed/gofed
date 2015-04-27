@@ -10,7 +10,11 @@ class SpecGenerator:
 		self.commit = commit
 		self.spec_name = ""
 		self.pkg_info = None
-	
+		self.warn = ""
+
+	def getWarning(self):
+		return self.warn
+
 	def setPackageInfo(self, pkg_info):
 		self.pkg_info = pkg_info
 
@@ -187,6 +191,8 @@ class SpecGenerator:
 		archive_info = repo_info.getArchiveInfo()
 		ip_info = repo_info.getImportPathInfo()
 		prj_info = self.pkg_info.getProjectInfo()
+
+		self.warn = prj_info.getWarning()
 
 		provider = ip_info.getProvider()
 		project = ip_info.project

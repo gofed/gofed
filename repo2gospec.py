@@ -286,7 +286,7 @@ if __name__ == "__main__":
 	ipd.decompose()
 	warn = ipd.getWarning()
 	if warn != "":
-		sys.stderr.write("Warning: %s\n" % warn)
+		fmt_obj.printWarning(warn)
 
 	classes = ipd.getClasses()
 	sorted_classes = sorted(classes.keys())
