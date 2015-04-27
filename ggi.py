@@ -67,6 +67,11 @@ if __name__ == "__main__":
         )
 
 	parser.add_option(
+            "", "-r", "--requires", dest="requires", action = "store_true", default = False,
+            help = "Use Requires instead of BuildRequires. Used only with --spec option."
+        )
+
+	parser.add_option(
             "", "", "--skip-errors", dest="skiperrors", action = "store_true", default = False,
             help = "Skip all errors during Go symbol parsing"
         )
@@ -144,7 +149,10 @@ if __name__ == "__main__":
 		# Spec file BR
 		if options.spec:
 			for gimport in classes[element]:
-				print "BuildRequires:\tgolang(%s)" % gimport
+				if options.requires:
+					print "Requires: golang(%s)" % gimport
+				else:
+					print "BuildRequires: golang(%s)" % gimport
 			continue
 
 		# Just a list of all import paths
