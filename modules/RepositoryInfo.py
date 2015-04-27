@@ -177,3 +177,24 @@ class RepositoryInfo:
 
 		return commits[0]["raw_node"]
 
+	def getGithubReleases(self, project, repo):
+		link = "https://api.github.com/repos/%s/%s/releases" % (project, repo)
+		f = urllib.urlopen(link)
+		c_file = f.read()
+		# get the latest commit
+		releases = []
+		for release in json.loads(c_file):
+			releases.append(release["tag_name"])
+
+		return releases
+
+	def getGithubTags(self, project, repo):
+		link = "https://api.github.com/repos/%s/%s/tags" % (project, repo)
+		f = urllib.urlopen(link)
+		c_file = f.read()
+		# get the latest commit
+		tags = []
+		for tag in json.loads(c_file):
+			tags.append(tag["name"])
+
+		return tags
