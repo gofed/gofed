@@ -2,6 +2,7 @@ from modules.GoSymbolsExtractor import GoSymbolsExtractor
 from modules.ImportPathsDecomposer import ImportPathsDecomposer
 from glob import glob
 from os import path
+import sys
 
 class ProjectInfo:
 
@@ -65,7 +66,7 @@ class ProjectInfo:
 		warn = ipd.getWarning()
 		# or maybe error instead warning?
 		if warn != "":
-			sys.stderr.write("Warning: %s\n")
+			sys.stderr.write("Warning: %s\n" % warn)
 
 		classes = ipd.getClasses()
 	        sorted_classes = sorted(classes.keys())
