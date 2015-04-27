@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-spf13-cobra-0-0.7.git79bd93d.fc23">
+<project url="" commit="commit" nvr="golang-github-spf13-cobra-0-0.8.git3c187e9.fc23">
   <packages>
     <package importpath="github.com/spf13/cobra">
       <types>
@@ -12,6 +12,10 @@
           <field type="ident" def="string" name="Short"/>
           <field type="ident" def="string" name="Long"/>
           <field type="ident" def="string" name="Example"/>
+          <field type="slice" name="ValidArgs">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="BashCompletionFunction"/>
           <field type="pointer" name="flags">
             <type type="selector">
               <prefix value="flag"/>
@@ -103,6 +107,62 @@
         </type>
       </types>
       <functions>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="byName"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+          </resultsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="byName"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="byName"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GenMarkdown">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="GenMarkdownTree">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList/>
+        </function>
         <function name="SetArgs">
           <recvList>
             <type type="pointer">
@@ -587,6 +647,39 @@
             <type type="ident" def="bool"/>
           </resultsList>
         </function>
+        <function name="HasRunnableSiblings">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="HasHelpSubCommands">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="HasRunnableSubCommands">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
         <function name="HasParent">
           <recvList>
             <type type="pointer">
@@ -809,21 +902,68 @@
             <type type="ident" def="bool"/>
           </resultsList>
         </function>
+        <function name="GenBashCompletion">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="bytes"/>
+                <item value="Buffer"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="GenBashCompletionFile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="MarkFlagRequired">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Command"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList/>
+        </function>
       </functions>
       <names>
         <name value="EnablePrefixMatching"/>
+        <name value="EnableWindowsMouseTrap"/>
+        <name value="MousetrapHelpText"/>
+        <name value="BashCompFilenameExt"/>
+        <name value="BashCompOneRequiredFlag"/>
       </names>
     </package>
   </packages>
   <imports>
-    <import path="reflect"/>
-    <import path="testing"/>
     <import path="bytes"/>
     <import path="fmt"/>
-    <import path="io"/>
     <import path="os"/>
     <import path="strings"/>
+    <import path="testing"/>
+    <import path="sort"/>
+    <import path="time"/>
+    <import path="reflect"/>
     <import path="github.com/spf13/pflag"/>
+    <import path="io"/>
+    <import path="runtime"/>
     <import path="strconv"/>
     <import path="text/template"/>
   </imports>

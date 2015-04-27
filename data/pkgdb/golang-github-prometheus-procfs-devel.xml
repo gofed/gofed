@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-prometheus-procfs-0-0.2.git6c34ef8.fc23">
+<project url="" commit="commit" nvr="golang-github-prometheus-procfs-0-0.3.git490cc6e.fc23">
   <packages>
     <package importpath="github.com/prometheus/procfs">
       <types>
@@ -65,86 +65,86 @@
         <function name="NewStat">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Stat"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewStat">
           <recvList>
             <type type="ident" def="FS"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Stat"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewStat">
           <recvList>
             <type type="ident" def="Proc"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="ProcStat"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="VirtualMemory">
           <recvList>
             <type type="ident" def="ProcStat"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ResidentMemory">
           <recvList>
             <type type="ident" def="ProcStat"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StartTime">
           <recvList>
             <type type="ident" def="ProcStat"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CPUTime">
           <recvList>
             <type type="ident" def="ProcStat"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewLimits">
           <recvList>
             <type type="ident" def="Proc"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="ProcLimits"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
             <type type="ident" def="Procs"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Swap">
           <recvList>
@@ -154,7 +154,7 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Less">
           <recvList>
@@ -164,35 +164,35 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Self">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Proc"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewProc">
           <recvList/>
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Proc"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AllProcs">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Procs"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewProc">
           <recvList>
@@ -201,64 +201,64 @@
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Proc"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AllProcs">
           <recvList>
             <type type="ident" def="FS"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Procs"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CmdLine">
           <recvList>
             <type type="ident" def="Proc"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="string"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="FileDescriptors">
           <recvList>
             <type type="ident" def="Proc"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="uintptr"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="FileDescriptorsLen">
           <recvList>
             <type type="ident" def="Proc"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewFS">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="FS"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>
@@ -277,7 +277,6 @@
     <import path="sort"/>
     <import path="bytes"/>
     <import path="io/ioutil"/>
-    <import path="C"/>
     <import path="regexp"/>
     <import path="path"/>
   </imports>

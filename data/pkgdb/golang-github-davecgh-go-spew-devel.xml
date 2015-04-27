@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-davecgh-go-spew-0-0.2.git1aaf839.fc22">
+<project url="" commit="commit" nvr="golang-github-davecgh-go-spew-0-0.3.git3e6e67c.fc23">
   <packages>
     <package importpath="github.com/davecgh/go-spew/spew/testdata">
       <types/>
@@ -7,61 +7,61 @@
         <function name="GetCgoNullCharPointer">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetCgoCharPointer">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetCgoCharArray">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetCgoUnsignedCharArray">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetCgoSignedCharArray">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetCgoUint8tArray">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetCgoTypdefedUnsignedCharArray">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>
@@ -75,6 +75,7 @@
           <field type="ident" def="bool" name="DisablePointerMethods"/>
           <field type="ident" def="bool" name="ContinueOnMethod"/>
           <field type="ident" def="bool" name="SortKeys"/>
+          <field type="ident" def="bool" name="SpewKeys"/>
         </type>
       </types>
       <functions>
@@ -86,9 +87,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Fprint">
           <recvList/>
@@ -101,10 +102,10 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Fprintf">
           <recvList/>
@@ -118,10 +119,10 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Fprintln">
           <recvList/>
@@ -134,10 +135,10 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Print">
           <recvList/>
@@ -146,10 +147,10 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Printf">
           <recvList/>
@@ -159,10 +160,10 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Println">
           <recvList/>
@@ -171,10 +172,10 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sprint">
           <recvList/>
@@ -183,9 +184,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sprintf">
           <recvList/>
@@ -195,9 +196,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sprintln">
           <recvList/>
@@ -206,9 +207,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Format">
           <recvList>
@@ -223,19 +224,19 @@
             </type>
             <type type="ident" def="rune"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="NewFormatter">
           <recvList/>
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="fmt"/>
               <item value="Formatter"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Fdump">
           <recvList/>
@@ -248,7 +249,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Sdump">
           <recvList/>
@@ -257,9 +258,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Dump">
           <recvList/>
@@ -268,7 +269,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Errorf">
           <recvList>
@@ -282,9 +283,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Fprint">
           <recvList>
@@ -301,10 +302,10 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Fprintf">
           <recvList>
@@ -322,10 +323,10 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Fprintln">
           <recvList>
@@ -342,10 +343,10 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Print">
           <recvList>
@@ -358,10 +359,10 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Printf">
           <recvList>
@@ -375,10 +376,10 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Println">
           <recvList>
@@ -391,10 +392,10 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sprint">
           <recvList>
@@ -407,9 +408,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sprintf">
           <recvList>
@@ -423,9 +424,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sprintln">
           <recvList>
@@ -438,9 +439,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewFormatter">
           <recvList>
@@ -451,12 +452,12 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="fmt"/>
               <item value="Formatter"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Fdump">
           <recvList>
@@ -473,7 +474,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Dump">
           <recvList>
@@ -486,7 +487,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Sdump">
           <recvList>
@@ -499,18 +500,18 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewDefaultConfig">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="ConfigState"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -519,9 +520,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Swap">
           <recvList>
@@ -533,7 +534,7 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Less">
           <recvList>
@@ -545,9 +546,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>

@@ -1,7 +1,12 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-matttproud-golang_protobuf_extensions-0-0.2.gitba7d65a.fc23">
+<project url="" commit="commit" nvr="golang-github-matttproud-golang_protobuf_extensions-0-0.3.gitfc2b8d3.fc23">
   <packages>
     <package importpath="github.com/matttproud/golang_protobuf_extensions/ext">
+      <types/>
+      <functions/>
+      <names/>
+    </package>
+    <package importpath="github.com/matttproud/golang_protobuf_extensions/pbutil">
       <types/>
       <functions>
         <function name="WriteDelimited">
@@ -16,10 +21,10 @@
               <item value="Message"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ReadDelimited">
           <recvList/>
@@ -33,10 +38,28 @@
               <item value="Message"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/matttproud/golang_protobuf_extensions/pbtest">
+      <types/>
+      <functions>
+        <function name="SanitizeGenerated">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="proto"/>
+              <item value="Message"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
         </function>
       </functions>
       <names/>
@@ -53,5 +76,6 @@
     <import path="reflect"/>
     <import path="testing"/>
     <import path="testing/quick"/>
+    <import path="github.com/matttproud/golang_protobuf_extensions/pbtest"/>
   </imports>
 </project>

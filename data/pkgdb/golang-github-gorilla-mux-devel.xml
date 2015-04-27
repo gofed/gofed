@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-gorilla-mux-0-0.15.git136d54f.fc22">
+<project url="" commit="commit" nvr="golang-github-gorilla-mux-0-0.16.git8096f47.fc23">
   <packages>
     <package importpath="github.com/gorilla/mux">
       <types>
@@ -19,6 +19,7 @@
           <field type="ident" def="bool" name="buildOnly"/>
           <field type="ident" def="string" name="name"/>
           <field type="ident" def="error" name="err"/>
+          <field type="ident" def="BuildVarsFunc" name="buildVarsFunc"/>
         </type>
         <type name="MatcherFunc" type="func">
           <paramsList>
@@ -34,6 +35,20 @@
           </paramsList>
           <resultsList>
             <type type="ident" def="bool"/>
+          </resultsList>
+        </type>
+        <type name="BuildVarsFunc" type="func">
+          <paramsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
           </resultsList>
         </type>
         <type type="struct" name="Router">
@@ -88,9 +103,9 @@
               <type type="ident" def="RouteMatch"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetError">
           <recvList>
@@ -99,9 +114,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="BuildOnly">
           <recvList>
@@ -110,11 +125,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Handler">
           <recvList>
@@ -128,11 +143,11 @@
               <item value="Handler"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="HandlerFunc">
           <recvList>
@@ -157,11 +172,11 @@
               <resultsList/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetHandler">
           <recvList>
@@ -170,12 +185,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="http"/>
               <item value="Handler"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Name">
           <recvList>
@@ -186,11 +201,11 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetName">
           <recvList>
@@ -199,9 +214,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Match">
           <recvList>
@@ -218,9 +233,9 @@
               <type type="ident" def="RouteMatch"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Headers">
           <recvList>
@@ -233,11 +248,11 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Host">
           <recvList>
@@ -248,11 +263,11 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Match">
           <recvList>
@@ -269,9 +284,9 @@
               <type type="ident" def="RouteMatch"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="MatcherFunc">
           <recvList>
@@ -282,11 +297,11 @@
           <paramsList>
             <type type="ident" def="MatcherFunc"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Match">
           <recvList>
@@ -303,9 +318,9 @@
               <type type="ident" def="RouteMatch"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Methods">
           <recvList>
@@ -318,11 +333,11 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Path">
           <recvList>
@@ -333,11 +348,11 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PathPrefix">
           <recvList>
@@ -348,30 +363,11 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
-        </function>
-        <function name="Match">
-          <recvList>
-            <type type="ident" def="queryMatcher"/>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="Request"/>
-              </type>
-            </type>
-            <type type="pointer">
-              <type type="ident" def="RouteMatch"/>
-            </type>
-          </paramsList>
-          <returnsList>
-            <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Queries">
           <recvList>
@@ -384,11 +380,11 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Match">
           <recvList>
@@ -405,9 +401,9 @@
               <type type="ident" def="RouteMatch"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Schemes">
           <recvList>
@@ -420,11 +416,26 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
+        </function>
+        <function name="BuildVarsFunc">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Route"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="BuildVarsFunc"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Route"/>
+            </type>
+          </resultsList>
         </function>
         <function name="Subrouter">
           <recvList>
@@ -433,11 +444,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Router"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="URL">
           <recvList>
@@ -450,7 +461,7 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="url"/>
@@ -458,7 +469,7 @@
               </type>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="URLHost">
           <recvList>
@@ -471,7 +482,7 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="url"/>
@@ -479,7 +490,7 @@
               </type>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="URLPath">
           <recvList>
@@ -492,7 +503,7 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="url"/>
@@ -500,7 +511,7 @@
               </type>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Match">
           <recvList>
@@ -519,18 +530,18 @@
               <type type="ident" def="RouteMatch"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewRouter">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Router"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Match">
           <recvList>
@@ -549,9 +560,9 @@
               <type type="ident" def="RouteMatch"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ServeHTTP">
           <recvList>
@@ -571,7 +582,7 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Get">
           <recvList>
@@ -582,11 +593,11 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetRoute">
           <recvList>
@@ -597,11 +608,11 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StrictSlash">
           <recvList>
@@ -612,11 +623,11 @@
           <paramsList>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Router"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewRoute">
           <recvList>
@@ -625,11 +636,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Handle">
           <recvList>
@@ -644,11 +655,11 @@
               <item value="Handler"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="HandleFunc">
           <recvList>
@@ -674,11 +685,11 @@
               <resultsList/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Headers">
           <recvList>
@@ -691,11 +702,11 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Host">
           <recvList>
@@ -706,11 +717,11 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="MatcherFunc">
           <recvList>
@@ -721,11 +732,11 @@
           <paramsList>
             <type type="ident" def="MatcherFunc"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Methods">
           <recvList>
@@ -738,11 +749,11 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Path">
           <recvList>
@@ -753,11 +764,11 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PathPrefix">
           <recvList>
@@ -768,11 +779,11 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Queries">
           <recvList>
@@ -785,11 +796,11 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Schemes">
           <recvList>
@@ -802,11 +813,26 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
+        </function>
+        <function name="BuildVarsFunc">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Router"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="BuildVarsFunc"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Route"/>
+            </type>
+          </resultsList>
         </function>
         <function name="Vars">
           <recvList/>
@@ -818,12 +844,12 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="map">
               <keytype type="ident" def="string"/>
               <valtype type="ident" def="string"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CurrentRoute">
           <recvList/>
@@ -835,11 +861,11 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Route"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>
