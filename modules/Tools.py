@@ -589,10 +589,18 @@ class MultiCommand:
 
 		return all_done
 
-	def cherryPickMaster(self, branches, verbose=True, start_commit="", depth=10):
+	def cherryPickMaster(self, branches, verbose=True, start_commit="", depth=20):
 		err = []
 		gcp_commits = ["master"]
 		if start_commit != "":
+			if verbose:
+				print "Switching to master branch"
+
+			_, _, rc = self.llc.runFedpkgSwitchBranch('master')
+			if rc != 0:
+				err.append("Unable to switch to master branch")
+				return err
+
 			if verbose:
 				print "Searching for %s commit in the last %s commits" % (start_commit, depth)
 
@@ -635,6 +643,8 @@ class MultiCommand:
 					err.append("%s: unable to cherry pick master: %s" % (branch, se))
 					if verbose:
 						print err[-1]
+
+					return err
 
 		return err
 
