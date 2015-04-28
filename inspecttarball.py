@@ -74,6 +74,13 @@ if __name__ == "__main__":
 	else:
 		noGodeps = []
 
+	if options.skipdirs:
+		for dir in options.skipdirs.split(','):
+			dir = dir.strip()
+			if dir == "":
+				continue
+			noGodeps.append(dir)
+
 	gse_obj = GoSymbolsExtractor(path, noGodeps=noGodeps)
 	if not gse_obj.extract():
 		print gse_obj.getError()
