@@ -151,7 +151,7 @@ if __name__ == "__main__":
 		print "Releases: " + ", ".join(releases[:5])
 
 	# download tarball
-	print "Download tarball"
+	print "Downloading tarball"
 	if provider == "github":
 		shortcommit = commit[:7]
 		archive = "%s-%s.tar.gz" % (repo, shortcommit)
