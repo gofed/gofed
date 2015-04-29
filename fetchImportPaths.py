@@ -1,8 +1,8 @@
 from modules.Packages import Package
 from modules.Packages import loadPackages, savePackageInfo, LocalDB
 import optparse
-from modules.ImportPaths import getDevelImportedPaths
-from modules.ImportPaths import getDevelProvidedPaths
+from modules.ImportPathDB import ImportPathDB
+from modules.Utils import FormatedPrint
 
 from time import time, strftime, gmtime
 import sys
@@ -134,6 +134,8 @@ if __name__ == "__main__":
 
 	options, args = parser.parse_args()
 
+	fmt_obj = FormatedPrint(formated=False)
+
 	if options.imports and options.provides:
 		print "You can not set both -i and -o options at the same time"
 		exit(1)
@@ -145,10 +147,20 @@ if __name__ == "__main__":
 			print "DB not updated"
 
 	elif options.imports:
-		paths = getDevelImportedPaths()
+		ipdb_obj = ImportPathDB()
+		if not ipdb_obj.load():
+			fmt_obj.printError(ipdb_obj.getError())
+			exit(1)
+
+		paths = ipdb_obj.getImportedPaths()
 		displayPaths(paths, options.prefix, options.minimal)
 	elif options.provides:
-		paths = getDevelProvidedPaths()
+		ipdb_obj = ImportPathDB()
+		if not ipdb_obj.load():
+			fmt_obj.printError(ipdb_obj.getError())
+			exit(1)
+
+		paths = ipdb_obj.getProvidedPaths()
 		displayPaths(paths, options.prefix, options.minimal)
 	else:
 		print "Synopsis: prog [-c [-f]] [-i|-p [-s [-m]]]"

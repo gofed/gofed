@@ -1,30 +1,32 @@
-from Utils import getScriptDir
 from ImportPath import ImportPath
-
-GOLANG_IMPORTS = "data/golang.imports"
-script_dir = getScriptDir() + "/.."
+from Config import Config
+from NativeImports import NativeImports
 
 class ImportPathsDecomposer:
 
 	def __init__(self, imports):
 		self.warn = []
+		self.err = ""
 		self.classes = {}
 		self.imports = imports
 
 	def getWarning(self):
 		return "\n".join(self.warn)
 
-	def getNativeImports(self):
-		script_dir = getScriptDir() + "/.."
-		with open('%s/%s' % (script_dir, GOLANG_IMPORTS), 'r') as file:
-	                content = file.read()
-			return content.split('\n')
+	def getError(self):
+		return "\n".join(self.err)
 
 	def getClasses(self):
 		return self.classes
 
 	def decompose(self):
-		native = self.getNativeImports()
+		ni_obj = NativeImports()
+		if not ni_obj.retrieve():
+			self.err = ni_obj.getError()
+			return False
+
+		native = ni_obj.getImports()
+
 		for gimport in self.imports:
 			prefix = gimport.split('/')[0]
 			if prefix in native:
@@ -42,3 +44,4 @@ class ImportPathsDecomposer:
 			else:
 				self.classes[key].append(gimport)
 
+		return True

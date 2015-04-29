@@ -66,7 +66,10 @@ class ProjectInfo:
 
 		# imported paths
 		ipd = ImportPathsDecomposer(ip_used)
-		ipd.decompose()
+		if not ipd.decompose():
+			self.err = ipd.getError()
+			return False
+
 		self.warn = ipd.getWarning()
 
 		classes = ipd.getClasses()

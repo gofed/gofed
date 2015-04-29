@@ -283,7 +283,10 @@ if __name__ == "__main__":
 	ip_used = prj_info.getImportedPackages()
 
 	ipd = ImportPathsDecomposer(ip_used)
-	ipd.decompose()
+	if not ipd.decompose():
+		fmt_obj.printErr(ipd.getError())
+		exit(1)
+
 	warn = ipd.getWarning()
 	if warn != "":
 		fmt_obj.printWarning(warn)

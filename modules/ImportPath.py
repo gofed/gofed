@@ -1,5 +1,5 @@
 import re
-from Utils import getScriptDir
+from Config import Config
 
 UNKNOWN = 0
 GITHUB = 1
@@ -8,9 +8,6 @@ GOOGLEGOLANGORG = 3
 GOLANGORG = 4
 GOPKG = 5
 BITBUCKET = 6
-
-script_dir = getScriptDir() + "/.."
-GOLANG_MAPPING="data/golang.mapping"
 
 class ImportPath(object):
 	"""
@@ -225,7 +222,9 @@ class ImportPath(object):
 		return repo
 
 	def getPackageName(self):
-		mappings = self.getMappings()
+		ok, mappings = self.getMappings()
+		if not ok:
+			return ""
 
 		if self.prefix in mappings:
 			return mappings[self.prefix]
@@ -280,16 +279,21 @@ class ImportPath(object):
 		return "golang-gopkg-%s" % repository
 
 	def getMappings(self):
-		with open('%s/%s' % (script_dir, GOLANG_MAPPING), 'r') as file:
-			maps = {}
-	                content = file.read()
-			for line in content.split('\n'):
-				if line == "" or line[0] == '#':
-					continue
-				line = re.sub(r'[\t ]+', ' ', line).split(' ')
-				if len(line) != 2:
-					continue
-				maps[line[0]] = line[1]
+		golang_mapping_path = Config().getGolangMapping()
+		try:
+			with open(golang_mapping_path, 'r') as file:
+				maps = {}
+	        	        content = file.read()
+				for line in content.split('\n'):
+					if line == "" or line[0] == '#':
+						continue
+					line = re.sub(r'[\t ]+', ' ', line).split(' ')
+					if len(line) != 2:
+						continue
+					maps[line[0]] = line[1]
 
-			return maps
+				return True, maps
+		except IOError, e:
+			self.err = "Unable to read from %s: %s" % (golang_mapping_path, e)
 
+		return False, {}

@@ -24,7 +24,6 @@ import urllib2
 import optparse
 from subprocess import Popen, PIPE
 from modules.Utils import GREEN, RED, ENDC
-from modules.ImportPaths import getNativeImports
 from modules.Packages import packageInPkgdb
 from modules.Utils import FormatedPrint
 from modules.ImportPath import ImportPath
@@ -119,7 +118,10 @@ if __name__ == "__main__":
 
 	ip_used = gse_obj.getImportedPackages()
 	ipd = ImportPathsDecomposer(ip_used)
-	ipd.decompose()
+	if not ipd.decompose():
+		fmt_obj.printError(ipd.getError())
+		exit(1)
+
 	warn = ipd.getWarning()
 	if warn != "":
 		fmt_obj.printWarning("Warning: %s" % warn)
@@ -165,6 +167,9 @@ if __name__ == "__main__":
 					continue
 
 				pkg_name = ip_obj.getPackageName()
+				if pkg_name == "":
+					fmt_obj.printWarning(ip_obj.getError())
+
 				pkg_in_pkgdb = packageInPkgdb(pkg_name)
 				if pkg_in_pkgdb:
 					if options.verbose:

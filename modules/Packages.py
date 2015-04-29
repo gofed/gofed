@@ -3,13 +3,13 @@ import re
 import os
 import tempfile
 import shutil
-from ImportPaths import loadImportPathDb
 import operator
 from GoSymbols import ProjectToXml
 from specParser import getPkgURL, fetchProvides
 from Repos import Repos, IPMap
 from xml.dom import minidom
 from xml.dom.minidom import Node
+from ImportPathDB import ImportPathDB
 
 GOLANG_PACKAGES="data/golang.packages"
 GOLANG_PKG_DB="data/pkgdb"
@@ -375,7 +375,12 @@ def joinGraphs(g1, g2):
 
 def buildRequirementGraph(verbose=False):
 	# load imported and provided paths
-	ip_provides, ip_imports, pkg_devel_main_pkg = loadImportPathDb()
+	ipdb_obj = ImportPathDB()
+	if not ipdb_obj.load():
+		print "CHYBA"
+	ip_provides = ipdb_obj.getProvidedPaths()
+	ip_imports = ipdb_obj.getImportedPaths()
+	pkg_devel_main_pkg = ipdb_obj.getDevelMainPkg()
 	# 1) for each package get a list of all packages it needs
 	# 2) in this list find all cyclic dependencies
 
