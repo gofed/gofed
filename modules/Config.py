@@ -64,6 +64,44 @@ class Config:
 		branches = self.getValueFromDb('skipped_provides_with_prefix').split(" ")
 		return filter(lambda b: b != "", branches) 
 
+	def makePathAbsolute(self, path):
+		if path == "":
+			return ""
+		if path[0] != "/":
+			return "/var/lib/gofed/%s" % path
+		else:
+			return path
+
+
+	def getGolangMapping(self):
+		path = self.getValueFromDb('golang_mapping')
+		return self.makePathAbsolute(path)
+
+	def getGolangNativeImports(self):
+		path = self.getValueFromDb('golang_native_imports')
+		return self.makePathAbsolute(path)
+
+	def getGolangPkgdb(self):
+		path = self.getValueFromDb('golang_pkgdb')
+		return self.makePathAbsolute(path)
+
+	def getGolangPackages(self):
+		path = self.getValueFromDb('golang_packages')
+		return self.makePathAbsolute(path)
+
+	def getGolangIp2pkgMapping(self):
+		path = self.getValueFromDb('golang_ip2pkg_mapping')
+		return self.makePathAbsolute(path)
+
+	def getGolangRepos(self):
+		path = self.getValueFromDb('golang_repos')
+		return self.makePathAbsolute(path)
+
+	def getGolangSecondaryIPs(self):
+		path = self.getValueFromDb('golang_secondary_import_paths')
+		return self.makePathAbsolute(path)
+
+
 if __name__ == "__main__":
 	cfg = Config()
 	print cfg.getBranches()

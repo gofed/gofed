@@ -38,8 +38,9 @@ import tempfile
 import Utils
 import Repos
 
-from Utils import getScriptDir, runCommand
+from Utils import runCommand
 from ImportPath import ImportPath
+from Config import Config
 
 RPM_SCRIPTLETS = ('pre', 'post', 'preun', 'postun', 'pretrans', 'posttrans',
                   'trigger', 'triggerin', 'triggerprein', 'triggerun',
@@ -47,10 +48,6 @@ RPM_SCRIPTLETS = ('pre', 'post', 'preun', 'postun', 'pretrans', 'posttrans',
 
 SECTIONS = ('build', 'changelog', 'check', 'clean', 'description', 'files',
                'install', 'package', 'prep') + RPM_SCRIPTLETS
-
-script_dir = getScriptDir() + "/.."
-
-GOLANG_IMPORT_PATHS="data/golang.import_paths"
 
 class SpecInfo:
 
@@ -291,7 +288,8 @@ def getBuildsFromFilesSections(spec, pkg_name):
 
 def loadImportPaths():
 	lines = []
-	with open('%s/%s' % (script_dir, GOLANG_IMPORT_PATHS), 'r') as file:
+	golang_secondary_ips_path = Config().getGolangSecondaryIPs()
+	with open(golang_secondary_ips_path, 'r') as file:
 		lines = file.read().split('\n')
 
 	import_paths = {}
@@ -309,7 +307,8 @@ def loadImportPaths():
 
 def loadSubpackageSourceMapping():
 	lines = []
-	with open('%s/%s' % (script_dir, GOLANG_IMPORT_PATHS), 'r') as file:
+	golang_secondary_ips_path = Config().getGolangSecondaryIPs()
+	with open(golang_secondary_ips_path, 'r') as file:
 		lines = file.read().split('\n')
 
 	sources = {}

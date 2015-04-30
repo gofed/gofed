@@ -1,4 +1,4 @@
-from Utils import getScriptDir, runCommand, inverseMap
+from Utils import runCommand, inverseMap
 import re
 import os
 import tempfile
@@ -10,14 +10,12 @@ from Repos import Repos, IPMap
 from xml.dom import minidom
 from xml.dom.minidom import Node
 from ImportPathDB import ImportPathDB
-
-GOLANG_PACKAGES="data/golang.packages"
-GOLANG_PKG_DB="data/pkgdb"
-script_dir = getScriptDir() + "/.."
+from Config import Config
 
 def loadPackages():
+	golang_packages_path = Config().getGolangPackages()
 	packages = []
-	with open("%s/%s" % (script_dir, GOLANG_PACKAGES), "r") as file:
+	with open(golang_packages_path, "r") as file:
 		for line in file.read().split('\n'):
 			line = line.strip()
 			if line == '' or line[0] == '#':
@@ -195,7 +193,8 @@ def savePackageInfo(pkg_info):
 			errs.append("Warning: unable to parse %s. Error: %s" % (build, obj.getError()))
 			continue
 
-		with open("%s/%s/%s.xml" % (script_dir, GOLANG_PKG_DB, build), "w") as f:
+		golang_pkg = Config().getGolangPkgdb()
+		with open("%s/%s.xml" % (golang_pkg, build), "w") as f:
 			f.write(str(obj))
 
 	return errs
@@ -474,8 +473,9 @@ class LocalDB:
 		self.local_pkgs = []
 
 	def loadPackages(self):
+		golang_packages_path = Config().getGolangPackages()
 		packages = []
-		with open("%s/%s" % (script_dir, GOLANG_PACKAGES), "r") as file:
+		with open(golang_packages_path, "r") as file:
 			for line in file.read().split('\n'):
 				line = line.strip()
 				if line == '' or line[0] == '#':
@@ -488,16 +488,17 @@ class LocalDB:
 	def savePackages(self, packages):
 		if packages == []:
 			return False
-
-		with open("%s/%s.tmp" % (script_dir, GOLANG_PACKAGES), "w") as file:
+		golang_packages_path = Config().getGolangPackages()
+		with open("%s.tmp" % golang_packages_path, "w") as file:
 			for pkg in packages:
 				file.write("%s\n" % pkg)	
 
 		return True
 
 	def flush(self):
-		os.rename("%s/%s.tmp" % (script_dir, GOLANG_PACKAGES),
-			"%s/%s" % (script_dir, GOLANG_PACKAGES))
+		golang_packages_path = Config().getGolangPackages()
+		os.rename("%s.tmp" % golang_packages_path,
+			golang_packages_path)
 
 	# 1) get a list of new packages
 	# 2) add the list into golang.packages
@@ -615,7 +616,8 @@ class LocalDB:
 			return self.loadBuildsFromCache()
 
 		builds = {}
-		for dirName, subdirList, fileList in os.walk("%s/%s" % (script_dir, GOLANG_PKG_DB)):
+		golang_pkg = Config().getGolangPkgdb()
+		for dirName, subdirList, fileList in os.walk(golang_pkg):
 			for fname in fileList:
 				if not fname.endswith(".xml"):
 					continue
@@ -636,7 +638,8 @@ class LocalDB:
 		return builds
 
 	def saveBuildsToCache(self, builds):
-		with open("%s/%s/nvrs.cache" % (script_dir, GOLANG_PKG_DB), "w") as file:
+		golang_pkg = Config().getGolangPkgdb()
+		with open("%s/nvrs.cache" % golang_pkg, "w") as file:
 			sbuilds = sorted(builds.keys())
 			for build in sbuilds:
 				file.write("%s\n" % builds[build])
@@ -653,10 +656,11 @@ class LocalDB:
 
 	def loadBuildsFromCache(self):
 		builds = {}
-		if not os.path.exists("%s/%s/nvrs.cache" % (script_dir, GOLANG_PKG_DB)):
+		golang_pkg = Config().getGolangPkgdb()
+		if not os.path.exists("%s/nvrs.cache" % golang_pkg):
 			return self.loadLatestBuilds(cache=False)
 
-		with open("%s/%s/nvrs.cache" % (script_dir, GOLANG_PKG_DB), "r") as file:
+		with open("%s/nvrs.cache" % golang_pkg, "r") as file:
 			for line in file.read().split("\n"):
 				line = line.strip()
 				if line == "":

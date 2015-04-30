@@ -8,23 +8,20 @@
 #############################################################################
 import re
 import os
-from Utils import getScriptDir
 from Utils import runCommand
 from Config import Config
 import urllib
 import json
 
-script_dir = getScriptDir() + "/.."
 repo_mappings = {}
-GOLANG_IMAP="data/golang.imap"
-GOLANG_REPOS="data/golang.repos"
 ###############################
 # Import path to package name #
 ###############################
 class IPMap:
 	def loadIMap(self):
 		imap = {}
-		with open("%s/%s" % (script_dir, GOLANG_IMAP), "r") as file:
+		golang_imap_path = Config().getGolangIp2pkgMapping()
+		with open(golang_imap_path, "r") as file:
 			for line in file.read().split('\n'):
 				line = line.strip()
 				if line == '':
@@ -44,7 +41,8 @@ class IPMap:
 		if mapping == []:
 			return False
 
-		with open("%s/%s.tmp" % (script_dir, GOLANG_IMAP), "w") as file:
+		golang_imap_path = Config().getGolangIp2pkgMapping()
+		with open("%s.tmp" % golang_imap_path, "w") as file:
 			sargs = sorted(mapping.keys())
 			for arg in sargs:
 				build, devel = mapping[arg]
@@ -53,8 +51,9 @@ class IPMap:
 		return True
 
 	def flush(self):
-		os.rename("%s/%s.tmp" % (script_dir, GOLANG_IMAP),
-			"%s/%s" % (script_dir, GOLANG_IMAP))
+		golang_imap_path = Config().getGolangIp2pkgMapping()
+		os.rename("%s.tmp" % golang_imap_path,
+			golang_imap_path)
 
 #################################################
 # Internal database of packages and their repos #
@@ -63,7 +62,8 @@ class Repos:
 
 	def loadRepos(self):
 		lines = []
-		with open('%s/%s' % (script_dir, GOLANG_REPOS), "r") as file:
+		golang_repos_path = Config().getGolangRepos()
+		with open(golang_repos_path, "r") as file:
 			lines = file.read().split('\n')
 
 		repos = {}
@@ -91,7 +91,8 @@ class Repos:
 		if repos == []:
 			return False
 
-		with open('%s/%s.tmp' % (script_dir, GOLANG_REPOS), "w") as file:
+		golang_repos_path = Config().getGolangRepos()
+		with open('%s.tmp' % golang_repos_path, "w") as file:
 			spkgs = sorted(repos.keys())
 			for pkg in spkgs:
 				dir, git = repos[pkg]
@@ -100,8 +101,9 @@ class Repos:
 		return True
 
 	def flush(self):
-		os.rename("%s/%s.tmp" % (script_dir, GOLANG_REPOS),
-			"%s/%s" % (script_dir, GOLANG_REPOS))
+		golang_repos_path = Config().getGolangRepos()
+		os.rename("%s.tmp" % golang_repos_path,
+			golang_repos_path)
 	
 
 	def parseReposInfo(self):
@@ -109,7 +111,8 @@ class Repos:
 		path_prefix = Config().getRepoPathPrefix()
 
 		lines = []
-		with open('%s/%s' % (script_dir, GOLANG_REPOS), "r") as file:
+		golang_repos_path = Config().getGolangRepos()
+		with open(golang_repos_path, "r") as file:
 			lines = file.read().split('\n')
 
 		repos = {}

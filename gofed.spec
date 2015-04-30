@@ -52,7 +52,7 @@ cp parseGo %{buildroot}/usr/share/%{name}/.
 mkdir -p %{buildroot}/usr/share/%{name}/config
 cp config/gofed.conf %{buildroot}/usr/share/%{name}/config/.
 # copy golang list and native imports
-cp -r data %{buildroot}/usr/share/%{name}/.
+cp -r data %{buildroot}/var/lib/%{name}/.
 # copy the tool script
 cp %{name} %{buildroot}/usr/share/%{name}/.
 # directory for local database
