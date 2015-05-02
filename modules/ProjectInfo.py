@@ -6,12 +6,13 @@ import sys
 
 class ProjectInfo:
 
-	def __init__(self):
+	def __init__(self, noGodeps = []):
 		self.err = ""
 		self.warn = ""
 		self.imported_packages = []
 		self.provided_packages = []
 		self.docs = []
+		self.noGodeps = noGodeps
 
 	def getError(self):
 		return self.err
@@ -52,7 +53,7 @@ class ProjectInfo:
 			self.err = "Directory %s does not exist" % directory
 			return False
 
-		gse_obj = GoSymbolsExtractor(directory, skip_errors=skip_errors)
+		gse_obj = GoSymbolsExtractor(directory, skip_errors=skip_errors, noGodeps=self.noGodeps)
 		if not gse_obj.extract():
 			self.err = gse_obj.getError()
 			return False

@@ -32,7 +32,7 @@ from Utils import runCommand
 
 class GoLint(Base):
 
-	def __init__(self, spec, sources, archive, verbose = False, stdout = True):
+	def __init__(self, spec, sources, archive, verbose = False, stdout = True, noGodeps = []):
 		Base.__init__(self)
 		self.spec = spec
 		self.sources = sources
@@ -41,6 +41,7 @@ class GoLint(Base):
 		self.stdout = stdout
 		self.test_results = []
 		self.t_result = ""
+		self.noGodeps = noGodeps
 
 		self.err_number = 0
 		self.warn_number = 0
@@ -85,7 +86,7 @@ class GoLint(Base):
 				return False
 
 		# Inspect tarball
-		self.prj_obj = ProjectInfo()
+		self.prj_obj = ProjectInfo(noGodeps = self.noGodeps)
 		# create a temp directory
 		dir = tempfile.mkdtemp()
 		# extract tarball to the directory

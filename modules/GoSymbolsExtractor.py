@@ -108,8 +108,16 @@ class GoSymbolsExtractor:
 			jsons = {}
 			if self.noGodeps != []:
 				skip = False
+				path_components = dir_info['dir'].split("/")
 				for nodir in self.noGodeps:
-					if dir_info['dir'].startswith(nodir):
+					parts = nodir.split(":")
+					name = parts[0]
+					# empty means all elements
+					max_depth = len(path_components)
+					if len(parts) == 2 and parts[1].isdigit():
+						max_depth = int(parts[1])
+
+					if nodir in path_components[0:max_depth]:
 						skip = True
 						break
 				if skip:

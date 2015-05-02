@@ -3,6 +3,7 @@ from modules.GoLint import GoLint
 import optparse
 from os import walk
 from modules.Utils import FormatedPrint
+from modules.Config import Config
 
 def setOptions():
 	parser = optparse.OptionParser("%prog [-a] [-c] [-d [-v]] [directory]")
@@ -35,6 +36,16 @@ def setOptions():
 	parser.add_option(
             "", "-v", "--verbose", dest="verbose", action = "store_true", default = False,
             help = "Verbose mode"
+        )
+
+	parser.add_option(
+            "", "", "--scan-all-dirs", dest="scanalldirs", action = "store_true", default = False,
+            help = "Scan all dirs, including Godeps directory"
+        )
+
+	parser.add_option(
+            "", "", "--skip-dirs", dest="skipdirs", default = "",
+            help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
         )
 
 	return parser
@@ -113,7 +124,19 @@ if __name__ == "__main__":
 		fp_obj.printError("specfile not set")
 		exit(1)
 
-	obj = GoLint(specfile, sources, archive, options.verbose)
+	if not options.scanalldirs:
+		noGodeps = Config().getSkippedDirectories()
+	else:
+		noGodeps = []
+
+	if options.skipdirs:
+		for dir in options.skipdirs.split(','):
+			dir = dir.strip()
+			if dir == "":
+				continue
+			noGodeps.append(dir)
+
+	obj = GoLint(specfile, sources, archive, options.verbose, noGodeps = noGodeps)
 	if not obj.test():
 		print obj.getError()
 
