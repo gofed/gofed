@@ -42,9 +42,18 @@ class GoLint(Base):
 		self.test_results = []
 		self.t_result = ""
 
+		self.err_number = 0
+		self.warn_number = 0
+
 		self.sp_obj = None
 		self.src_obj = None
 		self.prj_obj = None
+
+	def getErrorCount(self):
+		return self.err_number
+
+	def getWarningCount(self):
+		return self.warn_number
 
 	def getTestResults(self):
 		return self.test_results
@@ -126,10 +135,12 @@ class GoLint(Base):
 
 		if name == "":
 			self.t_result = "E: Missing name tag"
+			self.err_number += 1
 			return False
 
 		if url == "":
 			self.t_result = "E: Missing url tag"
+			self.err_number += 1
 			return False
 
 		ip_obj = ImportPath(url)
@@ -140,10 +151,12 @@ class GoLint(Base):
 		pkg_name = ip_obj.getPackageName()
 		if pkg_name == '':
 			self.t_result = "E: Uknown repo url"
+			self.err_number += 1
 			return False
 
 		if pkg_name != name:
 			self.t_result = "W: Incorrect package name %s, should be %s" % (name, pkg_name)
+			self.warn_number += 1
 			return False
 
 		self.t_result = "I: Package name correct"
@@ -158,16 +171,19 @@ class GoLint(Base):
 
 		if commit == "":
 			self.t_result = "E: missing %global commit or rev"
+			self.err_number += 1
 			return False
 
 		if commit_label == "commit":
 			if self.sp_obj.getMacro("shortcommit") == "":
 				self.t_result = "E: missing %global shortcommit"
+				self.err_number += 1
 				return False
 			self.t_result = "I: commit and shortcommit macro"
 		else:
 			if self.sp_obj.getMacro("shortrev") == "":
 				self.t_result = "E: missing %global shortrev"
+				self.err_number += 1
 				return False
 			self.t_result = "I: rev and shortrev macro"
 
@@ -184,6 +200,7 @@ class GoLint(Base):
 
 		if import_path == "":
 			self.t_result = "E: Missing %%{%s} macro" % ip_macro
+			self.err_number += 1
 			return False
 
 		self.t_result = "I: %s macro found" % ip_macro
@@ -193,21 +210,25 @@ class GoLint(Base):
 		provider = self.sp_obj.getMacro('provider')
 		if provider == "":
 			self.t_result = "E: Missing %{provider} macro"
+			self.err_number += 1
 			return False
 
 		provider_tld = self.sp_obj.getMacro('provider_tld')
 		if provider_tld == "":
 			self.t_result = "E: Missing %{provider_tld} macro"
+			self.err_number += 1
 			return False
 
 		repo = self.sp_obj.getMacro('repo')
 		if repo == "":
 			self.t_result = "E: Missing %{repo} macro"
+			self.err_number += 1
 			return False
 
 		project = self.sp_obj.getMacro('project')
 		if project == "":
 			self.t_result = "E: Missing %{project} macro"
+			self.err_number += 1
 			return False
 
 		self.t_result = "I: provider, provider_tld, repo and project macros found"
@@ -217,6 +238,7 @@ class GoLint(Base):
 		source = self.sp_obj.getTag('source')
 		if source == "":
 			self.t_result = "E: Missing source tag"
+			self.err_number += 1
 			return False
 
 		archive = path.basename(source)
@@ -226,10 +248,12 @@ class GoLint(Base):
 
 			if archive not in sources:
 				self.t_result = "E: archive in source[0] tag not in sources file"
+				self.err_number += 1
 				return False
 
 		if archive != self.archive:
 			self.t_result = "E: sources[0]'s tarball != specified tarball: %s != %s" % (archive, self.archive)
+			self.err_number += 1
 			return False
 
 		self.t_result = "I: %s archive found in sources" % archive
@@ -253,6 +277,7 @@ class GoLint(Base):
 		devel_obj = self.sp_obj.getDevelSubpackage()
 		if devel_obj == None:
 			self.t_result = "E: Unable to find devel subpackage"
+			self.err_number += 1
 			return False
 
 		s_br = filter(lambda l: l != "golang", devel_obj.getBuildRequires())
@@ -266,27 +291,33 @@ class GoLint(Base):
 		missing_br = list(set(t_imported) - set(s_br))
 		for br in missing_br:
 			self.t_result.append("W: Missing BuildRequires: %s" % br)
+			self.warn_number += 1
 
 		for br in super_br:
 			self.t_result.append("W: Superfluous BuildRequires: %s" % br)
+			self.warn_number += 1
 
 		# R
 		super_r = list(set(s_r) - set(t_imported) - set(['golang']))
 		missing_r = list(set(t_imported) - set(s_r))
 		for r in missing_r:
 			self.t_result.append("W: Missing Requires: %s" % r)
+			self.warn_number += 1
 
 		for r in super_r:
 			self.t_result.append("W: Superfluous Requires: %s" % r)
+			self.warn_number += 1
 
 		# Provides
 		super_p = list(set(s_provided) - set(t_provided))
 		missing_p = list(set(t_provided) - set(s_provided))
 		for p in missing_p:
 			self.t_result.append("W: Missing Provides: %s" % p)
+			self.warn_number += 1
 
 		for p in super_p:
 			self.t_result.append("W: Superfluous Provides: %s" % p)
+			self.warn_number += 1
 
 		if self.t_result != []:
 			return False

@@ -117,3 +117,7 @@ if __name__ == "__main__":
 	if not obj.test():
 		print obj.getError()
 
+	err_cnt = obj.getErrorCount()
+	warn_cnt = obj.getWarningCount()
+
+	print "1 golang specfile checked; %s errors, %s warnings." % (err_cnt, warn_cnt)
