@@ -118,6 +118,8 @@ class GoLint(Base):
 			elif self.verbose:
 				self.printTResult(self.t_result)
 
+		return True
+
 	def testPackageName(self):
 		name = self.sp_obj.getTag('name')
 		url = self.sp_obj.getTag('url')
