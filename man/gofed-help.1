@@ -12,6 +12,7 @@ gofed-github2spec,
 gofed-googlecode2spec,
 gofed-help,
 gofed-inspect,
+gofed-lint,
 gofed-pull,
 gofed-push,
 gofed-repo2spec,
@@ -109,22 +110,28 @@ list provided packages (import paths).
 .RE
 
 .PP
+.B gofed lint
+.RS 4
+Run checks on golang spec file. Archive with source codes is needed.
+.RE
+
+.PP
 .B gofed pull
 .RS 4
 Pull from branches (all implicitly).
 .RE
 
-.pp
-.b gofed push
-.rs 4
+.PP
+.B gofed push
+.RS 4
 push to branches (all implicitly).
-.re
+.RE
 
-.pp
-.b gofed repo2spec
-.rs 4
+.PP
+.B gofed repo2spec
+.RS 4
 Generate a spec file for general provider.
-.re
+.RE
 
 .PP
 .B gofed review SPEC [--user] [--skip-koji]

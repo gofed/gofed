@@ -71,6 +71,7 @@ function printHelp {
 	echo "	googlecode2spec  generate spec file from googlecode"
 	echo "	help		 prints this help"
 	echo "	inspect		 inspect golang tarball"
+	echo "	lint		 lint for golang spec files"
 	echo "	pull		 pull from branches"
 	echo "	push		 pull from branches"
 	echo "	review		 creates review for Bugzilla"
@@ -140,6 +141,8 @@ elif [ "$1" == "version" ]; then
         operation=$VERSION
 elif [ "$1" == "repo2spec" ]; then
         operation=$REPO2SPEC
+elif [ "$1" == "lint" ]; then
+        operation=$LINT
 fi
 
 ################################
@@ -205,5 +208,7 @@ elif [ $operation -eq $VERSION ]; then
         python $script_dir/version.py $@
 elif [ $operation -eq $REPO2SPEC ]; then
         python $script_dir/repo2gospec.py $@
+elif [ $operation -eq $LINT ]; then
+        python $script_dir/lint.py $@
 fi
 
