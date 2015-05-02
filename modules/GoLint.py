@@ -245,7 +245,7 @@ class GoLint(Base):
 
 		t_imported = filter(lambda i: not i.startswith(import_path), t_imported)
 		t_imported = map(lambda i: str("golang(%s)" % i), t_imported)
-		t_provided = map(lambda i: str("golang(%s/%s)" % (import_path, i)) if import_path != "." else str("golang(%s)" % import_path), t_provided)
+		t_provided = map(lambda i: str("golang(%s/%s)" % (import_path, i)) if i != "." else str("golang(%s)" % import_path), t_provided)
 
 		# get provides and [B]R from package section
 		devel_obj = self.sp_obj.getDevelSubpackage()
