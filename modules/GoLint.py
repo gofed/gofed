@@ -7,6 +7,7 @@ from ProjectInfo import ProjectInfo
 import tempfile
 import shutil
 from Utils import runCommand
+from Config import Config
 
 #
 # 1. URL tag: should be https://%{import_path} otherwise it can not be used
@@ -272,8 +273,13 @@ class GoLint(Base):
 
 		t_imported = filter(lambda i: not i.startswith(import_path), t_imported)
 		t_imported = map(lambda i: str("golang(%s)" % i), t_imported)
-		t_provided = map(lambda i: str("golang(%s/%s)" % (import_path, i)) if i != "." else str("golang(%s)" % import_path), t_provided)
 
+		skipped_provides_with_prefix = Config().getSkippedProvidesWithPrefix()
+
+		for provide_prefix in skipped_provides_with_prefix:
+			t_provided = filter(lambda i: not i.startswith(provide_prefix), t_provided)
+
+		t_provided = map(lambda i: str("golang(%s/%s)" % (import_path, i)) if i != "." else str("golang(%s)" % import_path), t_provided)
 		# get provides and [B]R from package section
 		devel_obj = self.sp_obj.getDevelSubpackage()
 		if devel_obj == None:

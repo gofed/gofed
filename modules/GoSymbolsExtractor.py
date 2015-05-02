@@ -117,7 +117,7 @@ class GoSymbolsExtractor:
 					if len(parts) == 2 and parts[1].isdigit():
 						max_depth = int(parts[1])
 
-					if nodir in path_components[0:max_depth]:
+					if name in path_components[0:max_depth]:
 						skip = True
 						break
 				if skip:
