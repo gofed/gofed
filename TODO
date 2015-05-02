@@ -52,6 +52,7 @@
 [  ] - hourly scan of golang packages => create server for that
 [  ] - write a script to get a list of all builds ready to be pushed to stable (7 days expired, ...)
 [  ] - create a tool that for a given project creates a list of all dependencies (use go get to download all deps) => graph of deps
+[  ] - for each project list all used symbols (with possible package membership). User will get a list of all possible symbols which will need manual inspection in some cases.
 
 ====version-1====
 [  ] - run a scan of all packages to check if they are up2date with upstream or not
@@ -65,6 +66,9 @@
 [  ] - /tmp/test/etcd-2.0.3/client/http.go has interface in interface which is not present in exported symbols (type SyncableHTTPClient interface)
 [  ] - bash completion for directory paths (some commands neeed it and the current bash completion does not complete it)
 [  ] - error messages prefixed by Error
+[  ] - find a way how to detect what subpackages given package has => get a list of builds (spec file parser? cat spec | grep package
+[  ] - try except for every open
+[  ] - take a look at convention of private and public methods|attributes
 
 ====TODO===
 [  ] - DOC: godep check-deps is using data/golang.imap, which has to updated by gofed scan-imports
@@ -78,9 +82,10 @@
 [  ] - golang-github-influxdb-influxdb-client and https://github.com/guelfey/go.dbus, fix golang.repos
 [  ] - run all commands without internet connection (print no internet connection error, catch exception, gofed bump, gofed repo2spec --detect, ...)
 [  ] - add time measurement to all commands, optimize what can be optimized
-[  ] - read all local database paths from config file, don't use wired ones
 
 ====DONE====
+[OK] - skip example and examples provides
+[OK] - read all local database paths from config file, don't use wired ones
 [OK] - check for the latest release and set version tag based on it so we don't have always 0-0.1.git...
 [OK] - http://camlistore.org/pkg/throttle not shown in ggi (if there is Unknown class => report it during spec file generator)
 [OK] - gofed ggi/inspect - skip Godeps directory (imlicit, add option not to skip it)
