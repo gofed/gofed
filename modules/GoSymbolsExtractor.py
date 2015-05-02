@@ -134,6 +134,10 @@ class GoSymbolsExtractor:
 					if path["path"].startswith("./"):
 						continue
 
+					# filter out all .. import paths
+					if path["path"] == "..":
+						continue
+
 					if path["path"] in ip_used:
 						continue
 
