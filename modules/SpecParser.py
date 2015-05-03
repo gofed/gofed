@@ -363,13 +363,14 @@ class SpecParser(Base):
 
 					if sec not in sections:
 						sections[sec] = {'name': [], 'value': {}}
+
 					if sec in ["files", "package", "description"]:
 						name = self.getPackageName(pkg_name, line)
+						sections[sec]['name'].append(name)
 						# main subpackage has empty name
 					else:
 						name = line
 
-					sections[sec]['name'].append(name)
 					last_section = sec
 					last_name = name
 					#sections[sec]['value'][name] = []
