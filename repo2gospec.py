@@ -7,6 +7,7 @@ from modules.ImportPath import ImportPath
 from modules.PackageInfo import PackageInfo
 from modules.SpecGenerator import SpecGenerator
 from modules.ImportPathsDecomposer import ImportPathsDecomposer
+from modules.Config import Config
 
 import os
 import sys
@@ -96,6 +97,17 @@ def setOptions():
 	    "", "", "--force", dest="force", action="store_true", default = False,
 	    help = "Generate spec file even if it is already in Fedora"
 	)
+
+	parser.add_option(
+            "", "", "--scan-all-dirs", dest="scanalldirs", action = "store_true", default = False,
+            help = "Scan all dirs, including Godeps directory"
+        )
+
+	parser.add_option(
+            "", "", "--skip-dirs", dest="skipdirs", default = "",
+            help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
+        )
+
 
 	return parser.parse_args()
 
@@ -200,12 +212,24 @@ if __name__ == "__main__":
 		import_path = options.detect
 		commit = options.commit
 
+	if not options.scanalldirs:
+		noGodeps = Config().getSkippedDirectories()
+	else:
+		noGodeps = []
+
+	if options.skipdirs:
+		for dir in options.skipdirs.split(','):
+			dir = dir.strip()
+			if dir == "":
+				continue
+			noGodeps.append(dir)
+
 	# 1. decode some package info (name, archive url, ...)
 	# 2. set path to downloaded tarball
 	# 3. retrieve project info from tarball
 	# 4. generate spec file
 	
-	pkg_obj = PackageInfo(import_path, commit)
+	pkg_obj = PackageInfo(import_path, commit, noGodeps)
 	if not pkg_obj.decodeRepository():
 		fmt_obj.printError(pkg_obj.getError())
 		exit(1)

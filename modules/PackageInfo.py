@@ -9,9 +9,10 @@ class PackageInfo:
 		provided packages
 		tests
 	"""
-	def __init__(self, import_path, commit = ""):
+	def __init__(self, import_path, commit = "", noGodeps = []):
 		self.import_path = import_path
 		self.commit = commit
+		self.noGodeps = noGodeps
 		self.err = ""
 		self.repository_info = None
 		self.project_info = None
@@ -54,7 +55,7 @@ class PackageInfo:
 			return False
 
 		# get package info
-		self.project_info = ProjectInfo()
+		self.project_info = ProjectInfo(self.noGodeps)
 		source_code_directory = "%s/%s" % (working_directory, self.archive_dir)
 		if not os.path.exists(source_code_directory):
 			self.err = "Source code directory %s does not exist." % source_code_directory
