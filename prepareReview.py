@@ -1,7 +1,7 @@
 import os.path
 import optparse
 from modules.Config import Config
-from modules.specParser import SpecInfo
+from modules.SpecParser import SpecParser
 import shutil
 from os.path import expanduser
 from modules.Utils import runCommand
@@ -39,7 +39,10 @@ if __name__ == "__main__":
 		print "Spec file %s not found" % specfile
 		exit(1)
 
-	obj = SpecInfo(specfile)
+	obj = SpecParser(specfile)
+	if not obj.parse():
+		print obj.getError()
+		exit(1)
 
 	provider = obj.getMacro("provider")
 	repo = obj.getMacro("repo")

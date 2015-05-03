@@ -1,6 +1,6 @@
 import optparse
 from modules.Utils import runCommand
-from modules.specParser import SpecInfo
+from modules.SpecParser import SpecParser
 from modules.Repos import getGithubLatestCommit, getBitbucketLatestCommit
 
 from modules.RepositoryInfo import RepositoryInfo
@@ -16,7 +16,11 @@ def getMacros(spec):
 
 	err = ""
 	macros = {}
-	obj = SpecInfo(spec)
+	obj = SpecParser(spec)
+	if not obj.parse():
+		err = obj.getError()
+		return err, {}
+
 	macros["project"] = obj.getMacro("project")
 	macros["repo"] = obj.getMacro("repo")
 	macros["provider"] = obj.getMacro("provider")

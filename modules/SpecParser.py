@@ -108,6 +108,7 @@ class SpecParser(Base):
 		Base.__init__(self)
 		self.spec = spec
 		self.tags = {}
+		self.macros = {}
 		self.subpackages = {}
 		self.changelogs = []
 
