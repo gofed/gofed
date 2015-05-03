@@ -267,7 +267,7 @@ class ImportPath(object):
 	       
 	def googlegolangorg2pkgdb(self, repository):
 		# google.golang.org/<repository>
-		return "golang-google-golang-%s" % repository
+		return "golang-google-golangorg-%s" % repository
 
 	def golangorg2pkgdb(self, repository):
 		# golang.org/x/<repo>
