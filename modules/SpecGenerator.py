@@ -99,7 +99,7 @@ class SpecGenerator:
 
 			self.file.write("BuildRequires: golang(%s)\n" % (dep))
 
-		self.file.write("Requires:      golang >= 1.2.1-3\n")
+		self.file.write("\nRequires:      golang >= 1.2.1-3\n")
 		for dep in imported_packages:
 			if dep.startswith(prefix):
 				continue
@@ -107,6 +107,7 @@ class SpecGenerator:
 			self.file.write("Requires:      golang(%s)\n" % (dep))
 
 		# provides
+		self.file.write("\n")
 		for path in project.getProvidedPackages():
 			sufix = ""
 			if path != ".":
@@ -115,7 +116,7 @@ class SpecGenerator:
 			self.file.write("Provides:      golang(%%{import_path}%s) = %%{version}-%%{release}\n" % sufix)
 
 		# description
-		self.file.write("%description devel\n")
+		self.file.write("\n%description devel\n")
 		self.file.write("%{summary}\n\n")
 		self.file.write("This package contains library source intended for\n")
 		self.file.write("building other packages which use %{project}/%{repo}.\n")
