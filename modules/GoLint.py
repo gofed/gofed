@@ -296,33 +296,33 @@ class GoLint(Base):
 		# BR
 		super_br = list(set(s_br) - set(t_imported) - set(['golang']))
 		missing_br = list(set(t_imported) - set(s_br))
-		for br in missing_br:
+		for br in sorted(missing_br):
 			self.t_result.append("W: Missing BuildRequires: %s" % br)
 			self.warn_number += 1
 
-		for br in super_br:
+		for br in sorted(super_br):
 			self.t_result.append("W: Superfluous BuildRequires: %s" % br)
 			self.warn_number += 1
 
 		# R
 		super_r = list(set(s_r) - set(t_imported) - set(['golang']))
 		missing_r = list(set(t_imported) - set(s_r))
-		for r in missing_r:
+		for r in sorted(missing_r):
 			self.t_result.append("W: Missing Requires: %s" % r)
 			self.warn_number += 1
 
-		for r in super_r:
+		for r in sorted(super_r):
 			self.t_result.append("W: Superfluous Requires: %s" % r)
 			self.warn_number += 1
 
 		# Provides
 		super_p = list(set(s_provided) - set(t_provided))
 		missing_p = list(set(t_provided) - set(s_provided))
-		for p in missing_p:
+		for p in sorted(missing_p):
 			self.t_result.append("W: Missing Provides: %s" % p)
 			self.warn_number += 1
 
-		for p in super_p:
+		for p in sorted(super_p):
 			self.t_result.append("W: Superfluous Provides: %s" % p)
 			self.warn_number += 1
 
