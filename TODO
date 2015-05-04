@@ -2,17 +2,12 @@
 ====TODO===
 [  ] - write a tool to generate Godeps.json file (but how to detect) {https://github.com/jingweno/nut}
 [  ] - when running gofed scan-imports -c and the connection is down, make an option to continue in the database update from the last script run
-[  ] - rewrite gofed github2spec to use only github url [plus optional commit]
-[  ] - when running gofed bump, add check for missing/superfluous provides and [build]requires
 [  ] - from spec file extract its changelog and get the latest related or resolves
 [  ] - when searching for new golang packages, repoquery those which depends on golang devel packages
 [  ] - write a script to check for ownership of golang directories (to have an overview)
 [  ] - write a script to update all local golang packages to the latest built
 [  ] - measure computation time of scripts used in cron job[s] and optimize them
-[  ] - make a script to compare provides in spec and in tarball (handy for updates)
 [  ] - for each scan make a temp file that holds all items that were already succesefully checked (in case of a failed check, check only those that did not pass)
-[  ] - add options to run individual parts of build phase or all phases from a given phase number (gofed initpkg, possibly rename the command) or decompose it into subpackages
-[  ] - gofed [scratch-]build: add options to specify branches to use only
 [  ] - after gofed created -c test if some lines were removed and ask for confirmation (add -y option as yes for all) 
 [  ] - statistics of number of golang commits/builds/updates/overrides per day (from koji, updates, ...)
 [  ] - write a script to detect if all packages are up to date, use https://api.github.com/repos/<repo>/<project>/commits, e.g. https://api.github.com/repos/spf13/hugo/commits
@@ -25,11 +20,8 @@
 [  ] - make an online graph of golang deps and info about them (plus changelog of fedora packaging and known issues = cyclic deps, missing [Build]Requires, ...?)
 [  ] - script to check which golang packages are stable, testing, not updated yet (el6 basically)
 [  ] - script to list all dependencies (recursivelly) for a given package {partially by gofed scandeps -g PKGNAME}
-[  ] - add option to gofed inspect to skip some directories (example, ...)
 [  ] - write a scan of all golang packages for conflicting files (does any two packages install the same file?)
-[  ] - when running [scratch]build, check for state of a build? (every 10 seconds get if it is doing mock, building, instaling, ...?)
 [  ] - api check: if a type is change to its super type, report it but without minus symbol "-" => upgrade the check and for a given type list all its supertypes as well (second walk through go symbols)
-[  ] - gofed bump should check if the version has changed and report it on stdout
 [  ] - add logger to gofed
 [  ] - use gofed inspect to list all directories containing *.go files and make it a dep of all golang packages? What other things can gofed provide? List of provides, ...?
 [  ] - when running bbo, untag all bbo before the current bbo
@@ -40,13 +32,8 @@
 [  ] - create a service file to run daily/hourly scans (updates of local pkgdb)
 [  ] - gofed check-api URL: make an overview of changes of all symbols through out all commits
 [  ] - from gofed scandeps list of missing import paths in spec file
-[  ] - gofed ggi,inspect, .. should implicitelly skip Gofeds folder (and report it to stdin/stderr)
-[  ] - when generating list of [B]R or Provides, sort it alphabetically
 [  ] - finish inspectpackage.sh
 [  ] - replace initPackageInRepo.sh with gofed wizard
-[  ] - rewrite all *.sh scripts into python, replace gofed calls with a python module function
-[  ] - gofed scansymbols: dont list provided import paths for packages that has exported symbols only from _test.go files
-[  ] - move path of all local databases to config file
 [  ] - script to check a structure of spec file of every golang package
 [  ] - add locks (gofed scan-imports can modify local db, it is not good to run gofed scandeps or other commands)
 [  ] - hourly scan of golang packages => create server for that
@@ -82,8 +69,24 @@
 [  ] - golang-github-influxdb-influxdb-client and https://github.com/guelfey/go.dbus, fix golang.repos
 [  ] - run all commands without internet connection (print no internet connection error, catch exception, gofed bump, gofed repo2spec --detect, ...)
 [  ] - add time measurement to all commands, optimize what can be optimized
+[  ] - for every package create a 'go_info' file with all necesiary informations (or statistics) about the devel subpackage and project (like a history)
+[  ] - for each package in Godeps.json check if the given import path is provided, not just the package itself
+[  ] - move /usr/share/gofed/config/gofed.conf to /etc/gofed.conf
 
 ====DONE====
+[--] - gofed bump should check if the version has changed and report it on stdout
+[--] - when running [scratch]build, check for state of a build? (every 10 seconds get if it is doing mock, building, instaling, ...?)
+[OK] - add option to gofed inspect to skip some directories (example, ...)
+[OK] - add options to run individual parts of build phase or all phases from a given phase number (gofed initpkg, possibly rename the command) or decompose it into subpackages
+[OK] - gofed [scratch-]build: add options to specify branches to use only
+[OK] - rewrite gofed github2spec to use only github url [plus optional commit]
+[--] - when running gofed bump, add check for missing/superfluous provides and [build]requires
+[OK] - make a script to compare provides in spec and in tarball (handy for updates)
+[OK] - rewrite all *.sh scripts into python, replace gofed calls with a python module function
+[OK] - gofed scansymbols: dont list provided import paths for packages that has exported symbols only from _test.go files
+[OK] - move path of all local databases to config file
+[OK] - gofed ggi,inspect, .. should implicitelly skip Gofeds folder (and report it to stdin/stderr)
+[OK] - when generating list of [B]R or Provides, sort it alphabetically
 [OK] - skip example and examples provides
 [OK] - read all local database paths from config file, don't use wired ones
 [OK] - check for the latest release and set version tag based on it so we don't have always 0-0.1.git...
