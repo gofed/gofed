@@ -3,14 +3,18 @@ from Utils import getScriptDir
 class Config:
 
 	def __init__(self):
-		cfg_file = getScriptDir() + "/../config/gofed.conf"
+		cfg_file = "/etc/gofed.conf"
 		self.db = {}
 		self.parseConfigFile(cfg_file)
 
 	def parseConfigFile(self, cfg_file):
 		lines = []
-		with open(cfg_file, 'r') as file:
-			lines = file.read().split('\n')
+		try:
+			with open(cfg_file, 'r') as file:
+				lines = file.read().split('\n')
+		except IOError, e:
+			print "Unable to parse configuration file: %s" % e
+			exit(1)
 
 		for line in lines:
 			line = line.strip()
