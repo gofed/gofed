@@ -2,6 +2,7 @@ from xml.dom import minidom
 from xml.dom.minidom import Node
 from NativeImports import NativeImports
 from Base import Base
+from os import path
 
 class SymbolPackageParser(Base):
 
@@ -10,7 +11,7 @@ class SymbolPackageParser(Base):
 		self.native_imports = []
 		self.read_native_imports = read_native_imports
 		self.ip_provides = []
-		self.imports = []
+		self.ip_imports = []
 		# pkg_name.xml
 		self.pkg_name = ""
 		# devel_name-V-R (N-V-R)
@@ -32,7 +33,7 @@ class SymbolPackageParser(Base):
 		return self.ip_provides
 
 	def getImports(self):
-		return self.imports
+		return self.ip_imports
 
 	def getPkgName(self):
 		return self.pkg_name
@@ -62,7 +63,7 @@ class SymbolPackageParser(Base):
 
 		pkg_nodes = pkg_nodes[0].getElementsByTagName("package")
 
-		self.devel_name = self.path.split(".")[0]
+		self.devel_name = path.basename(self.path.split(".")[0])
 
 		self.ip_provides = []
 		self.ip_imports = []
@@ -100,7 +101,7 @@ class SymbolPackageParser(Base):
 			return False
 
 		# what package does this build comes from
-		self.pkg = "-".join(prj_node[0].attributes["nvr"].value.split("-")[:-2])
+		self.pkg_name = "-".join(prj_node[0].attributes["nvr"].value.split("-")[:-2])
 
 		return True
 
