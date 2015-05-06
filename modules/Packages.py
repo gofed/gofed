@@ -372,9 +372,9 @@ def joinGraphs(g1, g2):
 	return (nodes, edges)
 
 
-def buildRequirementGraph(verbose=False):
+def buildRequirementGraph(verbose=False, cache=False):
 	# load imported and provided paths
-	ipdb_obj = ImportPathDB()
+	ipdb_obj = ImportPathDB(cache=cache)
 	if not ipdb_obj.load():
 		print "CHYBA"
 	ip_provides = ipdb_obj.getProvidedPaths()

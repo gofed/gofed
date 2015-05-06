@@ -147,7 +147,7 @@ class ImportPathDBCache(Base):
 
 class ImportPathDB(Base):
 
-	def __init__(self, cache=True):
+	def __init__(self, cache=False):
 		self.ip_provides = {}
 		self.ip_imports = {}
 		self.devel_main_pkg = {}
