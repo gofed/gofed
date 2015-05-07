@@ -99,7 +99,7 @@ In order to create a local database of exported symbols, provided import paths a
 To display a dependency graph for a package, e.g. docker-io, run:
 
    ```vim
-   $ gofed scandeps -g -o docker.png docker-io
+   $ gofed scan-deps -g -o docker.png docker-io
    ```
 
 This will generate a png picture docker.png with the graph.

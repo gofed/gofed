@@ -17,9 +17,9 @@ gofed-pull,
 gofed-push,
 gofed-repo2spec,
 gofed-review,
-gofed-scandeps,
+gofed-scan-deps,
 gofed-scan-imports,
-gofed-scansymbols,
+gofed-scan-symbols,
 gofed-scratch-build,
 gofed-scan-packages,
 gofed-update,
@@ -162,7 +162,13 @@ across golang devel packages.
 .RE
 
 .PP
-.B gofed scansymbols
+.B gofed scan-deps
+.RS 4
+Scan dependencies among golang packages.
+.RE
+
+.PP
+.B gofed scan-symbols
 .RS 4
 Scan directory for go symbols.
 .RE

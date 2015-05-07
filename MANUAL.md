@@ -115,7 +115,7 @@ To list exported symbols (divided into types, funcs and vars)
 in a current directory you can run:
 
 ```vim
-$ gofed scansymbols -l .
+$ gofed scan-symbols -l .
 ```
 
 Output:

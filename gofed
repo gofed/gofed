@@ -76,9 +76,9 @@ function printHelp {
 	echo "	push		 pull from branches"
 	echo "	review		 creates review for Bugzilla"
 	echo "  repo2spec	 generate spec file from repository import path"
-	echo "	scandeps	 scan all golang packages for dependencies (e.g. cyclic)"
+	echo "	scan-deps	 scan all golang packages for dependencies (e.g. cyclic)"
 	echo "	scan-imports	 scan devel builds for possible import paths and imported paths"
-	echo "	scansymbols	 scan directory for go symbols"
+	echo "	scan-symbols	 scan directory for go symbols"
 	echo "	scratch-build	 scratch build all fedora branches"
 	echo "	scan-packages	 scan PkgDB for possible golang packages"
 	echo "	update		 update all fedora branches"
@@ -123,9 +123,9 @@ elif [ "$1" == "scan-packages" ]; then
         operation=$SCAN_PACKAGES
 elif [ "$1" == "bbo" ]; then
 	operation=$BBO
-elif [ "$1" == "scandeps" ]; then
+elif [ "$1" == "scan-deps" ]; then
         operation=$SCANDEPS
-elif [ "$1" == "scansymbols" ]; then
+elif [ "$1" == "scan-symbols" ]; then
         operation=$SCANSYMBOLS
 elif [ "$1" == "gcpmaster" ]; then
         operation=$GCPMASTER
