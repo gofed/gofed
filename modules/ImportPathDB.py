@@ -22,6 +22,11 @@ class ImportPathDBCache(Base):
 			self.ip_imports[devel_name] = imports
 			self.devel_main_pkg[devel_name] = main_pkg
 
+	def updateBuild(self, devel_name, provides, imports, main_pkg):
+		self.ip_provides[devel_name] = provides
+		self.ip_imports[devel_name] = imports
+		self.devel_main_pkg[devel_name] = main_pkg
+
 	def getDevelNames(self):
 		return self.ip_provides.keys()
 
@@ -131,8 +136,6 @@ class ImportPathDBCache(Base):
 
 			build_node.append(imports_node)
 			cache_node.append(build_node)
-
-			print etree.tostring(cache_node, pretty_print=True)
 
 		path = Config().getGolangImPrPackages()
 		try:
