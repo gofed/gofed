@@ -1,0 +1,2543 @@
+<cache>
+  <build name="golang-github-shurcooL-sanitized_anchor_name-devel" package="golang-github-shurcooL-sanitized_anchor_name">
+    <provides>
+      <provide value="github.com/shurcooL/sanitized_anchor_name"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="cadvisor-devel" package="cadvisor">
+    <provides>
+      <provide value="github.com/google/cadvisor/utils/cpuload/scheddebug"/>
+      <provide value="github.com/google/cadvisor/utils/sysinfo"/>
+      <provide value="github.com/google/cadvisor/utils/oomparser"/>
+      <provide value="github.com/google/cadvisor/utils/fs"/>
+      <provide value="github.com/google/cadvisor/storage"/>
+      <provide value="github.com/google/cadvisor/info"/>
+      <provide value="github.com/google/cadvisor/storage/bigquery/client"/>
+      <provide value="github.com/google/cadvisor/storage/memory"/>
+      <provide value="github.com/google/cadvisor/container"/>
+      <provide value="github.com/google/cadvisor/container/docker"/>
+      <provide value="github.com/google/cadvisor/utils/sysfs"/>
+      <provide value="github.com/google/cadvisor/utils/procfs"/>
+      <provide value="github.com/google/cadvisor/info/test"/>
+      <provide value="github.com/google/cadvisor/utils/cpuload"/>
+      <provide value="github.com/google/cadvisor/container/libcontainer"/>
+      <provide value="github.com/google/cadvisor/utils/fs/mockfs"/>
+      <provide value="github.com/google/cadvisor/manager"/>
+      <provide value="github.com/google/cadvisor/fs"/>
+      <provide value="github.com/google/cadvisor/utils/cpuload/netlink"/>
+      <provide value="github.com/google/cadvisor/client"/>
+      <provide value="github.com/google/cadvisor/api"/>
+      <provide value="github.com/google/cadvisor/storage/test"/>
+      <provide value="github.com/google/cadvisor/storage/bigquery"/>
+      <provide value="github.com/google/cadvisor/pages/static"/>
+      <provide value="github.com/google/cadvisor/container/raw"/>
+      <provide value="github.com/google/cadvisor/storage/influxdb"/>
+      <provide value="github.com/google/cadvisor/healthz"/>
+      <provide value="github.com/google/cadvisor/utils/sysfs/fakesysfs"/>
+      <provide value="github.com/google/cadvisor/pages"/>
+      <provide value="github.com/google/cadvisor/utils"/>
+    </provides>
+    <imports>
+      <import value="github.com/golang/glog"/>
+      <import value="code.google.com/p/gomock/gomock"/>
+      <import value="github.com/stretchr/testify/mock"/>
+      <import value="github.com/stretchr/testify/assert"/>
+      <import value="github.com/stretchr/testify/require"/>
+      <import value="github.com/influxdb/influxdb/client"/>
+      <import value="code.google.com/p/google-api-go-client/bigquery/v2"/>
+      <import value="code.google.com/p/goauth2/oauth"/>
+      <import value="code.google.com/p/goauth2/oauth/jwt"/>
+      <import value="github.com/SeanDolphin/bqschema"/>
+      <import value="github.com/abbot/go-http-auth"/>
+      <import value="github.com/docker/libcontainer/cgroups"/>
+      <import value="github.com/google/cadvisor/events"/>
+      <import value="github.com/fsouza/go-dockerclient"/>
+      <import value="github.com/docker/docker/pkg/units"/>
+      <import value="github.com/google/cadvisor/summary"/>
+      <import value="github.com/docker/docker/pkg/mount"/>
+      <import value="code.google.com/p/go.exp/inotify"/>
+      <import value="github.com/docker/libcontainer"/>
+      <import value="github.com/docker/libcontainer/cgroups/fs"/>
+      <import value="github.com/docker/libcontainer/network"/>
+      <import value="github.com/docker/libcontainer/cgroups/systemd"/>
+      <import value="github.com/kr/pretty"/>
+    </imports>
+  </build>
+  <build name="golang-github-influxdb-influxdb-devel" package="golang-github-influxdb-influxdb">
+    <provides>
+      <provide value="github.com/influxdb/influxdb/integration"/>
+      <provide value="github.com/influxdb/influxdb/integration/helpers"/>
+      <provide value="github.com/influxdb/influxdb/api/udp"/>
+      <provide value="github.com/influxdb/influxdb/server"/>
+      <provide value="github.com/influxdb/influxdb/api/http"/>
+      <provide value="github.com/influxdb/influxdb/admin"/>
+      <provide value="github.com/influxdb/influxdb/checkers"/>
+      <provide value="github.com/influxdb/influxdb/configuration"/>
+      <provide value="github.com/influxdb/influxdb/api/graphite"/>
+      <provide value="github.com/influxdb/influxdb/common"/>
+      <provide value="github.com/influxdb/influxdb/cluster"/>
+      <provide value="github.com/influxdb/influxdb/api"/>
+      <provide value="github.com/influxdb/influxdb/api/collectd"/>
+      <provide value="github.com/influxdb/influxdb/protocol"/>
+      <provide value="github.com/influxdb/influxdb/wal"/>
+      <provide value="github.com/influxdb/influxdb/coordinator"/>
+      <provide value="github.com/influxdb/influxdb/parser"/>
+      <provide value="github.com/influxdb/influxdb/metastore"/>
+      <provide value="github.com/influxdb/influxdb/engine"/>
+    </provides>
+    <imports>
+      <import value="code.google.com/p/goprotobuf/proto"/>
+      <import value="code.google.com/p/log4go"/>
+      <import value="launchpad.net/gocheck"/>
+      <import value="github.com/influxdb/influxdb/datastore/storage"/>
+      <import value="github.com/influxdb/influxdb/client"/>
+      <import value="github.com/BurntSushi/toml"/>
+      <import value="github.com/influxdb/influxdb/datastore"/>
+      <import value="github.com/jmhodges/levigo"/>
+      <import value="github.com/gorilla/mux"/>
+      <import value="github.com/influxdb/influxdb/_vendor/raft"/>
+      <import value="code.google.com/p/go.crypto/bcrypt"/>
+      <import value="github.com/influxdb/go-cache"/>
+      <import value="github.com/bmizerany/pat"/>
+      <import value="github.com/kimor79/gollectd"/>
+      <import value="github.com/rakyll/statik/fs"/>
+      <import value="github.com/influxdb/influxdb/statik"/>
+    </imports>
+  </build>
+  <build name="golang-googlecode-gogoprotobuf-devel" package="golang-googlecode-gogoprotobuf">
+    <provides>
+      <provide value="code.google.com/p/gogoprotobuf/plugin/defaultcheck"/>
+      <provide value="code.google.com/p/gogoprotobuf/plugin/unmarshal"/>
+      <provide value="code.google.com/p/gogoprotobuf/protoc-gen-gogo/generator"/>
+      <provide value="code.google.com/p/gogoprotobuf/io"/>
+      <provide value="code.google.com/p/gogoprotobuf/fieldpath"/>
+      <provide value="code.google.com/p/gogoprotobuf/plugin/marshalto"/>
+      <provide value="code.google.com/p/gogoprotobuf/proto"/>
+      <provide value="code.google.com/p/gogoprotobuf/plugin/testgen"/>
+      <provide value="code.google.com/p/gogoprotobuf/plugin/enumstringer"/>
+      <provide value="code.google.com/p/gogoprotobuf/plugin/embedcheck"/>
+      <provide value="code.google.com/p/gogoprotobuf/protoc-gen-gogo/version"/>
+      <provide value="code.google.com/p/gogoprotobuf/plugin/size"/>
+      <provide value="code.google.com/p/gogoprotobuf/plugin/face"/>
+      <provide value="code.google.com/p/gogoprotobuf/protoc-gen-gogo"/>
+      <provide value="code.google.com/p/gogoprotobuf/protoc-gen-gogo/plugin"/>
+      <provide value="code.google.com/p/gogoprotobuf/plugin/populate"/>
+      <provide value="code.google.com/p/gogoprotobuf/plugin/gostring"/>
+      <provide value="code.google.com/p/gogoprotobuf/plugin/equal"/>
+      <provide value="code.google.com/p/gogoprotobuf/plugin/union"/>
+      <provide value="code.google.com/p/gogoprotobuf/protoc-gen-gogo/descriptor"/>
+      <provide value="code.google.com/p/gogoprotobuf/plugin/description"/>
+      <provide value="code.google.com/p/gogoprotobuf/parser"/>
+      <provide value="code.google.com/p/gogoprotobuf/plugin/stringer"/>
+    </provides>
+    <imports>
+      <import value="code.google.com/p/gogoprotobuf/gogoproto"/>
+      <import value="./testdata"/>
+      <import value="code.google.com/p/gogoprotobuf/test"/>
+    </imports>
+  </build>
+  <build name="golang-github-fsouza-go-dockerclient-devel" package="golang-github-fsouza-go-dockerclient">
+    <provides>
+      <provide value="github.com/fsouza/go-dockerclient"/>
+    </provides>
+    <imports>
+      <import value="github.com/docker/docker/pkg/archive"/>
+      <import value="github.com/docker/docker/pkg/fileutils"/>
+    </imports>
+  </build>
+  <build name="golang-github-jmhodges-levigo-devel" package="golang-github-jmhodges-levigo">
+    <provides>
+      <provide value="github.com/jmhodges/levigo"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-rcrowley-go-metrics-devel" package="golang-github-rcrowley-go-metrics">
+    <provides>
+      <provide value="github.com/rcrowley/go-metrics/librato"/>
+      <provide value="github.com/rcrowley/go-metrics/stathat"/>
+      <provide value="github.com/rcrowley/go-metrics/influxdb"/>
+      <provide value="github.com/rcrowley/go-metrics"/>
+    </provides>
+    <imports>
+      <import value="github.com/stathat/go"/>
+      <import value="github.com/influxdb/influxdb/client"/>
+    </imports>
+  </build>
+  <build name="golang-github-coreos-go-etcd-devel" package="golang-github-coreos-go-etcd">
+    <provides>
+      <provide value="github.com/coreos/go-etcd/etcd"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-prometheus-client_model-devel" package="golang-github-prometheus-client_model">
+    <provides>
+      <provide value="github.com/prometheus/client_model/go"/>
+    </provides>
+    <imports>
+      <import value="github.com/golang/protobuf/proto"/>
+    </imports>
+  </build>
+  <build name="golang-github-syndtr-gocapability-devel" package="golang-github-syndtr-gocapability">
+    <provides>
+      <provide value="github.com/syndtr/gocapability/capability"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-vaughan0-go-ini-devel" package="golang-github-vaughan0-go-ini">
+    <provides>
+      <provide value="github.com/vaughan0/go-ini"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-coreos-go-systemd-devel" package="golang-github-coreos-go-systemd">
+    <provides>
+      <provide value="github.com/coreos/go-systemd/daemon"/>
+      <provide value="github.com/coreos/go-systemd/unit"/>
+      <provide value="github.com/coreos/go-systemd/login1"/>
+      <provide value="github.com/coreos/go-systemd/activation"/>
+      <provide value="github.com/coreos/go-systemd/journal"/>
+      <provide value="github.com/coreos/go-systemd/dbus"/>
+    </provides>
+    <imports>
+      <import value="github.com/godbus/dbus"/>
+    </imports>
+  </build>
+  <build name="golang-github-codegangsta-cli-devel" package="golang-github-codegangsta-cli">
+    <provides>
+      <provide value="github.com/codegangsta/cli"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-racker-perigee-devel" package="golang-github-racker-perigee">
+    <provides>
+      <provide value="github.com/racker/perigee"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-google-gofuzz-devel" package="golang-github-google-gofuzz">
+    <provides/>
+    <imports/>
+  </build>
+  <build name="etcd-devel" package="etcd">
+    <provides>
+      <provide value="github.com/coreos/etcd/migrate:migrate"/>
+      <provide value="github.com/coreos/etcd/discovery:discovery"/>
+      <provide value="github.com/coreos/etcd/pkg/testutil:testutil"/>
+      <provide value="github.com/coreos/etcd/pkg/timeutil:timeutil"/>
+      <provide value="github.com/coreos/etcd/pkg/pbutil:pbutil"/>
+      <provide value="github.com/coreos/etcd/snap/snappb:snappb"/>
+      <provide value="github.com/coreos/etcd/pkg/types:types"/>
+      <provide value="github.com/coreos/etcd/rafthttp:rafthttp"/>
+      <provide value="github.com/coreos/etcd/wal/walpb:walpb"/>
+      <provide value="github.com/coreos/etcd/pkg/cors:cors"/>
+      <provide value="github.com/coreos/etcd/pkg/wait:wait"/>
+      <provide value="github.com/coreos/etcd/error:error"/>
+      <provide value="github.com/coreos/etcd/pkg/coreos:coreos"/>
+      <provide value="github.com/coreos/etcd/etcdserver/etcdserverpb:etcdserverpb"/>
+      <provide value="github.com/coreos/etcd/etcdctl/command:command"/>
+      <provide value="github.com/coreos/etcd/raft/rafttest:rafttest"/>
+      <provide value="github.com/coreos/etcd/pkg/fileutil:fileutil"/>
+      <provide value="github.com/coreos/etcd/integration:integration"/>
+      <provide value="github.com/coreos/etcd/raft:raft"/>
+      <provide value="github.com/coreos/etcd/raft/raftpb:raftpb"/>
+      <provide value="github.com/coreos/etcd/pkg/osutil:osutil"/>
+      <provide value="github.com/coreos/etcd/store:store"/>
+      <provide value="github.com/coreos/etcd/etcdserver/etcdhttp:etcdhttp"/>
+      <provide value="github.com/coreos/etcd/client:client"/>
+      <provide value="github.com/coreos/etcd/pkg/crc:crc"/>
+      <provide value="github.com/coreos/etcd/etcdserver:etcdserver"/>
+      <provide value="github.com/coreos/etcd/etcdserver/etcdhttp/httptypes:httptypes"/>
+      <provide value="github.com/coreos/etcd/etcdserver/stats:stats"/>
+      <provide value="github.com/coreos/etcd/wal:wal"/>
+      <provide value="github.com/coreos/etcd/pkg/ioutil:ioutil"/>
+      <provide value="github.com/coreos/etcd/snap:snap"/>
+      <provide value="github.com/coreos/etcd/pkg/netutil:netutil"/>
+      <provide value="github.com/coreos/etcd/proxy:proxy"/>
+      <provide value="github.com/coreos/etcd/pkg/metrics:metrics"/>
+      <provide value="github.com/coreos/etcd/pkg/transport:transport"/>
+      <provide value="github.com/coreos/etcd/version:version"/>
+      <provide value="github.com/coreos/etcd/pkg/idutil:idutil"/>
+      <provide value="github.com/coreos/etcd/pkg/flags:flags"/>
+      <provide value="github.com/coreos/etcd/etcdmain:etcdmain"/>
+      <provide value="github.com/coreos/etcd/migrate/etcd4pb:protobuf"/>
+    </provides>
+    <imports>
+      <import value="github.com/coreos/etcd/etcdmain"/>
+      <import value="bytes"/>
+      <import value="io/ioutil"/>
+      <import value="os"/>
+      <import value="path"/>
+      <import value="reflect"/>
+      <import value="testing"/>
+      <import value="github.com/coreos/etcd/pkg/pbutil"/>
+      <import value="github.com/coreos/etcd/raft/raftpb"/>
+      <import value="github.com/coreos/etcd/wal/walpb"/>
+      <import value="errors"/>
+      <import value="fmt"/>
+      <import value="hash/crc32"/>
+      <import value="io"/>
+      <import value="log"/>
+      <import value="github.com/coreos/etcd/pkg/fileutil"/>
+      <import value="github.com/coreos/etcd/raft"/>
+      <import value="bufio"/>
+      <import value="encoding/binary"/>
+      <import value="hash"/>
+      <import value="github.com/coreos/etcd/pkg/crc"/>
+      <import value="code.google.com/p/gogoprotobuf/proto"/>
+      <import value="encoding/json"/>
+      <import value="math"/>
+      <import value="strings"/>
+      <import value="github.com/coreos/etcd/pkg/types"/>
+      <import value="container/list"/>
+      <import value="sync"/>
+      <import value="sync/atomic"/>
+      <import value="github.com/coreos/etcd/error"/>
+      <import value="container/heap"/>
+      <import value="time"/>
+      <import value="github.com/jonboulle/clockwork"/>
+      <import value="github.com/stretchr/testify/assert"/>
+      <import value="runtime"/>
+      <import value="strconv"/>
+      <import value="unsafe"/>
+      <import value="sort"/>
+      <import value="github.com/coreos/etcd/snap/snappb"/>
+      <import value="net/http"/>
+      <import value="github.com/coreos/etcd/etcdserver/stats"/>
+      <import value="github.com/coreos/etcd/pkg/testutil"/>
+      <import value="net/url"/>
+      <import value="golang.org/x/net/context"/>
+      <import value="net/http/httptest"/>
+      <import value="github.com/coreos/etcd/pkg/ioutil"/>
+      <import value="github.com/coreos/etcd/pkg/metrics"/>
+      <import value="math/rand"/>
+      <import value="os/exec"/>
+      <import value="net"/>
+      <import value="github.com/coreos/etcd/etcdserver/etcdhttp/httptypes"/>
+      <import value="crypto/tls"/>
+      <import value="crypto/x509"/>
+      <import value="encoding/pem"/>
+      <import value="os/signal"/>
+      <import value="syscall"/>
+      <import value="expvar"/>
+      <import value="flag"/>
+      <import value="github.com/coreos/etcd/pkg/transport"/>
+      <import value="path/filepath"/>
+      <import value="crypto/sha1"/>
+      <import value="github.com/coreos/etcd/etcdserver/etcdserverpb"/>
+      <import value="github.com/coreos/etcd/migrate/etcd4pb"/>
+      <import value="github.com/coreos/etcd/store"/>
+      <import value="github.com/coreos/etcd/snap"/>
+      <import value="github.com/coreos/etcd/wal"/>
+      <import value="github.com/coreos/etcd/migrate"/>
+      <import value="github.com/coreos/etcd/client"/>
+      <import value="github.com/coreos/etcd/etcdserver"/>
+      <import value="github.com/coreos/etcd/etcdserver/etcdhttp"/>
+      <import value="github.com/coreos/etcd/rafthttp"/>
+      <import value="github.com/coreos/etcd/version"/>
+      <import value="github.com/coreos/etcd/pkg/idutil"/>
+      <import value="regexp"/>
+      <import value="github.com/coreos/etcd/discovery"/>
+      <import value="github.com/coreos/etcd/pkg/timeutil"/>
+      <import value="github.com/coreos/etcd/pkg/wait"/>
+      <import value="github.com/coreos/etcd/pkg/netutil"/>
+      <import value="github.com/coreos/etcd/pkg/flags"/>
+      <import value="github.com/coreos/etcd/pkg/cors"/>
+      <import value="github.com/coreos/etcd/pkg/osutil"/>
+      <import value="github.com/coreos/etcd/proxy"/>
+      <import value="github.com/codegangsta/cli"/>
+      <import value="github.com/coreos/etcd/etcdctl/command"/>
+      <import value="github.com/coreos/go-etcd/etcd"/>
+    </imports>
+  </build>
+  <build name="golang-github-stathat-go-devel" package="golang-github-stathat-go">
+    <provides>
+      <provide value="github.com/stathat/go"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-golangorg-crypto-devel" package="golang-googlecode-go-crypto">
+    <provides>
+      <provide value="golang.org/x/crypto/openpgp/armor"/>
+      <provide value="golang.org/x/crypto/otr"/>
+      <provide value="golang.org/x/crypto/hkdf"/>
+      <provide value="golang.org/x/crypto/ocsp"/>
+      <provide value="golang.org/x/crypto/pbkdf2"/>
+      <provide value="golang.org/x/crypto/sha3"/>
+      <provide value="golang.org/x/crypto/nacl/box"/>
+      <provide value="golang.org/x/crypto/blowfish"/>
+      <provide value="golang.org/x/crypto/ssh/testdata"/>
+      <provide value="golang.org/x/crypto/openpgp/errors"/>
+      <provide value="golang.org/x/crypto/twofish"/>
+      <provide value="golang.org/x/crypto/salsa20/salsa"/>
+      <provide value="golang.org/x/crypto/xtea"/>
+      <provide value="golang.org/x/crypto/poly1305"/>
+      <provide value="golang.org/x/crypto/salsa20"/>
+      <provide value="golang.org/x/crypto/openpgp/packet"/>
+      <provide value="golang.org/x/crypto/scrypt"/>
+      <provide value="golang.org/x/crypto/openpgp/elgamal"/>
+      <provide value="golang.org/x/crypto/openpgp/s2k"/>
+      <provide value="golang.org/x/crypto/curve25519"/>
+      <provide value="golang.org/x/crypto/md4"/>
+      <provide value="golang.org/x/crypto/nacl/secretbox"/>
+      <provide value="golang.org/x/crypto/cast5"/>
+      <provide value="golang.org/x/crypto/ssh/terminal"/>
+      <provide value="golang.org/x/crypto/ssh"/>
+      <provide value="golang.org/x/crypto/bcrypt"/>
+      <provide value="golang.org/x/crypto/xts"/>
+      <provide value="golang.org/x/crypto/ripemd160"/>
+      <provide value="golang.org/x/crypto/openpgp/clearsign"/>
+      <provide value="golang.org/x/crypto/ssh/agent"/>
+      <provide value="golang.org/x/crypto/bn256"/>
+      <provide value="golang.org/x/crypto/ssh/test"/>
+      <provide value="golang.org/x/crypto/openpgp"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-onsi-gomega-devel" package="golang-github-onsi-gomega">
+    <provides>
+      <provide value="github.com/onsi/gomega/internal/testingtsupport"/>
+      <provide value="github.com/onsi/gomega"/>
+      <provide value="github.com/onsi/gomega/internal/fakematcher"/>
+      <provide value="github.com/onsi/gomega/matchers/support/goraph/util"/>
+      <provide value="github.com/onsi/gomega/gbytes"/>
+      <provide value="github.com/onsi/gomega/matchers/support/goraph/bipartitegraph"/>
+      <provide value="github.com/onsi/gomega/format"/>
+      <provide value="github.com/onsi/gomega/internal/assertion"/>
+      <provide value="github.com/onsi/gomega/ghttp"/>
+      <provide value="github.com/onsi/gomega/matchers/support/goraph/node"/>
+      <provide value="github.com/onsi/gomega/matchers/support/goraph/edge"/>
+      <provide value="github.com/onsi/gomega/internal/asyncassertion"/>
+      <provide value="github.com/onsi/gomega/gexec"/>
+      <provide value="github.com/onsi/gomega/matchers"/>
+      <provide value="github.com/onsi/gomega/types"/>
+    </provides>
+    <imports>
+      <import value="github.com/onsi/ginkgo"/>
+    </imports>
+  </build>
+  <build name="golang-github-Sirupsen-logrus-devel" package="golang-github-Sirupsen-logrus">
+    <provides>
+      <provide value="github.com/Sirupsen/logrus/hooks/papertrail"/>
+      <provide value="github.com/Sirupsen/logrus/hooks/sentry"/>
+      <provide value="github.com/Sirupsen/logrus"/>
+      <provide value="github.com/Sirupsen/logrus/hooks/airbrake"/>
+      <provide value="github.com/Sirupsen/logrus/hooks/syslog"/>
+    </provides>
+    <imports>
+      <import value="github.com/stretchr/testify/assert"/>
+      <import value="github.com/getsentry/raven-go"/>
+      <import value="github.com/stvp/go-udp-testing"/>
+      <import value="github.com/tobi/airbrake-go"/>
+    </imports>
+  </build>
+  <build name="golang-launchpad-gocheck-devel" package="golang-launchpad-gocheck">
+    <provides>
+      <provide value="launchpad.net/gocheck"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-godbus-dbus-devel" package="golang-github-godbus-dbus">
+    <provides>
+      <provide value="github.com/godbus/dbus/prop"/>
+      <provide value="github.com/godbus/dbus/introspect"/>
+      <provide value="github.com/godbus/dbus"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-golang-groupcache-devel" package="golang-github-golang-groupcache">
+    <provides>
+      <provide value="github.com/golang/groupcache/consistenthash"/>
+      <provide value="github.com/golang/groupcache/singleflight"/>
+      <provide value="github.com/golang/groupcache"/>
+      <provide value="github.com/golang/groupcache/groupcachepb"/>
+      <provide value="github.com/golang/groupcache/testpb"/>
+      <provide value="github.com/golang/groupcache/lru"/>
+    </provides>
+    <imports>
+      <import value="github.com/golang/protobuf/proto"/>
+    </imports>
+  </build>
+  <build name="golang-github-spf13-cobra-devel" package="golang-github-spf13-cobra">
+    <provides>
+      <provide value="github.com/spf13/cobra"/>
+    </provides>
+    <imports>
+      <import value="github.com/spf13/pflag"/>
+    </imports>
+  </build>
+  <build name="golang-github-tonnerre-golang-pretty-devel" package="golang-github-tonnerre-golang-pretty">
+    <provides>
+      <provide value="github.com/tonnerre/golang-pretty"/>
+    </provides>
+    <imports>
+      <import value="github.com/kr/text"/>
+      <import value="github.com/kr/pretty"/>
+    </imports>
+  </build>
+  <build name="golang-googlecode-goauth2-devel" package="golang-googlecode-goauth2">
+    <provides/>
+    <imports/>
+  </build>
+  <build name="golang-golangorg-exp-devel" package="golang-googlecode-go-exp">
+    <provides>
+      <provide value="golang.org/x/exp/inotify"/>
+      <provide value="golang.org/x/exp/locale/search"/>
+      <provide value="golang.org/x/exp/ebnf"/>
+      <provide value="golang.org/x/exp/utf8string"/>
+      <provide value="golang.org/x/exp/old/netchan"/>
+      <provide value="golang.org/x/exp/fsnotify"/>
+    </provides>
+    <imports>
+      <import value="golang.org/x/text/collate/colltab"/>
+      <import value="golang.org/x/text/language"/>
+    </imports>
+  </build>
+  <build name="golang-github-kdar-factorlog-devel" package="golang-github-kdar-factorlog">
+    <provides>
+      <provide value="github.com/kdar/factorlog"/>
+    </provides>
+    <imports>
+      <import value="github.com/mgutz/ansi"/>
+    </imports>
+  </build>
+  <build name="golang-github-SeanDolphin-bqschema-devel" package="golang-github-SeanDolphin-bqschema">
+    <provides>
+      <provide value="github.com/SeanDolphin/bqschema"/>
+    </provides>
+    <imports>
+      <import value="code.google.com/p/google-api-go-client/bigquery/v2"/>
+      <import value="github.com/onsi/ginkgo"/>
+      <import value="github.com/onsi/gomega"/>
+    </imports>
+  </build>
+  <build name="golang-googlecode-google-api-go-client-devel" package="golang-googlecode-google-api-client">
+    <provides/>
+    <imports/>
+  </build>
+  <build name="golang-github-kr-text-devel" package="golang-github-kr-text">
+    <provides>
+      <provide value="github.com/kr/text/colwriter"/>
+      <provide value="github.com/kr/text"/>
+    </provides>
+    <imports>
+      <import value="github.com/kr/pty"/>
+    </imports>
+  </build>
+  <build name="golang-github-prometheus-procfs-devel" package="golang-github-prometheus-procfs">
+    <provides>
+      <provide value="github.com/prometheus/procfs"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-mitchellh-goamz-devel" package="golang-github-mitchellh-goamz">
+    <provides>
+      <provide value="github.com/mitchellh/goamz/testutil"/>
+      <provide value="github.com/mitchellh/goamz/rds"/>
+      <provide value="github.com/mitchellh/goamz/s3"/>
+      <provide value="github.com/mitchellh/goamz/ec2/ec2test"/>
+      <provide value="github.com/mitchellh/goamz/exp/sdb"/>
+      <provide value="github.com/mitchellh/goamz/iam"/>
+      <provide value="github.com/mitchellh/goamz/autoscaling"/>
+      <provide value="github.com/mitchellh/goamz/exp/sns"/>
+      <provide value="github.com/mitchellh/goamz/aws"/>
+      <provide value="github.com/mitchellh/goamz/s3/s3test"/>
+      <provide value="github.com/mitchellh/goamz/elb"/>
+      <provide value="github.com/mitchellh/goamz/route53"/>
+      <provide value="github.com/mitchellh/goamz/ec2"/>
+      <provide value="github.com/mitchellh/goamz/exp/mturk"/>
+      <provide value="github.com/mitchellh/goamz/iam/iamtest"/>
+    </provides>
+    <imports>
+      <import value="github.com/motain/gocheck"/>
+      <import value="github.com/vaughan0/go-ini"/>
+    </imports>
+  </build>
+  <build name="golang-github-davecgh-go-spew-devel" package="golang-github-davecgh-go-spew">
+    <provides>
+      <provide value="github.com/davecgh/go-spew/spew/testdata"/>
+      <provide value="github.com/davecgh/go-spew/spew"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-kimor79-gollectd-devel" package="golang-github-kimor79-gollectd">
+    <provides>
+      <provide value="github.com/kimor79/gollectd"/>
+    </provides>
+    <imports>
+      <import value="github.com/stretchr/testify/assert"/>
+    </imports>
+  </build>
+  <build name="golang-googlecode-tools-devel" package="golang-googlecode-tools">
+    <provides/>
+    <imports/>
+  </build>
+  <build name="golang-github-bmizerany-perks-devel" package="golang-github-bmizerany-perks">
+    <provides>
+      <provide value="github.com/bmizerany/perks/histogram"/>
+      <provide value="github.com/bmizerany/perks/quantile"/>
+      <provide value="github.com/bmizerany/perks/topk"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-goraft-raft-devel" package="golang-github-goraft-raft">
+    <provides>
+      <provide value="github.com/goraft/raft"/>
+      <provide value="github.com/goraft/raft/protobuf"/>
+    </provides>
+    <imports>
+      <import value="github.com/stretchr/testify/mock"/>
+      <import value="github.com/stretchr/testify/assert"/>
+      <import value="code.google.com/p/gogoprotobuf/proto"/>
+    </imports>
+  </build>
+  <build name="golang-google-golang-api-devel" package="golang-googlecode-google-api-client">
+    <provides/>
+    <imports/>
+  </build>
+  <build name="golang-googlecode-goprotobuf-devel" package="golang-googlecode-goprotobuf">
+    <provides>
+      <provide value="code.google.com/p/goprotobuf/protoc-gen-go"/>
+      <provide value="code.google.com/p/goprotobuf/protoc-gen-go/internal/grpc"/>
+      <provide value="github.com/golang/protobuf/protoc-gen-go"/>
+      <provide value="github.com/golang/protobuf/protoc-gen-go/testdata/my_test"/>
+      <provide value="code.google.com/p/goprotobuf/protoc-gen-go/descriptor"/>
+      <provide value="code.google.com/p/goprotobuf/protoc-gen-go/testdata/my_test"/>
+      <provide value="github.com/golang/protobuf/protoc-gen-go/generator"/>
+      <provide value="code.google.com/p/goprotobuf/protoc-gen-go/plugin"/>
+      <provide value="code.google.com/p/goprotobuf/proto"/>
+      <provide value="github.com/golang/protobuf/protoc-gen-go/descriptor"/>
+      <provide value="code.google.com/p/goprotobuf/protoc-gen-go/generator"/>
+      <provide value="code.google.com/p/goprotobuf/proto/testdata"/>
+      <provide value="github.com/golang/protobuf/proto/testdata"/>
+      <provide value="github.com/golang/protobuf/protoc-gen-go/plugin"/>
+      <provide value="github.com/golang/protobuf/protoc-gen-go/internal/grpc"/>
+      <provide value="github.com/golang/protobuf/proto"/>
+    </provides>
+    <imports>
+      <import value="./multi"/>
+      <import value="./my_test"/>
+      <import value="./proto3_proto"/>
+      <import value="./testdata"/>
+    </imports>
+  </build>
+  <build name="golang-github-syndtr-goleveldb-devel" package="golang-github-syndtr-goleveldb">
+    <provides>
+      <provide value="github.com/syndtr/goleveldb/leveldb/cache"/>
+      <provide value="github.com/syndtr/goleveldb/leveldb/table"/>
+      <provide value="github.com/syndtr/goleveldb/leveldb"/>
+      <provide value="github.com/syndtr/goleveldb/leveldb/storage"/>
+      <provide value="github.com/syndtr/goleveldb/leveldb/memdb"/>
+      <provide value="github.com/syndtr/goleveldb/leveldb/util"/>
+      <provide value="github.com/syndtr/goleveldb/leveldb/opt"/>
+      <provide value="github.com/syndtr/goleveldb/leveldb/comparer"/>
+      <provide value="github.com/syndtr/goleveldb/leveldb/errors"/>
+      <provide value="github.com/syndtr/goleveldb/leveldb/filter"/>
+      <provide value="github.com/syndtr/goleveldb/leveldb/iterator"/>
+      <provide value="github.com/syndtr/goleveldb/leveldb/testutil"/>
+      <provide value="github.com/syndtr/goleveldb/leveldb/journal"/>
+    </provides>
+    <imports>
+      <import value="github.com/onsi/gomega"/>
+      <import value="github.com/onsi/ginkgo"/>
+      <import value="github.com/onsi/ginkgo/config"/>
+      <import value="github.com/syndtr/gosnappy/snappy"/>
+    </imports>
+  </build>
+  <build name="golang-github-spf13-pflag-devel" package="golang-github-spf13-pflag">
+    <provides>
+      <provide value="github.com/spf13/pflag"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-kraman-libcontainer-devel" package="golang-github-kraman-libcontainer">
+    <provides>
+      <provide value="github.com/kraman/libcontainer/utils"/>
+      <provide value="github.com/kraman/libcontainer"/>
+      <provide value="github.com/kraman/libcontainer/capabilities"/>
+      <provide value="github.com/kraman/libcontainer/namespaces"/>
+      <provide value="github.com/kraman/libcontainer/network"/>
+    </provides>
+    <imports>
+      <import value="github.com/dotcloud/docker/pkg/netlink"/>
+      <import value="github.com/syndtr/gocapability/capability"/>
+    </imports>
+  </build>
+  <build name="golang-github-docker-libcontainer-devel" package="golang-github-docker-libcontainer">
+    <provides>
+      <provide value="github.com/docker/libcontainer/utils"/>
+      <provide value="github.com/docker/libcontainer/apparmor"/>
+      <provide value="github.com/docker/libcontainer/selinux"/>
+      <provide value="github.com/docker/libcontainer/xattr"/>
+      <provide value="github.com/docker/libcontainer"/>
+      <provide value="github.com/docker/libcontainer/system"/>
+      <provide value="github.com/docker/libcontainer/label"/>
+      <provide value="github.com/docker/libcontainer/configs"/>
+      <provide value="github.com/docker/libcontainer/integration"/>
+      <provide value="github.com/docker/libcontainer/cgroups/systemd"/>
+      <provide value="github.com/docker/libcontainer/configs/validate"/>
+      <provide value="github.com/docker/libcontainer/nsenter"/>
+      <provide value="github.com/docker/libcontainer/user"/>
+      <provide value="github.com/docker/libcontainer/stacktrace"/>
+      <provide value="github.com/docker/libcontainer/cgroups/fs"/>
+      <provide value="github.com/docker/libcontainer/netlink"/>
+      <provide value="github.com/docker/libcontainer/cgroups"/>
+      <provide value="github.com/docker/libcontainer/devices"/>
+    </provides>
+    <imports>
+      <import value="github.com/Sirupsen/logrus"/>
+      <import value="github.com/docker/docker/pkg/mount"/>
+      <import value="github.com/syndtr/gocapability/capability"/>
+      <import value="github.com/codegangsta/cli"/>
+      <import value="github.com/docker/docker/pkg/term"/>
+      <import value="github.com/coreos/go-systemd/dbus"/>
+      <import value="github.com/godbus/dbus"/>
+    </imports>
+  </build>
+  <build name="golang-github-ghodss-yaml-devel" package="golang-github-ghodss-yaml">
+    <provides>
+      <provide value="github.com/ghodss/yaml"/>
+    </provides>
+    <imports>
+      <import value="gopkg.in/yaml.v2"/>
+    </imports>
+  </build>
+  <build name="golang-googlecode-go-decimal-inf-devel" package="golang-googlecode-go-decimal-inf">
+    <provides>
+      <provide value="speter.net/go/exp/math/dec/inf"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-golang-appengine-devel" package="golang-github-golang-appengine">
+    <provides>
+      <provide value="google.golang.org/appengine/file"/>
+      <provide value="google.golang.org/appengine/search"/>
+      <provide value="google.golang.org/appengine/internal/channel"/>
+      <provide value="google.golang.org/appengine/module"/>
+      <provide value="google.golang.org/appengine/internal/urlfetch"/>
+      <provide value="google.golang.org/appengine/demos/guestbook"/>
+      <provide value="google.golang.org/appengine/delay"/>
+      <provide value="google.golang.org/appengine/internal/modules"/>
+      <provide value="google.golang.org/appengine/urlfetch"/>
+      <provide value="google.golang.org/appengine/internal/search"/>
+      <provide value="google.golang.org/appengine/taskqueue"/>
+      <provide value="google.golang.org/appengine/xmpp"/>
+      <provide value="google.golang.org/appengine/memcache"/>
+      <provide value="google.golang.org/appengine/internal/mail"/>
+      <provide value="google.golang.org/appengine/internal/aetesting"/>
+      <provide value="google.golang.org/appengine"/>
+      <provide value="google.golang.org/appengine/datastore"/>
+      <provide value="google.golang.org/appengine/channel"/>
+      <provide value="google.golang.org/appengine/user"/>
+      <provide value="google.golang.org/appengine/internal/xmpp"/>
+      <provide value="google.golang.org/appengine/remote_api"/>
+      <provide value="google.golang.org/appengine/internal/datastore"/>
+      <provide value="google.golang.org/appengine/internal/user"/>
+      <provide value="google.golang.org/appengine/internal/image"/>
+      <provide value="google.golang.org/appengine/internal/app_identity"/>
+      <provide value="google.golang.org/appengine/mail"/>
+      <provide value="google.golang.org/appengine/log"/>
+      <provide value="google.golang.org/appengine/internal/memcache"/>
+      <provide value="google.golang.org/appengine/image"/>
+      <provide value="google.golang.org/appengine/internal/log"/>
+      <provide value="google.golang.org/appengine/demos/helloworld"/>
+      <provide value="google.golang.org/appengine/internal/remote_api"/>
+      <provide value="google.golang.org/appengine/internal"/>
+      <provide value="google.golang.org/appengine/internal/base"/>
+      <provide value="google.golang.org/appengine/internal/taskqueue"/>
+    </provides>
+    <imports>
+      <import value="github.com/golang/protobuf/proto"/>
+      <import value="golang.org/x/net/context"/>
+    </imports>
+  </build>
+  <build name="golang-github-dgnorton-goback-devel" package="golang-github-dgnorton-goback">
+    <provides>
+      <provide value="github.com/dgnorton/goback"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-kr-pty-devel" package="golang-github-kr-pty">
+    <provides>
+      <provide value="github.com/kr/pty"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="kubernetes-devel" package="kubernetes">
+    <provides>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/namespace/etcd:etcd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/persistentvolumeclaim/etcd:etcd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/ovirt:ovirt_cloud"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/clientcmd:clientcmd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry:registry"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubectl:kubectl"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/componentstatus:componentstatus"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/v1:v1"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/healthz:healthz"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/generic/rest:rest"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/namespace/exists:exists"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/limitrange:limitrange"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/controller/framework:framework"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth/authenticator/password/passwordfile:passwordfile"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/aws_ebs:aws_ebs"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/resource:resource"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/probe:probe"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/podtemplate/etcd:etcd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/apiserver:apiserver"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/auth/user:user"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/workqueue:workqueue"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/errors:errors"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/pod/etcd:etcd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/admission:admission"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/metrics:metrics"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/tools/etcdtest:etcdtest"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth/authenticator/request/x509:x509"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/persistentvolume/etcd:etcd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/cmd/genutils:genutils"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/namespace/autoprovision:autoprovision"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/yaml:yaml"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/latest:latest"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/auth/authenticator/bearertoken:bearertoken"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet:kubelet"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/test/integration:integration"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/podtemplate:podtemplate"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/ui:ui"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/algorithmprovider/defaults:defaults"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/cadvisor:cadvisor"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/version:version"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/registrytest:registrytest"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/config:config"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/rest:rest"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/proxy/config:config"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/persistentvolumeclaim:persistentvolumeclaim"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/testclient:testclient"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/controller:controller"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/resourcequota:resourcequota"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/generic:generic"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/dockertools:dockertools"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/slice:slice"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubectl/cmd/config:config"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/admit:admit"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/gce:gce_cloud"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/volumeclaimbinder:volumeclaimbinder"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth/authenticator/request/union:union"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/httpstream:httpstream"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/fielderrors:fielderrors"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/iptables:iptables"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/auth/authorizer:authorizer"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/exec:exec"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/namespace:namespace"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/controller/etcd:etcd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/etcd:etcd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/probe/tcp:tcp"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/fake:fake_cloud"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/git_repo:git_repo"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/persistent_claim:persistent_claim"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/securitycontext/scdeny:scdeny"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/remotecommand:remotecommand"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/rest/resttest:resttest"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/master/ports:ports"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/iscsi:iscsi"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/probe/exec:exec"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/meta:meta"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/securitycontext:securitycontext"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/resourcequota:resourcequota"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/wait:wait"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/namespace/lifecycle:lifecycle"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/version/verflag:verflag"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/service:service"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/endpoint:endpoint"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/capabilities:capabilities"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/httplog:httplog"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/v1beta1:v1beta1"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/tools:tools"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/resourcequota:resourcequota"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/deny:deny"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/nodecontroller:nodecontroller"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/minion/etcd:etcd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/network/exec:exec"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth/authenticator/request/basicauth:basicauth"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/rkt:rkt"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/cmd/kube-controller-manager/app:app"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/credentialprovider:credentialprovider"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/fields:fields"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/api:api"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/mount:mount"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/secret:secret"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/network:network"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/auth/authorizer/abac:abac"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/errors/etcd:etcd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/watch:watch"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubectl/cmd/util:util"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util:util"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/client:client"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/metrics:metrics"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth:auth"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/testapi:testapi"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/envvars:envvars"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/clientcmd/api/v1:v1"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth/authenticator/token/tokenfile:tokenfile"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/runtime:runtime"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/testing:testing"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/endpoint/etcd:etcd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/types:types"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/generic/etcd:etcd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume:volume"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api:api"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/record:record"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/prober:prober"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/api/v1:v1"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/controller:controller"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/host_path:host_path"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/strategicpatch:strategicpatch"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth/authenticator/password/allow:allow"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/empty_dir:empty_dir"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/proxy:proxy"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/factory:factory"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/cache:cache"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/glusterfs:glusterfs"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/config:config"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/clientcmd/api/latest:latest"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider:cloudprovider"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/pod:pod"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/fieldpath:fieldpath"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/lifecycle:lifecycle"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/namespace:namespace"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/vagrant:vagrant_cloud"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/api/validation:validation"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/v1beta3:v1beta3"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/minion:minion"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/errors:errors"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/event:event"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/clientcmd/api:api"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/nfs:nfs"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth/authenticator:authenticator"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubectl/cmd:cmd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/labels:labels"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/clientauth:clientauth"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/test/e2e:e2e"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/conversion:conversion"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/secret/etcd:etcd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/hyperkube:hyperkube"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/leaky:leaky"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/limitranger:limitranger"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/util:util"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/resourcequota/etcd:etcd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/persistentvolume:persistentvolume"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/master:master"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler:scheduler"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/auth/authenticator:authenticator"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/secret:secret"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/container:container"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/v1beta2:v1beta2"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/auth/handlers:handlers"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/validation:validation"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/gce_pd:gce_pd"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/scheduler:scheduler"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth/authenticator/password:password"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/types:types"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/portforward:portforward"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/proxy:proxy"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/service:service"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/examples:examples"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth/authenticator/token/tokentest:tokentest"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/cmd/kube-scheduler/app:app"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/endpoints:endpoints"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/cmd/kube-proxy/app:app"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/watch/json:json"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/rackspace:rackspace"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/httpstream/spdy:spdy"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/cmd/kube-apiserver/app:app"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/chaosclient:chaosclient"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/api/latest:latest"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/config:config"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/algorithmprovider:algorithmprovider"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/cmd/kubelet/app:app"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubectl/resource:resource"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/flushwriter:flushwriter"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/credentialprovider/gcp:gcp_credentials"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/aws:aws_cloud"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/servicecontroller:servicecontroller"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/metrics:metrics"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/openstack:openstack"/>
+      <provide value="github.com/GoogleCloudPlatform/kubernetes/pkg/probe/http:http"/>
+    </provides>
+    <imports>
+      <import value="flag"/>
+      <import value="fmt"/>
+      <import value="math/rand"/>
+      <import value="os"/>
+      <import value="path/filepath"/>
+      <import value="strconv"/>
+      <import value="time"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/client"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/clientcmd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/fields"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/labels"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util"/>
+      <import value="github.com/golang/glog"/>
+      <import value="net/http"/>
+      <import value="net/http/httptest"/>
+      <import value="testing"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/testapi"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/apiserver"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/master"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/tools/etcdtest"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/admit"/>
+      <import value="github.com/coreos/go-etcd/etcd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/errors"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/record"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/wait"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/algorithmprovider"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/factory"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/resource"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/volumeclaimbinder"/>
+      <import value="bufio"/>
+      <import value="github.com/golang/protobuf/proto"/>
+      <import value="github.com/prometheus/client_model/go"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/runtime"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/tools"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/watch"/>
+      <import value="log"/>
+      <import value="reflect"/>
+      <import value="runtime"/>
+      <import value="sync"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/version"/>
+      <import value="bytes"/>
+      <import value="encoding/json"/>
+      <import value="errors"/>
+      <import value="io/ioutil"/>
+      <import value="net/url"/>
+      <import value="strings"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/auth/authenticator"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/auth/authenticator/bearertoken"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/auth/authorizer"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/auth/authorizer/abac"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/auth/user"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth/authenticator/token/tokentest"/>
+      <import value="os/exec"/>
+      <import value="code.google.com/p/go-uuid/uuid"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/clientauth"/>
+      <import value="golang.org/x/crypto/ssh"/>
+      <import value="github.com/onsi/ginkgo"/>
+      <import value="github.com/onsi/gomega"/>
+      <import value="path"/>
+      <import value="sort"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/latest"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubectl"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/types"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/aws"/>
+      <import value="github.com/influxdb/influxdb/client"/>
+      <import value="regexp"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider"/>
+      <import value="github.com/onsi/ginkgo/config"/>
+      <import value="github.com/onsi/ginkgo/reporters"/>
+      <import value="math"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/cache"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/controller/framework"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/scheduler"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/metrics"/>
+      <import value="github.com/prometheus/client_golang/prometheus"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/api"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/api/latest"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/api/validation"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/errors"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/v1beta3"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/api/v1"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/scheduler/algorithmprovider/defaults"/>
+      <import value="encoding/csv"/>
+      <import value="io"/>
+      <import value="crypto/tls"/>
+      <import value="crypto/x509"/>
+      <import value="encoding/pem"/>
+      <import value="encoding/base64"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/admission"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/testclient"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/resourcequota"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/meta"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/healthz"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/version/verflag"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/cmd/kube-scheduler/app"/>
+      <import value="github.com/spf13/pflag"/>
+      <import value="net"/>
+      <import value="net/http/pprof"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/clientcmd/api"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/master/ports"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/mount"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/empty_dir"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/util"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/gce_pd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/host_path"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/exec"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/gce"/>
+      <import value="syscall"/>
+      <import value="github.com/ghodss/yaml"/>
+      <import value="encoding/hex"/>
+      <import value="github.com/google/gofuzz"/>
+      <import value="github.com/stretchr/testify/assert"/>
+      <import value="go/doc"/>
+      <import value="text/template"/>
+      <import value="github.com/docker/libcontainer/cgroups/fs"/>
+      <import value="github.com/docker/libcontainer/configs"/>
+      <import value="hash/adler32"/>
+      <import value="github.com/davecgh/go-spew/spew"/>
+      <import value="hash"/>
+      <import value="text/tabwriter"/>
+      <import value="crypto/rand"/>
+      <import value="crypto/rsa"/>
+      <import value="crypto/x509/pkix"/>
+      <import value="math/big"/>
+      <import value="unicode"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/workqueue"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/third_party/forked/json"/>
+      <import value="golang.org/x/net/html"/>
+      <import value="compress/gzip"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/httpstream"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/third_party/golang/netutil"/>
+      <import value="github.com/docker/spdystream"/>
+      <import value="mime"/>
+      <import value="github.com/elazarl/go-bindata-assetfs"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/fielderrors"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/conversion"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/endpoints"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/v1beta1"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/v1beta2"/>
+      <import value="github.com/fsouza/go-dockerclient"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/yaml"/>
+      <import value="encoding/gob"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/rest"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/rest/resttest"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/registrytest"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/validation"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/endpoint"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/minion"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/generic"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/generic/etcd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/secret"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/resourcequota"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/podtemplate"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/errors/etcd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/pod"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/securitycontext"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/generic/rest"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/persistentvolumeclaim"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/persistentvolume"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/namespace"/>
+      <import value="golang.org/x/net/websocket"/>
+      <import value="net/http/httputil"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/proxy"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/endpoint/etcd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/pod/etcd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/controller"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/probe"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/slice"/>
+      <import value="sync/atomic"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/iptables"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/proxy/config"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/config"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/v1"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/auth/handlers"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/componentstatus"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/controller/etcd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/etcd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/event"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/limitrange"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/minion/etcd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/namespace/etcd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/persistentvolume/etcd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/persistentvolumeclaim/etcd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/podtemplate/etcd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/resourcequota/etcd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/secret/etcd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/registry/service"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/ui"/>
+      <import value="github.com/emicklei/go-restful"/>
+      <import value="github.com/emicklei/go-restful/swagger"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/capabilities"/>
+      <import value="github.com/google/cadvisor/info/v1"/>
+      <import value="github.com/stretchr/testify/require"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/container"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/dockertools"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/httpstream/spdy"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/httplog"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/flushwriter"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/cadvisor"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/network"/>
+      <import value="github.com/docker/libcontainer/selinux"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/metrics"/>
+      <import value="github.com/google/cadvisor/events"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/fieldpath"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/envvars"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/prober"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/types"/>
+      <import value="github.com/google/cadvisor/info/v2"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/credentialprovider"/>
+      <import value="github.com/appc/spec/schema"/>
+      <import value="github.com/appc/spec/schema/types"/>
+      <import value="github.com/coreos/go-systemd/dbus"/>
+      <import value="github.com/coreos/go-systemd/unit"/>
+      <import value="github.com/coreos/rkt/store"/>
+      <import value="github.com/docker/docker/pkg/parsers"/>
+      <import value="github.com/kr/pty"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/probe/exec"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/probe/http"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/probe/tcp"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/lifecycle"/>
+      <import value="github.com/golang/groupcache/lru"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/leaky"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet"/>
+      <import value="crypto/md5"/>
+      <import value="github.com/stretchr/testify/mock"/>
+      <import value="github.com/google/cadvisor/fs"/>
+      <import value="github.com/google/cadvisor/http"/>
+      <import value="github.com/google/cadvisor/manager"/>
+      <import value="github.com/google/cadvisor/storage/memory"/>
+      <import value="github.com/google/cadvisor/utils/sysfs"/>
+      <import value="os/signal"/>
+      <import value="github.com/docker/docker/pkg/units"/>
+      <import value="github.com/spf13/cobra"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/watch/json"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubectl/cmd/util"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubectl/resource"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/portforward"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/remotecommand"/>
+      <import value="github.com/docker/docker/pkg/term"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubectl/cmd/config"/>
+      <import value="github.com/daviddengcn/go-colortext"/>
+      <import value="github.com/evanphx/json-patch"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/clientcmd/api/latest"/>
+      <import value="golang.org/x/oauth2"/>
+      <import value="golang.org/x/oauth2/google"/>
+      <import value="golang.org/x/oauth2/jwt"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/third_party/forked/reflect"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/fake"/>
+      <import value="github.com/rackspace/gophercloud"/>
+      <import value="code.google.com/p/gcfg"/>
+      <import value="github.com/rackspace/gophercloud/openstack/compute/v2/servers"/>
+      <import value="github.com/rackspace/gophercloud/pagination"/>
+      <import value="github.com/rackspace/gophercloud/rackspace"/>
+      <import value="github.com/rackspace/gophercloud/rackspace/compute/v2/flavors"/>
+      <import value="github.com/rackspace/gophercloud/rackspace/compute/v2/servers"/>
+      <import value="encoding/xml"/>
+      <import value="github.com/rackspace/gophercloud/openstack"/>
+      <import value="github.com/rackspace/gophercloud/openstack/compute/v2/flavors"/>
+      <import value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/lbaas/members"/>
+      <import value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/lbaas/monitors"/>
+      <import value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/lbaas/pools"/>
+      <import value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/lbaas/vips"/>
+      <import value="code.google.com/p/google-api-go-client/googleapi"/>
+      <import value="code.google.com/p/google-api-go-client/compute/v1"/>
+      <import value="code.google.com/p/google-api-go-client/container/v1beta1"/>
+      <import value="google.golang.org/cloud/compute/metadata"/>
+      <import value="github.com/mitchellh/goamz/aws"/>
+      <import value="github.com/mitchellh/goamz/ec2"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/metrics"/>
+      <import value="github.com/google/cadvisor/info/v1/test"/>
+      <import value="github.com/imdario/mergo"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/clientcmd/api/v1"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util/strategicpatch"/>
+      <import value="runtime/debug"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth/authenticator/password/passwordfile"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth/authenticator/request/basicauth"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth/authenticator/request/union"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth/authenticator/request/x509"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/auth/authenticator/token/tokenfile"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/deny"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/testing"/>
+      <import value="speter.net/go/exp/math/dec/inf"/>
+      <import value="golang.org/x/net/context"/>
+      <import value="github.com/codegangsta/negroni"/>
+      <import value="github.com/gorilla/mux"/>
+      <import value="github.com/xyproto/simpleredis"/>
+      <import value="gopkg.in/yaml.v2"/>
+      <import value="archive/tar"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/cmd/kubelet/app"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/nodecontroller"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/servicecontroller"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/controller"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/service"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/client/chaosclient"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/config"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/credentialprovider/gcp"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubelet/network/exec"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/aws_ebs"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/git_repo"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/glusterfs"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/iscsi"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/nfs"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/persistent_claim"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/volume/secret"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/openstack"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/ovirt"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/rackspace"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/cloudprovider/vagrant"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/kubectl/cmd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/cmd/kube-proxy/app"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/proxy"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/cmd/kube-controller-manager/app"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/namespace"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/cmd/kube-apiserver/app"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/third_party/forked/coreos/go-etcd/etcd"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/limitranger"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/namespace/autoprovision"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/namespace/exists"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/namespace/lifecycle"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/resourcequota"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/plugin/pkg/admission/securitycontext/scdeny"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/cmd/genutils"/>
+      <import value="github.com/cpuguy83/go-md2man/mangen"/>
+      <import value="github.com/russross/blackfriday"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/test/e2e"/>
+      <import value="github.com/skynetservices/skydns/msg"/>
+    </imports>
+  </build>
+  <build name="golang-googlecode-go-crypto-devel" package="golang-googlecode-go-crypto">
+    <provides>
+      <provide value="code.google.com/p/go.crypto/openpgp/armor"/>
+      <provide value="code.google.com/p/go.crypto/ssh/test"/>
+      <provide value="code.google.com/p/go.crypto/ripemd160"/>
+      <provide value="code.google.com/p/go.crypto/salsa20/salsa"/>
+      <provide value="code.google.com/p/go.crypto/otr"/>
+      <provide value="code.google.com/p/go.crypto/bn256"/>
+      <provide value="code.google.com/p/go.crypto/openpgp/elgamal"/>
+      <provide value="code.google.com/p/go.crypto/ocsp"/>
+      <provide value="code.google.com/p/go.crypto/ssh/testdata"/>
+      <provide value="code.google.com/p/go.crypto/pbkdf2"/>
+      <provide value="code.google.com/p/go.crypto/sha3"/>
+      <provide value="code.google.com/p/go.crypto/ssh/terminal"/>
+      <provide value="code.google.com/p/go.crypto/twofish"/>
+      <provide value="code.google.com/p/go.crypto/xtea"/>
+      <provide value="code.google.com/p/go.crypto/openpgp/clearsign"/>
+      <provide value="code.google.com/p/go.crypto/blowfish"/>
+      <provide value="code.google.com/p/go.crypto/poly1305"/>
+      <provide value="code.google.com/p/go.crypto/ssh"/>
+      <provide value="code.google.com/p/go.crypto/md4"/>
+      <provide value="code.google.com/p/go.crypto/nacl/box"/>
+      <provide value="code.google.com/p/go.crypto/cast5"/>
+      <provide value="code.google.com/p/go.crypto/scrypt"/>
+      <provide value="code.google.com/p/go.crypto/curve25519"/>
+      <provide value="code.google.com/p/go.crypto/ssh/agent"/>
+      <provide value="code.google.com/p/go.crypto/xts"/>
+      <provide value="code.google.com/p/go.crypto/openpgp"/>
+      <provide value="code.google.com/p/go.crypto/openpgp/packet"/>
+      <provide value="code.google.com/p/go.crypto/openpgp/errors"/>
+      <provide value="code.google.com/p/go.crypto/nacl/secretbox"/>
+      <provide value="code.google.com/p/go.crypto/hkdf"/>
+      <provide value="code.google.com/p/go.crypto/openpgp/s2k"/>
+      <provide value="code.google.com/p/go.crypto/salsa20"/>
+      <provide value="code.google.com/p/go.crypto/bcrypt"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-googlecode-gomock-devel" package="golang-googlecode-gomock">
+    <provides>
+      <provide value="code.google.com/p/gomock/gomock/mock_matcher"/>
+      <provide value="code.google.com/p/gomock/sample/imp3"/>
+      <provide value="code.google.com/p/gomock/sample"/>
+      <provide value="code.google.com/p/gomock/sample/imp4"/>
+      <provide value="code.google.com/p/gomock/sample/imp1"/>
+      <provide value="code.google.com/p/gomock/mockgen/model"/>
+      <provide value="code.google.com/p/gomock/gomock"/>
+      <provide value="code.google.com/p/gomock/sample/imp2"/>
+      <provide value="code.google.com/p/gomock/sample/mock_user"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-elazarl-go-bindata-assetfs-devel" package="golang-github-elazarl-go-bindata-assetfs">
+    <provides>
+      <provide value="github.com/elazarl/go-bindata-assetfs"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-jonboulle-clockwork-devel" package="golang-github-jonboulle-clockwork">
+    <provides>
+      <provide value="github.com/jonboulle/clockwork"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-gorilla-websocket-devel" package="golang-github-gorilla-websocket">
+    <provides>
+      <provide value="github.com/gorilla/websocket"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-russross-blackfriday-devel" package="golang-github-russross-blackfriday">
+    <provides>
+      <provide value="github.com/russross/blackfriday"/>
+    </provides>
+    <imports>
+      <import value="github.com/shurcooL/sanitized_anchor_name"/>
+    </imports>
+  </build>
+  <build name="docker-io-devel" package="docker-io">
+    <provides>
+      <provide value="github.com/docker/docker/registry/v2"/>
+      <provide value="github.com/docker/docker/trust"/>
+      <provide value="github.com/docker/docker/daemon/graphdriver/btrfs"/>
+      <provide value="github.com/docker/docker/daemon/execdriver/native"/>
+      <provide value="github.com/docker/docker/pkg/testutils"/>
+      <provide value="github.com/docker/docker/daemon/networkdriver/portallocator"/>
+      <provide value="github.com/docker/docker/image"/>
+      <provide value="github.com/docker/docker/pkg/graphdb"/>
+      <provide value="github.com/docker/docker/daemon/execdriver"/>
+      <provide value="github.com/docker/docker/daemon/graphdriver/overlay"/>
+      <provide value="github.com/docker/docker/pkg/timeutils"/>
+      <provide value="github.com/docker/docker/events"/>
+      <provide value="github.com/docker/docker/daemon"/>
+      <provide value="github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"/>
+      <provide value="github.com/docker/docker/daemon/networkdriver"/>
+      <provide value="github.com/docker/docker/pkg/systemd"/>
+      <provide value="github.com/docker/docker/graph"/>
+      <provide value="github.com/docker/docker/pkg/tailfile"/>
+      <provide value="github.com/docker/docker/pkg/parsers/kernel"/>
+      <provide value="github.com/docker/docker/pkg/pubsub"/>
+      <provide value="github.com/docker/docker/pkg/networkfs/etchosts"/>
+      <provide value="github.com/docker/docker/pkg/parsers/operatingsystem"/>
+      <provide value="github.com/docker/docker/pkg/signal"/>
+      <provide value="github.com/docker/docker/volumes"/>
+      <provide value="github.com/docker/docker/daemon/networkdriver/bridge"/>
+      <provide value="github.com/docker/docker/pkg/fileutils"/>
+      <provide value="github.com/docker/docker/pkg/listenbuffer"/>
+      <provide value="github.com/docker/docker/pkg/ioutils"/>
+      <provide value="github.com/docker/docker/builtins"/>
+      <provide value="github.com/docker/docker/daemon/graphdriver/devmapper"/>
+      <provide value="github.com/docker/docker/builder/parser"/>
+      <provide value="github.com/docker/docker/pkg/urlutil"/>
+      <provide value="github.com/docker/docker/engine"/>
+      <provide value="github.com/docker/docker/daemon/networkdriver/portmapper"/>
+      <provide value="github.com/docker/docker/daemon/graphdriver/graphtest"/>
+      <provide value="github.com/docker/docker/builder"/>
+      <provide value="github.com/docker/docker/pkg/jsonlog"/>
+      <provide value="github.com/docker/docker/opts"/>
+      <provide value="github.com/docker/docker/daemon/networkdriver/ipallocator"/>
+      <provide value="github.com/docker/docker/pkg/timeoutconn"/>
+      <provide value="github.com/docker/docker/api"/>
+      <provide value="github.com/docker/docker/pkg/promise"/>
+      <provide value="github.com/docker/docker/links"/>
+      <provide value="github.com/docker/docker/pkg/devicemapper"/>
+      <provide value="github.com/docker/docker/pkg/broadcastwriter"/>
+      <provide value="github.com/docker/docker/pkg/proxy"/>
+      <provide value="github.com/docker/docker/api/server"/>
+      <provide value="github.com/docker/docker/pkg/reexec"/>
+      <provide value="github.com/docker/docker/daemon/execdriver/execdrivers"/>
+      <provide value="github.com/docker/docker/pkg/sysinfo"/>
+      <provide value="github.com/docker/docker/runconfig"/>
+      <provide value="github.com/docker/docker/pkg/namesgenerator"/>
+      <provide value="github.com/docker/docker/api/client"/>
+      <provide value="github.com/docker/docker/pkg/symlink"/>
+      <provide value="github.com/docker/docker/pkg/tarsum"/>
+      <provide value="github.com/docker/docker/utils"/>
+      <provide value="github.com/docker/docker/pkg/chrootarchive"/>
+      <provide value="github.com/docker/docker/pkg/parsers/filters"/>
+      <provide value="github.com/docker/docker/pkg/term"/>
+      <provide value="github.com/docker/docker/api/types"/>
+      <provide value="github.com/docker/docker/pkg/system"/>
+      <provide value="github.com/docker/docker/pkg/archive"/>
+      <provide value="github.com/docker/docker/pkg/truncindex"/>
+      <provide value="github.com/docker/docker/pkg/homedir"/>
+      <provide value="github.com/docker/docker/pkg/common"/>
+      <provide value="github.com/docker/docker/daemon/execdriver/native/template"/>
+      <provide value="github.com/docker/docker/daemon/graphdriver"/>
+      <provide value="github.com/docker/docker/pkg/mount"/>
+      <provide value="github.com/docker/docker/pkg/pools"/>
+      <provide value="github.com/docker/docker/daemon/graphdriver/aufs"/>
+      <provide value="github.com/docker/docker/pkg/iptables"/>
+      <provide value="github.com/docker/docker/nat"/>
+      <provide value="github.com/docker/docker/pkg/httputils"/>
+      <provide value="github.com/docker/docker/daemon/execdriver/lxc"/>
+      <provide value="github.com/docker/docker/registry"/>
+      <provide value="github.com/docker/docker/pkg/stdcopy"/>
+      <provide value="github.com/docker/docker/builder/command"/>
+      <provide value="github.com/docker/docker/pkg/networkfs/resolvconf"/>
+      <provide value="github.com/docker/docker/daemon/graphdriver/vfs"/>
+      <provide value="github.com/docker/docker/pkg/version"/>
+      <provide value="github.com/docker/docker/pkg/ulimit"/>
+      <provide value="github.com/docker/docker/pkg/parsers"/>
+      <provide value="github.com/docker/docker/pkg/mflag"/>
+      <provide value="github.com/docker/docker/pkg/units"/>
+    </provides>
+    <imports>
+      <import value="github.com/Sirupsen/logrus"/>
+      <import value="github.com/docker/docker/autogen/dockerversion"/>
+      <import value="github.com/docker/libtrust/trustgraph"/>
+      <import value="github.com/docker/libtrust"/>
+      <import value="github.com/gorilla/mux"/>
+      <import value="github.com/tchap/go-patricia/patricia"/>
+      <import value="github.com/coreos/go-systemd/activation"/>
+      <import value="github.com/docker/libcontainer/cgroups"/>
+      <import value="code.google.com/p/gosqlite/sqlite3"/>
+      <import value="github.com/docker/docker/vendor/src/github.com/kr/pty"/>
+      <import value="github.com/kr/pty"/>
+      <import value="code.google.com/p/go.net/websocket"/>
+      <import value="github.com/docker/libcontainer/label"/>
+      <import value="github.com/docker/libcontainer/selinux"/>
+      <import value="github.com/docker/libcontainer/system"/>
+      <import value="github.com/docker/libcontainer"/>
+      <import value="github.com/go-fsnotify/fsnotify"/>
+      <import value="github.com/docker/libcontainer/devices"/>
+      <import value="github.com/docker/libcontainer/netlink"/>
+      <import value="github.com/docker/libcontainer/security/capabilities"/>
+      <import value="github.com/docker/libcontainer/namespaces"/>
+      <import value="github.com/docker/libcontainer/apparmor"/>
+      <import value="github.com/docker/libcontainer/cgroups/fs"/>
+      <import value="github.com/docker/libcontainer/cgroups/systemd"/>
+      <import value="github.com/docker/libcontainer/console"/>
+      <import value="github.com/docker/libcontainer/namespaces/nsenter"/>
+      <import value="github.com/docker/libcontainer/mount"/>
+      <import value="github.com/syndtr/gocapability/capability"/>
+      <import value="github.com/docker/libcontainer/utils"/>
+      <import value="github.com/docker/libcontainer/mount/nodes"/>
+      <import value="github.com/docker/docker"/>
+      <import value="github.com/docker/libcontainer/user"/>
+    </imports>
+  </build>
+  <build name="golang-github-cpuguy83-go-md2man-devel" package="golang-github-cpuguy83-go-md2man">
+    <provides>
+      <provide value="github.com/cpuguy83/go-md2man/mangen"/>
+    </provides>
+    <imports>
+      <import value="github.com/russross/blackfriday"/>
+    </imports>
+  </build>
+  <build name="golang-gopkg-check-devel" package="golang-gopkg-check">
+    <provides>
+      <provide value="launchpad.net/gocheck"/>
+      <provide value="gopkg.in/check.v1"/>
+      <provide value="github.com/motain/gocheck"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-influxdb-go-cache-devel" package="golang-github-influxdb-go-cache">
+    <provides>
+      <provide value="github.com/influxdb/go-cache"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-googlecode-gcfg-devel" package="golang-googlecode-gcfg">
+    <provides>
+      <provide value="code.google.com/p/gcfg"/>
+      <provide value="code.google.com/p/gcfg/types"/>
+      <provide value="code.google.com/p/gcfg/scanner"/>
+      <provide value="code.google.com/p/gcfg/token"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-googlecode-log4go-devel" package="golang-googlecode-log4go">
+    <provides>
+      <provide value="code.google.com/p/log4go"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-golangorg-tools-devel" package="golang-googlecode-tools">
+    <provides/>
+    <imports/>
+  </build>
+  <build name="golang-github-docopt-docopt-go-devel" package="golang-github-docopt-docopt-go">
+    <provides>
+      <provide value="github.com/docopt/docopt-go"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-influxdb-influxdb-datastore" package="golang-github-influxdb-influxdb">
+    <provides>
+      <provide value="github.com/influxdb/influxdb/datastore/storage"/>
+      <provide value="github.com/influxdb/influxdb/datastore"/>
+    </provides>
+    <imports>
+      <import value="code.google.com/p/goprotobuf/proto"/>
+      <import value="code.google.com/p/log4go"/>
+      <import value="github.com/influxdb/influxdb/engine"/>
+      <import value="github.com/influxdb/influxdb/protocol"/>
+      <import value="github.com/influxdb/influxdb/common"/>
+      <import value="github.com/influxdb/influxdb/configuration"/>
+      <import value="launchpad.net/gocheck"/>
+      <import value="github.com/BurntSushi/toml"/>
+      <import value="github.com/influxdb/influxdb/cluster"/>
+      <import value="github.com/influxdb/influxdb/metastore"/>
+      <import value="github.com/influxdb/influxdb/parser"/>
+      <import value="github.com/influxdb/rocksdb"/>
+      <import value="github.com/influxdb/gomdb"/>
+      <import value="github.com/jmhodges/levigo"/>
+      <import value="github.com/influxdb/hyperleveldb-go"/>
+    </imports>
+  </build>
+  <build name="golang-github-tchap-go-patricia-devel" package="golang-github-tchap-go-patricia">
+    <provides>
+      <provide value="github.com/tchap/go-patricia/patricia"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-influxdb-influxdb-client" package="golang-github-influxdb-influxdb">
+    <provides>
+      <provide value="github.com/influxdb/influxdb/client/examples"/>
+      <provide value="github.com/influxdb/influxdb/client"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-google-golangorg-cloud-devel" package="golang-google-golangorg-cloud">
+    <provides>
+      <provide value="google.golang.org/cloud/internal"/>
+      <provide value="google.golang.org/cloud/internal/datastore"/>
+      <provide value="google.golang.org/cloud"/>
+      <provide value="google.golang.org/cloud/internal/testutil"/>
+      <provide value="google.golang.org/cloud/container"/>
+      <provide value="google.golang.org/cloud/examples/storage/appengine"/>
+      <provide value="google.golang.org/cloud/storage"/>
+      <provide value="google.golang.org/cloud/compute/metadata"/>
+      <provide value="google.golang.org/cloud/examples/storage/appenginevm"/>
+      <provide value="google.golang.org/cloud/datastore"/>
+      <provide value="google.golang.org/cloud/pubsub"/>
+    </provides>
+    <imports>
+      <import value="golang.org/x/net/context"/>
+      <import value="google.golang.org/api/storage/v1"/>
+      <import value="google.golang.org/api/googleapi"/>
+      <import value="golang.org/x/oauth2"/>
+      <import value="golang.org/x/oauth2/google"/>
+      <import value="google.golang.org/api/pubsub/v1beta1"/>
+      <import value="github.com/golang/protobuf/proto"/>
+      <import value="google.golang.org/appengine"/>
+      <import value="google.golang.org/appengine/file"/>
+      <import value="google.golang.org/appengine/urlfetch"/>
+      <import value="google.golang.org/api/container/v1beta1"/>
+    </imports>
+  </build>
+  <build name="golang-github-openshift-go-systemd-devel" package="golang-github-openshift-go-systemd">
+    <provides>
+      <provide value="github.com/openshift/go-systemd/dbus"/>
+    </provides>
+    <imports>
+      <import value="github.com/guelfey/go.dbus"/>
+    </imports>
+  </build>
+  <build name="golang-golangorg-net-devel" package="golang-googlecode-net">
+    <provides>
+      <provide value="golang.org/x/net/webdav"/>
+      <provide value="golang.org/x/net/proxy"/>
+      <provide value="golang.org/x/net/html/atom"/>
+      <provide value="golang.org/x/net/websocket"/>
+      <provide value="golang.org/x/net/idna"/>
+      <provide value="golang.org/x/net/netutil"/>
+      <provide value="golang.org/x/net/internal/iana"/>
+      <provide value="golang.org/x/net/context"/>
+      <provide value="golang.org/x/net/dict"/>
+      <provide value="golang.org/x/net/icmp"/>
+      <provide value="golang.org/x/net/spdy"/>
+      <provide value="golang.org/x/net/internal/nettest"/>
+      <provide value="golang.org/x/net/ipv6"/>
+      <provide value="golang.org/x/net/html"/>
+      <provide value="golang.org/x/net/ipv4"/>
+      <provide value="golang.org/x/net/publicsuffix"/>
+      <provide value="golang.org/x/net/html/charset"/>
+    </provides>
+    <imports>
+      <import value="golang.org/x/text/encoding"/>
+      <import value="golang.org/x/text/encoding/charmap"/>
+      <import value="golang.org/x/text/encoding/japanese"/>
+      <import value="golang.org/x/text/encoding/korean"/>
+      <import value="golang.org/x/text/encoding/simplifiedchinese"/>
+      <import value="golang.org/x/text/encoding/traditionalchinese"/>
+      <import value="golang.org/x/text/encoding/unicode"/>
+      <import value="golang.org/x/text/transform"/>
+    </imports>
+  </build>
+  <build name="golang-gopkg-yaml-devel" package="golang-gopkg-yaml">
+    <provides>
+      <provide value="gopkg.in/yaml.v1"/>
+      <provide value="gopkg.in/v1/yaml"/>
+    </provides>
+    <imports>
+      <import value="gopkg.in/check.v1"/>
+    </imports>
+  </build>
+  <build name="golang-gopkg-yaml-devel-v2" package="golang-gopkg-yaml">
+    <provides>
+      <provide value="gopkg.in/v2/yaml"/>
+      <provide value="gopkg.in/yaml.v2"/>
+    </provides>
+    <imports>
+      <import value="gopkg.in/check.v1"/>
+    </imports>
+  </build>
+  <build name="golang-github-kr-fs-devel" package="golang-github-kr-fs">
+    <provides>
+      <provide value="github.com/kr/fs"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-googlecode-uuid-devel" package="golang-googlecode-uuid">
+    <provides>
+      <provide value="code.google.com/p/go-uuid/uuid"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="flannel-devel" package="flannel">
+    <provides>
+      <provide value="github.com/coreos/flannel/backend/hostgw"/>
+      <provide value="github.com/coreos/flannel/backend/vxlan"/>
+      <provide value="github.com/coreos/flannel/subnet"/>
+      <provide value="github.com/coreos/flannel/backend/udp"/>
+      <provide value="github.com/coreos/flannel/pkg/task"/>
+      <provide value="github.com/coreos/flannel/backend"/>
+      <provide value="github.com/coreos/flannel/pkg/ip"/>
+      <provide value="github.com/coreos/flannel/backend/alloc"/>
+    </provides>
+    <imports>
+      <import value="github.com/coreos/go-etcd/etcd"/>
+      <import value="github.com/golang/glog"/>
+      <import value="github.com/vishvananda/netlink"/>
+      <import value="github.com/vishvananda/netlink/nl"/>
+    </imports>
+  </build>
+  <build name="golang-github-rackspace-gophercloud-devel" package="golang-github-rackspace-gophercloud">
+    <provides>
+      <provide value="github.com/rackspace/gophercloud/openstack/compute/v2/extensions/bootfromvolume"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/objectstorage/v1/containers"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/layer3"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/utils"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/cdn/v1/services"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/cdn/v1/flavors"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/identity/v2/tenants"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/networking/v2/networks"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/compute/v2/networks"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/layer3/floatingips"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/identity/v2/tenants"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/security/rules"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/openstack/networking/v2/extensions"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/compute/v2/flavors"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/rackconnect/v3/cloudnetworks"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/networking/v2/security/rules"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/rackspace/networking/v2"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/blockstorage/v1/volumes"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/provider"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/identity/v3/endpoints"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/lb/v1/nodes"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/lb/v1/lbs"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/cdn/v1/services"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/compute/v2/extensions/floatingip"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/identity/v3/tokens"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/lb/v1/throttle"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/orchestration/v1/buildinfo"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/subnets"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/rackspace/rackconnect/v3"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/networking/v2/security"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/compute/v2/bootfromvolume"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/fwaas"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/openstack/identity/v2"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/layer3/routers"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/orchestration/v1/buildinfo"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/rackconnect/v3/publicips"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/tools"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/orchestration/v1/stacks"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/apiversions"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/lbaas/vips"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/objectstorage/v1/bulk"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/ports"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/rackspace/objectstorage/v1"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/cdn/v1/base"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/networking/v2/subnets"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/lb/v1/monitors"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/orchestration/v1/stacks"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/openstack"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/compute/v2/servers"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/compute/v2/keypairs"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/orchestration/v1/stacktemplates"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/orchestration/v1/apiversions"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/compute/v2/virtualinterfaces"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/rackspace/orchestration/v1"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/lb/v1/sessions"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/external"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/blockstorage/v1/apiversions"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/openstack/networking/v2"/>
+      <provide value="github.com/rackspace/gophercloud"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/lbaas"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/networking/v2/common"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/objectstorage/v1/containers"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/blockstorage/v1/snapshots"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/compute/v2/extensions/startstop"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/compute/v2/flavors"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/compute/v2/extensions"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/networks"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/rackspace"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/openstack/networking/v2/extensions/lbaas"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/openstack/identity/v3"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/common"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/openstack/orchestration/v1"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/lbaas/pools"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/compute/v2/extensions/defsecrules"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/openstack/networking/v2/extensions/fwaas"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/objectstorage/v1/cdncontainers"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/cdn/v1/serviceassets"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/rackspace/blockstorage/v1"/>
+      <provide value="github.com/rackspace/gophercloud/testhelper/client"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/cdn/v1/serviceassets"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/compute/v2/servers"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/rackspace/identity/v2"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/rackspace/cdn/v1"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/blockstorage/v1/volumes"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/identity/v2/tokens"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/compute/v2/images"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/compute/v2/images"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/networking/v2/ports"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/compute/v2/extensions/keypairs"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/lbaas/monitors"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/networking/v2/security/groups"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/identity/v2/roles"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/common/extensions"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/objectstorage/v1/cdnobjects"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/compute/v2/extensions/secgroups"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/compute/v2/volumeattach"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/orchestration/v1/stackresources"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/openstack/objectstorage/v1"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/rackconnect/v3/lbpools"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/security/groups"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/orchestration/v1/stackevents"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/identity/v2/extensions/admin/roles"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/lb/v1/vips"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/fwaas/rules"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/fwaas/firewalls"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/rackspace/compute/v2"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/rackconnect/v3"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/compute/v2/extensions/diskconfig"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/openstack/compute/v2"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/objectstorage/v1/objects"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/compute/v2/extensions/servergroups"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/blockstorage/v1/snapshots"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/objectstorage/v1/accounts"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/orchestration/v1/stackresources"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/lb/v1/ssl"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/fwaas/policies"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/identity/v2/users"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/blockstorage/v1/volumetypes"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/objectstorage/v1/objects"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/compute/v2/extensions/tenantnetworks"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/objectstorage/v1/accounts"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/cdn/v1/flavors"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/cdn/v1/base"/>
+      <provide value="github.com/rackspace/gophercloud/acceptance/rackspace/lb/v1"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/identity/v3/services"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/blockstorage/v1/volumetypes"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/lb/v1/acl"/>
+      <provide value="github.com/rackspace/gophercloud/openstack"/>
+      <provide value="github.com/rackspace/gophercloud/pagination"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/security"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/identity/v2/extensions"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/identity/v2/tokens"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/orchestration/v1/stackevents"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/networking/v2/extensions/lbaas/members"/>
+      <provide value="github.com/rackspace/gophercloud/testhelper"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/identity/v2/users"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/orchestration/v1/stacktemplates"/>
+      <provide value="github.com/rackspace/gophercloud/openstack/compute/v2/extensions/volumeattach"/>
+      <provide value="github.com/rackspace/gophercloud/rackspace/identity/v2/extensions"/>
+    </provides>
+    <imports>
+      <import value="github.com/mitchellh/mapstructure"/>
+      <import value="golang.org/x/crypto/ssh"/>
+    </imports>
+  </build>
+  <build name="golang-googlecode-google-api-client-devel" package="golang-googlecode-google-api-client">
+    <provides>
+      <provide value="google.golang.org/api/civicinfo/v1"/>
+      <provide value="google.golang.org/api/prediction/v1.3"/>
+      <provide value="google.golang.org/api/tagmanager/v1"/>
+      <provide value="google.golang.org/api/dfareporting/v1"/>
+      <provide value="google.golang.org/api/compute/v1"/>
+      <provide value="google.golang.org/api/youtube/v3"/>
+      <provide value="google.golang.org/api/appsactivity/v1"/>
+      <provide value="google.golang.org/api/resourceviews/v1beta2"/>
+      <provide value="google.golang.org/api/prediction/v1.4"/>
+      <provide value="google.golang.org/api/blogger/v3"/>
+      <provide value="google.golang.org/api/youtubeanalytics/v1"/>
+      <provide value="google.golang.org/api/replicapoolupdater/v1beta1"/>
+      <provide value="google.golang.org/api/pubsub/v1beta1"/>
+      <provide value="google.golang.org/api/spectrum/v1explorer"/>
+      <provide value="google.golang.org/api/drive/v2"/>
+      <provide value="google.golang.org/api/dfareporting/v2.0"/>
+      <provide value="google.golang.org/api/admin/reports_v1"/>
+      <provide value="google.golang.org/api/cloudmonitoring/v2beta1"/>
+      <provide value="google.golang.org/api/analytics/v2.4"/>
+      <provide value="google.golang.org/api/reseller/v1"/>
+      <provide value="google.golang.org/api/googleapi/transport"/>
+      <provide value="google.golang.org/api/books/v1"/>
+      <provide value="google.golang.org/api/googleapi"/>
+      <provide value="google.golang.org/api/prediction/v1.5"/>
+      <provide value="google.golang.org/api/analytics/v3"/>
+      <provide value="google.golang.org/api/prediction/v1.6"/>
+      <provide value="google.golang.org/api/content/v2"/>
+      <provide value="google.golang.org/api/webmasters/v3"/>
+      <provide value="google.golang.org/api/blogger/v2"/>
+      <provide value="google.golang.org/api/freebase/v1-sandbox"/>
+      <provide value="google.golang.org/api/dataflow/v1beta3"/>
+      <provide value="google.golang.org/api/taskqueue/v1beta1"/>
+      <provide value="google.golang.org/api/googleapi/internal/uritemplates"/>
+      <provide value="google.golang.org/api/mapsengine/v1"/>
+      <provide value="google.golang.org/api/translate/v2"/>
+      <provide value="google.golang.org/api/adsense/v1.4"/>
+      <provide value="google.golang.org/api/genomics/v1beta2"/>
+      <provide value="google.golang.org/api/drive/v1"/>
+      <provide value="google.golang.org/api/mapsengine/exp2"/>
+      <provide value="google.golang.org/api/prediction/v1.2"/>
+      <provide value="google.golang.org/api/pagespeedonline/v1"/>
+      <provide value="google.golang.org/api/adexchangebuyer/v1.3"/>
+      <provide value="google.golang.org/api/games/v1"/>
+      <provide value="google.golang.org/api/genomics/v1beta"/>
+      <provide value="google.golang.org/api/licensing/v1"/>
+      <provide value="google.golang.org/api/adexchangebuyer/v1"/>
+      <provide value="google.golang.org/api/storage/v1"/>
+      <provide value="google.golang.org/api/tasks/v1"/>
+      <provide value="google.golang.org/api/datastore/v1beta2"/>
+      <provide value="google.golang.org/api/container/v1beta1"/>
+      <provide value="google.golang.org/api/taskqueue/v1beta2"/>
+      <provide value="google.golang.org/api/gamesconfiguration/v1configuration"/>
+      <provide value="google.golang.org/api/fitness/v1"/>
+      <provide value="google.golang.org/api/manager/v1beta2"/>
+      <provide value="google.golang.org/api/adsense/v1.3"/>
+      <provide value="google.golang.org/api/autoscaler/v1beta2"/>
+      <provide value="google.golang.org/api/oauth2/v1"/>
+      <provide value="google.golang.org/api/bigquery/v2"/>
+      <provide value="google.golang.org/api/mirror/v1"/>
+      <provide value="google.golang.org/api/cloudlatencytest/v2"/>
+      <provide value="google.golang.org/api/siteverification/v1"/>
+      <provide value="google.golang.org/api/dfareporting/v1.3"/>
+      <provide value="google.golang.org/api/sqladmin/v1beta1"/>
+      <provide value="google.golang.org/api/admin/directory_v1"/>
+      <provide value="google.golang.org/api/sqladmin/v1beta3"/>
+      <provide value="google.golang.org/api/plusdomains/v1"/>
+      <provide value="google.golang.org/api/coordinate/v1"/>
+      <provide value="google.golang.org/api/qpxexpress/v1"/>
+      <provide value="google.golang.org/api/adexchangebuyer/v1.1"/>
+      <provide value="google.golang.org/api/audit/v1"/>
+      <provide value="google.golang.org/api/dfareporting/v1.2"/>
+      <provide value="google.golang.org/api/identitytoolkit/v3"/>
+      <provide value="google.golang.org/api/adexchangeseller/v2.0"/>
+      <provide value="google.golang.org/api/gamesmanagement/v1management"/>
+      <provide value="google.golang.org/api/freebase/v1sandbox"/>
+      <provide value="google.golang.org/api/gan/v1beta1"/>
+      <provide value="google.golang.org/api/doubleclickbidmanager/v1"/>
+      <provide value="google.golang.org/api/dfareporting/v1.1"/>
+      <provide value="google.golang.org/api/reseller/v1sandbox"/>
+      <provide value="google.golang.org/api/adsensehost/v4.1"/>
+      <provide value="google.golang.org/api/groupssettings/v1"/>
+      <provide value="google.golang.org/api/youtubeanalytics/v1beta1"/>
+      <provide value="google.golang.org/api/doubleclicksearch/v2"/>
+      <provide value="google.golang.org/api/civicinfo/v2"/>
+      <provide value="google.golang.org/api/customsearch/v1"/>
+      <provide value="google.golang.org/api/deploymentmanager/v2beta1"/>
+      <provide value="google.golang.org/api/replicapool/v1beta1"/>
+      <provide value="google.golang.org/api/pagespeedonline/v2"/>
+      <provide value="google.golang.org/api/discovery/v1"/>
+      <provide value="google.golang.org/api/storage/v1beta1"/>
+      <provide value="google.golang.org/api/webfonts/v1"/>
+      <provide value="google.golang.org/api/adexchangeseller/v1"/>
+      <provide value="google.golang.org/api/androidpublisher/v1.1"/>
+      <provide value="google.golang.org/api/urlshortener/v1"/>
+      <provide value="google.golang.org/api/gmail/v1"/>
+      <provide value="google.golang.org/api/oauth2/v2"/>
+      <provide value="google.golang.org/api/groupsmigration/v1"/>
+      <provide value="google.golang.org/api/storage/v1beta2"/>
+      <provide value="google.golang.org/api/androidpublisher/v1"/>
+      <provide value="google.golang.org/api/admin/email_migration_v2"/>
+      <provide value="google.golang.org/api/datastore/v1beta1"/>
+      <provide value="google.golang.org/api/dns/v1beta1"/>
+      <provide value="google.golang.org/api/androidpublisher/v2"/>
+      <provide value="google.golang.org/api/adexchangeseller/v1.1"/>
+      <provide value="google.golang.org/api/resourceviews/v1beta1"/>
+      <provide value="google.golang.org/api/plus/v1"/>
+      <provide value="google.golang.org/api/adexchangebuyer/v1.2"/>
+      <provide value="google.golang.org/api/freebase/v1"/>
+      <provide value="google.golang.org/api/civicinfo/us_v1"/>
+      <provide value="google.golang.org/api/replicapool/v1beta2"/>
+      <provide value="google.golang.org/api/calendar/v3"/>
+      <provide value="google.golang.org/api/appstate/v1"/>
+      <provide value="google.golang.org/api/adsense/v1.2"/>
+    </provides>
+    <imports>
+      <import value="golang.org/x/net/context"/>
+      <import value="golang.org/x/oauth2"/>
+      <import value="golang.org/x/oauth2/google"/>
+    </imports>
+  </build>
+  <build name="golang-bitbucket-kardianos-osext-devel" package="golang-bitbucket-kardianos-osext">
+    <provides>
+      <provide value="bitbucket.org/kardianos/osext"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-coreos-go-log-devel" package="golang-github-coreos-go-log">
+    <provides>
+      <provide value="github.com/coreos/go-log/log"/>
+    </provides>
+    <imports>
+      <import value="github.com/coreos/go-systemd/journal"/>
+      <import value="bitbucket.org/kardianos/osext"/>
+    </imports>
+  </build>
+  <build name="golang-github-influxdb-rocksdb-devel" package="golang-github-influxdb-rocksdb">
+    <provides>
+      <provide value="github.com/influxdb/rocksdb"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-influxdb-gomdb-devel" package="golang-github-influxdb-gomdb">
+    <provides>
+      <provide value="github.com/influxdb/gomdb"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-googlecode-text-devel" package="golang-googlecode-text">
+    <provides>
+      <provide value="code.google.com/p/go.text/collate/build"/>
+      <provide value="code.google.com/p/go.text/encoding/unicode"/>
+      <provide value="code.google.com/p/go.text/encoding/simplifiedchinese"/>
+      <provide value="code.google.com/p/go.text/cases"/>
+      <provide value="code.google.com/p/go.text/encoding/charmap"/>
+      <provide value="code.google.com/p/go.text/language"/>
+      <provide value="code.google.com/p/go.text/encoding/korean"/>
+      <provide value="code.google.com/p/go.text/collate"/>
+      <provide value="code.google.com/p/go.text/unicode/norm"/>
+      <provide value="code.google.com/p/go.text/encoding"/>
+      <provide value="code.google.com/p/go.text/internal/triegen"/>
+      <provide value="code.google.com/p/go.text/display"/>
+      <provide value="code.google.com/p/go.text/transform"/>
+      <provide value="code.google.com/p/go.text/collate/colltab"/>
+      <provide value="code.google.com/p/go.text/internal/ucd"/>
+      <provide value="code.google.com/p/go.text/encoding/traditionalchinese"/>
+      <provide value="code.google.com/p/go.text/cldr"/>
+      <provide value="code.google.com/p/go.text/encoding/japanese"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-gogo-protobuf-devel" package="golang-googlecode-gogoprotobuf">
+    <provides>
+      <provide value="github.com/gogo/protobuf/plugin/testgen"/>
+      <provide value="github.com/gogo/protobuf/plugin/stringer"/>
+      <provide value="github.com/gogo/protobuf/plugin/unmarshal"/>
+      <provide value="github.com/gogo/protobuf/plugin/populate"/>
+      <provide value="github.com/gogo/protobuf/plugin/description"/>
+      <provide value="github.com/gogo/protobuf/plugin/embedcheck"/>
+      <provide value="github.com/gogo/protobuf/protoc-gen-gogo/generator"/>
+      <provide value="github.com/gogo/protobuf/protoc-gen-gogo"/>
+      <provide value="github.com/gogo/protobuf/plugin/gostring"/>
+      <provide value="github.com/gogo/protobuf/plugin/union"/>
+      <provide value="github.com/gogo/protobuf/plugin/marshalto"/>
+      <provide value="github.com/gogo/protobuf/io"/>
+      <provide value="github.com/gogo/protobuf/plugin/equal"/>
+      <provide value="github.com/gogo/protobuf/protoc-gen-gogo/descriptor"/>
+      <provide value="github.com/gogo/protobuf/protoc-gen-gogo/plugin"/>
+      <provide value="github.com/gogo/protobuf/protoc-gen-gogo/version"/>
+      <provide value="github.com/gogo/protobuf/plugin/defaultcheck"/>
+      <provide value="github.com/gogo/protobuf/fieldpath"/>
+      <provide value="github.com/gogo/protobuf/proto"/>
+      <provide value="github.com/gogo/protobuf/plugin/face"/>
+      <provide value="github.com/gogo/protobuf/plugin/enumstringer"/>
+      <provide value="github.com/gogo/protobuf/parser"/>
+      <provide value="github.com/gogo/protobuf/plugin/size"/>
+    </provides>
+    <imports>
+      <import value="github.com/gogo/protobuf/gogoproto"/>
+      <import value="./testdata"/>
+      <import value="github.com/gogo/protobuf/test"/>
+    </imports>
+  </build>
+  <build name="golang-github-golang-glog-devel" package="golang-github-golang-glog">
+    <provides>
+      <provide value="github.com/golang/glog"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-googlecode-go-exp-devel" package="golang-googlecode-go-exp">
+    <provides>
+      <provide value="code.google.com/p/go.exp/locale/search"/>
+      <provide value="code.google.com/p/go.exp/utf8string"/>
+      <provide value="code.google.com/p/go.exp/fsnotify"/>
+      <provide value="code.google.com/p/go.exp/inotify"/>
+      <provide value="code.google.com/p/go.exp/ebnf"/>
+      <provide value="code.google.com/p/go.exp/old/netchan"/>
+    </provides>
+    <imports>
+      <import value="code.google.com/p/go.text/collate/colltab"/>
+      <import value="code.google.com/p/go.text/language"/>
+    </imports>
+  </build>
+  <build name="golang-github-prometheus-prometheus-devel" package="golang-github-prometheus-prometheus">
+    <provides>
+      <provide value="github.com/prometheus/prometheus/web"/>
+      <provide value="github.com/prometheus/prometheus/utility/test"/>
+      <provide value="github.com/prometheus/prometheus/storage/local/flock"/>
+      <provide value="github.com/prometheus/prometheus/web/httputils"/>
+      <provide value="github.com/prometheus/prometheus/storage/remote"/>
+      <provide value="github.com/prometheus/prometheus/web/blob"/>
+      <provide value="github.com/prometheus/prometheus/storage/local/codable"/>
+      <provide value="github.com/prometheus/prometheus/storage/local/index"/>
+      <provide value="github.com/prometheus/prometheus/rules"/>
+      <provide value="github.com/prometheus/prometheus/rules/ast"/>
+      <provide value="github.com/prometheus/prometheus/templates"/>
+      <provide value="github.com/prometheus/prometheus/config"/>
+      <provide value="github.com/prometheus/prometheus/notification"/>
+      <provide value="github.com/prometheus/prometheus/utility"/>
+      <provide value="github.com/prometheus/prometheus/retrieval"/>
+      <provide value="github.com/prometheus/prometheus/storage/metric"/>
+      <provide value="github.com/prometheus/prometheus/storage/remote/opentsdb"/>
+      <provide value="github.com/prometheus/prometheus/config/generated"/>
+      <provide value="github.com/prometheus/prometheus/stats"/>
+      <provide value="github.com/prometheus/prometheus/storage/local"/>
+      <provide value="github.com/prometheus/prometheus/web/api"/>
+      <provide value="github.com/prometheus/prometheus/rules/manager"/>
+    </provides>
+    <imports>
+      <import value="github.com/golang/glog"/>
+      <import value="github.com/prometheus/client_golang/model"/>
+      <import value="github.com/prometheus/client_golang/prometheus"/>
+      <import value="github.com/syndtr/goleveldb/leveldb"/>
+      <import value="github.com/syndtr/goleveldb/leveldb/filter"/>
+      <import value="github.com/syndtr/goleveldb/leveldb/iterator"/>
+      <import value="github.com/syndtr/goleveldb/leveldb/opt"/>
+      <import value="github.com/syndtr/goleveldb/leveldb/util"/>
+      <import value="github.com/prometheus/client_golang/extraction"/>
+      <import value="code.google.com/p/goprotobuf/proto"/>
+      <import value="github.com/miekg/dns"/>
+    </imports>
+  </build>
+  <build name="golang-github-emicklei-go-restful-devel" package="golang-github-emicklei-go-restful">
+    <provides>
+      <provide value="github.com/emicklei/go-restful"/>
+      <provide value="github.com/emicklei/go-restful/swagger"/>
+      <provide value="github.com/emicklei/go-restful/log"/>
+    </provides>
+    <imports>
+      <import value="github.com/gorilla/schema"/>
+      <import value="github.com/mjibson/appstats"/>
+    </imports>
+  </build>
+  <build name="golang-github-kr-pretty-devel" package="golang-github-kr-pretty">
+    <provides>
+      <provide value="github.com/kr/pretty"/>
+    </provides>
+    <imports>
+      <import value="github.com/kr/text"/>
+    </imports>
+  </build>
+  <build name="golang-googlecode-sqlite-devel" package="golang-googlecode-sqlite">
+    <provides>
+      <provide value="code.google.com/p/gosqlite/sqlite"/>
+      <provide value="code.google.com/p/gosqlite/sqlite3"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-mreiferson-go-httpclient-devel" package="golang-github-mreiferson-go-httpclient">
+    <provides>
+      <provide value="github.com/mreiferson/go-httpclient"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-skratchdot-open-golang-devel" package="golang-github-skratchdot-open-golang">
+    <provides>
+      <provide value="github.com/skratchdot/open-golang/open"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-syndtr-gosnappy-devel" package="golang-github-syndtr-gosnappy">
+    <provides>
+      <provide value="github.com/syndtr/gosnappy/snappy"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-influxdb-hyperleveldb-go-devel" package="golang-github-influxdb-hyperleveldb-go">
+    <provides>
+      <provide value="github.com/influxdb/hyperleveldb-go"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-gorilla-context-devel" package="golang-github-gorilla-context">
+    <provides>
+      <provide value="github.com/gorilla/context"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-golangorg-text-devel" package="golang-googlecode-text">
+    <provides>
+      <provide value="golang.org/x/text/internal/triegen"/>
+      <provide value="golang.org/x/text/encoding"/>
+      <provide value="golang.org/x/text/encoding/korean"/>
+      <provide value="golang.org/x/text/encoding/simplifiedchinese"/>
+      <provide value="golang.org/x/text/display"/>
+      <provide value="golang.org/x/text/encoding/unicode"/>
+      <provide value="golang.org/x/text/language"/>
+      <provide value="golang.org/x/text/internal/ucd"/>
+      <provide value="golang.org/x/text/cldr"/>
+      <provide value="golang.org/x/text/collate/colltab"/>
+      <provide value="golang.org/x/text/cases"/>
+      <provide value="golang.org/x/text/encoding/traditionalchinese"/>
+      <provide value="golang.org/x/text/collate/build"/>
+      <provide value="golang.org/x/text/collate"/>
+      <provide value="golang.org/x/text/encoding/japanese"/>
+      <provide value="golang.org/x/text/encoding/charmap"/>
+      <provide value="golang.org/x/text/transform"/>
+      <provide value="golang.org/x/text/unicode/norm"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-evanphx-json-patch-devel" package="golang-github-evanphx-json-patch">
+    <provides>
+      <provide value="github.com/evanphx/json-patch"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-golangorg-oauth2-devel" package="golang-googlecode-goauth2">
+    <provides>
+      <provide value="golang.org/x/oauth2/internal"/>
+      <provide value="golang.org/x/oauth2/jws"/>
+      <provide value="golang.org/x/oauth2/google"/>
+      <provide value="golang.org/x/oauth2/jwt"/>
+      <provide value="golang.org/x/oauth2"/>
+      <provide value="golang.org/x/oauth2/github"/>
+    </provides>
+    <imports>
+      <import value="golang.org/x/net/context"/>
+      <import value="google.golang.org/cloud/compute/metadata"/>
+      <import value="google.golang.org/appengine"/>
+      <import value="google.golang.org/appengine/urlfetch"/>
+    </imports>
+  </build>
+  <build name="golang-github-vishvananda-netns-devel" package="golang-github-vishvananda-netns">
+    <provides>
+      <provide value="github.com/vishvananda/netns"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-gorilla-mux-devel" package="golang-github-gorilla-mux">
+    <provides>
+      <provide value="github.com/gorilla/mux"/>
+    </provides>
+    <imports>
+      <import value="github.com/gorilla/context"/>
+    </imports>
+  </build>
+  <build name="golang-googlecode-net-devel" package="golang-googlecode-net">
+    <provides>
+      <provide value="code.google.com/p/go.net/icmp"/>
+      <provide value="code.google.com/p/go.net/html"/>
+      <provide value="code.google.com/p/go.net/dict"/>
+      <provide value="code.google.com/p/go.net/spdy"/>
+      <provide value="code.google.com/p/go.net/internal/nettest"/>
+      <provide value="code.google.com/p/go.net/netutil"/>
+      <provide value="code.google.com/p/go.net/publicsuffix"/>
+      <provide value="code.google.com/p/go.net/internal/iana"/>
+      <provide value="code.google.com/p/go.net/ipv6"/>
+      <provide value="code.google.com/p/go.net/proxy"/>
+      <provide value="code.google.com/p/go.net/context"/>
+      <provide value="code.google.com/p/go.net/idna"/>
+      <provide value="code.google.com/p/go.net/webdav"/>
+      <provide value="code.google.com/p/go.net/html/atom"/>
+      <provide value="code.google.com/p/go.net/ipv4"/>
+      <provide value="code.google.com/p/go.net/html/charset"/>
+      <provide value="code.google.com/p/go.net/websocket"/>
+    </provides>
+    <imports>
+      <import value="code.google.com/p/go.text/encoding"/>
+      <import value="code.google.com/p/go.text/encoding/charmap"/>
+      <import value="code.google.com/p/go.text/encoding/japanese"/>
+      <import value="code.google.com/p/go.text/encoding/korean"/>
+      <import value="code.google.com/p/go.text/encoding/simplifiedchinese"/>
+      <import value="code.google.com/p/go.text/encoding/traditionalchinese"/>
+      <import value="code.google.com/p/go.text/encoding/unicode"/>
+      <import value="code.google.com/p/go.text/transform"/>
+    </imports>
+  </build>
+  <build name="golang-github-docker-libtrust-devel" package="golang-github-docker-libtrust">
+    <provides>
+      <provide value="github.com/docker/libtrust/trustgraph"/>
+      <provide value="github.com/docker/libtrust"/>
+      <provide value="github.com/docker/libtrust/testutil"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-BurntSushi-toml-devel" package="golang-github-BurntSushi-toml">
+    <provides>
+      <provide value="github.com/BurntSushi/toml"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-docker-spdystream-devel" package="golang-github-docker-spdystream">
+    <provides>
+      <provide value="github.com/docker/spdystream/ws"/>
+      <provide value="github.com/docker/spdystream"/>
+    </provides>
+    <imports>
+      <import value="golang.org/x/net/spdy"/>
+      <import value="github.com/gorilla/websocket"/>
+    </imports>
+  </build>
+  <build name="golang-github-rakyll-globalconf-devel" package="golang-github-rakyll-globalconf">
+    <provides>
+      <provide value="github.com/rakyll/globalconf"/>
+    </provides>
+    <imports>
+      <import value="github.com/rakyll/goini"/>
+    </imports>
+  </build>
+  <build name="golang-github-beorn7-perks-devel" package="golang-github-beorn7-perks">
+    <provides>
+      <provide value="github.com/beorn7/perks/quantile"/>
+      <provide value="github.com/beorn7/perks/histogram"/>
+      <provide value="github.com/beorn7/perks/topk"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="fleet-devel" package="fleet">
+    <provides>
+      <provide value="github.com/coreos/fleet/schema"/>
+      <provide value="github.com/coreos/fleet/engine"/>
+      <provide value="github.com/coreos/fleet/agent"/>
+      <provide value="github.com/coreos/fleet/pkg"/>
+      <provide value="github.com/coreos/fleet/api"/>
+      <provide value="github.com/coreos/fleet/server"/>
+      <provide value="github.com/coreos/fleet/scripts"/>
+      <provide value="github.com/coreos/fleet/systemd"/>
+      <provide value="github.com/coreos/fleet/resource"/>
+      <provide value="github.com/coreos/fleet/machine"/>
+      <provide value="github.com/coreos/fleet/config"/>
+      <provide value="github.com/coreos/fleet/heart"/>
+      <provide value="github.com/coreos/fleet/unit"/>
+      <provide value="github.com/coreos/fleet/functional/util"/>
+      <provide value="github.com/coreos/fleet/version"/>
+      <provide value="github.com/coreos/fleet/functional/platform"/>
+      <provide value="github.com/coreos/fleet/job"/>
+      <provide value="github.com/coreos/fleet/ssh"/>
+      <provide value="github.com/coreos/fleet/client"/>
+      <provide value="github.com/coreos/fleet/etcd"/>
+      <provide value="github.com/coreos/fleet/log"/>
+      <provide value="github.com/coreos/fleet/registry"/>
+    </provides>
+    <imports>
+      <import value="github.com/coreos/go-semver/semver"/>
+      <import value="github.com/coreos/go-systemd/unit"/>
+      <import value="github.com/coreos/go-systemd/dbus"/>
+      <import value="golang.org/x/crypto/ssh"/>
+      <import value="golang.org/x/crypto/ssh/agent"/>
+      <import value="golang.org/x/crypto/ssh/terminal"/>
+      <import value="github.com/coreos/go-systemd/activation"/>
+      <import value="google.golang.org/api/googleapi"/>
+      <import value="github.com/jonboulle/clockwork"/>
+      <import value="github.com/docker/libcontainer/netlink"/>
+      <import value="github.com/rakyll/globalconf"/>
+    </imports>
+  </build>
+  <build name="golang-github-appc-spec-devel" package="golang-github-appc-spec">
+    <provides>
+      <provide value="github.com/appc/spec/aci"/>
+      <provide value="github.com/appc/spec/schema/types"/>
+      <provide value="github.com/appc/spec/pkg/acirenderer"/>
+      <provide value="github.com/appc/spec/schema"/>
+      <provide value="github.com/appc/spec/pkg/tarheader"/>
+      <provide value="github.com/appc/spec/discovery"/>
+    </provides>
+    <imports>
+      <import value="github.com/coreos/go-semver/semver"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api/resource"/>
+      <import value="golang.org/x/net/html"/>
+      <import value="golang.org/x/net/html/atom"/>
+    </imports>
+  </build>
+  <build name="golang-github-prometheus-client_golang-devel" package="golang-github-prometheus-client_golang">
+    <provides>
+      <provide value="github.com/prometheus/client_golang/text"/>
+      <provide value="github.com/prometheus/client_golang/extraction"/>
+      <provide value="github.com/prometheus/client_golang/prometheus"/>
+      <provide value="github.com/prometheus/client_golang/model"/>
+    </provides>
+    <imports>
+      <import value="github.com/golang/protobuf/proto"/>
+      <import value="github.com/matttproud/golang_protobuf_extensions/pbutil"/>
+      <import value="github.com/prometheus/client_model/go"/>
+      <import value="github.com/beorn7/perks/quantile"/>
+      <import value="bitbucket.org/ww/goautoneg"/>
+      <import value="github.com/prometheus/procfs"/>
+    </imports>
+  </build>
+  <build name="golang-github-matttproud-golang_protobuf_extensions-devel" package="golang-github-matttproud-golang_protobuf_extensions">
+    <provides>
+      <provide value="github.com/matttproud/golang_protobuf_extensions/ext"/>
+      <provide value="github.com/matttproud/golang_protobuf_extensions/pbutil"/>
+      <provide value="github.com/matttproud/golang_protobuf_extensions/pbtest"/>
+    </provides>
+    <imports>
+      <import value="github.com/golang/protobuf/proto"/>
+      <import value="github.com/golang/protobuf/proto/testdata"/>
+    </imports>
+  </build>
+  <build name="golang-github-stretchr-objx-devel" package="golang-github-stretchr-objx">
+    <provides>
+      <provide value="github.com/stretchr/objx"/>
+    </provides>
+    <imports>
+      <import value="github.com/stretchr/testify/assert"/>
+    </imports>
+  </build>
+  <build name="golang-github-skynetservices-skydns-devel" package="golang-github-skynetservices-skydns">
+    <provides>
+      <provide value="github.com/skynetservices/skydns/msg"/>
+      <provide value="github.com/skynetservices/skydns/cache"/>
+    </provides>
+    <imports>
+      <import value="github.com/rcrowley/go-metrics"/>
+      <import value="github.com/rcrowley/go-metrics/influxdb"/>
+      <import value="github.com/rcrowley/go-metrics/stathat"/>
+      <import value="github.com/coreos/go-etcd/etcd"/>
+      <import value="github.com/miekg/dns"/>
+      <import value="github.com/coreos/go-log/log"/>
+      <import value="github.com/coreos/go-systemd/activation"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/client"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/api"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/proxy/config"/>
+      <import value="github.com/GoogleCloudPlatform/kubernetes/pkg/util"/>
+    </imports>
+  </build>
+  <build name="golang-github-rakyll-statik-devel" package="golang-github-rakyll-statik">
+    <provides>
+      <provide value="github.com/rakyll/statik/fs"/>
+    </provides>
+    <imports>
+      <import value="github.com/rakyll/statik/example/statik"/>
+    </imports>
+  </build>
+  <build name="golang-bitbucket-ww-goautoneg-devel" package="golang-bitbucket-ww-goautoneg">
+    <provides>
+      <provide value="bitbucket.org/ww/goautoneg"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-stretchr-testify-devel" package="golang-github-stretchr-testify">
+    <provides/>
+    <imports/>
+  </build>
+  <build name="golang-github-glacjay-goini-devel" package="golang-github-glacjay-goini">
+    <provides>
+      <provide value="github.com/rakyll/goini"/>
+      <provide value="github.com/glacjay/goini"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-miekg-dns-devel" package="golang-github-miekg-dns">
+    <provides>
+      <provide value="github.com/miekg/dns"/>
+      <provide value="github.com/miekg/dns/idn"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-abbot-go-http-auth-devel" package="golang-github-abbot-go-http-auth">
+    <provides>
+      <provide value="github.com/abbot/go-http-auth"/>
+    </provides>
+    <imports>
+      <import value=".."/>
+    </imports>
+  </build>
+  <build name="golang-github-imdario-mergo-devel" package="golang-github-imdario-mergo">
+    <provides>
+      <provide value="github.com/imdario/mergo"/>
+    </provides>
+    <imports>
+      <import value="gopkg.in/yaml.v1"/>
+    </imports>
+  </build>
+  <build name="golang-github-vishvananda-netlink-devel" package="golang-github-vishvananda-netlink">
+    <provides>
+      <provide value="github.com/vishvananda/netlink"/>
+      <provide value="github.com/vishvananda/netlink/nl"/>
+    </provides>
+    <imports>
+      <import value="github.com/vishvananda/netns"/>
+    </imports>
+  </build>
+  <build name="golang-github-openshift-go-json-rest-devel" package="golang-github-openshift-go-json-rest">
+    <provides>
+      <provide value="github.com/openshift/go-json-rest/test"/>
+      <provide value="github.com/openshift/go-json-rest"/>
+      <provide value="github.com/openshift/go-json-rest/trie"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-bmizerany-pat-devel" package="golang-github-bmizerany-pat">
+    <provides>
+      <provide value="github.com/bmizerany/pat/example/patexample"/>
+      <provide value="github.com/bmizerany/pat"/>
+    </provides>
+    <imports>
+      <import value="github.com/bmizerany/assert"/>
+    </imports>
+  </build>
+  <build name="golang-github-bmizerany-assert-devel" package="golang-github-bmizerany-assert">
+    <provides>
+      <provide value="github.com/bmizerany/assert/example"/>
+      <provide value="github.com/bmizerany/assert"/>
+    </provides>
+    <imports>
+      <import value="github.com/kr/pretty"/>
+      <import value="assert"/>
+    </imports>
+  </build>
+  <build name="golang-github-onsi-ginkgo-devel" package="golang-github-onsi-ginkgo">
+    <provides>
+      <provide value="github.com/onsi/ginkgo/integration/_fixtures/failing_ginkgo_tests"/>
+      <provide value="github.com/onsi/ginkgo/integration/_fixtures/watch_fixtures/D"/>
+      <provide value="github.com/onsi/ginkgo/integration"/>
+      <provide value="github.com/onsi/ginkgo/internal/containernode"/>
+      <provide value="github.com/onsi/ginkgo/ginkgo/convert"/>
+      <provide value="github.com/onsi/ginkgo/internal/writer"/>
+      <provide value="github.com/onsi/ginkgo/ginkgo/nodot"/>
+      <provide value="github.com/onsi/ginkgo/ginkgo/interrupthandler"/>
+      <provide value="github.com/onsi/ginkgo/config"/>
+      <provide value="github.com/onsi/ginkgo/integration/_fixtures/watch_fixtures/B"/>
+      <provide value="github.com/onsi/ginkgo/internal/remote"/>
+      <provide value="github.com/onsi/ginkgo/integration/_fixtures/xunit_tests"/>
+      <provide value="github.com/onsi/ginkgo/internal/leafnodes"/>
+      <provide value="github.com/onsi/ginkgo/internal/suite"/>
+      <provide value="github.com/onsi/ginkgo/ginkgo/testsuite"/>
+      <provide value="github.com/onsi/ginkgo/internal/specrunner"/>
+      <provide value="github.com/onsi/ginkgo/internal/failer"/>
+      <provide value="github.com/onsi/ginkgo/integration/_fixtures/coverage_fixture"/>
+      <provide value="github.com/onsi/ginkgo/internal/spec"/>
+      <provide value="github.com/onsi/ginkgo/internal/testingtproxy"/>
+      <provide value="github.com/onsi/ginkgo/integration/_fixtures/more_ginkgo_tests"/>
+      <provide value="github.com/onsi/ginkgo/types"/>
+      <provide value="github.com/onsi/ginkgo/ginkgo/watch"/>
+      <provide value="github.com/onsi/ginkgo/integration/_fixtures/watch_fixtures/C"/>
+      <provide value="github.com/onsi/ginkgo/reporters"/>
+      <provide value="github.com/onsi/ginkgo/internal/codelocation"/>
+      <provide value="github.com/onsi/ginkgo/integration/_fixtures/watch_fixtures/A"/>
+      <provide value="github.com/onsi/ginkgo/integration/_fixtures/flags_tests"/>
+      <provide value="github.com/onsi/ginkgo/ginkgo/testrunner"/>
+      <provide value="github.com/onsi/ginkgo"/>
+      <provide value="github.com/onsi/ginkgo/integration/_fixtures/passing_ginkgo_tests"/>
+      <provide value="github.com/onsi/ginkgo/reporters/stenographer"/>
+    </provides>
+    <imports>
+      <import value="github.com/onsi/gomega"/>
+      <import value="github.com/onsi/gomega/gbytes"/>
+      <import value="github.com/onsi/gomega/ghttp"/>
+      <import value="github.com/onsi/gomega/gexec"/>
+      <import value="github.com/onsi/C"/>
+      <import value="github.com/onsi/B"/>
+      <import value="github.com/onsi/ginkgo/integration/_fixtures/does_not_compile"/>
+    </imports>
+  </build>
+  <build name="golang-github-mitchellh-mapstructure-devel" package="golang-github-mitchellh-mapstructure">
+    <provides>
+      <provide value="github.com/mitchellh/mapstructure"/>
+    </provides>
+    <imports/>
+  </build>
+  <build name="golang-github-coreos-go-semver-devel" package="golang-github-coreos-go-semver">
+    <provides>
+      <provide value="github.com/coreos/go-semver/semver"/>
+    </provides>
+    <imports/>
+  </build>
+</cache>
