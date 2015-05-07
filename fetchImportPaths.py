@@ -3,6 +3,8 @@ from modules.Packages import loadPackages, savePackageInfo, LocalDB
 import optparse
 from modules.ImportPathDB import ImportPathDB
 from modules.Utils import FormatedPrint
+from modules.ImportPathDB import ImportPathDBCache
+from modules.Config import Config
 
 from time import time, strftime, gmtime
 import sys
@@ -45,13 +47,21 @@ def createDB(full=False, verbose=False):
 	err, ret = LocalDB().updatePackages(packages)
 	if not ret:
 		print "Error:\n" + "\n".join(err)
+		return False	
+
+	ipdb_cache = ImportPathDBCache()
+	if not ipdb_cache.load():
+		print "Error: %s" % ipdb_cache.getError()
 		return False
+
+	golang_pkg = Config().getGolangPkgdb()
 
 	for package in packages:
 		starttime = time()
 		# len of pkg_idx
 		pkg_idx_len = len("%s" % pkg_idx)
 		sys.stdout.write("Scanning %s %s %s%s/%s " % (package, (pkg_name_len - len(package) + 3) * ".", (pkg_cnt_len - pkg_idx_len) * " " , pkg_idx, pkg_cnt))
+		sys.stdout.flush()
 		pkg = Package(package)
 		info = pkg.getInfo()
 		# save xml into file
@@ -67,6 +77,21 @@ def createDB(full=False, verbose=False):
 		endtime = time()
 		elapsedtime = endtime - starttime
 		print strftime("[%Hh %Mm %Ss]", gmtime(elapsedtime))
+
+		# update cache of imported and provided packages
+		for item in info:
+			devel_name = item
+
+			# This is hacky and depends on info data type represenation
+			pkg2xml_obj = info[item]['xmlobj']
+			imports = pkg2xml_obj.getImportedPackages()
+			provides = pkg2xml_obj.getProvidedPackages()
+
+			ipdb_cache.updateBuild(devel_name, provides, imports, package)
+
+
+	if not ipdb_cache.flush():
+		print ipdb_cache.getError()
 
 	scan_time_end = time()
 	print strftime("Elapsed time %Hh %Mm %Ss", gmtime(scan_time_end - scan_time_start))
