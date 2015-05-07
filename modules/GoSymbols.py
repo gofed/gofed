@@ -426,9 +426,9 @@ class ProjectToXml:
 			self.err = gse_obj.getError()
 			return
 
-		ip = gse_obj.getSymbolsPosition()
+		self.ip = gse_obj.getSymbolsPosition()
 		symbols = gse_obj.getSymbols()
-		ip_used = gse_obj.getImportedPackages()
+		self.ip_used = gse_obj.getImportedPackages()
 
 		self.root = etree.Element("project")
 		self.root.set("url", url)
@@ -436,10 +436,10 @@ class ProjectToXml:
 		self.root.set("nvr", nvr)
 
 		packages_node = etree.Element("packages")
-		for prefix in ip:
-			full_import_path = "%s/%s" % (url, ip[prefix])
+		for prefix in self.ip:
+			full_import_path = "%s/%s" % (url, self.ip[prefix])
 			if url == "":
-				full_import_path = ip[prefix]
+				full_import_path = self.ip[prefix]
 
 			obj = PackageToXml(symbols[prefix], full_import_path, imports=False)
 			if not obj.getStatus():
@@ -452,12 +452,18 @@ class ProjectToXml:
 
 		# add imports
 		imports_node = etree.Element("imports")
-		for path in ip_used:
+		for path in self.ip_used:
 			node = etree.Element("import")
 			node.set("path", path)
 			imports_node.append(node)
 
 		self.root.append(imports_node)
+
+	def getImportedPackages(self):
+		return self.ip_used
+
+	def getProvidedPackages(self):
+		return self.ip
 
 	def getStatus(self):
 		return self.err == ""
