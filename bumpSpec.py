@@ -25,6 +25,7 @@ def getMacros(spec):
 	macros["repo"] = obj.getMacro("repo")
 	macros["provider"] = obj.getMacro("provider")
 	macros["commit"] = obj.getMacro("commit")
+	last_bug_id = obj.getBugIdFromLastChangelog()
 
 	if macros["project"] == "":
 		err = "Unable to detect project macro"
@@ -52,7 +53,7 @@ def getMacros(spec):
 
 		macros["ip"] = "%s.%s/%s/%s" % (macros["provider"], macros["provider_tld"], macros["project"], macros["repo"])
 
-	return "", macros
+	return "", macros, last_bug_id
 
 def downloadTarball(archive_url):
 	so, se, rc = runCommand("wget -nv %s --no-check-certificate" % archive_url)
@@ -67,8 +68,13 @@ def updateSpec(spec, commit):
 	else:
 		return True
 
-def bumpSpec(spec, commit):
-	so, se, rc = runCommand("rpmdev-bumpspec --comment=\"Bump to upstream %s\" %s" % (commit, spec))
+def bumpSpec(spec, commit, last_bug_id):
+	if last_bug_id != -1:
+		cmd = "rpmdev-bumpspec --comment=\"$(echo \"Bump to upstream %s\n  related: #%s\")\" %s" % (commit, last_bug_id, spec)
+	else:
+		cmd = "rpmdev-bumpspec --comment=\"Bump to upstream %s\" %s" % (commit, spec)
+
+	so, se, rc = runCommand(cmd)
 	if rc != 0:
 		return False
 	else:
@@ -111,7 +117,7 @@ if __name__ == "__main__":
 
 	# get macros
 	print "Reading macros from %s" % spec
-	err, macros = getMacros(spec)
+	err, macros, last_bug_id = getMacros(spec)
 	if err != "":
 		print err
 		exit(2)
@@ -174,7 +180,7 @@ if __name__ == "__main__":
 
 	# bump spec file
 	print "Bumping spec file"
-	if not bumpSpec(spec, commit):
+	if not bumpSpec(spec, commit, last_bug_id):
 		print "Unable to bump spec file"
 		exit(6)
 
