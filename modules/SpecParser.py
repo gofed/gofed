@@ -153,6 +153,18 @@ class SpecParser(Base):
 
 		return self.changelogs[0]
 
+	def getProvides(self):
+		if self.subpackages == {}:
+			return {}
+
+		provides = {}
+		for item in self.subpackages:
+			ps = self.subpackages[item].getProvides()
+			if ps != []:
+				provides[item] = ps
+
+		return provides
+
 	def parse(self):
 		lines = self.getRawSpecLines(self.spec)
 		if lines == []:
@@ -323,9 +335,14 @@ class SpecParser(Base):
 		"""
 		Get a name for package, description or files section
 		"""
+		line = line.strip()
 		line = re.sub(r'[ \t]+', ' ', line)
 		items = line.split(' ')
 		items_len = len(items)
+
+		if items_len == 1:
+			return pkg_name
+
 		i = 1
 		while i < items_len:
 			item = items[i]
