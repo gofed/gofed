@@ -4,6 +4,7 @@ import optparse
 from os import walk
 from modules.Utils import FormatedPrint
 from modules.Config import Config
+from modules.FilesDetector import FilesDetector
 
 def setOptions():
 	parser = optparse.OptionParser("%prog [-a] [-c] [-d [-v]] [directory]")
@@ -50,58 +51,16 @@ def setOptions():
 
 	return parser
 
-def detectFiles(info = False):
-	files = []
-
-	specfile = ""
-	sources = ""
-	archive = ""
-
-	fp_obj = FormatedPrint(formated = True)
-
-	for dirName, subdirList, fileList in walk("."):
-		if dirName != ".":
-			continue
-		for fname in fileList:
-			files.append(fname)
-
-
-	for fname in files:
-		if specfile == "" and fname.endswith(".spec"):
-			if info:
-				fp_obj.printInfo("Spec file %s detected" % fname)
-			specfile = fname
-			continue
-
-		if sources == "" and fname == "sources":
-			if options.info:
-				fp_obj.printInfo("sources file detected")
-			sources = fname
-			continue
-
-		if archive == "":
-			if fname.endswith(".gz"):
-				archive = fname
-			if fname.endswith(".zip"):
-				archive = fname
-			if fname.endswith(".xz"):
-				archive = name
-			if archive != "":
-				if options.info:
-					fp_obj.printInfo("Archive %s detected" % fname)
-			continue
-
-		if specfile != "" and sources != "" and archive != "":
-			break
-
-	return (specfile, sources, archive)
-
 if __name__ == "__main__":
 
 	parser = setOptions()
 	options, args = parser.parse_args()
 
-	specfile, sources, archive = detectFiles(options.info)
+	fd = FilesDetector()
+	fd.detect()
+	specfile = fd.getSpecfile()
+	sources = fd.getSources()
+	archive = fd.getArchive()
 
 	# if options only files detection
 	if options.info:
