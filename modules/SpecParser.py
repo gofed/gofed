@@ -177,6 +177,9 @@ class SpecParser(Base):
 
 		return self.changelogs[0]
 
+	def getSubpackages(self):
+		return self.subpackages.keys()
+
 	def getProvides(self):
 		if self.subpackages == {}:
 			return {}
