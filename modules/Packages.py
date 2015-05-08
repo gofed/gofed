@@ -376,7 +376,8 @@ def buildRequirementGraph(verbose=False, cache=False):
 	# load imported and provided paths
 	ipdb_obj = ImportPathDB(cache=cache)
 	if not ipdb_obj.load():
-		print "CHYBA"
+		print "Error: %s" % ipdb_obj.getErorr()
+
 	ip_provides = ipdb_obj.getProvidedPaths()
 	ip_imports = ipdb_obj.getImportedPaths()
 	pkg_devel_main_pkg = ipdb_obj.getDevelMainPkg()

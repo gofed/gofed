@@ -209,7 +209,6 @@ class ImportPathDB(Base):
 			return True
 
 		for path in symbol_files:
-			print path
 			spp_obj = SymbolPackageParser(path,
 					read_native_imports=False)
 
