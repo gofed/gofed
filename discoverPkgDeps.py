@@ -117,11 +117,6 @@ if __name__ == "__main__":
 	    help = "Get golang packages not required by any package"
 	)
 
-	parser.add_option(
-	    "", "", "--cache", dest="cache", action = "store_true", default = False,
-	    help = "Use cached imported and provided packages"
-	)
-
 	parser.add_option_group( optparse.OptionGroup(parser, "PACKAGE", "Display the smallest subgraph containing PACKAGE and all its dependencies.") )
 
 	# get list of tools/packages providing go binary
@@ -135,7 +130,7 @@ if __name__ == "__main__":
 
 		print "Reading packages..."
 		scan_time_start = time()
-		graph, pkg_devel_main_pkg = buildRequirementGraph(options.verbose, options.cache)
+		graph, pkg_devel_main_pkg = buildRequirementGraph(options.verbose, cache=True)
 		nodes, _ = graph
 		graph_cnt = len(nodes)
 
@@ -151,7 +146,7 @@ if __name__ == "__main__":
 		scan_time_end = time()
 		print strftime("Completed in %Hh %Mm %Ss", gmtime(scan_time_end - scan_time_start))
 		if pkg_name != "":
-			print "%s nodes of %s" % (graph_cnt, subgraph_cnt)
+			print "%s nodes of %s" % (subgraph_cnt, graph_cnt)
 		else:
 			print "%s nodes in total" % (graph_cnt)
 
