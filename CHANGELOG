@@ -1,0 +1,26 @@
+========Changelog for gofed========
+
+Changes in 0.0.3 (8 May 2015)
+-new command gofed lint
+-more precise list of imported and provided packages
+-generate spec file for a bitbucket.org repository
+-change gofed scandeps|scansymbols to gofed scan-deps|scan-symbols
+-move configuration file to /etc/gofed.conf
+-gofed bump: parse bugid from changelog, add 'related: #bugid' to bump comment
+-gofed bump: update spec only if commit is different from current one
+-gofed.conf: add paths to local databases, add new options
+-gofed repo2spec: make --commit optional (if not specified take the latest)
+-gofed repo2spec: add --detect option to generate spec file from import path
+
+-add translation of bitbucker.org repositories to package names
+-sort list of Provides/[B]Rs
+-gofed bump: extend the bump for bitbucket.org
+-gofed tools --gcp: add --from option to gcp more commits from master branch
+-gofed inspect: add --prefix option to prefix list of paths
+-gofed review: add --skip-rpmlint-errors option
+-gofed bump: for github.com display a list of releases and tags
+-gofed ggi: add --requires option to list imported packages for spec file
+-gofed ggi: add --skip-dirs and --scan-all-dirs
+-gofed inspect: add --skip-dirs and --scan-all-dirs
+-gofed lint: add --scan-all-dirs and --skip-dirs
+-gofed repo2spec: add --scan-all-dirs and --skip-dirs options
