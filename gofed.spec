@@ -3,11 +3,11 @@
 %global provider_tld    com
 %global project        	ingvagabund
 %global repo            gofed
-%global commit		eaa7c994f81bb47a1f0dda92e82827a38c0bc075
+%global commit		8933880ff3e785a6f2f98aaa3b8bb476a61034ae
 %global shortcommit	%(c=%{commit}; echo ${c:0:7})
 
 Name:		gofed
-Version:	0.0.1
+Version:	0.0.3
 Release:	0.1.git%{shortcommit}%{?dist}
 Summary:	Tool for development of golang devel packages
 License:	GPLv2+
@@ -87,6 +87,6 @@ gofed tools --waitbbo --dry test
 gofed wizard --scratch --dry
 
 %changelog
-* Tue May 05 2015 jchaloup <jchaloup@redhat.com> - 0.0.1-0.1.giteaa7c99
+* Fri May 08 2015 jchaloup <jchaloup@redhat.com> - 0.0.3-0.1.git8933880
 - Initial commit for Fedora
 
