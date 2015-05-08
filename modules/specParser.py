@@ -243,48 +243,6 @@ def fetchProvides(pkg, branch):
 	f.close()
 	return provides
 
-
-
-def loadImportPaths():
-	lines = []
-	golang_secondary_ips_path = Config().getGolangSecondaryIPs()
-	with open(golang_secondary_ips_path, 'r') as file:
-		lines = file.read().split('\n')
-
-	import_paths = {}
-	for line in lines:
-		parts = line.split(':')
-		if len(parts) != 2:
-			continue
-
-		import_paths[parts[0]] = []
-		field = parts[1].split(',')
-		for item in field:
-			import_paths[parts[0]].append(item.strip())
-
-	return import_paths
-
-def loadSubpackageSourceMapping():
-	lines = []
-	golang_secondary_ips_path = Config().getGolangSecondaryIPs()
-	with open(golang_secondary_ips_path, 'r') as file:
-		lines = file.read().split('\n')
-
-	sources = {}
-	for line in lines:
-		parts = line.split(':')
-		if len(parts) != 2:
-			continue
-
-		sources[parts[0]] = []
-		field = parts[1].split(',')
-		for item in field:
-			sources[parts[0]].append(item.strip())
-
-	return sources
-
-
-
 def fetchPkgInfo(pkg, branch):
 	"""Fetch a spec file from pkgdb and get its commit
 

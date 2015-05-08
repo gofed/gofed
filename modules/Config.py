@@ -101,10 +101,6 @@ class Config:
 		path = self.getValueFromDb('golang_repos')
 		return self.makePathAbsolute(path)
 
-	def getGolangSecondaryIPs(self):
-		path = self.getValueFromDb('golang_secondary_import_paths')
-		return self.makePathAbsolute(path)
-
 	def getGolangImPrPackages(self):
 		path = self.getValueFromDb('golang_im_pr_packages')
 		return self.makePathAbsolute(path)
