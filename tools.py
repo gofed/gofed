@@ -3,6 +3,9 @@ import optparse
 from modules.Tools import MultiCommand
 from modules.Config import Config
 import sys
+from modules.FilesDetector import FilesDetector
+from modules.SpecParser import SpecParser
+from modules.Utils import FormatedPrint
 
 if __name__ == "__main__":
 
@@ -89,6 +92,8 @@ if __name__ == "__main__":
 
 	options, args = parser.parse_args()
 
+	fp_obj = FormatedPrint(formated=False)
+
 	branches = Config().getBranches()
 	if options.branches != "":
 		bs = filter(lambda b: b != "", options.branches.split(","))
@@ -143,11 +148,29 @@ if __name__ == "__main__":
 		mc.updateBranches(branches)
 
 	if options.bbo or options.waitbbo or options.wait:
+		# if no build specified, detect it from the current directory
 		if len(args) < 1:
-			print "Missing build name"
-			exit(1)
+			fd = FilesDetector()
+			fd.detect()
+			specfile = fd.getSpecfile()
+			if specfile == "":
+				sys.stderr.write("Missing build name\n")
+				exit(1)
 
-		build = args[0]
+			fp_obj.printInfo("Spec file detected: %s" % specfile)
+			sp_obj = SpecParser(specfile)
+			if not sp_obj.parse():
+				sys.stderr.write(sp_obj.getError())
+				exit(1)
+
+			name = sp_obj.getTag("name")
+			version = sp_obj.getTag("version")
+			release = ".".join( sp_obj.getTag("release").split('.')[:-1])
+			# N-V-R without tag (e.g. no fc22)
+			build = "%s-%s-%s" % (name, version, release)
+			fp_obj.printInfo("Build name constructed: %s" % build)
+		else:
+			build = args[0]
 
 		if options.branches == "" and options.ebranches == "":
 			branches = Config().getOverrides()
