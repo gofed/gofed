@@ -2,6 +2,7 @@ from ImportPath import ImportPath
 from ImportPath import UNKNOWN, GITHUB, GOOGLECODE, GOLANGORG, GOPKG, BITBUCKET, GOOGLEGOLANGORG
 import urllib
 import json
+import httplib
 
 class ArchiveInfo(object):
 	"""
@@ -141,7 +142,21 @@ class RepositoryInfo:
 
 	def getGithubLatestCommit(self, project, repo):
 		link = "https://api.github.com/repos/%s/%s/commits" % (project, repo)
-		f = urllib.urlopen(link)
+		try:
+			f = urllib.urlopen(link)
+		except urllib.HTTPError, e:
+			sys.stderr.write('HTTPError = %s\n' % str(e.code))
+			return ""
+		except urllib.URLError, e:
+			sys.stderr.write('URLError = %s\n' % str(e.reason))
+			return ""
+		except httplib.HTTPException, e:
+			sys.stderr.write('HTTPException %s\n' % e)
+			return ""
+		except Exception, e:
+			sys.stderr.write("%s\n" % e)
+			return ""
+
 		c_file = f.read()
 		# get the latest commit
 		commits = json.loads(c_file)
@@ -158,7 +173,21 @@ class RepositoryInfo:
 
 	def getBitbucketLatestCommit(self, project, repo):
 		link = "https://bitbucket.org/api/1.0/repositories/%s/%s/changesets?limit=1" % (project, repo)
-		f = urllib.urlopen(link)
+		try:
+			f = urllib.urlopen(link)
+		except urllib.HTTPError, e:
+			sys.stderr.write('HTTPError = %s\n' % str(e.code))
+			return ""
+		except urllib.URLError, e:
+			sys.stderr.write('URLError = %s\n' % str(e.reason))
+			return ""
+		except httplib.HTTPException, e:
+			sys.stderr.write('HTTPException %s\n' % e)
+			return ""
+		except Exception, e:
+			sys.stderr.write("%s\n" % e)
+			return ""
+
 		c_file = f.read()
 		# get the latest commit
 		data = json.loads(c_file)
@@ -179,7 +208,21 @@ class RepositoryInfo:
 
 	def getGithubReleases(self, project, repo):
 		link = "https://api.github.com/repos/%s/%s/releases" % (project, repo)
-		f = urllib.urlopen(link)
+		try:
+			f = urllib.urlopen(link)
+		except urllib.HTTPError, e:
+			sys.stderr.write('HTTPError = %s\n' % str(e.code))
+			return ""
+		except urllib.URLError, e:
+			sys.stderr.write('URLError = %s\n' % str(e.reason))
+			return ""
+		except httplib.HTTPException, e:
+			sys.stderr.write('HTTPException %s\n' % e)
+			return ""
+		except Exception, e:
+			sys.stderr.write("%s\n" % e)
+			return ""
+
 		c_file = f.read()
 		# get the latest commit
 		releases = []
@@ -190,7 +233,21 @@ class RepositoryInfo:
 
 	def getGithubTags(self, project, repo):
 		link = "https://api.github.com/repos/%s/%s/tags" % (project, repo)
-		f = urllib.urlopen(link)
+		try:
+			f = urllib.urlopen(link)
+		except urllib.HTTPError, e:
+			sys.stderr.write('HTTPError = %s\n' % str(e.code))
+			return ""
+		except urllib.URLError, e:
+			sys.stderr.write('URLError = %s\n' % str(e.reason))
+			return ""
+		except httplib.HTTPException, e:
+			sys.stderr.write('HTTPException %s\n' % e)
+			return ""
+		except Exception, e:
+			sys.stderr.write("%s\n" % e)
+			return ""
+
 		c_file = f.read()
 		# get the latest commit
 		tags = []

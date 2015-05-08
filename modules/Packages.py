@@ -1,6 +1,7 @@
 from Utils import runCommand, inverseMap
 import re
 import os
+import sys
 import tempfile
 import shutil
 import operator
@@ -15,13 +16,18 @@ from Config import Config
 def loadPackages():
 	golang_packages_path = Config().getGolangPackages()
 	packages = []
-	with open(golang_packages_path, "r") as file:
-		for line in file.read().split('\n'):
-			line = line.strip()
-			if line == '' or line[0] == '#':
-				continue
+	try:
+		with open(golang_packages_path, "r") as file:
+			for line in file.read().split('\n'):
+				line = line.strip()
+				if line == '' or line[0] == '#':
+					continue
 
-			packages.append(line)
+				packages.append(line)
+	except IOError, e:
+		sys.stderr.write("%s\n" % e)
+		return []
+
 	return packages
 
 # detect if it packages is already in pkgdb
@@ -194,8 +200,11 @@ def savePackageInfo(pkg_info):
 			continue
 
 		golang_pkg = Config().getGolangPkgdb()
-		with open("%s/%s.xml" % (golang_pkg, build), "w") as f:
-			f.write(str(obj))
+		try:
+			with open("%s/%s.xml" % (golang_pkg, build), "w") as f:
+				f.write(str(obj))
+		except IOError, e:
+			sys.stderr.write("%s\n" % e)
 
 	return errs
 
@@ -476,23 +485,31 @@ class LocalDB:
 	def loadPackages(self):
 		golang_packages_path = Config().getGolangPackages()
 		packages = []
-		with open(golang_packages_path, "r") as file:
-			for line in file.read().split('\n'):
-				line = line.strip()
-				if line == '' or line[0] == '#':
-					continue
+		try:
+			with open(golang_packages_path, "r") as file:
+				for line in file.read().split('\n'):
+					line = line.strip()
+					if line == '' or line[0] == '#':
+						continue
 
-				if line not in packages:
-					packages.append(line)
+					if line not in packages:
+						packages.append(line)
+		except IOError, e:
+			sys.stderr.write("%s\n" % e)
+
 		return packages
 
 	def savePackages(self, packages):
 		if packages == []:
 			return False
 		golang_packages_path = Config().getGolangPackages()
-		with open("%s.tmp" % golang_packages_path, "w") as file:
-			for pkg in packages:
-				file.write("%s\n" % pkg)	
+		try:
+			with open("%s.tmp" % golang_packages_path, "w") as file:
+				for pkg in packages:
+					file.write("%s\n" % pkg)	
+		except IOError, e:
+			sys.stderr.write("%s\n" % e)
+			return False
 
 		return True
 
@@ -652,10 +669,13 @@ class LocalDB:
 
 	def saveBuildsToCache(self, builds):
 		golang_pkg = Config().getGolangPkgdb()
-		with open("%s/nvrs.cache" % golang_pkg, "w") as file:
-			sbuilds = sorted(builds.keys())
-			for build in sbuilds:
-				file.write("%s\n" % builds[build])
+		try:
+			with open("%s/nvrs.cache" % golang_pkg, "w") as file:
+				sbuilds = sorted(builds.keys())
+				for build in sbuilds:
+					file.write("%s\n" % builds[build])
+		except IOError, e:
+			sys.stderr.write("%s\n" % e)
 
 	def updateBuildsInCache(self, new_builds):
 		if self.local_pkgs == []:
@@ -666,23 +686,25 @@ class LocalDB:
 
 		self.saveBuildsToCache(self.local_pkgs)
 
-
 	def loadBuildsFromCache(self):
 		builds = {}
 		golang_pkg = Config().getGolangPkgdb()
 		if not os.path.exists("%s/nvrs.cache" % golang_pkg):
 			return self.loadLatestBuilds(cache=False)
 
-		with open("%s/nvrs.cache" % golang_pkg, "r") as file:
-			for line in file.read().split("\n"):
-				line = line.strip()
-				if line == "":
-					continue
+		try:
+			with open("%s/nvrs.cache" % golang_pkg, "r") as file:
+				for line in file.read().split("\n"):
+					line = line.strip()
+					if line == "":
+						continue
 
-				parts = line.split("-")
-				pkg = "-".join(parts[0:-2])
+					parts = line.split("-")
+					pkg = "-".join(parts[0:-2])
 
-				builds[pkg] = line
+					builds[pkg] = line
+		except IOError, e:
+			sys.stderr.write("%s\n", e)
 
 		return builds
 

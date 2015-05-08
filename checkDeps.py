@@ -10,8 +10,12 @@ from modules.RemoteSpecParser import RemoteSpecParser
 
 def getGoDeps(path):
 	deps = {}
-	with open(path, 'r') as file:
-		json_deps = json.loads(file.read())
+	try:
+		with open(path, 'r') as file:
+			json_deps = json.loads(file.read())
+	except IOError, e:
+		sys.stderr.write("%s\n" % e)
+		return {}
 
 	if "Deps" not in json_deps:
 		return {}

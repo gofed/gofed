@@ -12,6 +12,7 @@ from Utils import runCommand
 from Config import Config
 import urllib
 import json
+import sys
 
 repo_mappings = {}
 ###############################
@@ -21,19 +22,23 @@ class IPMap:
 	def loadIMap(self):
 		imap = {}
 		golang_imap_path = Config().getGolangIp2pkgMapping()
-		with open(golang_imap_path, "r") as file:
-			for line in file.read().split('\n'):
-				line = line.strip()
-				if line == '':
-					continue
+		try:
+			with open(golang_imap_path, "r") as file:
+				for line in file.read().split('\n'):
+					line = line.strip()
+					if line == '':
+						continue
 
-				parts = line.split(":")
-				if len(parts) != 3:
-					continue
+					parts = line.split(":")
+					if len(parts) != 3:
+						continue
 
-				parts[0] = parts[0].strip()
-				if parts[0] not in imap:
-					imap[parts[0]] = (parts[1], parts[2])
+					parts[0] = parts[0].strip()
+					if parts[0] not in imap:
+						imap[parts[0]] = (parts[1], parts[2])
+		except IOError, e:
+			sys.stderr.write("%s\n" % e)
+
 		return imap
 
 	def saveIMap(self, mapping):
@@ -42,11 +47,15 @@ class IPMap:
 			return False
 
 		golang_imap_path = Config().getGolangIp2pkgMapping()
-		with open("%s.tmp" % golang_imap_path, "w") as file:
-			sargs = sorted(mapping.keys())
-			for arg in sargs:
-				build, devel = mapping[arg]
-				file.write("%s:%s:%s\n" % (arg, build, devel))
+		try:
+			with open("%s.tmp" % golang_imap_path, "w") as file:
+				sargs = sorted(mapping.keys())
+				for arg in sargs:
+					build, devel = mapping[arg]
+					file.write("%s:%s:%s\n" % (arg, build, devel))
+		except IOError, e:
+			sys.stderr.write("%s\n" % e)
+			return False
 
 		return True
 
@@ -63,8 +72,12 @@ class Repos:
 	def loadRepos(self):
 		lines = []
 		golang_repos_path = Config().getGolangRepos()
-		with open(golang_repos_path, "r") as file:
-			lines = file.read().split('\n')
+		try:
+			with open(golang_repos_path, "r") as file:
+				lines = file.read().split('\n')
+		except IOError, e:
+			sys.stderr.write("%s\n" % e)
+			return {}
 
 		repos = {}
 		for line in lines:
@@ -92,11 +105,15 @@ class Repos:
 			return False
 
 		golang_repos_path = Config().getGolangRepos()
-		with open('%s.tmp' % golang_repos_path, "w") as file:
-			spkgs = sorted(repos.keys())
-			for pkg in spkgs:
-				dir, git = repos[pkg]
-				file.write("%s\t%s\t%s\n" % (pkg, dir, git))
+		try:
+			with open('%s.tmp' % golang_repos_path, "w") as file:
+				spkgs = sorted(repos.keys())
+				for pkg in spkgs:
+					dir, git = repos[pkg]
+					file.write("%s\t%s\t%s\n" % (pkg, dir, git))
+		except IOError, e:
+			sys.stderr.write("%s\n" % e)
+			return False
 
 		return True
 
@@ -188,45 +205,4 @@ def getRepoCommits(path, repo, pull=True):
 
 	os.chdir(cwd)
 	return commits
-
-#################################################
-# github.com, bitbucket.org auxiliary functions #
-#################################################
-def getGithubLatestCommit(project, repo):
-	link = "https://api.github.com/repos/%s/%s/commits" % (project, repo)
-	f = urllib.urlopen(link)
-	c_file = f.read()
-	# get the latest commit
-	commits = json.loads(c_file)
-	if type(commits) != type([]):
-		return ""
-
-	if len(commits) == 0:
-		return ""
-
-	if "sha" not in commits[0]:
-		return ""
-
-	return commits[0]["sha"]
-
-def getBitbucketLatestCommit(project, repo):
-	link = "https://bitbucket.org/api/1.0/repositories/%s/%s/changesets?limit=1" % (project, repo)
-	f = urllib.urlopen(link)
-	c_file = f.read()
-	# get the latest commit
-	data = json.loads(c_file)
-	if 'changesets' not in data:
-		return ""
-
-	commits = data['changesets']
-	if type(commits) != type([]):
-		return ""
-
-	if len(commits) == 0:
-		return ""
-
-	if 'raw_node' not in commits[0]:
-		return ""
-
-	return commits[0]["raw_node"]
 

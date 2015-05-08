@@ -3,6 +3,7 @@ import sys
 from github import Github
 import urllib2
 import re
+import httplib
 
 if len(sys.argv) != 2:
 	print "Synopsis: %s <repo_url>" % sys.argv[0]
@@ -45,11 +46,19 @@ def getGithubLatestCommit(repo_name):
 def getFedoraLatestCommit(pkg_name):
 #	"http://pkgs.fedoraproject.org/cgit/golang-github-kr-pretty.git/plain/golang-github-kr-pretty.spec"
 	spec = "http://pkgs.fedoraproject.org/cgit/%s.git/plain/%s.spec" % (pkg_name, pkg_name)
-	for line in urllib2.urlopen(spec):
-		if "%global commit" in line:
-			commit = re.sub("[ \t]+", " ", line).split(' ')[2].strip()
-			return commit
-
+	try:
+		for line in urllib2.urlopen(spec):
+			if "%global commit" in line:
+				commit = re.sub("[ \t]+", " ", line).split(' ')[2].strip()
+				return commit
+	except urllib2.HTTPError, e:
+		sys.stderr.write('HTTPError = %s\n' % str(e.code))
+	except urllib2.URLError, e:
+		sys.stderr.write('URLError = %s\n' % str(e.reason))
+	except httplib.HTTPException, e:
+		sys.stderr.write('HTTPException %s\n' % e)
+	except Exception, e:
+		sys.stderr.write("%s\n" % e)
 	return ""
 
 (repo, pkg_name) = detectRepo(repo_url)

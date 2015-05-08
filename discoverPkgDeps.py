@@ -4,7 +4,7 @@ from modules.Utils import runCommand
 import tempfile
 import shutil
 from time import time, strftime, gmtime
-
+import sys
 
 def printSCC(scc):
 	print "Cyclic dep detected (%s): %s" % (len(scc), ", ".join(scc))
@@ -48,7 +48,12 @@ def getGraphvizDotFormat(graph):
 
 def showGraph(graph, out_img = "./graph.png"):
 	tmp_dir = tempfile.mkdtemp()
-	f = open("%s/graph.dot" % (tmp_dir), "w")
+	try:
+		f = open("%s/graph.dot" % (tmp_dir), "w")
+	except IOError, e:
+		sys.stderr.write("%s\n" % e)
+		return
+
 	f.write(getGraphvizDotFormat(graph))
 	f.close()
 	# fdp -Tpng test.dot > test.png

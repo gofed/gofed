@@ -22,6 +22,7 @@ from subprocess import Popen
 
 import os
 import optparse
+import sys
 
 RED = '\033[91m'
 GREEN = '\033[92m'
@@ -391,9 +392,13 @@ if __name__ == "__main__":
 		exit(1)
 
 	if options.output:
-		with open(options.output, 'w') as file:
-			file.write('<?xml version="1.0" encoding="utf-8" ?>\n')
-			file.write(pkg_obj.toXml(0))
+		try:
+			with open(options.output, 'w') as file:
+				file.write('<?xml version="1.0" encoding="utf-8" ?>\n')
+				file.write(pkg_obj.toXml(0))
+		except IOError, e:
+			sys.stderr.write("%s\n", e)
+			exit(0)
 	else:
 		print pkg_obj
 
