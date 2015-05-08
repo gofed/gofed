@@ -147,6 +147,30 @@ class SpecParser(Base):
 
 		return None
 
+	def getBugIdFromLastChangelog(self):
+		log = self.getLastChangelog()
+		if log == None:
+			return -1
+
+		# resolves: #1209666
+		# related: #1209666
+		# resolves: bz1209666
+		# related: rhbz1209666
+		# colon or sharp does not have to presented
+		# the same for bz and rhbz prefix
+		# search for the first number and return it
+		for line in log.comment:
+			pos = line.find('resolves')
+			if pos == -1:
+				pos = line.find('related')
+			if pos != -1:
+				regex = re.compile(r'([0-9]+)')	
+				res = regex.search(line[pos:]).groups()
+				if len(res) == 0:
+					continue
+				return int(res[0])
+		return -1
+
 	def getLastChangelog(self):
 		if self.changelogs == []:
 			return None
