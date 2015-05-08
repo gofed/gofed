@@ -18,7 +18,7 @@ def getMacros(spec):
 	obj = SpecParser(spec)
 	if not obj.parse():
 		err = obj.getError()
-		return err, {}
+		return err, {}, -1
 
 	macros["project"] = obj.getMacro("project")
 	macros["repo"] = obj.getMacro("repo")
@@ -28,19 +28,19 @@ def getMacros(spec):
 
 	if macros["project"] == "":
 		err = "Unable to detect project macro"
-		return err, {}
+		return err, {}, -1
 
 	if macros["repo"] == "":
 		err = "Unable to detect repo macro"
-		return err, {}
+		return err, {}, -1
 
 	if macros["provider"] == "":
 		err = "unable to detect provider macro"
-		return err, {}
+		return err, {}, -1
 
 	if macros["commit"] == "":
 		err = "unable to detect commit macro"
-		return err, {}
+		return err, {}, -1
 
 	macros["ip"] = obj.getMacro("import_path")
 	if macros["ip"] == "":
@@ -48,7 +48,7 @@ def getMacros(spec):
 
 		if macros["provider_tld"] == "":
 			err = "Unable to detect provider_tld macro"
-			return err, {}
+			return err, {}, -1
 
 		macros["ip"] = "%s.%s/%s/%s" % (macros["provider"], macros["provider_tld"], macros["project"], macros["repo"])
 

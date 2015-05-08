@@ -3,7 +3,7 @@ import re
 import sys
 
 def parseOptions(command):
-	so, se, rc = runCommand("gofed %s --help" % command)
+	so, se, rc = runCommand("./gofed %s --help" % command)
 	if rc != 0:
 		return []
 

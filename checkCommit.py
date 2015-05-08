@@ -48,7 +48,8 @@ if __name__ == "__main__":
 	ups_commits = modules.Repos.getRepoCommits(path, upstream)
 	rsp_obj = RemoteSpecParser('master', pkg)
 	if not rsp_obj.parse():
-		continue
+		print rsp_obj.getError()
+		exit(1)
 
 	pkg_commit  = rsp_obj.getPackageCommits()
 
