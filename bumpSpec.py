@@ -1,7 +1,6 @@
 import optparse
 from modules.Utils import runCommand
 from modules.SpecParser import SpecParser
-from modules.Repos import getGithubLatestCommit, getBitbucketLatestCommit
 
 from modules.RepositoryInfo import RepositoryInfo
 
@@ -136,24 +135,19 @@ if __name__ == "__main__":
 	if commit == "":
 		# get latest commit
 		print "Getting the latest commit from %s" % macros["ip"]
-		if provider == "github":
-			commit = getGithubLatestCommit(project, repo)
-		else:
-			commit = getBitbucketLatestCommit(project, repo)	
-		if commit == "":
-			print "Unable to get the latest commit"
-			exit(3)
 
-	# don't bump if the commit is the as at the latest
+	ri_obj = RepositoryInfo(macros["ip"], commit)
+	if not ri_obj.retrieve():
+		print ri_obj.getError()
+		exit(1)
+
+	commit = ri_obj.getCommit()
+	# don't bump if the commit is equal to the latest
 	if commit == current_commit:
 		print "The latest commit equals the current commit"
 		exit(1)
 
 	if provider == "github":
-		ri_obj = RepositoryInfo("github.com/%s/%s" % (project, repo))
-		if not ri_obj.retrieve():
-			exit(1)
-
 		tags = ri_obj.getGithubTags(project, repo)
 		releases = ri_obj.getGithubReleases(project, repo)
 
@@ -162,14 +156,11 @@ if __name__ == "__main__":
 
 	# download tarball
 	print "Downloading tarball"
-	if provider == "github":
-		shortcommit = commit[:7]
-		archive = "%s-%s.tar.gz" % (repo, shortcommit)
-		archive_url = "https://github.com/%s/%s/archive/%s/%s" % (project, repo, commit, archive)
-	else:
-		shortcommit = commit[:12]
-		archive = "%s.tar.gz" % (shortcommit)
-		archive_url = "https://bitbucket.org/%s/%s/get/%s" % (project, repo, archive)
+	ar_info = ri_obj.getArchiveInfo()
+	shortcommit = ar_info.shortcommit
+	archive = ar_info.archive
+	archive_url = ar_info.archive_url
+
 	downloadTarball(archive_url)
 
 	# update spec file
