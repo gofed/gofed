@@ -30,52 +30,45 @@
 import tempfile
 from Utils import runCommand
 from SpecParser import SpecParser
+from Base import Base
 
-def fetchProvides(pkg, branch):
-	"""Fetch a spec file from pkgdb and get provides from all its [sub]packages
+class RemoteSpecParser(Base):
 
-	Keyword arguments:
-	pkg -- package name
-	branch -- branch name
-	"""
-	f = tempfile.NamedTemporaryFile(delete=True)
-	runCommand("curl http://pkgs.fedoraproject.org/cgit/%s.git/plain/%s.spec > %s" % (pkg, pkg, f.name))
-	sp_obj = SpecParser(f.name)
-	if not sp_obj.parse():
+	def __init__(self, branch, package):
+		Base.__init__(self)
+		self.branch = branch
+		self.package = package
+		self.sp_obj = None
+
+	def parse(self):
+		f = tempfile.NamedTemporaryFile(delete=True)
+		cmd_str = "curl http://pkgs.fedoraproject.org/cgit/%s.git/plain/%s.spec > %s"
+		runCommand(cmd_str % (self.package, self.package, f.name))
+		self.sp_obj = SpecParser(f.name)
+		if not self.sp_obj.parse():
+			self.err = self.sp_obj.getError()
+			f.close()
+			return False
+
 		f.close()
-		return {}
+		return True
 
-	f.close()
-	return sp_obj.getProvides()
+	def getProvides(self):
+		"""Fetch a spec file from pkgdb and get provides from all its [sub]packages"""
+		if self.sp_obj == None:
+			return {}
 
-def fetchPkgInfo(pkg, branch):
-	"""Fetch a spec file from pkgdb and get its commit
+		return self.sp_obj.getProvides()
 
-	Keyword arguments:
-	pkg -- package name
-	branch -- branch name
-	"""
-	f = tempfile.NamedTemporaryFile(delete=True)
-	runCommand("curl http://pkgs.fedoraproject.org/cgit/%s.git/plain/%s.spec > %s" % (pkg, pkg, f.name))
+	def getPackageCommits(self):
+		if self.sp_obj == None:
+			return ""
 
-	sp_obj = SpecParser(f.name)
-	if not sp_obj.parse():
-		f.close()
-		return {}
+		return self.sp_obj.getMacro("commit")
 
-	f.close()
-	info = {}
-	info["commit"] = sp_obj.getMacro("commit")
-	info["url"] = sp_obj.getTag("url")
+	def getPkgURL(self):
+		if self.sp_obj == None:
+			return ""
 
-	return info
-
-def getPackageCommits(pkg):
-	info = fetchPkgInfo(pkg, 'master')
-	return info["commit"] 
-
-def getPkgURL(pkg, branch = "master"):
-	info = fetchPkgInfo(pkg, 'master')
-	return info["url"] 
-
+		return self.sp_obj.getTag("url")
 

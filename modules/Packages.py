@@ -5,7 +5,7 @@ import tempfile
 import shutil
 import operator
 from GoSymbols import ProjectToXml
-from specParser import getPkgURL, fetchProvides
+from RemoteSpecParser import RemoteSpecParser
 from Repos import Repos, IPMap
 from xml.dom import minidom
 from xml.dom.minidom import Node
@@ -519,7 +519,11 @@ class LocalDB:
 
 		checked_packages = []
 		for pkg in new_packages:
-			url = getPkgURL(pkg)
+			rsp_obj = RemoteSpecParser('master', pkg)
+			if not rsp_obj.parse():
+				continue
+
+			url = rsp_obj.getPkgURL()
 			if url == "":
 				err.append("Unable to get URL tag from %s's spec file" % pkg)	
 				continue
@@ -573,7 +577,11 @@ class LocalDB:
 		mapping = IPMap().loadIMap()
 
 		for pkg in new_packages:
-			provides = fetchProvides(pkg, 'master')
+			rsp_obj = RemoteSpecParser('master', pkg)
+			if not rsp_obj.parse():
+				continue
+
+			provides = rsp_obj.getProvides()
 			imap = inverseMap(provides)
 			for arg in imap:
 				for image in imap[arg]:
@@ -599,7 +607,11 @@ class LocalDB:
 		mapping = IPMap().loadIMap()
 
 		for pkg in outdated_packages:
-			provides = fetchProvides(pkg, 'master')
+			rsp_obj = RemoteSpecParser('master', pkg)
+			if not rsp_obj.parse():
+				continue
+
+			provides = rsp_obj.getProvides()
 			imap = inverseMap(provides)
 			for arg in imap:
 				for image in imap[arg]:

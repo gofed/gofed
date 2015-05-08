@@ -1,6 +1,7 @@
 import tempfile
 import os
-from modules.specParser import fetchProvides
+import sys
+from modules.RemoteSpecParser import RemoteSpecParser
 from modules.Utils import runCommand, inverseMap
 from modules.Packages import loadPackages
 
@@ -23,7 +24,12 @@ if __name__ == "__main__":
 
 	packages = loadPackages()
 	for pkg in packages:
-		provides = fetchProvides(pkg, 'master')
+		rsp_obj = RemoteSpecParser('master', pkg)
+		if not rsp_obj.parse():
+			sys.stderr.write("%s: %s" % (pkg, rsp_obj.getError()))
+			continue
+
+		provides = rsp_obj.getProvides()
 		imap = inverseMap(provides)
 		displayMapping(pkg, imap)
 		

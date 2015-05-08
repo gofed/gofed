@@ -2,10 +2,10 @@
 import modules.Utils
 import re
 import os
-import modules.specParser
 import optparse
 import modules.Repos
 from modules.Repos import Repos, IPMap
+from modules.RemoteSpecParser import RemoteSpecParser
 
 if __name__ == "__main__":
 	parser = optparse.OptionParser("%prog {package|-i import_path} ucommit")
@@ -46,7 +46,11 @@ if __name__ == "__main__":
 
 	path, upstream = repos[pkg]
 	ups_commits = modules.Repos.getRepoCommits(path, upstream)
-	pkg_commit  = modules.specParser.getPackageCommits(pkg)
+	rsp_obj = RemoteSpecParser('master', pkg)
+	if not rsp_obj.parse():
+		continue
+
+	pkg_commit  = rsp_obj.getPackageCommits()
 
 	# now fedora and commit, up to date?
 	if commit not in ups_commits:
