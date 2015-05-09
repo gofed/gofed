@@ -15,10 +15,12 @@ URL:		https://github.com/%{project}/%{repo}
 Source0:	https://github.com/%{project}/%{repo}/archive/%{commit}/%{repo}-%{shortcommit}.tar.gz
 ExclusiveArch:  %{ix86} x86_64 %{arm}
 
-BuildRequires: golang
+BuildRequires: golang, python >= 2.7.5, python-lxml
+
 Requires: python >= 2.7.5, bash, wget, rpmdevtools, rpmlint
 Requires: fedpkg, koji, coreutils, rpm-build, openssh-clients, tar
 Requires: python-PyGithub, bash-completion
+Requires: python-lxml
 Requires: graphviz
 
 %description
