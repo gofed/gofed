@@ -75,6 +75,8 @@ if __name__ == "__main__":
 	if options.sources:
 		sources = options.sources
 
+	fp_obj = FormatedPrint(formated=True)
+
 	if archive == "":
 		fp_obj.printError("archive not set")
 		exit(1)
