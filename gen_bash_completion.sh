@@ -2,7 +2,7 @@
 # 1 - package name
 pkg=$1
 
-HELP="apidiff build check-commit check-deps gcpmaster ggi inspect lint scandeps scan-imports scaninfo scansymbols scan-packages wizard tools pull push scratch-build bbo repo2spec"
+HELP="apidiff build bump check-commit check-deps gcpmaster ggi inspect lint scan-deps scan-imports scan-info scan-symbols scan-packages wizard tools pull push scratch-build bbo repo2spec github2spec googlecode2spec bitbucket2spec"
 rm -f tools.options
 for cmd in $HELP; do
 	python parseOptions.py $cmd >> tools.options
