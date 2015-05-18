@@ -99,7 +99,7 @@ class SpecGenerator:
 
 			self.file.write("BuildRequires: golang(%s)\n" % (dep))
 
-		self.file.write("\nRequires:      golang >= 1.2.1-3\n")
+		self.file.write("\n")
 		for dep in imported_packages:
 			if dep.startswith(prefix):
 				continue
