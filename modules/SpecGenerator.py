@@ -168,7 +168,23 @@ class SpecGenerator:
 		# doc all *.md files
 		docs = project.getDocs()
 		if docs != []:
+			# scan for license
+			licenses = []
+			restdocs = []
+			for doc in docs:
+				if doc.lower().find('license') != -1:
+					licenses.append(doc)
+				else:
+					restdocs.append(doc)
+
+			# %license tag is supported since rpm-4.11, it means on fedora and epel7, not epel6
+			# as epel7 is not supposed to have any golang packages, using %license only for fedora
+			self.file.write("%if 0%{?fedora}\n")
+			self.file.write("%%license %s\n" % (" ".join(licenses)))
+			self.file.write("%%doc %s\n" % (" ".join(restdocs)))
+			self.file.write("%else\n")
 			self.file.write("%%doc %s\n" % (" ".join(docs)))
+			self.file.write("%endif\n")
 
 		# http://www.rpm.org/max-rpm/s1-rpm-inside-files-list-directives.html
 		# it takes every dir and file recursively
