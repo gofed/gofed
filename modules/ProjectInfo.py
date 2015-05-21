@@ -38,7 +38,7 @@ class ProjectInfo:
 		for doc in glob( path.join(archive_directory, '*.md') ):
 			docs.append(path.basename(doc))
 
-		for doc in ['Readme', 'README', 'LICENSE', 'AUTHORS', 'COPYING']:
+		for doc in ['Readme', 'README', 'LICENSE', 'AUTHORS', 'COPYING', 'LICENSE.txt', 'README.txt']:
 			if path.exists("%s/%s" % (archive_directory, doc)):
 				docs.append(doc)
 
