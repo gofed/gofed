@@ -3,6 +3,7 @@ from ImportPath import UNKNOWN, GITHUB, GOOGLECODE, GOLANGORG, GOPKG, BITBUCKET,
 import urllib
 import json
 import httplib
+import sys
 
 class ArchiveInfo(object):
 	"""
@@ -161,6 +162,8 @@ class RepositoryInfo:
 		# get the latest commit
 		commits = json.loads(c_file)
 		if type(commits) != type([]):
+			if type(commits) == type({}) and 'message' in commits:
+				sys.stderr.write( commits['message'] + "\n" )
 			return ""
 
 		if len(commits) == 0:
