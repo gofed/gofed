@@ -19,7 +19,7 @@ BuildRequires: golang, python >= 2.7.5, python-lxml
 
 Requires: python >= 2.7.5, bash, wget, rpmdevtools, rpmlint
 Requires: fedpkg, koji, coreutils, rpm-build, openssh-clients, tar
-Requires: python-PyGithub, bash-completion
+Requires: bash-completion
 Requires: python-lxml
 Requires: graphviz
 
