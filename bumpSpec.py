@@ -93,6 +93,11 @@ if __name__ == "__main__":
 	    help = "Skip master branch test."
 	)
 
+	parser.add_option(
+	    "", "", "--skip-checks", dest="skipchecks", action="store_true", default = False,
+	    help = "Skip checks for tags and releases."
+	)
+
 	options, args = parser.parse_args()
 
 	# must be on master branch
@@ -147,12 +152,13 @@ if __name__ == "__main__":
 		print "The latest commit equals the current commit"
 		exit(1)
 
-	if provider == "github":
-		tags = ri_obj.getGithubTags(project, repo)
-		releases = ri_obj.getGithubReleases(project, repo)
+	if not options.skipchecks:
+		if provider == "github":
+			tags = ri_obj.getGithubTags(project, repo)
+			releases = ri_obj.getGithubReleases(project, repo)
 
-		print "Tags: " + ", ".join(tags[:5])
-		print "Releases: " + ", ".join(releases[:5])
+			print "Tags: " + ", ".join(tags[:5])
+			print "Releases: " + ", ".join(releases[:5])
 
 	# download tarball
 	print "Downloading tarball"
