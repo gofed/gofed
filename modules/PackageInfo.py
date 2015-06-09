@@ -9,7 +9,7 @@ class PackageInfo:
 		provided packages
 		tests
 	"""
-	def __init__(self, import_path, commit = "", noGodeps = []):
+	def __init__(self, import_path, commit = "", noGodeps = [], skip_errors=False):
 		self.import_path = import_path
 		self.commit = commit
 		self.noGodeps = noGodeps
@@ -19,6 +19,7 @@ class PackageInfo:
 		self.archive_dir = ""
 		self.repository_decoded = False
 		self.name = ""
+		self.skip_errors = skip_errors
 
 	def getError(self):
 		return self.err
@@ -62,7 +63,7 @@ class PackageInfo:
 			self.err += "CWD: %s" % os.getcwd()
 			return False
 
-		if not self.project_info.retrieve(source_code_directory):
+		if not self.project_info.retrieve(source_code_directory, self.skip_errors):
 			self.err = self.project_info.getError()
 			return False
 

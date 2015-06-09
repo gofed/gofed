@@ -1,5 +1,6 @@
 import os
 import json
+import sys
 from Utils import getScriptDir, runCommand
 
 class GoSymbolsExtractor:
@@ -162,7 +163,11 @@ class GoSymbolsExtractor:
 					continue
 
 				if pkg_name != "" and pkg_name != pname:
-					self.err = "Error: directory %s contains definition of more packages, i.e. %s" % (dir_info['dir'], pkg_name)
+					err_msg = "Error: directory %s contains definition of more packages, i.e. %s" % (dir_info['dir'], pname)
+					if self.skip_errors:
+						sys.stderr.write("%s\n" % err_msg)
+						continue
+					self.err = err_msg
 					return False
 
 				pkg_name = pname

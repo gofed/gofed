@@ -229,7 +229,7 @@ if __name__ == "__main__":
 	# 3. retrieve project info from tarball
 	# 4. generate spec file
 	
-	pkg_obj = PackageInfo(import_path, commit, noGodeps)
+	pkg_obj = PackageInfo(import_path, commit, noGodeps, options.skiperrors)
 	if not pkg_obj.decodeRepository():
 		fmt_obj.printError(pkg_obj.getError())
 		exit(1)
