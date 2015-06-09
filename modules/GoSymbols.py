@@ -611,6 +611,18 @@ class CompareTypes:
 		# <elmtype type="ident" def="string"/>
 		return self.compareTypes(slice1[0], slice2[0])
 
+	def compareArrays(self, array1, array2):
+		"""
+		Array is defined by element type (elmtype tag) and array length (not implemented).
+
+		Arrays are identical if element types are identical.
+		Array length of both arrays should be equal but this is not tested at the moment.
+		Possibilities:
+			If newlength >= oldlength => OK?
+		"""
+		# <elmtype type="ident" def="string"/>
+		return self.compareTypes(array1[0], array2[0])
+
 	def compareMaps(self, map1, map2):
 
 		"""
@@ -897,8 +909,9 @@ class CompareTypes:
 			return self.compareStructs(type1, type2)
 		elif type == TYPE_FUNC:
 			return self.compareFunctions(type1, type2)
+		elif type == TYPE_ARRAY:
+			return self.compareArrays(type1, type2)
 		else:
-			#TYPE_ARRAY = "array"
 			print "%s type not implemented yet" % type
 			exit(0)
 			return []
