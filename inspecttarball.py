@@ -39,7 +39,7 @@ if __name__ == "__main__":
 	)
 
 	parser.add_option(
-	    "", "-s", "--spec", dest="spec", action="store_true", default = "",
+	    "", "-s", "--spec", dest="spec", action="store_true", default = False,
 	    help = "If set with -p options, print list of provided paths in spec file format."
 	)
 
@@ -105,7 +105,7 @@ if __name__ == "__main__":
 			if skip:
 				continue
 
-			if options.spec != "":
+			if options.spec != False:
 				if ip != ".":
 					print "Provides: golang(%%{import_path}/%s) = %%{version}-%%{release}" % (ip)
 				else:
@@ -121,7 +121,13 @@ if __name__ == "__main__":
 	elif options.test:
 		sdirs = sorted(gse_obj.getTestDirectories())
 		for dir in sdirs:
-			print dir
+			if options.spec != False:
+				if dir != ".":
+					print "go test %%{import_path}/%s" % dir
+				else:
+					print "go test %{import_path}"
+			else:
+				print dir
 	elif options.dirs:
 		dirs = gse_obj.getSymbolsPosition().values() + gse_obj.getTestDirectories()
 		sdirs = []
