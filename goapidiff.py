@@ -9,6 +9,7 @@
 import optparse
 from modules.GoSymbols import CompareSourceCodes
 from modules.Utils import YELLOW, RED, BLUE, ENDC
+from os import path
 
 MSG_NEG=1
 MSG_POS=2
@@ -81,21 +82,57 @@ if __name__ == "__main__":
 	    help = "Import paths prefix"
 	)
 
+	parser.add_option(
+	    "", "", "--old-xml", dest="oldxml", default = "",
+	    help = "Use old symbols from xml"
+	)
+
+	parser.add_option(
+	    "", "", "--new-xml", dest="newxml", default = "",
+	    help = "Use new symbols from xml"
+	)
+
 	options, args = parser.parse_args()
-	if len(args) != 2:
-		print "Missing DIR1 or DIR2"
-		exit(1)
 
 	if options.p != "" and options.p[-1] == '/':
 		print "Error: --prefix can not end with '/'"
 		exit(1)
 
-	go_dir1 = args[0]
-	go_dir2 = args[1]
+	missing_args = 2
+	# file exists?
+	if options.oldxml != "":
+		if not path.exists(options.oldxml):
+			print "Error: %s does not exists" % options.oldxml
+			exit(1)
+		missing_args = missing_args - 1
+
+	# file exists?
+	if options.newxml != "":
+		if not path.exists(options.newxml):
+			print "Error: %s does not exists" % options.newxml
+			exit(1)
+		missing_args = missing_args - 1
+
+	if missing_args == 2:
+		if len(args) < 2:
+			print "Missing DIR1 or DIR2"
+			exit(1)
+	if missing_args == 1:
+		if len(args) < 1:
+			print "Missing DIR"
+			exit(1)
 
 	# 1) check if all provided import paths are the same
 	# 2) check each package for new/removed/changed symbols
-	cmp_src = CompareSourceCodes(go_dir1, go_dir2)
+	cmp_src = CompareSourceCodes()
+	if options.oldxml != "" and options.newxml != "":
+		cmp_src.compareXmls(options.oldxml, options.newxml)
+	elif options.newxml != "":
+		cmp_src.compareDirXml(args[0], options.newxml)
+	elif options.oldxml != "":
+		cmp_src.compareXmlDir(options.oldxml, args[0])
+	else:
+		cmp_src.compareDirs(args[0], args[1])
 
 	for e in cmp_src.getError():
 		print "Error: %s" % e
