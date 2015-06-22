@@ -5,6 +5,7 @@ from modules.SpecParser import SpecParser
 import shutil
 from os.path import expanduser
 from modules.Utils import runCommand
+from glob import glob
 
 if __name__ == "__main__":
 	parser = optparse.OptionParser("%prog")
@@ -79,13 +80,26 @@ if __name__ == "__main__":
 	else:
 		tarball = "%s-%s.tar.gz" % (repo, commit[:7])
 
+	spec_dir = os.path.dirname(specfile);
+	if spec_dir == "":
+		spec_dir = "."
+
 	# copy tarball to ~/rpmbuild/SOURCES
-	print "Copying tarball %s to %s/rpmbuild/SOURCES" % (tarball, expanduser("~"))
+	print "Copying tarball %s to %s/rpmbuild/SOURCES" % ("%s/%s" % (spec_dir, tarball), expanduser("~"))
 	try:
-		shutil.copyfile(tarball, '%s/rpmbuild/SOURCES/%s' % (expanduser("~"), tarball))
+		shutil.copyfile("%s/%s" % (spec_dir, tarball), '%s/rpmbuild/SOURCES/%s' % (expanduser("~"), tarball))
 	except IOError, e:
 		print "Unable to copy tarball %s: %s" % (tarball, e)
 		exit(1)
+
+	# copy patches if available
+	for patch in glob("%s/*.patch" % spec_dir):
+		print "Copying patch %s to %s/rpmbuild/SOURCES" % (patch, expanduser("~"))
+		try:
+			shutil.copyfile(patch, '%s/rpmbuild/SOURCES/%s' % (expanduser("~"), patch))
+		except IOError, e:
+			print "Unable to copy patch %s: %s" % (patch, e)
+			exit(1)
 
 	print ""
 
