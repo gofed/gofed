@@ -97,7 +97,9 @@ if __name__ == "__main__":
 		print "  Error: %s" % se
 		exit(1)
 
-	builds = filter(lambda l: l.startswith("Wrote:"), so.split("\n"))
+	# line with builds end with .rpm sufix and consists of two columns seperated by whitespace
+	# in a form "text: pathtorpm.rpm"
+	builds = filter(lambda l: l.endswith(".rpm") and len(l.split(" ")) == 2, so.split("\n"))
 	builds = map(lambda l: l.split(" ")[1], builds)
 	srpm = filter(lambda l: l.endswith("src.rpm"), builds)[0]
 
