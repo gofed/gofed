@@ -13,7 +13,7 @@ class GoSymbolsExtractor:
 		self.skip_errors = skip_errors
 
 		self.symbols = []
-		self.symbols_position = []
+		self.symbols_position = {}
 		self.imported_packages = []
 		self.test_directories = []
 
