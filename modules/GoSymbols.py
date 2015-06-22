@@ -38,6 +38,7 @@ import sys
 import json
 from lxml import etree
 from GoSymbolsExtractor import GoSymbolsExtractor
+from modules.Base import Base
 
 ###############################################################################
 # XML inner data representation
@@ -480,6 +481,116 @@ class ProjectToXml:
 	def getError(self):
 		return self.err
 
+class Dir2GoSymbolsParser(Base):
+
+	def __init__(self, path):
+		Base.__init__(self)
+		self.path = path
+		self.packages = {}
+		self.package_paths = {}
+
+	def getPackages(self):
+		return self.packages
+
+	def getPackagePaths(self):
+		return self.package_paths
+
+	def extract(self):
+		gse_obj = GoSymbolsExtractor(self.path)
+		if not gse_obj.extract():
+			self.err.append("Error at %s: %s" % (self.path, gse_obj.getError()))
+			return False
+
+		ips = gse_obj.getSymbolsPosition()
+		symbols = gse_obj.getSymbols()
+
+		for pkg in ips.keys():
+			pkg_name = pkg.split(":")[0]
+			obj = PackageToXml(symbols[pkg], "%s" % (ips[pkg]), imports=False)
+			if not obj.getStatus():
+				self.err.append("Error at %s due to json2xml parsing: " % (pkg_name, obj.getError()))
+				return False
+
+			self.package_paths[pkg] = pkg_name
+			self.packages[pkg] = obj.getPackage()
+
+		return True
+
+class Xml2GoSymbolsParser(Base):
+
+	def __init__(self, path):
+		Base.__init__(self)
+		self.path = path
+		self.packages = {}
+		self.package_paths = {}
+
+	def getPackages(self):
+		return self.packages
+
+	def getPackagePaths(self):
+		return self.package_paths
+
+	def extract(self):
+		tree = etree.parse(self.path)
+		root = tree.getroot()
+
+		if root.tag != "project":
+			self.err = "Missing <project> node in %s" % self.path
+			return False
+
+		# if ipprefix attribute is specified, remove it from every package path
+		if "ipprefix" in root.keys():
+			ipprefix = root.get("ipprefix")
+		else:
+			ipprefix = ""
+
+		if len(root[0]) < 1:
+			self.err = "Missing <packages> node in %s" % self.path
+			return False
+
+		pkgs_node = root[0]
+		for pkg in pkgs_node:
+			if "importpath" not in pkg.keys():
+				self.err = "Missing importpath attribute in package tag"
+				return False
+			package_path = pkg.get("importpath")
+			if ipprefix != "":
+				if not package_path.startswith(ipprefix):
+					self.err = "package name %s does not start with %s" % (package_path, ipprefix)
+					return False
+				package_path = package_path[len(ipprefix):]
+
+			if package_path != "":
+				package_path = package_path[1:]
+
+			# key is in a form dir:package_name
+			if package_path == "":
+				prefix = ""
+			else:
+				prefix = "%s:%s" % (package_path, os.path.basename(package_path))
+
+			self.package_paths[prefix] = package_path
+			self.packages[prefix] = pkg
+
+		return True
+
+class ProjectDescriptor(Base):
+
+	def __init__(self):
+		self.package_paths = []
+		self.xml_tree = None
+
+	def setPackagePaths(self, paths):
+		self.packages_paths = paths
+
+	def getPackagePaths(self):
+		return self.packages_paths
+
+	def setPackages(self, xml_tree):
+		self.xml_tree = xml_tree
+
+	def getPackages(self):
+		return self.xml_tree
 
 class CompareTypes:
 
@@ -1191,28 +1302,82 @@ class ComparePackages:
 
 class CompareSourceCodes:
 
-	def __init__(self, directory_old, directory_new):
+	def __init__(self):
 		self.err = []
 		self.status = {}
-		self.compare(directory_old, directory_new)
 
-	def compare(self, directory_old, directory_new):
+	def compareDirs(self, directory_old, directory_new):
+		# get descriptor for project from old directory
+		self.old_api = Dir2GoSymbolsParser(directory_old)
+		if not self.old_api.extract():
+			self.err = self.old_api.getError()
+			return False
+
+		# get descriptor for project from new directory
+		self.new_api = Dir2GoSymbolsParser(directory_new)
+		if not self.new_api.extract():
+			self.err = self.new_api.getError()
+			return False
+
+		self.compare()
+		return True
+
+	def compareXmls(self, xml_old, xml_new):
+		# get descriptor for project from old xml
+		self.old_api = Xml2GoSymbolsParser(xml_old)
+		if not self.old_api.extract():
+			self.err = self.old_api.getError()
+			return False
+
+		# get descriptor for project from new xml
+		self.new_api = Xml2GoSymbolsParser(xml_new)
+		if not self.new_api.extract():
+			self.err = self.new_api.getError()
+			return False
+
+		self.compare()
+		return True
+
+	def compareDirXml(self, directory_old, xml_new):
+		# get descriptor for project from directory
+		self.old_api = Dir2GoSymbolsParser(directory_old)
+		if not self.old_api.extract():
+			self.err = self.old_api.getError()
+			return False
+
+		# get descriptor for project from xml
+		self.new_api = Xml2GoSymbolsParser(xml_new)
+		if not self.new_api.extract():
+			self.err = self.new_api.getError()
+			return False
+
+		self.compare()
+		return True
+
+	def compareXmlDir(self, xml_old, directory_new):
+		# get descriptor for project from xml
+		self.old_api = Xml2GoSymbolsParser(xml_old)
+		if not self.old_api.extract():
+			self.err = self.old_api.getError()
+			return False
+
+		# get descriptor for project from directory
+		self.new_api = Dir2GoSymbolsParser(directory_new)
+		if not self.new_api.extract():
+			self.err = self.new_api.getError()
+			return False
+
+		self.compare()
+		return True
+
+	def compare(self):
 		msg = []
 
-		gse_obj1 = GoSymbolsExtractor(directory_old)
-		if not gse_obj1.extract():
-			self.err.append("Error at %s: %s" % (directory_old, gse_obj1.getError()))
-			return
-
-		gse_obj2 = GoSymbolsExtractor(directory_new)
-		if not gse_obj2.extract():
-			self.err.append("Error at %s: %s" % (directory_new, gse_obj2.getError()))
-			return
-
-		ip1 = gse_obj1.getSymbolsPosition()
-		symbols1 = gse_obj1.getSymbols()
-		ip2 = gse_obj2.getSymbolsPosition()
-		symbols2 = gse_obj2.getSymbols()
+		# provided packages (full path)
+		ip1 = self.old_api.getPackagePaths()
+		packages1 = self.old_api.getPackages()
+		ip2 = self.new_api.getPackagePaths()
+		packages2 = self.new_api.getPackages()
 
 		ip1_set = set(ip1.keys())
 		ip2_set = set(ip2.keys())
@@ -1232,18 +1397,8 @@ class CompareSourceCodes:
 		# compare common packages
 		for pkg in com_ips:
 			pkg_name = pkg.split(":")[0]
-			obj1 = PackageToXml(symbols1[pkg], "%s" % (ip1[pkg]), imports=False)
-			if not obj1.getStatus():
-				self.err.append("Error at %s due to json2xml parsing: " % (pkg_name, obj1.getError()))
-				continue
-
-			obj2 = PackageToXml(symbols2[pkg], "%s" % (ip2[pkg]), imports=False)
-			if not obj2.getStatus():
-				self.err.append("Error at %s due to json2xml parsing: " % (pkg_name, obj2.getError()))
-				continue
-
 			comp_pkgs = ComparePackages(pkg.split(":")[0])
-			comp_pkgs.comparePackages(obj1.getPackage(), obj2.getPackage())
+			comp_pkgs.comparePackages(packages1[pkg], packages2[pkg])
 			status = comp_pkgs.getStatus()
 			if status["status"] != []:
 				self.status[pkg_name] = status["status"]
