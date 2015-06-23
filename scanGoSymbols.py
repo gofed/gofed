@@ -2,6 +2,7 @@ import optparse
 from modules.GoSymbols import PackageToXml, ProjectToXml
 import json
 from modules.GoSymbolsExtractor import GoSymbolsExtractor
+from modules.Config import Config
 
 def displaySymbols(symbols, all = False, stats = False):
 	# types, funcs, vars
@@ -92,6 +93,26 @@ def setOptionParser():
 	    help = "List all provided import paths."
 	)
 
+	parser.add_option(
+            "", "", "--scan-all-dirs", dest="scanalldirs", action = "store_true", default = False,
+            help = "Scan all dirs, including Godeps directory"
+        )
+
+	parser.add_option(
+            "", "", "--skip-dirs", dest="skipdirs", default = "",
+            help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
+        )
+
+	parser.add_option(
+            "", "", "--pure-xml", dest="purexml", action = "store_true", default = False,
+            help = "Print all packages in one xml file"
+        )
+
+	parser.add_option(
+            "", "", "--skip-errors", dest="skiperrors", action = "store_true", default = False,
+            help = "Skip all errors during Go symbol parsing"
+        )
+
 	return parser
 
 
@@ -111,12 +132,24 @@ if __name__ == "__main__":
 	if options.prefix != "":
 		prefix = options.prefix + "/"
 
+	if not options.scanalldirs:
+		noGodeps = Config().getSkippedDirectories()
+	else:
+		noGodeps = []
+
+	if options.skipdirs:
+		for dir in options.skipdirs.split(','):
+			dir = dir.strip()
+			if dir == "":
+				continue
+			noGodeps.append(dir)
+
 	#obj = ProjectToXml(options.prefix, go_dir)
 	#print obj
 	#print obj.getError()
 	#exit(0)
 
-	gse_obj = GoSymbolsExtractor(go_dir)
+	gse_obj = GoSymbolsExtractor(go_dir, skip_errors=options.skiperrors, noGodeps=noGodeps)
 	if not gse_obj.extract():
 		print gse_obj.getError()
 		exit(1)
@@ -138,8 +171,14 @@ if __name__ == "__main__":
 		symbols = gse_obj.getSymbols()
 		ip_used = gse_obj.getImportedPackages()
 
+		if options.purexml:
+			print "<?xml version='1.0' encoding='ASCII'?>"
+			print "<project ipprefix=\"%s\" commit=\"\" nvr=\"\">" % options.prefix
+			print "<packages>"
+
 		for pkg in ip:
-			print "Import path: %s%s" % (prefix, ip[pkg])
+			if not options.purexml:
+				print "Import path: %s%s" % (prefix, ip[pkg])
 			#print json.dumps(symbols[pkg])
 			if options.xml:
 				obj = PackageToXml(symbols[pkg], "%s%s" % (prefix, ip[pkg]),  imports=False)
@@ -150,6 +189,10 @@ if __name__ == "__main__":
 					exit(0)
 			else:
 				displaySymbols(symbols[pkg], options.all, options.stats)
+
+		if options.purexml:
+			print "</packages>"
+			print "</project>"
 
 	elif options.usedip:
 		ip_used = gse_obj.getImportedPackages()
