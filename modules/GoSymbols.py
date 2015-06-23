@@ -432,7 +432,7 @@ class ProjectToXml:
 		self.ip_used = gse_obj.getImportedPackages()
 
 		self.root = etree.Element("project")
-		self.root.set("url", url)
+		self.root.set("ipprefix", url)
 		self.root.set("commit", "commit")
 		self.root.set("nvr", nvr)
 
@@ -483,11 +483,14 @@ class ProjectToXml:
 
 class Dir2GoSymbolsParser(Base):
 
-	def __init__(self, path):
+	def __init__(self, path, skip_errors=False, noGodeps=[]):
 		Base.__init__(self)
+		self.err = []
 		self.path = path
 		self.packages = {}
 		self.package_paths = {}
+		self.skip_errors = skip_errors
+		self.noGodeps = noGodeps
 
 	def getPackages(self):
 		return self.packages
@@ -496,7 +499,7 @@ class Dir2GoSymbolsParser(Base):
 		return self.package_paths
 
 	def extract(self):
-		gse_obj = GoSymbolsExtractor(self.path)
+		gse_obj = GoSymbolsExtractor(self.path, skip_errors=self.skip_errors, noGodeps=self.noGodeps)
 		if not gse_obj.extract():
 			self.err.append("Error at %s: %s" % (self.path, gse_obj.getError()))
 			return False
@@ -560,7 +563,7 @@ class Xml2GoSymbolsParser(Base):
 					return False
 				package_path = package_path[len(ipprefix):]
 
-			if package_path != "":
+			if package_path != "" and package_path[0] == "/":
 				package_path = package_path[1:]
 
 			# key is in a form dir:package_name
@@ -573,24 +576,6 @@ class Xml2GoSymbolsParser(Base):
 			self.packages[prefix] = pkg
 
 		return True
-
-class ProjectDescriptor(Base):
-
-	def __init__(self):
-		self.package_paths = []
-		self.xml_tree = None
-
-	def setPackagePaths(self, paths):
-		self.packages_paths = paths
-
-	def getPackagePaths(self):
-		return self.packages_paths
-
-	def setPackages(self, xml_tree):
-		self.xml_tree = xml_tree
-
-	def getPackages(self):
-		return self.xml_tree
 
 class CompareTypes:
 
@@ -1302,19 +1287,21 @@ class ComparePackages:
 
 class CompareSourceCodes:
 
-	def __init__(self):
+	def __init__(self, skip_errors=False, noGodeps=[]):
 		self.err = []
 		self.status = {}
+		self.skip_errors = skip_errors
+		self.noGodeps = noGodeps
 
 	def compareDirs(self, directory_old, directory_new):
 		# get descriptor for project from old directory
-		self.old_api = Dir2GoSymbolsParser(directory_old)
+		self.old_api = Dir2GoSymbolsParser(directory_old, skip_errors=self.skip_errors, noGodeps=self.noGodeps)
 		if not self.old_api.extract():
 			self.err = self.old_api.getError()
 			return False
 
 		# get descriptor for project from new directory
-		self.new_api = Dir2GoSymbolsParser(directory_new)
+		self.new_api = Dir2GoSymbolsParser(directory_new, skip_errors=self.skip_errors, noGodeps=self.noGodeps)
 		if not self.new_api.extract():
 			self.err = self.new_api.getError()
 			return False
@@ -1340,7 +1327,7 @@ class CompareSourceCodes:
 
 	def compareDirXml(self, directory_old, xml_new):
 		# get descriptor for project from directory
-		self.old_api = Dir2GoSymbolsParser(directory_old)
+		self.old_api = Dir2GoSymbolsParser(directory_old, skip_errors=self.skip_errors, noGodeps=self.noGodeps)
 		if not self.old_api.extract():
 			self.err = self.old_api.getError()
 			return False
@@ -1362,7 +1349,7 @@ class CompareSourceCodes:
 			return False
 
 		# get descriptor for project from directory
-		self.new_api = Dir2GoSymbolsParser(directory_new)
+		self.new_api = Dir2GoSymbolsParser(directory_new, skip_errors=self.skip_errors, noGodeps=self.noGodeps)
 		if not self.new_api.extract():
 			self.err = self.new_api.getError()
 			return False
@@ -1388,11 +1375,11 @@ class CompareSourceCodes:
 
 		# list new packages
 		if new_ips != []:
-			msg.append("+new packages: " + ", ".join(map(lambda i: i.split(":")[0], new_ips)))
+			self.status["+"] = "+new packages: " + ", ".join(map(lambda i: i.split(":")[0], new_ips))
 
 		# list removed packages
 		if rem_ips != []:
-			msg.append("-removed packages: " + ", ".join(map(lambda i: i.split(":")[0], rem_ips)))
+			self.status["-"] = "-removed packages: " + ", ".join(map(lambda i: i.split(":")[0], rem_ips))
 
 		# compare common packages
 		for pkg in com_ips:
