@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-kr-fs-0-0.1.git2788f0d.fc22">
+<project url="" commit="commit" nvr="golang-github-kr-fs-0-0.2.git2788f0d.fc23">
   <packages>
     <package importpath="github.com/kr/fs">
       <types>
@@ -56,11 +56,11 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Walker"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WalkFS">
           <recvList/>
@@ -68,11 +68,11 @@
             <type type="ident" def="string"/>
             <type type="ident" def="FileSystem"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Walker"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Step">
           <recvList>
@@ -81,9 +81,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Path">
           <recvList>
@@ -92,9 +92,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Stat">
           <recvList>
@@ -103,12 +103,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="os"/>
               <item value="FileInfo"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Err">
           <recvList>
@@ -117,9 +117,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SkipDir">
           <recvList>
@@ -128,7 +128,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="ReadDir">
           <recvList>
@@ -139,7 +139,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="selector">
                 <prefix value="os"/>
@@ -147,7 +147,7 @@
               </elmtype>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Lstat">
           <recvList>
@@ -158,13 +158,13 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="os"/>
               <item value="FileInfo"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Join">
           <recvList>
@@ -177,9 +177,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>

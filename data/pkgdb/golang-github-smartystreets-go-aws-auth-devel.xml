@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit" nvr="golang-github-smartystreets-go-aws-auth-0-0.1.git1f0db8c.fc23">
+  <packages>
+    <package importpath="github.com/smartystreets/go-aws-auth">
+      <types>
+        <type type="struct" name="Credentials">
+          <field type="ident" def="string" name="AccessKeyID"/>
+          <field type="ident" def="string" name="SecretAccessKey"/>
+          <field type="ident" def="string" name="SecurityToken"/>
+          <field type="selector" name="Expiration">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Sign">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="Credentials"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Sign4">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="Credentials"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Sign3">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="Credentials"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Sign2">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="Credentials"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </resultsList>
+        </function>
+        <function name="SignS3">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="Credentials"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </resultsList>
+        </function>
+        <function name="SignS3Url">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="Credentials"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="net/http"/>
+    <import path="net/url"/>
+    <import path="strings"/>
+    <import path="testing"/>
+    <import path="github.com/smartystreets/goconvey/convey"/>
+    <import path="encoding/hex"/>
+    <import path="sort"/>
+    <import path="time"/>
+    <import path="encoding/base64"/>
+    <import path="fmt"/>
+    <import path="strconv"/>
+    <import path="bufio"/>
+    <import path="bytes"/>
+    <import path="crypto/hmac"/>
+    <import path="crypto/md5"/>
+    <import path="crypto/sha1"/>
+    <import path="crypto/sha256"/>
+    <import path="encoding/json"/>
+    <import path="io/ioutil"/>
+    <import path="net"/>
+    <import path="os"/>
+    <import path="sync"/>
+  </imports>
+</project>

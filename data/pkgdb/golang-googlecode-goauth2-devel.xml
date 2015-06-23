@@ -1,5 +1,651 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-googlecode-goauth2-0-0.6.hg267028f.fc23">
-  <packages/>
-  <imports/>
+<project url="" commit="commit" nvr="golang-googlecode-goauth2-0-0.10.hgb5adcc2.fc23">
+  <packages>
+    <package importpath="code.google.com/p/goauth2/oauth/jwt">
+      <types>
+        <type type="struct" name="ClaimSet">
+          <field type="ident" def="string" name="Iss"/>
+          <field type="ident" def="string" name="Scope"/>
+          <field type="ident" def="string" name="Aud"/>
+          <field type="ident" def="string" name="Prn"/>
+          <field type="ident" def="int64" name="Exp"/>
+          <field type="ident" def="int64" name="Iat"/>
+          <field type="ident" def="string" name="Typ"/>
+          <field type="ident" def="string" name="Sub"/>
+          <field type="map" name="PrivateClaims">
+            <keytype type="ident" def="string"/>
+            <valtype type="interface"/>
+          </field>
+          <field type="selector" name="exp">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="selector" name="iat">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+        </type>
+        <type type="struct" name="Header">
+          <field type="ident" def="string" name="Algorithm"/>
+          <field type="ident" def="string" name="Type"/>
+          <field type="ident" def="string" name="KeyId"/>
+        </type>
+        <type type="struct" name="Token">
+          <field type="pointer" name="ClaimSet">
+            <type type="ident" def="ClaimSet"/>
+          </field>
+          <field type="pointer" name="Header">
+            <type type="ident" def="Header"/>
+          </field>
+          <field type="slice" name="Key">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="pointer" name="pKey">
+            <type type="selector">
+              <prefix value="rsa"/>
+              <item value="PrivateKey"/>
+            </type>
+          </field>
+          <field type="ident" def="string" name="header"/>
+          <field type="ident" def="string" name="claim"/>
+          <field type="ident" def="string" name="sig"/>
+          <field type="ident" def="bool" name="useExternalSigner"/>
+          <field type="ident" def="Signer" name="signer"/>
+        </type>
+        <type name="Signer" type="interface">
+          <method name="Sign">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="Token"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="Transport">
+          <field type="pointer" name="JWTToken">
+            <type type="ident" def="Token"/>
+          </field>
+          <field type="pointer" name="OAuthToken">
+            <type type="selector">
+              <prefix value="oauth"/>
+              <item value="Token"/>
+            </type>
+          </field>
+          <field type="selector" name="Transport">
+            <prefix value="http"/>
+            <item value="RoundTripper"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="NewToken">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Token"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="NewSignerToken">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Signer"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Token"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Expired">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Token"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Encode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Token"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="EncodeWithoutSignature">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Token"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Assert">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Token"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Client"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="oauth"/>
+                <item value="Token"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewTransport">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Token"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Transport"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Client">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transport"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Client"/>
+              </type>
+            </type>
+          </resultsList>
+        </function>
+        <function name="RoundTrip">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transport"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Response"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ErrInvalidKey"/>
+      </names>
+    </package>
+    <package importpath="code.google.com/p/goauth2/oauth">
+      <types>
+        <type type="struct" name="OAuthError">
+          <field type="ident" def="string" name="prefix"/>
+          <field type="ident" def="string" name="msg"/>
+        </type>
+        <type name="Cache" type="interface">
+          <method name="Token">
+            <paramsList/>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="Token"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="PutToken">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="Token"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="CacheFile" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+        <type type="struct" name="Config">
+          <field type="ident" def="string" name="ClientId"/>
+          <field type="ident" def="string" name="ClientSecret"/>
+          <field type="ident" def="string" name="Scope"/>
+          <field type="ident" def="string" name="AuthURL"/>
+          <field type="ident" def="string" name="TokenURL"/>
+          <field type="ident" def="string" name="RedirectURL"/>
+          <field type="ident" def="Cache" name="TokenCache"/>
+          <field type="ident" def="string" name="AccessType"/>
+          <field type="ident" def="string" name="ApprovalPrompt"/>
+        </type>
+        <type type="struct" name="Token">
+          <field type="ident" def="string" name="AccessToken"/>
+          <field type="ident" def="string" name="RefreshToken"/>
+          <field type="selector" name="Expiry">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="map" name="Extra">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="Transport">
+          <field type="pointer" name="">
+            <type type="ident" def="Config"/>
+          </field>
+          <field type="pointer" name="">
+            <type type="ident" def="Token"/>
+          </field>
+          <field type="selector" name="mu">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="selector" name="Transport">
+            <prefix value="http"/>
+            <item value="RoundTripper"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="OAuthError"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Token">
+          <recvList>
+            <type type="ident" def="CacheFile"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Token"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="PutToken">
+          <recvList>
+            <type type="ident" def="CacheFile"/>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Token"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Expired">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Token"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Client">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transport"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Client"/>
+              </type>
+            </type>
+          </resultsList>
+        </function>
+        <function name="AuthCodeURL">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Config"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Exchange">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transport"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Token"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="RoundTrip">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transport"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Response"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Refresh">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transport"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="AuthenticateClient">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Transport"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/goauth2/appengine/serviceaccount">
+      <types/>
+      <functions>
+        <function name="NewClient">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="appengine"/>
+              <item value="Context"/>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Client"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Refresh">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="transport"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="FetchToken">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="transport"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="RoundTrip">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="transport"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Response"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Token">
+          <recvList>
+            <type type="ident" def="cache"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="oauth"/>
+                <item value="Token"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="PutToken">
+          <recvList>
+            <type type="ident" def="cache"/>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="oauth"/>
+                <item value="Token"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="code.google.com/p/goauth2/compute/serviceaccount">
+      <types>
+        <type type="struct" name="Options">
+          <field type="selector" name="Transport">
+            <prefix value="http"/>
+            <item value="RoundTripper"/>
+          </field>
+          <field type="ident" def="string" name="Account"/>
+        </type>
+      </types>
+      <functions>
+        <function name="NewClient">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Client"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Refresh">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="transport"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="RoundTrip">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="transport"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Response"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="io"/>
+    <import path="io/ioutil"/>
+    <import path="net/http"/>
+    <import path="net/http/httptest"/>
+    <import path="net/url"/>
+    <import path="os"/>
+    <import path="path/filepath"/>
+    <import path="runtime"/>
+    <import path="testing"/>
+    <import path="time"/>
+    <import path="encoding/json"/>
+    <import path="errors"/>
+    <import path="fmt"/>
+    <import path="mime"/>
+    <import path="strconv"/>
+    <import path="strings"/>
+    <import path="sync"/>
+    <import path="bytes"/>
+    <import path="crypto"/>
+    <import path="crypto/rand"/>
+    <import path="crypto/rsa"/>
+    <import path="crypto/sha256"/>
+    <import path="crypto/x509"/>
+    <import path="encoding/pem"/>
+    <import path="encoding/base64"/>
+    <import path="code.google.com/p/goauth2/oauth"/>
+    <import path="flag"/>
+    <import path="log"/>
+    <import path="code.google.com/p/goauth2/oauth/jwt"/>
+    <import path="path"/>
+    <import path="appengine"/>
+    <import path="appengine/urlfetch"/>
+    <import path="appengine/memcache"/>
+  </imports>
 </project>

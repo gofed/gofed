@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit" nvr="golang-github-google-go-querystring-0-0.1.git547ef5a.fc23">
+  <packages>
+    <package importpath="github.com/google/go-querystring/query">
+      <types>
+        <type name="Encoder" type="interface">
+          <method name="EncodeValues">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="url"/>
+                  <item value="Values"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+      </types>
+      <functions>
+        <function name="Values">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <resultsList>
+            <type type="selector">
+              <prefix value="url"/>
+              <item value="Values"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Contains">
+          <recvList>
+            <type type="ident" def="tagOptions"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="fmt"/>
+    <import path="net/url"/>
+    <import path="reflect"/>
+    <import path="testing"/>
+    <import path="time"/>
+    <import path="bytes"/>
+    <import path="strconv"/>
+    <import path="strings"/>
+  </imports>
+</project>

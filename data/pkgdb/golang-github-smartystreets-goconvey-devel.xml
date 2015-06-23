@@ -1,0 +1,2717 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit" nvr="golang-github-smartystreets-goconvey-0-0.1.git43652d6.fc23">
+  <packages>
+    <package importpath="github.com/smartystreets/goconvey/convey/gotest">
+      <types/>
+      <functions>
+        <function name="FormatExternalFileAndLine">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="ResolveExternalCaller">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/smartystreets/goconvey/web/server/system">
+      <types>
+        <type type="struct" name="Shell">
+          <field type="ident" def="bool" name="coverage"/>
+          <field type="ident" def="string" name="gobin"/>
+          <field type="ident" def="string" name="reportsPath"/>
+          <field type="ident" def="string" name="defaultTimeout"/>
+        </type>
+        <type type="struct" name="Command">
+          <field type="ident" def="string" name="directory"/>
+          <field type="ident" def="string" name="executable"/>
+          <field type="slice" name="arguments">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Output"/>
+          <field type="ident" def="error" name="Error"/>
+        </type>
+      </types>
+      <functions>
+        <function name="NewShell">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Shell"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GoTest">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Shell"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewCommand">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Command"/>
+          </resultsList>
+        </function>
+        <function name="Execute">
+          <recvList>
+            <type type="ident" def="Command"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="Command"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/smartystreets/goconvey/web/server/watch">
+      <types>
+        <type type="struct" name="Watcher">
+          <field type="selector" name="nap">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="ident" def="string" name="rootFolder"/>
+          <field type="ident" def="int" name="folderDepth"/>
+          <field type="map" name="ignoredFolders">
+            <keytype type="ident" def="string"/>
+            <valtype type="struct" name=""/>
+          </field>
+          <field type="ident" def="int64" name="fileSystemState"/>
+          <field type="ident" def="bool" name="paused"/>
+          <field type="ident" def="bool" name="stopped"/>
+          <field type="slice" name="watchSuffixes">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="channel" dir="3" name="input">
+            <type type="selector">
+              <prefix value="messaging"/>
+              <item value="WatcherCommand"/>
+            </type>
+          </field>
+          <field type="channel" dir="3" name="output">
+            <type type="selector">
+              <prefix value="messaging"/>
+              <item value="Folders"/>
+            </type>
+          </field>
+          <field type="selector" name="lock">
+            <prefix value="sync"/>
+            <item value="RWMutex"/>
+          </field>
+        </type>
+        <type type="struct" name="FileSystemItem">
+          <field type="ident" def="string" name="Root"/>
+          <field type="ident" def="string" name="Path"/>
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="int64" name="Size"/>
+          <field type="ident" def="int64" name="Modified"/>
+          <field type="ident" def="bool" name="IsFolder"/>
+          <field type="ident" def="bool" name="ProfileDisabled"/>
+          <field type="slice" name="ProfileTags">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="ProfileArguments">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="NewWatcher">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="channel" dir="3">
+              <type type="selector">
+                <prefix value="messaging"/>
+                <item value="WatcherCommand"/>
+              </type>
+            </type>
+            <type type="channel" dir="3">
+              <type type="selector">
+                <prefix value="messaging"/>
+                <item value="Folders"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Watcher"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Listen">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Watcher"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="YieldFileSystemItems">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="channel" dir="3">
+              <type type="pointer">
+                <type type="ident" def="FileSystemItem"/>
+              </type>
+            </type>
+          </resultsList>
+        </function>
+        <function name="ReadContents">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Categorize">
+          <recvList/>
+          <paramsList>
+            <type type="channel" dir="3">
+              <type type="pointer">
+                <type type="ident" def="FileSystemItem"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="FileSystemItem"/>
+              </elmtype>
+            </type>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="FileSystemItem"/>
+              </elmtype>
+            </type>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="FileSystemItem"/>
+              </elmtype>
+            </type>
+          </resultsList>
+        </function>
+        <function name="ParseProfile">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="bool"/>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="CreateFolders">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="FileSystemItem"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="selector">
+              <prefix value="messaging"/>
+              <item value="Folders"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="LimitDepth">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="messaging"/>
+              <item value="Folders"/>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="AttachProfiles">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="messaging"/>
+              <item value="Folders"/>
+            </type>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="FileSystemItem"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="MarkIgnored">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="messaging"/>
+              <item value="Folders"/>
+            </type>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="struct" name=""/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="ActiveFolders">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="messaging"/>
+              <item value="Folders"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="selector">
+              <prefix value="messaging"/>
+              <item value="Folders"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Sum">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="messaging"/>
+              <item value="Folders"/>
+            </type>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="FileSystemItem"/>
+              </elmtype>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int64"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/smartystreets/goconvey/convey/reporting">
+      <types>
+        <type type="struct" name="ScopeReport">
+          <field type="ident" def="string" name="Title"/>
+          <field type="ident" def="string" name="File"/>
+          <field type="ident" def="int" name="Line"/>
+        </type>
+        <type type="struct" name="ScopeResult">
+          <field type="ident" def="string" name="Title"/>
+          <field type="ident" def="string" name="File"/>
+          <field type="ident" def="int" name="Line"/>
+          <field type="ident" def="int" name="Depth"/>
+          <field type="slice" name="Assertions">
+            <elmtype type="pointer">
+              <type type="ident" def="AssertionResult"/>
+            </elmtype>
+          </field>
+          <field type="ident" def="string" name="Output"/>
+        </type>
+        <type type="struct" name="StoryReport">
+          <field type="ident" def="T" name="Test"/>
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="File"/>
+          <field type="ident" def="int" name="Line"/>
+        </type>
+        <type type="struct" name="FailureView">
+          <field type="ident" def="string" name="Message"/>
+          <field type="ident" def="string" name="Expected"/>
+          <field type="ident" def="string" name="Actual"/>
+        </type>
+        <type type="struct" name="AssertionResult">
+          <field type="ident" def="string" name="File"/>
+          <field type="ident" def="int" name="Line"/>
+          <field type="ident" def="string" name="Expected"/>
+          <field type="ident" def="string" name="Actual"/>
+          <field type="ident" def="string" name="Failure"/>
+          <field type="interface" name="Error"/>
+          <field type="ident" def="string" name="StackTrace"/>
+          <field type="ident" def="bool" name="Skipped"/>
+        </type>
+        <type name="Reporter" type="interface">
+          <method name="BeginStory">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="StoryReport"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Enter">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="ScopeReport"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Report">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="AssertionResult"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Exit">
+            <paramsList/>
+            <resultsList/>
+          </method>
+          <method name="EndStory">
+            <paramsList/>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="Printer">
+          <field type="selector" name="out">
+            <prefix value="io"/>
+            <item value="Writer"/>
+          </field>
+          <field type="ident" def="string" name="prefix"/>
+        </type>
+        <type type="struct" name="JsonReporter">
+          <field type="pointer" name="out">
+            <type type="ident" def="Printer"/>
+          </field>
+          <field type="slice" name="currentKey">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="current">
+            <type type="ident" def="ScopeResult"/>
+          </field>
+          <field type="map" name="index">
+            <keytype type="ident" def="string"/>
+            <valtype type="pointer">
+              <type type="ident" def="ScopeResult"/>
+            </valtype>
+          </field>
+          <field type="slice" name="scopes">
+            <elmtype type="pointer">
+              <type type="ident" def="ScopeResult"/>
+            </elmtype>
+          </field>
+        </type>
+        <type name="T" type="interface">
+          <method name="Fail">
+            <paramsList/>
+            <resultsList/>
+          </method>
+        </type>
+      </types>
+      <functions>
+        <function name="BeginStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="story"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="StoryReport"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Enter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="story"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="ScopeReport"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Report">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="story"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="AssertionResult"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Exit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="story"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="EndStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="story"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="story"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewStoryReporter">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Printer"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="story"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="BeginStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="statistics"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="StoryReport"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Enter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="statistics"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="ScopeReport"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Report">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="statistics"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="AssertionResult"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Exit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="statistics"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="EndStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="statistics"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="statistics"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewStatisticsReporter">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Printer"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="statistics"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="NewScopeReport">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="ScopeReport"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="NewStoryReport">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="T"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="StoryReport"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="NewFailureReport">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="AssertionResult"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="NewErrorReport">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="AssertionResult"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="NewSuccessReport">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="AssertionResult"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="NewSkipReport">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="AssertionResult"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="BeginStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="reporters"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="StoryReport"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Enter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="reporters"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="ScopeReport"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Report">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="reporters"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="AssertionResult"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Exit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="reporters"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="EndStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="reporters"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="reporters"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewReporters">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="ident" def="Reporter"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="reporters"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="BeginStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="problem"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="StoryReport"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Enter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="problem"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="ScopeReport"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Report">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="problem"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="AssertionResult"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Exit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="problem"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="EndStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="problem"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="problem"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewProblemReporter">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Printer"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="problem"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Println">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Printer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Print">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Printer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Insert">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Printer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Indent">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Printer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Dedent">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Printer"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="NewPrinter">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Printer"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="BeginStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="JsonReporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="StoryReport"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Enter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="JsonReporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="ScopeReport"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Report">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="JsonReporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="AssertionResult"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Exit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="JsonReporter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="EndStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="JsonReporter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="JsonReporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewJsonReporter">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Printer"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="JsonReporter"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="BuildJsonReporter">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="Reporter"/>
+          </resultsList>
+        </function>
+        <function name="BuildDotReporter">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="Reporter"/>
+          </resultsList>
+        </function>
+        <function name="BuildStoryReporter">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="Reporter"/>
+          </resultsList>
+        </function>
+        <function name="BuildSilentReporter">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="Reporter"/>
+          </resultsList>
+        </function>
+        <function name="QuietMode">
+          <recvList/>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="BeginStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="gotestReporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="StoryReport"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Enter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="gotestReporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="ScopeReport"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Report">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="gotestReporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="AssertionResult"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Exit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="gotestReporter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="EndStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="gotestReporter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="gotestReporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewGoTestReporter">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="gotestReporter"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="BeginStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dot"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="StoryReport"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Enter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dot"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="ScopeReport"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Report">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dot"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="AssertionResult"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Exit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="EndStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="dot"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewDotReporter">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Printer"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="dot"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="console"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewConsole">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </resultsList>
+        </function>
+      </functions>
+      <names>
+        <name value="OpenJson"/>
+        <name value="CloseJson"/>
+      </names>
+    </package>
+    <package importpath="github.com/smartystreets/goconvey/web/server/parser">
+      <types>
+        <type type="struct" name="Parser">
+          <field type="func" name="parser">
+            <paramsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="contract"/>
+                  <item value="PackageResult"/>
+                </type>
+              </type>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList/>
+          </field>
+        </type>
+        <type name="TestResults" type="slice">
+          <elmtype type="selector">
+            <prefix value="contract"/>
+            <item value="TestResult"/>
+          </elmtype>
+        </type>
+      </types>
+      <functions>
+        <function name="Parse">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Parser"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="selector">
+                  <prefix value="contract"/>
+                  <item value="Package"/>
+                </type>
+              </elmtype>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="NewParser">
+          <recvList/>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="selector">
+                    <prefix value="contract"/>
+                    <item value="PackageResult"/>
+                  </type>
+                </type>
+                <type type="ident" def="string"/>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Parser"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="ParsePackageResults">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="contract"/>
+                <item value="PackageResult"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="TestResults"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+          </resultsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="TestResults"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="TestResults"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/smartystreets/goconvey/web/server/messaging">
+      <types>
+        <type type="struct" name="WatcherCommand">
+          <field type="ident" def="WatcherInstruction" name="Instruction"/>
+          <field type="ident" def="string" name="Details"/>
+        </type>
+        <type name="WatcherInstruction" type="ident">
+          <type type="ident" def="int"/>
+        </type>
+        <type name="Folders" type="map">
+          <keytype type="ident" def="string"/>
+          <valtype type="pointer">
+            <type type="ident" def="Folder"/>
+          </valtype>
+        </type>
+        <type type="struct" name="Folder">
+          <field type="ident" def="string" name="Path"/>
+          <field type="ident" def="string" name="Root"/>
+          <field type="ident" def="bool" name="Ignored"/>
+          <field type="ident" def="bool" name="Disabled"/>
+          <field type="slice" name="BuildTags">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="TestArguments">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="WatcherInstruction"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names>
+        <name value="WatcherPause"/>
+        <name value="WatcherResume"/>
+        <name value="WatcherIgnore"/>
+        <name value="WatcherReinstate"/>
+        <name value="WatcherAdjustRoot"/>
+        <name value="WatcherExecute"/>
+        <name value="WatcherStop"/>
+      </names>
+    </package>
+    <package importpath="github.com/smartystreets/goconvey/web/server/contract">
+      <types>
+        <type type="struct" name="Package">
+          <field type="ident" def="string" name="Path"/>
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="bool" name="Ignored"/>
+          <field type="ident" def="bool" name="Disabled"/>
+          <field type="slice" name="BuildTags">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="TestArguments">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="error" name="Error"/>
+          <field type="ident" def="string" name="Output"/>
+          <field type="pointer" name="Result">
+            <type type="ident" def="PackageResult"/>
+          </field>
+          <field type="ident" def="bool" name="HasImportCycle"/>
+        </type>
+        <type type="struct" name="CompleteOutput">
+          <field type="slice" name="Packages">
+            <elmtype type="pointer">
+              <type type="ident" def="PackageResult"/>
+            </elmtype>
+          </field>
+          <field type="ident" def="string" name="Revision"/>
+          <field type="ident" def="bool" name="Paused"/>
+        </type>
+        <type type="struct" name="PackageResult">
+          <field type="ident" def="string" name="PackageName"/>
+          <field type="ident" def="float64" name="Elapsed"/>
+          <field type="ident" def="float64" name="Coverage"/>
+          <field type="ident" def="string" name="Outcome"/>
+          <field type="ident" def="string" name="BuildOutput"/>
+          <field type="slice" name="TestResults">
+            <elmtype type="ident" def="TestResult"/>
+          </field>
+        </type>
+        <type type="struct" name="TestResult">
+          <field type="ident" def="string" name="TestName"/>
+          <field type="ident" def="float64" name="Elapsed"/>
+          <field type="ident" def="bool" name="Passed"/>
+          <field type="ident" def="bool" name="Skipped"/>
+          <field type="ident" def="string" name="File"/>
+          <field type="ident" def="int" name="Line"/>
+          <field type="ident" def="string" name="Message"/>
+          <field type="ident" def="string" name="Error"/>
+          <field type="slice" name="Stories">
+            <elmtype type="selector">
+              <prefix value="reporting"/>
+              <item value="ScopeResult"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="RawLines">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type name="Server" type="interface">
+          <method name="ReceiveUpdate">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="pointer">
+                <type type="ident" def="CompleteOutput"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Watch">
+            <paramsList>
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="ResponseWriter"/>
+              </type>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="http"/>
+                  <item value="Request"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Ignore">
+            <paramsList>
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="ResponseWriter"/>
+              </type>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="http"/>
+                  <item value="Request"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Reinstate">
+            <paramsList>
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="ResponseWriter"/>
+              </type>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="http"/>
+                  <item value="Request"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Status">
+            <paramsList>
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="ResponseWriter"/>
+              </type>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="http"/>
+                  <item value="Request"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="LongPollStatus">
+            <paramsList>
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="ResponseWriter"/>
+              </type>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="http"/>
+                  <item value="Request"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Results">
+            <paramsList>
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="ResponseWriter"/>
+              </type>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="http"/>
+                  <item value="Request"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Execute">
+            <paramsList>
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="ResponseWriter"/>
+              </type>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="http"/>
+                  <item value="Request"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="TogglePause">
+            <paramsList>
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="ResponseWriter"/>
+              </type>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="http"/>
+                  <item value="Request"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type name="Executor" type="interface">
+          <method name="ExecuteTests">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="pointer">
+                  <type type="ident" def="Package"/>
+                </elmtype>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="CompleteOutput"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Status">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="string"/>
+            </resultsList>
+          </method>
+          <method name="ClearStatusFlag">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="bool"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="Shell" type="interface">
+          <method name="GoTest">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ident" def="string"/>
+              <type type="slice">
+                <elmtype type="ident" def="string"/>
+              </type>
+              <type type="slice">
+                <elmtype type="ident" def="string"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="string"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+      </types>
+      <functions>
+        <function name="NewPackage">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="messaging"/>
+                <item value="Folder"/>
+              </type>
+            </type>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Package"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Active">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Package"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="HasUsableResult">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Package"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="NewPackageResult">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="PackageResult"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="NewTestResult">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="TestResult"/>
+            </type>
+          </resultsList>
+        </function>
+      </functions>
+      <names>
+        <name value="Ignored"/>
+        <name value="Disabled"/>
+        <name value="Passed"/>
+        <name value="Failed"/>
+        <name value="Panicked"/>
+        <name value="BuildFailure"/>
+        <name value="NoTestFiles"/>
+        <name value="NoTestFunctions"/>
+        <name value="NoGoFiles"/>
+        <name value="TestRunAbortedUnexpectedly"/>
+      </names>
+    </package>
+    <package importpath="github.com/smartystreets/goconvey/web/server/watch/integration_testing/sub">
+      <types/>
+      <functions/>
+      <names/>
+    </package>
+    <package importpath="github.com/smartystreets/goconvey/convey">
+      <types>
+        <type name="C" type="interface">
+          <method name="Convey">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="SkipConvey">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="FocusConvey">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="So">
+            <paramsList>
+              <type type="interface"/>
+              <type type="ident" def="assertion"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="SkipSo">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Reset">
+            <paramsList>
+              <type type="func">
+                <paramsList/>
+                <resultsList/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="Println">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="int"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Print">
+            <paramsList>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="int"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Printf">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="int"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="FailureMode" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+      </types>
+      <functions>
+        <function name="BeginStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="nilReporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="reporting"/>
+                <item value="StoryReport"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Enter">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="nilReporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="reporting"/>
+                <item value="ScopeReport"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Report">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="nilReporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="reporting"/>
+                <item value="AssertionResult"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Exit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="nilReporter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="EndStory">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="nilReporter"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="nilReporter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Convey">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SkipConvey">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="FocusConvey">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Reset">
+          <recvList/>
+          <paramsList>
+            <type type="func">
+              <paramsList/>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="So">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="assertion"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SkipSo">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SetDefaultFailureMode">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="FailureMode"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Print">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Println">
+          <recvList/>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Printf">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="conveyErr"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="SkipConvey">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="context"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="FocusConvey">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="context"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Convey">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="context"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SkipSo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="context"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="So">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="context"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="assertion"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="context"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList/>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Print">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="context"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Println">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="context"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Printf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="context"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names>
+        <name value="FailureContinues"/>
+        <name value="FailureHalts"/>
+        <name value="FailureInherits"/>
+        <name value="ShouldEqual"/>
+        <name value="ShouldNotEqual"/>
+        <name value="ShouldAlmostEqual"/>
+        <name value="ShouldNotAlmostEqual"/>
+        <name value="ShouldResemble"/>
+        <name value="ShouldNotResemble"/>
+        <name value="ShouldPointTo"/>
+        <name value="ShouldNotPointTo"/>
+        <name value="ShouldBeNil"/>
+        <name value="ShouldNotBeNil"/>
+        <name value="ShouldBeTrue"/>
+        <name value="ShouldBeFalse"/>
+        <name value="ShouldBeZeroValue"/>
+        <name value="ShouldBeGreaterThan"/>
+        <name value="ShouldBeGreaterThanOrEqualTo"/>
+        <name value="ShouldBeLessThan"/>
+        <name value="ShouldBeLessThanOrEqualTo"/>
+        <name value="ShouldBeBetween"/>
+        <name value="ShouldNotBeBetween"/>
+        <name value="ShouldBeBetweenOrEqual"/>
+        <name value="ShouldNotBeBetweenOrEqual"/>
+        <name value="ShouldContain"/>
+        <name value="ShouldNotContain"/>
+        <name value="ShouldBeIn"/>
+        <name value="ShouldNotBeIn"/>
+        <name value="ShouldBeEmpty"/>
+        <name value="ShouldNotBeEmpty"/>
+        <name value="ShouldStartWith"/>
+        <name value="ShouldNotStartWith"/>
+        <name value="ShouldEndWith"/>
+        <name value="ShouldNotEndWith"/>
+        <name value="ShouldBeBlank"/>
+        <name value="ShouldNotBeBlank"/>
+        <name value="ShouldContainSubstring"/>
+        <name value="ShouldNotContainSubstring"/>
+        <name value="ShouldPanic"/>
+        <name value="ShouldNotPanic"/>
+        <name value="ShouldPanicWith"/>
+        <name value="ShouldNotPanicWith"/>
+        <name value="ShouldHaveSameTypeAs"/>
+        <name value="ShouldNotHaveSameTypeAs"/>
+        <name value="ShouldImplement"/>
+        <name value="ShouldNotImplement"/>
+        <name value="ShouldHappenBefore"/>
+        <name value="ShouldHappenOnOrBefore"/>
+        <name value="ShouldHappenAfter"/>
+        <name value="ShouldHappenOnOrAfter"/>
+        <name value="ShouldHappenBetween"/>
+        <name value="ShouldHappenOnOrBetween"/>
+        <name value="ShouldNotHappenOnOrBetween"/>
+        <name value="ShouldHappenWithin"/>
+        <name value="ShouldNotHappenWithin"/>
+        <name value="ShouldBeChronological"/>
+      </names>
+    </package>
+    <package importpath="github.com/smartystreets/goconvey/examples">
+      <types>
+        <type type="struct" name="Game">
+          <field type="slice" name="rolls">
+            <elmtype type="ident" def="int"/>
+          </field>
+          <field type="ident" def="int" name="current"/>
+        </type>
+      </types>
+      <functions>
+        <function name="NewGame">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Game"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Roll">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Game"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Score">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Game"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/smartystreets/goconvey/web/server/api">
+      <types>
+        <type type="struct" name="HTTPServer">
+          <field type="channel" dir="3" name="watcher">
+            <type type="selector">
+              <prefix value="messaging"/>
+              <item value="WatcherCommand"/>
+            </type>
+          </field>
+          <field type="selector" name="executor">
+            <prefix value="contract"/>
+            <item value="Executor"/>
+          </field>
+          <field type="pointer" name="latest">
+            <type type="selector">
+              <prefix value="contract"/>
+              <item value="CompleteOutput"/>
+            </type>
+          </field>
+          <field type="ident" def="string" name="currentRoot"/>
+          <field type="channel" dir="3" name="longpoll">
+            <type type="channel" dir="3">
+              <type type="ident" def="string"/>
+            </type>
+          </field>
+          <field type="ident" def="bool" name="paused"/>
+        </type>
+      </types>
+      <functions>
+        <function name="ReceiveUpdate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPServer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="contract"/>
+                <item value="CompleteOutput"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Watch">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPServer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Ignore">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPServer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Reinstate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPServer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Status">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPServer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="LongPollStatus">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPServer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Results">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPServer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Execute">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPServer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="TogglePause">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="HTTPServer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="ResponseWriter"/>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="NewHTTPServer">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="channel" dir="3">
+              <type type="selector">
+                <prefix value="messaging"/>
+                <item value="WatcherCommand"/>
+              </type>
+            </type>
+            <type type="selector">
+              <prefix value="contract"/>
+              <item value="Executor"/>
+            </type>
+            <type type="channel" dir="3">
+              <type type="channel" dir="3">
+                <type type="ident" def="string"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="HTTPServer"/>
+            </type>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/smartystreets/goconvey/web/server/executor">
+      <types>
+        <type type="struct" name="ConcurrentTester">
+          <field type="selector" name="shell">
+            <prefix value="contract"/>
+            <item value="Shell"/>
+          </field>
+          <field type="ident" def="int" name="batchSize"/>
+        </type>
+        <type type="struct" name="Executor">
+          <field type="ident" def="Tester" name="tester"/>
+          <field type="ident" def="Parser" name="parser"/>
+          <field type="ident" def="string" name="status"/>
+          <field type="channel" dir="3" name="statusChan">
+            <type type="channel" dir="3">
+              <type type="ident" def="string"/>
+            </type>
+          </field>
+          <field type="ident" def="bool" name="statusFlag"/>
+        </type>
+        <type name="Parser" type="interface">
+          <method name="Parse">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="pointer">
+                  <type type="selector">
+                    <prefix value="contract"/>
+                    <item value="Package"/>
+                  </type>
+                </elmtype>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type name="Tester" type="interface">
+          <method name="SetBatchSize">
+            <paramsList>
+              <type type="ident" def="int"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="TestAll">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="pointer">
+                  <type type="selector">
+                    <prefix value="contract"/>
+                    <item value="Package"/>
+                  </type>
+                </elmtype>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+      </types>
+      <functions>
+        <function name="SetBatchSize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ConcurrentTester"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="TestAll">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ConcurrentTester"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="selector">
+                  <prefix value="contract"/>
+                  <item value="Package"/>
+                </type>
+              </elmtype>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="NewConcurrentTester">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="contract"/>
+              <item value="Shell"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="ConcurrentTester"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Status">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Executor"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="ClearStatusFlag">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Executor"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="ExecuteTests">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Executor"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="selector">
+                  <prefix value="contract"/>
+                  <item value="Package"/>
+                </type>
+              </elmtype>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="contract"/>
+                <item value="CompleteOutput"/>
+              </type>
+            </type>
+          </resultsList>
+        </function>
+        <function name="NewExecutor">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Tester"/>
+            <type type="ident" def="Parser"/>
+            <type type="channel" dir="3">
+              <type type="channel" dir="3">
+                <type type="ident" def="string"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Executor"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="ExecuteConcurrently">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="concurrentCoordinator"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+      </functions>
+      <names>
+        <name value="Idle"/>
+        <name value="Executing"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="flag"/>
+    <import path="fmt"/>
+    <import path="log"/>
+    <import path="net/http"/>
+    <import path="os"/>
+    <import path="path/filepath"/>
+    <import path="runtime"/>
+    <import path="strings"/>
+    <import path="time"/>
+    <import path="go/build"/>
+    <import path="github.com/smartystreets/goconvey/web/server/api"/>
+    <import path="github.com/smartystreets/goconvey/web/server/contract"/>
+    <import path="github.com/smartystreets/goconvey/web/server/executor"/>
+    <import path="github.com/smartystreets/goconvey/web/server/messaging"/>
+    <import path="github.com/smartystreets/goconvey/web/server/parser"/>
+    <import path="github.com/smartystreets/goconvey/web/server/system"/>
+    <import path="github.com/smartystreets/goconvey/web/server/watch"/>
+    <import path="github.com/jtolds/gls"/>
+    <import path="github.com/smartystreets/assertions"/>
+    <import path="io"/>
+    <import path="io/ioutil"/>
+    <import path="os/exec"/>
+    <import path="testing"/>
+    <import path="github.com/smartystreets/goconvey/convey"/>
+    <import path="sync"/>
+    <import path="errors"/>
+    <import path="regexp"/>
+    <import path="math"/>
+    <import path="encoding/json"/>
+    <import path="strconv"/>
+    <import path="github.com/smartystreets/goconvey/convey/reporting"/>
+    <import path="sort"/>
+    <import path="net/http/httptest"/>
+    <import path="net/url"/>
+    <import path="bytes"/>
+    <import path="reflect"/>
+    <import path="path"/>
+    <import path="github.com/smartystreets/goconvey/convey/gotest"/>
+  </imports>
+</project>

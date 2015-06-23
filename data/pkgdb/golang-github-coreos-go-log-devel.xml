@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-coreos-go-log-0-0.7.git840af6b.fc22">
+<project url="" commit="commit" nvr="golang-github-coreos-go-log-0-0.8.git840af6b.fc23">
   <packages>
     <package importpath="github.com/coreos/go-log/log">
       <types>
@@ -42,14 +42,14 @@
           <paramsList>
             <type type="ident" def="Fields"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="NullSink">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Sink"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Log">
           <recvList>
@@ -60,7 +60,7 @@
           <paramsList>
             <type type="ident" def="Fields"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="WriterSink">
           <recvList/>
@@ -74,9 +74,9 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Sink"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Log">
           <recvList>
@@ -87,14 +87,14 @@
           <paramsList>
             <type type="ident" def="Fields"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="JournalSink">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Sink"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Log">
           <recvList>
@@ -105,7 +105,7 @@
           <paramsList>
             <type type="ident" def="Fields"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="CombinedSink">
           <recvList/>
@@ -119,9 +119,9 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Sink"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Log">
           <recvList>
@@ -132,7 +132,7 @@
           <paramsList>
             <type type="ident" def="Fields"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="PriorityFilter">
           <recvList/>
@@ -140,18 +140,18 @@
             <type type="ident" def="Priority"/>
             <type type="ident" def="Sink"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Sink"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="Priority"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="New">
           <recvList/>
@@ -162,11 +162,11 @@
               <type type="ident" def="Sink"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Logger"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewSimple">
           <recvList/>
@@ -175,11 +175,11 @@
               <type type="ident" def="Sink"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Logger"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Log">
           <recvList>
@@ -193,7 +193,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Logf">
           <recvList>
@@ -208,7 +208,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Emergency">
           <recvList>
@@ -221,7 +221,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Emergencyf">
           <recvList>
@@ -235,7 +235,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Alert">
           <recvList>
@@ -248,7 +248,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Alertf">
           <recvList>
@@ -262,7 +262,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Critical">
           <recvList>
@@ -275,7 +275,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Criticalf">
           <recvList>
@@ -289,7 +289,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Error">
           <recvList>
@@ -302,7 +302,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Errorf">
           <recvList>
@@ -316,7 +316,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warning">
           <recvList>
@@ -329,7 +329,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warningf">
           <recvList>
@@ -343,7 +343,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Notice">
           <recvList>
@@ -356,7 +356,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Noticef">
           <recvList>
@@ -370,7 +370,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Info">
           <recvList>
@@ -383,7 +383,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Infof">
           <recvList>
@@ -397,7 +397,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Debug">
           <recvList>
@@ -410,7 +410,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Debugf">
           <recvList>
@@ -424,7 +424,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Emergency">
           <recvList/>
@@ -433,7 +433,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Emergencyf">
           <recvList/>
@@ -443,7 +443,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Alert">
           <recvList/>
@@ -452,7 +452,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Alertf">
           <recvList/>
@@ -462,7 +462,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Critical">
           <recvList/>
@@ -471,7 +471,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Criticalf">
           <recvList/>
@@ -481,7 +481,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Error">
           <recvList/>
@@ -490,7 +490,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Errorf">
           <recvList/>
@@ -500,7 +500,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warning">
           <recvList/>
@@ -509,7 +509,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warningf">
           <recvList/>
@@ -519,7 +519,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Notice">
           <recvList/>
@@ -528,7 +528,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Noticef">
           <recvList/>
@@ -538,7 +538,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Info">
           <recvList/>
@@ -547,7 +547,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Infof">
           <recvList/>
@@ -557,7 +557,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Debug">
           <recvList/>
@@ -566,7 +566,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Debugf">
           <recvList/>
@@ -576,7 +576,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatalln">
           <recvList>
@@ -589,7 +589,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatalf">
           <recvList>
@@ -603,7 +603,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Panicln">
           <recvList>
@@ -616,7 +616,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Panicf">
           <recvList>
@@ -630,7 +630,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Println">
           <recvList>
@@ -643,7 +643,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Printf">
           <recvList>
@@ -657,7 +657,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatalln">
           <recvList/>
@@ -666,7 +666,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatalf">
           <recvList/>
@@ -676,7 +676,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Panicln">
           <recvList/>
@@ -685,7 +685,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Panicf">
           <recvList/>
@@ -695,7 +695,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Println">
           <recvList/>
@@ -704,7 +704,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Printf">
           <recvList/>
@@ -714,7 +714,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
       </functions>
       <names>

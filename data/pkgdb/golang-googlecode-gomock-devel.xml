@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-googlecode-gomock-0-0.1.hge033c7513ca3.fc22">
+<project url="" commit="commit" nvr="golang-googlecode-gomock-0-0.2.hge033c7513ca3.fc23">
   <packages>
     <package importpath="code.google.com/p/gomock/gomock/mock_matcher">
       <types>
@@ -26,11 +26,11 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="MockMatcher"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="EXPECT">
           <recvList>
@@ -39,11 +39,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="_MockMatcherRecorder"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Matches">
           <recvList>
@@ -54,9 +54,9 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Matches">
           <recvList>
@@ -67,14 +67,14 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -83,9 +83,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -94,14 +94,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>
@@ -226,7 +226,7 @@
           <method name="ConcreteRet">
             <paramsList/>
             <resultsList>
-              <type type="chan" dir="1">
+              <type type="channel" dir="1">
                 <type type="ident" def="bool"/>
               </type>
             </resultsList>
@@ -273,10 +273,10 @@
           </method>
           <method name="Chan">
             <paramsList>
-              <type type="chan" dir="3">
+              <type type="channel" dir="3">
                 <type type="ident" def="int"/>
               </type>
-              <type type="chan" dir="1">
+              <type type="channel" dir="1">
                 <type type="selector">
                   <prefix value="hash"/>
                   <item value="Hash"/>
@@ -340,16 +340,16 @@
               <elmtype type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="GrabPointer">
           <recvList/>
           <paramsList>
             <type type="ident" def="Index"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>
@@ -389,7 +389,7 @@
               <type type="pointer">
                 <type type="ident" def="ImpT"/>
               </type>
-              <type type="chan" dir="3">
+              <type type="channel" dir="3">
                 <type type="ident" def="ImpT"/>
               </type>
             </paramsList>
@@ -518,7 +518,7 @@
               <item value="Writer"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Imports">
           <recvList>
@@ -527,12 +527,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="map">
               <keytype type="ident" def="string"/>
               <valtype type="ident" def="bool"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Print">
           <recvList>
@@ -546,7 +546,7 @@
               <item value="Writer"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Print">
           <recvList>
@@ -560,7 +560,7 @@
               <item value="Writer"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Print">
           <recvList>
@@ -574,7 +574,7 @@
               <item value="Writer"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="String">
           <recvList>
@@ -589,9 +589,9 @@
             </type>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -606,9 +606,9 @@
             </type>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -623,9 +623,9 @@
             </type>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -640,9 +640,9 @@
             </type>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -657,9 +657,9 @@
             </type>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -674,9 +674,9 @@
             </type>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -689,9 +689,9 @@
             </type>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="InterfaceFromInterfaceType">
           <recvList/>
@@ -701,12 +701,12 @@
               <item value="Type"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Interface"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>
@@ -797,16 +797,16 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Matches">
           <recvList>
@@ -815,34 +815,34 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="eqMatcher"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Matches">
           <recvList/>
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Matches">
           <recvList>
@@ -851,61 +851,61 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="notMatcher"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Any">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Matcher"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Eq">
           <recvList/>
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Matcher"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Nil">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Matcher"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Not">
           <recvList/>
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Matcher"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewController">
           <recvList/>
           <paramsList>
             <type type="ident" def="TestReporter"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Controller"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RecordCall">
           <recvList>
@@ -920,11 +920,11 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Call"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Call">
           <recvList>
@@ -939,11 +939,11 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="interface"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Finish">
           <recvList>
@@ -952,7 +952,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Add">
           <recvList>
@@ -963,7 +963,7 @@
               <type type="ident" def="Call"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Remove">
           <recvList>
@@ -974,7 +974,7 @@
               <type type="ident" def="Call"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="FindMatch">
           <recvList>
@@ -987,11 +987,11 @@
               <elmtype type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Call"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AnyTimes">
           <recvList>
@@ -1000,11 +1000,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Call"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Do">
           <recvList>
@@ -1015,11 +1015,11 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Call"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Return">
           <recvList>
@@ -1032,11 +1032,11 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Call"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Times">
           <recvList>
@@ -1047,11 +1047,11 @@
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Call"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetArg">
           <recvList>
@@ -1063,11 +1063,11 @@
             <type type="ident" def="int"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Call"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="After">
           <recvList>
@@ -1080,11 +1080,11 @@
               <type type="ident" def="Call"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Call"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -1093,9 +1093,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="InOrder">
           <recvList/>
@@ -1106,7 +1106,7 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
       </functions>
       <names/>
@@ -1165,11 +1165,11 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="MockIndex"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="EXPECT">
           <recvList>
@@ -1178,11 +1178,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="_MockIndexRecorder"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Anon">
           <recvList>
@@ -1193,7 +1193,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Anon">
           <recvList>
@@ -1204,14 +1204,14 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Chan">
           <recvList>
@@ -1220,17 +1220,17 @@
             </type>
           </recvList>
           <paramsList>
-            <type type="chan" dir="3">
+            <type type="channel" dir="3">
               <type type="ident" def="int"/>
             </type>
-            <type type="chan" dir="1">
+            <type type="channel" dir="1">
               <type type="selector">
                 <prefix value="hash"/>
                 <item value="Hash"/>
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Chan">
           <recvList>
@@ -1242,14 +1242,14 @@
             <type type="interface"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ConcreteRet">
           <recvList>
@@ -1258,11 +1258,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
-            <type type="chan" dir="1">
+          <resultsList>
+            <type type="channel" dir="1">
               <type type="ident" def="bool"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ConcreteRet">
           <recvList>
@@ -1271,14 +1271,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Ellip">
           <recvList>
@@ -1292,7 +1292,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Ellip">
           <recvList>
@@ -1306,14 +1306,14 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="EllipOnly">
           <recvList>
@@ -1326,7 +1326,7 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="EllipOnly">
           <recvList>
@@ -1339,14 +1339,14 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ForeignFour">
           <recvList>
@@ -1360,7 +1360,7 @@
               <item value="Imp4"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="ForeignFour">
           <recvList>
@@ -1371,14 +1371,14 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ForeignOne">
           <recvList>
@@ -1392,7 +1392,7 @@
               <item value="Imp1"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="ForeignOne">
           <recvList>
@@ -1403,14 +1403,14 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ForeignThree">
           <recvList>
@@ -1424,7 +1424,7 @@
               <item value="Imp3"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="ForeignThree">
           <recvList>
@@ -1435,14 +1435,14 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ForeignTwo">
           <recvList>
@@ -1456,7 +1456,7 @@
               <item value="Imp2"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="ForeignTwo">
           <recvList>
@@ -1467,14 +1467,14 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Func">
           <recvList>
@@ -1496,7 +1496,7 @@
               </resultsList>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Func">
           <recvList>
@@ -1507,14 +1507,14 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Get">
           <recvList>
@@ -1525,9 +1525,9 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Get">
           <recvList>
@@ -1538,14 +1538,14 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetTwo">
           <recvList>
@@ -1557,10 +1557,10 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetTwo">
           <recvList>
@@ -1572,14 +1572,14 @@
             <type type="interface"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Map">
           <recvList>
@@ -1596,7 +1596,7 @@
               </valtype>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Map">
           <recvList>
@@ -1607,14 +1607,14 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NillableRet">
           <recvList>
@@ -1623,9 +1623,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NillableRet">
           <recvList>
@@ -1634,14 +1634,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Other">
           <recvList>
@@ -1650,12 +1650,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="hash"/>
               <item value="Hash"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Other">
           <recvList>
@@ -1664,14 +1664,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Ptr">
           <recvList>
@@ -1684,7 +1684,7 @@
               <type type="ident" def="int"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Ptr">
           <recvList>
@@ -1695,14 +1695,14 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Put">
           <recvList>
@@ -1714,7 +1714,7 @@
             <type type="ident" def="string"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Put">
           <recvList>
@@ -1726,14 +1726,14 @@
             <type type="interface"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Slice">
           <recvList>
@@ -1749,11 +1749,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="array">
               <elmtype type="ident" def="int"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Slice">
           <recvList>
@@ -1765,14 +1765,14 @@
             <type type="interface"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Summary">
           <recvList>
@@ -1792,7 +1792,7 @@
               <item value="Writer"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Summary">
           <recvList>
@@ -1804,14 +1804,14 @@
             <type type="interface"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Templates">
           <recvList>
@@ -1829,7 +1829,7 @@
               <item value="FuncMap"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Templates">
           <recvList>
@@ -1841,14 +1841,14 @@
             <type type="interface"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewMockEmbed">
           <recvList/>
@@ -1860,11 +1860,11 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="MockEmbed"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="EXPECT">
           <recvList>
@@ -1873,11 +1873,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="_MockEmbedRecorder"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="EmbeddedMethod">
           <recvList>
@@ -1886,7 +1886,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="EmbeddedMethod">
           <recvList>
@@ -1895,14 +1895,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ForeignEmbeddedMethod">
           <recvList>
@@ -1911,14 +1911,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="bufio"/>
                 <item value="Reader"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ForeignEmbeddedMethod">
           <recvList>
@@ -1927,14 +1927,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ImplicitPackage">
           <recvList>
@@ -1960,14 +1960,14 @@
                 <item value="ImpT"/>
               </type>
             </type>
-            <type type="chan" dir="3">
+            <type type="channel" dir="3">
               <type type="selector">
                 <prefix value="imp1"/>
                 <item value="ImpT"/>
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="ImplicitPackage">
           <recvList>
@@ -1982,14 +1982,14 @@
             <type type="interface"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RegularMethod">
           <recvList>
@@ -1998,7 +1998,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="RegularMethod">
           <recvList>
@@ -2007,14 +2007,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewMockEmbedded">
           <recvList/>
@@ -2026,11 +2026,11 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="MockEmbedded"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="EXPECT">
           <recvList>
@@ -2039,11 +2039,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="_MockEmbeddedRecorder"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="EmbeddedMethod">
           <recvList>
@@ -2052,7 +2052,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="EmbeddedMethod">
           <recvList>
@@ -2061,14 +2061,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="gomock"/>
                 <item value="Call"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>

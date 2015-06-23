@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-jonboulle-clockwork-0-0.1.git3f831b6.fc22">
+<project url="" commit="commit" nvr="golang-github-jonboulle-clockwork-0-0.2.git3f831b6.fc23">
   <packages>
     <package importpath="github.com/jonboulle/clockwork">
       <types>
@@ -12,7 +12,7 @@
               </type>
             </paramsList>
             <resultsList>
-              <type type="chan" dir="2">
+              <type type="channel" dir="2">
                 <type type="selector">
                   <prefix value="time"/>
                   <item value="Time"/>
@@ -61,16 +61,16 @@
         <function name="NewRealClock">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Clock"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewFakeClock">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="FakeClock"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="After">
           <recvList>
@@ -84,14 +84,14 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList>
-            <type type="chan" dir="2">
+          <resultsList>
+            <type type="channel" dir="2">
               <type type="selector">
                 <prefix value="time"/>
                 <item value="Time"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sleep">
           <recvList>
@@ -105,7 +105,7 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Now">
           <recvList>
@@ -114,12 +114,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="time"/>
               <item value="Time"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="After">
           <recvList>
@@ -133,14 +133,14 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList>
-            <type type="chan" dir="2">
+          <resultsList>
+            <type type="channel" dir="2">
               <type type="selector">
                 <prefix value="time"/>
                 <item value="Time"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sleep">
           <recvList>
@@ -154,7 +154,7 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Now">
           <recvList>
@@ -163,12 +163,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="time"/>
               <item value="Time"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Advance">
           <recvList>
@@ -182,7 +182,7 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="BlockUntil">
           <recvList>
@@ -193,7 +193,7 @@
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
       </functions>
       <names/>

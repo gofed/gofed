@@ -1,0 +1,1346 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit" nvr="golang-github-spacemonkeygo-spacelog-0-0.1.gitae95ccc.fc23">
+  <packages>
+    <package importpath="github.com/spacemonkeygo/spacelog">
+      <types>
+        <type type="struct" name="TextHandler">
+          <field type="selector" name="mtx">
+            <prefix value="sync"/>
+            <item value="RWMutex"/>
+          </field>
+          <field type="pointer" name="template">
+            <type type="selector">
+              <prefix value="template"/>
+              <item value="Template"/>
+            </type>
+          </field>
+          <field type="ident" def="TextOutput" name="output"/>
+        </type>
+        <type name="SyslogPriority" type="ident">
+          <type type="ident" def="int"/>
+        </type>
+        <type name="SyslogPriority" type="selector">
+          <prefix value="syslog"/>
+          <item value="Priority"/>
+        </type>
+        <type type="struct" name="SyslogOutput">
+          <field type="pointer" name="w">
+            <type type="selector">
+              <prefix value="syslog"/>
+              <item value="Writer"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="SetupConfig">
+          <field type="ident" def="string" name="Output"/>
+          <field type="ident" def="string" name="Level"/>
+          <field type="ident" def="string" name="Filter"/>
+          <field type="ident" def="string" name="Format"/>
+          <field type="ident" def="string" name="Stdlevel"/>
+          <field type="ident" def="string" name="Subproc"/>
+          <field type="ident" def="int" name="Buffer"/>
+          <field type="ident" def="int" name="Facility"/>
+          <field type="ident" def="bool" name="HupRotate"/>
+        </type>
+        <type name="TextOutput" type="interface">
+          <method name="Output">
+            <paramsList>
+              <type type="ident" def="LogLevel"/>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="WriterOutput">
+          <field type="selector" name="w">
+            <prefix value="io"/>
+            <item value="Writer"/>
+          </field>
+        </type>
+        <type type="struct" name="StdlibOutput"/>
+        <type type="struct" name="BufferedOutput">
+          <field type="ident" def="TextOutput" name="o"/>
+          <field type="channel" dir="3" name="c">
+            <type type="ident" def="bufferMsg"/>
+          </field>
+          <field type="selector" name="running">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="selector" name="close_once">
+            <prefix value="sync"/>
+            <item value="Once"/>
+          </field>
+        </type>
+        <type name="HupHandlingTextOutput" type="interface">
+          <method name="OnHup">
+            <paramsList/>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="FileWriterOutput">
+          <field type="pointer" name="">
+            <type type="ident" def="WriterOutput"/>
+          </field>
+          <field type="ident" def="string" name="path"/>
+        </type>
+        <type type="struct" name="Logger">
+          <field type="ident" def="LogLevel" name="level"/>
+          <field type="ident" def="string" name="name"/>
+          <field type="pointer" name="collection">
+            <type type="ident" def="LoggerCollection"/>
+          </field>
+          <field type="selector" name="handler_mtx">
+            <prefix value="sync"/>
+            <item value="RWMutex"/>
+          </field>
+          <field type="ident" def="Handler" name="handler"/>
+        </type>
+        <type name="LogLevel" type="ident">
+          <type type="ident" def="int32"/>
+        </type>
+        <type name="Handler" type="interface">
+          <method name="Log">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ident" def="LogLevel"/>
+              <type type="ident" def="string"/>
+              <type type="ident" def="int"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="SetTextTemplate">
+            <paramsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="template"/>
+                  <item value="Template"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="SetTextOutput">
+            <paramsList>
+              <type type="ident" def="TextOutput"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type name="HandlerFunc" type="func">
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="LogLevel"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList/>
+        </type>
+        <type type="struct" name="TermColors"/>
+        <type type="struct" name="LogEvent">
+          <field type="ident" def="string" name="LoggerName"/>
+          <field type="ident" def="LogLevel" name="Level"/>
+          <field type="ident" def="string" name="Message"/>
+          <field type="ident" def="string" name="Filepath"/>
+          <field type="ident" def="int" name="Line"/>
+          <field type="selector" name="Timestamp">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="ident" def="TermColors" name=""/>
+        </type>
+        <type type="struct" name="LoggerCollection">
+          <field type="selector" name="mtx">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="map" name="loggers">
+            <keytype type="ident" def="string"/>
+            <valtype type="pointer">
+              <type type="ident" def="Logger"/>
+            </valtype>
+          </field>
+          <field type="ident" def="LogLevel" name="level"/>
+          <field type="ident" def="Handler" name="handler"/>
+        </type>
+      </types>
+      <functions>
+        <function name="NewTextHandler">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="template"/>
+                <item value="Template"/>
+              </type>
+            </type>
+            <type type="ident" def="TextOutput"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="TextHandler"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Log">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TextHandler"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="LogLevel"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SetTextTemplate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TextHandler"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="template"/>
+                <item value="Template"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SetTextOutput">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TextHandler"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="TextOutput"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="ColorizeLevel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="LogLevel"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="NewSyslogOutput">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="SyslogPriority"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="TextOutput"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewSyslogOutput">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="SyslogPriority"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="TextOutput"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Output">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="SyslogOutput"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="LogLevel"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SetFormatMethod">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="MustSetup">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="SetupConfig"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Setup">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="SetupConfig"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewWriterOutput">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="WriterOutput"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Output">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="WriterOutput"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="LogLevel"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Output">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="LogLevel"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="NewBufferedOutput">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="TextOutput"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="BufferedOutput"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BufferedOutput"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Output">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BufferedOutput"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="LogLevel"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="NewFileWriterOutput">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="FileWriterOutput"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Output">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FileWriterOutput"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="LogLevel"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="OnHup">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FileWriterOutput"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Scope">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="LogLevel"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="ident" def="LogLevel"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Match">
+          <recvList>
+            <type type="ident" def="LogLevel"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="LogLevel"/>
+          </resultsList>
+        </function>
+        <function name="LevelFromString">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="LogLevel"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Log">
+          <recvList>
+            <type type="ident" def="HandlerFunc"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="LogLevel"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SetTextTemplate">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="template"/>
+                <item value="Template"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SetTextOutput">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="TextOutput"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Reset">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Bold">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Underline">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Black">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Red">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Green">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Yellow">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Blue">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Magenta">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Cyan">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="White">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Filename">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEvent"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Time">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEvent"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Date">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEvent"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="LevelJustified">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LogEvent"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Debug">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Debugf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Debuge">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="DebugEnabled">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Info">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Infof">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Infoe">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="InfoEnabled">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Notice">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Noticef">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Noticee">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="NoticeEnabled">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Warn">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Warnf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Warne">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="WarnEnabled">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Errorf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Errore">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="ErrorEnabled">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Crit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Critf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Crite">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="CritEnabled">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Log">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="LogLevel"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Logf">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="LogLevel"/>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Loge">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="LogLevel"/>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="LevelEnabled">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="LogLevel"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="writer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Writer">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="LogLevel"/>
+          </paramsList>
+          <resultsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="writerNoCaller"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="WriterWithoutCaller">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="LogLevel"/>
+          </paramsList>
+          <resultsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="NewLoggerCollection">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="LoggerCollection"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetLogger">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LoggerCollection"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetLoggerNamed">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LoggerCollection"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="SetLevel">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LoggerCollection"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="regexp"/>
+                <item value="Regexp"/>
+              </type>
+            </type>
+            <type type="ident" def="LogLevel"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SetHandler">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LoggerCollection"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="regexp"/>
+                <item value="Regexp"/>
+              </type>
+            </type>
+            <type type="ident" def="Handler"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SetTextTemplate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LoggerCollection"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="regexp"/>
+                <item value="Regexp"/>
+              </type>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="template"/>
+                <item value="Template"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SetTextOutput">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="LoggerCollection"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="regexp"/>
+                <item value="Regexp"/>
+              </type>
+            </type>
+            <type type="ident" def="TextOutput"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="GetLogger">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetLoggerNamed">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Logger"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="SetLevel">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="regexp"/>
+                <item value="Regexp"/>
+              </type>
+            </type>
+            <type type="ident" def="LogLevel"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SetHandler">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="regexp"/>
+                <item value="Regexp"/>
+              </type>
+            </type>
+            <type type="ident" def="Handler"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SetTextTemplate">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="regexp"/>
+                <item value="Regexp"/>
+              </type>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="template"/>
+                <item value="Template"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SetTextOutput">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="regexp"/>
+                <item value="Regexp"/>
+              </type>
+            </type>
+            <type type="ident" def="TextOutput"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="CaptureOutputToFd">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="CaptureOutputToFd">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="CaptureOutputToFile">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="CaptureOutputToProcess">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names>
+        <name value="DefaultTemplate"/>
+        <name value="DefaultTemplate"/>
+        <name value="ColorTemplate"/>
+        <name value="StandardTemplate"/>
+        <name value="SyslogTemplate"/>
+        <name value="StdlibTemplate"/>
+        <name value="Debug"/>
+        <name value="Info"/>
+        <name value="Notice"/>
+        <name value="Warning"/>
+        <name value="Error"/>
+        <name value="Critical"/>
+        <name value="DefaultLevel"/>
+        <name value="IgnoredPrefixes"/>
+        <name value="DefaultLoggerCollection"/>
+      </names>
+    </package>
+    <package importpath="github.com/spacemonkeygo/spacelog/setup">
+      <types/>
+      <functions>
+        <function name="SetFormatMethod">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="MustSetup">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Setup">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="MustSetupWithFacility">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="spacelog"/>
+              <item value="SyslogPriority"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="SetupWithFacility">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="spacelog"/>
+              <item value="SyslogPriority"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="bytes"/>
+    <import path="fmt"/>
+    <import path="runtime"/>
+    <import path="strings"/>
+    <import path="sync"/>
+    <import path="text/template"/>
+    <import path="time"/>
+    <import path="log/syslog"/>
+    <import path="log"/>
+    <import path="math"/>
+    <import path="os"/>
+    <import path="os/signal"/>
+    <import path="regexp"/>
+    <import path="syscall"/>
+    <import path="io"/>
+    <import path="sync/atomic"/>
+    <import path="strconv"/>
+    <import path="path/filepath"/>
+    <import path="os/exec"/>
+    <import path="github.com/spacemonkeygo/flagfile/utils"/>
+    <import path="github.com/spacemonkeygo/spacelog"/>
+  </imports>
+</project>

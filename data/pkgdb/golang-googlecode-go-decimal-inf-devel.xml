@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-googlecode-go-decimal-inf-0-0.1.hg42ca6cd68aa9.fc22">
+<project url="" commit="commit" nvr="golang-googlecode-go-decimal-inf-0-0.2.hg42ca6cd68aa9.fc23">
   <packages>
     <package importpath="speter.net/go/exp/math/dec/inf">
       <types>
@@ -23,9 +23,9 @@
             <type type="ident" def="rndr"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Round">
           <recvList>
@@ -51,11 +51,11 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewDec">
           <recvList/>
@@ -63,11 +63,11 @@
             <type type="ident" def="int64"/>
             <type type="ident" def="Scale"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewDecBig">
           <recvList/>
@@ -80,11 +80,11 @@
             </type>
             <type type="ident" def="Scale"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Scale">
           <recvList>
@@ -93,9 +93,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Scale"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Unscaled">
           <recvList>
@@ -104,10 +104,10 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="UnscaledBig">
           <recvList>
@@ -116,14 +116,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="big"/>
                 <item value="Int"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetScale">
           <recvList>
@@ -134,11 +134,11 @@
           <paramsList>
             <type type="ident" def="Scale"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetUnscaled">
           <recvList>
@@ -149,11 +149,11 @@
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetUnscaledBig">
           <recvList>
@@ -169,11 +169,11 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Set">
           <recvList>
@@ -186,11 +186,11 @@
               <type type="ident" def="Dec"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sign">
           <recvList>
@@ -199,9 +199,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Neg">
           <recvList>
@@ -214,11 +214,11 @@
               <type type="ident" def="Dec"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Cmp">
           <recvList>
@@ -231,9 +231,9 @@
               <type type="ident" def="Dec"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Abs">
           <recvList>
@@ -246,11 +246,11 @@
               <type type="ident" def="Dec"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Add">
           <recvList>
@@ -266,11 +266,11 @@
               <type type="ident" def="Dec"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sub">
           <recvList>
@@ -286,11 +286,11 @@
               <type type="ident" def="Dec"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Mul">
           <recvList>
@@ -306,11 +306,11 @@
               <type type="ident" def="Dec"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Round">
           <recvList>
@@ -325,11 +325,11 @@
             <type type="ident" def="Scale"/>
             <type type="ident" def="Rounder"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="QuoRound">
           <recvList>
@@ -347,11 +347,11 @@
             <type type="ident" def="Scale"/>
             <type type="ident" def="Rounder"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="QuoExact">
           <recvList>
@@ -367,11 +367,11 @@
               <type type="ident" def="Dec"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Scale">
           <recvList>
@@ -385,9 +385,9 @@
               <type type="ident" def="Dec"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Scale"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Scale">
           <recvList>
@@ -401,9 +401,9 @@
               <type type="ident" def="Dec"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Scale"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -412,9 +412,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Format">
           <recvList>
@@ -429,7 +429,7 @@
             </type>
             <type type="ident" def="rune"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetString">
           <recvList>
@@ -440,12 +440,12 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Dec"/>
             </type>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Scan">
           <recvList>
@@ -460,9 +460,9 @@
             </type>
             <type type="ident" def="rune"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GobEncode">
           <recvList>
@@ -471,12 +471,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GobDecode">
           <recvList>
@@ -489,9 +489,9 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="MarshalText">
           <recvList>
@@ -500,12 +500,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="UnmarshalText">
           <recvList>
@@ -518,9 +518,9 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>

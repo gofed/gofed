@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-vishvananda-netns-0-0.1.gite14a2d4.fc22">
+<project url="" commit="commit" nvr="golang-github-vishvananda-netns-0-0.3.git5478c06.fc23">
   <packages>
     <package importpath="github.com/vishvananda/netns">
       <types>
@@ -11,57 +11,57 @@
         <function name="Set">
           <recvList/>
           <paramsList>
-            <type type="ident" def="Namespace"/>
+            <type type="ident" def="NsHandle"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="New">
           <recvList/>
           <paramsList/>
-          <returnsList>
-            <type type="ident" def="Namespace"/>
+          <resultsList>
+            <type type="ident" def="NsHandle"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Get">
           <recvList/>
           <paramsList/>
-          <returnsList>
-            <type type="ident" def="Namespace"/>
+          <resultsList>
+            <type type="ident" def="NsHandle"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetFromName">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
-            <type type="ident" def="Namespace"/>
+          <resultsList>
+            <type type="ident" def="NsHandle"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetFromPid">
           <recvList/>
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
-            <type type="ident" def="Namespace"/>
+          <resultsList>
+            <type type="ident" def="NsHandle"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetFromDocker">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
-            <type type="ident" def="Namespace"/>
+          <resultsList>
+            <type type="ident" def="NsHandle"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Setns">
           <recvList/>
@@ -69,64 +69,75 @@
             <type type="ident" def="NsHandle"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Set">
           <recvList/>
           <paramsList>
             <type type="ident" def="NsHandle"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="New">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="NsHandle"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Get">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="NsHandle"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetFromName">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="NsHandle"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetFromPid">
           <recvList/>
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="NsHandle"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
+        </function>
+        <function name="GetFromThread">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="NsHandle"/>
+            <type type="ident" def="error"/>
+          </resultsList>
         </function>
         <function name="GetFromDocker">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="NsHandle"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Equal">
           <recvList>
@@ -135,27 +146,27 @@
           <paramsList>
             <type type="ident" def="NsHandle"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="NsHandle"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="IsOpen">
           <recvList>
             <type type="ident" def="NsHandle"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Close">
           <recvList>
@@ -164,20 +175,21 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="None">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="NsHandle"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>
         <name value="ErrNotImplemented"/>
+        <name value="SYS_SETNS"/>
         <name value="SYS_SETNS"/>
         <name value="SYS_SETNS"/>
         <name value="SYS_SETNS"/>
@@ -193,6 +205,7 @@
   <imports>
     <import path="errors"/>
     <import path="runtime"/>
+    <import path="sync"/>
     <import path="testing"/>
     <import path="fmt"/>
     <import path="io/ioutil"/>

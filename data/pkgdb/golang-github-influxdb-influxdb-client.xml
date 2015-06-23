@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-influxdb-influxdb-0.8.5-0.1.git9485e99.fc22">
+<project url="" commit="commit" nvr="golang-github-influxdb-influxdb-0.8.5-0.2.git9485e99.fc23">
   <packages>
     <package importpath="github.com/influxdb/influxdb/client/examples">
       <types/>
@@ -7,12 +7,12 @@
         <function name="TestClient">
           <recvList/>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="TestClientWithoutCompression">
           <recvList/>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
       </functions>
       <names/>
@@ -117,9 +117,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetColumns">
           <recvList>
@@ -128,11 +128,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="string"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetPoints">
           <recvList>
@@ -141,13 +141,13 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="slice">
                 <elmtype type="interface"/>
               </elmtype>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="New">
           <recvList/>
@@ -156,12 +156,12 @@
               <type type="ident" def="ClientConfig"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Client"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewClient">
           <recvList/>
@@ -170,12 +170,12 @@
               <type type="ident" def="ClientConfig"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Client"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DisableCompression">
           <recvList>
@@ -184,7 +184,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="CreateDatabase">
           <recvList>
@@ -195,9 +195,9 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeleteDatabase">
           <recvList>
@@ -208,9 +208,9 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetDatabaseList">
           <recvList>
@@ -219,7 +219,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="map">
                 <keytype type="ident" def="string"/>
@@ -227,7 +227,7 @@
               </elmtype>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CreateClusterAdmin">
           <recvList>
@@ -239,9 +239,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="UpdateClusterAdmin">
           <recvList>
@@ -253,9 +253,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeleteClusterAdmin">
           <recvList>
@@ -266,9 +266,9 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetClusterAdminList">
           <recvList>
@@ -277,7 +277,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="map">
                 <keytype type="ident" def="string"/>
@@ -285,7 +285,7 @@
               </elmtype>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Servers">
           <recvList>
@@ -294,7 +294,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="map">
                 <keytype type="ident" def="string"/>
@@ -302,7 +302,7 @@
               </elmtype>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RemoveServer">
           <recvList>
@@ -313,9 +313,9 @@
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CreateDatabaseUser">
           <recvList>
@@ -331,9 +331,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ChangeClusterAdminPassword">
           <recvList>
@@ -345,9 +345,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ChangeDatabaseUser">
           <recvList>
@@ -364,9 +364,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="UpdateDatabaseUser">
           <recvList>
@@ -379,9 +379,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="UpdateDatabaseUserPermissions">
           <recvList>
@@ -395,9 +395,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeleteDatabaseUser">
           <recvList>
@@ -409,9 +409,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetDatabaseUserList">
           <recvList>
@@ -422,7 +422,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="map">
                 <keytype type="ident" def="string"/>
@@ -430,7 +430,7 @@
               </elmtype>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AlterDatabasePrivilege">
           <recvList>
@@ -446,9 +446,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WriteSeries">
           <recvList>
@@ -463,9 +463,9 @@
               </elmtype>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WriteSeriesOverUDP">
           <recvList>
@@ -480,9 +480,9 @@
               </elmtype>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WriteSeriesWithTimePrecision">
           <recvList>
@@ -498,9 +498,9 @@
             </type>
             <type type="ident" def="TimePrecision"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Query">
           <recvList>
@@ -514,14 +514,14 @@
               <type type="ident" def="TimePrecision"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="pointer">
                 <type type="ident" def="Series"/>
               </elmtype>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="QueryWithNumbers">
           <recvList>
@@ -535,14 +535,14 @@
               <type type="ident" def="TimePrecision"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="pointer">
                 <type type="ident" def="Series"/>
               </elmtype>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Ping">
           <recvList>
@@ -551,9 +551,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AuthenticateDatabaseUser">
           <recvList>
@@ -566,9 +566,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AuthenticateClusterAdmin">
           <recvList>
@@ -580,9 +580,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetShards">
           <recvList>
@@ -591,12 +591,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="LongTermShortTermShards"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetShardSpaces">
           <recvList>
@@ -605,14 +605,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="pointer">
                 <type type="ident" def="ShardSpace"/>
               </elmtype>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DropShardSpace">
           <recvList>
@@ -624,9 +624,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CreateShardSpace">
           <recvList>
@@ -640,9 +640,9 @@
               <type type="ident" def="ShardSpace"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DropShard">
           <recvList>
@@ -656,9 +656,9 @@
               <elmtype type="ident" def="uint32"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="UpdateShardSpace">
           <recvList>
@@ -673,9 +673,9 @@
               <type type="ident" def="ShardSpace"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>

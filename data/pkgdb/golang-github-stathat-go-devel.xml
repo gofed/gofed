@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-stathat-go-0-0.1.git01d012b.fc22">
+<project url="" commit="commit" nvr="golang-github-stathat-go-0-0.2.git01d012b.fc23">
   <packages>
     <package importpath="github.com/stathat/go">
       <types>
         <type type="struct" name="Reporter">
-          <field type="chan" dir="3" name="reports">
+          <field type="channel" dir="3" name="reports">
             <type type="pointer">
               <type type="ident" def="statReport"/>
             </type>
           </field>
-          <field type="chan" dir="3" name="done">
+          <field type="channel" dir="3" name="done">
             <type type="ident" def="bool"/>
           </field>
           <field type="pointer" name="client">
@@ -37,11 +37,11 @@
               <item value="RoundTripper"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Reporter"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostCount">
           <recvList/>
@@ -50,9 +50,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostCountTime">
           <recvList/>
@@ -62,9 +62,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostCountOne">
           <recvList/>
@@ -72,9 +72,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostValue">
           <recvList/>
@@ -83,9 +83,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostValueTime">
           <recvList/>
@@ -95,9 +95,9 @@
             <type type="ident" def="float64"/>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostEZCountOne">
           <recvList/>
@@ -105,9 +105,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostEZCount">
           <recvList/>
@@ -116,9 +116,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostEZCountTime">
           <recvList/>
@@ -128,9 +128,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostEZValue">
           <recvList/>
@@ -139,9 +139,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostEZValueTime">
           <recvList/>
@@ -151,9 +151,9 @@
             <type type="ident" def="float64"/>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WaitUntilFinished">
           <recvList/>
@@ -163,9 +163,9 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostCount">
           <recvList>
@@ -178,9 +178,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostCountTime">
           <recvList>
@@ -194,9 +194,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostCountOne">
           <recvList>
@@ -208,9 +208,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostValue">
           <recvList>
@@ -223,9 +223,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostValueTime">
           <recvList>
@@ -239,9 +239,9 @@
             <type type="ident" def="float64"/>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostEZCountOne">
           <recvList>
@@ -253,9 +253,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostEZCount">
           <recvList>
@@ -268,9 +268,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostEZCountTime">
           <recvList>
@@ -284,9 +284,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostEZValue">
           <recvList>
@@ -299,9 +299,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostEZValueTime">
           <recvList>
@@ -315,9 +315,9 @@
             <type type="ident" def="float64"/>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WaitUntilFinished">
           <recvList>
@@ -331,9 +331,9 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>

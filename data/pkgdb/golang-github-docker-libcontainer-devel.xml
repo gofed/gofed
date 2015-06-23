@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-docker-libcontainer-1.4.0-3.gitbada39c.fc23">
+<project url="" commit="commit" nvr="golang-github-docker-libcontainer-2.1.1-0.3.gitc964368.fc23">
   <packages>
     <package importpath="github.com/docker/libcontainer/utils">
       <types/>
@@ -403,6 +403,13 @@
               <type type="ident" def="NetworkInterface"/>
             </elmtype>
           </field>
+        </type>
+        <type type="struct" name="Stats">
+          <field type="slice" name="Interfaces">
+            <elmtype type="pointer">
+              <type type="ident" def="NetworkInterface"/>
+            </elmtype>
+          </field>
           <field type="pointer" name="CgroupStats">
             <type type="selector">
               <prefix value="cgroups"/>
@@ -462,6 +469,7 @@
           <field type="slice" name="InitArgs">
             <elmtype type="ident" def="string"/>
           </field>
+          <field type="ident" def="string" name="CriuPath"/>
           <field type="selector" name="Validator">
             <prefix value="validate"/>
             <item value="Validator"/>
@@ -547,6 +555,19 @@
             </resultsList>
           </method>
         </type>
+        <type type="struct" name="CriuPageServerInfo">
+          <field type="ident" def="string" name="Address"/>
+          <field type="ident" def="int32" name="Port"/>
+        </type>
+        <type type="struct" name="CriuOpts">
+          <field type="ident" def="string" name="ImagesDirectory"/>
+          <field type="ident" def="string" name="WorkDirectory"/>
+          <field type="ident" def="bool" name="LeaveRunning"/>
+          <field type="ident" def="bool" name="TcpEstablished"/>
+          <field type="ident" def="bool" name="ExternalUnixConnections"/>
+          <field type="ident" def="bool" name="ShellJob"/>
+          <field type="ident" def="CriuPageServerInfo" name="PageServer"/>
+        </type>
         <type name="Status" type="ident">
           <type type="ident" def="int"/>
         </type>
@@ -568,6 +589,9 @@
           <field type="selector" name="Config">
             <prefix value="configs"/>
             <item value="Config"/>
+          </field>
+          <field type="slice" name="ExternalDescriptors">
+            <elmtype type="ident" def="string"/>
           </field>
         </type>
         <type name="Container" type="interface">
@@ -635,6 +659,29 @@
             <paramsList>
               <type type="pointer">
                 <type type="ident" def="Process"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Checkpoint">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="CriuOpts"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Restore">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="Process"/>
+              </type>
+              <type type="pointer">
+                <type type="ident" def="CriuOpts"/>
               </type>
             </paramsList>
             <resultsList>
@@ -1116,6 +1163,104 @@
             <type type="ident" def="error"/>
           </resultsList>
         </function>
+        <function name="Checkpoint">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="linuxContainer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Restore">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="linuxContainer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Process"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Fd">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="windowsConsole"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="uintptr"/>
+          </resultsList>
+        </function>
+        <function name="Path">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="windowsConsole"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Read">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="windowsConsole"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="windowsConsole"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="windowsConsole"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
         <function name="Fd">
           <recvList>
             <type type="pointer">
@@ -1195,6 +1340,7 @@
         <name value="Running"/>
         <name value="Pausing"/>
         <name value="Paused"/>
+        <name value="Checkpointed"/>
         <name value="Destroyed"/>
       </names>
     </package>
@@ -1407,1324 +1553,11 @@
       </functions>
       <names/>
     </package>
-    <package importpath="github.com/docker/libcontainer/label">
-      <types/>
-      <functions>
-        <function name="InitLabels">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="string"/>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GenLabels">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="FormatMountLabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="string"/>
-          </resultsList>
-        </function>
-        <function name="SetProcessLabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetProcessLabel">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="SetFileLabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="SetFileCreateLabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="Relabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetPidLabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="Init">
-          <recvList/>
-          <paramsList/>
-          <resultsList/>
-        </function>
-        <function name="ReserveLabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="UnreserveLabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="DupSecOpt">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="slice">
-              <elmtype type="ident" def="string"/>
-            </type>
-          </resultsList>
-        </function>
-        <function name="DisableSecOpt">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="slice">
-              <elmtype type="ident" def="string"/>
-            </type>
-          </resultsList>
-        </function>
-        <function name="InitLabels">
-          <recvList/>
-          <paramsList>
-            <type type="slice">
-              <elmtype type="ident" def="string"/>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GenLabels">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="FormatMountLabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="string"/>
-          </resultsList>
-        </function>
-        <function name="SetProcessLabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="SetFileLabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="SetFileCreateLabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="Relabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetPidLabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="Init">
-          <recvList/>
-          <paramsList/>
-          <resultsList/>
-        </function>
-        <function name="ReserveLabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="UnreserveLabel">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="DupSecOpt">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="slice">
-              <elmtype type="ident" def="string"/>
-            </type>
-          </resultsList>
-        </function>
-        <function name="DisableSecOpt">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="slice">
-              <elmtype type="ident" def="string"/>
-            </type>
-          </resultsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/docker/libcontainer/configs">
-      <types>
-        <type type="struct" name="Network">
-          <field type="ident" def="string" name="Type"/>
-          <field type="ident" def="string" name="Name"/>
-          <field type="ident" def="string" name="Bridge"/>
-          <field type="ident" def="string" name="MacAddress"/>
-          <field type="ident" def="string" name="Address"/>
-          <field type="ident" def="string" name="Gateway"/>
-          <field type="ident" def="string" name="IPv6Address"/>
-          <field type="ident" def="string" name="IPv6Gateway"/>
-          <field type="ident" def="int" name="Mtu"/>
-          <field type="ident" def="int" name="TxQueueLen"/>
-          <field type="ident" def="string" name="HostInterfaceName"/>
-          <field type="ident" def="bool" name="HairpinMode"/>
-        </type>
-        <type type="struct" name="Route">
-          <field type="ident" def="string" name="Destination"/>
-          <field type="ident" def="string" name="Source"/>
-          <field type="ident" def="string" name="Gateway"/>
-          <field type="ident" def="string" name="InterfaceName"/>
-        </type>
-        <type name="NamespaceType" type="ident">
-          <type type="ident" def="string"/>
-        </type>
-        <type type="struct" name="Namespace">
-          <field type="ident" def="NamespaceType" name="Type"/>
-          <field type="ident" def="string" name="Path"/>
-        </type>
-        <type name="Namespaces" type="slice">
-          <elmtype type="ident" def="Namespace"/>
-        </type>
-        <type type="struct" name="Mount">
-          <field type="ident" def="string" name="Source"/>
-          <field type="ident" def="string" name="Destination"/>
-          <field type="ident" def="string" name="Device"/>
-          <field type="ident" def="int" name="Flags"/>
-          <field type="ident" def="string" name="Data"/>
-          <field type="ident" def="string" name="Relabel"/>
-          <field type="slice" name="PremountCmds">
-            <elmtype type="ident" def="Command"/>
-          </field>
-          <field type="slice" name="PostmountCmds">
-            <elmtype type="ident" def="Command"/>
-          </field>
-        </type>
-        <type type="struct" name="Command">
-          <field type="ident" def="string" name="Path"/>
-          <field type="slice" name="Args">
-            <elmtype type="ident" def="string"/>
-          </field>
-          <field type="slice" name="Env">
-            <elmtype type="ident" def="string"/>
-          </field>
-          <field type="ident" def="string" name="Dir"/>
-        </type>
-        <type type="struct" name="Device">
-          <field type="ident" def="rune" name="Type"/>
-          <field type="ident" def="string" name="Path"/>
-          <field type="ident" def="int64" name="Major"/>
-          <field type="ident" def="int64" name="Minor"/>
-          <field type="ident" def="string" name="Permissions"/>
-          <field type="selector" name="FileMode">
-            <prefix value="os"/>
-            <item value="FileMode"/>
-          </field>
-          <field type="ident" def="uint32" name="Uid"/>
-          <field type="ident" def="uint32" name="Gid"/>
-        </type>
-        <type type="struct" name="Rlimit">
-          <field type="ident" def="int" name="Type"/>
-          <field type="ident" def="uint64" name="Hard"/>
-          <field type="ident" def="uint64" name="Soft"/>
-        </type>
-        <type type="struct" name="IDMap">
-          <field type="ident" def="int" name="ContainerID"/>
-          <field type="ident" def="int" name="HostID"/>
-          <field type="ident" def="int" name="Size"/>
-        </type>
-        <type type="struct" name="Config">
-          <field type="ident" def="bool" name="NoPivotRoot"/>
-          <field type="ident" def="int" name="ParentDeathSignal"/>
-          <field type="ident" def="string" name="PivotDir"/>
-          <field type="ident" def="string" name="Rootfs"/>
-          <field type="ident" def="bool" name="Readonlyfs"/>
-          <field type="ident" def="bool" name="Privatefs"/>
-          <field type="slice" name="Mounts">
-            <elmtype type="pointer">
-              <type type="ident" def="Mount"/>
-            </elmtype>
-          </field>
-          <field type="slice" name="Devices">
-            <elmtype type="pointer">
-              <type type="ident" def="Device"/>
-            </elmtype>
-          </field>
-          <field type="ident" def="string" name="MountLabel"/>
-          <field type="ident" def="string" name="Hostname"/>
-          <field type="ident" def="Namespaces" name="Namespaces"/>
-          <field type="slice" name="Capabilities">
-            <elmtype type="ident" def="string"/>
-          </field>
-          <field type="slice" name="Networks">
-            <elmtype type="pointer">
-              <type type="ident" def="Network"/>
-            </elmtype>
-          </field>
-          <field type="slice" name="Routes">
-            <elmtype type="pointer">
-              <type type="ident" def="Route"/>
-            </elmtype>
-          </field>
-          <field type="pointer" name="Cgroups">
-            <type type="ident" def="Cgroup"/>
-          </field>
-          <field type="ident" def="string" name="AppArmorProfile"/>
-          <field type="ident" def="string" name="ProcessLabel"/>
-          <field type="slice" name="Rlimits">
-            <elmtype type="ident" def="Rlimit"/>
-          </field>
-          <field type="slice" name="AdditionalGroups">
-            <elmtype type="ident" def="int"/>
-          </field>
-          <field type="slice" name="UidMappings">
-            <elmtype type="ident" def="IDMap"/>
-          </field>
-          <field type="slice" name="GidMappings">
-            <elmtype type="ident" def="IDMap"/>
-          </field>
-          <field type="slice" name="MaskPaths">
-            <elmtype type="ident" def="string"/>
-          </field>
-          <field type="slice" name="ReadonlyPaths">
-            <elmtype type="ident" def="string"/>
-          </field>
-        </type>
-        <type name="FreezerState" type="ident">
-          <type type="ident" def="string"/>
-        </type>
-        <type type="struct" name="Cgroup">
-          <field type="ident" def="string" name="Name"/>
-          <field type="ident" def="string" name="Parent"/>
-          <field type="ident" def="bool" name="AllowAllDevices"/>
-          <field type="slice" name="AllowedDevices">
-            <elmtype type="pointer">
-              <type type="ident" def="Device"/>
-            </elmtype>
-          </field>
-          <field type="ident" def="int64" name="Memory"/>
-          <field type="ident" def="int64" name="MemoryReservation"/>
-          <field type="ident" def="int64" name="MemorySwap"/>
-          <field type="ident" def="int64" name="CpuShares"/>
-          <field type="ident" def="int64" name="CpuQuota"/>
-          <field type="ident" def="int64" name="CpuPeriod"/>
-          <field type="ident" def="string" name="CpusetCpus"/>
-          <field type="ident" def="string" name="CpusetMems"/>
-          <field type="ident" def="int64" name="BlkioWeight"/>
-          <field type="ident" def="string" name="BlkioWeightDevice"/>
-          <field type="ident" def="FreezerState" name="Freezer"/>
-          <field type="ident" def="string" name="Slice"/>
-          <field type="ident" def="bool" name="OomKillDisable"/>
-        </type>
-      </types>
-      <functions>
-        <function name="NamespaceTypes">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="slice">
-              <elmtype type="ident" def="NamespaceType"/>
-            </type>
-          </resultsList>
-        </function>
-        <function name="Syscall">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Namespace"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="int"/>
-          </resultsList>
-        </function>
-        <function name="GetPath">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Namespace"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="string"/>
-          </resultsList>
-        </function>
-        <function name="Remove">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Namespaces"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="NamespaceType"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="bool"/>
-          </resultsList>
-        </function>
-        <function name="Add">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Namespaces"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="NamespaceType"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList/>
-        </function>
-        <function name="Contains">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Namespaces"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="NamespaceType"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="bool"/>
-          </resultsList>
-        </function>
-        <function name="CloneFlags">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Namespaces"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="uintptr"/>
-          </resultsList>
-        </function>
-        <function name="CgroupString">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Device"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="string"/>
-          </resultsList>
-        </function>
-        <function name="Mkdev">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Device"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="int"/>
-          </resultsList>
-        </function>
-        <function name="HostUID">
-          <recvList>
-            <type type="ident" def="Config"/>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="HostGID">
-          <recvList>
-            <type type="ident" def="Config"/>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-      </functions>
-      <names>
-        <name value="NEWNET"/>
-        <name value="NEWPID"/>
-        <name value="NEWNS"/>
-        <name value="NEWUTS"/>
-        <name value="NEWIPC"/>
-        <name value="NEWUSER"/>
-        <name value="DefaultSimpleDevices"/>
-        <name value="DefaultAllowedDevices"/>
-        <name value="DefaultAutoCreatedDevices"/>
-        <name value="Wildcard"/>
-        <name value="Undefined"/>
-        <name value="Frozen"/>
-        <name value="Thawed"/>
-      </names>
-    </package>
-    <package importpath="github.com/docker/libcontainer/integration">
-      <types/>
-      <functions/>
-      <names/>
-    </package>
-    <package importpath="github.com/docker/libcontainer/cgroups/systemd">
-      <types>
-        <type type="struct" name="Manager">
-          <field type="pointer" name="Cgroups">
-            <type type="selector">
-              <prefix value="configs"/>
-              <item value="Cgroup"/>
-            </type>
-          </field>
-          <field type="map" name="Paths">
-            <keytype type="ident" def="string"/>
-            <valtype type="ident" def="string"/>
-          </field>
-        </type>
-        <type type="struct" name="Manager">
-          <field type="pointer" name="Cgroups">
-            <type type="selector">
-              <prefix value="configs"/>
-              <item value="Cgroup"/>
-            </type>
-          </field>
-          <field type="map" name="Paths">
-            <keytype type="ident" def="string"/>
-            <valtype type="ident" def="string"/>
-          </field>
-        </type>
-      </types>
-      <functions>
-        <function name="UseSystemd">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="bool"/>
-          </resultsList>
-        </function>
-        <function name="Apply">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Manager"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="Destroy">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Manager"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetPaths">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Manager"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="ident" def="string"/>
-            </type>
-          </resultsList>
-        </function>
-        <function name="Freeze">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Manager"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="configs"/>
-              <item value="FreezerState"/>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetPids">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Manager"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="slice">
-              <elmtype type="ident" def="int"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetStats">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Manager"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="cgroups"/>
-                <item value="Stats"/>
-              </type>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="Set">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Manager"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="configs"/>
-                <item value="Config"/>
-              </type>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="ApplyDevices">
-          <recvList/>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="configs"/>
-                <item value="Cgroup"/>
-              </type>
-            </type>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="UseSystemd">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="bool"/>
-          </resultsList>
-        </function>
-        <function name="Apply">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Manager"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetPids">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Manager"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="slice">
-              <elmtype type="ident" def="int"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="Destroy">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Manager"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetPaths">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Manager"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="ident" def="string"/>
-            </type>
-          </resultsList>
-        </function>
-        <function name="GetStats">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Manager"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="cgroups"/>
-                <item value="Stats"/>
-              </type>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="Set">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Manager"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="configs"/>
-                <item value="Config"/>
-              </type>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="Freeze">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="Manager"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="selector">
-              <prefix value="configs"/>
-              <item value="FreezerState"/>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="ApplyDevices">
-          <recvList/>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="configs"/>
-                <item value="Cgroup"/>
-              </type>
-            </type>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="Freeze">
-          <recvList/>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="configs"/>
-                <item value="Cgroup"/>
-              </type>
-            </type>
-            <type type="selector">
-              <prefix value="configs"/>
-              <item value="FreezerState"/>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/docker/libcontainer/configs/validate">
-      <types>
-        <type name="Validator" type="interface">
-          <method name="Validate">
-            <paramsList>
-              <type type="pointer">
-                <type type="selector">
-                  <prefix value="configs"/>
-                  <item value="Config"/>
-                </type>
-              </type>
-            </paramsList>
-            <resultsList>
-              <type type="ident" def="error"/>
-            </resultsList>
-          </method>
-        </type>
-        <type type="struct" name="ConfigValidator"/>
-      </types>
-      <functions>
-        <function name="New">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="Validator"/>
-          </resultsList>
-        </function>
-        <function name="Validate">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="ConfigValidator"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="configs"/>
-                <item value="Config"/>
-              </type>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
-    <package importpath="github.com/docker/libcontainer/nsenter">
-      <types/>
-      <functions/>
-      <names>
-        <name value="AlwaysFalse"/>
-      </names>
-    </package>
-    <package importpath="github.com/docker/libcontainer/user">
-      <types>
-        <type type="struct" name="User">
-          <field type="ident" def="string" name="Name"/>
-          <field type="ident" def="string" name="Pass"/>
-          <field type="ident" def="int" name="Uid"/>
-          <field type="ident" def="int" name="Gid"/>
-          <field type="ident" def="string" name="Gecos"/>
-          <field type="ident" def="string" name="Home"/>
-          <field type="ident" def="string" name="Shell"/>
-        </type>
-        <type type="struct" name="Group">
-          <field type="ident" def="string" name="Name"/>
-          <field type="ident" def="string" name="Pass"/>
-          <field type="ident" def="int" name="Gid"/>
-          <field type="slice" name="List">
-            <elmtype type="ident" def="string"/>
-          </field>
-        </type>
-        <type type="struct" name="ExecUser">
-          <field type="ident" def="int" name="Uid"/>
-          <field type="ident" def="int" name="Gid"/>
-          <field type="slice" name="Sgids">
-            <elmtype type="ident" def="int"/>
-          </field>
-          <field type="ident" def="string" name="Home"/>
-        </type>
-      </types>
-      <functions>
-        <function name="ParsePasswdFile">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="slice">
-              <elmtype type="ident" def="User"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="ParsePasswd">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="slice">
-              <elmtype type="ident" def="User"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="ParsePasswdFileFilter">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="func">
-              <paramsList>
-                <type type="ident" def="User"/>
-              </paramsList>
-              <resultsList>
-                <type type="ident" def="bool"/>
-              </resultsList>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="slice">
-              <elmtype type="ident" def="User"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="ParsePasswdFilter">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
-            </type>
-            <type type="func">
-              <paramsList>
-                <type type="ident" def="User"/>
-              </paramsList>
-              <resultsList>
-                <type type="ident" def="bool"/>
-              </resultsList>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="slice">
-              <elmtype type="ident" def="User"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="ParseGroupFile">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="slice">
-              <elmtype type="ident" def="Group"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="ParseGroup">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="slice">
-              <elmtype type="ident" def="Group"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="ParseGroupFileFilter">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="func">
-              <paramsList>
-                <type type="ident" def="Group"/>
-              </paramsList>
-              <resultsList>
-                <type type="ident" def="bool"/>
-              </resultsList>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="slice">
-              <elmtype type="ident" def="Group"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="ParseGroupFilter">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
-            </type>
-            <type type="func">
-              <paramsList>
-                <type type="ident" def="Group"/>
-              </paramsList>
-              <resultsList>
-                <type type="ident" def="bool"/>
-              </resultsList>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="slice">
-              <elmtype type="ident" def="Group"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetExecUserPath">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="pointer">
-              <type type="ident" def="ExecUser"/>
-            </type>
-            <type type="ident" def="string"/>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="pointer">
-              <type type="ident" def="ExecUser"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetExecUser">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-            <type type="pointer">
-              <type type="ident" def="ExecUser"/>
-            </type>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
-            </type>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="Reader"/>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="pointer">
-              <type type="ident" def="ExecUser"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetPasswdPath">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetPasswd">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="ReadCloser"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetGroupPath">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetGroup">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="ReadCloser"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetPasswdPath">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetPasswd">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="ReadCloser"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetGroupPath">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="string"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="GetGroup">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="selector">
-              <prefix value="io"/>
-              <item value="ReadCloser"/>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="CurrentUser">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="User"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="LookupUser">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="User"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="LookupUid">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="User"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="CurrentGroup">
-          <recvList/>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="Group"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="LookupGroup">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="string"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="Group"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="LookupGid">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="Group"/>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-      </functions>
-      <names>
-        <name value="ErrRange"/>
-        <name value="ErrUnsupported"/>
-      </names>
-    </package>
-    <package importpath="github.com/docker/libcontainer/stacktrace">
-      <types>
-        <type type="struct" name="Stacktrace">
-          <field type="slice" name="Frames">
-            <elmtype type="ident" def="Frame"/>
-          </field>
-        </type>
-        <type type="struct" name="Frame">
-          <field type="ident" def="string" name="File"/>
-          <field type="ident" def="string" name="Function"/>
-          <field type="ident" def="string" name="Package"/>
-          <field type="ident" def="int" name="Line"/>
-        </type>
-      </types>
-      <functions>
-        <function name="NewFrame">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="uintptr"/>
-            <type type="ident" def="string"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="Frame"/>
-          </resultsList>
-        </function>
-        <function name="Capture">
-          <recvList/>
-          <paramsList>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="Stacktrace"/>
-          </resultsList>
-        </function>
-      </functions>
-      <names/>
-    </package>
     <package importpath="github.com/docker/libcontainer/cgroups/fs">
       <types>
         <type type="struct" name="PerfEventGroup"/>
+        <type type="struct" name="NetPrioGroup"/>
+        <type type="struct" name="NetClsGroup"/>
         <type type="struct" name="MemoryGroup"/>
         <type type="struct" name="HugetlbGroup"/>
         <type type="struct" name="FreezerGroup"/>
@@ -2800,6 +1633,142 @@
           <recvList>
             <type type="pointer">
               <type type="ident" def="PerfEventGroup"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="cgroups"/>
+                <item value="Stats"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Apply">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NetPrioGroup"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="data"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NetPrioGroup"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="configs"/>
+                <item value="Cgroup"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Remove">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NetPrioGroup"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="data"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetStats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NetPrioGroup"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="cgroups"/>
+                <item value="Stats"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Apply">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NetClsGroup"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="data"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NetClsGroup"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="configs"/>
+                <item value="Cgroup"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Remove">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NetClsGroup"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="data"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetStats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="NetClsGroup"/>
             </type>
           </recvList>
           <paramsList>
@@ -3417,21 +2386,6 @@
             </type>
           </resultsList>
         </function>
-        <function name="ApplyDevices">
-          <recvList/>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="configs"/>
-                <item value="Cgroup"/>
-              </type>
-            </type>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
         <function name="GetStats">
           <recvList>
             <type type="pointer">
@@ -3513,6 +2467,2546 @@
         <name value="ErrNotValidFormat"/>
         <name value="CgroupProcesses"/>
       </names>
+    </package>
+    <package importpath="github.com/docker/libcontainer/label">
+      <types/>
+      <functions>
+        <function name="InitLabels">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GenLabels">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="FormatMountLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="SetProcessLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetProcessLabel">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SetFileLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SetFileCreateLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Relabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetPidLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Init">
+          <recvList/>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="ReserveLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="UnreserveLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="DupSecOpt">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="DisableSecOpt">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="InitLabels">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GenLabels">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="FormatMountLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="SetProcessLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SetFileLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SetFileCreateLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Relabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetPidLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Init">
+          <recvList/>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="ReserveLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="UnreserveLabel">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="DupSecOpt">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="DisableSecOpt">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/docker/libcontainer/configs">
+      <types>
+        <type type="struct" name="Network">
+          <field type="ident" def="string" name="Type"/>
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="Bridge"/>
+          <field type="ident" def="string" name="MacAddress"/>
+          <field type="ident" def="string" name="Address"/>
+          <field type="ident" def="string" name="Gateway"/>
+          <field type="ident" def="string" name="IPv6Address"/>
+          <field type="ident" def="string" name="IPv6Gateway"/>
+          <field type="ident" def="int" name="Mtu"/>
+          <field type="ident" def="int" name="TxQueueLen"/>
+          <field type="ident" def="string" name="HostInterfaceName"/>
+          <field type="ident" def="bool" name="HairpinMode"/>
+        </type>
+        <type type="struct" name="Route">
+          <field type="ident" def="string" name="Destination"/>
+          <field type="ident" def="string" name="Source"/>
+          <field type="ident" def="string" name="Gateway"/>
+          <field type="ident" def="string" name="InterfaceName"/>
+        </type>
+        <type type="struct" name="Namespace"/>
+        <type type="struct" name="Namespace">
+          <field type="ident" def="NamespaceType" name="Type"/>
+          <field type="ident" def="string" name="Path"/>
+        </type>
+        <type name="NamespaceType" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+        <type name="Namespaces" type="slice">
+          <elmtype type="ident" def="Namespace"/>
+        </type>
+        <type type="struct" name="Mount">
+          <field type="ident" def="string" name="Source"/>
+          <field type="ident" def="string" name="Destination"/>
+          <field type="ident" def="string" name="Device"/>
+          <field type="ident" def="int" name="Flags"/>
+          <field type="ident" def="string" name="Data"/>
+          <field type="ident" def="string" name="Relabel"/>
+          <field type="slice" name="PremountCmds">
+            <elmtype type="ident" def="Command"/>
+          </field>
+          <field type="slice" name="PostmountCmds">
+            <elmtype type="ident" def="Command"/>
+          </field>
+        </type>
+        <type type="struct" name="Command">
+          <field type="ident" def="string" name="Path"/>
+          <field type="slice" name="Args">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="Env">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="Dir"/>
+        </type>
+        <type type="struct" name="IfPrioMap">
+          <field type="ident" def="string" name="Interface"/>
+          <field type="ident" def="int64" name="Priority"/>
+        </type>
+        <type type="struct" name="Device">
+          <field type="ident" def="rune" name="Type"/>
+          <field type="ident" def="string" name="Path"/>
+          <field type="ident" def="int64" name="Major"/>
+          <field type="ident" def="int64" name="Minor"/>
+          <field type="ident" def="string" name="Permissions"/>
+          <field type="selector" name="FileMode">
+            <prefix value="os"/>
+            <item value="FileMode"/>
+          </field>
+          <field type="ident" def="uint32" name="Uid"/>
+          <field type="ident" def="uint32" name="Gid"/>
+        </type>
+        <type type="struct" name="Rlimit">
+          <field type="ident" def="int" name="Type"/>
+          <field type="ident" def="uint64" name="Hard"/>
+          <field type="ident" def="uint64" name="Soft"/>
+        </type>
+        <type type="struct" name="IDMap">
+          <field type="ident" def="int" name="ContainerID"/>
+          <field type="ident" def="int" name="HostID"/>
+          <field type="ident" def="int" name="Size"/>
+        </type>
+        <type type="struct" name="Config">
+          <field type="ident" def="bool" name="NoPivotRoot"/>
+          <field type="ident" def="int" name="ParentDeathSignal"/>
+          <field type="ident" def="string" name="PivotDir"/>
+          <field type="ident" def="string" name="Rootfs"/>
+          <field type="ident" def="bool" name="Readonlyfs"/>
+          <field type="ident" def="bool" name="Privatefs"/>
+          <field type="slice" name="Mounts">
+            <elmtype type="pointer">
+              <type type="ident" def="Mount"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="Devices">
+            <elmtype type="pointer">
+              <type type="ident" def="Device"/>
+            </elmtype>
+          </field>
+          <field type="ident" def="string" name="MountLabel"/>
+          <field type="ident" def="string" name="Hostname"/>
+          <field type="ident" def="Namespaces" name="Namespaces"/>
+          <field type="slice" name="Capabilities">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="Networks">
+            <elmtype type="pointer">
+              <type type="ident" def="Network"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="Routes">
+            <elmtype type="pointer">
+              <type type="ident" def="Route"/>
+            </elmtype>
+          </field>
+          <field type="pointer" name="Cgroups">
+            <type type="ident" def="Cgroup"/>
+          </field>
+          <field type="ident" def="string" name="AppArmorProfile"/>
+          <field type="ident" def="string" name="ProcessLabel"/>
+          <field type="slice" name="Rlimits">
+            <elmtype type="ident" def="Rlimit"/>
+          </field>
+          <field type="slice" name="AdditionalGroups">
+            <elmtype type="ident" def="int"/>
+          </field>
+          <field type="slice" name="UidMappings">
+            <elmtype type="ident" def="IDMap"/>
+          </field>
+          <field type="slice" name="GidMappings">
+            <elmtype type="ident" def="IDMap"/>
+          </field>
+          <field type="slice" name="MaskPaths">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="ReadonlyPaths">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="map" name="SystemProperties">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type name="FreezerState" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+        <type type="struct" name="Cgroup">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="Parent"/>
+          <field type="ident" def="bool" name="AllowAllDevices"/>
+          <field type="slice" name="AllowedDevices">
+            <elmtype type="pointer">
+              <type type="ident" def="Device"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="DeniedDevices">
+            <elmtype type="pointer">
+              <type type="ident" def="Device"/>
+            </elmtype>
+          </field>
+          <field type="ident" def="int64" name="Memory"/>
+          <field type="ident" def="int64" name="MemoryReservation"/>
+          <field type="ident" def="int64" name="MemorySwap"/>
+          <field type="ident" def="int64" name="KernelMemory"/>
+          <field type="ident" def="int64" name="CpuShares"/>
+          <field type="ident" def="int64" name="CpuQuota"/>
+          <field type="ident" def="int64" name="CpuPeriod"/>
+          <field type="ident" def="int64" name="CpuRtRuntime"/>
+          <field type="ident" def="int64" name="CpuRtPeriod"/>
+          <field type="ident" def="string" name="CpusetCpus"/>
+          <field type="ident" def="string" name="CpusetMems"/>
+          <field type="ident" def="string" name="BlkioThrottleReadBpsDevice"/>
+          <field type="ident" def="string" name="BlkioThrottleWriteBpsDevice"/>
+          <field type="ident" def="string" name="BlkioThrottleReadIOpsDevice"/>
+          <field type="ident" def="string" name="BlkioThrottleWriteIOpsDevice"/>
+          <field type="ident" def="int64" name="BlkioWeight"/>
+          <field type="ident" def="string" name="BlkioWeightDevice"/>
+          <field type="ident" def="FreezerState" name="Freezer"/>
+          <field type="ident" def="string" name="Slice"/>
+          <field type="ident" def="bool" name="OomKillDisable"/>
+          <field type="slice" name="NetPrioIfpriomap">
+            <elmtype type="pointer">
+              <type type="ident" def="IfPrioMap"/>
+            </elmtype>
+          </field>
+          <field type="ident" def="string" name="NetClsClassid"/>
+        </type>
+      </types>
+      <functions>
+        <function name="Syscall">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Namespace"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+          </resultsList>
+        </function>
+        <function name="CloneFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Namespaces"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="uintptr"/>
+          </resultsList>
+        </function>
+        <function name="Syscall">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Namespace"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+          </resultsList>
+        </function>
+        <function name="CloneFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Namespaces"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="uintptr"/>
+          </resultsList>
+        </function>
+        <function name="NamespaceTypes">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="NamespaceType"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetPath">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Namespace"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Remove">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Namespaces"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="NamespaceType"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Namespaces"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="NamespaceType"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Contains">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Namespaces"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="NamespaceType"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="CgroupString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="IfPrioMap"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="CgroupString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Device"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Mkdev">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Device"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+          </resultsList>
+        </function>
+        <function name="HostUID">
+          <recvList>
+            <type type="ident" def="Config"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="HostGID">
+          <recvList>
+            <type type="ident" def="Config"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names>
+        <name value="NEWNET"/>
+        <name value="NEWPID"/>
+        <name value="NEWNS"/>
+        <name value="NEWUTS"/>
+        <name value="NEWIPC"/>
+        <name value="NEWUSER"/>
+        <name value="DefaultSimpleDevices"/>
+        <name value="DefaultAllowedDevices"/>
+        <name value="DefaultAutoCreatedDevices"/>
+        <name value="Wildcard"/>
+        <name value="Undefined"/>
+        <name value="Frozen"/>
+        <name value="Thawed"/>
+      </names>
+    </package>
+    <package importpath="github.com/docker/libcontainer/integration">
+      <types/>
+      <functions/>
+      <names/>
+    </package>
+    <package importpath="github.com/docker/libcontainer/criurpc">
+      <types>
+        <type name="CriuReqType" type="ident">
+          <type type="ident" def="int32"/>
+        </type>
+        <type type="struct" name="CriuPageServerInfo">
+          <field type="pointer" name="Address">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Port">
+            <type type="ident" def="int32"/>
+          </field>
+          <field type="pointer" name="Pid">
+            <type type="ident" def="int32"/>
+          </field>
+          <field type="pointer" name="Fd">
+            <type type="ident" def="int32"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="CriuVethPair">
+          <field type="pointer" name="IfIn">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="IfOut">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="ExtMountMap">
+          <field type="pointer" name="Key">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Val">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="InheritFd">
+          <field type="pointer" name="Key">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Fd">
+            <type type="ident" def="int32"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="CgroupRoot">
+          <field type="pointer" name="Ctrl">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Path">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="CriuOpts">
+          <field type="pointer" name="ImagesDirFd">
+            <type type="ident" def="int32"/>
+          </field>
+          <field type="pointer" name="Pid">
+            <type type="ident" def="int32"/>
+          </field>
+          <field type="pointer" name="LeaveRunning">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="pointer" name="ExtUnixSk">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="pointer" name="TcpEstablished">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="pointer" name="EvasiveDevices">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="pointer" name="ShellJob">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="pointer" name="FileLocks">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="pointer" name="LogLevel">
+            <type type="ident" def="int32"/>
+          </field>
+          <field type="pointer" name="LogFile">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Ps">
+            <type type="ident" def="CriuPageServerInfo"/>
+          </field>
+          <field type="pointer" name="NotifyScripts">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="pointer" name="Root">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="ParentImg">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="TrackMem">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="pointer" name="AutoDedup">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="pointer" name="WorkDirFd">
+            <type type="ident" def="int32"/>
+          </field>
+          <field type="pointer" name="LinkRemap">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="slice" name="Veths">
+            <elmtype type="pointer">
+              <type type="ident" def="CriuVethPair"/>
+            </elmtype>
+          </field>
+          <field type="pointer" name="CpuCap">
+            <type type="ident" def="uint32"/>
+          </field>
+          <field type="pointer" name="ForceIrmap">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="slice" name="ExecCmd">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="slice" name="ExtMnt">
+            <elmtype type="pointer">
+              <type type="ident" def="ExtMountMap"/>
+            </elmtype>
+          </field>
+          <field type="pointer" name="ManageCgroups">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="slice" name="CgRoot">
+            <elmtype type="pointer">
+              <type type="ident" def="CgroupRoot"/>
+            </elmtype>
+          </field>
+          <field type="pointer" name="RstSibling">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="slice" name="InheritFd">
+            <elmtype type="pointer">
+              <type type="ident" def="InheritFd"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="CriuDumpResp">
+          <field type="pointer" name="Restored">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="CriuRestoreResp">
+          <field type="pointer" name="Pid">
+            <type type="ident" def="int32"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="CriuNotify">
+          <field type="pointer" name="Script">
+            <type type="ident" def="string"/>
+          </field>
+          <field type="pointer" name="Pid">
+            <type type="ident" def="int32"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="CriuReq">
+          <field type="pointer" name="Type">
+            <type type="ident" def="CriuReqType"/>
+          </field>
+          <field type="pointer" name="Opts">
+            <type type="ident" def="CriuOpts"/>
+          </field>
+          <field type="pointer" name="NotifySuccess">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="pointer" name="KeepOpen">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="CriuResp">
+          <field type="pointer" name="Type">
+            <type type="ident" def="CriuReqType"/>
+          </field>
+          <field type="pointer" name="Success">
+            <type type="ident" def="bool"/>
+          </field>
+          <field type="pointer" name="Dump">
+            <type type="ident" def="CriuDumpResp"/>
+          </field>
+          <field type="pointer" name="Restore">
+            <type type="ident" def="CriuRestoreResp"/>
+          </field>
+          <field type="pointer" name="Notify">
+            <type type="ident" def="CriuNotify"/>
+          </field>
+          <field type="pointer" name="Ps">
+            <type type="ident" def="CriuPageServerInfo"/>
+          </field>
+          <field type="pointer" name="CrErrno">
+            <type type="ident" def="int32"/>
+          </field>
+          <field type="slice" name="XXX_unrecognized">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Enum">
+          <recvList>
+            <type type="ident" def="CriuReqType"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="CriuReqType"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="ident" def="CriuReqType"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="MarshalJSON">
+          <recvList>
+            <type type="ident" def="CriuReqType"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="UnmarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuReqType"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuPageServerInfo"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuPageServerInfo"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="GetAddress">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuPageServerInfo"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="GetPort">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuPageServerInfo"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int32"/>
+          </resultsList>
+        </function>
+        <function name="GetPid">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuPageServerInfo"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int32"/>
+          </resultsList>
+        </function>
+        <function name="GetFd">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuPageServerInfo"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int32"/>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuVethPair"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuVethPair"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="GetIfIn">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuVethPair"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="GetIfOut">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuVethPair"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExtMountMap"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExtMountMap"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="GetKey">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExtMountMap"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="GetVal">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExtMountMap"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="InheritFd"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="InheritFd"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="GetKey">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="InheritFd"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="GetFd">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="InheritFd"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int32"/>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CgroupRoot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CgroupRoot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="GetCtrl">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CgroupRoot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="GetPath">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CgroupRoot"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="GetImagesDirFd">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int32"/>
+          </resultsList>
+        </function>
+        <function name="GetPid">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int32"/>
+          </resultsList>
+        </function>
+        <function name="GetLeaveRunning">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GetExtUnixSk">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GetTcpEstablished">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GetEvasiveDevices">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GetShellJob">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GetFileLocks">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GetLogLevel">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int32"/>
+          </resultsList>
+        </function>
+        <function name="GetLogFile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="GetPs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="CriuPageServerInfo"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetNotifyScripts">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GetRoot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="GetParentImg">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="GetTrackMem">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GetAutoDedup">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GetWorkDirFd">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int32"/>
+          </resultsList>
+        </function>
+        <function name="GetLinkRemap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GetVeths">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="CriuVethPair"/>
+              </elmtype>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetCpuCap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="uint32"/>
+          </resultsList>
+        </function>
+        <function name="GetForceIrmap">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GetExecCmd">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetExtMnt">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="ExtMountMap"/>
+              </elmtype>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetManageCgroups">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GetCgRoot">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="CgroupRoot"/>
+              </elmtype>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetRstSibling">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GetInheritFd">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="InheritFd"/>
+              </elmtype>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuDumpResp"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuDumpResp"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="GetRestored">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuDumpResp"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuRestoreResp"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuRestoreResp"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="GetPid">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuRestoreResp"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int32"/>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuNotify"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuNotify"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="GetScript">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuNotify"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="GetPid">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuNotify"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int32"/>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuReq"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuReq"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="GetType">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuReq"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="CriuReqType"/>
+          </resultsList>
+        </function>
+        <function name="GetOpts">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuReq"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="CriuOpts"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetNotifySuccess">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuReq"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GetKeepOpen">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuReq"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuResp"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuResp"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="ProtoMessage">
+          <recvList/>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="GetType">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuResp"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="CriuReqType"/>
+          </resultsList>
+        </function>
+        <function name="GetSuccess">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuResp"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="GetDump">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuResp"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="CriuDumpResp"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetRestore">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuResp"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="CriuRestoreResp"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetNotify">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuResp"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="CriuNotify"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetPs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuResp"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="CriuPageServerInfo"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetCrErrno">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="CriuResp"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int32"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names>
+        <name value="CriuReqType_EMPTY"/>
+        <name value="CriuReqType_DUMP"/>
+        <name value="CriuReqType_RESTORE"/>
+        <name value="CriuReqType_CHECK"/>
+        <name value="CriuReqType_PRE_DUMP"/>
+        <name value="CriuReqType_PAGE_SERVER"/>
+        <name value="CriuReqType_NOTIFY"/>
+        <name value="CriuReqType_CPUINFO_DUMP"/>
+        <name value="CriuReqType_CPUINFO_CHECK"/>
+        <name value="CriuReqType_name"/>
+        <name value="CriuReqType_value"/>
+        <name value="Default_CriuOpts_LogLevel"/>
+        <name value="Default_CriuOpts_CpuCap"/>
+      </names>
+    </package>
+    <package importpath="github.com/docker/libcontainer/configs/validate">
+      <types>
+        <type name="Validator" type="interface">
+          <method name="Validate">
+            <paramsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="configs"/>
+                  <item value="Config"/>
+                </type>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="ConfigValidator"/>
+      </types>
+      <functions>
+        <function name="New">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="Validator"/>
+          </resultsList>
+        </function>
+        <function name="Validate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ConfigValidator"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="configs"/>
+                <item value="Config"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/docker/libcontainer/nsenter">
+      <types/>
+      <functions/>
+      <names>
+        <name value="AlwaysFalse"/>
+      </names>
+    </package>
+    <package importpath="github.com/docker/libcontainer/user">
+      <types>
+        <type type="struct" name="User">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="Pass"/>
+          <field type="ident" def="int" name="Uid"/>
+          <field type="ident" def="int" name="Gid"/>
+          <field type="ident" def="string" name="Gecos"/>
+          <field type="ident" def="string" name="Home"/>
+          <field type="ident" def="string" name="Shell"/>
+        </type>
+        <type type="struct" name="Group">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="Pass"/>
+          <field type="ident" def="int" name="Gid"/>
+          <field type="slice" name="List">
+            <elmtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="ExecUser">
+          <field type="ident" def="int" name="Uid"/>
+          <field type="ident" def="int" name="Gid"/>
+          <field type="slice" name="Sgids">
+            <elmtype type="ident" def="int"/>
+          </field>
+          <field type="ident" def="string" name="Home"/>
+        </type>
+      </types>
+      <functions>
+        <function name="ParsePasswdFile">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="User"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="ParsePasswd">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="User"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="ParsePasswdFileFilter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="User"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="User"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="ParsePasswdFilter">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="User"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="User"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="ParseGroupFile">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="Group"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="ParseGroup">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="Group"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="ParseGroupFileFilter">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="Group"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="Group"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="ParseGroupFilter">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="Group"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="bool"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="Group"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetExecUserPath">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="ExecUser"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="ExecUser"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetExecUser">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="ExecUser"/>
+            </type>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Reader"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="ExecUser"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetPasswdPath">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetPasswd">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="ReadCloser"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetGroupPath">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetGroup">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="ReadCloser"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetPasswdPath">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetPasswd">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="ReadCloser"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetGroupPath">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetGroup">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="ReadCloser"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="CurrentUser">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="User"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="LookupUser">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="User"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="LookupUid">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="User"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="CurrentGroup">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="Group"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="LookupGroup">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Group"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="LookupGid">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Group"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ErrRange"/>
+        <name value="ErrUnsupported"/>
+      </names>
+    </package>
+    <package importpath="github.com/docker/libcontainer/stacktrace">
+      <types>
+        <type type="struct" name="Stacktrace">
+          <field type="slice" name="Frames">
+            <elmtype type="ident" def="Frame"/>
+          </field>
+        </type>
+        <type type="struct" name="Frame">
+          <field type="ident" def="string" name="File"/>
+          <field type="ident" def="string" name="Function"/>
+          <field type="ident" def="string" name="Package"/>
+          <field type="ident" def="int" name="Line"/>
+        </type>
+      </types>
+      <functions>
+        <function name="NewFrame">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="uintptr"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Frame"/>
+          </resultsList>
+        </function>
+        <function name="Capture">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Stacktrace"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/docker/libcontainer/cgroups/systemd">
+      <types>
+        <type type="struct" name="Manager">
+          <field type="pointer" name="Cgroups">
+            <type type="selector">
+              <prefix value="configs"/>
+              <item value="Cgroup"/>
+            </type>
+          </field>
+          <field type="map" name="Paths">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+        </type>
+        <type type="struct" name="Manager">
+          <field type="pointer" name="Cgroups">
+            <type type="selector">
+              <prefix value="configs"/>
+              <item value="Cgroup"/>
+            </type>
+          </field>
+          <field type="map" name="Paths">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="UseSystemd">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Apply">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Manager"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Destroy">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Manager"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetPaths">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Manager"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Freeze">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Manager"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="configs"/>
+              <item value="FreezerState"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetPids">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Manager"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="int"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetStats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Manager"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="cgroups"/>
+                <item value="Stats"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Manager"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="configs"/>
+                <item value="Config"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="UseSystemd">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Apply">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Manager"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetPids">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Manager"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="int"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Destroy">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Manager"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetPaths">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Manager"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetStats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Manager"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="cgroups"/>
+                <item value="Stats"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Manager"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="configs"/>
+                <item value="Config"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Freeze">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Manager"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="configs"/>
+              <item value="FreezerState"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Freeze">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="configs"/>
+                <item value="Cgroup"/>
+              </type>
+            </type>
+            <type type="selector">
+              <prefix value="configs"/>
+              <item value="FreezerState"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
     </package>
     <package importpath="github.com/docker/libcontainer/netlink">
       <types>
@@ -4437,6 +5931,26 @@
             <type type="ident" def="error"/>
           </resultsList>
         </function>
+        <function name="DelFromBridge">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="Interface"/>
+              </type>
+            </type>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="Interface"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
         <function name="SetMacAddress">
           <recvList/>
           <paramsList>
@@ -4493,6 +6007,7 @@
         <name value="SIOC_BRADDBR"/>
         <name value="SIOC_BRDELBR"/>
         <name value="SIOC_BRADDIF"/>
+        <name value="SIOC_BRDELIF"/>
         <name value="MACVLAN_MODE_PRIVATE"/>
         <name value="MACVLAN_MODE_VEPA"/>
         <name value="MACVLAN_MODE_BRIDGE"/>
@@ -4867,6 +6382,37 @@
             <type type="ident" def="error"/>
           </resultsList>
         </function>
+        <function name="DeviceFromPath">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="configs"/>
+                <item value="Device"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="HostDevices">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="selector">
+                  <prefix value="configs"/>
+                  <item value="Device"/>
+                </type>
+              </elmtype>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
       </functions>
       <names>
         <name value="ErrNotADevice"/>
@@ -4881,20 +6427,22 @@
     <import path="github.com/docker/libcontainer/configs"/>
     <import path="github.com/docker/libcontainer/label"/>
     <import path="github.com/docker/libcontainer/system"/>
+    <import path="testing"/>
     <import path="fmt"/>
     <import path="io/ioutil"/>
     <import path="os/exec"/>
+    <import path="path"/>
     <import path="path/filepath"/>
     <import path="strings"/>
     <import path="time"/>
+    <import path="github.com/docker/docker/pkg/symlink"/>
     <import path="encoding/json"/>
     <import path="errors"/>
     <import path="io"/>
+    <import path="strconv"/>
     <import path="math"/>
     <import path="encoding/binary"/>
-    <import path="testing"/>
     <import path="net"/>
-    <import path="strconv"/>
     <import path="github.com/docker/libcontainer/netlink"/>
     <import path="github.com/docker/libcontainer/utils"/>
     <import path="github.com/Sirupsen/logrus"/>
@@ -4907,6 +6455,8 @@
     <import path="github.com/docker/libcontainer/cgroups/systemd"/>
     <import path="github.com/docker/libcontainer/configs/validate"/>
     <import path="sync"/>
+    <import path="github.com/docker/libcontainer/criurpc"/>
+    <import path="github.com/golang/protobuf/proto"/>
     <import path="unsafe"/>
     <import path="github.com/syndtr/gocapability/capability"/>
     <import path="github.com/docker/libcontainer/xattr"/>
@@ -4920,7 +6470,6 @@
     <import path="github.com/codegangsta/cli"/>
     <import path="github.com/docker/libcontainer"/>
     <import path="github.com/docker/docker/pkg/term"/>
-    <import path="log"/>
     <import path="github.com/docker/libcontainer/nsenter"/>
     <import path="os/signal"/>
     <import path="bytes"/>
@@ -4928,6 +6477,5 @@
     <import path="sync/atomic"/>
     <import path="github.com/coreos/go-systemd/dbus"/>
     <import path="github.com/godbus/dbus"/>
-    <import path="path"/>
   </imports>
 </project>

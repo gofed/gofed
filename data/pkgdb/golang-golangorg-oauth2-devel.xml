@@ -1,9 +1,140 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-googlecode-goauth2-0-0.6.hg267028f.fc23">
+<project url="" commit="commit" nvr="golang-googlecode-goauth2-0-0.10.hgb5adcc2.fc23">
   <packages>
     <package importpath="golang.org/x/oauth2/internal">
-      <types/>
+      <types>
+        <type type="struct" name="ContextKey"/>
+        <type name="ContextClientFunc" type="func">
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Client"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </type>
+        <type type="struct" name="ErrorTransport">
+          <field type="ident" def="error" name="Err"/>
+        </type>
+        <type type="struct" name="Token">
+          <field type="ident" def="string" name="AccessToken"/>
+          <field type="ident" def="string" name="TokenType"/>
+          <field type="ident" def="string" name="RefreshToken"/>
+          <field type="selector" name="Expiry">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+          <field type="interface" name="Raw"/>
+        </type>
+      </types>
       <functions>
+        <function name="RegisterContextClientFunc">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="ContextClientFunc"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="ContextClient">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Client"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="ContextTransport">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="selector">
+              <prefix value="http"/>
+              <item value="RoundTripper"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="RoundTrip">
+          <recvList>
+            <type type="ident" def="ErrorTransport"/>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Request"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Response"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="UnmarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="expirationTime"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="RetrieveToken">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="url"/>
+              <item value="Values"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Token"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
         <function name="ParseKey">
           <recvList/>
           <paramsList>
@@ -40,8 +171,21 @@
             <type type="ident" def="error"/>
           </resultsList>
         </function>
+        <function name="CondVal">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </resultsList>
+        </function>
       </functions>
-      <names/>
+      <names>
+        <name value="HTTPClient"/>
+      </names>
     </package>
     <package importpath="golang.org/x/oauth2/jws">
       <types>
@@ -125,23 +269,6 @@
         </type>
       </types>
       <functions>
-        <function name="Token">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="appEngineTokenSource"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="oauth2"/>
-                <item value="Token"/>
-              </type>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
         <function name="NewSDKConfig">
           <recvList/>
           <paramsList>
@@ -162,7 +289,7 @@
           </recvList>
           <paramsList>
             <type type="selector">
-              <prefix value="oauth2"/>
+              <prefix value="context"/>
               <item value="Context"/>
             </type>
           </paramsList>
@@ -183,7 +310,7 @@
           </recvList>
           <paramsList>
             <type type="selector">
-              <prefix value="oauth2"/>
+              <prefix value="context"/>
               <item value="Context"/>
             </type>
           </paramsList>
@@ -205,6 +332,26 @@
             <type type="slice">
               <elmtype type="ident" def="string"/>
             </type>
+          </resultsList>
+        </function>
+        <function name="ConfigFromJSON">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="oauth2"/>
+                <item value="Config"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
           </resultsList>
         </function>
         <function name="JWTConfigFromJSON">
@@ -254,11 +401,51 @@
             <type type="ident" def="error"/>
           </resultsList>
         </function>
+        <function name="DefaultClient">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="http"/>
+                <item value="Client"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="DefaultTokenSource">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="selector">
+              <prefix value="oauth2"/>
+              <item value="TokenSource"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
         <function name="AppEngineTokenSource">
           <recvList/>
           <paramsList>
             <type type="selector">
-              <prefix value="oauth2"/>
+              <prefix value="context"/>
               <item value="Context"/>
             </type>
             <type type="ellipsis">
@@ -272,40 +459,21 @@
             </type>
           </resultsList>
         </function>
-        <function name="AppEngineTokenSource">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="oauth2"/>
-              <item value="Context"/>
+        <function name="Token">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="appEngineTokenSource"/>
             </type>
-            <type type="ellipsis">
-              <type type="ident" def="string"/>
-            </type>
-          </paramsList>
+          </recvList>
+          <paramsList/>
           <resultsList>
-            <type type="selector">
-              <prefix value="oauth2"/>
-              <item value="TokenSource"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="oauth2"/>
+                <item value="Token"/>
+              </type>
             </type>
-          </resultsList>
-        </function>
-        <function name="AppEngineTokenSource">
-          <recvList/>
-          <paramsList>
-            <type type="selector">
-              <prefix value="oauth2"/>
-              <item value="Context"/>
-            </type>
-            <type type="ellipsis">
-              <type type="ident" def="string"/>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="selector">
-              <prefix value="oauth2"/>
-              <item value="TokenSource"/>
-            </type>
+            <type type="ident" def="error"/>
           </resultsList>
         </function>
       </functions>
@@ -337,7 +505,7 @@
           </recvList>
           <paramsList>
             <type type="selector">
-              <prefix value="oauth2"/>
+              <prefix value="context"/>
               <item value="Context"/>
             </type>
           </paramsList>
@@ -356,7 +524,7 @@
           </recvList>
           <paramsList>
             <type type="selector">
-              <prefix value="oauth2"/>
+              <prefix value="context"/>
               <item value="Context"/>
             </type>
           </paramsList>
@@ -424,7 +592,6 @@
           </field>
           <field type="interface" name="raw"/>
         </type>
-        <type name="Context" type="interface"/>
         <type type="struct" name="Config">
           <field type="ident" def="string" name="ClientID"/>
           <field type="ident" def="string" name="ClientSecret"/>
@@ -529,28 +696,6 @@
             <type type="ident" def="error"/>
           </resultsList>
         </function>
-        <function name="RoundTrip">
-          <recvList>
-            <type type="ident" def="errorTransport"/>
-          </recvList>
-          <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="Request"/>
-              </type>
-            </type>
-          </paramsList>
-          <resultsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="http"/>
-                <item value="Response"/>
-              </type>
-            </type>
-            <type type="ident" def="error"/>
-          </resultsList>
-        </function>
         <function name="Type">
           <recvList>
             <type type="pointer">
@@ -617,6 +762,16 @@
             <type type="ident" def="bool"/>
           </resultsList>
         </function>
+        <function name="SetAuthURLParam">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="AuthCodeOption"/>
+          </resultsList>
+        </function>
         <function name="AuthCodeURL">
           <recvList>
             <type type="pointer">
@@ -633,6 +788,27 @@
             <type type="ident" def="string"/>
           </resultsList>
         </function>
+        <function name="PasswordCredentialsToken">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Config"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Token"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
         <function name="Exchange">
           <recvList>
             <type type="pointer">
@@ -640,7 +816,10 @@
             </type>
           </recvList>
           <paramsList>
-            <type type="ident" def="Context"/>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
             <type type="ident" def="string"/>
           </paramsList>
           <resultsList>
@@ -657,7 +836,10 @@
             </type>
           </recvList>
           <paramsList>
-            <type type="ident" def="Context"/>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
             <type type="pointer">
               <type type="ident" def="Token"/>
             </type>
@@ -678,7 +860,10 @@
             </type>
           </recvList>
           <paramsList>
-            <type type="ident" def="Context"/>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
             <type type="pointer">
               <type type="ident" def="Token"/>
             </type>
@@ -689,7 +874,9 @@
         </function>
         <function name="Token">
           <recvList>
-            <type type="ident" def="tokenRefresher"/>
+            <type type="pointer">
+              <type type="ident" def="tokenRefresher"/>
+            </type>
           </recvList>
           <paramsList/>
           <resultsList>
@@ -713,10 +900,36 @@
             <type type="ident" def="error"/>
           </resultsList>
         </function>
+        <function name="StaticTokenSource">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Token"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="TokenSource"/>
+          </resultsList>
+        </function>
+        <function name="Token">
+          <recvList>
+            <type type="ident" def="staticTokenSource"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Token"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
         <function name="NewClient">
           <recvList/>
           <paramsList>
-            <type type="ident" def="Context"/>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
             <type type="ident" def="TokenSource"/>
           </paramsList>
           <resultsList>
@@ -766,19 +979,18 @@
     <import path="io"/>
     <import path="sync"/>
     <import path="net/url"/>
-    <import path="io/ioutil"/>
+    <import path="strings"/>
     <import path="golang.org/x/net/context"/>
-    <import path="bytes"/>
+    <import path="golang.org/x/oauth2/internal"/>
     <import path="encoding/json"/>
     <import path="fmt"/>
-    <import path="mime"/>
+    <import path="io/ioutil"/>
+    <import path="reflect"/>
     <import path="strconv"/>
-    <import path="strings"/>
+    <import path="bytes"/>
     <import path="log"/>
     <import path="golang.org/x/oauth2"/>
-    <import path="appengine"/>
-    <import path="appengine/urlfetch"/>
-    <import path="golang.org/x/oauth2/internal"/>
+    <import path="google.golang.org/appengine/urlfetch"/>
     <import path="golang.org/x/oauth2/jws"/>
     <import path="golang.org/x/oauth2/jwt"/>
     <import path="crypto"/>
@@ -786,11 +998,10 @@
     <import path="crypto/rsa"/>
     <import path="crypto/sha256"/>
     <import path="encoding/base64"/>
-    <import path="reflect"/>
+    <import path="mime"/>
     <import path="bufio"/>
     <import path="crypto/x509"/>
     <import path="encoding/pem"/>
-    <import path="sort"/>
     <import path="os"/>
     <import path="os/user"/>
     <import path="path/filepath"/>
@@ -798,6 +1009,6 @@
     <import path="google.golang.org/cloud/compute/metadata"/>
     <import path="golang.org/x/oauth2/google"/>
     <import path="google.golang.org/appengine"/>
-    <import path="google.golang.org/appengine/urlfetch"/>
+    <import path="sort"/>
   </imports>
 </project>

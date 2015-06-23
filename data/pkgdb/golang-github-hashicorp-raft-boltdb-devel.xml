@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit" nvr="golang-github-hashicorp-raft-boltdb-0-0.1.gitd1e82c1.fc23">
+  <packages>
+    <package importpath="github.com/hashicorp/raft-boltdb">
+      <types>
+        <type type="struct" name="BoltStore">
+          <field type="pointer" name="conn">
+            <type type="selector">
+              <prefix value="bolt"/>
+              <item value="DB"/>
+            </type>
+          </field>
+          <field type="ident" def="string" name="path"/>
+        </type>
+      </types>
+      <functions>
+        <function name="NewBoltStore">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="BoltStore"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BoltStore"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="FirstIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BoltStore"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="LastIndex">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BoltStore"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetLog">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BoltStore"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint64"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="raft"/>
+                <item value="Log"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="StoreLog">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BoltStore"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="raft"/>
+                <item value="Log"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="StoreLogs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BoltStore"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="selector">
+                  <prefix value="raft"/>
+                  <item value="Log"/>
+                </type>
+              </elmtype>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="DeleteRange">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BoltStore"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Set">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BoltStore"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BoltStore"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SetUint64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BoltStore"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetUint64">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BoltStore"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ErrKeyNotFound"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="bytes"/>
+    <import path="encoding/binary"/>
+    <import path="github.com/hashicorp/go-msgpack/codec"/>
+    <import path="io/ioutil"/>
+    <import path="os"/>
+    <import path="reflect"/>
+    <import path="testing"/>
+    <import path="github.com/boltdb/bolt"/>
+    <import path="github.com/hashicorp/raft"/>
+    <import path="errors"/>
+    <import path="github.com/hashicorp/raft/bench"/>
+  </imports>
+</project>

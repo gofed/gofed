@@ -1,0 +1,1166 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit" nvr="golang-github-garyburd-redigo-0-0.2.git3e4727f.fc23">
+  <packages>
+    <package importpath="github.com/garyburd/redigo/redis">
+      <types>
+        <type type="struct" name="Script">
+          <field type="ident" def="int" name="keyCount"/>
+          <field type="ident" def="string" name="src"/>
+          <field type="ident" def="string" name="hash"/>
+        </type>
+        <type name="Args" type="slice">
+          <elmtype type="interface"/>
+        </type>
+        <type name="Error" type="ident">
+          <type type="ident" def="string"/>
+        </type>
+        <type name="Conn" type="interface">
+          <method name="Close">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Err">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Do">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="interface"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Send">
+            <paramsList>
+              <type type="ident" def="string"/>
+              <type type="ellipsis">
+                <type type="interface"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Flush">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="Receive">
+            <paramsList/>
+            <resultsList>
+              <type type="interface"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="Subscription">
+          <field type="ident" def="string" name="Kind"/>
+          <field type="ident" def="string" name="Channel"/>
+          <field type="ident" def="int" name="Count"/>
+        </type>
+        <type type="struct" name="Message">
+          <field type="ident" def="string" name="Channel"/>
+          <field type="slice" name="Data">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="PMessage">
+          <field type="ident" def="string" name="Pattern"/>
+          <field type="ident" def="string" name="Channel"/>
+          <field type="slice" name="Data">
+            <elmtype type="ident" def="byte"/>
+          </field>
+        </type>
+        <type type="struct" name="Pong">
+          <field type="ident" def="string" name="Data"/>
+        </type>
+        <type type="struct" name="PubSubConn">
+          <field type="ident" def="Conn" name="Conn"/>
+        </type>
+        <type type="struct" name="Pool">
+          <field type="func" name="Dial">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="Conn"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </field>
+          <field type="func" name="TestOnBorrow">
+            <paramsList>
+              <type type="ident" def="Conn"/>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Time"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </field>
+          <field type="ident" def="int" name="MaxIdle"/>
+          <field type="ident" def="int" name="MaxActive"/>
+          <field type="selector" name="IdleTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="ident" def="bool" name="Wait"/>
+          <field type="selector" name="mu">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="pointer" name="cond">
+            <type type="selector">
+              <prefix value="sync"/>
+              <item value="Cond"/>
+            </type>
+          </field>
+          <field type="ident" def="bool" name="closed"/>
+          <field type="ident" def="int" name="active"/>
+          <field type="selector" name="idle">
+            <prefix value="list"/>
+            <item value="List"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="NewScript">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Script"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Do">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Script"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Conn"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SendHash">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Script"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Conn"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Send">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Script"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Conn"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Load">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Script"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Conn"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Scan">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="ScanStruct">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="interface"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="ScanSlice">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="interface"/>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="ident" def="Args"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Args"/>
+          </resultsList>
+        </function>
+        <function name="AddFlat">
+          <recvList>
+            <type type="ident" def="Args"/>
+          </recvList>
+          <paramsList>
+            <type type="interface"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Args"/>
+          </resultsList>
+        </function>
+        <function name="Int">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Int64">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Uint64">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Float64">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="float64"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="String">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Bytes">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Bool">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="bool"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="MultiBulk">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Values">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="interface"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Strings">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Ints">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="int"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="StringMap">
+          <recvList/>
+          <paramsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </paramsList>
+          <resultsList>
+            <type type="map">
+              <keytype type="ident" def="string"/>
+              <valtype type="ident" def="string"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="Error"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="ident" def="PubSubConn"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Subscribe">
+          <recvList>
+            <type type="ident" def="PubSubConn"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="PSubscribe">
+          <recvList>
+            <type type="ident" def="PubSubConn"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Unsubscribe">
+          <recvList>
+            <type type="ident" def="PubSubConn"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="PUnsubscribe">
+          <recvList>
+            <type type="ident" def="PubSubConn"/>
+          </recvList>
+          <paramsList>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Ping">
+          <recvList>
+            <type type="ident" def="PubSubConn"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Receive">
+          <recvList>
+            <type type="ident" def="PubSubConn"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="interface"/>
+          </resultsList>
+        </function>
+        <function name="NewPool">
+          <recvList/>
+          <paramsList>
+            <type type="func">
+              <paramsList/>
+              <resultsList>
+                <type type="ident" def="Conn"/>
+                <type type="ident" def="error"/>
+              </resultsList>
+            </type>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Pool"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Pool"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="Conn"/>
+          </resultsList>
+        </function>
+        <function name="ActiveCount">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Pool"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+          </resultsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Pool"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="pooledConnection"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Err">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="pooledConnection"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Do">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="pooledConnection"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Send">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="pooledConnection"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Flush">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="pooledConnection"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Receive">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="pooledConnection"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Do">
+          <recvList>
+            <type type="ident" def="errorConnection"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Send">
+          <recvList>
+            <type type="ident" def="errorConnection"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Err">
+          <recvList>
+            <type type="ident" def="errorConnection"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="ident" def="errorConnection"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Flush">
+          <recvList>
+            <type type="ident" def="errorConnection"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Receive">
+          <recvList>
+            <type type="ident" def="errorConnection"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewLoggingConn">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Conn"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="log"/>
+                <item value="Logger"/>
+              </type>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Conn"/>
+          </resultsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="loggingConn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Do">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="loggingConn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Send">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="loggingConn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Receive">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="loggingConn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Dial">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Conn"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="DialTimeout">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Conn"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Dial">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="xDialer"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Conn"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewConn">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="Conn"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Conn"/>
+          </resultsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="conn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Err">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="conn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="protocolError"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Send">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="conn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Flush">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="conn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Receive">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="conn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Do">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="conn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ErrNil"/>
+        <name value="ErrPoolExhausted"/>
+      </names>
+    </package>
+    <package importpath="github.com/garyburd/redigo/internal/redistest">
+      <types/>
+      <functions>
+        <function name="Close">
+          <recvList>
+            <type type="ident" def="testConn"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Dial">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="selector">
+              <prefix value="redis"/>
+              <item value="Conn"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/garyburd/redigo/redisx">
+      <types>
+        <type type="struct" name="ConnMux">
+          <field type="selector" name="c">
+            <prefix value="redis"/>
+            <item value="Conn"/>
+          </field>
+          <field type="selector" name="sendMu">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="ident" def="uint" name="sendID"/>
+          <field type="selector" name="recvMu">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="ident" def="uint" name="recvID"/>
+          <field type="map" name="recvWait">
+            <keytype type="ident" def="uint"/>
+            <valtype type="channel" dir="3">
+              <type type="struct" name=""/>
+            </valtype>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="NewConnMux">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="redis"/>
+              <item value="Conn"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="ConnMux"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ConnMux"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="selector">
+              <prefix value="redis"/>
+              <item value="Conn"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ConnMux"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Send">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="muxConn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Flush">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="muxConn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Receive">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="muxConn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="muxConn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Do">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="muxConn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ellipsis">
+              <type type="interface"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="interface"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Err">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="muxConn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/garyburd/redigo/internal">
+      <types>
+        <type type="struct" name="CommandInfo">
+          <field type="ident" def="int" name="Set"/>
+          <field type="ident" def="int" name="Clear"/>
+        </type>
+      </types>
+      <functions>
+        <function name="LookupCommandInfo">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="CommandInfo"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names>
+        <name value="WatchState"/>
+        <name value="MultiState"/>
+        <name value="SubscribeState"/>
+        <name value="MonitorState"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="net/textproto"/>
+    <import path="sync"/>
+    <import path="testing"/>
+    <import path="github.com/garyburd/redigo/internal/redistest"/>
+    <import path="github.com/garyburd/redigo/redis"/>
+    <import path="github.com/garyburd/redigo/redisx"/>
+    <import path="errors"/>
+    <import path="github.com/garyburd/redigo/internal"/>
+    <import path="fmt"/>
+    <import path="bufio"/>
+    <import path="net"/>
+    <import path="time"/>
+    <import path="reflect"/>
+    <import path="crypto/sha1"/>
+    <import path="encoding/hex"/>
+    <import path="io"/>
+    <import path="strings"/>
+    <import path="math"/>
+    <import path="strconv"/>
+    <import path="bytes"/>
+    <import path="container/list"/>
+    <import path="crypto/rand"/>
+    <import path="log"/>
+  </imports>
+</project>

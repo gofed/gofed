@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit" nvr="golang-github-hashicorp-mdns-0-0.1.git2b439d3.fc23">
+  <packages>
+    <package importpath="github.com/hashicorp/mdns">
+      <types>
+        <type name="Zone" type="interface">
+          <method name="Records">
+            <paramsList>
+              <type type="selector">
+                <prefix value="dns"/>
+                <item value="Question"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="selector">
+                  <prefix value="dns"/>
+                  <item value="RR"/>
+                </elmtype>
+              </type>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="MDNSService">
+          <field type="ident" def="string" name="Instance"/>
+          <field type="ident" def="string" name="Service"/>
+          <field type="ident" def="string" name="Domain"/>
+          <field type="ident" def="string" name="HostName"/>
+          <field type="ident" def="int" name="Port"/>
+          <field type="slice" name="IPs">
+            <elmtype type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </elmtype>
+          </field>
+          <field type="slice" name="TXT">
+            <elmtype type="ident" def="string"/>
+          </field>
+          <field type="ident" def="string" name="serviceAddr"/>
+          <field type="ident" def="string" name="instanceAddr"/>
+          <field type="ident" def="string" name="enumAddr"/>
+        </type>
+        <type type="struct" name="Config">
+          <field type="ident" def="Zone" name="Zone"/>
+          <field type="pointer" name="Iface">
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="Interface"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="Server">
+          <field type="pointer" name="config">
+            <type type="ident" def="Config"/>
+          </field>
+          <field type="pointer" name="ipv4List">
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="UDPConn"/>
+            </type>
+          </field>
+          <field type="pointer" name="ipv6List">
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="UDPConn"/>
+            </type>
+          </field>
+          <field type="ident" def="bool" name="shutdown"/>
+          <field type="channel" dir="3" name="shutdownCh">
+            <type type="struct" name=""/>
+          </field>
+          <field type="selector" name="shutdownLock">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+        </type>
+        <type type="struct" name="ServiceEntry">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="Host"/>
+          <field type="selector" name="AddrV4">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+          <field type="selector" name="AddrV6">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+          <field type="ident" def="int" name="Port"/>
+          <field type="ident" def="string" name="Info"/>
+          <field type="selector" name="Addr">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+          <field type="ident" def="bool" name="hasTXT"/>
+          <field type="ident" def="bool" name="sent"/>
+        </type>
+        <type type="struct" name="QueryParam">
+          <field type="ident" def="string" name="Service"/>
+          <field type="ident" def="string" name="Domain"/>
+          <field type="selector" name="Timeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="pointer" name="Interface">
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="Interface"/>
+            </type>
+          </field>
+          <field type="channel" dir="1" name="Entries">
+            <type type="pointer">
+              <type type="ident" def="ServiceEntry"/>
+            </type>
+          </field>
+          <field type="ident" def="bool" name="WantUnicastResponse"/>
+        </type>
+      </types>
+      <functions>
+        <function name="NewMDNSService">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+            <type type="ident" def="int"/>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="net"/>
+                <item value="IP"/>
+              </elmtype>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="MDNSService"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Records">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="MDNSService"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="dns"/>
+              <item value="Question"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="selector">
+                <prefix value="dns"/>
+                <item value="RR"/>
+              </elmtype>
+            </type>
+          </resultsList>
+        </function>
+        <function name="NewServer">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Config"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Shutdown">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Server"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="DefaultParams">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="QueryParam"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Query">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="QueryParam"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Lookup">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="channel" dir="1">
+              <type type="pointer">
+                <type type="ident" def="ServiceEntry"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="client"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="bytes"/>
+    <import path="net"/>
+    <import path="reflect"/>
+    <import path="testing"/>
+    <import path="github.com/miekg/dns"/>
+    <import path="fmt"/>
+    <import path="os"/>
+    <import path="strings"/>
+    <import path="time"/>
+    <import path="log"/>
+    <import path="sync"/>
+    <import path="code.google.com/p/go.net/ipv4"/>
+    <import path="code.google.com/p/go.net/ipv6"/>
+  </imports>
+</project>

@@ -1,10 +1,13 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-spf13-pflag-0-0.7.git18d831e.fc23">
+<project url="" commit="commit" nvr="golang-github-spf13-pflag-0-0.9.git5644820.fc23">
   <packages>
     <package importpath="github.com/spf13/pflag">
       <types>
         <type name="ErrorHandling" type="ident">
           <type type="ident" def="int"/>
+        </type>
+        <type name="NormalizedName" type="ident">
+          <type type="ident" def="string"/>
         </type>
         <type type="struct" name="FlagSet">
           <field type="func" name="Usage">
@@ -14,13 +17,13 @@
           <field type="ident" def="string" name="name"/>
           <field type="ident" def="bool" name="parsed"/>
           <field type="map" name="actual">
-            <keytype type="ident" def="string"/>
+            <keytype type="ident" def="NormalizedName"/>
             <valtype type="pointer">
               <type type="ident" def="Flag"/>
             </valtype>
           </field>
           <field type="map" name="formal">
-            <keytype type="ident" def="string"/>
+            <keytype type="ident" def="NormalizedName"/>
             <valtype type="pointer">
               <type type="ident" def="Flag"/>
             </valtype>
@@ -41,6 +44,17 @@
             <item value="Writer"/>
           </field>
           <field type="ident" def="bool" name="interspersed"/>
+          <field type="func" name="normalizeNameFunc">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="FlagSet"/>
+              </type>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="NormalizedName"/>
+            </resultsList>
+          </field>
         </type>
         <type type="struct" name="Flag">
           <field type="ident" def="string" name="Name"/>
@@ -49,6 +63,7 @@
           <field type="ident" def="Value" name="Value"/>
           <field type="ident" def="string" name="DefValue"/>
           <field type="ident" def="bool" name="Changed"/>
+          <field type="ident" def="string" name="Deprecated"/>
           <field type="map" name="Annotations">
             <keytype type="ident" def="string"/>
             <valtype type="slice">
@@ -414,17 +429,6 @@
             <type type="ident" def="error"/>
           </resultsList>
         </function>
-        <function name="Get">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="uint32Value"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="interface"/>
-          </resultsList>
-        </function>
         <function name="Type">
           <recvList>
             <type type="pointer">
@@ -578,17 +582,6 @@
           </paramsList>
           <resultsList>
             <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="Get">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="uint16Value"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="interface"/>
           </resultsList>
         </function>
         <function name="Type">
@@ -1054,17 +1047,6 @@
           </paramsList>
           <resultsList>
             <type type="ident" def="error"/>
-          </resultsList>
-        </function>
-        <function name="Get">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="ipMaskValue"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="interface"/>
           </resultsList>
         </function>
         <function name="Type">
@@ -1282,17 +1264,6 @@
             <type type="ident" def="error"/>
           </resultsList>
         </function>
-        <function name="Get">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="ipValue"/>
-            </type>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="interface"/>
-          </resultsList>
-        </function>
         <function name="Type">
           <recvList>
             <type type="pointer">
@@ -2399,6 +2370,48 @@
           <resultsList>
             <type type="pointer">
               <type type="ident" def="float32"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="SetNormalizeFunc">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="ident" def="FlagSet"/>
+                </type>
+                <type type="ident" def="string"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="NormalizedName"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="GetNormalizeFunc">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="ident" def="FlagSet"/>
+                </type>
+                <type type="ident" def="string"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="NormalizedName"/>
+              </resultsList>
             </type>
           </resultsList>
         </function>
@@ -2504,6 +2517,20 @@
             <type type="pointer">
               <type type="ident" def="Flag"/>
             </type>
+          </resultsList>
+        </function>
+        <function name="MarkDeprecated">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="FlagSet"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
           </resultsList>
         </function>
         <function name="Lookup">
@@ -3170,14 +3197,14 @@
     <import path="strconv"/>
     <import path="net"/>
     <import path="bytes"/>
+    <import path="io"/>
     <import path="io/ioutil"/>
     <import path="os"/>
     <import path="sort"/>
     <import path="strings"/>
     <import path="testing"/>
     <import path="time"/>
-    <import path="github.com/spf13/pflag"/>
     <import path="errors"/>
-    <import path="io"/>
+    <import path="github.com/spf13/pflag"/>
   </imports>
 </project>

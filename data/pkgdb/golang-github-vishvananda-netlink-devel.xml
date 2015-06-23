@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-vishvananda-netlink-0-0.1.git2187ba6.fc22">
+<project url="" commit="commit" nvr="golang-github-vishvananda-netlink-0-0.3.git991a7a2.fc23">
   <packages>
     <package importpath="github.com/vishvananda/netlink">
       <types>
@@ -109,6 +109,14 @@
             <item value="IP"/>
           </field>
         </type>
+        <type type="struct" name="Protinfo">
+          <field type="ident" def="bool" name="Hairpin"/>
+          <field type="ident" def="bool" name="Guard"/>
+          <field type="ident" def="bool" name="FastLeave"/>
+          <field type="ident" def="bool" name="RootBlock"/>
+          <field type="ident" def="bool" name="Learning"/>
+          <field type="ident" def="bool" name="Flood"/>
+        </type>
         <type type="struct" name="Ndmsg">
           <field type="ident" def="uint8" name="Family"/>
           <field type="ident" def="uint32" name="Index"/>
@@ -147,9 +155,16 @@
             </resultsList>
           </method>
         </type>
+        <type name="NsPid" type="ident">
+          <type type="ident" def="int"/>
+        </type>
+        <type name="NsFd" type="ident">
+          <type type="ident" def="int"/>
+        </type>
         <type type="struct" name="LinkAttrs">
           <field type="ident" def="int" name="Index"/>
           <field type="ident" def="int" name="MTU"/>
+          <field type="ident" def="uint32" name="TxQLen"/>
           <field type="ident" def="string" name="Name"/>
           <field type="selector" name="HardwareAddr">
             <prefix value="net"/>
@@ -161,6 +176,7 @@
           </field>
           <field type="ident" def="int" name="ParentIndex"/>
           <field type="ident" def="int" name="MasterIndex"/>
+          <field type="interface" name="Namespace"/>
         </type>
         <type type="struct" name="Device">
           <field type="ident" def="LinkAttrs" name=""/>
@@ -175,8 +191,12 @@
           <field type="ident" def="LinkAttrs" name=""/>
           <field type="ident" def="int" name="VlanId"/>
         </type>
+        <type name="MacvlanMode" type="ident">
+          <type type="ident" def="uint16"/>
+        </type>
         <type type="struct" name="Macvlan">
           <field type="ident" def="LinkAttrs" name=""/>
+          <field type="ident" def="MacvlanMode" name="Mode"/>
         </type>
         <type type="struct" name="Veth">
           <field type="ident" def="LinkAttrs" name=""/>
@@ -212,6 +232,13 @@
           <field type="ident" def="int" name="PortLow"/>
           <field type="ident" def="int" name="PortHigh"/>
         </type>
+        <type name="IPVlanMode" type="ident">
+          <type type="ident" def="uint16"/>
+        </type>
+        <type type="struct" name="IPVlan">
+          <field type="ident" def="LinkAttrs" name=""/>
+          <field type="ident" def="IPVlanMode" name="Mode"/>
+        </type>
         <type type="struct" name="Addr">
           <field type="pointer" name="">
             <type type="selector">
@@ -230,9 +257,9 @@
               <type type="ident" def="XfrmState"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="XfrmStateDel">
           <recvList/>
@@ -241,30 +268,30 @@
               <type type="ident" def="XfrmState"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="XfrmStateList">
           <recvList/>
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="XfrmState"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="EncapType"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="XfrmPolicyAdd">
           <recvList/>
@@ -273,9 +300,9 @@
               <type type="ident" def="XfrmPolicy"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="XfrmPolicyDel">
           <recvList/>
@@ -284,48 +311,48 @@
               <type type="ident" def="XfrmPolicy"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="XfrmPolicyList">
           <recvList/>
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="XfrmPolicy"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="Dir"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="Proto"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="Mode"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RouteAdd">
           <recvList/>
@@ -334,9 +361,9 @@
               <type type="ident" def="Route"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RouteDel">
           <recvList/>
@@ -345,9 +372,9 @@
               <type type="ident" def="Route"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RouteList">
           <recvList/>
@@ -355,21 +382,57 @@
             <type type="ident" def="Link"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="Route"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
+        </function>
+        <function name="RouteGet">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="Route"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="Route"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
+        </function>
+        <function name="LinkGetProtinfo">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Protinfo"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Protinfo"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
         </function>
         <function name="LinkSetUp">
           <recvList/>
@@ -378,9 +441,9 @@
               <type type="ident" def="Link"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkSetDown">
           <recvList/>
@@ -389,9 +452,9 @@
               <type type="ident" def="Link"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkSetMTU">
           <recvList/>
@@ -401,9 +464,9 @@
             </type>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkSetMaster">
           <recvList/>
@@ -415,9 +478,9 @@
               <type type="ident" def="Link"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkSetNsPid">
           <recvList/>
@@ -427,9 +490,9 @@
             </type>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkSetNsFd">
           <recvList/>
@@ -439,9 +502,9 @@
             </type>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkAdd">
           <recvList/>
@@ -450,9 +513,9 @@
               <type type="ident" def="Link"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkDel">
           <recvList/>
@@ -461,19 +524,79 @@
               <type type="ident" def="Link"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
+        </function>
+        <function name="SetHairpin">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SetGuard">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SetFastLeave">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SetLearning">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SetRootBlock">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SetFlood">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
         </function>
         <function name="LinkList">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="Link"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AddrAdd">
           <recvList/>
@@ -485,9 +608,9 @@
               <type type="ident" def="Addr"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AddrDel">
           <recvList/>
@@ -499,9 +622,9 @@
               <type type="ident" def="Addr"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AddrList">
           <recvList/>
@@ -511,12 +634,12 @@
             </type>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="Addr"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RouteAdd">
           <recvList/>
@@ -525,9 +648,9 @@
               <type type="ident" def="Route"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RouteDel">
           <recvList/>
@@ -536,9 +659,9 @@
               <type type="ident" def="Route"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RouteList">
           <recvList/>
@@ -548,12 +671,12 @@
             </type>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="Route"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="XfrmPolicyAdd">
           <recvList/>
@@ -562,9 +685,9 @@
               <type type="ident" def="XfrmPolicy"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="XfrmPolicyDel">
           <recvList/>
@@ -573,21 +696,21 @@
               <type type="ident" def="XfrmPolicy"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="XfrmPolicyList">
           <recvList/>
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="XfrmPolicy"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="XfrmStateAdd">
           <recvList/>
@@ -596,9 +719,9 @@
               <type type="ident" def="XfrmState"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="XfrmStateDel">
           <recvList/>
@@ -607,21 +730,21 @@
               <type type="ident" def="XfrmState"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="XfrmStateList">
           <recvList/>
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="XfrmState"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NeighAdd">
           <recvList/>
@@ -630,9 +753,9 @@
               <type type="ident" def="Neigh"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NeighSet">
           <recvList/>
@@ -641,9 +764,9 @@
               <type type="ident" def="Neigh"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NeighAppend">
           <recvList/>
@@ -652,9 +775,9 @@
               <type type="ident" def="Neigh"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NeighDel">
           <recvList/>
@@ -663,9 +786,9 @@
               <type type="ident" def="Neigh"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NeighList">
           <recvList/>
@@ -673,12 +796,12 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="Neigh"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NeighDeserialize">
           <recvList/>
@@ -687,7 +810,7 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Ndmsg"/>
             </type>
@@ -695,14 +818,14 @@
               <type type="ident" def="Neigh"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ParseIPNet">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="net"/>
@@ -710,7 +833,7 @@
               </type>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewIPNet">
           <recvList/>
@@ -720,14 +843,14 @@
               <item value="IP"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="net"/>
                 <item value="IPNet"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -736,11 +859,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -749,9 +872,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NeighAdd">
           <recvList/>
@@ -760,9 +883,9 @@
               <type type="ident" def="Neigh"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NeighSet">
           <recvList/>
@@ -771,9 +894,9 @@
               <type type="ident" def="Neigh"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NeighAppend">
           <recvList/>
@@ -782,9 +905,9 @@
               <type type="ident" def="Neigh"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NeighDel">
           <recvList/>
@@ -793,9 +916,9 @@
               <type type="ident" def="Neigh"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NeighList">
           <recvList/>
@@ -803,12 +926,12 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="Neigh"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NeighDeserialize">
           <recvList/>
@@ -817,12 +940,12 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Neigh"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -831,27 +954,27 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkSetUp">
           <recvList/>
           <paramsList>
             <type type="ident" def="Link"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkSetDown">
           <recvList/>
           <paramsList>
             <type type="ident" def="Link"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkSetMTU">
           <recvList/>
@@ -859,9 +982,32 @@
             <type type="ident" def="Link"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
+        </function>
+        <function name="LinkSetName">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="LinkSetHardwareAddr">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="HardwareAddr"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
         </function>
         <function name="LinkSetMaster">
           <recvList/>
@@ -871,9 +1017,9 @@
               <type type="ident" def="Bridge"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkSetMasterByIndex">
           <recvList/>
@@ -881,9 +1027,9 @@
             <type type="ident" def="Link"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkSetNsPid">
           <recvList/>
@@ -891,9 +1037,9 @@
             <type type="ident" def="Link"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkSetNsFd">
           <recvList/>
@@ -901,57 +1047,117 @@
             <type type="ident" def="Link"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkAdd">
           <recvList/>
           <paramsList>
             <type type="ident" def="Link"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkDel">
           <recvList/>
           <paramsList>
             <type type="ident" def="Link"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkByName">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Link"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkByIndex">
           <recvList/>
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Link"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LinkList">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="Link"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
+        </function>
+        <function name="LinkSetHairpin">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="LinkSetGuard">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="LinkSetFastLeave">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="LinkSetLearning">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="LinkSetRootBlock">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="LinkSetFlood">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="Link"/>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
         </function>
         <function name="Attrs">
           <recvList>
@@ -960,11 +1166,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="LinkAttrs"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Type">
           <recvList>
@@ -973,9 +1179,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Attrs">
           <recvList>
@@ -984,11 +1190,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="LinkAttrs"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Type">
           <recvList>
@@ -997,9 +1203,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Attrs">
           <recvList>
@@ -1008,11 +1214,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="LinkAttrs"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Type">
           <recvList>
@@ -1021,9 +1227,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Attrs">
           <recvList>
@@ -1032,11 +1238,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="LinkAttrs"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Type">
           <recvList>
@@ -1045,9 +1251,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Attrs">
           <recvList>
@@ -1056,11 +1262,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="LinkAttrs"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Type">
           <recvList>
@@ -1069,9 +1275,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Attrs">
           <recvList>
@@ -1080,11 +1286,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="LinkAttrs"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Type">
           <recvList>
@@ -1093,9 +1299,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Attrs">
           <recvList>
@@ -1104,11 +1310,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="LinkAttrs"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Type">
           <recvList>
@@ -1117,9 +1323,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Attrs">
           <recvList>
@@ -1128,11 +1334,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="LinkAttrs"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Type">
           <recvList>
@@ -1141,9 +1347,33 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
+        </function>
+        <function name="Attrs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="IPVlan"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="LinkAttrs"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Type">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="IPVlan"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
         </function>
         <function name="AddrAdd">
           <recvList/>
@@ -1153,9 +1383,9 @@
               <type type="ident" def="Addr"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AddrDel">
           <recvList/>
@@ -1165,9 +1395,9 @@
               <type type="ident" def="Addr"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AddrList">
           <recvList/>
@@ -1175,33 +1405,33 @@
             <type type="ident" def="Link"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="Addr"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="Addr"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ParseAddr">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Addr"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Equal">
           <recvList>
@@ -1210,9 +1440,9 @@
           <paramsList>
             <type type="ident" def="Addr"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>
@@ -1269,6 +1499,15 @@
         <name value="NTF_MASTER"/>
         <name value="NTF_PROXY"/>
         <name value="NTF_ROUTER"/>
+        <name value="MACVLAN_MODE_DEFAULT"/>
+        <name value="MACVLAN_MODE_PRIVATE"/>
+        <name value="MACVLAN_MODE_VEPA"/>
+        <name value="MACVLAN_MODE_BRIDGE"/>
+        <name value="MACVLAN_MODE_PASSTHRU"/>
+        <name value="MACVLAN_MODE_SOURCE"/>
+        <name value="IPVLAN_MODE_L2"/>
+        <name value="IPVLAN_MODE_L3"/>
+        <name value="IPVLAN_MODE_MAX"/>
       </names>
     </package>
     <package importpath="github.com/vishvananda/netlink/nl">
@@ -1483,9 +1722,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeXfrmUsersaId">
           <recvList/>
@@ -1494,11 +1733,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="XfrmUsersaId"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -1507,11 +1746,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -1520,9 +1759,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeXfrmStats">
           <recvList/>
@@ -1531,11 +1770,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="XfrmStats"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -1544,11 +1783,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -1557,9 +1796,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeXfrmUsersaInfo">
           <recvList/>
@@ -1568,11 +1807,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="XfrmUsersaInfo"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -1581,11 +1820,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -1594,9 +1833,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeXfrmAlgo">
           <recvList/>
@@ -1605,11 +1844,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="XfrmAlgo"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -1618,11 +1857,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -1631,9 +1870,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeXfrmAlgoAuth">
           <recvList/>
@@ -1642,11 +1881,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="XfrmAlgoAuth"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -1655,11 +1894,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -1668,9 +1907,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeXfrmEncapTmpl">
           <recvList/>
@@ -1679,11 +1918,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="XfrmEncapTmpl"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -1692,11 +1931,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -1705,9 +1944,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeXfrmUserpolicyId">
           <recvList/>
@@ -1716,11 +1955,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="XfrmUserpolicyId"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -1729,11 +1968,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -1742,9 +1981,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeXfrmUserpolicyInfo">
           <recvList/>
@@ -1753,11 +1992,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="XfrmUserpolicyInfo"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -1766,11 +2005,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -1779,9 +2018,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeXfrmUserTmpl">
           <recvList/>
@@ -1790,11 +2029,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="XfrmUserTmpl"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -1803,11 +2042,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ToIP">
           <recvList>
@@ -1816,12 +2055,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="net"/>
               <item value="IP"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ToIPNet">
           <recvList>
@@ -1832,14 +2071,14 @@
           <paramsList>
             <type type="ident" def="uint8"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="net"/>
                 <item value="IPNet"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="FromIP">
           <recvList>
@@ -1853,7 +2092,7 @@
               <item value="IP"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="DeserializeXfrmAddress">
           <recvList/>
@@ -1862,11 +2101,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="XfrmAddress"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -1875,11 +2114,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -1888,9 +2127,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeXfrmSelector">
           <recvList/>
@@ -1899,11 +2138,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="XfrmSelector"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -1912,11 +2151,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -1925,9 +2164,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeXfrmLifetimeCfg">
           <recvList/>
@@ -1936,11 +2175,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="XfrmLifetimeCfg"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -1949,11 +2188,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -1962,9 +2201,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeXfrmLifetimeCur">
           <recvList/>
@@ -1973,11 +2212,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="XfrmLifetimeCur"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -1986,11 +2225,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -1999,9 +2238,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeXfrmId">
           <recvList/>
@@ -2010,11 +2249,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="XfrmId"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -2023,20 +2262,20 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewRtMsg">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RtMsg"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -2045,9 +2284,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeRtMsg">
           <recvList/>
@@ -2056,11 +2295,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RtMsg"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -2069,11 +2308,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetIPFamily">
           <recvList/>
@@ -2083,48 +2322,48 @@
               <item value="IP"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NativeEndian">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="binary"/>
               <item value="ByteOrder"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Swap16">
           <recvList/>
           <paramsList>
             <type type="ident" def="uint16"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="uint16"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Swap32">
           <recvList/>
           <paramsList>
             <type type="ident" def="uint32"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="uint32"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewIfInfomsg">
           <recvList/>
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="IfInfomsg"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeIfInfomsg">
           <recvList/>
@@ -2133,11 +2372,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="IfInfomsg"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -2146,11 +2385,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -2159,9 +2398,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewIfInfomsgChild">
           <recvList/>
@@ -2171,11 +2410,11 @@
             </type>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="IfInfomsg"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewRtAttr">
           <recvList/>
@@ -2185,11 +2424,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RtAttr"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewRtAttrChild">
           <recvList/>
@@ -2202,11 +2441,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="RtAttr"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -2215,9 +2454,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -2226,11 +2465,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -2239,11 +2478,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AddData">
           <recvList>
@@ -2254,7 +2493,7 @@
           <paramsList>
             <type type="ident" def="NetlinkRequestData"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Execute">
           <recvList>
@@ -2266,14 +2505,14 @@
             <type type="ident" def="int"/>
             <type type="ident" def="uint16"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="slice">
                 <elmtype type="ident" def="byte"/>
               </elmtype>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewNetlinkRequest">
           <recvList/>
@@ -2281,11 +2520,11 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="NetlinkRequest"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Subscribe">
           <recvList/>
@@ -2295,12 +2534,12 @@
               <type type="ident" def="uint"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="NetlinkSocket"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Close">
           <recvList>
@@ -2309,7 +2548,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Send">
           <recvList>
@@ -2322,18 +2561,18 @@
               <type type="ident" def="NetlinkRequest"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
-        <function name="Recieve">
+        <function name="Receive">
           <recvList>
             <type type="pointer">
               <type type="ident" def="NetlinkSocket"/>
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="selector">
                 <prefix value="syscall"/>
@@ -2341,7 +2580,7 @@
               </elmtype>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetPid">
           <recvList>
@@ -2350,32 +2589,32 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="uint32"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ZeroTerminated">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NonZeroTerminated">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="BytesToString">
           <recvList/>
@@ -2384,42 +2623,42 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Uint8Attr">
           <recvList/>
           <paramsList>
             <type type="ident" def="uint8"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Uint16Attr">
           <recvList/>
           <paramsList>
             <type type="ident" def="uint16"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Uint32Attr">
           <recvList/>
           <paramsList>
             <type type="ident" def="uint32"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ParseRouteAttr">
           <recvList/>
@@ -2428,7 +2667,7 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="selector">
                 <prefix value="syscall"/>
@@ -2436,18 +2675,18 @@
               </elmtype>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewIfAddrmsg">
           <recvList/>
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="IfAddrmsg"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DeserializeIfAddrmsg">
           <recvList/>
@@ -2456,11 +2695,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="IfAddrmsg"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Serialize">
           <recvList>
@@ -2469,11 +2708,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
@@ -2482,9 +2721,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>
@@ -2593,7 +2832,32 @@
         <name value="IFLA_VXLAN_GROUP6"/>
         <name value="IFLA_VXLAN_LOCAL6"/>
         <name value="IFLA_VXLAN_MAX"/>
+        <name value="BRIDGE_MODE_UNSPEC"/>
+        <name value="BRIDGE_MODE_HAIRPIN"/>
+        <name value="IFLA_BRPORT_UNSPEC"/>
+        <name value="IFLA_BRPORT_STATE"/>
+        <name value="IFLA_BRPORT_PRIORITY"/>
+        <name value="IFLA_BRPORT_COST"/>
+        <name value="IFLA_BRPORT_MODE"/>
+        <name value="IFLA_BRPORT_GUARD"/>
+        <name value="IFLA_BRPORT_PROTECT"/>
+        <name value="IFLA_BRPORT_FAST_LEAVE"/>
+        <name value="IFLA_BRPORT_LEARNING"/>
+        <name value="IFLA_BRPORT_UNICAST_FLOOD"/>
+        <name value="IFLA_BRPORT_MAX"/>
+        <name value="IFLA_IPVLAN_UNSPEC"/>
+        <name value="IFLA_IPVLAN_MODE"/>
+        <name value="IFLA_IPVLAN_MAX"/>
         <name value="IFLA_NET_NS_FD"/>
+        <name value="IFLA_MACVLAN_UNSPEC"/>
+        <name value="IFLA_MACVLAN_MODE"/>
+        <name value="IFLA_MACVLAN_FLAGS"/>
+        <name value="IFLA_MACVLAN_MAX"/>
+        <name value="MACVLAN_MODE_PRIVATE"/>
+        <name value="MACVLAN_MODE_VEPA"/>
+        <name value="MACVLAN_MODE_BRIDGE"/>
+        <name value="MACVLAN_MODE_PASSTHRU"/>
+        <name value="MACVLAN_MODE_SOURCE"/>
       </names>
     </package>
   </packages>
@@ -2603,15 +2867,15 @@
     <import path="fmt"/>
     <import path="syscall"/>
     <import path="github.com/vishvananda/netlink/nl"/>
+    <import path="strings"/>
     <import path="errors"/>
-    <import path="github.com/vishvananda/netns"/>
     <import path="log"/>
     <import path="os"/>
     <import path="runtime"/>
+    <import path="github.com/vishvananda/netns"/>
     <import path="unsafe"/>
     <import path="bytes"/>
     <import path="encoding/binary"/>
-    <import path="strings"/>
     <import path="crypto/rand"/>
     <import path="reflect"/>
     <import path="sync/atomic"/>

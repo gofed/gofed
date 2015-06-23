@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit" nvr="golang-github-tent-http-link-go-0-0.1.gitac974c6.fc23">
+  <packages>
+    <package importpath="github.com/tent/http-link-go">
+      <types>
+        <type type="struct" name="Link">
+          <field type="ident" def="string" name="URI"/>
+          <field type="ident" def="string" name="Rel"/>
+          <field type="map" name="Params">
+            <keytype type="ident" def="string"/>
+            <valtype type="ident" def="string"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="Format">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="Link"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Parse">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="Link"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
+  </packages>
+  <imports>
+    <import path="testing"/>
+    <import path="launchpad.net/gocheck"/>
+    <import path="bytes"/>
+    <import path="errors"/>
+    <import path="sort"/>
+    <import path="unicode"/>
+  </imports>
+</project>

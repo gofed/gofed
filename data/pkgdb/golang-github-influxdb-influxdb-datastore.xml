@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-influxdb-influxdb-0.8.5-0.1.git9485e99.fc22">
+<project url="" commit="commit" nvr="golang-github-influxdb-influxdb-0.8.5-0.2.git9485e99.fc23">
   <packages>
     <package importpath="github.com/influxdb/influxdb/datastore/storage">
       <types>
@@ -339,9 +339,9 @@
         <function name="NewRocksDBConfig">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewRocksDB">
           <recvList/>
@@ -349,24 +349,24 @@
             <type type="ident" def="string"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Engine"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Compact">
           <recvList>
             <type type="ident" def="RocksDB"/>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Close">
           <recvList>
             <type type="ident" def="RocksDB"/>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Put">
           <recvList>
@@ -380,9 +380,9 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Get">
           <recvList>
@@ -393,30 +393,30 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Name">
           <recvList>
             <type type="ident" def="RocksDB"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Path">
           <recvList>
             <type type="ident" def="RocksDB"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="BatchPut">
           <recvList>
@@ -427,9 +427,9 @@
               <elmtype type="ident" def="Write"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Del">
           <recvList>
@@ -443,9 +443,9 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Seek">
           <recvList>
@@ -458,7 +458,7 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Next">
           <recvList>
@@ -467,7 +467,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Prev">
           <recvList>
@@ -476,7 +476,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Valid">
           <recvList>
@@ -485,9 +485,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Error">
           <recvList>
@@ -496,9 +496,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Key">
           <recvList>
@@ -507,11 +507,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Value">
           <recvList>
@@ -520,11 +520,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Close">
           <recvList>
@@ -533,28 +533,28 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Iterator">
           <recvList>
             <type type="ident" def="RocksDB"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Iterator"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetInitializer">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Initializer"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DefaultPredicate">
           <recvList/>
@@ -563,7 +563,7 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="func">
               <paramsList>
                 <type type="slice">
@@ -574,14 +574,14 @@
                 <type type="ident" def="bool"/>
               </resultsList>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewMDBConfiguration">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewMDB">
           <recvList/>
@@ -589,10 +589,10 @@
             <type type="ident" def="string"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Engine"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Put">
           <recvList>
@@ -606,9 +606,9 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="BatchPut">
           <recvList>
@@ -619,9 +619,9 @@
               <elmtype type="ident" def="Write"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Get">
           <recvList>
@@ -632,12 +632,12 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Del">
           <recvList>
@@ -651,9 +651,9 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Key">
           <recvList>
@@ -662,11 +662,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Value">
           <recvList>
@@ -675,11 +675,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Valid">
           <recvList>
@@ -688,9 +688,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Error">
           <recvList>
@@ -699,9 +699,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Seek">
           <recvList>
@@ -714,7 +714,7 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Next">
           <recvList>
@@ -723,7 +723,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Prev">
           <recvList>
@@ -732,7 +732,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Close">
           <recvList>
@@ -741,57 +741,57 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Name">
           <recvList>
             <type type="ident" def="MDB"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Path">
           <recvList>
             <type type="ident" def="MDB"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Iterator">
           <recvList>
             <type type="ident" def="MDB"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Iterator"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Compact">
           <recvList>
             <type type="ident" def="MDB"/>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Close">
           <recvList>
             <type type="ident" def="MDB"/>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="NewLevelDBConfig">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewLevelDB">
           <recvList/>
@@ -799,24 +799,24 @@
             <type type="ident" def="string"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Engine"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Compact">
           <recvList>
             <type type="ident" def="LevelDB"/>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Close">
           <recvList>
             <type type="ident" def="LevelDB"/>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Put">
           <recvList>
@@ -830,9 +830,9 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Get">
           <recvList>
@@ -843,30 +843,30 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Name">
           <recvList>
             <type type="ident" def="LevelDB"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Path">
           <recvList>
             <type type="ident" def="LevelDB"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="BatchPut">
           <recvList>
@@ -877,9 +877,9 @@
               <elmtype type="ident" def="Write"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Del">
           <recvList>
@@ -893,9 +893,9 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Seek">
           <recvList>
@@ -908,7 +908,7 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Next">
           <recvList>
@@ -917,7 +917,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Prev">
           <recvList>
@@ -926,7 +926,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Valid">
           <recvList>
@@ -935,9 +935,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Error">
           <recvList>
@@ -946,9 +946,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Key">
           <recvList>
@@ -957,11 +957,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Value">
           <recvList>
@@ -970,11 +970,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Close">
           <recvList>
@@ -983,25 +983,25 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Iterator">
           <recvList>
             <type type="ident" def="LevelDB"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Iterator"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewHyperlevelDBConfig">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewHyperlevelDB">
           <recvList/>
@@ -1009,24 +1009,24 @@
             <type type="ident" def="string"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Engine"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Compact">
           <recvList>
             <type type="ident" def="HyperlevelDB"/>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Close">
           <recvList>
             <type type="ident" def="HyperlevelDB"/>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Put">
           <recvList>
@@ -1040,9 +1040,9 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Get">
           <recvList>
@@ -1053,30 +1053,30 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Name">
           <recvList>
             <type type="ident" def="HyperlevelDB"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Path">
           <recvList>
             <type type="ident" def="HyperlevelDB"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="BatchPut">
           <recvList>
@@ -1087,9 +1087,9 @@
               <elmtype type="ident" def="Write"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Del">
           <recvList>
@@ -1103,9 +1103,9 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Seek">
           <recvList>
@@ -1118,7 +1118,7 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Next">
           <recvList>
@@ -1127,7 +1127,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Prev">
           <recvList>
@@ -1136,7 +1136,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Valid">
           <recvList>
@@ -1145,9 +1145,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Error">
           <recvList>
@@ -1156,9 +1156,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Key">
           <recvList>
@@ -1167,11 +1167,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Value">
           <recvList>
@@ -1180,11 +1180,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Close">
           <recvList>
@@ -1193,18 +1193,18 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Iterator">
           <recvList>
             <type type="ident" def="HyperlevelDB"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Iterator"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>
@@ -1247,7 +1247,7 @@
           </field>
           <field type="map" name="shardsToDelete">
             <keytype type="ident" def="uint32"/>
-            <type type="struct" name=""/>
+            <valtype type="struct" name=""/>
           </field>
           <field type="selector" name="shardsLock">
             <prefix value="sync"/>
@@ -1551,12 +1551,12 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="ShardDatastore"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Close">
           <recvList>
@@ -1565,7 +1565,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="GetOrCreateShard">
           <recvList>
@@ -1576,13 +1576,13 @@
           <paramsList>
             <type type="ident" def="uint32"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="cluster"/>
               <item value="LocalShardDb"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ReturnShard">
           <recvList>
@@ -1593,7 +1593,7 @@
           <paramsList>
             <type type="ident" def="uint32"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Write">
           <recvList>
@@ -1609,9 +1609,9 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="BufferWrite">
           <recvList>
@@ -1627,7 +1627,7 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetWriteBuffer">
           <recvList>
@@ -1643,7 +1643,7 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="DeleteShard">
           <recvList>
@@ -1654,27 +1654,27 @@
           <paramsList>
             <type type="ident" def="uint32"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="NewFieldLookupError">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="FieldLookupError"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Error">
           <recvList>
             <type type="ident" def="FieldLookupError"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewShard">
           <recvList/>
@@ -1692,12 +1692,12 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Shard"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Write">
           <recvList>
@@ -1716,9 +1716,9 @@
               </elmtype>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Query">
           <recvList>
@@ -1738,9 +1738,9 @@
               <item value="Processor"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="IsClosed">
           <recvList>
@@ -1749,9 +1749,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DropFields">
           <recvList>
@@ -1769,50 +1769,50 @@
               </elmtype>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="rawColumnValue"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="HasPoint">
           <recvList>
             <type type="ident" def="PointIteratorStream"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Next">
           <recvList>
             <type type="ident" def="PointIteratorStream"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="protocol"/>
                 <item value="Series"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Closed">
           <recvList>
             <type type="ident" def="PointIteratorStream"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewPointIterator">
           <recvList/>
@@ -1841,11 +1841,11 @@
             </type>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="PointIterator"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Next">
           <recvList>
@@ -1854,7 +1854,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Valid">
           <recvList>
@@ -1863,9 +1863,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Point">
           <recvList>
@@ -1874,14 +1874,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="protocol"/>
                 <item value="Point"/>
               </type>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Error">
           <recvList>
@@ -1890,9 +1890,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Close">
           <recvList>
@@ -1901,7 +1901,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
       </functions>
       <names>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-prometheus-client_golang-0.4.0-1.fc23">
+<project url="" commit="commit" nvr="golang-github-prometheus-client_golang-0.5.0-2.fc23">
   <packages>
     <package importpath="github.com/prometheus/client_golang/text">
       <types>
@@ -1170,6 +1170,78 @@
             <type type="ident" def="Summary"/>
           </resultsList>
         </function>
+        <function name="Desc">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="constSummary"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Desc"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="constSummary"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="dto"/>
+                <item value="Metric"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewConstSummary">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Desc"/>
+            </type>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="float64"/>
+            <type type="map">
+              <keytype type="ident" def="float64"/>
+              <valtype type="ident" def="float64"/>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Metric"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="MustNewConstSummary">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Desc"/>
+            </type>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="float64"/>
+            <type type="map">
+              <keytype type="ident" def="float64"/>
+              <valtype type="ident" def="float64"/>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Metric"/>
+          </resultsList>
+        </function>
         <function name="Handler">
           <recvList/>
           <paramsList/>
@@ -1871,6 +1943,109 @@
           </paramsList>
           <resultsList>
             <type type="ident" def="Histogram"/>
+          </resultsList>
+        </function>
+        <function name="Desc">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="constHistogram"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Desc"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Write">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="constHistogram"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="dto"/>
+                <item value="Metric"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewConstHistogram">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Desc"/>
+            </type>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="float64"/>
+            <type type="map">
+              <keytype type="ident" def="float64"/>
+              <valtype type="ident" def="uint64"/>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Metric"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="MustNewConstHistogram">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Desc"/>
+            </type>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="float64"/>
+            <type type="map">
+              <keytype type="ident" def="float64"/>
+              <valtype type="ident" def="uint64"/>
+            </type>
+            <type type="ellipsis">
+              <type type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Metric"/>
+          </resultsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="buckSort"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+          </resultsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="buckSort"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="buckSort"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="bool"/>
           </resultsList>
         </function>
         <function name="NewGoCollector">
@@ -2618,6 +2793,15 @@
             <type type="ident" def="Fingerprint"/>
           </resultsList>
         </function>
+        <function name="FastFingerprint">
+          <recvList>
+            <type type="ident" def="Metric"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="Fingerprint"/>
+          </resultsList>
+        </function>
         <function name="Clone">
           <recvList>
             <type type="ident" def="Metric"/>
@@ -2887,6 +3071,7 @@
         <name value="ExporterLabelPrefix"/>
         <name value="MetricNameLabel"/>
         <name value="AddressLabel"/>
+        <name value="MetricsPathLabel"/>
         <name value="ReservedLabelPrefix"/>
         <name value="MetaLabelPrefix"/>
         <name value="JobLabel"/>
@@ -2932,6 +3117,7 @@
     <import path="github.com/prometheus/procfs"/>
     <import path="reflect"/>
     <import path="runtime"/>
+    <import path="runtime/debug"/>
     <import path="expvar"/>
     <import path="github.com/prometheus/client_golang/prometheus"/>
     <import path="encoding/json"/>

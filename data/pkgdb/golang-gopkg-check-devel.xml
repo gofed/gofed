@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-gopkg-check-0-4.fc22">
+<project url="" commit="commit" nvr="golang-gopkg-check-0-5.fc23">
   <packages>
     <package importpath="launchpad.net/gocheck">
       <types>
@@ -55,7 +55,7 @@
             <prefix value="io"/>
             <item value="Writer"/>
           </field>
-          <field type="chan" dir="3" name="done">
+          <field type="channel" dir="3" name="done">
             <type type="pointer">
               <type type="ident" def="C"/>
             </type>
@@ -106,9 +106,9 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="TestingT">
           <recvList/>
@@ -120,7 +120,7 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="RunAll">
           <recvList/>
@@ -129,11 +129,11 @@
               <type type="ident" def="RunConf"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Result"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Run">
           <recvList/>
@@ -143,11 +143,11 @@
               <type type="ident" def="RunConf"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Result"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ListAll">
           <recvList/>
@@ -156,11 +156,11 @@
               <type type="ident" def="RunConf"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="string"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="List">
           <recvList/>
@@ -170,11 +170,11 @@
               <type type="ident" def="RunConf"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="string"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Add">
           <recvList>
@@ -187,7 +187,7 @@
               <type type="ident" def="Result"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Passed">
           <recvList>
@@ -196,9 +196,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -207,9 +207,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Visit">
           <recvList>
@@ -223,12 +223,12 @@
               <item value="Node"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="ast"/>
               <item value="Visitor"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="TestName">
           <recvList>
@@ -237,9 +237,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Failed">
           <recvList>
@@ -248,9 +248,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Fail">
           <recvList>
@@ -259,7 +259,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="FailNow">
           <recvList>
@@ -268,7 +268,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Succeed">
           <recvList>
@@ -277,7 +277,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SucceedNow">
           <recvList>
@@ -286,7 +286,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="ExpectFailure">
           <recvList>
@@ -297,7 +297,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Skip">
           <recvList>
@@ -308,7 +308,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="GetTestLog">
           <recvList>
@@ -317,9 +317,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Log">
           <recvList>
@@ -332,7 +332,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Logf">
           <recvList>
@@ -346,7 +346,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Output">
           <recvList>
@@ -358,9 +358,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Error">
           <recvList>
@@ -373,7 +373,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Errorf">
           <recvList>
@@ -387,7 +387,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatal">
           <recvList>
@@ -400,7 +400,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatalf">
           <recvList>
@@ -414,7 +414,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Check">
           <recvList>
@@ -429,9 +429,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Assert">
           <recvList>
@@ -446,7 +446,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Commentf">
           <recvList/>
@@ -456,9 +456,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="CommentInterface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CheckCommentString">
           <recvList>
@@ -467,9 +467,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Info">
           <recvList>
@@ -478,20 +478,20 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="CheckerInfo"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Not">
           <recvList/>
           <paramsList>
             <type type="ident" def="Checker"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Checker"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Info">
           <recvList>
@@ -500,11 +500,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="CheckerInfo"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -520,10 +520,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -539,10 +539,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -558,10 +558,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -577,10 +577,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -596,10 +596,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -615,10 +615,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -632,10 +632,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -651,10 +651,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -670,10 +670,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -689,10 +689,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -708,10 +708,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -727,10 +727,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PC">
           <recvList>
@@ -739,9 +739,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="uintptr"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -750,9 +750,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Write">
           <recvList>
@@ -765,10 +765,10 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WriteTo">
           <recvList>
@@ -782,10 +782,10 @@
               <item value="Writer"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -794,9 +794,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="MkDir">
           <recvList>
@@ -805,9 +805,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Write">
           <recvList>
@@ -820,10 +820,10 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WriteCallStarted">
           <recvList>
@@ -837,7 +837,7 @@
               <type type="ident" def="C"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="WriteCallProblem">
           <recvList>
@@ -851,7 +851,7 @@
               <type type="ident" def="C"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="WriteCallSuccess">
           <recvList>
@@ -865,7 +865,7 @@
               <type type="ident" def="C"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="StartTimer">
           <recvList>
@@ -874,7 +874,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="StopTimer">
           <recvList>
@@ -883,7 +883,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="ResetTimer">
           <recvList>
@@ -892,7 +892,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetBytes">
           <recvList>
@@ -903,7 +903,7 @@
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
       </functions>
       <names>
@@ -974,7 +974,7 @@
             <prefix value="io"/>
             <item value="Writer"/>
           </field>
-          <field type="chan" dir="3" name="done">
+          <field type="channel" dir="3" name="done">
             <type type="pointer">
               <type type="ident" def="C"/>
             </type>
@@ -1025,9 +1025,9 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="TestingT">
           <recvList/>
@@ -1039,7 +1039,7 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="RunAll">
           <recvList/>
@@ -1048,11 +1048,11 @@
               <type type="ident" def="RunConf"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Result"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Run">
           <recvList/>
@@ -1062,11 +1062,11 @@
               <type type="ident" def="RunConf"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Result"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ListAll">
           <recvList/>
@@ -1075,11 +1075,11 @@
               <type type="ident" def="RunConf"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="string"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="List">
           <recvList/>
@@ -1089,11 +1089,11 @@
               <type type="ident" def="RunConf"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="string"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Add">
           <recvList>
@@ -1106,7 +1106,7 @@
               <type type="ident" def="Result"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Passed">
           <recvList>
@@ -1115,9 +1115,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -1126,9 +1126,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Visit">
           <recvList>
@@ -1142,12 +1142,12 @@
               <item value="Node"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="ast"/>
               <item value="Visitor"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="TestName">
           <recvList>
@@ -1156,9 +1156,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Failed">
           <recvList>
@@ -1167,9 +1167,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Fail">
           <recvList>
@@ -1178,7 +1178,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="FailNow">
           <recvList>
@@ -1187,7 +1187,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Succeed">
           <recvList>
@@ -1196,7 +1196,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SucceedNow">
           <recvList>
@@ -1205,7 +1205,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="ExpectFailure">
           <recvList>
@@ -1216,7 +1216,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Skip">
           <recvList>
@@ -1227,7 +1227,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="GetTestLog">
           <recvList>
@@ -1236,9 +1236,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Log">
           <recvList>
@@ -1251,7 +1251,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Logf">
           <recvList>
@@ -1265,7 +1265,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Output">
           <recvList>
@@ -1277,9 +1277,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Error">
           <recvList>
@@ -1292,7 +1292,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Errorf">
           <recvList>
@@ -1306,7 +1306,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatal">
           <recvList>
@@ -1319,7 +1319,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatalf">
           <recvList>
@@ -1333,7 +1333,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Check">
           <recvList>
@@ -1348,9 +1348,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Assert">
           <recvList>
@@ -1365,7 +1365,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Commentf">
           <recvList/>
@@ -1375,9 +1375,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="CommentInterface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CheckCommentString">
           <recvList>
@@ -1386,9 +1386,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Info">
           <recvList>
@@ -1397,20 +1397,20 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="CheckerInfo"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Not">
           <recvList/>
           <paramsList>
             <type type="ident" def="Checker"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Checker"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Info">
           <recvList>
@@ -1419,11 +1419,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="CheckerInfo"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -1439,10 +1439,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -1458,10 +1458,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -1477,10 +1477,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -1496,10 +1496,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -1515,10 +1515,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -1534,10 +1534,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -1551,10 +1551,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -1570,10 +1570,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -1589,10 +1589,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -1608,10 +1608,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -1627,10 +1627,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -1646,10 +1646,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PC">
           <recvList>
@@ -1658,9 +1658,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="uintptr"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -1669,9 +1669,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Write">
           <recvList>
@@ -1684,10 +1684,10 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WriteTo">
           <recvList>
@@ -1701,10 +1701,10 @@
               <item value="Writer"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -1713,9 +1713,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="MkDir">
           <recvList>
@@ -1724,9 +1724,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Write">
           <recvList>
@@ -1739,10 +1739,10 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WriteCallStarted">
           <recvList>
@@ -1756,7 +1756,7 @@
               <type type="ident" def="C"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="WriteCallProblem">
           <recvList>
@@ -1770,7 +1770,7 @@
               <type type="ident" def="C"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="WriteCallSuccess">
           <recvList>
@@ -1784,7 +1784,7 @@
               <type type="ident" def="C"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="StartTimer">
           <recvList>
@@ -1793,7 +1793,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="StopTimer">
           <recvList>
@@ -1802,7 +1802,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="ResetTimer">
           <recvList>
@@ -1811,7 +1811,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetBytes">
           <recvList>
@@ -1822,7 +1822,7 @@
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
       </functions>
       <names>
@@ -1854,7 +1854,7 @@
             <prefix value="io"/>
             <item value="Writer"/>
           </field>
-          <field type="chan" dir="3" name="done">
+          <field type="channel" dir="3" name="done">
             <type type="pointer">
               <type type="ident" def="C"/>
             </type>
@@ -1935,9 +1935,9 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="TestingT">
           <recvList/>
@@ -1949,7 +1949,7 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="RunAll">
           <recvList/>
@@ -1958,11 +1958,11 @@
               <type type="ident" def="RunConf"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Result"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Run">
           <recvList/>
@@ -1972,11 +1972,11 @@
               <type type="ident" def="RunConf"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Result"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ListAll">
           <recvList/>
@@ -1985,11 +1985,11 @@
               <type type="ident" def="RunConf"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="string"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="List">
           <recvList/>
@@ -1999,11 +1999,11 @@
               <type type="ident" def="RunConf"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="string"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Add">
           <recvList>
@@ -2016,7 +2016,7 @@
               <type type="ident" def="Result"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Passed">
           <recvList>
@@ -2025,9 +2025,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -2036,9 +2036,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Visit">
           <recvList>
@@ -2052,12 +2052,12 @@
               <item value="Node"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="ast"/>
               <item value="Visitor"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Failed">
           <recvList>
@@ -2066,9 +2066,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Fail">
           <recvList>
@@ -2077,7 +2077,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="FailNow">
           <recvList>
@@ -2086,7 +2086,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Succeed">
           <recvList>
@@ -2095,7 +2095,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SucceedNow">
           <recvList>
@@ -2104,7 +2104,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="ExpectFailure">
           <recvList>
@@ -2115,7 +2115,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Skip">
           <recvList>
@@ -2126,7 +2126,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="GetTestLog">
           <recvList>
@@ -2135,9 +2135,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Log">
           <recvList>
@@ -2150,7 +2150,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Logf">
           <recvList>
@@ -2164,7 +2164,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Output">
           <recvList>
@@ -2176,9 +2176,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Error">
           <recvList>
@@ -2191,7 +2191,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Errorf">
           <recvList>
@@ -2205,7 +2205,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatal">
           <recvList>
@@ -2218,7 +2218,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatalf">
           <recvList>
@@ -2232,7 +2232,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Check">
           <recvList>
@@ -2247,9 +2247,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Assert">
           <recvList>
@@ -2264,7 +2264,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="PC">
           <recvList>
@@ -2273,9 +2273,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="uintptr"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -2284,9 +2284,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Write">
           <recvList>
@@ -2299,10 +2299,10 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WriteTo">
           <recvList>
@@ -2316,10 +2316,10 @@
               <item value="Writer"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -2328,9 +2328,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="MkDir">
           <recvList>
@@ -2339,9 +2339,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Write">
           <recvList>
@@ -2354,10 +2354,10 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WriteCallStarted">
           <recvList>
@@ -2371,7 +2371,7 @@
               <type type="ident" def="C"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="WriteCallProblem">
           <recvList>
@@ -2385,7 +2385,7 @@
               <type type="ident" def="C"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="WriteCallSuccess">
           <recvList>
@@ -2399,7 +2399,7 @@
               <type type="ident" def="C"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Commentf">
           <recvList/>
@@ -2409,9 +2409,9 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="CommentInterface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CheckCommentString">
           <recvList>
@@ -2420,9 +2420,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Info">
           <recvList>
@@ -2431,20 +2431,20 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="CheckerInfo"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Not">
           <recvList/>
           <paramsList>
             <type type="ident" def="Checker"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Checker"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Info">
           <recvList>
@@ -2453,11 +2453,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="CheckerInfo"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -2473,10 +2473,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -2492,10 +2492,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -2511,10 +2511,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -2530,10 +2530,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -2549,10 +2549,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -2568,10 +2568,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -2585,10 +2585,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -2604,10 +2604,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -2623,10 +2623,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -2642,10 +2642,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -2661,10 +2661,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList>
@@ -2680,10 +2680,10 @@
               <elmtype type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StartTimer">
           <recvList>
@@ -2692,7 +2692,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="StopTimer">
           <recvList>
@@ -2701,7 +2701,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="ResetTimer">
           <recvList>
@@ -2710,7 +2710,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetBytes">
           <recvList>
@@ -2721,7 +2721,7 @@
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
       </functions>
       <names>

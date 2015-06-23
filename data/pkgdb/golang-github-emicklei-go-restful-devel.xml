@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-emicklei-go-restful-1.1.3-0.2.git03f8ad5.fc23">
+<project url="" commit="commit" nvr="golang-github-emicklei-go-restful-1.1.3-0.5.gitbdfb7d4.fc23">
   <packages>
     <package importpath="github.com/emicklei/go-restful">
       <types>
@@ -189,6 +189,7 @@
             <valtype type="ident" def="string"/>
           </field>
           <field type="ident" def="bool" name="AllowMultiple"/>
+          <field type="ident" def="string" name="DefaultValue"/>
         </type>
         <type type="struct" name="RouterJSR311"/>
         <type type="struct" name="FilterChain">
@@ -1477,6 +1478,21 @@
             </type>
           </resultsList>
         </function>
+        <function name="DefaultValue">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Parameter"/>
+            </type>
+          </resultsList>
+        </function>
         <function name="OPTIONSFilter">
           <recvList>
             <type type="pointer">
@@ -2003,9 +2019,8 @@
       <types>
         <type type="struct" name="SwaggerService">
           <field type="ident" def="Config" name="config"/>
-          <field type="map" name="apiDeclarationMap">
-            <keytype type="ident" def="string"/>
-            <valtype type="ident" def="ApiDeclaration"/>
+          <field type="pointer" name="apiDeclarationMap">
+            <type type="ident" def="ApiDeclarationList"/>
           </field>
         </type>
         <type type="struct" name="DataTypeFields">
@@ -2111,10 +2126,7 @@
           <field type="slice" name="Apis">
             <elmtype type="ident" def="Api"/>
           </field>
-          <field type="map" name="Models">
-            <keytype type="ident" def="string"/>
-            <valtype type="ident" def="Model"/>
-          </field>
+          <field type="ident" def="ModelList" name="Models"/>
           <field type="slice" name="Produces">
             <elmtype type="ident" def="string"/>
           </field>
@@ -2174,10 +2186,7 @@
           <field type="slice" name="Required">
             <elmtype type="ident" def="string"/>
           </field>
-          <field type="map" name="Properties">
-            <keytype type="ident" def="string"/>
-            <valtype type="ident" def="ModelProperty"/>
-          </field>
+          <field type="ident" def="ModelPropertyList" name="Properties"/>
           <field type="slice" name="SubTypes">
             <elmtype type="ident" def="string"/>
           </field>
@@ -2191,11 +2200,23 @@
           <keytype type="ident" def="string"/>
           <valtype type="ident" def="Authorization"/>
         </type>
-        <type name="ResourceSorter" type="slice">
-          <elmtype type="ident" def="Resource"/>
+        <type type="struct" name="NamedModelProperty">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="ModelProperty" name="Property"/>
         </type>
-        <type name="ParameterSorter" type="slice">
-          <elmtype type="ident" def="Parameter"/>
+        <type type="struct" name="ModelPropertyList">
+          <field type="slice" name="List">
+            <elmtype type="ident" def="NamedModelProperty"/>
+          </field>
+        </type>
+        <type type="struct" name="NamedModel">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="Model" name="Model"/>
+        </type>
+        <type type="struct" name="ModelList">
+          <field type="slice" name="List">
+            <elmtype type="ident" def="NamedModel"/>
+          </field>
         </type>
         <type name="ModelBuildable" type="interface">
           <method name="PostBuildModel">
@@ -2213,9 +2234,8 @@
         </type>
         <type name="PostBuildDeclarationMapFunc" type="func">
           <paramsList>
-            <type type="map">
-              <keytype type="ident" def="string"/>
-              <valtype type="ident" def="ApiDeclaration"/>
+            <type type="pointer">
+              <type type="ident" def="ApiDeclarationList"/>
             </type>
           </paramsList>
           <resultsList/>
@@ -2241,6 +2261,11 @@
           <field type="ident" def="string" name="ApiVersion"/>
           <field type="ident" def="PostBuildDeclarationMapFunc" name="PostBuildHandler"/>
         </type>
+        <type type="struct" name="ApiDeclarationList">
+          <field type="slice" name="List">
+            <elmtype type="ident" def="ApiDeclaration"/>
+          </field>
+        </type>
       </types>
       <functions>
         <function name="InstallSwaggerService">
@@ -2262,68 +2287,6 @@
             </type>
           </paramsList>
           <resultsList/>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="ident" def="ResourceSorter"/>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="int"/>
-          </resultsList>
-        </function>
-        <function name="Swap">
-          <recvList>
-            <type type="ident" def="ResourceSorter"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList/>
-        </function>
-        <function name="Less">
-          <recvList>
-            <type type="ident" def="ResourceSorter"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="bool"/>
-          </resultsList>
-        </function>
-        <function name="Len">
-          <recvList>
-            <type type="ident" def="ParameterSorter"/>
-          </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="ident" def="int"/>
-          </resultsList>
-        </function>
-        <function name="Swap">
-          <recvList>
-            <type type="ident" def="ParameterSorter"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList/>
-        </function>
-        <function name="Less">
-          <recvList>
-            <type type="ident" def="ParameterSorter"/>
-          </recvList>
-          <paramsList>
-            <type type="ident" def="int"/>
-            <type type="ident" def="int"/>
-          </paramsList>
-          <resultsList>
-            <type type="ident" def="bool"/>
-          </resultsList>
         </function>
         <function name="Add">
           <recvList>
@@ -2361,6 +2324,201 @@
             </type>
           </paramsList>
           <resultsList/>
+        </function>
+        <function name="At">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ModelPropertyList"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="ModelProperty"/>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Put">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ModelPropertyList"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="ModelProperty"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Do">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ModelPropertyList"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="string"/>
+                <type type="ident" def="ModelProperty"/>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="MarshalJSON">
+          <recvList>
+            <type type="ident" def="ModelPropertyList"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="UnmarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ModelPropertyList"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Put">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ModelList"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="Model"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="At">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ModelList"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Model"/>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Do">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ModelList"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="string"/>
+                <type type="ident" def="Model"/>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="MarshalJSON">
+          <recvList>
+            <type type="ident" def="ModelList"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="UnmarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ModelList"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="At">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ApiDeclarationList"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="ApiDeclaration"/>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Put">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ApiDeclarationList"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="ApiDeclaration"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Do">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ApiDeclarationList"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="string"/>
+                <type type="ident" def="ApiDeclaration"/>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="MarshalJSON">
+          <recvList>
+            <type type="ident" def="ApiDeclarationList"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
         </function>
       </functions>
       <names>

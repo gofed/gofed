@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-openshift-go-systemd-0-0.3.gitb71042d.fc21">
+<project url="" commit="commit" nvr="golang-github-openshift-go-systemd-0-0.5.git3e62c31.fc23">
   <packages>
     <package importpath="github.com/openshift/go-systemd/dbus">
       <types>
@@ -68,13 +68,13 @@
               <item value="Object"/>
             </type>
           </field>
-          <type type="struct" name="jobListener">
+          <field type="struct" name="jobListener">
             <field type="map" name="jobs">
               <keytype type="selector">
                 <prefix value="dbus"/>
                 <item value="ObjectPath"/>
               </keytype>
-              <valtype type="chan" dir="3">
+              <valtype type="channel" dir="3">
                 <type type="ident" def="string"/>
               </valtype>
             </field>
@@ -82,14 +82,14 @@
               <prefix value="sync"/>
               <item value="Mutex"/>
             </field>
-          </type>
-          <type type="struct" name="subscriber">
-            <field type="chan" dir="1" name="updateCh">
+          </field>
+          <field type="struct" name="subscriber">
+            <field type="channel" dir="1" name="updateCh">
               <type type="pointer">
                 <type type="ident" def="SubStateUpdate"/>
               </type>
             </field>
-            <field type="chan" dir="1" name="errCh">
+            <field type="channel" dir="1" name="errCh">
               <type type="ident" def="error"/>
             </field>
             <field type="selector" name="">
@@ -104,7 +104,7 @@
               <valtype type="ident" def="int64"/>
             </field>
             <field type="ident" def="int64" name="cleanIgnore"/>
-          </type>
+          </field>
           <field type="map" name="dispatch">
             <keytype type="ident" def="string"/>
             <valtype type="func">
@@ -127,8 +127,8 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
-            <type type="chan" dir="2">
+          <resultsList>
+            <type type="channel" dir="2">
               <type type="map">
                 <keytype type="ident" def="string"/>
                 <valtype type="pointer">
@@ -136,10 +136,10 @@
                 </valtype>
               </type>
             </type>
-            <type type="chan" dir="2">
+            <type type="channel" dir="2">
               <type type="ident" def="error"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewSubscriptionSet">
           <recvList>
@@ -148,11 +148,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="SubscriptionSet"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Subscribe">
           <recvList>
@@ -161,9 +161,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Unsubscribe">
           <recvList>
@@ -172,9 +172,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SubscribeUnits">
           <recvList>
@@ -188,8 +188,8 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList>
-            <type type="chan" dir="2">
+          <resultsList>
+            <type type="channel" dir="2">
               <type type="map">
                 <keytype type="ident" def="string"/>
                 <valtype type="pointer">
@@ -197,10 +197,10 @@
                 </valtype>
               </type>
             </type>
-            <type type="chan" dir="2">
+            <type type="channel" dir="2">
               <type type="ident" def="error"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SubscribeUnitsCustom">
           <recvList>
@@ -236,8 +236,8 @@
               </resultsList>
             </type>
           </paramsList>
-          <returnsList>
-            <type type="chan" dir="2">
+          <resultsList>
+            <type type="channel" dir="2">
               <type type="map">
                 <keytype type="ident" def="string"/>
                 <valtype type="pointer">
@@ -245,10 +245,10 @@
                 </valtype>
               </type>
             </type>
-            <type type="chan" dir="2">
+            <type type="channel" dir="2">
               <type type="ident" def="error"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetSubStateSubscriber">
           <recvList>
@@ -257,16 +257,16 @@
             </type>
           </recvList>
           <paramsList>
-            <type type="chan" dir="1">
+            <type type="channel" dir="1">
               <type type="pointer">
                 <type type="ident" def="SubStateUpdate"/>
               </type>
             </type>
-            <type type="chan" dir="1">
+            <type type="channel" dir="1">
               <type type="ident" def="error"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Add">
           <recvList>
@@ -277,7 +277,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Remove">
           <recvList>
@@ -288,7 +288,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Contains">
           <recvList>
@@ -299,9 +299,9 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Length">
           <recvList>
@@ -310,9 +310,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropExecStart">
           <recvList/>
@@ -322,27 +322,27 @@
             </type>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropRemainAfterExit">
           <recvList/>
           <paramsList>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropDescription">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropRequires">
           <recvList/>
@@ -351,9 +351,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropRequiresOverridable">
           <recvList/>
@@ -362,9 +362,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropRequisite">
           <recvList/>
@@ -373,9 +373,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropRequisiteOverridable">
           <recvList/>
@@ -384,9 +384,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropWants">
           <recvList/>
@@ -395,9 +395,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropBindsTo">
           <recvList/>
@@ -406,9 +406,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropRequiredBy">
           <recvList/>
@@ -417,9 +417,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropRequiredByOverridable">
           <recvList/>
@@ -428,9 +428,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropWantedBy">
           <recvList/>
@@ -439,9 +439,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropBoundBy">
           <recvList/>
@@ -450,9 +450,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropConflicts">
           <recvList/>
@@ -461,9 +461,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropConflictedBy">
           <recvList/>
@@ -472,9 +472,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropBefore">
           <recvList/>
@@ -483,9 +483,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropAfter">
           <recvList/>
@@ -494,9 +494,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropOnFailure">
           <recvList/>
@@ -505,9 +505,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropTriggers">
           <recvList/>
@@ -516,9 +516,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropTriggeredBy">
           <recvList/>
@@ -527,9 +527,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropPropagatesReloadTo">
           <recvList/>
@@ -538,9 +538,9 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropRequiresMountsFor">
           <recvList/>
@@ -549,18 +549,18 @@
               <type type="ident" def="string"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PropSlice">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Property"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="LoadUnit">
           <recvList>
@@ -571,10 +571,10 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StartUnit">
           <recvList>
@@ -586,10 +586,10 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StartUnitJob">
           <recvList>
@@ -601,9 +601,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StopUnit">
           <recvList>
@@ -615,10 +615,10 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StopUnitJob">
           <recvList>
@@ -630,9 +630,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ReloadUnit">
           <recvList>
@@ -644,10 +644,10 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RestartUnit">
           <recvList>
@@ -659,10 +659,10 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RestartUnitJob">
           <recvList>
@@ -674,9 +674,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="TryRestartUnit">
           <recvList>
@@ -688,10 +688,10 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ReloadOrRestartUnit">
           <recvList>
@@ -703,10 +703,10 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ReloadOrTryRestartUnit">
           <recvList>
@@ -718,10 +718,10 @@
             <type type="ident" def="string"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StartTransientUnit">
           <recvList>
@@ -736,10 +736,10 @@
               <type type="ident" def="Property"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="KillUnit">
           <recvList>
@@ -751,7 +751,7 @@
             <type type="ident" def="string"/>
             <type type="ident" def="int32"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="GetUnitProperties">
           <recvList>
@@ -762,13 +762,13 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="map">
               <keytype type="ident" def="string"/>
               <valtype type="interface"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetUnitProperties">
           <recvList>
@@ -783,9 +783,9 @@
               <type type="ident" def="Property"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ListUnits">
           <recvList>
@@ -794,12 +794,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="UnitStatus"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="EnableUnitFiles">
           <recvList>
@@ -814,13 +814,13 @@
             <type type="ident" def="bool"/>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
             <type type="slice">
               <elmtype type="ident" def="EnableUnitFileChange"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="DisableUnitFiles">
           <recvList>
@@ -834,12 +834,12 @@
             </type>
             <type type="ident" def="bool"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="DisableUnitFileChange"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Reload">
           <recvList>
@@ -848,31 +848,31 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ObjectPath">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="dbus"/>
               <item value="ObjectPath"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="New">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Conn"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>
@@ -885,7 +885,7 @@
     <import path="fmt"/>
     <import path="path/filepath"/>
     <import path="strings"/>
-    <import path="github.com/guelfey/go.dbus"/>
+    <import path="github.com/godbus/dbus"/>
     <import path="os"/>
     <import path="sync"/>
   </imports>

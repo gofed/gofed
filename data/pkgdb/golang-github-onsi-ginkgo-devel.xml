@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-onsi-ginkgo-1.1.0-1.fc23">
+<project url="" commit="commit" nvr="golang-github-onsi-ginkgo-1.1.0-3.fc23">
   <packages>
     <package importpath="github.com/onsi/ginkgo/integration/_fixtures/failing_ginkgo_tests">
       <types/>
@@ -263,6 +263,26 @@
             <type type="ident" def="int"/>
           </paramsList>
           <resultsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/onsi/ginkgo/integration/_fixtures/coverage_fixture/external_coverage_fixture">
+      <types/>
+      <functions>
+        <function name="Tested">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Untested">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
         </function>
       </functions>
       <names/>
@@ -2211,6 +2231,26 @@
             </type>
           </paramsList>
           <resultsList/>
+        </function>
+      </functions>
+      <names/>
+    </package>
+    <package importpath="github.com/onsi/ginkgo/integration/_fixtures/suite_command_tests">
+      <types/>
+      <functions>
+        <function name="Tested">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Untested">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
         </function>
       </functions>
       <names/>
@@ -4394,10 +4434,12 @@
             <item value="TestSuite"/>
           </field>
           <field type="ident" def="bool" name="compiled"/>
+          <field type="ident" def="string" name="compilationTargetPath"/>
           <field type="ident" def="int" name="numCPU"/>
           <field type="ident" def="bool" name="parallelStream"/>
           <field type="ident" def="bool" name="race"/>
           <field type="ident" def="bool" name="cover"/>
+          <field type="ident" def="string" name="coverPkg"/>
           <field type="ident" def="string" name="tags"/>
           <field type="slice" name="additionalArgs">
             <elmtype type="ident" def="string"/>
@@ -4421,6 +4463,7 @@
             <type type="ident" def="bool"/>
             <type type="ident" def="bool"/>
             <type type="ident" def="string"/>
+            <type type="ident" def="string"/>
             <type type="slice">
               <elmtype type="ident" def="string"/>
             </type>
@@ -4438,6 +4481,19 @@
             </type>
           </recvList>
           <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="CompileTo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TestRunner"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
           <resultsList>
             <type type="ident" def="error"/>
           </resultsList>
@@ -4639,6 +4695,7 @@
           <field type="ident" def="bool" name="IsMeasurement"/>
           <field type="ident" def="string" name="FileName"/>
           <field type="ident" def="int" name="LineNumber"/>
+          <field type="ident" def="bool" name="Failed"/>
         </type>
         <type name="Benchmarker" type="interface">
           <method name="Time">
@@ -6007,6 +6064,7 @@
     <import path="github.com/onsi/ginkgo/integration/_fixtures/failing_ginkgo_tests"/>
     <import path="github.com/onsi/ginkgo/integration/_fixtures/does_not_compile"/>
     <import path="github.com/onsi/ginkgo/integration/_fixtures/coverage_fixture"/>
+    <import path="github.com/onsi/ginkgo/integration/_fixtures/coverage_fixture/external_coverage_fixture"/>
     <import path="github.com/onsi/ginkgo/ginkgo/interrupthandler"/>
     <import path="github.com/onsi/ginkgo/ginkgo/testrunner"/>
     <import path="github.com/onsi/ginkgo/ginkgo/testsuite"/>

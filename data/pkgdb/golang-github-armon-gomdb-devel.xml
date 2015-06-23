@@ -1,0 +1,630 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit" nvr="golang-github-armon-gomdb-0-0.2.git151f2e0.fc23">
+  <packages>
+    <package importpath="github.com/armon/gomdb">
+      <types>
+        <type type="struct" name="Txn">
+          <field type="pointer" name="_txn">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="MDB_txn"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="Cursor">
+          <field type="pointer" name="_cursor">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="MDB_cursor"/>
+            </type>
+          </field>
+        </type>
+        <type name="DBI" type="ident">
+          <type type="ident" def="uint"/>
+        </type>
+        <type name="Errno" type="ident">
+          <type type="ident" def="int"/>
+        </type>
+        <type type="struct" name="Env">
+          <field type="pointer" name="_env">
+            <type type="selector">
+              <prefix value="C"/>
+              <item value="MDB_env"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="Stat">
+          <field type="ident" def="uint" name="PSize"/>
+          <field type="ident" def="uint" name="Depth"/>
+          <field type="ident" def="uint64" name="BranchPages"/>
+          <field type="ident" def="uint64" name="LeafPages"/>
+          <field type="ident" def="uint64" name="OwerflowPages"/>
+          <field type="ident" def="uint64" name="Entries"/>
+        </type>
+        <type type="struct" name="Info">
+          <field type="ident" def="uint64" name="MapSize"/>
+          <field type="ident" def="uint64" name="LastPNO"/>
+          <field type="ident" def="uint64" name="LastTxnID"/>
+          <field type="ident" def="uint" name="MaxReaders"/>
+          <field type="ident" def="uint" name="NumReaders"/>
+        </type>
+      </types>
+      <functions>
+        <function name="BeginTxn">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Txn"/>
+            </type>
+            <type type="ident" def="uint"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Txn"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Commit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Txn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Abort">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Txn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Txn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Renew">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Txn"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="DBIOpen">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Txn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="DBI"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Stat">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Txn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="DBI"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Stat"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Drop">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Txn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="DBI"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Txn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="DBI"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Put">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Txn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="DBI"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="uint"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Del">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Txn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="DBI"/>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="CursorOpen">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Txn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="DBI"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="CursorRenew">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Txn"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="Errno"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Version">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="NewEnv">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Open">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="uint"/>
+            <type type="ident" def="uint"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Copy">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Stat">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Stat"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Info">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Info"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Sync">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SetFlags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Flags">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="uint"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Path">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SetMapSize">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint64"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SetMaxReaders">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SetMaxDBs">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="DBI"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="DBIClose">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Env"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="DBI"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Txn">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Txn"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="DBI">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="DBI"/>
+          </resultsList>
+        </function>
+        <function name="MdbCursor">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="C"/>
+                <item value="MDB_cursor"/>
+              </type>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="uint"/>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Put">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="uint"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Del">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="uint"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Count">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names>
+        <name value="REVERSEKEY"/>
+        <name value="DUPSORT"/>
+        <name value="INTEGERKEY"/>
+        <name value="DUPFIXED"/>
+        <name value="INTEGERDUP"/>
+        <name value="REVERSEDUP"/>
+        <name value="CREATE"/>
+        <name value="NODUPDATA"/>
+        <name value="NOOVERWRITE"/>
+        <name value="RESERVE"/>
+        <name value="APPEND"/>
+        <name value="APPENDDUP"/>
+        <name value="SUCCESS"/>
+        <name value="FIXEDMAP"/>
+        <name value="NOSUBDIR"/>
+        <name value="NOSYNC"/>
+        <name value="RDONLY"/>
+        <name value="NOMETASYNC"/>
+        <name value="WRITEMAP"/>
+        <name value="MAPASYNC"/>
+        <name value="NOTLS"/>
+        <name value="KeyExist"/>
+        <name value="NotFound"/>
+        <name value="PageNotFound"/>
+        <name value="Corrupted"/>
+        <name value="Panic"/>
+        <name value="VersionMismatch"/>
+        <name value="Invalid"/>
+        <name value="MapFull"/>
+        <name value="DbsFull"/>
+        <name value="ReadersFull"/>
+        <name value="TlsFull"/>
+        <name value="TxnFull"/>
+        <name value="CursorFull"/>
+        <name value="PageFull"/>
+        <name value="MapResized"/>
+        <name value="Incompatibile"/>
+        <name value="FIRST"/>
+        <name value="FIRST_DUP"/>
+        <name value="GET_BOTH"/>
+        <name value="GET_RANGE"/>
+        <name value="GET_CURRENT"/>
+        <name value="GET_MULTIPLE"/>
+        <name value="LAST"/>
+        <name value="LAST_DUP"/>
+        <name value="NEXT"/>
+        <name value="NEXT_DUP"/>
+        <name value="NEXT_MULTIPLE"/>
+        <name value="NEXT_NODUP"/>
+        <name value="PREV"/>
+        <name value="PREV_DUP"/>
+        <name value="PREV_NODUP"/>
+        <name value="SET"/>
+        <name value="SET_KEY"/>
+        <name value="SET_RANGE"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="C"/>
+    <import path="math"/>
+    <import path="runtime"/>
+    <import path="unsafe"/>
+    <import path="bytes"/>
+    <import path="encoding/gob"/>
+    <import path="fmt"/>
+    <import path="io/ioutil"/>
+    <import path="os"/>
+    <import path="testing"/>
+    <import path="errors"/>
+  </imports>
+</project>

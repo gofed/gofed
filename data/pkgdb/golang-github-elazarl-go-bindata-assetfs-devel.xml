@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-elazarl-go-bindata-assetfs-0-0.1.gitae4665c.fc22">
+<project url="" commit="commit" nvr="golang-github-elazarl-go-bindata-assetfs-0-0.2.gitae4665c.fc23">
   <packages>
     <package importpath="github.com/elazarl/go-bindata-assetfs">
       <types>
@@ -65,9 +65,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Mode">
           <recvList>
@@ -76,12 +76,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="os"/>
               <item value="FileMode"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ModTime">
           <recvList>
@@ -90,12 +90,12 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="time"/>
               <item value="Time"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Size">
           <recvList>
@@ -104,9 +104,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="IsDir">
           <recvList>
@@ -115,9 +115,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sys">
           <recvList>
@@ -126,9 +126,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewAssetFile">
           <recvList/>
@@ -138,11 +138,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="AssetFile"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Readdir">
           <recvList>
@@ -153,7 +153,7 @@
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="selector">
                 <prefix value="os"/>
@@ -161,7 +161,7 @@
               </elmtype>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Stat">
           <recvList>
@@ -170,13 +170,13 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="os"/>
               <item value="FileInfo"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewAssetDirectory">
           <recvList/>
@@ -189,11 +189,11 @@
               <type type="ident" def="AssetFS"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="AssetDirectory"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Readdir">
           <recvList>
@@ -204,7 +204,7 @@
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="selector">
                 <prefix value="os"/>
@@ -212,7 +212,7 @@
               </elmtype>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Stat">
           <recvList>
@@ -221,13 +221,13 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="os"/>
               <item value="FileInfo"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Open">
           <recvList>
@@ -238,13 +238,13 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="http"/>
               <item value="File"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>

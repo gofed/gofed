@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-abbot-go-http-auth-0-0.1.gitc0ef453.fc22">
+<project url="" commit="commit" nvr="golang-github-abbot-go-http-auth-0-0.2.gitc0ef453.fc23">
   <packages>
     <package importpath="github.com/abbot/go-http-auth">
       <types>
@@ -125,52 +125,52 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="HtdigestFileProvider">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="SecretProvider"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="HtpasswdFileProvider">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="SecretProvider"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RandomKey">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="H">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewMD5Entry">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="MD5Entry"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="MD5Crypt">
           <recvList/>
@@ -185,11 +185,11 @@
               <elmtype type="ident" def="byte"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Less">
           <recvList>
@@ -199,18 +199,18 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
             <type type="ident" def="digest_cache"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Swap">
           <recvList>
@@ -220,7 +220,7 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Purge">
           <recvList>
@@ -231,7 +231,7 @@
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="RequireAuth">
           <recvList>
@@ -251,7 +251,7 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="DigestAuthParams">
           <recvList/>
@@ -263,12 +263,12 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="map">
               <keytype type="ident" def="string"/>
               <valtype type="ident" def="string"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CheckAuth">
           <recvList>
@@ -284,12 +284,12 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
             <type type="pointer">
               <type type="ident" def="string"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Wrap">
           <recvList>
@@ -300,12 +300,12 @@
           <paramsList>
             <type type="ident" def="AuthenticatedHandlerFunc"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="http"/>
               <item value="HandlerFunc"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="JustCheck">
           <recvList>
@@ -319,12 +319,12 @@
               <item value="HandlerFunc"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="http"/>
               <item value="HandlerFunc"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewDigestAuthenticator">
           <recvList/>
@@ -332,11 +332,11 @@
             <type type="ident" def="string"/>
             <type type="ident" def="SecretProvider"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="DigestAuth"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="CheckAuth">
           <recvList>
@@ -352,9 +352,9 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RequireAuth">
           <recvList>
@@ -374,7 +374,7 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Wrap">
           <recvList>
@@ -385,12 +385,12 @@
           <paramsList>
             <type type="ident" def="AuthenticatedHandlerFunc"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="http"/>
               <item value="HandlerFunc"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewBasicAuthenticator">
           <recvList/>
@@ -398,11 +398,11 @@
             <type type="ident" def="string"/>
             <type type="ident" def="SecretProvider"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="BasicAuth"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="JustCheck">
           <recvList/>
@@ -413,12 +413,12 @@
               <item value="HandlerFunc"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="selector">
               <prefix value="http"/>
               <item value="HandlerFunc"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>
@@ -443,6 +443,5 @@
     <import path="strconv"/>
     <import path="sync"/>
     <import path="crypto/sha1"/>
-    <import path=".."/>
   </imports>
 </project>

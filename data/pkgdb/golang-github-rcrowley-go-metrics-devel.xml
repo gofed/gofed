@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-rcrowley-go-metrics-0-0.2.gitdee209f.fc22">
+<project url="" commit="commit" nvr="golang-github-rcrowley-go-metrics-0-0.3.gitdee209f.fc23">
   <packages>
     <package importpath="github.com/rcrowley/go-metrics/librato">
       <types>
@@ -70,11 +70,11 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Reporter"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Librato">
           <recvList/>
@@ -98,7 +98,7 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Run">
           <recvList>
@@ -107,7 +107,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="BuildRequest">
           <recvList>
@@ -125,10 +125,10 @@
               <item value="Registry"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Batch"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="PostMetrics">
           <recvList>
@@ -139,9 +139,9 @@
           <paramsList>
             <type type="ident" def="Batch"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>
@@ -190,7 +190,7 @@
             </type>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
       </functions>
       <names/>
@@ -220,7 +220,7 @@
               <type type="ident" def="Config"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
       </functions>
       <names/>
@@ -949,7 +949,7 @@
               <item value="Writer"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="WriteOnce">
           <recvList/>
@@ -960,16 +960,16 @@
               <item value="Writer"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Len">
           <recvList>
             <type type="ident" def="namedMetricSlice"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Swap">
           <recvList>
@@ -979,7 +979,7 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Less">
           <recvList>
@@ -989,9 +989,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetOrRegisterTimer">
           <recvList/>
@@ -999,9 +999,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="Registry"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Timer"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewCustomTimer">
           <recvList/>
@@ -1009,9 +1009,9 @@
             <type type="ident" def="Histogram"/>
             <type type="ident" def="Meter"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Timer"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewRegisteredTimer">
           <recvList/>
@@ -1019,53 +1019,53 @@
             <type type="ident" def="string"/>
             <type type="ident" def="Registry"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Timer"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewTimer">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Timer"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Count">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Max">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Mean">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Min">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentile">
           <recvList/>
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentiles">
           <recvList/>
@@ -1074,60 +1074,60 @@
               <elmtype type="ident" def="float64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="float64"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate1">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate5">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate15">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RateMean">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Timer"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StdDev">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sum">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Time">
           <recvList/>
@@ -1137,7 +1137,7 @@
               <resultsList/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Update">
           <recvList/>
@@ -1147,7 +1147,7 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="UpdateSince">
           <recvList/>
@@ -1157,14 +1157,14 @@
               <item value="Time"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Variance">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Count">
           <recvList>
@@ -1173,9 +1173,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Max">
           <recvList>
@@ -1184,9 +1184,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Mean">
           <recvList>
@@ -1195,9 +1195,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Min">
           <recvList>
@@ -1206,9 +1206,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentile">
           <recvList>
@@ -1219,9 +1219,9 @@
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentiles">
           <recvList>
@@ -1234,11 +1234,11 @@
               <elmtype type="ident" def="float64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="float64"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate1">
           <recvList>
@@ -1247,9 +1247,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate5">
           <recvList>
@@ -1258,9 +1258,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate15">
           <recvList>
@@ -1269,9 +1269,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RateMean">
           <recvList>
@@ -1280,9 +1280,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList>
@@ -1291,9 +1291,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Timer"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StdDev">
           <recvList>
@@ -1302,9 +1302,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sum">
           <recvList>
@@ -1313,9 +1313,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Time">
           <recvList>
@@ -1329,7 +1329,7 @@
               <resultsList/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Update">
           <recvList>
@@ -1343,7 +1343,7 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="UpdateSince">
           <recvList>
@@ -1357,7 +1357,7 @@
               <item value="Time"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Variance">
           <recvList>
@@ -1366,9 +1366,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Count">
           <recvList>
@@ -1377,9 +1377,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Max">
           <recvList>
@@ -1388,9 +1388,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Mean">
           <recvList>
@@ -1399,9 +1399,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Min">
           <recvList>
@@ -1410,9 +1410,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentile">
           <recvList>
@@ -1423,9 +1423,9 @@
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentiles">
           <recvList>
@@ -1438,11 +1438,11 @@
               <elmtype type="ident" def="float64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="float64"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate1">
           <recvList>
@@ -1451,9 +1451,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate5">
           <recvList>
@@ -1462,9 +1462,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate15">
           <recvList>
@@ -1473,9 +1473,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RateMean">
           <recvList>
@@ -1484,9 +1484,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList>
@@ -1495,9 +1495,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Timer"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StdDev">
           <recvList>
@@ -1506,9 +1506,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sum">
           <recvList>
@@ -1517,9 +1517,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Time">
           <recvList/>
@@ -1529,7 +1529,7 @@
               <resultsList/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Update">
           <recvList/>
@@ -1539,7 +1539,7 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="UpdateSince">
           <recvList/>
@@ -1549,7 +1549,7 @@
               <item value="Time"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Variance">
           <recvList>
@@ -1558,9 +1558,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Syslog">
           <recvList/>
@@ -1577,7 +1577,7 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="NewExpDecaySample">
           <recvList/>
@@ -1585,9 +1585,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Sample"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Clear">
           <recvList>
@@ -1596,7 +1596,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Count">
           <recvList>
@@ -1605,9 +1605,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Max">
           <recvList>
@@ -1616,9 +1616,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Mean">
           <recvList>
@@ -1627,9 +1627,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Min">
           <recvList>
@@ -1638,9 +1638,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentile">
           <recvList>
@@ -1651,9 +1651,9 @@
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentiles">
           <recvList>
@@ -1666,11 +1666,11 @@
               <elmtype type="ident" def="float64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="float64"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Size">
           <recvList>
@@ -1679,9 +1679,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList>
@@ -1690,9 +1690,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Sample"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StdDev">
           <recvList>
@@ -1701,9 +1701,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sum">
           <recvList>
@@ -1712,9 +1712,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Update">
           <recvList>
@@ -1725,7 +1725,7 @@
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Values">
           <recvList>
@@ -1734,11 +1734,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="int64"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Variance">
           <recvList>
@@ -1747,51 +1747,51 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Clear">
           <recvList/>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Count">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Max">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Mean">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Min">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentile">
           <recvList/>
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentiles">
           <recvList/>
@@ -1800,62 +1800,62 @@
               <elmtype type="ident" def="float64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="float64"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Size">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Sample"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StdDev">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sum">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Update">
           <recvList/>
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Values">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="int64"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Variance">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SampleMax">
           <recvList/>
@@ -1864,9 +1864,9 @@
               <elmtype type="ident" def="int64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SampleMean">
           <recvList/>
@@ -1875,9 +1875,9 @@
               <elmtype type="ident" def="int64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SampleMin">
           <recvList/>
@@ -1886,9 +1886,9 @@
               <elmtype type="ident" def="int64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SamplePercentile">
           <recvList/>
@@ -1896,9 +1896,9 @@
             <type type="ident" def="int64Slice"/>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SamplePercentiles">
           <recvList/>
@@ -1908,16 +1908,16 @@
               <elmtype type="ident" def="float64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="float64"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Clear">
           <recvList/>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Count">
           <recvList>
@@ -1926,9 +1926,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Max">
           <recvList>
@@ -1937,9 +1937,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Mean">
           <recvList>
@@ -1948,9 +1948,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Min">
           <recvList>
@@ -1959,9 +1959,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentile">
           <recvList>
@@ -1972,9 +1972,9 @@
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentiles">
           <recvList>
@@ -1987,11 +1987,11 @@
               <elmtype type="ident" def="float64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="float64"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Size">
           <recvList>
@@ -2000,9 +2000,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList>
@@ -2011,9 +2011,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Sample"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StdDev">
           <recvList>
@@ -2022,9 +2022,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sum">
           <recvList>
@@ -2033,16 +2033,16 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Update">
           <recvList/>
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Values">
           <recvList>
@@ -2051,11 +2051,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="int64"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Variance">
           <recvList>
@@ -2064,9 +2064,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SampleStdDev">
           <recvList/>
@@ -2075,9 +2075,9 @@
               <elmtype type="ident" def="int64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SampleSum">
           <recvList/>
@@ -2086,9 +2086,9 @@
               <elmtype type="ident" def="int64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SampleVariance">
           <recvList/>
@@ -2097,18 +2097,18 @@
               <elmtype type="ident" def="int64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewUniformSample">
           <recvList/>
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Sample"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Clear">
           <recvList>
@@ -2117,7 +2117,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Count">
           <recvList>
@@ -2126,9 +2126,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Max">
           <recvList>
@@ -2137,9 +2137,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Mean">
           <recvList>
@@ -2148,9 +2148,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Min">
           <recvList>
@@ -2159,9 +2159,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentile">
           <recvList>
@@ -2172,9 +2172,9 @@
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentiles">
           <recvList>
@@ -2187,11 +2187,11 @@
               <elmtype type="ident" def="float64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="float64"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Size">
           <recvList>
@@ -2200,9 +2200,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList>
@@ -2211,9 +2211,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Sample"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StdDev">
           <recvList>
@@ -2222,9 +2222,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sum">
           <recvList>
@@ -2233,9 +2233,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Update">
           <recvList>
@@ -2246,7 +2246,7 @@
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Values">
           <recvList>
@@ -2255,11 +2255,11 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="int64"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Variance">
           <recvList>
@@ -2268,9 +2268,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Push">
           <recvList>
@@ -2281,7 +2281,7 @@
           <paramsList>
             <type type="ident" def="expDecaySample"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Pop">
           <recvList>
@@ -2290,9 +2290,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="expDecaySample"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Size">
           <recvList>
@@ -2301,9 +2301,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Values">
           <recvList>
@@ -2312,20 +2312,20 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="expDecaySample"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
             <type type="ident" def="int64Slice"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Less">
           <recvList>
@@ -2335,9 +2335,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Swap">
           <recvList>
@@ -2347,7 +2347,7 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="CaptureRuntimeMemStats">
           <recvList/>
@@ -2358,37 +2358,37 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="CaptureRuntimeMemStatsOnce">
           <recvList/>
           <paramsList>
             <type type="ident" def="Registry"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="RegisterRuntimeMemStats">
           <recvList/>
           <paramsList>
             <type type="ident" def="Registry"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Error">
           <recvList>
             <type type="ident" def="DuplicateMetric"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewRegistry">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Registry"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Each">
           <recvList>
@@ -2405,7 +2405,7 @@
               <resultsList/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Get">
           <recvList>
@@ -2416,9 +2416,9 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetOrRegister">
           <recvList>
@@ -2430,9 +2430,9 @@
             <type type="ident" def="string"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Register">
           <recvList>
@@ -2444,9 +2444,9 @@
             <type type="ident" def="string"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RunHealthchecks">
           <recvList>
@@ -2455,7 +2455,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Unregister">
           <recvList>
@@ -2466,7 +2466,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="UnregisterAll">
           <recvList>
@@ -2475,7 +2475,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Each">
           <recvList/>
@@ -2488,16 +2488,16 @@
               <resultsList/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Get">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetOrRegister">
           <recvList/>
@@ -2505,9 +2505,9 @@
             <type type="ident" def="string"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Register">
           <recvList/>
@@ -2515,21 +2515,21 @@
             <type type="ident" def="string"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RunHealthchecks">
           <recvList/>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Unregister">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="OpenTSDB">
           <recvList/>
@@ -2547,14 +2547,14 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="OpenTSDBWithConfig">
           <recvList/>
           <paramsList>
             <type type="ident" def="OpenTSDBConfig"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="GetOrRegisterMeter">
           <recvList/>
@@ -2562,16 +2562,16 @@
             <type type="ident" def="string"/>
             <type type="ident" def="Registry"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Meter"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewMeter">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Meter"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewRegisteredMeter">
           <recvList/>
@@ -2579,9 +2579,9 @@
             <type type="ident" def="string"/>
             <type type="ident" def="Registry"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Meter"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Count">
           <recvList>
@@ -2590,16 +2590,16 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Mark">
           <recvList/>
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Rate1">
           <recvList>
@@ -2608,9 +2608,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate5">
           <recvList>
@@ -2619,9 +2619,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate15">
           <recvList>
@@ -2630,9 +2630,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RateMean">
           <recvList>
@@ -2641,9 +2641,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList>
@@ -2652,58 +2652,58 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Meter"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Count">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Mark">
           <recvList/>
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Rate1">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate5">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate15">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RateMean">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Meter"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Count">
           <recvList>
@@ -2712,9 +2712,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Mark">
           <recvList>
@@ -2725,7 +2725,7 @@
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Rate1">
           <recvList>
@@ -2734,9 +2734,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate5">
           <recvList>
@@ -2745,9 +2745,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate15">
           <recvList>
@@ -2756,9 +2756,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="RateMean">
           <recvList>
@@ -2767,9 +2767,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList>
@@ -2778,9 +2778,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Meter"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Log">
           <recvList/>
@@ -2797,19 +2797,19 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="MarshalJSON">
           <recvList>
             <type type="ident" def="StandardRegistry"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WriteJSON">
           <recvList/>
@@ -2824,7 +2824,7 @@
               <item value="Writer"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="WriteJSONOnce">
           <recvList/>
@@ -2835,7 +2835,7 @@
               <item value="Writer"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="GetOrRegisterHistogram">
           <recvList/>
@@ -2844,18 +2844,18 @@
             <type type="ident" def="Registry"/>
             <type type="ident" def="Sample"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Histogram"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewHistogram">
           <recvList/>
           <paramsList>
             <type type="ident" def="Sample"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Histogram"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewRegisteredHistogram">
           <recvList/>
@@ -2864,14 +2864,14 @@
             <type type="ident" def="Registry"/>
             <type type="ident" def="Sample"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Histogram"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Clear">
           <recvList/>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Count">
           <recvList>
@@ -2880,9 +2880,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Max">
           <recvList>
@@ -2891,9 +2891,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Mean">
           <recvList>
@@ -2902,9 +2902,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Min">
           <recvList>
@@ -2913,9 +2913,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentile">
           <recvList>
@@ -2926,9 +2926,9 @@
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentiles">
           <recvList>
@@ -2941,11 +2941,11 @@
               <elmtype type="ident" def="float64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="float64"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sample">
           <recvList>
@@ -2954,9 +2954,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Sample"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList>
@@ -2965,9 +2965,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Histogram"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StdDev">
           <recvList>
@@ -2976,9 +2976,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sum">
           <recvList>
@@ -2987,16 +2987,16 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Update">
           <recvList/>
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Variance">
           <recvList>
@@ -3005,51 +3005,51 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Clear">
           <recvList/>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Count">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Max">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Mean">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Min">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentile">
           <recvList/>
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentiles">
           <recvList/>
@@ -3058,53 +3058,53 @@
               <elmtype type="ident" def="float64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="float64"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sample">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Sample"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Histogram"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StdDev">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sum">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Update">
           <recvList/>
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Variance">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Clear">
           <recvList>
@@ -3113,7 +3113,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Count">
           <recvList>
@@ -3122,9 +3122,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Max">
           <recvList>
@@ -3133,9 +3133,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Mean">
           <recvList>
@@ -3144,9 +3144,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Min">
           <recvList>
@@ -3155,9 +3155,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentile">
           <recvList>
@@ -3168,9 +3168,9 @@
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Percentiles">
           <recvList>
@@ -3183,11 +3183,11 @@
               <elmtype type="ident" def="float64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="float64"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sample">
           <recvList>
@@ -3196,9 +3196,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Sample"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList>
@@ -3207,9 +3207,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Histogram"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="StdDev">
           <recvList>
@@ -3218,9 +3218,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Sum">
           <recvList>
@@ -3229,9 +3229,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Update">
           <recvList>
@@ -3242,7 +3242,7 @@
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Variance">
           <recvList>
@@ -3251,9 +3251,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewHealthcheck">
           <recvList/>
@@ -3265,33 +3265,33 @@
               <resultsList/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Healthcheck"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Check">
           <recvList/>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Error">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Healthy">
           <recvList/>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Unhealthy">
           <recvList/>
           <paramsList>
             <type type="ident" def="error"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Check">
           <recvList>
@@ -3300,7 +3300,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Error">
           <recvList>
@@ -3309,9 +3309,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Healthy">
           <recvList>
@@ -3320,7 +3320,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Unhealthy">
           <recvList>
@@ -3331,7 +3331,7 @@
           <paramsList>
             <type type="ident" def="error"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Graphite">
           <recvList/>
@@ -3349,23 +3349,23 @@
               </type>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="GraphiteWithConfig">
           <recvList/>
           <paramsList>
             <type type="ident" def="GraphiteConfig"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="GraphiteOnce">
           <recvList/>
           <paramsList>
             <type type="ident" def="GraphiteConfig"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetOrRegisterGaugeFloat64">
           <recvList/>
@@ -3373,16 +3373,16 @@
             <type type="ident" def="string"/>
             <type type="ident" def="Registry"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="GaugeFloat64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewGaugeFloat64">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="GaugeFloat64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewRegisteredGaugeFloat64">
           <recvList/>
@@ -3390,55 +3390,55 @@
             <type type="ident" def="string"/>
             <type type="ident" def="Registry"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="GaugeFloat64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList>
             <type type="ident" def="GaugeFloat64Snapshot"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="GaugeFloat64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Update">
           <recvList/>
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Value">
           <recvList>
             <type type="ident" def="GaugeFloat64Snapshot"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="GaugeFloat64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Update">
           <recvList/>
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Value">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList>
@@ -3447,9 +3447,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="GaugeFloat64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Update">
           <recvList>
@@ -3460,7 +3460,7 @@
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Value">
           <recvList>
@@ -3469,9 +3469,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="GetOrRegisterGauge">
           <recvList/>
@@ -3479,16 +3479,16 @@
             <type type="ident" def="string"/>
             <type type="ident" def="Registry"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Gauge"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewGauge">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Gauge"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewRegisteredGauge">
           <recvList/>
@@ -3496,55 +3496,55 @@
             <type type="ident" def="string"/>
             <type type="ident" def="Registry"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Gauge"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList>
             <type type="ident" def="GaugeSnapshot"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Gauge"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Update">
           <recvList/>
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Value">
           <recvList>
             <type type="ident" def="GaugeSnapshot"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Gauge"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Update">
           <recvList/>
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Value">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList>
@@ -3553,9 +3553,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Gauge"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Update">
           <recvList>
@@ -3566,7 +3566,7 @@
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Value">
           <recvList>
@@ -3575,95 +3575,95 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewEWMA">
           <recvList/>
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="EWMA"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewEWMA1">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="EWMA"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewEWMA5">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="EWMA"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewEWMA15">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="EWMA"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Rate">
           <recvList>
             <type type="ident" def="EWMASnapshot"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList>
             <type type="ident" def="EWMASnapshot"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="EWMA"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Tick">
           <recvList/>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Update">
           <recvList/>
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Rate">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="EWMA"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Tick">
           <recvList/>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Update">
           <recvList/>
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Rate">
           <recvList>
@@ -3672,9 +3672,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Snapshot">
           <recvList>
@@ -3683,9 +3683,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="EWMA"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Tick">
           <recvList>
@@ -3694,7 +3694,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Update">
           <recvList>
@@ -3705,7 +3705,7 @@
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="CaptureDebugGCStats">
           <recvList/>
@@ -3716,21 +3716,21 @@
               <item value="Duration"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="CaptureDebugGCStatsOnce">
           <recvList/>
           <paramsList>
             <type type="ident" def="Registry"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="RegisterDebugGCStats">
           <recvList/>
           <paramsList>
             <type type="ident" def="Registry"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="GetOrRegisterCounter">
           <recvList/>
@@ -3738,16 +3738,16 @@
             <type type="ident" def="string"/>
             <type type="ident" def="Registry"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Counter"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewCounter">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Counter"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewRegisteredCounter">
           <recvList/>
@@ -3755,79 +3755,79 @@
             <type type="ident" def="string"/>
             <type type="ident" def="Registry"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Counter"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Clear">
           <recvList/>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Count">
           <recvList>
             <type type="ident" def="CounterSnapshot"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Dec">
           <recvList/>
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Inc">
           <recvList/>
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Snapshot">
           <recvList>
             <type type="ident" def="CounterSnapshot"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Counter"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Clear">
           <recvList/>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Count">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Dec">
           <recvList/>
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Inc">
           <recvList/>
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Snapshot">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Counter"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Clear">
           <recvList>
@@ -3836,7 +3836,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Count">
           <recvList>
@@ -3845,9 +3845,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Dec">
           <recvList>
@@ -3858,7 +3858,7 @@
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Inc">
           <recvList>
@@ -3869,7 +3869,7 @@
           <paramsList>
             <type type="ident" def="int64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Snapshot">
           <recvList>
@@ -3878,9 +3878,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Counter"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names>

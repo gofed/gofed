@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-beorn7-perks-0-0.1.gitb965b61.fc23">
+<project url="" commit="commit" nvr="golang-github-beorn7-perks-0-0.2.gitb965b61.fc23">
   <packages>
     <package importpath="github.com/beorn7/perks/quantile">
       <types>
@@ -25,9 +25,9 @@
             <type type="ident" def="Samples"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Less">
           <recvList>
@@ -37,9 +37,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Swap">
           <recvList>
@@ -49,29 +49,29 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="NewLowBiased">
           <recvList/>
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Stream"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewHighBiased">
           <recvList/>
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Stream"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="NewTargeted">
           <recvList/>
@@ -81,11 +81,11 @@
               <valtype type="ident" def="float64"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Stream"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Insert">
           <recvList>
@@ -96,7 +96,7 @@
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Query">
           <recvList>
@@ -107,9 +107,9 @@
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Merge">
           <recvList>
@@ -120,7 +120,7 @@
           <paramsList>
             <type type="ident" def="Samples"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Reset">
           <recvList>
@@ -129,7 +129,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Samples">
           <recvList>
@@ -138,9 +138,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Samples"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Count">
           <recvList>
@@ -149,9 +149,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>
@@ -185,7 +185,7 @@
               <type type="ident" def="Bin"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Mean">
           <recvList>
@@ -194,18 +194,18 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="float64"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Len">
           <recvList>
             <type type="ident" def="Bins"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Less">
           <recvList>
@@ -215,9 +215,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Swap">
           <recvList>
@@ -227,7 +227,7 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Push">
           <recvList>
@@ -238,7 +238,7 @@
           <paramsList>
             <type type="interface"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Pop">
           <recvList>
@@ -247,20 +247,20 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="interface"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="New">
           <recvList/>
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Histogram"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Insert">
           <recvList>
@@ -271,7 +271,7 @@
           <paramsList>
             <type type="ident" def="float64"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Bins">
           <recvList>
@@ -280,9 +280,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Bins"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>
@@ -317,9 +317,9 @@
             <type type="ident" def="Samples"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="int"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Less">
           <recvList>
@@ -329,9 +329,9 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Swap">
           <recvList>
@@ -341,18 +341,18 @@
             <type type="ident" def="int"/>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="New">
           <recvList/>
           <paramsList>
             <type type="ident" def="int"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Stream"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Insert">
           <recvList>
@@ -363,7 +363,7 @@
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Merge">
           <recvList>
@@ -374,7 +374,7 @@
           <paramsList>
             <type type="ident" def="Samples"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Query">
           <recvList>
@@ -383,9 +383,9 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Samples"/>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>

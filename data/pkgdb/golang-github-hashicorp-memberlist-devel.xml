@@ -1,0 +1,832 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit" nvr="golang-github-hashicorp-memberlist-0-0.1.gitdad1009.fc23">
+  <packages>
+    <package importpath="github.com/hashicorp/memberlist">
+      <types>
+        <type type="struct" name="Node">
+          <field type="ident" def="string" name="Name"/>
+          <field type="selector" name="Addr">
+            <prefix value="net"/>
+            <item value="IP"/>
+          </field>
+          <field type="ident" def="uint16" name="Port"/>
+          <field type="slice" name="Meta">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="ident" def="uint8" name="PMin"/>
+          <field type="ident" def="uint8" name="PMax"/>
+          <field type="ident" def="uint8" name="PCur"/>
+          <field type="ident" def="uint8" name="DMin"/>
+          <field type="ident" def="uint8" name="DMax"/>
+          <field type="ident" def="uint8" name="DCur"/>
+        </type>
+        <type type="struct" name="TransmitLimitedQueue">
+          <field type="func" name="NumNodes">
+            <paramsList/>
+            <resultsList>
+              <type type="ident" def="int"/>
+            </resultsList>
+          </field>
+          <field type="ident" def="int" name="RetransmitMult"/>
+          <field type="selector" name="">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="ident" def="limitedBroadcasts" name="bcQueue"/>
+        </type>
+        <type name="Broadcast" type="interface">
+          <method name="Invalidates">
+            <paramsList>
+              <type type="ident" def="Broadcast"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="bool"/>
+            </resultsList>
+          </method>
+          <method name="Message">
+            <paramsList/>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Finished">
+            <paramsList/>
+            <resultsList/>
+          </method>
+        </type>
+        <type name="PingDelegate" type="interface">
+          <method name="AckPayload">
+            <paramsList/>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="NotifyPingComplete">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="Node"/>
+              </type>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type name="MergeDelegate" type="interface">
+          <method name="NotifyMerge">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="pointer">
+                  <type type="ident" def="Node"/>
+                </elmtype>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type type="struct" name="Memberlist">
+          <field type="ident" def="uint32" name="sequenceNum"/>
+          <field type="ident" def="uint32" name="incarnation"/>
+          <field type="ident" def="uint32" name="numNodes"/>
+          <field type="pointer" name="config">
+            <type type="ident" def="Config"/>
+          </field>
+          <field type="ident" def="bool" name="shutdown"/>
+          <field type="channel" dir="3" name="shutdownCh">
+            <type type="struct" name=""/>
+          </field>
+          <field type="ident" def="bool" name="leave"/>
+          <field type="channel" dir="3" name="leaveBroadcast">
+            <type type="struct" name=""/>
+          </field>
+          <field type="pointer" name="udpListener">
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="UDPConn"/>
+            </type>
+          </field>
+          <field type="pointer" name="tcpListener">
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="TCPListener"/>
+            </type>
+          </field>
+          <field type="channel" dir="3" name="handoff">
+            <type type="ident" def="msgHandoff"/>
+          </field>
+          <field type="selector" name="nodeLock">
+            <prefix value="sync"/>
+            <item value="RWMutex"/>
+          </field>
+          <field type="slice" name="nodes">
+            <elmtype type="pointer">
+              <type type="ident" def="nodeState"/>
+            </elmtype>
+          </field>
+          <field type="map" name="nodeMap">
+            <keytype type="ident" def="string"/>
+            <valtype type="pointer">
+              <type type="ident" def="nodeState"/>
+            </valtype>
+          </field>
+          <field type="selector" name="tickerLock">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="slice" name="tickers">
+            <elmtype type="pointer">
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Ticker"/>
+              </type>
+            </elmtype>
+          </field>
+          <field type="channel" dir="3" name="stopTick">
+            <type type="struct" name=""/>
+          </field>
+          <field type="ident" def="int" name="probeIndex"/>
+          <field type="selector" name="ackLock">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="map" name="ackHandlers">
+            <keytype type="ident" def="uint32"/>
+            <valtype type="pointer">
+              <type type="ident" def="ackHandler"/>
+            </valtype>
+          </field>
+          <field type="pointer" name="broadcasts">
+            <type type="ident" def="TransmitLimitedQueue"/>
+          </field>
+          <field type="selector" name="startStopLock">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="pointer" name="logger">
+            <type type="selector">
+              <prefix value="log"/>
+              <item value="Logger"/>
+            </type>
+          </field>
+        </type>
+        <type type="struct" name="Keyring">
+          <field type="slice" name="keys">
+            <elmtype type="slice">
+              <elmtype type="ident" def="byte"/>
+            </elmtype>
+          </field>
+          <field type="selector" name="l">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+        </type>
+        <type name="EventDelegate" type="interface">
+          <method name="NotifyJoin">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="Node"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="NotifyLeave">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="Node"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="NotifyUpdate">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="Node"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="ChannelEventDelegate">
+          <field type="channel" dir="1" name="Ch">
+            <type type="ident" def="NodeEvent"/>
+          </field>
+        </type>
+        <type name="NodeEventType" type="ident">
+          <type type="ident" def="int"/>
+        </type>
+        <type type="struct" name="NodeEvent">
+          <field type="ident" def="NodeEventType" name="Event"/>
+          <field type="pointer" name="Node">
+            <type type="ident" def="Node"/>
+          </field>
+        </type>
+        <type name="Delegate" type="interface">
+          <method name="NodeMeta">
+            <paramsList>
+              <type type="ident" def="int"/>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="NotifyMsg">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+          <method name="GetBroadcasts">
+            <paramsList>
+              <type type="ident" def="int"/>
+              <type type="ident" def="int"/>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="slice">
+                  <elmtype type="ident" def="byte"/>
+                </elmtype>
+              </type>
+            </resultsList>
+          </method>
+          <method name="LocalState">
+            <paramsList>
+              <type type="ident" def="bool"/>
+            </paramsList>
+            <resultsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="MergeRemoteState">
+            <paramsList>
+              <type type="slice">
+                <elmtype type="ident" def="byte"/>
+              </type>
+              <type type="ident" def="bool"/>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type name="ConflictDelegate" type="interface">
+          <method name="NotifyConflict">
+            <paramsList>
+              <type type="pointer">
+                <type type="ident" def="Node"/>
+              </type>
+              <type type="pointer">
+                <type type="ident" def="Node"/>
+              </type>
+            </paramsList>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="Config">
+          <field type="ident" def="string" name="Name"/>
+          <field type="ident" def="string" name="BindAddr"/>
+          <field type="ident" def="int" name="BindPort"/>
+          <field type="ident" def="string" name="AdvertiseAddr"/>
+          <field type="ident" def="int" name="AdvertisePort"/>
+          <field type="ident" def="uint8" name="ProtocolVersion"/>
+          <field type="selector" name="TCPTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="ident" def="int" name="IndirectChecks"/>
+          <field type="ident" def="int" name="RetransmitMult"/>
+          <field type="ident" def="int" name="SuspicionMult"/>
+          <field type="selector" name="PushPullInterval">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="ProbeInterval">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="ProbeTimeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="GossipInterval">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="ident" def="int" name="GossipNodes"/>
+          <field type="ident" def="bool" name="EnableCompression"/>
+          <field type="slice" name="SecretKey">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="pointer" name="Keyring">
+            <type type="ident" def="Keyring"/>
+          </field>
+          <field type="ident" def="Delegate" name="Delegate"/>
+          <field type="ident" def="uint8" name="DelegateProtocolVersion"/>
+          <field type="ident" def="uint8" name="DelegateProtocolMin"/>
+          <field type="ident" def="uint8" name="DelegateProtocolMax"/>
+          <field type="ident" def="EventDelegate" name="Events"/>
+          <field type="ident" def="ConflictDelegate" name="Conflict"/>
+          <field type="ident" def="MergeDelegate" name="Merge"/>
+          <field type="ident" def="PingDelegate" name="Ping"/>
+          <field type="selector" name="LogOutput">
+            <prefix value="io"/>
+            <item value="Writer"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="QueueBroadcast">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TransmitLimitedQueue"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Broadcast"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="GetBroadcasts">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TransmitLimitedQueue"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="slice">
+                <elmtype type="ident" def="byte"/>
+              </elmtype>
+            </type>
+          </resultsList>
+        </function>
+        <function name="NumQueued">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TransmitLimitedQueue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TransmitLimitedQueue"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Prune">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TransmitLimitedQueue"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="limitedBroadcasts"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+          </resultsList>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="limitedBroadcasts"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="limitedBroadcasts"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Sort">
+          <recvList>
+            <type type="ident" def="limitedBroadcasts"/>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Create">
+          <recvList/>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Config"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Memberlist"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Join">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Memberlist"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="string"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="LocalNode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Memberlist"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Node"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="UpdateNode">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Memberlist"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="SendTo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Memberlist"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="Addr"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Members">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Memberlist"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="pointer">
+                <type type="ident" def="Node"/>
+              </elmtype>
+            </type>
+          </resultsList>
+        </function>
+        <function name="NumMembers">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Memberlist"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+          </resultsList>
+        </function>
+        <function name="Leave">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Memberlist"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="ProtocolVersion">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Memberlist"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="uint8"/>
+          </resultsList>
+        </function>
+        <function name="Shutdown">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Memberlist"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewKeyring">
+          <recvList/>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="slice">
+                <elmtype type="ident" def="byte"/>
+              </elmtype>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Keyring"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="AddKey">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Keyring"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="UseKey">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Keyring"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="RemoveKey">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Keyring"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetKeys">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Keyring"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="slice">
+                <elmtype type="ident" def="byte"/>
+              </elmtype>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetPrimaryKey">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Keyring"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="NotifyJoin">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ChannelEventDelegate"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Node"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="NotifyLeave">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ChannelEventDelegate"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Node"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="NotifyUpdate">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ChannelEventDelegate"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Node"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="DefaultLANConfig">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Config"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="DefaultWANConfig">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Config"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="DefaultLocalConfig">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Config"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="EncryptionEnabled">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Config"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Invalidates">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="memberlistBroadcast"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="Broadcast"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Message">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="memberlistBroadcast"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Finished">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="memberlistBroadcast"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+      </functions>
+      <names>
+        <name value="ProtocolVersionMin"/>
+        <name value="ProtocolVersionMax"/>
+        <name value="MetaMaxSize"/>
+        <name value="NodeJoin"/>
+        <name value="NodeLeave"/>
+        <name value="NodeUpdate"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="fmt"/>
+    <import path="reflect"/>
+    <import path="testing"/>
+    <import path="time"/>
+    <import path="bytes"/>
+    <import path="compress/lzw"/>
+    <import path="encoding/binary"/>
+    <import path="github.com/hashicorp/go-msgpack/codec"/>
+    <import path="io"/>
+    <import path="math"/>
+    <import path="math/rand"/>
+    <import path="net"/>
+    <import path="sync/atomic"/>
+    <import path="github.com/armon/go-metrics"/>
+    <import path="crypto/aes"/>
+    <import path="crypto/cipher"/>
+    <import path="crypto/rand"/>
+    <import path="sort"/>
+    <import path="sync"/>
+    <import path="bufio"/>
+    <import path="log"/>
+    <import path="os"/>
+    <import path="strconv"/>
+  </imports>
+</project>

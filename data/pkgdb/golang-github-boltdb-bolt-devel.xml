@@ -1,0 +1,1185 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit" nvr="golang-github-boltdb-bolt-0-0.1.git3b44955.fc23">
+  <packages>
+    <package importpath="github.com/boltdb/bolt">
+      <types>
+        <type type="struct" name="Tx">
+          <field type="ident" def="bool" name="writable"/>
+          <field type="ident" def="bool" name="managed"/>
+          <field type="pointer" name="db">
+            <type type="ident" def="DB"/>
+          </field>
+          <field type="pointer" name="meta">
+            <type type="ident" def="meta"/>
+          </field>
+          <field type="ident" def="Bucket" name="root"/>
+          <field type="map" name="pages">
+            <keytype type="ident" def="pgid"/>
+            <valtype type="pointer">
+              <type type="ident" def="page"/>
+            </valtype>
+          </field>
+          <field type="ident" def="TxStats" name="stats"/>
+          <field type="slice" name="commitHandlers">
+            <elmtype type="func">
+              <paramsList/>
+              <resultsList/>
+            </elmtype>
+          </field>
+        </type>
+        <type type="struct" name="TxStats">
+          <field type="ident" def="int" name="PageCount"/>
+          <field type="ident" def="int" name="PageAlloc"/>
+          <field type="ident" def="int" name="CursorCount"/>
+          <field type="ident" def="int" name="NodeCount"/>
+          <field type="ident" def="int" name="NodeDeref"/>
+          <field type="ident" def="int" name="Rebalance"/>
+          <field type="selector" name="RebalanceTime">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="ident" def="int" name="Split"/>
+          <field type="ident" def="int" name="Spill"/>
+          <field type="selector" name="SpillTime">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="ident" def="int" name="Write"/>
+          <field type="selector" name="WriteTime">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+        </type>
+        <type type="struct" name="PageInfo">
+          <field type="ident" def="int" name="ID"/>
+          <field type="ident" def="string" name="Type"/>
+          <field type="ident" def="int" name="Count"/>
+          <field type="ident" def="int" name="OverflowCount"/>
+        </type>
+        <type type="struct" name="DB">
+          <field type="ident" def="bool" name="StrictMode"/>
+          <field type="ident" def="bool" name="NoSync"/>
+          <field type="ident" def="int" name="MaxBatchSize"/>
+          <field type="selector" name="MaxBatchDelay">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="ident" def="string" name="path"/>
+          <field type="pointer" name="file">
+            <type type="selector">
+              <prefix value="os"/>
+              <item value="File"/>
+            </type>
+          </field>
+          <field type="slice" name="dataref">
+            <elmtype type="ident" def="byte"/>
+          </field>
+          <field type="pointer" name="data">
+            <type type="array">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </field>
+          <field type="ident" def="int" name="datasz"/>
+          <field type="pointer" name="meta0">
+            <type type="ident" def="meta"/>
+          </field>
+          <field type="pointer" name="meta1">
+            <type type="ident" def="meta"/>
+          </field>
+          <field type="ident" def="int" name="pageSize"/>
+          <field type="ident" def="bool" name="opened"/>
+          <field type="pointer" name="rwtx">
+            <type type="ident" def="Tx"/>
+          </field>
+          <field type="slice" name="txs">
+            <elmtype type="pointer">
+              <type type="ident" def="Tx"/>
+            </elmtype>
+          </field>
+          <field type="pointer" name="freelist">
+            <type type="ident" def="freelist"/>
+          </field>
+          <field type="ident" def="Stats" name="stats"/>
+          <field type="selector" name="batchMu">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="pointer" name="batch">
+            <type type="ident" def="batch"/>
+          </field>
+          <field type="selector" name="rwlock">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="selector" name="metalock">
+            <prefix value="sync"/>
+            <item value="Mutex"/>
+          </field>
+          <field type="selector" name="mmaplock">
+            <prefix value="sync"/>
+            <item value="RWMutex"/>
+          </field>
+          <field type="selector" name="statlock">
+            <prefix value="sync"/>
+            <item value="RWMutex"/>
+          </field>
+          <field type="struct" name="ops">
+            <field type="func" name="writeAt">
+              <paramsList>
+                <type type="slice">
+                  <elmtype type="ident" def="byte"/>
+                </type>
+                <type type="ident" def="int64"/>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="int"/>
+                <type type="ident" def="error"/>
+              </resultsList>
+            </field>
+          </field>
+        </type>
+        <type type="struct" name="Options">
+          <field type="selector" name="Timeout">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+        </type>
+        <type type="struct" name="Stats">
+          <field type="ident" def="int" name="FreePageN"/>
+          <field type="ident" def="int" name="PendingPageN"/>
+          <field type="ident" def="int" name="FreeAlloc"/>
+          <field type="ident" def="int" name="FreelistInuse"/>
+          <field type="ident" def="int" name="TxN"/>
+          <field type="ident" def="int" name="OpenTxN"/>
+          <field type="ident" def="TxStats" name="TxStats"/>
+        </type>
+        <type type="struct" name="Info">
+          <field type="ident" def="uintptr" name="Data"/>
+          <field type="ident" def="int" name="PageSize"/>
+        </type>
+        <type type="struct" name="Cursor">
+          <field type="pointer" name="bucket">
+            <type type="ident" def="Bucket"/>
+          </field>
+          <field type="slice" name="stack">
+            <elmtype type="ident" def="elemRef"/>
+          </field>
+        </type>
+        <type type="struct" name="Bucket">
+          <field type="pointer" name="">
+            <type type="ident" def="bucket"/>
+          </field>
+          <field type="pointer" name="tx">
+            <type type="ident" def="Tx"/>
+          </field>
+          <field type="map" name="buckets">
+            <keytype type="ident" def="string"/>
+            <valtype type="pointer">
+              <type type="ident" def="Bucket"/>
+            </valtype>
+          </field>
+          <field type="pointer" name="page">
+            <type type="ident" def="page"/>
+          </field>
+          <field type="pointer" name="rootNode">
+            <type type="ident" def="node"/>
+          </field>
+          <field type="map" name="nodes">
+            <keytype type="ident" def="pgid"/>
+            <valtype type="pointer">
+              <type type="ident" def="node"/>
+            </valtype>
+          </field>
+          <field type="ident" def="float64" name="FillPercent"/>
+        </type>
+        <type type="struct" name="BucketStats">
+          <field type="ident" def="int" name="BranchPageN"/>
+          <field type="ident" def="int" name="BranchOverflowN"/>
+          <field type="ident" def="int" name="LeafPageN"/>
+          <field type="ident" def="int" name="LeafOverflowN"/>
+          <field type="ident" def="int" name="KeyN"/>
+          <field type="ident" def="int" name="Depth"/>
+          <field type="ident" def="int" name="BranchAlloc"/>
+          <field type="ident" def="int" name="BranchInuse"/>
+          <field type="ident" def="int" name="LeafAlloc"/>
+          <field type="ident" def="int" name="LeafInuse"/>
+          <field type="ident" def="int" name="BucketN"/>
+          <field type="ident" def="int" name="InlineBucketN"/>
+          <field type="ident" def="int" name="InlineBucketInuse"/>
+        </type>
+      </types>
+      <functions>
+        <function name="ID">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+          </resultsList>
+        </function>
+        <function name="DB">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Size">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int64"/>
+          </resultsList>
+        </function>
+        <function name="Writable">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Cursor">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Stats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="TxStats"/>
+          </resultsList>
+        </function>
+        <function name="Bucket">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="CreateBucket">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="CreateBucketIfNotExists">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="DeleteBucket">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="ForEach">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="slice">
+                  <elmtype type="ident" def="byte"/>
+                </type>
+                <type type="pointer">
+                  <type type="ident" def="Bucket"/>
+                </type>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="error"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="OnCommit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList/>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Commit">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Rollback">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Copy">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="WriteTo">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="io"/>
+              <item value="Writer"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="int64"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="CopyFile">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="os"/>
+              <item value="FileMode"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Check">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="channel" dir="2">
+              <type type="ident" def="error"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Page">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="PageInfo"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Sub">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="TxStats"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="TxStats"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="TxStats"/>
+          </resultsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="pages"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+          </resultsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="pages"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="pages"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="pgids"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+          </resultsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="pgids"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="pgids"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Len">
+          <recvList>
+            <type type="ident" def="nodes"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="int"/>
+          </resultsList>
+        </function>
+        <function name="Swap">
+          <recvList>
+            <type type="ident" def="nodes"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Less">
+          <recvList>
+            <type type="ident" def="nodes"/>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="int"/>
+            <type type="ident" def="int"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Path">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="GoString">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="String">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="Open">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="string"/>
+            <type type="selector">
+              <prefix value="os"/>
+              <item value="FileMode"/>
+            </type>
+            <type type="pointer">
+              <type type="ident" def="Options"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Close">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Begin">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="bool"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Update">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="ident" def="Tx"/>
+                </type>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="error"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="View">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="ident" def="Tx"/>
+                </type>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="error"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Stats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="Stats"/>
+          </resultsList>
+        </function>
+        <function name="Info">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Info"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Sub">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Stats"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="ident" def="Stats"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Stats"/>
+          </resultsList>
+        </function>
+        <function name="Bucket">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="First">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Last">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Next">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Prev">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Seek">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Delete">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Tx">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Tx"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Root">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="pgid"/>
+          </resultsList>
+        </function>
+        <function name="Writable">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="bool"/>
+          </resultsList>
+        </function>
+        <function name="Cursor">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Cursor"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Bucket">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="CreateBucket">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="CreateBucketIfNotExists">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="DeleteBucket">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Get">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Put">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Delete">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NextSequence">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="ForEach">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="slice">
+                  <elmtype type="ident" def="byte"/>
+                </type>
+                <type type="slice">
+                  <elmtype type="ident" def="byte"/>
+                </type>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="error"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Stats">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Bucket"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="BucketStats"/>
+          </resultsList>
+        </function>
+        <function name="Add">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="BucketStats"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="ident" def="BucketStats"/>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Batch">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="DB"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="func">
+              <paramsList>
+                <type type="pointer">
+                  <type type="ident" def="Tx"/>
+                </type>
+              </paramsList>
+              <resultsList>
+                <type type="ident" def="error"/>
+              </resultsList>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Error">
+          <recvList>
+            <type type="ident" def="panicked"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names>
+        <name value="ErrDatabaseNotOpen"/>
+        <name value="ErrDatabaseOpen"/>
+        <name value="ErrInvalid"/>
+        <name value="ErrVersionMismatch"/>
+        <name value="ErrChecksum"/>
+        <name value="ErrTimeout"/>
+        <name value="ErrTxNotWritable"/>
+        <name value="ErrTxClosed"/>
+        <name value="ErrBucketNotFound"/>
+        <name value="ErrBucketExists"/>
+        <name value="ErrBucketNameRequired"/>
+        <name value="ErrKeyRequired"/>
+        <name value="ErrKeyTooLarge"/>
+        <name value="ErrValueTooLarge"/>
+        <name value="ErrIncompatibleValue"/>
+        <name value="IgnoreNoSync"/>
+        <name value="DefaultMaxBatchSize"/>
+        <name value="DefaultMaxBatchDelay"/>
+        <name value="DefaultOptions"/>
+        <name value="MaxKeySize"/>
+        <name value="MaxValueSize"/>
+        <name value="DefaultFillPercent"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="errors"/>
+    <import path="fmt"/>
+    <import path="os"/>
+    <import path="testing"/>
+    <import path="github.com/boltdb/bolt"/>
+    <import path="io"/>
+    <import path="sort"/>
+    <import path="time"/>
+    <import path="unsafe"/>
+    <import path="bytes"/>
+    <import path="math/rand"/>
+    <import path="sync"/>
+    <import path="flag"/>
+    <import path="reflect"/>
+    <import path="testing/quick"/>
+    <import path="encoding/binary"/>
+    <import path="io/ioutil"/>
+    <import path="regexp"/>
+    <import path="runtime"/>
+    <import path="strings"/>
+    <import path="hash/fnv"/>
+    <import path="runtime/debug"/>
+    <import path="strconv"/>
+    <import path="syscall"/>
+    <import path="path/filepath"/>
+    <import path="log"/>
+    <import path="net/http"/>
+    <import path="net/http/httptest"/>
+    <import path="github.com/boltdb/bolt/cmd/bolt"/>
+    <import path="github.com/codegangsta/cli"/>
+    <import path="encoding/json"/>
+    <import path="runtime/pprof"/>
+  </imports>
+</project>

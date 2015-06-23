@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="golang-github-Sirupsen-logrus-0.6.4-1.fc22">
+<project url="" commit="commit" nvr="golang-github-Sirupsen-logrus-0.6.4-2.fc23">
   <packages>
     <package importpath="github.com/Sirupsen/logrus/hooks/papertrail">
       <types>
@@ -21,12 +21,12 @@
             <type type="ident" def="int"/>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="PapertrailHook"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Fire">
           <recvList>
@@ -42,9 +42,9 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Levels">
           <recvList>
@@ -53,14 +53,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="selector">
                 <prefix value="logrus"/>
                 <item value="Level"/>
               </elmtype>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>
@@ -98,12 +98,12 @@
               </elmtype>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="SentryHook"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Fire">
           <recvList>
@@ -119,9 +119,9 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Levels">
           <recvList>
@@ -130,14 +130,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="selector">
                 <prefix value="logrus"/>
                 <item value="Level"/>
               </elmtype>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>
@@ -326,54 +326,54 @@
               <type type="ident" def="Entry"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="IsTerminal">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="IsTerminal">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="bool"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
             <type type="ident" def="Level"/>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="ParseLevel">
           <recvList/>
           <paramsList>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Level"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="New">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Logger"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WithField">
           <recvList>
@@ -385,11 +385,11 @@
             <type type="ident" def="string"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Entry"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WithFields">
           <recvList>
@@ -400,11 +400,11 @@
           <paramsList>
             <type type="ident" def="Fields"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Entry"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Debugf">
           <recvList>
@@ -418,7 +418,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Infof">
           <recvList>
@@ -432,7 +432,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Printf">
           <recvList>
@@ -446,7 +446,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warnf">
           <recvList>
@@ -460,7 +460,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warningf">
           <recvList>
@@ -474,7 +474,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Errorf">
           <recvList>
@@ -488,7 +488,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatalf">
           <recvList>
@@ -502,7 +502,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Panicf">
           <recvList>
@@ -516,7 +516,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Debug">
           <recvList>
@@ -529,7 +529,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Info">
           <recvList>
@@ -542,7 +542,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Print">
           <recvList>
@@ -555,7 +555,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warn">
           <recvList>
@@ -568,7 +568,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warning">
           <recvList>
@@ -581,7 +581,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Error">
           <recvList>
@@ -594,7 +594,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatal">
           <recvList>
@@ -607,7 +607,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Panic">
           <recvList>
@@ -620,7 +620,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Debugln">
           <recvList>
@@ -633,7 +633,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Infoln">
           <recvList>
@@ -646,7 +646,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Println">
           <recvList>
@@ -659,7 +659,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warnln">
           <recvList>
@@ -672,7 +672,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warningln">
           <recvList>
@@ -685,7 +685,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Errorln">
           <recvList>
@@ -698,7 +698,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatalln">
           <recvList>
@@ -711,7 +711,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Panicln">
           <recvList>
@@ -724,7 +724,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Format">
           <recvList>
@@ -737,12 +737,12 @@
               <type type="ident" def="Entry"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="ident" def="byte"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Add">
           <recvList>
@@ -751,7 +751,7 @@
           <paramsList>
             <type type="ident" def="Hook"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fire">
           <recvList>
@@ -763,9 +763,9 @@
               <type type="ident" def="Entry"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="SetOutput">
           <recvList/>
@@ -775,35 +775,35 @@
               <item value="Writer"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetFormatter">
           <recvList/>
           <paramsList>
             <type type="ident" def="Formatter"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="SetLevel">
           <recvList/>
           <paramsList>
             <type type="ident" def="Level"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="GetLevel">
           <recvList/>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="Level"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="AddHook">
           <recvList/>
           <paramsList>
             <type type="ident" def="Hook"/>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="WithField">
           <recvList/>
@@ -811,22 +811,22 @@
             <type type="ident" def="string"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Entry"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WithFields">
           <recvList/>
           <paramsList>
             <type type="ident" def="Fields"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Entry"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Debug">
           <recvList/>
@@ -835,7 +835,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Print">
           <recvList/>
@@ -844,7 +844,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Info">
           <recvList/>
@@ -853,7 +853,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warn">
           <recvList/>
@@ -862,7 +862,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warning">
           <recvList/>
@@ -871,7 +871,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Error">
           <recvList/>
@@ -880,7 +880,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Panic">
           <recvList/>
@@ -889,7 +889,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatal">
           <recvList/>
@@ -898,7 +898,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Debugf">
           <recvList/>
@@ -908,7 +908,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Printf">
           <recvList/>
@@ -918,7 +918,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Infof">
           <recvList/>
@@ -928,7 +928,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warnf">
           <recvList/>
@@ -938,7 +938,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warningf">
           <recvList/>
@@ -948,7 +948,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Errorf">
           <recvList/>
@@ -958,7 +958,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Panicf">
           <recvList/>
@@ -968,7 +968,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatalf">
           <recvList/>
@@ -978,7 +978,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Debugln">
           <recvList/>
@@ -987,7 +987,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Println">
           <recvList/>
@@ -996,7 +996,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Infoln">
           <recvList/>
@@ -1005,7 +1005,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warnln">
           <recvList/>
@@ -1014,7 +1014,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warningln">
           <recvList/>
@@ -1023,7 +1023,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Errorln">
           <recvList/>
@@ -1032,7 +1032,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Panicln">
           <recvList/>
@@ -1041,7 +1041,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatalln">
           <recvList/>
@@ -1050,7 +1050,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="NewEntry">
           <recvList/>
@@ -1059,11 +1059,11 @@
               <type type="ident" def="Logger"/>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Entry"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Reader">
           <recvList>
@@ -1072,7 +1072,7 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="selector">
                 <prefix value="bytes"/>
@@ -1080,7 +1080,7 @@
               </type>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="String">
           <recvList>
@@ -1089,10 +1089,10 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="string"/>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WithField">
           <recvList>
@@ -1104,11 +1104,11 @@
             <type type="ident" def="string"/>
             <type type="interface"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Entry"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="WithFields">
           <recvList>
@@ -1119,11 +1119,11 @@
           <paramsList>
             <type type="ident" def="Fields"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="Entry"/>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Debug">
           <recvList>
@@ -1136,7 +1136,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Print">
           <recvList>
@@ -1149,7 +1149,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Info">
           <recvList>
@@ -1162,7 +1162,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warn">
           <recvList>
@@ -1175,7 +1175,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Error">
           <recvList>
@@ -1188,7 +1188,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatal">
           <recvList>
@@ -1201,7 +1201,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Panic">
           <recvList>
@@ -1214,7 +1214,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Debugf">
           <recvList>
@@ -1228,7 +1228,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Infof">
           <recvList>
@@ -1242,7 +1242,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Printf">
           <recvList>
@@ -1256,7 +1256,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warnf">
           <recvList>
@@ -1270,7 +1270,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warningf">
           <recvList>
@@ -1284,7 +1284,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Errorf">
           <recvList>
@@ -1298,7 +1298,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatalf">
           <recvList>
@@ -1312,7 +1312,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Panicf">
           <recvList>
@@ -1326,7 +1326,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Debugln">
           <recvList>
@@ -1339,7 +1339,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Infoln">
           <recvList>
@@ -1352,7 +1352,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Println">
           <recvList>
@@ -1365,7 +1365,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warnln">
           <recvList>
@@ -1378,7 +1378,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Warningln">
           <recvList>
@@ -1391,7 +1391,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Errorln">
           <recvList>
@@ -1404,7 +1404,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Fatalln">
           <recvList>
@@ -1417,7 +1417,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
         <function name="Panicln">
           <recvList>
@@ -1430,7 +1430,7 @@
               <type type="interface"/>
             </type>
           </paramsList>
-          <returnsList/>
+          <resultsList/>
         </function>
       </functions>
       <names>
@@ -1461,9 +1461,9 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Levels">
           <recvList>
@@ -1472,14 +1472,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="selector">
                 <prefix value="logrus"/>
                 <item value="Level"/>
               </elmtype>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>
@@ -1509,12 +1509,12 @@
             </type>
             <type type="ident" def="string"/>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="pointer">
               <type type="ident" def="SyslogHook"/>
             </type>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Fire">
           <recvList>
@@ -1530,9 +1530,9 @@
               </type>
             </type>
           </paramsList>
-          <returnsList>
+          <resultsList>
             <type type="ident" def="error"/>
-          </returnsList>
+          </resultsList>
         </function>
         <function name="Levels">
           <recvList>
@@ -1541,14 +1541,14 @@
             </type>
           </recvList>
           <paramsList/>
-          <returnsList>
+          <resultsList>
             <type type="slice">
               <elmtype type="selector">
                 <prefix value="logrus"/>
                 <item value="Level"/>
               </elmtype>
             </type>
-          </returnsList>
+          </resultsList>
         </function>
       </functions>
       <names/>

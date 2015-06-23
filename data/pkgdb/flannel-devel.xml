@@ -1,13 +1,18 @@
 <?xml version='1.0' encoding='ASCII'?>
-<project url="" commit="commit" nvr="flannel-0.3.1-1.fc23">
+<project url="" commit="commit" nvr="flannel-0.4.1-3.fc23">
   <packages>
     <package importpath="github.com/coreos/flannel/backend/hostgw">
       <types>
         <type type="struct" name="HostgwBackend">
-          <field type="pointer" name="sm">
+          <field type="selector" name="sm">
+            <prefix value="subnet"/>
+            <item value="Manager"/>
+          </field>
+          <field type="ident" def="string" name="network"/>
+          <field type="pointer" name="lease">
             <type type="selector">
               <prefix value="subnet"/>
-              <item value="SubnetManager"/>
+              <item value="Lease"/>
             </type>
           </field>
           <field type="pointer" name="extIface">
@@ -20,12 +25,23 @@
             <prefix value="net"/>
             <item value="IP"/>
           </field>
-          <field type="channel" dir="3" name="stop">
-            <type type="ident" def="bool"/>
+          <field type="selector" name="ctx">
+            <prefix value="context"/>
+            <item value="Context"/>
+          </field>
+          <field type="selector" name="cancel">
+            <prefix value="context"/>
+            <item value="CancelFunc"/>
           </field>
           <field type="selector" name="wg">
             <prefix value="sync"/>
             <item value="WaitGroup"/>
+          </field>
+          <field type="slice" name="rl">
+            <elmtype type="selector">
+              <prefix value="netlink"/>
+              <item value="Route"/>
+            </elmtype>
           </field>
         </type>
       </types>
@@ -33,12 +49,11 @@
         <function name="New">
           <recvList/>
           <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="subnet"/>
-                <item value="SubnetManager"/>
-              </type>
+            <type type="selector">
+              <prefix value="subnet"/>
+              <item value="Manager"/>
             </type>
+            <type type="ident" def="string"/>
           </paramsList>
           <resultsList>
             <type type="selector">
@@ -107,28 +122,160 @@
       </functions>
       <names/>
     </package>
+    <package importpath="github.com/coreos/flannel/backend/awsvpc">
+      <types>
+        <type type="struct" name="AwsVpcBackend">
+          <field type="selector" name="sm">
+            <prefix value="subnet"/>
+            <item value="Manager"/>
+          </field>
+          <field type="ident" def="string" name="network"/>
+          <field type="pointer" name="config">
+            <type type="selector">
+              <prefix value="subnet"/>
+              <item value="Config"/>
+            </type>
+          </field>
+          <field type="struct" name="cfg">
+            <field type="ident" def="string" name="RouteTableID"/>
+          </field>
+          <field type="pointer" name="lease">
+            <type type="selector">
+              <prefix value="subnet"/>
+              <item value="Lease"/>
+            </type>
+          </field>
+          <field type="selector" name="ctx">
+            <prefix value="context"/>
+            <item value="Context"/>
+          </field>
+          <field type="selector" name="cancel">
+            <prefix value="context"/>
+            <item value="CancelFunc"/>
+          </field>
+          <field type="selector" name="wg">
+            <prefix value="sync"/>
+            <item value="WaitGroup"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="New">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="subnet"/>
+              <item value="Manager"/>
+            </type>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="subnet"/>
+                <item value="Config"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="selector">
+              <prefix value="backend"/>
+              <item value="Backend"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Init">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AwsVpcBackend"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="net"/>
+                <item value="Interface"/>
+              </type>
+            </type>
+            <type type="selector">
+              <prefix value="net"/>
+              <item value="IP"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="selector">
+                <prefix value="backend"/>
+                <item value="SubnetDef"/>
+              </type>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="Run">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AwsVpcBackend"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Stop">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AwsVpcBackend"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Name">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="AwsVpcBackend"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+      </functions>
+      <names/>
+    </package>
     <package importpath="github.com/coreos/flannel/backend/vxlan">
       <types>
         <type type="struct" name="VXLANBackend">
-          <field type="pointer" name="sm">
+          <field type="selector" name="sm">
+            <prefix value="subnet"/>
+            <item value="Manager"/>
+          </field>
+          <field type="ident" def="string" name="network"/>
+          <field type="pointer" name="config">
             <type type="selector">
               <prefix value="subnet"/>
-              <item value="SubnetManager"/>
+              <item value="Config"/>
             </type>
-          </field>
-          <field type="selector" name="rawCfg">
-            <prefix value="json"/>
-            <item value="RawMessage"/>
           </field>
           <field type="struct" name="cfg">
             <field type="ident" def="int" name="VNI"/>
             <field type="ident" def="int" name="Port"/>
           </field>
+          <field type="pointer" name="lease">
+            <type type="selector">
+              <prefix value="subnet"/>
+              <item value="Lease"/>
+            </type>
+          </field>
           <field type="pointer" name="dev">
             <type type="ident" def="vxlanDevice"/>
           </field>
-          <field type="channel" dir="3" name="stop">
-            <type type="ident" def="bool"/>
+          <field type="selector" name="ctx">
+            <prefix value="context"/>
+            <item value="Context"/>
+          </field>
+          <field type="selector" name="cancel">
+            <prefix value="context"/>
+            <item value="CancelFunc"/>
           </field>
           <field type="selector" name="wg">
             <prefix value="sync"/>
@@ -141,15 +288,16 @@
         <function name="New">
           <recvList/>
           <paramsList>
+            <type type="selector">
+              <prefix value="subnet"/>
+              <item value="Manager"/>
+            </type>
+            <type type="ident" def="string"/>
             <type type="pointer">
               <type type="selector">
                 <prefix value="subnet"/>
-                <item value="SubnetManager"/>
+                <item value="Config"/>
               </type>
-            </type>
-            <type type="selector">
-              <prefix value="json"/>
-              <item value="RawMessage"/>
             </type>
           </paramsList>
           <resultsList>
@@ -387,26 +535,17 @@
             <item value="RawMessage"/>
           </field>
         </type>
-        <type type="struct" name="SubnetLease">
-          <field type="selector" name="Network">
+        <type type="struct" name="Lease">
+          <field type="selector" name="Subnet">
             <prefix value="ip"/>
             <item value="IP4Net"/>
           </field>
-          <field type="ident" def="LeaseAttrs" name="Attrs"/>
-        </type>
-        <type type="struct" name="SubnetManager">
-          <field type="ident" def="subnetRegistry" name="registry"/>
-          <field type="pointer" name="config">
-            <type type="ident" def="Config"/>
+          <field type="pointer" name="Attrs">
+            <type type="ident" def="LeaseAttrs"/>
           </field>
-          <field type="ident" def="SubnetLease" name="myLease"/>
-          <field type="selector" name="leaseExp">
+          <field type="selector" name="Expiration">
             <prefix value="time"/>
             <item value="Time"/>
-          </field>
-          <field type="ident" def="uint64" name="lastIndex"/>
-          <field type="slice" name="leases">
-            <elmtype type="ident" def="SubnetLease"/>
           </field>
         </type>
         <type name="EventType" type="ident">
@@ -414,10 +553,179 @@
         </type>
         <type type="struct" name="Event">
           <field type="ident" def="EventType" name="Type"/>
-          <field type="ident" def="SubnetLease" name="Lease"/>
+          <field type="ident" def="Lease" name="Lease"/>
         </type>
-        <type name="EventBatch" type="slice">
-          <elmtype type="ident" def="Event"/>
+        <type type="struct" name="WatchResult">
+          <field type="slice" name="Events">
+            <elmtype type="ident" def="Event"/>
+          </field>
+          <field type="slice" name="Snapshot">
+            <elmtype type="ident" def="Lease"/>
+          </field>
+          <field type="interface" name="Cursor"/>
+        </type>
+        <type name="Manager" type="interface">
+          <method name="GetNetworkConfig">
+            <paramsList>
+              <type type="selector">
+                <prefix value="context"/>
+                <item value="Context"/>
+              </type>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="Config"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="AcquireLease">
+            <paramsList>
+              <type type="selector">
+                <prefix value="context"/>
+                <item value="Context"/>
+              </type>
+              <type type="ident" def="string"/>
+              <type type="pointer">
+                <type type="ident" def="LeaseAttrs"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="ident" def="Lease"/>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="RenewLease">
+            <paramsList>
+              <type type="selector">
+                <prefix value="context"/>
+                <item value="Context"/>
+              </type>
+              <type type="ident" def="string"/>
+              <type type="pointer">
+                <type type="ident" def="Lease"/>
+              </type>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="WatchLeases">
+            <paramsList>
+              <type type="selector">
+                <prefix value="context"/>
+                <item value="Context"/>
+              </type>
+              <type type="ident" def="string"/>
+              <type type="interface"/>
+            </paramsList>
+            <resultsList>
+              <type type="ident" def="WatchResult"/>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+        </type>
+        <type name="Registry" type="interface">
+          <method name="getConfig">
+            <paramsList>
+              <type type="selector">
+                <prefix value="context"/>
+                <item value="Context"/>
+              </type>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="etcd"/>
+                  <item value="Response"/>
+                </type>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="getSubnets">
+            <paramsList>
+              <type type="selector">
+                <prefix value="context"/>
+                <item value="Context"/>
+              </type>
+              <type type="ident" def="string"/>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="etcd"/>
+                  <item value="Response"/>
+                </type>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="createSubnet">
+            <paramsList>
+              <type type="selector">
+                <prefix value="context"/>
+                <item value="Context"/>
+              </type>
+              <type type="ident" def="string"/>
+              <type type="ident" def="string"/>
+              <type type="ident" def="string"/>
+              <type type="ident" def="uint64"/>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="etcd"/>
+                  <item value="Response"/>
+                </type>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="updateSubnet">
+            <paramsList>
+              <type type="selector">
+                <prefix value="context"/>
+                <item value="Context"/>
+              </type>
+              <type type="ident" def="string"/>
+              <type type="ident" def="string"/>
+              <type type="ident" def="string"/>
+              <type type="ident" def="uint64"/>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="etcd"/>
+                  <item value="Response"/>
+                </type>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
+          <method name="watchSubnets">
+            <paramsList>
+              <type type="selector">
+                <prefix value="context"/>
+                <item value="Context"/>
+              </type>
+              <type type="ident" def="string"/>
+              <type type="ident" def="uint64"/>
+            </paramsList>
+            <resultsList>
+              <type type="pointer">
+                <type type="selector">
+                  <prefix value="etcd"/>
+                  <item value="Response"/>
+                </type>
+              </type>
+              <type type="ident" def="error"/>
+            </resultsList>
+          </method>
         </type>
         <type type="struct" name="EtcdConfig">
           <field type="slice" name="Endpoints">
@@ -427,6 +735,9 @@
           <field type="ident" def="string" name="Certfile"/>
           <field type="ident" def="string" name="CAFile"/>
           <field type="ident" def="string" name="Prefix"/>
+        </type>
+        <type type="struct" name="EtcdManager">
+          <field type="ident" def="Registry" name="registry"/>
         </type>
         <type type="struct" name="Config">
           <field type="selector" name="Network">
@@ -449,7 +760,87 @@
         </type>
       </types>
       <functions>
-        <function name="NewSubnetManager">
+        <function name="WatchLeases">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="Manager"/>
+            <type type="ident" def="string"/>
+            <type type="channel" dir="3">
+              <type type="slice">
+                <elmtype type="ident" def="Event"/>
+              </type>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="Key">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Lease"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="ident" def="string"/>
+          </resultsList>
+        </function>
+        <function name="MarshalJSON">
+          <recvList>
+            <type type="ident" def="EventType"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="UnmarshalJSON">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="EventType"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="slice">
+              <elmtype type="ident" def="byte"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="LeaseRenewer">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="Manager"/>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="Lease"/>
+            </type>
+          </paramsList>
+          <resultsList/>
+        </function>
+        <function name="NewMockManager">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="uint64"/>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="Manager"/>
+          </resultsList>
+        </function>
+        <function name="NewEtcdManager">
           <recvList/>
           <paramsList>
             <type type="pointer">
@@ -457,8 +848,26 @@
             </type>
           </paramsList>
           <resultsList>
+            <type type="ident" def="Manager"/>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="GetNetworkConfig">
+          <recvList>
             <type type="pointer">
-              <type type="ident" def="SubnetManager"/>
+              <type type="ident" def="EtcdManager"/>
+            </type>
+          </recvList>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Config"/>
             </type>
             <type type="ident" def="error"/>
           </resultsList>
@@ -466,66 +875,64 @@
         <function name="AcquireLease">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="SubnetManager"/>
+              <type type="ident" def="EtcdManager"/>
             </type>
           </recvList>
           <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
+            </type>
+            <type type="ident" def="string"/>
             <type type="pointer">
               <type type="ident" def="LeaseAttrs"/>
             </type>
-            <type type="channel" dir="3">
-              <type type="ident" def="bool"/>
-            </type>
           </paramsList>
           <resultsList>
-            <type type="selector">
-              <prefix value="ip"/>
-              <item value="IP4Net"/>
+            <type type="pointer">
+              <type type="ident" def="Lease"/>
             </type>
             <type type="ident" def="error"/>
           </resultsList>
         </function>
-        <function name="GetConfig">
+        <function name="RenewLease">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="SubnetManager"/>
+              <type type="ident" def="EtcdManager"/>
             </type>
           </recvList>
-          <paramsList/>
-          <resultsList>
-            <type type="pointer">
-              <type type="ident" def="Config"/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
             </type>
+            <type type="ident" def="string"/>
+            <type type="pointer">
+              <type type="ident" def="Lease"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
           </resultsList>
         </function>
         <function name="WatchLeases">
           <recvList>
             <type type="pointer">
-              <type type="ident" def="SubnetManager"/>
+              <type type="ident" def="EtcdManager"/>
             </type>
           </recvList>
           <paramsList>
-            <type type="channel" dir="3">
-              <type type="ident" def="EventBatch"/>
+            <type type="selector">
+              <prefix value="context"/>
+              <item value="Context"/>
             </type>
-            <type type="channel" dir="3">
-              <type type="ident" def="bool"/>
-            </type>
+            <type type="ident" def="string"/>
+            <type type="interface"/>
           </paramsList>
-          <resultsList/>
-        </function>
-        <function name="LeaseRenewer">
-          <recvList>
-            <type type="pointer">
-              <type type="ident" def="SubnetManager"/>
-            </type>
-          </recvList>
-          <paramsList>
-            <type type="channel" dir="3">
-              <type type="ident" def="bool"/>
-            </type>
-          </paramsList>
-          <resultsList/>
+          <resultsList>
+            <type type="ident" def="WatchResult"/>
+            <type type="ident" def="error"/>
+          </resultsList>
         </function>
         <function name="ParseConfig">
           <recvList/>
@@ -548,18 +955,25 @@
     <package importpath="github.com/coreos/flannel/backend/udp">
       <types>
         <type type="struct" name="UdpBackend">
-          <field type="pointer" name="sm">
+          <field type="selector" name="sm">
+            <prefix value="subnet"/>
+            <item value="Manager"/>
+          </field>
+          <field type="ident" def="string" name="network"/>
+          <field type="pointer" name="config">
             <type type="selector">
               <prefix value="subnet"/>
-              <item value="SubnetManager"/>
+              <item value="Config"/>
             </type>
-          </field>
-          <field type="selector" name="rawCfg">
-            <prefix value="json"/>
-            <item value="RawMessage"/>
           </field>
           <field type="struct" name="cfg">
             <field type="ident" def="int" name="Port"/>
+          </field>
+          <field type="pointer" name="lease">
+            <type type="selector">
+              <prefix value="subnet"/>
+              <item value="Lease"/>
+            </type>
           </field>
           <field type="pointer" name="ctl">
             <type type="selector">
@@ -590,8 +1004,13 @@
             <prefix value="ip"/>
             <item value="IP4Net"/>
           </field>
-          <field type="channel" dir="3" name="stop">
-            <type type="ident" def="bool"/>
+          <field type="selector" name="ctx">
+            <prefix value="context"/>
+            <item value="Context"/>
+          </field>
+          <field type="selector" name="cancel">
+            <prefix value="context"/>
+            <item value="CancelFunc"/>
           </field>
           <field type="selector" name="wg">
             <prefix value="sync"/>
@@ -603,15 +1022,16 @@
         <function name="New">
           <recvList/>
           <paramsList>
+            <type type="selector">
+              <prefix value="subnet"/>
+              <item value="Manager"/>
+            </type>
+            <type type="ident" def="string"/>
             <type type="pointer">
               <type type="selector">
                 <prefix value="subnet"/>
-                <item value="SubnetManager"/>
+                <item value="Config"/>
               </type>
-            </type>
-            <type type="selector">
-              <prefix value="json"/>
-              <item value="RawMessage"/>
             </type>
           </paramsList>
           <resultsList>
@@ -680,13 +1100,6 @@
         </function>
       </functions>
       <names/>
-    </package>
-    <package importpath="github.com/coreos/flannel/pkg/task">
-      <types/>
-      <functions/>
-      <names>
-        <name value="ErrCanceled"/>
-      </names>
     </package>
     <package importpath="github.com/coreos/flannel/backend">
       <types>
@@ -1171,14 +1584,24 @@
     <package importpath="github.com/coreos/flannel/backend/alloc">
       <types>
         <type type="struct" name="AllocBackend">
-          <field type="pointer" name="sm">
+          <field type="selector" name="sm">
+            <prefix value="subnet"/>
+            <item value="Manager"/>
+          </field>
+          <field type="ident" def="string" name="network"/>
+          <field type="pointer" name="lease">
             <type type="selector">
               <prefix value="subnet"/>
-              <item value="SubnetManager"/>
+              <item value="Lease"/>
             </type>
           </field>
-          <field type="channel" dir="3" name="stop">
-            <type type="ident" def="bool"/>
+          <field type="selector" name="ctx">
+            <prefix value="context"/>
+            <item value="Context"/>
+          </field>
+          <field type="selector" name="cancel">
+            <prefix value="context"/>
+            <item value="CancelFunc"/>
           </field>
         </type>
       </types>
@@ -1186,12 +1609,11 @@
         <function name="New">
           <recvList/>
           <paramsList>
-            <type type="pointer">
-              <type type="selector">
-                <prefix value="subnet"/>
-                <item value="SubnetManager"/>
-              </type>
+            <type type="selector">
+              <prefix value="subnet"/>
+              <item value="Manager"/>
             </type>
+            <type type="ident" def="string"/>
           </paramsList>
           <resultsList>
             <type type="selector">
@@ -1262,24 +1684,25 @@
     </package>
   </packages>
   <imports>
+    <import path="time"/>
+    <import path="github.com/golang/glog"/>
+    <import path="golang.org/x/net/context"/>
     <import path="encoding/json"/>
     <import path="fmt"/>
     <import path="reflect"/>
     <import path="testing"/>
-    <import path="time"/>
     <import path="github.com/coreos/go-etcd/etcd"/>
     <import path="github.com/coreos/flannel/pkg/ip"/>
     <import path="errors"/>
-    <import path="net"/>
-    <import path="regexp"/>
-    <import path="strconv"/>
-    <import path="github.com/golang/glog"/>
-    <import path="github.com/coreos/flannel/pkg/task"/>
+    <import path="log"/>
+    <import path="os"/>
     <import path="path"/>
     <import path="sync"/>
     <import path="math/rand"/>
+    <import path="net"/>
+    <import path="regexp"/>
+    <import path="strconv"/>
     <import path="bytes"/>
-    <import path="os"/>
     <import path="syscall"/>
     <import path="unsafe"/>
     <import path="os/exec"/>
@@ -1290,5 +1713,7 @@
     <import path="github.com/coreos/flannel/subnet"/>
     <import path="github.com/vishvananda/netlink/nl"/>
     <import path="C"/>
+    <import path="github.com/mitchellh/goamz/aws"/>
+    <import path="github.com/mitchellh/goamz/ec2"/>
   </imports>
 </project>

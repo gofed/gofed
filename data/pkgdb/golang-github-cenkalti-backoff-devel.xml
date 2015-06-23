@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='ASCII'?>
+<project url="" commit="commit" nvr="golang-github-cenkalti-backoff-0-0.1.git9831e1e.fc23">
+  <packages>
+    <package importpath="github.com/cenkalti/backoff">
+      <types>
+        <type type="struct" name="Ticker">
+          <field type="channel" dir="2" name="C">
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </field>
+          <field type="channel" dir="3" name="c">
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </field>
+          <field type="ident" def="BackOff" name="b"/>
+          <field type="channel" dir="3" name="stop">
+            <type type="struct" name=""/>
+          </field>
+          <field type="selector" name="stopOnce">
+            <prefix value="sync"/>
+            <item value="Once"/>
+          </field>
+        </type>
+        <type type="struct" name="ExponentialBackOff">
+          <field type="selector" name="InitialInterval">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="ident" def="float64" name="RandomizationFactor"/>
+          <field type="ident" def="float64" name="Multiplier"/>
+          <field type="selector" name="MaxInterval">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="MaxElapsedTime">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="ident" def="Clock" name="Clock"/>
+          <field type="selector" name="currentInterval">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+          <field type="selector" name="startTime">
+            <prefix value="time"/>
+            <item value="Time"/>
+          </field>
+        </type>
+        <type name="Clock" type="interface">
+          <method name="Now">
+            <paramsList/>
+            <resultsList>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Time"/>
+              </type>
+            </resultsList>
+          </method>
+        </type>
+        <type name="BackOff" type="interface">
+          <method name="NextBackOff">
+            <paramsList/>
+            <resultsList>
+              <type type="selector">
+                <prefix value="time"/>
+                <item value="Duration"/>
+              </type>
+            </resultsList>
+          </method>
+          <method name="Reset">
+            <paramsList/>
+            <resultsList/>
+          </method>
+        </type>
+        <type type="struct" name="ZeroBackOff"/>
+        <type type="struct" name="StopBackOff"/>
+        <type type="struct" name="ConstantBackOff">
+          <field type="selector" name="Interval">
+            <prefix value="time"/>
+            <item value="Duration"/>
+          </field>
+        </type>
+      </types>
+      <functions>
+        <function name="NewTicker">
+          <recvList/>
+          <paramsList>
+            <type type="ident" def="BackOff"/>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="Ticker"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Stop">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="Ticker"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="Retry">
+          <recvList/>
+          <paramsList>
+            <type type="func">
+              <paramsList/>
+              <resultsList>
+                <type type="ident" def="error"/>
+              </resultsList>
+            </type>
+            <type type="ident" def="BackOff"/>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="RetryNotify">
+          <recvList/>
+          <paramsList>
+            <type type="func">
+              <paramsList/>
+              <resultsList>
+                <type type="ident" def="error"/>
+              </resultsList>
+            </type>
+            <type type="ident" def="BackOff"/>
+            <type type="func">
+              <paramsList>
+                <type type="ident" def="error"/>
+                <type type="selector">
+                  <prefix value="time"/>
+                  <item value="Duration"/>
+                </type>
+              </paramsList>
+              <resultsList/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="ident" def="error"/>
+          </resultsList>
+        </function>
+        <function name="NewExponentialBackOff">
+          <recvList/>
+          <paramsList/>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="ExponentialBackOff"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Now">
+          <recvList>
+            <type type="ident" def="systemClock"/>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Time"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExponentialBackOff"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="NextBackOff">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExponentialBackOff"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="GetElapsedTime">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ExponentialBackOff"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ZeroBackOff"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="NextBackOff">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ZeroBackOff"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StopBackOff"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="NextBackOff">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="StopBackOff"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="Reset">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ConstantBackOff"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList/>
+        </function>
+        <function name="NextBackOff">
+          <recvList>
+            <type type="pointer">
+              <type type="ident" def="ConstantBackOff"/>
+            </type>
+          </recvList>
+          <paramsList/>
+          <resultsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </resultsList>
+        </function>
+        <function name="NewConstantBackOff">
+          <recvList/>
+          <paramsList>
+            <type type="selector">
+              <prefix value="time"/>
+              <item value="Duration"/>
+            </type>
+          </paramsList>
+          <resultsList>
+            <type type="pointer">
+              <type type="ident" def="ConstantBackOff"/>
+            </type>
+          </resultsList>
+        </function>
+      </functions>
+      <names>
+        <name value="DefaultInitialInterval"/>
+        <name value="DefaultRandomizationFactor"/>
+        <name value="DefaultMultiplier"/>
+        <name value="DefaultMaxInterval"/>
+        <name value="DefaultMaxElapsedTime"/>
+        <name value="SystemClock"/>
+        <name value="Stop"/>
+      </names>
+    </package>
+  </packages>
+  <imports>
+    <import path="errors"/>
+    <import path="log"/>
+    <import path="testing"/>
+    <import path="runtime"/>
+    <import path="sync"/>
+    <import path="time"/>
+    <import path="math"/>
+    <import path="math/rand"/>
+  </imports>
+</project>
