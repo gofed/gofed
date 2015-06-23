@@ -523,6 +523,7 @@ class Xml2GoSymbolsParser(Base):
 
 	def __init__(self, path):
 		Base.__init__(self)
+		self.err = []
 		self.path = path
 		self.packages = {}
 		self.package_paths = {}
@@ -534,11 +535,22 @@ class Xml2GoSymbolsParser(Base):
 		return self.package_paths
 
 	def extract(self):
-		tree = etree.parse(self.path)
+		try:
+			tree = etree.parse(self.path)
+		except IOError, e:
+			self.err.append("%s: %s\n" % (self.path, e))
+			return False
+		except etree.XMLSyntaxError, e:
+			self.err.append("%s: %s\n" % (self.path, e))
+			return False
+		except Exception, e:
+			self.err.append("%s: %s\n" % (self.path, e))
+			return False
+
 		root = tree.getroot()
 
 		if root.tag != "project":
-			self.err = "Missing <project> node in %s" % self.path
+			self.err.append("Missing <project> node in %s" % self.path)
 			return False
 
 		# if ipprefix attribute is specified, remove it from every package path
@@ -548,18 +560,18 @@ class Xml2GoSymbolsParser(Base):
 			ipprefix = ""
 
 		if len(root[0]) < 1:
-			self.err = "Missing <packages> node in %s" % self.path
+			self.err.append("Missing <packages> node in %s" % self.path)
 			return False
 
 		pkgs_node = root[0]
 		for pkg in pkgs_node:
 			if "importpath" not in pkg.keys():
-				self.err = "Missing importpath attribute in package tag"
+				self.err.append("Missing importpath attribute in package tag")
 				return False
 			package_path = pkg.get("importpath")
 			if ipprefix != "":
 				if not package_path.startswith(ipprefix):
-					self.err = "package name %s does not start with %s" % (package_path, ipprefix)
+					self.err.append("package name %s does not start with %s" % (package_path, ipprefix))
 					return False
 				package_path = package_path[len(ipprefix):]
 
