@@ -9,6 +9,7 @@
 import optparse
 from modules.GoSymbols import CompareSourceCodes
 from modules.Utils import YELLOW, RED, BLUE, ENDC
+from modules.Config import Config
 from os import path
 
 MSG_NEG=1
@@ -18,6 +19,25 @@ MSG_NEUTRAL=4
 def displayApiDifference(status, color=True, msg_type=MSG_POS & MSG_NEUTRAL & MSG_NEG, prefix=""):
 	spkgs = sorted(status.keys())
 	for pkg in spkgs:
+		if pkg == "+" or pkg == "-":
+			lines = []
+			if pkg == "-":
+				if msg_type & MSG_NEG > 0:
+					if color:
+						lines.append("%s%s%s" % (RED, status[pkg], ENDC))
+					else:
+						lines.append("%s" % msg)
+			else:
+				if msg_type & MSG_POS > 0:
+					if color:
+						lines.append("%s%s%s" % (BLUE, status[pkg], ENDC))
+					else:
+						lines.append("%s" % msg)
+
+			for line in lines:
+				print line
+			continue
+
 		lines = []
 		for msg in status[pkg]:
 			if msg[0] == "-":
@@ -92,6 +112,21 @@ if __name__ == "__main__":
 	    help = "Use new symbols from xml"
 	)
 
+	parser.add_option(
+            "", "", "--scan-all-dirs", dest="scanalldirs", action = "store_true", default = False,
+            help = "Scan all dirs, including Godeps directory"
+        )
+
+	parser.add_option(
+            "", "", "--skip-dirs", dest="skipdirs", default = "",
+            help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
+        )
+
+	parser.add_option(
+            "", "", "--skip-errors", dest="skiperrors", action = "store_true", default = False,
+            help = "Skip all errors during Go symbol parsing"
+        )
+
 	options, args = parser.parse_args()
 
 	if options.p != "" and options.p[-1] == '/':
@@ -122,9 +157,21 @@ if __name__ == "__main__":
 			print "Missing DIR"
 			exit(1)
 
+	if not options.scanalldirs:
+		noGodeps = Config().getSkippedDirectories()
+	else:
+		noGodeps = []
+
+	if options.skipdirs:
+		for dir in options.skipdirs.split(','):
+			dir = dir.strip()
+			if dir == "":
+				continue
+			noGodeps.append(dir)
+
 	# 1) check if all provided import paths are the same
 	# 2) check each package for new/removed/changed symbols
-	cmp_src = CompareSourceCodes()
+	cmp_src = CompareSourceCodes(skip_errors=options.skiperrors, noGodeps=noGodeps)
 	if options.oldxml != "" and options.newxml != "":
 		cmp_src.compareXmls(options.oldxml, options.newxml)
 	elif options.newxml != "":
