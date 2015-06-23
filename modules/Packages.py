@@ -381,7 +381,7 @@ def joinGraphs(g1, g2):
 	return (nodes, edges)
 
 
-def buildRequirementGraph(verbose=False, cache=False):
+def buildRequirementGraph(verbose=False, cache=False, loops=False):
 	# load imported and provided paths
 	ipdb_obj = ImportPathDB(cache=cache)
 	if not ipdb_obj.load():
@@ -402,9 +402,7 @@ def buildRequirementGraph(verbose=False, cache=False):
 			if ip == "":
 				continue
 
-			provides_mapping[ip] = pkg_devel
-
-
+			provides_mapping[ip.split(":")[0]] = pkg_devel
 
 	#print provides_mapping
 	#pkgs = list(set(pkgs))
@@ -423,6 +421,11 @@ def buildRequirementGraph(verbose=False, cache=False):
 				if verbose:
 					print "Error: %s path of %s subpackage is not provided by any package" % (ip, pkg_devel)
 				continue
+
+			if not loops:
+				# skip all loops
+				if pkg_devel == provides_mapping[ip]:
+					continue
 
 			if pkg_devel not in edges:
 				edges[pkg_devel] = [provides_mapping[ip]]
