@@ -162,8 +162,16 @@ class GoSymbolsExtractor:
 				if pname == "main":
 					continue
 
-				if pkg_name != "" and pkg_name != pname:
+				if (pkg_name != "" and pkg_name != pname):
 					err_msg = "Error: directory %s contains definition of more packages, i.e. %s" % (dir_info['dir'], pname)
+					if self.skip_errors:
+						sys.stderr.write("%s\n" % err_msg)
+						continue
+					self.err = err_msg
+					return False
+
+				if pname != os.path.basename(dir_info['dir']):
+					err_msg = "Error: directory %s contains definition of different package, i.e. %s" % (dir_info['dir'], pname)
 					if self.skip_errors:
 						sys.stderr.write("%s\n" % err_msg)
 						continue
