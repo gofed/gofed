@@ -63,6 +63,11 @@ if __name__ == "__main__":
             help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
         )
 
+	parser.add_option(
+            "", "", "--skip-errors", dest="skiperrors", action = "store_true", default = False,
+            help = "Skip all errors during Go symbol parsing"
+        )
+
 	options, args = parser.parse_args()
 
 	path = "."
@@ -81,7 +86,7 @@ if __name__ == "__main__":
 				continue
 			noGodeps.append(dir)
 
-	gse_obj = GoSymbolsExtractor(path, noGodeps=noGodeps)
+	gse_obj = GoSymbolsExtractor(path, noGodeps=noGodeps, skip_errors=options.skiperrors)
 	if not gse_obj.extract():
 		print gse_obj.getError()
 		exit(1)
