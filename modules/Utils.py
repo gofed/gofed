@@ -81,6 +81,20 @@ def runCommand(cmd):
 
 	return stdout, stderr, rt
 
+def execCommand(command):
+	process = Popen("stdbuf -oL %s" % command, stdout=PIPE, stderr=PIPE, shell=True)
+
+	while True:
+		nextline = process.stdout.readline()
+		if nextline == '' and process.poll() != None:
+			# maybe error?
+			err = process.stderr.read()
+			if err != "":
+				sys.stderr.write(err)
+			break
+		sys.stdout.write(nextline)
+		sys.stdout.flush()
+
 
 def inverseMap(mfnc):
 	"""inverse mapping of multifunction
