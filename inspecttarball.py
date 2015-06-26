@@ -18,6 +18,7 @@
 # ####################################################################
 
 import os
+import sys
 import optparse
 from modules.GoSymbolsExtractor import GoSymbolsExtractor
 from modules.Config import Config
@@ -88,7 +89,7 @@ if __name__ == "__main__":
 
 	gse_obj = GoSymbolsExtractor(path, noGodeps=noGodeps, skip_errors=options.skiperrors)
 	if not gse_obj.extract():
-		print gse_obj.getError()
+		sys.stderr.write("%s\n" % gse_obj.getError())
 		exit(1)
 
 	if options.provides:
