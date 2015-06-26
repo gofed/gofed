@@ -271,8 +271,12 @@ class GoLint(Base):
 		else:
 			import_path = self.sp_obj.getMacro('%s_import_path' % devel_prefix)
 
+		# import paths can be in form prefix/Godeps/_workspace/src/IMPORTED_PATH
+		godeps_ips = filter(lambda i: i.startswith("%s/Godeps/_workspace/src/" % import_path), t_imported)
+		godeps_ips = map(lambda i: i.replace("%s/Godeps/_workspace/src/" % import_path, ""), godeps_ips)
+
 		t_imported = filter(lambda i: not i.startswith(import_path), t_imported)
-		t_imported = map(lambda i: str("golang(%s)" % i), t_imported)
+		t_imported = map(lambda i: str("golang(%s)" % i), t_imported + godeps_ips)
 
 		skipped_provides_with_prefix = Config().getSkippedProvidesWithPrefix()
 
