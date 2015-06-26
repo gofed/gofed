@@ -1,214 +1,51 @@
-#!/bin/sh
+#!/usr/bin/python
+from os import walk, path
+from modules.Plugin import Plugins
+import sys
+import collections
+from modules.Utils import runCommand
 
-# ####################################################################
-# gofed - set of tools to automize packaging of golang devel codes
-# Copyright (C) 2014  Jan Chaloupka, jchaloup@redhat.com
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# ####################################################################
+def printHelp(plugins):
+	help = plugins.getHelp()
+	# max len of cmd
+	cmd_max_len = 0
+	for cmd in help.keys():
+		cmd_max_len = max(cmd_max_len, len(cmd))
 
-HELP=0
-SCRATCH=1
-BUILD=2
-PARALLEL=3
-UPDATE=4
-GGI=5
-GITHUB2SPEC=6
-REVIEW=7
-GOOGLECODE2SPEC=8
-PULL=9
-INSPECT=10
-SCAN=11
-SCANINFO=12
-LINT=13
-BUMP=14
-CHECK_COMMIT=15
-CHECK_DEPS=16
-SCAN_IMPORTS=17
-SCAN_PACKAGES=18
-BBO=19
-INITPKG=20
-SCANDEPS=21
-SCANSYMBOLS=22
-GCPMASTER=23
-BITBUCKET2SPEC=24
-WIZARD=25
-APIDIFF=26
-TOOLS=27
-VERSION=28
-REPO2SPEC=29
+	print "Synopsis: gofed command [arg1 [arg2 ...]]"
+	print ""
+	# sort help by key
+	for cmd in sorted(help.keys()):
+		space = (cmd_max_len - len(cmd) + 3)*" "
+		print "\t%s%s%s" % (cmd, space, help[cmd])
 
-operation=-1
-script_dir=$(dirname $(readlink -f $0))
+if __name__ == "__main__":
+	plugins = Plugins()
+	if not plugins.read():
+		sys.stderr.write("\n".join(plugins.getError()))
+		exit(1)
 
-################################
-################################
-function printHelp {
-	echo "Synopsis: gofed command [arg1 [arg2 ...]]"
-	echo ""
-	echo "command:"
-	echo "	apidiff		 compare API of two commits of the same golang project"
-	echo "	bbo		 buildroot override builds for all branches"
-	echo "	bitbucket2spec	 generate spec file from bitbucket"
-	echo "	build 		 build all fedora branches"
-	echo "	check-commit	 check package for commit"
-	echo "	check-deps	 check packages for commit"
-	echo "	gcpmaster	 git cherry pick master branch"
-	echo "	ggi		 get golang imports"
-	echo "	github2spec	 generate spec file from github"
-	echo "	googlecode2spec  generate spec file from googlecode"
-	echo "	help		 prints this help"
-	echo "	inspect		 inspect golang tarball"
-	echo "	lint		 lint for golang spec files"
-	echo "	pull		 pull from branches"
-	echo "	push		 pull from branches"
-	echo "	review		 creates review for Bugzilla"
-	echo "	repo2spec	 generate spec file from repository import path"
-	echo "	scan-deps	 scan all golang packages for dependencies (e.g. cyclic)"
-	echo "	scan-imports	 scan devel builds for possible import paths and imported paths"
-	echo "	scan-symbols	 scan directory for go symbols"
-	echo "	scratch-build	 scratch build all fedora branches"
-	echo "	scan-packages	 scan PkgDB for possible golang packages"
-	echo "	update		 update all fedora branches"
-	echo "	version		 print gofed version"
-	echo "	wizard		 run phases of bulding, updating, ... at once"
-}
+	if len(sys.argv) < 2 or sys.argv[1] == "help":
+		printHelp(plugins)
+		exit(0)
 
-################################
-################################
-# $1 - command
-if [ "$1" == "help" ]; then
-	operation=$HELP
-elif [ "$1" == "scratch-build" ]; then
-	operation=$SCRATCH
-elif [ "$1" == "build" ]; then
-	operation=$BUILD
-elif [ "$1" == "push" ]; then
-	operation=$PARALLEL
-elif [ "$1" == "update" ]; then
-	operation=$UPDATE
-elif [ "$1" == "ggi" ]; then
-        operation=$GGI
-elif [ "$1" == "github2spec" ]; then
-        operation=$GITHUB2SPEC
-elif [ "$1" == "googlecode2spec" ]; then
-        operation=$GOOGLECODE2SPEC
-elif [ "$1" == "review" ]; then
-        operation=$REVIEW
-elif [ "$1" == "pull" ]; then
-        operation=$PULL
-elif [ "$1" == "inspect" ]; then
-        operation=$INSPECT
-elif [ "$1" == "bump" ]; then
-        operation=$BUMP
-elif [ "$1" == "check-commit" ]; then
-        operation=$CHECK_COMMIT
-elif [ "$1" == "check-deps" ]; then
-        operation=$CHECK_DEPS
-elif [ "$1" == "scan-imports" ]; then
-        operation=$SCAN_IMPORTS
-elif [ "$1" == "scan-packages" ]; then
-        operation=$SCAN_PACKAGES
-elif [ "$1" == "bbo" ]; then
-	operation=$BBO
-elif [ "$1" == "scan-deps" ]; then
-        operation=$SCANDEPS
-elif [ "$1" == "scan-symbols" ]; then
-        operation=$SCANSYMBOLS
-elif [ "$1" == "gcpmaster" ]; then
-        operation=$GCPMASTER
-elif [ "$1" == "bitbucket2spec" ]; then
-        operation=$BITBUCKET2SPEC
-elif [ "$1" == "wizard" ]; then
-        operation=$WIZARD
-elif [ "$1" == "apidiff" ]; then
-        operation=$APIDIFF
-elif [ "$1" == "tools" ]; then
-        operation=$TOOLS
-elif [ "$1" == "version" ]; then
-        operation=$VERSION
-elif [ "$1" == "repo2spec" ]; then
-        operation=$REPO2SPEC
-elif [ "$1" == "lint" ]; then
-        operation=$LINT
-fi
+	# parse command
+	cmd = plugins.getCommand(sys.argv[1])
+	if cmd == None:
+		sys.stderr.write("Command %s not found\n" % sys.argv[1])
+		exit(1)
 
-################################
-################################
-if [ $operation -eq -1 ]; then
-	echo "Wrong operation"
-	printHelp
-	exit 0
-fi
+	# run command
+	script_dir = path.dirname(path.realpath(__file__))
+	command_script = "%s/%s" % (script_dir, cmd.getScript())
+	if len(sys.argv) > 2:
+		cmd_str = "%s %s %s" % (cmd.getInterpret(), command_script, " ".join(sys.argv[2:]))
+	else:
+		cmd_str = "%s %s" % (cmd.getInterpret(), command_script)
 
-# dispose the $1 argument, operation already parsed
-shift
-
-if [ $operation -eq $HELP ]; then
-	printHelp
-elif [ $operation -eq $SCRATCH ]; then
-        python $script_dir/scratch-build --scratch $@
-elif [ $operation -eq $BUILD ]; then
-        python $script_dir/build --build $@
-elif [ $operation -eq $PARALLEL ]; then
-        python $script_dir/push --push $@
-elif [ $operation -eq $UPDATE ]; then
-        python $script_dir/update --update $@
-elif [ $operation -eq $GGI ]; then
-        python $script_dir/ggi.py $@
-elif [ $operation -eq $GITHUB2SPEC ]; then
-        python $script_dir/github2gospec --github $@
-elif [ $operation -eq $GOOGLECODE2SPEC ]; then
-        python $script_dir/googlecode2gospec --googlecode $@
-elif [ $operation -eq $REVIEW ]; then
-        python $script_dir/prepareReview.py $@
-elif [ $operation -eq $PULL ]; then
-        python $script_dir/pull --pull $@
-elif [ $operation -eq $INSPECT ]; then
-        python $script_dir/inspecttarball.py $@
-elif [ $operation -eq $BUMP ]; then
-        python $script_dir/bumpSpec.py $@
-elif [ $operation -eq $CHECK_COMMIT ]; then
-        python $script_dir/checkCommit.py $@
-elif [ $operation -eq $CHECK_DEPS ]; then
-        python $script_dir/checkDeps.py $@
-elif [ $operation -eq $SCAN_IMPORTS ]; then
-        python $script_dir/fetchImportPaths.py $@
-elif [ $operation -eq $SCAN_PACKAGES ]; then
-        python $script_dir/getGolangPackages.py $@
-elif [ $operation -eq $BBO ]; then
-        python $script_dir/bbobranches --bbo $@
-elif [ $operation -eq $SCANDEPS ]; then
-        python $script_dir/discoverPkgDeps.py $@
-elif [ $operation -eq $SCANSYMBOLS ]; then
-        python $script_dir/scanGoSymbols.py $@
-elif [ $operation -eq $GCPMASTER ]; then
-        python $script_dir/gcp --gcp $@
-elif [ $operation -eq $BITBUCKET2SPEC ]; then
-        python $script_dir/bitbucket2gospec --bitbucket $@
-elif [ $operation -eq $WIZARD ]; then
-        python $script_dir/wizard.py $@
-elif [ $operation -eq $APIDIFF ]; then
-        python $script_dir/goapidiff.py $@
-elif [ $operation -eq $TOOLS ]; then
-        python $script_dir/tools.py $@
-elif [ $operation -eq $VERSION ]; then
-        python $script_dir/version.py $@
-elif [ $operation -eq $REPO2SPEC ]; then
-        python $script_dir/repo2gospec.py $@
-elif [ $operation -eq $LINT ]; then
-        python $script_dir/lint.py $@
-fi
-
+	# TODO: make the runCommand to show a lines interactively, not all at once
+	so, se, rc = runCommand(cmd_str)
+	if rc != 0:
+		sys.stderr.write(se)
+	elif so != "":
+		sys.stdout.write(so)
