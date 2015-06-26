@@ -1,4 +1,5 @@
 from Utils import getScriptDir
+from os import path
 
 class Config:
 
@@ -68,13 +69,18 @@ class Config:
 		branches = self.getValueFromDb('skipped_provides_with_prefix').split(" ")
 		return filter(lambda b: b != "", branches) 
 
-	def makePathAbsolute(self, path):
-		if path == "":
+	def makePathAbsolute(self, cpath):
+		if cpath == "":
 			return ""
-		if path[0] != "/":
-			return "/var/lib/gofed/%s" % path
+		# add gofed's script directory
+		if cpath[0] == "@":
+			# modules directory
+			script_dir = path.dirname(path.realpath(__file__))
+			return "%s/..%s" % (script_dir, cpath[1:])
+		if cpath[0] != "/":
+			return "/var/lib/gofed/%s" % cpath
 		else:
-			return path
+			return cpath
 
 
 	def getGolangMapping(self):
@@ -103,6 +109,10 @@ class Config:
 
 	def getGolangImPrPackages(self):
 		path = self.getValueFromDb('golang_im_pr_packages')
+		return self.makePathAbsolute(path)
+
+	def getGolangPlugins(self):
+		path = self.getValueFromDb('golang_plugins')
 		return self.makePathAbsolute(path)
 
 if __name__ == "__main__":
