@@ -1,0 +1,15 @@
+{"name": "gofed-base",
+"commands": [
+	{"command": "version", "help": "print gofed version", "script": "version.py"},
+	{"command": "help", "help": "print help", "script": ""},
+	{"command": "bitbucket2spec", "help": "generate spec file from bitbucket", "script": "bitbucket2gospec --bitbucket"},
+	{"command": "github2spec", "help": "generate spec file from github", "script": "github2gospec --github"},
+	{"command": "googlecode2spec", "help": "generate spec file from googlecode", "script": "googlecode2gospec --googlecode"},
+	{"command": "repo2spec", "help": "generate spec file from repository import path", "script": "repo2gospec.py"},
+	{"command": "ggi", "help": "get golang imports", "script": "ggi.py"},
+	{"command": "inspect", "help": "inspect golang tarball", "script": "inspecttarball.py"},
+	{"command": "check-commit", "help": "check package for commit", "script": "checkCommit.py"},
+	{"command": "check-deps", "help": "check packages for commit", "script": "checkDeps.py"},
+	{"command": "lint", "help": "lint for golang spec files", "script": "lint.py"},
+	{"command": "review", "help": "creates review for Bugzilla", "script": "prepareReview.py"}
+]}

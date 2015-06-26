@@ -1,0 +1,8 @@
+{"name": "gofed-scan",
+"commands": [
+	{"command": "apidiff", "help": "compare API of two commits of the same golang project", "script": "goapidiff.py"},
+	{"command": "scan-symbols", "help": "scan directory for go symbols", "script": "scanGoSymbols.py"},
+	{"command": "scan-packages", "help": "scan PkgDB for possible golang packages", "script": "getGolangPackages.py"},
+	{"command": "scan-imports", "help": "scan devel builds for possible import paths and imported paths", "script": "fetchImportPaths.py"},
+	{"command": "scan-deps", "help": "scan all golang packages for dependencies (e.g. cyclic)", "script": "discoverPkgDeps.py"}
+]}
