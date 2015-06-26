@@ -3,7 +3,7 @@ from os import walk, path
 from modules.Plugin import Plugins
 import sys
 import collections
-from modules.Utils import runCommand
+from modules.Utils import execCommand
 
 def printHelp(plugins):
 	help = plugins.getHelp()
@@ -43,9 +43,4 @@ if __name__ == "__main__":
 	else:
 		cmd_str = "%s %s" % (cmd.getInterpret(), command_script)
 
-	# TODO: make the runCommand to show a lines interactively, not all at once
-	so, se, rc = runCommand(cmd_str)
-	if rc != 0:
-		sys.stderr.write(se)
-	elif so != "":
-		sys.stdout.write(so)
+	execCommand(cmd_str)
