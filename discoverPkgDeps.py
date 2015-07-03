@@ -6,6 +6,9 @@ import shutil
 from time import time, strftime, gmtime
 import sys
 from modules.DependencyGraphBuilder import DependencyGraphBuilder
+from modules.ProjectDecompositionGraphBuilder import ProjectDecompositionGraphBuilder
+from modules.Utils import FormatedPrint
+from modules.Config import Config
 
 def printSCC(scc):
 	print "Cyclic dep detected (%s): %s" % (len(scc), ", ".join(scc))
@@ -18,17 +21,17 @@ def getGraphvizDotFormat(graph):
 	for u in nodes:
 		if u in edges:
 			for v in edges[u]:
-				content += "%s -> %s;\n" % (u.replace('-', '_'), v.replace('-', '_'))
+				content += "\"%s\" -> \"%s\";\n" % (u.replace('-', '_'), v.replace('-', '_'))
 
 	# add nodes with no outcoming edge
 	leaves = getLeafPackages(graph)
 	for leaf in leaves:
-		content += "%s [style=filled, fillcolor=orange]" % leaf.replace('-', '_')
+		content += "\"%s\" [style=filled, fillcolor=orange]" % leaf.replace('-', '_')
 
 	# add nodes with no incomming edge
 	roots = getRootPackages(graph)
 	for root in roots:
-		content += "%s [style=filled, fillcolor=red3]" % root.replace('-', '_')
+		content += "\"%s\" [style=filled, fillcolor=red3]" % root.replace('-', '_')
 
 	# add cyclic deps
 	scc = getSCC(graph)
@@ -40,7 +43,7 @@ def getGraphvizDotFormat(graph):
 	for comp in scc:
 		if len(comp) > 1:
 			for elem in comp:
-				content += "%s [style=filled, fillcolor=%s]" % (elem.replace('-', '_'), colors[counter])
+				content += "\"%s\" [style=filled, fillcolor=%s]" % (elem.replace('-', '_'), colors[counter])
 			counter = (counter + 1) % col_len
 
 
@@ -58,8 +61,11 @@ def showGraph(graph, out_img = "./graph.png"):
 	f.write(getGraphvizDotFormat(graph))
 	f.close()
 	# fdp -Tpng test.dot > test.png
-	_, _, rc = runCommand("fdp -Tpng %s/graph.dot > %s" % (tmp_dir, out_img))
-	if rc != 0:
+	so, se, rc = runCommand("fdp -Tpng %s/graph.dot > %s" % (tmp_dir, out_img))
+	if rc != 0 or se != "":
+		if se != "":
+			print se
+			return
 		print "Unable to generate graph"
 		return
 
@@ -91,7 +97,7 @@ def truncateGraph(graph, pkg_name, pkg_devel_main_pkg):
 	
 if __name__ == "__main__":
 
-	parser = optparse.OptionParser("%prog -c|-l|-r|-g [-v] [PACKAGE]")
+	parser = optparse.OptionParser("%prog [-d --from-dir|--from-xml] -c|-l|-r|-g [-v] [PACKAGE]")
 
 	parser.add_option(
 	    "", "-v", "--verbose", dest="verbose", action = "store_true", default = False,
@@ -120,8 +126,38 @@ if __name__ == "__main__":
 
 	parser.add_option(
 	    "", "-o", "--outfile", dest="outfile", default = "",
-	    help = "Get golang packages not required by any package"
+	    help = "Name of files to save graph to. Default is graph.png"
 	)
+
+	parser.add_option(
+	    "", "-d", "--decompose", dest="decompose", default = "",
+	    help = "Import path of a project to decompose"
+	)
+
+	parser.add_option(
+	    "", "", "--from-xml", dest="fromxml", default = "",
+	    help = "Read project from xml file"
+	)
+
+	parser.add_option(
+	    "", "", "--from-dir", dest="fromdir", default = "",
+	    help = "Read project from directory"
+	)
+
+	parser.add_option(
+            "", "", "--skip-errors", dest="skiperrors", action = "store_true", default = False,
+            help = "Skip all errors during Go symbol parsing"
+        )
+
+	parser.add_option(
+            "", "", "--scan-all-dirs", dest="scanalldirs", action = "store_true", default = False,
+            help = "Scan all dirs, including Godeps directory"
+        )
+
+	parser.add_option(
+            "", "", "--skip-dirs", dest="skipdirs", default = "",
+            help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
+        )
 
 	parser.add_option_group( optparse.OptionGroup(parser, "PACKAGE", "Display the smallest subgraph containing PACKAGE and all its dependencies.") )
 
@@ -132,19 +168,53 @@ if __name__ == "__main__":
 	if len(args) > 0:
 		pkg_name = args[0]
 
-	if options.cyclic or options.leaves or options.roots or options.graphviz:
+	if not options.scanalldirs:
+		noGodeps = Config().getSkippedDirectories()
+	else:
+		noGodeps = []
 
+	if options.skipdirs:
+		for dir in options.skipdirs.split(','):
+			dir = dir.strip()
+			if dir == "":
+				continue
+			noGodeps.append(dir)
+
+	fp = FormatedPrint()
+
+	scan_time_start = time()
+	if not options.cyclic and not options.leaves and not options.roots and not options.graphviz:
+		print "Synopsis: prog [-d --from-dir|--from-xml] -c|-l|-r|-g [-v] [PACKAGE]"
+		exit(1)
+
+	if options.decompose != "":
+		gb = ProjectDecompositionGraphBuilder(options.decompose, skip_errors=options.skiperrors, noGodeps=noGodeps)
+		if options.fromxml != "":
+			if not gb.buildFromXml(options.fromxml):
+				fp.printError(gb.getError())
+				exit(1)
+		elif options.fromdir != "":
+			if not gb.buildFromDirectory(options.fromdir):
+				fp.printError(gb.getError())
+				exit(1)
+		else:
+			fp.printError("--from-xml or --from-dir option is missing")
+			exit(1)
+	else:
 		print "Reading packages..."
-		scan_time_start = time()
-		dgb = DependencyGraphBuilder(cache = True)
-		if not dgb.build():
-			sys.stderr.write(dgb.getError())
+		gb = DependencyGraphBuilder(cache = True)
+		if not gb.build():
+			fp.printError(gb.getError())
 			exit(1)
 
-		graph = dgb.getGraph()
-		pkg_devel_main_pkg = dgb.getSubpackageMembership()
+	# draw the graph
+	if options.cyclic or options.leaves or options.roots or options.graphviz:
+		graph = gb.getGraph()
+		pkg_devel_main_pkg = gb.getSubpackageMembership()
 		if options.verbose:
-			print "\n".join(map(lambda l: "Warning: %s" % l, dgb.getWarning()))
+			warn = gb.getWarning()
+			if warn != []:
+				print "\n".join(map(lambda l: "Warning: %s" % l, warn))
 
 		nodes, _ = graph
 		graph_cnt = len(nodes)
@@ -188,7 +258,3 @@ if __name__ == "__main__":
 				showGraph(graph, options.outfile)
 			else:
 				showGraph(graph)
-			
-
-	else:
-		print "Synopsis: prog -c|-l|-r|-g [-v] [PACKAGE]"
