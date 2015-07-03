@@ -1,10 +1,11 @@
 import optparse
-from modules.Packages import buildRequirementGraph, getSCC, getLeafPackages, getRootPackages, ConnectedComponent, joinGraphs
+from modules.Packages import getSCC, getLeafPackages, getRootPackages, ConnectedComponent, joinGraphs
 from modules.Utils import runCommand
 import tempfile
 import shutil
 from time import time, strftime, gmtime
 import sys
+from modules.DependencyGraphBuilder import DependencyGraphBuilder
 
 def printSCC(scc):
 	print "Cyclic dep detected (%s): %s" % (len(scc), ", ".join(scc))
@@ -135,7 +136,16 @@ if __name__ == "__main__":
 
 		print "Reading packages..."
 		scan_time_start = time()
-		graph, pkg_devel_main_pkg = buildRequirementGraph(options.verbose, cache=True)
+		dgb = DependencyGraphBuilder(cache = True)
+		if not dgb.build():
+			sys.stderr.write(dgb.getError())
+			exit(1)
+
+		graph = dgb.getGraph()
+		pkg_devel_main_pkg = dgb.getSubpackageMembership()
+		if options.verbose:
+			print "\n".join(map(lambda l: "Warning: %s" % l, dgb.getWarning()))
+
 		nodes, _ = graph
 		graph_cnt = len(nodes)
 

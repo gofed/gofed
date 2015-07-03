@@ -10,7 +10,6 @@ from RemoteSpecParser import RemoteSpecParser
 from Repos import Repos, IPMap
 from xml.dom import minidom
 from xml.dom.minidom import Node
-from ImportPathDB import ImportPathDB
 from Config import Config
 
 def loadPackages():
@@ -381,60 +380,6 @@ def joinGraphs(g1, g2):
 	return (nodes, edges)
 
 
-def buildRequirementGraph(verbose=False, cache=False, loops=False):
-	# load imported and provided paths
-	ipdb_obj = ImportPathDB(cache=cache)
-	if not ipdb_obj.load():
-		print "Error: %s" % ipdb_obj.getErorr()
-
-	ip_provides = ipdb_obj.getProvidedPaths()
-	ip_imports = ipdb_obj.getImportedPaths()
-	pkg_devel_main_pkg = ipdb_obj.getDevelMainPkg()
-	# 1) for each package get a list of all packages it needs
-	# 2) in this list find all cyclic dependencies
-
-	# create mapping of import paths of provides to pkg_devel_name
-	provides_mapping = {}
-	pkgs = []
-	for pkg_devel in ip_provides:
-		pkgs.append(pkg_devel)
-		for ip in ip_provides[pkg_devel]:
-			if ip == "":
-				continue
-
-			provides_mapping[ip.split(":")[0]] = pkg_devel
-
-	#print provides_mapping
-	#pkgs = list(set(pkgs))
-	#for line in sorted(pkgs):
-	#	print line
-
-	# Assuming all dependencies will create a sparse matrix, lets use a list of edges instead
-	# (u, v) \in Pkgs \times Pkgs \eq u [B]R v (u needs v)
-	edges = {}
-	for pkg_devel in ip_imports:
-		for ip in ip_imports[pkg_devel]:
-			if ip == "":
-				continue
-
-			if ip not in provides_mapping:
-				if verbose:
-					print "Error: %s path of %s subpackage is not provided by any package" % (ip, pkg_devel)
-				continue
-
-			if not loops:
-				# skip all loops
-				if pkg_devel == provides_mapping[ip]:
-					continue
-
-			if pkg_devel not in edges:
-				edges[pkg_devel] = [provides_mapping[ip]]
-			else:
-				if provides_mapping[ip] not in edges[pkg_devel]:
-					edges[pkg_devel].append(provides_mapping[ip])
-
-	return (pkgs, edges), pkg_devel_main_pkg
-
 def getLeafPackages(graph):
 	nodes, edges = graph
 
@@ -752,7 +697,3 @@ class LocalDB:
 
 		return err, outdated
 
-if __name__ == "__main__":
-	#pkg = Package('golang-googlecode-net')
-	#print pkg.getInfo()
-	getPackagesFromPkgDb()
