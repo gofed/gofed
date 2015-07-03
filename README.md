@@ -106,6 +106,19 @@ This command generates a PNG picture, in this case named docker.png, with the de
 
 ![docker-io dependencies](https://raw.githubusercontent.com/ingvagabund/GolangPackageGenerator/master/docker.png)
 
+#### Golang project decomposition
+
+To display a decomposition of a project into a dependency graph, for example [prometheus](https://github.com/prometheus/prometheus), run the following command in project's directory:
+
+   ```vim
+   $ gofed scan-deps -d github.com/prometheus/prometheus --from-dir . --skip-errors -g -o prometheus.png
+   ```
+
+This command generates a PNG picture, in this case named prometheus.png, with the dependency graph.
+
+![prometheus decomposition](https://raw.githubusercontent.com/ingvagabund/GolangPackageGenerator/master/prometheus.png)
+
+
 #### API check
 
 To see differences in exported symbols between two releases, commits, or versions of the same project, use the "gofed apidiff" command in the following format:
