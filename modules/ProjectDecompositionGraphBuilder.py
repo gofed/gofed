@@ -8,6 +8,7 @@ from GoSymbols import Dir2GoSymbolsParser, Xml2GoSymbolsParser
 class ProjectDecompositionGraphBuilder(Base):
 
 	def __init__(self, import_path_prefix, skip_errors=False, noGodeps=[]):
+		Base.__init__(self)
 		self.import_path_prefix = import_path_prefix
 		self.skip_errors = skip_errors
 		self.noGodeps = noGodeps
