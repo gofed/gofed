@@ -14,6 +14,9 @@ class GoSymbolsExtractor:
 
 		self.symbols = []
 		self.symbols_position = {}
+		# list of packages imported for each project's package
+		self.package_imports = {}
+		# list of packages imported in entire project
 		self.imported_packages = []
 		self.test_directories = []
 
@@ -26,6 +29,9 @@ class GoSymbolsExtractor:
 
 	def getSymbolsPosition(self):
 		return self.symbols_position
+
+	def getPackageImports(self):
+		return self.package_imports
 
 	def getImportedPackages(self):
 		return self.imported_packages
@@ -100,6 +106,7 @@ class GoSymbolsExtractor:
 		ip_packages = {}
 		test_directories = []
 		ip_used = []
+		package_imports = {}
 
 		for dir_info in self.getGoFiles(self.directory):
 			#if sufix == ".":
@@ -183,10 +190,13 @@ class GoSymbolsExtractor:
 				# build can contain two different prefixes
 				# but with the same package name.
 				prefix = dir_info["dir"] + ":" + pkg_name
+				i_paths = map(lambda i: i["path"], go_file_json["imports"])
 				if prefix not in jsons:
 					jsons[prefix] = [go_file_json]
+					package_imports[prefix] = i_paths
 				else:
 					jsons[prefix].append(go_file_json)
+					package_imports[prefix] = package_imports[prefix] + i_paths
 
 			#print dir_info["dir"]
 			#print dir_info['files']
@@ -194,9 +204,11 @@ class GoSymbolsExtractor:
 			if prefix in jsons:
 				go_packages[prefix] = self.mergeGoSymbols(jsons[prefix])
 				ip_packages[prefix] = dir_info["dir"]
+				package_imports[prefix] = list(set(package_imports[prefix]))
 
 		self.symbols = go_packages
 		self.symbols_position = ip_packages
+		self.package_imports = package_imports
 		self.imported_packages = ip_used
 		self.test_directories = list(set(test_directories))
 
