@@ -364,36 +364,44 @@ class PackageToXml:
 	def __init__(self, symbols, import_path, imports=True):
 		self.err = ""
 		self.level = 0
-		self.root = etree.Element("package")
-		self.root.set("importpath", import_path)
-		#print "IMPORTPATH: %s" % import_path
+		self.symbols = symbols
+		self.import_path = import_path
+		self.imports = imports
+		self.package_imports = {}
 
-		self.err, types_node = self.typesToXML(symbols["types"])
+	def setPackageImports(self, package_imports):
+		self.package_imports = package_imports
+
+	def generate(self):
+		self.root = etree.Element("package")
+		self.root.set("importpath", self.import_path)
+		#print "IMPORTPATH: %s" % self.import_path
+
+		self.err, types_node = self.typesToXML(self.symbols["types"])
 		if self.err != "":
 			return
 
 		self.root.append(types_node)
 
-		self.err, functions_node = self.functionsToXML(symbols["funcs"])
+		self.err, functions_node = self.functionsToXML(self.symbols["funcs"])
 		if self.err != "":
 			return
 
 		self.root.append(functions_node)
 
 		names_node = etree.Element("names")
-		for item in symbols["vars"]:
+		for item in self.symbols["vars"]:
 			node = etree.Element("name")
 			node.set("value", item)
 			names_node.append(node)
 
 		self.root.append(names_node)
 
-		if imports:
+		if self.package_imports != {}:
 			imports_node = etree.Element("imports")
-			for item in symbols["imports"]:
+			for item in self.package_imports:
 				node = etree.Element("import")
-				node.set("name", item["name"])
-				node.set("path", item["path"])
+				node.set("path", item)
 				imports_node.append(node)
 
 			self.root.append(imports_node)
@@ -443,6 +451,7 @@ class ProjectToXml:
 				full_import_path = self.ip[prefix]
 
 			obj = PackageToXml(symbols[prefix], full_import_path, imports=False)
+			obj.generate()
 			if not obj.getStatus():
 				self.err = obj.getError()
 				return
@@ -489,14 +498,22 @@ class Dir2GoSymbolsParser(Base):
 		self.path = path
 		self.packages = {}
 		self.package_paths = {}
+		self.package_imports = {}
 		self.skip_errors = skip_errors
 		self.noGodeps = noGodeps
 
 	def getPackages(self):
+		# 'pkg/testutil:testutil': PKG_XML_REPRESENTATION
+		# 'etcdserver/etcdhttp:etcdhttp': PKG_XML_REPRESENTATION
 		return self.packages
 
 	def getPackagePaths(self):
+		# 'pkg/testutil:testutil': 'pkg/testutil'
+		# 'etcdserver/etcdhttp:etcdhttp': 'etcdserver/etcdhttp'
 		return self.package_paths
+
+	def getPackageImports(self):
+		return self.package_imports
 
 	def extract(self):
 		gse_obj = GoSymbolsExtractor(self.path, skip_errors=self.skip_errors, noGodeps=self.noGodeps)
@@ -506,10 +523,13 @@ class Dir2GoSymbolsParser(Base):
 
 		ips = gse_obj.getSymbolsPosition()
 		symbols = gse_obj.getSymbols()
+		self.package_imports = gse_obj.getPackageImports()
 
 		for pkg in ips.keys():
 			pkg_name = pkg.split(":")[0]
 			obj = PackageToXml(symbols[pkg], "%s" % (ips[pkg]), imports=False)
+			obj.setPackageImports(self.package_imports[pkg])
+			obj.generate()
 			if not obj.getStatus():
 				self.err.append("Error at %s due to json2xml parsing: " % (pkg_name, obj.getError()))
 				return False
@@ -527,12 +547,16 @@ class Xml2GoSymbolsParser(Base):
 		self.path = path
 		self.packages = {}
 		self.package_paths = {}
+		self.package_imports = {}
 
 	def getPackages(self):
 		return self.packages
 
 	def getPackagePaths(self):
 		return self.package_paths
+
+	def getPackageImports(self):
+		return self.package_imports
 
 	def extract(self):
 		try:
@@ -586,6 +610,15 @@ class Xml2GoSymbolsParser(Base):
 
 			self.package_paths[prefix] = package_path
 			self.packages[prefix] = pkg
+			self.package_imports[prefix] = []
+
+			for node in pkg:
+				if node.tag != "imports":
+					continue
+				for ip in node:
+					self.package_imports[prefix] += ip.values()
+
+			self.package_imports[prefix] = list(set(self.package_imports[prefix]))
 
 		return True
 

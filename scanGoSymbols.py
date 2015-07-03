@@ -175,6 +175,7 @@ if __name__ == "__main__":
 			print "<?xml version='1.0' encoding='ASCII'?>"
 			print "<project ipprefix=\"%s\" commit=\"\" nvr=\"\">" % options.prefix
 			print "<packages>"
+			package_imports = gse_obj.getPackageImports()
 
 		for pkg in ip:
 			if not options.purexml:
@@ -182,6 +183,9 @@ if __name__ == "__main__":
 			#print json.dumps(symbols[pkg])
 			if options.xml:
 				obj = PackageToXml(symbols[pkg], "%s%s" % (prefix, ip[pkg]),  imports=False)
+				if options.purexml:
+					obj.setPackageImports(package_imports[pkg])
+				obj.generate()
 				if obj.getStatus():
 					print obj#.getError()
 				else:
