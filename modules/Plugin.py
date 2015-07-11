@@ -85,9 +85,10 @@ class PluginCmd:
 
 class Plugins(Base):
 
-	def __init__(self):
+	def __init__(self, plugin_directory = ""):
 		self.err = []
 		self.plugins = {}
+		self.plugin_directory = plugin_directory
 
 	def getHelp(self):
 		help = {}
@@ -122,10 +123,13 @@ class Plugins(Base):
 
 
 	def read(self):
-		# TODO: save plugins directory path to config file
 		#golang_plugin_path = "/home/jchaloup/Projects/gofed/gofed/plugins"
-		golang_plugin_path = Config().getGolangPlugins()
-		for dirName, _, fileList in walk(golang_plugin_path): 
+		if self.plugin_directory == "":
+			golang_plugin_path = Config().getGolangPlugins()
+		else:
+			golang_plugin_path = self.plugin_directory
+
+		for dirName, _, fileList in walk(golang_plugin_path):
 			for file in fileList:
 				if not file.endswith(".json"):
 					continue
