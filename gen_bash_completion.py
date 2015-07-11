@@ -3,14 +3,14 @@ from modules.Utils import runCommand
 import sys
 
 if len(sys.argv) != 4:
-	sys.stderr.write("Synopsis: gen_bash_completion.py PKG_NAME PLUGIN_DIR BASH_COMPLETION_DIR")
+	sys.stderr.write("Synopsis: gen_bash_completion.py PKG_NAME PLUGIN_DIR BASH_COMPLETION_DIR\n")
 	exit(1)
 
 pkg_name=sys.argv[1]
 plugin_dir=sys.argv[2]
 bash_completion_dir=sys.argv[3]
 
-plugins = Plugins()
+plugins = Plugins(plugin_dir)
 if not plugins.read():
 	sys.stderr.write("\n".join(plugins.getError()))
 	exit(1)
@@ -29,12 +29,10 @@ def format_string(str):
 	return str
 
 # for each command get its help
-bash_completion_files = []
 options = {}
 for pl_name in cmd_list:
 	options[pl_name] = {}
-	bc_file = "%s/%s_bash_completion" % (bash_completion_dir, pl_name)
-	bash_completion_files.append(bc_file)
+	bc_file = "%s/%s_bash_completion" % (plugin_dir, pl_name)
 	with open(bc_file, "w") as fd:
 		fd.write("#\n")
 		fd.write("#  Completion for %s plugin\n" % pl_name)
@@ -63,7 +61,7 @@ fd.write("#  Completion for %s:\n" % pkg_name)
 fd.write("#\n")
 
 fd.write("# generate completion\n")
-fd.write("PLUGIN_DIR=\"%s\"\n" % plugin_dir)
+fd.write("PLUGIN_DIR=\"%s\"\n" % bash_completion_dir)
 fd.write("_%s()\n" % pkg_name)
 fd.write("""{
     local cur prev opts
