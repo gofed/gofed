@@ -2,13 +2,14 @@ from modules.Plugin import Plugins
 from modules.Utils import runCommand
 import sys
 
-if len(sys.argv) != 4:
-	sys.stderr.write("Synopsis: gen_bash_completion.py PKG_NAME PLUGIN_DIR BASH_COMPLETION_DIR\n")
+if len(sys.argv) != 5:
+	sys.stderr.write("Synopsis: gen_bash_completion.py PKG_NAME PLUGIN_DIR BASH_COMPLETION_DIR GENERATED_BASH_COMPLETION_PLUGINS_DIRECTORY\n")
 	exit(1)
 
 pkg_name=sys.argv[1]
 plugin_dir=sys.argv[2]
 bash_completion_dir=sys.argv[3]
+gen_bash_completion_plugin_dir=sys.argv[4]
 
 plugins = Plugins(plugin_dir)
 if not plugins.read():
@@ -32,7 +33,7 @@ def format_string(str):
 options = {}
 for pl_name in cmd_list:
 	options[pl_name] = {}
-	bc_file = "%s/%s_bash_completion" % (plugin_dir, pl_name)
+	bc_file = "%s/%s_bash_completion" % (gen_bash_completion_plugin_dir, pl_name)
 	with open(bc_file, "w") as fd:
 		fd.write("#\n")
 		fd.write("#  Completion for %s plugin\n" % pl_name)
