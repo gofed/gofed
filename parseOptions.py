@@ -2,8 +2,8 @@ from modules.Utils import runCommand
 import re
 import sys
 
-def parseOptions(command):
-	so, se, rc = runCommand("./gofed %s --help" % command)
+def parseOptions(command, plugin_path):
+	so, se, rc = runCommand("./gofed -p %s %s --help" % (plugin_path, command))
 	if rc != 0:
 		return []
 
@@ -40,11 +40,12 @@ def parseOptions(command):
 
 if __name__ == "__main__":
 
-	if len(sys.argv) != 2:
+	if len(sys.argv) != 3:
 		print ""
 
 	command = sys.argv[1]
-	options = parseOptions(command)
+	plugin_path = sys.argv[2]
+	options = parseOptions(command, plugin_path)
 
 	if options == []:
 		print command + ":"

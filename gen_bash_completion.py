@@ -42,7 +42,7 @@ for pl_name in cmd_list:
 	
 		for cmd in cmd_list[pl_name]:
 			fd.write("#  %s %s\n" % ('gofed', cmd))
-			so, _, _ = runCommand("python parseOptions.py %s" % cmd)
+			so, _, _ = runCommand("python parseOptions.py %s %s" % (cmd, plugin_dir))
 			options[pl_name][cmd] = so.split("\n")[0].split(":")[1]
 			if options[pl_name][cmd] == "":
 				fd.write("%s_opts=\"#\"\n" % format_string(cmd))
