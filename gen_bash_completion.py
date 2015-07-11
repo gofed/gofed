@@ -72,7 +72,7 @@ fd.write("""{
     for plugin in gofed-base gofed-scan gofed-build; do
         if [ -f "${PLUGIN_DIR}/${plugin}_bash_completion" ]; then
             source ${PLUGIN_DIR}/${plugin}_bash_completion
-            opts="$opts"
+            opts="$opts $pl_commands"
         fi
     done
 """)
