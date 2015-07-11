@@ -20,7 +20,18 @@ def printHelp(plugins):
 		print "\t%s%s%s" % (cmd, space, help[cmd])
 
 if __name__ == "__main__":
-	plugins = Plugins()
+	plugin_path = ""
+	if len(sys.argv) >= 3:
+		if sys.argv[1] == "-p" or sys.argv[1] == "--plugin-path":
+			plugin_path = sys.argv[2]
+			sys.argv.pop(1)
+			sys.argv.pop(1)
+
+	if plugin_path == "":
+		plugins = Plugins()
+	else:
+		plugins = Plugins(plugin_path)
+
 	if not plugins.read():
 		sys.stderr.write("\n".join(plugins.getError()))
 		exit(1)
