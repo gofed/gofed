@@ -99,6 +99,16 @@ class Plugins(Base):
 				help[cmd] = hlp
 		return help
 
+	def getCommandList(self):
+		cmd_list = {}
+		for name in self.plugins:
+			pl_name = name.split(".")[0]
+			cmd_list[pl_name] = []
+			plugin = self.plugins[name].get()
+			for cmd_desc in plugin["commands"]:
+				cmd_list[pl_name].append(cmd_desc["command"])
+		return cmd_list
+
 	def getCommand(self, command):
 		for name in self.plugins:
 			plugin = self.plugins[name].get()
