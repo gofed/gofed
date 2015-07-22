@@ -18,6 +18,26 @@ class SpecGenerator:
 	def setPackageInfo(self, pkg_info):
 		self.pkg_info = pkg_info
 
+	def generateHeaderEpilogue(self):
+		self.file.write("%if 0%{?fedora}\n")
+		self.file.write("%global with_devel 1\n")
+		self.file.write("%global with_bundled 0\n")
+		self.file.write("%global with_debug 0\n")
+		self.file.write("%global with_check 1\n")
+		self.file.write("%else\n")
+		self.file.write("%global with_devel 0\n")
+		self.file.write("%global with_bundled 1\n")
+		self.file.write("%global with_debug 0\n")
+		self.file.write("%global with_check 0\n")
+		self.file.write("%endif\n\n")
+
+		# debug
+		self.file.write("%if 0%{?with_debug}\n")
+		self.file.write("%global _dwz_low_mem_die_limit 0\n")
+		self.file.write("%else\n")
+		self.file.write("%global debug_package   %{nil}\n")
+		self.file.write("%endif\n\n")
+
 	def generateGithubHeader(self, project, repository, url, commit):
 		self.file.write("%global provider        github\n")
 		self.file.write("%global provider_tld    com\n")
@@ -86,6 +106,7 @@ class SpecGenerator:
                 self.file.write("\n")
 
 	def generateDevelHeader(self, project, prefix):
+		self.file.write("%if 0%{?with_devel}\n")
                 self.file.write("%package devel\n")
                 self.file.write("Summary:       %{summary}\n")
                 self.file.write("\n")
@@ -99,12 +120,13 @@ class SpecGenerator:
 
 			self.file.write("BuildRequires: golang(%s)\n" % (dep))
 
-		self.file.write("\n")
-		for dep in imported_packages:
-			if dep.startswith(prefix):
-				continue
+		if imported_packages != []:
+			self.file.write("\n")
+			for dep in imported_packages:
+				if dep.startswith(prefix):
+					continue
 
-			self.file.write("Requires:      golang(%s)\n" % (dep))
+				self.file.write("Requires:      golang(%s)\n" % (dep))
 
 		# provides
 		self.file.write("\n")
@@ -120,9 +142,10 @@ class SpecGenerator:
 		self.file.write("%{summary}\n\n")
 		self.file.write("This package contains library source intended for\n")
 		self.file.write("building other packages which use %{project}/%{repo}.\n")
+		self.file.write("%endif\n")
 
 	def generatePrepSection(self, provider):
-		self.file.write("%prep\n\n")
+		self.file.write("%prep\n")
 
 		if provider == GOOGLECODE:
 			self.file.write("%setup -q -n %{rrepo}-%{shortrev}\n")
@@ -136,6 +159,7 @@ class SpecGenerator:
 
 	def generateInstallSection(self, direct_go_files = False):
 		self.file.write("%install\n")
+		self.file.write("%if 0%{?with_devel}\n")
 		self.file.write("install -d -p %{buildroot}/%{gopath}/src/%{import_path}/\n")
  
 		# go files in tarball_path?
@@ -149,9 +173,12 @@ class SpecGenerator:
 		self.file.write("        cp -rpav $file %{buildroot}%{gopath}/src/%{import_path}/\n")
 		self.file.write("    fi\n")
 		self.file.write("done\n")
+		self.file.write("%endif\n")
 
 	def generateCheckSection(self, project):
 		self.file.write("%check\n")
+		self.file.write("%if 0%{?with_check}\n")
+		self.file.write("export GOPATH=%{buildroot}/%{gopath}:%{gopath}\n")
 
 		sdirs = sorted(project.getTestDirectories())
                 for dir in sdirs:
@@ -160,10 +187,12 @@ class SpecGenerator:
 			if dir != ".":
 				sufix = "/%s" % dir
 
-                        self.file.write("GOPATH=%%{buildroot}/%%{gopath}:%%{gopath} go test %%{import_path}%s\n" % sufix)
+			self.file.write("go test %%{import_path}%s\n" % sufix)
+		self.file.write("%endif\n")
 
 	def generateFilesSection(self, provider, project):
-		self.file.write("\n%files devel\n")
+		self.file.write("%if 0%{?with_devel}\n")
+		self.file.write("%files devel\n")
 
 		# doc all *.md files
 		docs = project.getDocs()
@@ -181,10 +210,10 @@ class SpecGenerator:
 			# as epel7 is not supposed to have any golang packages, using %license only for fedora
 			self.file.write("%if 0%{?fedora}\n")
 			self.file.write("%%license %s\n" % (" ".join(licenses)))
-			self.file.write("%%doc %s\n" % (" ".join(restdocs)))
 			self.file.write("%else\n")
-			self.file.write("%%doc %s\n" % (" ".join(docs)))
+			self.file.write("%%doc %s\n" % (" ".join(licenses)))
 			self.file.write("%endif\n")
+			self.file.write("%%doc %s\n" % (" ".join(restdocs)))
 
 		# http://www.rpm.org/max-rpm/s1-rpm-inside-files-list-directives.html
 		# it takes every dir and file recursively
@@ -194,6 +223,7 @@ class SpecGenerator:
 			self.file.write("%dir %{gopath}/src/%{provider}.%{provider_tld}/%{project}\n")
 
 		self.file.write("%{gopath}/src/%{import_path}\n")
+		self.file.write("%endif\n")
 
 	def generateChangelogSection(self):
 		self.file.write("%changelog\n")
@@ -220,7 +250,7 @@ class SpecGenerator:
 		prefix = ip_info.getPrefix()
 
 		# generate header
-		self.file.write("%global debug_package   %{nil}\n")
+		self.generateHeaderEpilogue()
 
 		if provider == GITHUB:
 			self.generateGithubHeader(project, repository, url, commit)
