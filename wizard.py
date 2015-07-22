@@ -40,6 +40,11 @@ if __name__ == "__main__":
 	)
 
 	parser.add_option(
+	    "", "", "--master", dest="master", action = "store_true", default = False,
+	    help = "use only master branche. If --branches or --ebranches option use, --master has higher priority"
+	)
+
+	parser.add_option(
 	    "", "", "--branches", dest="branches", default = "",
 	    help = "use only listed branches"
 	)
@@ -68,6 +73,10 @@ if __name__ == "__main__":
 		sb = filter(lambda b: b != "", options.ebranches.split(","))
 		branches = list(set(branches) - set(sb))
 		pm.setBranches(sorted(branches))
+
+        if options.master:
+		branches = ["master"]
+		pm.setBranches(branches)
 
 	if options.scratch:
 		pm.startWithScratchBuild()

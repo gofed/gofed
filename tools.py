@@ -71,6 +71,11 @@ if __name__ == "__main__":
 	)
 
 	parser.add_option(
+	    "", "", "--master", dest="master", action = "store_true", default = False,
+	    help = "use only master branche. If --branches or --ebranches option use, --master has higher priority"
+	)
+
+	parser.add_option(
 	    "", "", "--branches", dest="branches", default = "",
 	    help = "use only listed branches"
 	)
@@ -116,6 +121,9 @@ if __name__ == "__main__":
 			exit(1)
 	
 		branches = sorted(list(set(branches) - set(ebs)))
+
+        if options.master:
+		branches = ["master"]
 
 	mc = MultiCommand(debug=options.debug, dry=options.dry)
 
