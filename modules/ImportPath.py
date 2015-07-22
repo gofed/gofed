@@ -17,6 +17,7 @@ class ImportPath(object):
 		project
 		repository
 		prefix
+
 	"""
 
 	def __init__(self, import_path):
@@ -42,7 +43,10 @@ class ImportPath(object):
 
 	def getPrefix(self):
 		return self.prefix
-	
+
+	def getProviderPrefix(self):
+		return self.provider_prefix
+
 	def parse(self):
 		"""
 		Parse import path into provider, project, repository.
@@ -76,6 +80,7 @@ class ImportPath(object):
 		self.project = info["project"]
 		self.repository = info["repo"]
 		self.prefix = info["prefix"]
+		self.provider_prefix = info["provider_prefix"]
 
 		return True
 
@@ -113,6 +118,7 @@ class ImportPath(object):
 		repo["project"] = parts[1]
 		repo["repo"] = parts[2]
 		repo["prefix"] = "/".join(parts[:3])
+		repo["provider_prefix"] = "github.com/%s/%s" % (parts[1], parts[2])
 
 		return repo
 
@@ -131,6 +137,7 @@ class ImportPath(object):
 		repo["project"] = parts[1]
 		repo["repo"] = parts[2]
 		repo["prefix"] = "/".join(parts[:3])
+		repo["provider_prefix"] = "code.google.com/p/%s" % (parts[2])
 
 		return repo
 
@@ -149,6 +156,7 @@ class ImportPath(object):
 		repo["project"] = parts[1]
 		repo["repo"] = parts[2]
 		repo["prefix"] = "/".join(parts[:3])
+		repo["provider_prefix"] = "bitbucket.org/%s/%s" % (parts[1], parts[2])
 
 		return repo
 
@@ -164,6 +172,7 @@ class ImportPath(object):
 
 			repository = parts[2]
 			prefix = "/".join(parts[:3])
+			provider_prefix = "gopkg.in/%s/%s" % (parts[1], parts[2])
 		else:
 			if len(parts) < 2:
 				self.err = "Import path %s is not in gopkg.in/<repo>.<v> form" % path
@@ -176,6 +185,7 @@ class ImportPath(object):
 				return {}
 
 			repository = parts[0]
+			provider_prefix = "gopkg.in/%s.%s" % (parts[0], parts[1])
 
 		repo = {}
 		repo["provider"] = GOPKG
@@ -200,6 +210,7 @@ class ImportPath(object):
 		repo["project"] = ""
 		repo["repo"] = parts[1]
 		repo["prefix"] = "/".join(parts[:2])
+		repo["provider_prefix"] = "google.golang.org/%s" % (parts[1])
 
 		return repo
 
@@ -218,6 +229,7 @@ class ImportPath(object):
 		repo["project"] = ""
 		repo["repo"] = parts[2]
 		repo["prefix"] = "/".join(parts[:3])
+		repo["provider_prefix"] = "golang.org/x/%s" % (parts[2])
 
 		return repo
 
