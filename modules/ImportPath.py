@@ -55,6 +55,10 @@ class ImportPath(object):
 		url = re.sub(r'http://', '', self.import_path)
 		url = re.sub(r'https://', '', url)
 
+		custom_ip = self.parseCustomImportPaths(url)
+		if custom_ip != {}:
+			url = custom_ip["provider_prefix"]
+
 		repo = self.detectKnownRepo(url)
 
 		if repo == GITHUB:
@@ -79,8 +83,11 @@ class ImportPath(object):
 		self.provider = info["provider"]
 		self.project = info["project"]
 		self.repository = info["repo"]
-		self.prefix = info["prefix"]
 		self.provider_prefix = info["provider_prefix"]
+		if custom_ip != {}:
+			self.prefix = custom_ip["prefix"]
+		else:
+			self.prefix = info["prefix"]
 
 		return True
 
@@ -233,6 +240,24 @@ class ImportPath(object):
 
 		return repo
 
+	def parseCustomImportPaths(self, path):
+		"""
+		Some import paths does not reflect provider prefix
+		e.g. camlistore.org/pkg/googlestorage is actually at
+		github.com/camlistore/camlistore repository under
+		pkg/googlestorage directory. Read the list of customized
+		import paths from golang.customized_imports
+		"""
+		ok, customized_prefix = self.getCustomizedImportsMappings()
+		if not ok:
+			return {}
+
+		for prefix in customized_prefix:
+			if path.startswith(prefix):
+				return {"prefix": prefix, "provider_prefix": customized_prefix[prefix]}
+
+		return {}
+
 	def getPackageName(self):
 		"""
 		Package name construction is based on provider, not on prefix.
@@ -242,8 +267,8 @@ class ImportPath(object):
 		if not ok:
 			return ""
 
-		if self.prefix in mappings:
-			return mappings[self.prefix]
+		if self.provider_prefix in mappings:
+			return mappings[self.provider_prefix]
 
 		if self.provider == GITHUB:
 			return self.github2pkgdb(self.project, self.repository)
@@ -293,6 +318,26 @@ class ImportPath(object):
 		# only gopkg.in/<v>/<repo>
 		# or   gopkg.in/<repo>.<v>
 		return "golang-gopkg-%s" % repository
+
+	def getCustomizedImportsMappings(self):
+		golang_mapping_path = Config().getGolangCustomizedImportsMapping()
+		try:
+			with open(golang_mapping_path, 'r') as file:
+				maps = {}
+				content = file.read()
+				for line in content.split('\n'):
+					if line == "" or line[0] == '#':
+						continue
+					line = re.sub(r'[\t ]+', ' ', line).split(' ')
+					if len(line) != 2:
+						continue
+					maps[line[0]] = line[1]
+
+				return True, maps
+		except IOError, e:
+			self.err = "Unable to read from %s: %s" % (golang_mapping_path, e)
+
+		return False, {}
 
 	def getMappings(self):
 		golang_mapping_path = Config().getGolangMapping()

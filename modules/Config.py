@@ -86,9 +86,12 @@ class Config:
 		else:
 			return cpath
 
-
 	def getGolangMapping(self):
 		path = self.getValueFromDb('golang_mapping')
+		return self.makePathAbsolute(path)
+
+	def getGolangCustomizedImportsMapping(self):
+		path = self.getValueFromDb('golang_customized_imports')
 		return self.makePathAbsolute(path)
 
 	def getGolangNativeImports(self):
