@@ -234,6 +234,10 @@ class ImportPath(object):
 		return repo
 
 	def getPackageName(self):
+		"""
+		Package name construction is based on provider, not on prefix.
+		Prefix does not have to equal provider_prefix.
+		"""
 		ok, mappings = self.getMappings()
 		if not ok:
 			return ""
