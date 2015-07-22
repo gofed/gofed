@@ -229,7 +229,7 @@ if __name__ == "__main__":
 	if not options.skipkoji:
 		print "Koji: http://koji.fedoraproject.org/koji/taskinfo?taskID=%s" % task_id
 		print ""
-	print "$ rpmlint %s" % " ".join(builds)
+	print "$ rpmlint %s" % " ".join(map(lambda l: os.path.basename(l), builds))
 	print rpmlint
 	print "###############################################################"
 	print ""
