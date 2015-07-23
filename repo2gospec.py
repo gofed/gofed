@@ -187,7 +187,7 @@ if __name__ == "__main__":
 		# collect spec file information
 		project = options.project
 		repo = options.repo
-		if project == "":
+		if not options.googlecode and project == "":
 			fmt_obj.printError("Project missing")
 			exit(1)
 
@@ -200,7 +200,7 @@ if __name__ == "__main__":
 			commit = options.commit
 		elif options.googlecode:
 			import_path = "code.google.com/p/%s" % repo
-			commit = options.rev
+			commit = options.revision
 		elif options.bitbucket:
 			import_path = "bitbucket.org/%s/%s" % (project, repo)
 			commit = options.commit

@@ -92,7 +92,7 @@ class RepositoryInfo:
 		repo = self.ip_obj.getRepository()
 
 		# do we know provider?
-		if provider not in [GITHUB, BITBUCKET]:
+		if self.commit == "" and provider not in [GITHUB, BITBUCKET]:
 			self.err = "Latest commit can be detected only for github.com and bitbucket.org"
 			return False
 
@@ -122,6 +122,12 @@ class RepositoryInfo:
 			archive = "%s.tar.gz" % (shortcommit)
 			archive_dir = "%s-%s-%s" % (project, repo, shortcommit)
 			archive_url = "https://bitbucket.org/%s/%s/get/%s" % (project, repo, archive)
+		elif provider == GOOGLECODE:
+			shortcommit = commit[:12]
+			archive = "%s.tar.gz" % (commit)
+			archive_dir = "%s-%s" % (repo, shortcommit)
+			# https://go-charset.googlecode.com/archive/ebbeafdc430eb6c7e44e9a730a38eaff4c56ba3a.tar.gz
+			archive_url = "https://%s.googlecode.com/archive/%s" % (repo, archive)
 
 		else:
 			return None

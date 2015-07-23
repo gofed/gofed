@@ -47,12 +47,15 @@ if __name__ == "__main__":
 
 	provider = obj.getMacro("provider")
 	repo = obj.getMacro("repo")
-	commit = obj.getMacro("commit")
+	if provider == "google":
+		commit = obj.getMacro("rev")
+	else:
+		commit = obj.getMacro("commit")
 	summary = obj.getTag("summary")
 	name = obj.getTag("name")
 
 	print "Parsing %s file" % specfile
-	print "  Provides: %s" % provider
+	print "  Provider: %s" % provider
 	print "  Repo: %s" % repo
 	print "  Commit: %s" % commit
 	print "  Name: %s" % name
@@ -77,6 +80,8 @@ if __name__ == "__main__":
 
 	if provider == "bitbucket":
 		tarball = "%s.zip" % commit[:12]
+	elif provider == "google":
+		tarball = "%s.tar.gz" % (commit)
 	else:
 		tarball = "%s-%s.tar.gz" % (repo, commit[:7])
 
