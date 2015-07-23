@@ -94,6 +94,10 @@ class Config:
 		path = self.getValueFromDb('golang_customized_imports')
 		return self.makePathAbsolute(path)
 
+	def getGolangCommonProviderPrefixes(self):
+		path = self.getValueFromDb('golang_common_provider_prefixes')
+		return self.makePathAbsolute(path)
+
 	def getGolangNativeImports(self):
 		path = self.getValueFromDb('golang_native_imports')
 		return self.makePathAbsolute(path)
