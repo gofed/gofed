@@ -199,6 +199,7 @@ class ImportPath(object):
 		repo["project"] = ""
 		repo["repo"] = repository
 		repo["prefix"] = prefix
+		repo["provider_prefix"] = provider_prefix
 
 		return repo
 
