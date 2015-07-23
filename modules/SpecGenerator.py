@@ -1,5 +1,6 @@
 from ImportPath import GITHUB, GOOGLECODE, GOOGLEGOLANGORG, GOLANGORG, GOPKG, BITBUCKET, UNKNOWN
 from PackageInfo import PackageInfo
+from ProviderPrefixes import ProviderPrefixes
 import os
 from Utils import runCommand
 
@@ -38,13 +39,19 @@ class SpecGenerator:
 		self.file.write("%global debug_package   %{nil}\n")
 		self.file.write("%endif\n\n")
 
-	def generateGithubHeader(self, project, repository, url, commit):
+	def generateGithubHeader(self, project, repository, url, provider_prefix, commit):
 		self.file.write("%global provider        github\n")
 		self.file.write("%global provider_tld    com\n")
 		self.file.write("%%global project         %s\n" % project)
 		self.file.write("%%global repo            %s\n" % repository)
-		self.file.write("# https://%s\n" % url)
-                self.file.write("%global import_path     %{provider}.%{provider_tld}/%{project}/%{repo}\n")
+		self.file.write("# https://%s\n" % provider_prefix)
+		self.file.write("%global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}\n")
+
+		if url != provider_prefix:
+			self.file.write("%%global import_path     %s\n" % url)
+		else:
+			self.file.write("%global import_path     %{provider_prefix}\n")
+
                 self.file.write("%%global commit          %s\n" % commit)
 		self.file.write("%global shortcommit     %(c=%{commit}; echo ${c:0:7})\n\n")
 		self.file.write("Name:           golang-%{provider}-%{project}-%{repo}\n")
@@ -52,10 +59,10 @@ class SpecGenerator:
 		self.file.write("Release:        0.0.git%{shortcommit}%{?dist}\n")
 		self.file.write("Summary:        !!!!FILL!!!!\n")
 		self.file.write("License:        !!!!FILL!!!!\n")
-		self.file.write("URL:            https://%{import_path}\n")
-		self.file.write("Source0:        https://%{import_path}/archive/%{commit}/%{repo}-%{shortcommit}.tar.gz\n")
+		self.file.write("URL:            https://%{provider_prefix}\n")
+		self.file.write("Source0:        https://%{provider_prefix}/archive/%{commit}/%{repo}-%{shortcommit}.tar.gz\n")
 
-	def generateGooglecodeHeader(self, repository, url, commit):
+	def generateGooglecodeHeader(self, repository, url, provider_prefix, commit):
 		parts = repository.split(".")
 		stripped_repo = parts[-1]
 		rrepository = ".".join(parts[::-1])
@@ -65,34 +72,47 @@ class SpecGenerator:
 		self.file.write("%global project         p\n")
 		self.file.write("%%global repo            %s\n" % repository)
 		self.file.write("%%global rrepo           %s\n" % rrepository)
-		self.file.write("# https://%s\n" % url)
-                self.file.write("%global import_path     %{provider_sub}%{provider}.%{provider_tld}/%{project}/%{repo}\n")
-                self.file.write("%%global rev             %s\n" % commit)
+		self.file.write("# https://%s\n" % provider_prefix)
+		self.file.write("%global provider_prefix %{provider_sub}.%{provider}.%{provider_tld}/%{project}/%{repo}\n")
+
+		if url != provider_prefix:
+			self.file.write("%%global import_path     %s\n" % url)
+		else:
+			self.file.write("%global import_path     %{provider_prefix}\n")
+
+		self.file.write("%%global rev             %s\n" % commit)
 		self.file.write("%global shortrev        %(c=%{rev}; echo ${c:0:12})\n\n")
-		self.file.write("Name:           golang-%%{provider}-%%{provider_sub}-%s\n" % stripped_repo)
+		self.file.write("Name:           golang-%%{provider}%%{provider_sub}-%s\n" % stripped_repo)
 		self.file.write("Version:        0\n")
-		self.file.write("Release:        0.0.git%{shortcommit}%{?dist}\n")
+		self.file.write("Release:        0.0.hg%{shortrev}%{?dist}\n")
 		self.file.write("Summary:        !!!!FILL!!!!\n")
 		self.file.write("License:        !!!!FILL!!!!\n")
-		self.file.write("URL:            https://%{import_path}\n")
-		self.file.write("Source0:        https://%%{rrepo}%%{provider}%%{provider_sub}.%%{provider_tld}/archive/%%{rev}.tar.gz\n")
+		self.file.write("URL:            https://%{provider_prefix}\n")
+		self.file.write("Source0:        https://%{rrepo}.%{provider}%{provider_sub}.%{provider_tld}/archive/%{rev}.tar.gz\n")
 
-	def generateBitbucketHeader(self, project, repository, url, commit):
+	def generateBitbucketHeader(self, project, repository, url, provider_prefix, commit):
 		self.file.write("%global provider        bitbucket\n")
 		self.file.write("%global provider_tld    org\n")
 		self.file.write("%%global project         %s\n" % project)
 		self.file.write("%%global repo            %s\n" % repository)
-		self.file.write("# https://%s\n" % url)
-                self.file.write("%global import_path     %{provider}.%{provider_tld}/%{project}/%{repo}\n")
-                self.file.write("%%global commit          %s\n" % commit)
+		self.file.write("# https://%s\n" % provider_prefix)
+		self.file.write("%%global provider_prefix     %s\n", provider_prefix)
+		self.file.write("%global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}\n")
+
+		if url != provider_prefix:
+			self.file.write("%%global import_path     %s\n" % url)
+		else:
+			self.file.write("%global import_path     %{provider_prefix}\n")
+
+		self.file.write("%%global commit          %s\n" % commit)
 		self.file.write("%global shortcommit     %(c=%{commit}; echo ${c:0:12})\n\n")
 		self.file.write("Name:           golang-%{provider}-%{project}-%{repo}\n")
 		self.file.write("Version:        0\n")
 		self.file.write("Release:        0.0.git%{shortcommit}%{?dist}\n")
 		self.file.write("Summary:        !!!!FILL!!!!\n")
 		self.file.write("License:        !!!!FILL!!!!\n")
-		self.file.write("URL:            https://%{import_path}\n")
-		self.file.write("Source0:        https://%{import_path}/get/%%{shortcommit}.tar.gz\n")
+		self.file.write("URL:            https://%{provider_prefix}\n")
+		self.file.write("Source0:        https://%{provider_prefix}/get/%%{shortcommit}.tar.gz\n")
 
 	def generateHeaderPrologue(self):
 		self.file.write("\n%if 0%{?fedora} >= 19 || 0%{?rhel} >= 7\n")
@@ -190,7 +210,7 @@ class SpecGenerator:
 			self.file.write("go test %%{import_path}%s\n" % sufix)
 		self.file.write("%endif\n")
 
-	def generateFilesSection(self, provider, project):
+	def generateFilesSection(self, provider, project, ip_prefix = ""):
 		self.file.write("%if 0%{?with_devel}\n")
 		self.file.write("%files devel\n")
 
@@ -217,10 +237,14 @@ class SpecGenerator:
 
 		# http://www.rpm.org/max-rpm/s1-rpm-inside-files-list-directives.html
 		# it takes every dir and file recursively
-		if provider == GOOGLECODE:
-			self.file.write("%dir %{gopath}/src/%{provider_sub}%{provider}.%{provider_tld}/%{project}\n")
-		else:
-			self.file.write("%dir %{gopath}/src/%{provider}.%{provider_tld}/%{project}\n")
+		if provider in [GITHUB, BITBUCKET]:
+			if ip_prefix != "":
+				pp_obj = ProviderPrefixes()
+				ok, prefixes = pp_obj.loadCommonProviderPrefixes()
+				if not ok or ip_prefix not in prefixes:
+					self.file.write("%%dir %%{gopath}/src/%s\n" % ip_prefix)
+			else:
+				self.file.write("%dir %{gopath}/src/%{provider}.%{provider_tld}/%{project}\n")
 
 		self.file.write("%{gopath}/src/%{import_path}\n")
 		self.file.write("%endif\n")
@@ -248,16 +272,17 @@ class SpecGenerator:
 		url = ip_info.getPrefix()
 		archive_dir = archive_info.archive_dir
 		prefix = ip_info.getPrefix()
+		provider_prefix = ip_info.getProviderPrefix()
 
 		# generate header
 		self.generateHeaderEpilogue()
 
 		if provider == GITHUB:
-			self.generateGithubHeader(project, repository, url, commit)
+			self.generateGithubHeader(project, repository, url, provider_prefix, commit)
 		elif provider == GOOGLECODE:
-			self.generateGooglecodeHeader(repository, url, commit)
+			self.generateGooglecodeHeader(repository, url, provider_prefix, commit)
 		elif provider == BITBUCKET:
-			self.generateBitbucketHeader(project, repository, url, commit)
+			self.generateBitbucketHeader(project, repository, url, provider_prefix, commit)
 
 		self.generateHeaderPrologue()
 
@@ -286,7 +311,12 @@ class SpecGenerator:
 		self.file.write("\n")
 
 		# generate files section
-		self.generateFilesSection(provider, prj_info)
+		if url != provider_prefix:
+			ip_prefix, _ = os.path.split(url)
+		else:
+			ip_prefix = ""
+
+		self.generateFilesSection(provider, prj_info, ip_prefix)
 		self.file.write("\n")
 
 		# generate changelog section
