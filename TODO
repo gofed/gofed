@@ -70,8 +70,16 @@
 [  ] - gofed repo2spec: add option to generate spec files for secondary architectures as well
 [  ] - gofed lint on etcd: there is no tarball with shortcommit, only version => incorect list of superfluous provides
 [  ] - add setup.py instead of manual install
+[  ] - make 'gofet lint' skip directories specified via --skip-dirs and read them from gofed.conf
+[  ] - update spec file generator for with_* macros and add option to generate implicit build section
+[  ] - 'gofed scan-symbols' pridat optiony pro scanovani jen nektery souboru
+[  ] - generate a graph of dependencies for actual state of dependencies for each day (For each project, for all projects, ...). Discuss if it is even possible, sane or reasonable
+[  ] - 'gofed scan-imports -c' should create the latest xml file (including <imports>). Problem is a detection of import path prefix!!!. How can I detect/construct it and be sure it is the correct one (from golang.repos?)
+[  ] - add --master option to tools as shortcut for --branches="master"
 
 ====DONE====
+[OK] - pri review misto "wrote" muze byt "zapsano", udelat parsovani buildu obecneji
+[OK] - 'gofed apidiff' pridat option pro cteni symbolu z xml
 [OK] - remove Requires: golang from spec files generators
 [OK] - try except for every open
 [OK] - find a way how to detect what subpackages given package has => get a list of builds (spec file parser? cat spec | grep package
