@@ -19,6 +19,7 @@ branch2bc = {
 	'f20': 'f20-candidate',
 	'f21': 'f21-candidate',
 	'f22': 'f22-candidate',
+	'f23': 'f23-candidate',
 	'el6': 'el6-candidate'
 }
 
@@ -26,6 +27,7 @@ branch2build = {
 	'f20': 'f20-build',
 	'f21': 'f21-build',
 	'f22': 'f22-build',
+	'f23': 'f23-build',
 	'el6': 'dist-6E-epel-build'
 }
 
@@ -33,6 +35,7 @@ branch2tag = {
 	'f20': 'fc20',
 	'f21': 'fc21',
 	'f22': 'fc22',
+	'f23': 'fc23',
 	'el6': 'el6'
 }
 
