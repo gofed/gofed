@@ -223,6 +223,8 @@ class SpecGenerator:
 			for doc in docs:
 				if doc.lower().find('license') != -1:
 					licenses.append(doc)
+				elif doc.lower().find('copying') != -1:
+					licenses.append(doc)
 				else:
 					restdocs.append(doc)
 
