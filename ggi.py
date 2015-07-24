@@ -91,6 +91,16 @@ if __name__ == "__main__":
             help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
         )
 
+	parser.add_option(
+            "", "", "--all-occurences", dest="alloccurences", action = "store_true", default = False,
+            help = "List imported paths in all packages including main. Default is skip main packages."
+        )
+
+	parser.add_option(
+            "", "", "--show-occurence", dest="showoccurence", action = "store_true", default = False,
+            help = "Show occurence of import paths."
+        )
+
 	options, args = parser.parse_args()
 
 	path = "."
@@ -116,6 +126,8 @@ if __name__ == "__main__":
 		fmt_obj.printError(gse_obj.getError())
 		exit(1)
 
+	package_imports_occurence = gse_obj.getPackageImportsOccurences()
+
 	ip_used = gse_obj.getImportedPackages()
 	ipd = ImportPathsDecomposer(ip_used)
 	if not ipd.decompose():
@@ -129,9 +141,47 @@ if __name__ == "__main__":
 	classes = ipd.getClasses()
 	sorted_classes = sorted(classes.keys())
 
+	# get max length of all imports
+	max_len = 0
+	for element in sorted_classes:
+		if element == "Native":
+			continue
+
+		# class name starts with prefix => filter out
+		if options.importpath != "" and element.startswith(options.importpath):
+			continue
+
+		gimports = []
+		for gimport in classes[element]:
+			if options.importpath != "" and gimport.startswith(options.importpath):
+				continue
+			gimports.append(gimport)
+
+		for gimport in gimports:
+			import_len = len(gimport)
+			if import_len > max_len:
+				max_len = import_len
+
+	if options.spec and options.showoccurence:
+		print "# THIS IS NOT A VALID SPEC FORMAT"
+		print "# COMMENTS HAS TO BE STARTED AT THE BEGGINING OF A LINE"
+
+
 	for element in sorted_classes:
 		if not options.all and element == "Native":
 			continue
+
+		if not options.alloccurences:
+			one_class = []
+			for gimport in classes[element]:
+				# does it occur only in main package?
+				# remove it from classes[element]
+				if len(package_imports_occurence[gimport]) == 1 and package_imports_occurence[gimport][0].endswith(":main"):
+					continue
+
+				one_class.append(gimport)
+
+			classes[element] = sorted(one_class)
 
 		# class name starts with prefix => filter out
 		if options.importpath != "" and element.startswith(options.importpath):
@@ -156,7 +206,10 @@ if __name__ == "__main__":
 				print "Class: %s" % element
 				if not options.short:
 					for gimport in gimports:
-						print "\t%s" % gimport
+						if options.showoccurence:
+							print "\t%s (%s)" % (gimport, ", ".join(package_imports_occurence[gimport]))
+						else:
+							print "\t%s" % gimport
 				continue
 
 			# Translate non-native class into package name (if -d option)
@@ -182,18 +235,34 @@ if __name__ == "__main__":
 			print "Class: %s" % element
 			if not options.short:
 				for gimport in sorted(gimports):
-					print "\t%s" % gimport
+					if options.showoccurence:
+						print "\t%s (%s)" % (gimport, ", ".join(package_imports_occurence[gimport]))
+					else:
+						print "\t%s" % gimport
 			continue
 
 		# Spec file BR
 		if options.spec:
 			for gimport in classes[element]:
 				if options.requires:
-					print "Requires: golang(%s)" % gimport
+					if options.showoccurence:
+						import_len = len(gimport)
+						print "Requires: golang(%s) %s# %s" % (gimport, (max_len - import_len)*" ", ", ".join(package_imports_occurence[gimport]))
+					else:
+						print "Requires: golang(%s)" % gimport
 				else:
-					print "BuildRequires: golang(%s)" % gimport
+					if options.showoccurence:
+						import_len = len(gimport)
+						print "BuildRequires: golang(%s) %s# %s" % (gimport, (max_len - import_len)*" ", ", ".join(package_imports_occurence[gimport]))
+					else:
+						print "BuildRequires: golang(%s)" % gimport
 			continue
 
 		# Just a list of all import paths
 		for gimport in sorted(classes[element]):
-			print "\t%s" % gimport
+			if options.showoccurence:
+				import_len = len(gimport)
+				print "\t%s %s(%s)" % (gimport, (max_len - import_len)*" ", ", ".join(package_imports_occurence[gimport]))
+			else:
+				print "\t%s" % gimport
+
