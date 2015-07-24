@@ -133,9 +133,15 @@ class SpecGenerator:
 
 		# dependencies
 		imported_packages = project.getImportedPackages()
+		package_imports_occurence = project.getPackageImportsOccurences()
+
 		self.file.write("BuildRequires: golang >= 1.2.1-3\n")
 		for dep in imported_packages:
 			if dep.startswith(prefix):
+				continue
+
+			# skip all dependencies occuring only in main packages
+			if len(package_imports_occurence[dep]) == 1 and package_imports_occurence[dep][0].endswith(":main"):
 				continue
 
 			self.file.write("BuildRequires: golang(%s)\n" % (dep))
@@ -144,6 +150,10 @@ class SpecGenerator:
 			self.file.write("\n")
 			for dep in imported_packages:
 				if dep.startswith(prefix):
+					continue
+
+				# skip all dependencies occuring only in main packages
+				if len(package_imports_occurence[dep]) == 1 and package_imports_occurence[dep][0].endswith(":main"):
 					continue
 
 				self.file.write("Requires:      golang(%s)\n" % (dep))

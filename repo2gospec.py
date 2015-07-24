@@ -305,6 +305,7 @@ if __name__ == "__main__":
 		exit(1)
 
 	ip_used = prj_info.getImportedPackages()
+	package_imports_occurence = prj_info.getPackageImportsOccurences()
 
 	ipd = ImportPathsDecomposer(ip_used)
 	if not ipd.decompose():
@@ -325,6 +326,20 @@ if __name__ == "__main__":
 		if element == "Unknown":
 			fmt_obj.printWarning("Some import paths were not detected. Please run gofed ggi -c on extracted tarball manually")
 			continue
+
+		one_class = []
+		for gimport in classes[element]:
+			# does it occur only in main package?
+			# remove it from classes[element]
+			if len(package_imports_occurence[gimport]) == 1 and package_imports_occurence[gimport][0].endswith(":main"):
+				continue
+
+			one_class.append(gimport)
+
+		if one_class == []:
+			continue
+
+		classes[element] = sorted(one_class)
 
 		if element.startswith(url):
 			continue
