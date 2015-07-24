@@ -2,12 +2,12 @@ import os
 import json
 import sys
 from Utils import getScriptDir, runCommand
+from Base import Base
 
-class GoSymbolsExtractor:
+class GoSymbolsExtractor(Base):
 
 	def __init__(self, directory, imports_only=False, noGodeps=[], skip_errors=False):
 		self.directory = directory
-		self.err = ""
 		self.imports_only = imports_only
 		self.noGodeps = noGodeps
 		self.skip_errors = skip_errors
@@ -18,11 +18,9 @@ class GoSymbolsExtractor:
 		self.package_imports = {}
 		# list of packages imported in entire project
 		self.imported_packages = []
+		# occurences of imported paths in packages
+		self.package_imports_occurence = {}
 		self.test_directories = []
-
-
-	def getError(self):
-		return self.err
 
 	def getSymbols(self):
 		return self.symbols
@@ -35,6 +33,9 @@ class GoSymbolsExtractor:
 
 	def getImportedPackages(self):
 		return self.imported_packages
+
+	def getPackageImportsOccurences(self):
+		return self.package_imports_occurence
 
 	def getTestDirectories(self):
 		return self.test_directories
@@ -145,6 +146,8 @@ class GoSymbolsExtractor:
 					#print go_file
 					go_file_json = json.loads(output)
 
+				pname = go_file_json["pkgname"]
+
 				for path in go_file_json["imports"]:
 					# filter out all import paths starting with ./
 					if path["path"].startswith("./"):
@@ -157,6 +160,16 @@ class GoSymbolsExtractor:
 					if path["path"] in ip_used:
 						continue
 
+					if dir_info['dir'] == ".":
+						file_pkg_pair = "%s:%s" % (go_file, pname)
+					else:
+						file_pkg_pair = "%s/%s:%s" % (dir_info['dir'], go_file, pname)
+
+					if path["path"] not in self.package_imports_occurence:
+						self.package_imports_occurence[str(path["path"])] = [str(file_pkg_pair)]
+					else:
+						self.package_imports_occurence[str(path["path"])].append(str(file_pkg_pair))
+
 					ip_used.append(path["path"])
 
 				# don't check test files, read their import paths only
@@ -164,7 +177,6 @@ class GoSymbolsExtractor:
 					test_directories.append(dir_info['dir'])
 					continue
 
-				pname = go_file_json["pkgname"]
 				# skip all main packages
 				if pname == "main":
 					continue
