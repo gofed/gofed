@@ -92,12 +92,12 @@ if __name__ == "__main__":
         )
 
 	parser.add_option(
-            "", "", "--all-occurences", dest="alloccurences", action = "store_true", default = False,
+            "", "", "--all-occurrences", dest="alloccurrences", action = "store_true", default = False,
             help = "List imported paths in all packages including main. Default is skip main packages."
         )
 
 	parser.add_option(
-            "", "", "--show-occurence", dest="showoccurence", action = "store_true", default = False,
+            "", "", "--show-occurrence", dest="showoccurrence", action = "store_true", default = False,
             help = "Show occurence of import paths."
         )
 
@@ -162,7 +162,7 @@ if __name__ == "__main__":
 			if import_len > max_len:
 				max_len = import_len
 
-	if options.spec and options.showoccurence:
+	if options.spec and options.showoccurrence:
 		print "# THIS IS NOT A VALID SPEC FORMAT"
 		print "# COMMENTS HAS TO BE STARTED AT THE BEGGINING OF A LINE"
 
@@ -171,7 +171,7 @@ if __name__ == "__main__":
 		if not options.all and element == "Native":
 			continue
 
-		if not options.alloccurences:
+		if not options.alloccurrences:
 			one_class = []
 			for gimport in classes[element]:
 				# does it occur only in main package?
@@ -206,7 +206,7 @@ if __name__ == "__main__":
 				print "Class: %s" % element
 				if not options.short:
 					for gimport in gimports:
-						if options.showoccurence:
+						if options.showoccurrence:
 							print "\t%s (%s)" % (gimport, ", ".join(package_imports_occurence[gimport]))
 						else:
 							print "\t%s" % gimport
@@ -235,7 +235,7 @@ if __name__ == "__main__":
 			print "Class: %s" % element
 			if not options.short:
 				for gimport in sorted(gimports):
-					if options.showoccurence:
+					if options.showoccurrence:
 						print "\t%s (%s)" % (gimport, ", ".join(package_imports_occurence[gimport]))
 					else:
 						print "\t%s" % gimport
@@ -243,15 +243,15 @@ if __name__ == "__main__":
 
 		# Spec file BR
 		if options.spec:
-			for gimport in classes[element]:
+			for gimport in sorted(classes[element]):
 				if options.requires:
-					if options.showoccurence:
+					if options.showoccurrence:
 						import_len = len(gimport)
 						print "Requires: golang(%s) %s# %s" % (gimport, (max_len - import_len)*" ", ", ".join(package_imports_occurence[gimport]))
 					else:
 						print "Requires: golang(%s)" % gimport
 				else:
-					if options.showoccurence:
+					if options.showoccurrence:
 						import_len = len(gimport)
 						print "BuildRequires: golang(%s) %s# %s" % (gimport, (max_len - import_len)*" ", ", ".join(package_imports_occurence[gimport]))
 					else:
@@ -260,7 +260,7 @@ if __name__ == "__main__":
 
 		# Just a list of all import paths
 		for gimport in sorted(classes[element]):
-			if options.showoccurence:
+			if options.showoccurrence:
 				import_len = len(gimport)
 				print "\t%s %s(%s)" % (gimport, (max_len - import_len)*" ", ", ".join(package_imports_occurence[gimport]))
 			else:
