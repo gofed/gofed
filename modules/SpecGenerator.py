@@ -235,7 +235,8 @@ class SpecGenerator:
 			self.file.write("%else\n")
 			self.file.write("%%doc %s\n" % (" ".join(licenses)))
 			self.file.write("%endif\n")
-			self.file.write("%%doc %s\n" % (" ".join(restdocs)))
+			if restdocs != []:
+				self.file.write("%%doc %s\n" % (" ".join(restdocs)))
 
 		# http://www.rpm.org/max-rpm/s1-rpm-inside-files-list-directives.html
 		# it takes every dir and file recursively
