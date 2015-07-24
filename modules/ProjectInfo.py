@@ -10,6 +10,7 @@ class ProjectInfo:
 		self.err = ""
 		self.warn = ""
 		self.imported_packages = []
+		self.package_imports_occurence = {}
 		self.provided_packages = []
 		self.docs = []
 		self.noGodeps = noGodeps
@@ -22,6 +23,9 @@ class ProjectInfo:
 
 	def getImportedPackages(self):
 		return self.imported_packages
+
+	def getPackageImportsOccurences(self):
+		return self.package_imports_occurence
 
 	def getProvidedPackages(self):
 		return self.provided_packages
@@ -59,6 +63,7 @@ class ProjectInfo:
 			return False
 
 		ip_used = gse_obj.getImportedPackages()
+		self.package_imports_occurence = gse_obj.getPackageImportsOccurences()
 		packages = gse_obj.getSymbolsPosition()
 		tests = gse_obj.getTestDirectories()
 
