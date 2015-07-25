@@ -141,8 +141,15 @@ class SpecGenerator:
 				continue
 
 			# skip all dependencies occuring only in main packages
-			if len(package_imports_occurence[dep]) == 1 and package_imports_occurence[dep][0].endswith(":main"):
+			skip = True
+			if dep in package_imports_occurence:
+				for occurrence in package_imports_occurence[dep]:
+					if not occurrence.endswith(":main"):
+						skip = False
+						break
+			if skip:
 				continue
+
 
 			self.file.write("BuildRequires: golang(%s)\n" % (dep))
 
@@ -153,7 +160,13 @@ class SpecGenerator:
 					continue
 
 				# skip all dependencies occuring only in main packages
-				if len(package_imports_occurence[dep]) == 1 and package_imports_occurence[dep][0].endswith(":main"):
+				skip = True
+				if dep in package_imports_occurence:
+					for occurrence in package_imports_occurence[dep]:
+						if not occurrence.endswith(":main"):
+							skip = False
+							break
+				if skip:
 					continue
 
 				self.file.write("Requires:      golang(%s)\n" % (dep))

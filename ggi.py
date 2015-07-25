@@ -176,7 +176,13 @@ if __name__ == "__main__":
 			for gimport in classes[element]:
 				# does it occur only in main package?
 				# remove it from classes[element]
-				if len(package_imports_occurence[gimport]) == 1 and package_imports_occurence[gimport][0].endswith(":main"):
+				skip = True
+				if gimport in package_imports_occurence:
+					for occurrence in package_imports_occurence[gimport]:
+						if not occurrence.endswith(":main"):
+							skip = False
+							break
+				if skip:
 					continue
 
 				one_class.append(gimport)
