@@ -264,7 +264,24 @@ class GoLint(Base):
 	def testDevel(self):
 		# get provided and imported paths from tarball
 		t_imported = self.prj_obj.getImportedPackages()
+		package_imports_occurence = self.prj_obj.getPackageImportsOccurences()
 		t_provided = self.prj_obj.getProvidedPackages()
+
+		# filter out import paths used only by main packages
+		non_main_imported = []
+		for gimport in t_imported:
+			skip = True
+			if gimport in package_imports_occurence:
+				for occurrence in package_imports_occurence[gimport]:
+					if not occurrence.endswith(":main"):
+						skip = False
+						break
+			if skip:
+				continue
+			non_main_imported.append(gimport)
+
+		t_imported = non_main_imported
+
 		devel_prefix = self.sp_obj.getMacro('devel_prefix')
 		if devel_prefix == "":
 			import_path = self.sp_obj.getMacro('import_path')
@@ -276,6 +293,8 @@ class GoLint(Base):
 		godeps_ips = map(lambda i: i.replace("%s/Godeps/_workspace/src/" % import_path, ""), godeps_ips)
 
 		t_imported = filter(lambda i: not i.startswith(import_path), t_imported)
+
+
 		t_imported = map(lambda i: str("golang(%s)" % i), t_imported + godeps_ips)
 
 		skipped_provides_with_prefix = Config().getSkippedProvidesWithPrefix()
