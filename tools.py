@@ -21,6 +21,11 @@ if __name__ == "__main__":
 	)
 
 	parser.add_option(
+	    "", "", "--merge-master", dest="mergemaster", action = "store_true", default = False,
+	    help = SH if sln else "git merge master all branches"
+	)
+
+	parser.add_option(
 	    "", "", "--git-reset", dest="greset", action = "store_true", default = False,
 	    help = SH if sln else "git reset --hard all branches to remotes/origin/*"
 	)
@@ -131,6 +136,8 @@ if __name__ == "__main__":
 		err = mc.cherryPickMaster(branches, start_commit=options.commit, verbose=options.debug)
 		if err != []:
 			print "\n".join(err)
+	if options.mergemaster:
+		mc.mergeMaster(branches)
 	if options.greset:
 		mc.resetBranchesToOrigin(branches)
 	if options.pull:

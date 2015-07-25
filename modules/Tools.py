@@ -189,6 +189,22 @@ class LowLevelCommand:
 		else:
 			return runCommand("git reset --hard remotes/origin/%s" % branch)
 
+	def runGitMerge(self, branch):
+		"""
+		Run 'git merge BRANCH'.
+		It returns so, se, rc triple.
+		"""
+		if self.debug == True:
+			print "Running 'git merge %s'" % branch
+
+		if self.dry == True:
+			so = ""
+			se = ""
+			rc = 0
+			return so, se, rc
+		else:
+			return runCommand("git merge %s" % branch)
+
 	def runBodhiOverride(self, branch, name):
 		"""
 		Run 'bodhi --buildroot-override=BUILD for TAG --duration=DURATION --notes=NOTES'.
@@ -324,6 +340,13 @@ class SimpleCommand:
 
 	def updateBranch(self, branch):
 		self.llc.runFedpkgUpdate()
+
+		return ""
+
+	def mergeMaster(self):
+		so, se, rc = self.llc.runGitMerge("master")
+		if rc != 0 or se != "":
+			return se
 
 		return ""
 
@@ -625,6 +648,11 @@ class MultiCommand:
 				for commit in gcp_commits:
 					print commit
 
+	def mergeMaster(self, branches, verbose=True):
+		print "Merging branches: %s" % ",".join(branches)
+
+		err = []
+
 		for branch in branches:
 			if branch == "master":
 				continue
@@ -640,14 +668,13 @@ class MultiCommand:
 			if verbose:
 				print "Switched to %s branch" % branch
 
-			for commit in gcp_commits:
-				_, se, rc = self.llc.runGitCherryPick(commit)
-				if rc != 0:
-					err.append("%s: unable to cherry pick master: %s" % (branch, se))
-					if verbose:
-						print err[-1]
+			se = self.sc.mergeMaster()
+			if se != "":
+				err.append("%s: unable to git merge master: %s" % (branch, se))
+				if verbose:
+					print err[-1]
 
-					return err
+				return err
 
 		return err
 
