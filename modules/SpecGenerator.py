@@ -20,16 +20,18 @@ class SpecGenerator:
 		self.pkg_info = pkg_info
 
 	def generateHeaderEpilogue(self):
-		self.file.write("%if 0%{?fedora}\n")
+		self.file.write("%if 0%{?fedora} || 0%{?rhel} == 6\n")
 		self.file.write("%global with_devel 1\n")
 		self.file.write("%global with_bundled 0\n")
 		self.file.write("%global with_debug 0\n")
 		self.file.write("%global with_check 1\n")
+		self.file.write("%global with_unit_test 1\n")
 		self.file.write("%else\n")
 		self.file.write("%global with_devel 0\n")
-		self.file.write("%global with_bundled 1\n")
+		self.file.write("%global with_bundled 0\n")
 		self.file.write("%global with_debug 0\n")
 		self.file.write("%global with_check 0\n")
+		self.file.write("%global with_unit_test 0\n")
 		self.file.write("%endif\n\n")
 
 		# debug
@@ -37,6 +39,14 @@ class SpecGenerator:
 		self.file.write("%global _dwz_low_mem_die_limit 0\n")
 		self.file.write("%else\n")
 		self.file.write("%global debug_package   %{nil}\n")
+		self.file.write("%endif\n\n")
+
+		# license
+		self.file.write("%define copying() \\\n")
+		self.file.write("%if 0%{?fedora} >= 21 || 0%{?rhel} >= 7 \\\n")
+		self.file.write("%license %{*} \\\n")
+		self.file.write("%else \\\n")
+		self.file.write("%doc %{*} \\\n")
 		self.file.write("%endif\n\n")
 
 	def generateGithubHeader(self, project, repository, url, provider_prefix, commit):
@@ -115,12 +125,12 @@ class SpecGenerator:
 		self.file.write("Source0:        https://%{provider_prefix}/get/%%{shortcommit}.tar.gz\n")
 
 	def generateHeaderPrologue(self):
-		self.file.write("\n%if 0%{?fedora} >= 19 || 0%{?rhel} >= 7\n")
-                self.file.write("BuildArch:      noarch\n")
-                self.file.write("%else\n")
-                self.file.write("ExclusiveArch:  %{ix86} x86_64 %{arm}\n")
-                self.file.write("%endif\n")
-                self.file.write("\n")
+		self.file.write("# If go_arches not defined fall through to implicit golang archs\n")
+		self.file.write("%if 0%{?go_arches:1}\n")
+		self.file.write("ExclusiveArch:  %{go_arches}\n")
+		self.file.write("%else\n")
+		self.file.write("ExclusiveArch:   %{ix86} x86_64 %{arm}\n")
+		self.file.write("%endif\n\n")
                 self.file.write("%description\n")
                 self.file.write("%{summary}\n")
                 self.file.write("\n")
@@ -129,13 +139,14 @@ class SpecGenerator:
 		self.file.write("%if 0%{?with_devel}\n")
                 self.file.write("%package devel\n")
                 self.file.write("Summary:       %{summary}\n")
+                self.file.write("BuildArch:     noarch\n")
                 self.file.write("\n")
 
 		# dependencies
 		imported_packages = project.getImportedPackages()
 		package_imports_occurence = project.getPackageImportsOccurences()
 
-		self.file.write("BuildRequires: golang >= 1.2.1-3\n")
+		self.file.write("%if 0%{?with_check}\n")
 		for dep in imported_packages:
 			if dep.startswith(prefix):
 				continue
@@ -152,6 +163,7 @@ class SpecGenerator:
 
 
 			self.file.write("BuildRequires: golang(%s)\n" % (dep))
+		self.file.write("%endif\n")
 
 		if imported_packages != []:
 			self.file.write("\n")
@@ -184,8 +196,39 @@ class SpecGenerator:
 		self.file.write("\n%description devel\n")
 		self.file.write("%{summary}\n\n")
 		self.file.write("This package contains library source intended for\n")
-		self.file.write("building other packages which use %{project}/%{repo}.\n")
+		self.file.write("building other packages which use import path with\n")
+		self.file.write("%{import_path} prefix.\n")
 		self.file.write("%endif\n")
+
+	def generateUnitTestHeader(self):
+		self.file.write("%if 0%{?with_unit_test}\n")
+		self.file.write("%package unit-test\n")
+		self.file.write("Summary:         Unit tests for %{name} package\n")
+		self.file.write("# If go_arches not defined fall through to implicit golang archs\n")
+		self.file.write("%if 0%{?go_arches:1}\n")
+		self.file.write("ExclusiveArch:  %{go_arches}\n")
+		self.file.write("%else\n")
+		self.file.write("ExclusiveArch:   %{ix86} x86_64 %{arm}\n")
+		self.file.write("%endif\n")
+		self.file.write("# If gccgo_arches does not fit or is not defined fall through to golang\n")
+		self.file.write("%ifarch 0%{?gccgo_arches}\n")
+		self.file.write("BuildRequires:   gcc-go >= %{gccgo_min_vers}\n")
+		self.file.write("%else\n")
+		self.file.write("BuildRequires:   golang\n")
+		self.file.write("%endif\n\n")
+		self.file.write("%if 0%{?with_check}\n")
+		self.file.write("#Here comes all BuildRequires: PACKAGE the unit tests\n#in %%check section need for running\n")
+		self.file.write("%endif\n")
+		self.file.write("\n")
+		self.file.write("# test subpackage tests code from devel subpackage\n")
+		self.file.write("Requires:        %{name}-devel = %{version}-%{release}\n")
+		self.file.write("\n")
+		self.file.write("%description unit-test\n")
+		self.file.write("%{summary}\n")
+		self.file.write("\n")
+		self.file.write("This package contains unit tests for project\nproviding packages with %{import_path} prefix.\n")
+		self.file.write("%endif\n")
+
 
 	def generatePrepSection(self, provider):
 		self.file.write("%prep\n")
@@ -202,25 +245,40 @@ class SpecGenerator:
 
 	def generateInstallSection(self, direct_go_files = False):
 		self.file.write("%install\n")
+		self.file.write("# source codes for building projects\n")
 		self.file.write("%if 0%{?with_devel}\n")
 		self.file.write("install -d -p %{buildroot}/%{gopath}/src/%{import_path}/\n")
- 
-		# go files in tarball_path?
-		if direct_go_files:
-			self.file.write("cp -pav *.go %{buildroot}/%{gopath}/src/%{import_path}/\n")
+		self.file.write("# find all *.go but no *_test.go files and generate unit-test.file-list\n")
+		self.file.write("for file in $(find . -iname \"*.go\" \! -iname \"*_test.go\") ; do\n")
+		self.file.write("    install -d -p %{buildroot}/%{gopath}/src/%{import_path}/$(dirname $file)\n")
+		self.file.write("    cp $file %{buildroot}/%{gopath}/src/%{import_path}/$file\n")
+		self.file.write("    echo \"%%{gopath}/src/%%{import_path}/$file\" >> devel.file-list\n")
+		self.file.write("done\n")
+		self.file.write("%endif\n\n")
 
-		# read all dirs in the tarball
-		self.file.write("\n# copy directories\n")
-		self.file.write("for file in ./* ; do\n")
-		self.file.write("    if [ -d $file ]; then\n")
-		self.file.write("        cp -rpav $file %{buildroot}%{gopath}/src/%{import_path}/\n")
-		self.file.write("    fi\n")
+		self.file.write("# testing files for this project\n")
+		self.file.write("%if 0%{?with_unit_test}\n")
+		self.file.write("install -d -p %{buildroot}/%{gopath}/src/%{import_path}/\n")
+		self.file.write("# find all *_test.go files and generate unit-test.file-list\n")
+		self.file.write("for file in $(find . -iname \"*_test.go\"); do\n")
+		self.file.write("    install -d -p %{buildroot}/%{gopath}/src/%{import_path}/$(dirname $file)\n")
+		self.file.write("    cp $file %{buildroot}/%{gopath}/src/%{import_path}/$file\n")
+		self.file.write("    echo \"%%{gopath}/src/%%{import_path}/$file\" >> unit-test.file-list\n")
 		self.file.write("done\n")
 		self.file.write("%endif\n")
 
 	def generateCheckSection(self, project):
 		self.file.write("%check\n")
-		self.file.write("%if 0%{?with_check}\n")
+		self.file.write("%if 0%{?with_check} && 0%{?with_unit_test} && 0%{?with_devel}\n")
+		self.file.write("%ifarch 0%{?gccgo_arches}\n")
+		self.file.write("function gotest { %{gcc_go_test} \"$@\"; }\n")
+		self.file.write("%else\n")
+		self.file.write("%if 0%{?golang_test:1}\n")
+		self.file.write("function gotest { %{golang_test} \"$@\"; }\n")
+		self.file.write("%else\n")
+		self.file.write("function gotest { go test \"$@\"; }\n")
+		self.file.write("%endif\n")
+		self.file.write("%endif\n\n")
 		self.file.write("export GOPATH=%{buildroot}/%{gopath}:%{gopath}\n")
 
 		sdirs = sorted(project.getTestDirectories())
@@ -230,19 +288,16 @@ class SpecGenerator:
 			if dir != ".":
 				sufix = "/%s" % dir
 
-			self.file.write("go test %%{import_path}%s\n" % sufix)
+			self.file.write("gotest %%{import_path}%s\n" % sufix)
 		self.file.write("%endif\n")
 
 	def generateFilesSection(self, provider, project, ip_prefix = ""):
-		self.file.write("%if 0%{?with_devel}\n")
-		self.file.write("%files devel\n")
-
 		# doc all *.md files
 		docs = project.getDocs()
+		licenses = []
+		restdocs = []
 		if docs != []:
 			# scan for license
-			licenses = []
-			restdocs = []
 			for doc in docs:
 				if doc.lower().find('license') != -1:
 					licenses.append(doc)
@@ -251,15 +306,13 @@ class SpecGenerator:
 				else:
 					restdocs.append(doc)
 
-			# %license tag is supported since rpm-4.11, it means on fedora and epel7, not epel6
-			# as epel7 is not supposed to have any golang packages, using %license only for fedora
-			self.file.write("%if 0%{?fedora}\n")
-			self.file.write("%%license %s\n" % (" ".join(licenses)))
-			self.file.write("%else\n")
-			self.file.write("%%doc %s\n" % (" ".join(licenses)))
-			self.file.write("%endif\n")
-			if restdocs != []:
-				self.file.write("%%doc %s\n" % (" ".join(restdocs)))
+		self.file.write("%if 0%{?with_devel}\n")
+		self.file.write("%files devel -f devel.file-list\n")
+
+		if license != []:
+			self.file.write("%%copying %s\n" % (" ".join(licenses)))
+		if restdocs != []:
+			self.file.write("%%doc %s\n" % (" ".join(restdocs)))
 
 		# http://www.rpm.org/max-rpm/s1-rpm-inside-files-list-directives.html
 		# it takes every dir and file recursively
@@ -272,8 +325,15 @@ class SpecGenerator:
 			else:
 				self.file.write("%dir %{gopath}/src/%{provider}.%{provider_tld}/%{project}\n")
 
-		self.file.write("%{gopath}/src/%{import_path}\n")
+		self.file.write("%dir %{gopath}/src/%{import_path}\n")
+		self.file.write("%endif\n\n")
+
+		self.file.write("%if 0%{?with_unit_test}\n")
+		self.file.write("%files unit-test -f unit-test.file-list\n")
+		self.file.write("%copying LICENSE\n")
+		self.file.write("%doc README.md\n")
 		self.file.write("%endif\n")
+
 
 	def generateChangelogSection(self):
 		self.file.write("%changelog\n")
@@ -310,10 +370,15 @@ class SpecGenerator:
 		elif provider == BITBUCKET:
 			self.generateBitbucketHeader(project, repository, url, provider_prefix, commit)
 
+		self.file.write("\n")
 		self.generateHeaderPrologue()
 
 		# generate devel subpackage
 		self.generateDevelHeader(prj_info, prefix)
+		self.file.write("\n")
+
+		# generate unit-test subpackage
+		self.generateUnitTestHeader()
 		self.file.write("\n")
 
 		# generate prep section
