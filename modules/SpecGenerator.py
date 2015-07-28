@@ -106,7 +106,7 @@ class SpecGenerator:
 		self.file.write("%%global project         %s\n" % project)
 		self.file.write("%%global repo            %s\n" % repository)
 		self.file.write("# https://%s\n" % provider_prefix)
-		self.file.write("%%global provider_prefix     %s\n", provider_prefix)
+		self.file.write("%%global provider_prefix     %s\n" % provider_prefix)
 		self.file.write("%global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}\n")
 
 		if url != provider_prefix:
