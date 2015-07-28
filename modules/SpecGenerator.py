@@ -330,8 +330,12 @@ class SpecGenerator:
 
 		self.file.write("%if 0%{?with_unit_test}\n")
 		self.file.write("%files unit-test -f unit-test.file-list\n")
-		self.file.write("%copying LICENSE\n")
-		self.file.write("%doc README.md\n")
+
+		if license != []:
+			self.file.write("%%copying %s\n" % (" ".join(licenses)))
+		if restdocs != []:
+			self.file.write("%%doc %s\n" % (" ".join(restdocs)))
+
 		self.file.write("%endif\n")
 
 
