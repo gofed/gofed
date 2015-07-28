@@ -236,7 +236,7 @@ if __name__ == "__main__":
 
 	name = pkg_obj.getName()
 	if name == "":
-		fmt_obj.printError("Unable to generate package name for %s" % url)
+		fmt_obj.printError("Unable to generate package name for %s" % import_path)
 		exit(1)
 
 	specfile = "%s.spec" % name
