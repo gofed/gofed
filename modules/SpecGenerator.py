@@ -255,7 +255,7 @@ class SpecGenerator:
 		self.file.write("# source codes for building projects\n")
 		self.file.write("%if 0%{?with_devel}\n")
 		self.file.write("install -d -p %{buildroot}/%{gopath}/src/%{import_path}/\n")
-		self.file.write("# find all *.go but no *_test.go files and generate unit-test.file-list\n")
+		self.file.write("# find all *.go but no *_test.go files and generate devel.file-list\n")
 		self.file.write("for file in $(find . -iname \"*.go\" \! -iname \"*_test.go\") ; do\n")
 		self.file.write("    install -d -p %{buildroot}/%{gopath}/src/%{import_path}/$(dirname $file)\n")
 		self.file.write("    cp $file %{buildroot}/%{gopath}/src/%{import_path}/$file\n")
