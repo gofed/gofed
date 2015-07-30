@@ -108,6 +108,10 @@ def setOptions():
             help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
         )
 
+	parser.add_option(
+            "", "", "--with-build", dest="withbuild", action = "store_true", default = False,
+            help = "Generate spec file with %build section"
+        )
 
 	return parser.parse_args()
 
@@ -277,7 +281,7 @@ if __name__ == "__main__":
 		fmt_obj.printError(pkg_obj.getError())
 		exit(1)
 
-	spec = SpecGenerator(import_path, commit, skiperrors = options.skiperrors)
+	spec = SpecGenerator(import_path, commit, skiperrors = options.skiperrors, with_build = options.withbuild)
 	spec.setPackageInfo(pkg_obj)
 
 	try:

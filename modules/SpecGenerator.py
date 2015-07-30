@@ -6,12 +6,13 @@ from Utils import runCommand
 
 class SpecGenerator:
 
-	def __init__(self, import_path, commit="", skiperrors=False):		
+	def __init__(self, import_path, commit="", skiperrors=False, with_build = False):
 		self.import_path = import_path
 		self.commit = commit
 		self.spec_name = ""
 		self.pkg_info = None
 		self.warn = ""
+		self.with_build = with_build
 
 	def getWarning(self):
 		return self.warn
@@ -247,11 +248,35 @@ class SpecGenerator:
 		else:
 			self.file.write("%setup -q -n %{repo}-%{commit}\n")
 
-	def generateBuildSection(self):
+	def generateBuildSection(self, url):
 		self.file.write("%build\n")
+
+		if self.with_build:
+			parts = url.split("/")
+			self.file.write("mkdir -p src/%s\n" % "/".join(parts[:-1]))
+			self.file.write("ln -s ../../../ src/%s\n" % url)
+			self.file.write("\n")
+			self.file.write("%if 0%{?with_bundled}\n")
+			self.file.write("export GOPATH=$(pwd):$(pwd)/Godeps/_workspace:%{gopath}\n")
+			self.file.write("%else\n")
+			self.file.write("export GOPATH=$(pwd):%{gopath}\n")
+			self.file.write("%endif\n")
+			self.file.write("\n")
+			self.file.write("%if 0%{?with_debug}\n")
+			self.file.write("function gobuild { go build -a -ldflags \"-B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n')\" -v -x \"$@\"; }\n")
+			self.file.write("%else\n")
+			self.file.write("function gobuild { go build -a \"$@\"; }\n")
+			self.file.write("%endif\n")
+			self.file.write("\n")
+			self.file.write("#gobuild -o bin/NAME %{import_path}/NAME\n")
 
 	def generateInstallSection(self, direct_go_files = False):
 		self.file.write("%install\n")
+		if self.with_build:
+			self.file.write("install -d -p %{buildroot}%{_bindir}\n")
+			self.file.write("#install -p -m 755 bin/NAME %{buildroot}%{_bindir}\n")
+			self.file.write("\n")
+
 		self.file.write("# source codes for building projects\n")
 		self.file.write("%if 0%{?with_devel}\n")
 		self.file.write("install -d -p %{buildroot}/%{gopath}/src/%{import_path}/\n")
@@ -312,6 +337,17 @@ class SpecGenerator:
 					licenses.append(doc)
 				else:
 					restdocs.append(doc)
+
+		if self.with_build:
+			self.file.write("%files\n")
+			if license != []:
+				self.file.write("%%copying %s\n" % (" ".join(licenses)))
+			if restdocs != []:
+				self.file.write("%%doc %s\n" % (" ".join(restdocs)))
+
+			self.file.write("#%{_bindir}/NAME\n")
+			self.file.write("\n")
+
 
 		self.file.write("%if 0%{?with_devel}\n")
 		self.file.write("%files devel -f devel.file-list\n")
@@ -397,7 +433,7 @@ class SpecGenerator:
 		self.file.write("\n")
 
 		# generate build section
-		self.generateBuildSection()
+		self.generateBuildSection(url)
 		self.file.write("\n")
 
 		# generate install section
