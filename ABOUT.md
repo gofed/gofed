@@ -1,0 +1,293 @@
+## PACKAGING OF GOLANG PROJECT
+
+Audience
+* users wanting to package a golang project in Fedora
+* no knowledge of golang packaging guidelines
+* users wanting to package a project from scratch
+
+If you are starting golang packager,
+if you have packaged some golang packages and want to speed up you work,
+if you update your spec files regurarly,
+go ahead and meet gofed.
+
+Gofed is a set of tools that automates the packaging process of golang
+development source codes [1].
+
+It supports the following features:
+* a spec file generator for the github.com, code.google.com, and bitbucket.org repositories
+* preparation of the Fedora's Review Request for a new golang package
+* golang imports discovering (dependency on other imports or packages)
+* comparison of APIs (exported symbols) of two golang projects
+* scan of available golang packages, construction of dependency graphs of packages
+* other useful commands (parallel push, pull or update of all chosen branches, ...)
+
+First episode of this story will show you how to package your first golang
+project. It will show and explain important lines of spec line, concentrate
+on macros, list pro BuildRequires and Requires, list of Provides.
+
+#### Where to get gofed
+
+On Fedora 21 you can run (not yet with spec-2.0!!!):
+
+```vim
+yum install gofed
+```
+
+On Fedora 22 and higher (not yet with spec-2.0!!!):
+
+```vim
+dnf install gofed
+```
+
+It will install the basic tools that allows you to generated spec files from
+github.com, code.google.com or bitbucket.org repository. To discover a list
+of imported and provided golang packages, a list of tests.
+
+If you want to try the latest gofed, clone its repository and alias gofed,
+e.g.:
+
+```vim
+git clone https://github.com/ingvagabund/gofed.git
+cd gofed
+alias gofed='PATHTOGOFEDDIR/gofed'
+gofed --help
+```
+
+[1] https://github.com/ingvagabund/gofed
+
+#### Terminology
+
+Package and project can be used with different meaning based on a context.
+If I will talk about Fedora package, word 'package' will be used.
+Golang project consists of source code units called packages. In this
+context, word 'golang package' will be used. The same holds for word 'project'.
+If I will talk about github project, I will used word 'github project' if
+is it not clear from context. Otherwise 'project' will mean golang project.
+
+#### Generate you first spec file
+
+Gofed provides 3 generators:
+* for github.com provider 'gofed github2spec'
+* for code.google.com provider 'gofed googlecode2spec'
+* for bitbucker.org provider 'gofed bitbucket2spec'
+
+All generators can be accessed via 'gofed repo2spec' command. If you know
+provider, project and repository in advance, specific generators are your
+choise. E.g. for github.com/kr/pretty run:
+
+```vim
+gofed github2spec --project kr --repo pretty
+```
+
+If you have import path only and are not sure how to decode required parts
+(e.g. github.com/mesos/mesos-go/auth/sasl/mech)
+you can try:
+
+```vim
+gofed repo2spec --detect github.com/mesos/mesos-go/auth/sasl/mech
+```
+
+Gofed will decompose the path for you and choose the correct provider.
+Unless specified, generator takes the latest commit available, downloads
+tarball with source codes corresponding to the commit and generates spec file.
+At the moment, commit is automatically detected for github.com and
+bitbucket.org. For code.google.com/p, 'gofed googlecode2spec' is the only
+choice.
+
+In general, for code.google.com/p/REPO and REV (revision term is used instead
+of commit), use:
+
+```vim
+gofed googlecode2spec --repo=REPO --rev=REV
+```
+
+#### Analysis of generated spec file
+
+Header of each spec file starts with:
+
+```
+%if 0%{?fedora}
+%global with_devel 1
+%global with_bundled 0
+%global with_debug 0
+%global with_check 1
+%global with_unit_test 1
+%else
+%global with_devel 0
+%global with_bundled 1
+%global with_debug 0
+%global with_check 0
+%global with_unit_test 0
+%endif
+```
+
+Based on a distribution it defines that spec file will provide devel subpackage
+(with_devel), binaries will be built from bundled source codes
+(with_bundled), binaries will be built with debugging support (with_debug),
+tests in %check section will be run (with_check) or
+unit-test subpackage will be provided (with_unit_test).
+
+Wherever you expect development from golang source codes set with_devel to 1.
+This will allow other projects to include your source codes. The aim of devel
+subpackage is to provide only files (at least all *.go) that are really
+necesary for development (install only what you really need philoshophy).
+
+In order to support CI testing of golang packages, unit-test subpackage is
+provided. By default, it contains only *_test.go files which are needed by
+golang to unit-test developed source codes. 
+
+##### Defined macros
+
+Before name and version of a package are set, some macros are defined.
+As %license macro for license is supported from rpm >= 4.11, copying macro
+is defined to make this issue transparent to packager. After that,
+a set of important macros follow: provider, provider_tld, project, repo,
+provider_prefix, import_path, commit and shortcommit.
+Macros provider and provider_tld are used to detect a server where the given
+github project and repository are stored. Macro project and repo are remaining
+two macros that together with provider and provider_tld uniquely define
+server storage of the repository. Macro provider_prefix defined as it is is
+used in 'Source' tag to specify a path to a repository archive file.
+Macro import_path defines a prefix for every golang package provided
+by a given golang project. Other golang projects can then use this prefix
+to uniquely choose golang package to import. As in many cases import path
+prefix inherits provider's url where project's source codes are stored,
+import_path macro equals provider_prefix. Difference between these two
+macros is to distuinguish between provider which stores source codes and
+import path prefix that is used by other golang projects.
+
+##### Correct architecture to build rpm on
+
+Golang compiler does not support every architecture where you could possibly
+build, test and run your projects. For unsupported architectures,
+gcc-go compiler is an option. To cover this situtation, the following lines
+in spec file are generated:
+
+```vim
+# If go_arches not defined fall through to implicit golang archs
+%if 0%{?go_arches:1}
+ExclusiveArch:  %{go_arches}
+%else
+ExclusiveArch:   %{ix86} x86_64 %{arm}
+%endif
+# If gccgo_arches does not fit or is not defined fall through to golang
+%ifarch 0%{?gccgo_arches}
+BuildRequires:   gcc-go >= %{gccgo_min_vers}
+%else
+BuildRequires:   golang
+%endif
+```
+
+This is not the smallest and clearest way how to do it. However, it is clear
+what you get. Macro go_arches defines a list of all architectures that are
+supported by both golang and gcc-go compiler. If the macro is not defined
+explicit list of architectures for golang is used. The macro is not defined
+in epel6. On Fedora 21 it contains only a list of archituctures supported
+by golang.
+
+The second part choose the correct compiler. Again, if gccgo_arches macro
+is defined choose gcc-go. Otherwise, if the macro is not defined (the case
+for epel6 and Fedora 21) or rpm is not built on architectures supported by
+gcc-go, choose golang.
+
+Usually there is no %files section for main subpackage so we could choose
+'BuildArch: noarch'. However, as SRPM is generated based on BuildArch or
+ExclusiveArch of main subpackage, all subpackages of a spec file get build
+as no arch. Thus, ExclusiveArch is set no matter what.
+
+For BuildRequires, again it does not make sense to use it if the main
+subpackage does not provide any file. However, if with_unit_test macro is
+disabled, no subpackage on F21 or EPEL6 does BuildRequires golang.
+Thus gopath macro is not defined, which is used in %files devel section.
+
+##### Devel subpackage
+
+Devel subpackage is a core of every Fedora package. It provides source codes
+for building other packages which use imported packages with golang project's
+import path prefix. Every golang project has two types of packages: those
+that are imported (by import keyword) and those that are provided
+(defined by the project). For Fedora package imported packages translate into
+build-time and run-time dependencies and provided packages into a list of
+Provides. In the form the spec file is generated, all build-time dependencies
+are wrapper with 'with_check' macro. Since it make sense to BuildRequire
+golang packages only where you run some tests on the project. Run-time
+dependencies are needed everytime you install the devel subpackage
+
+All provided packages are in a form of virtual provides 'golang(package)'.
+As this list of virtual provides can change with every update
+(backward compatibility is not guaranted), don't forget to update your
+spec file if you see build errors with missing 'golang(package)'
+dependencies.
+
+As devel subpackage ships source codes only it is marked as noarch.
+
+Together with %package devel and %description devel section, %install section
+contains installation script that copies every file with *.go suffix but not
+*_test.go sufix to devel subpackage. The aim is to ship only those files
+that are really needed in the devel subpackage. Other files with different
+extension than *.go can be inseparable part of the source codes. For example,
+files with *.s and *.proto extension have to be copied to the devel subpackage
+as well. Generated %install section covers only *.go files so it is up to
+a packager to choose the correct files and be familiar with the golang project.
+
+To find a list of files not ending with *.go suffix you can run the following
+command in tarball's root directory:
+
+```vim
+find . \! -iname "*.go"
+```
+
+For example in tarball of github.com/golang/protobuf you can get:
+
+```
+...
+./Make.protobuf
+./.gitignore
+./README
+./AUTHORS
+./proto
+./proto/testdata
+./proto/testdata/test.proto
+./proto/testdata/Makefile
+./proto/Makefile
+./proto/proto3_proto
+./proto/proto3_proto/proto3.proto
+./src
+./src/github.com
+...
+```
+
+Here, proto3.proto file is a part of proto3_proto package definition which is
+a candidate for devel subpackage.
+
+##### Unit-test subpackage
+
+For every golang project it is possible to write down unit tests. Each such
+a file ends with _test.go suffix. In order to make devel subpackage as small
+as possible, every unit test file belongs to unit-test subpackage. However,
+as all tests need source codes to be run on, unit-test subpackage has devel
+subpackage as a run-time dependency. Installation section works the same way
+as for devel. Thus it is up to a packager to add other files that are needed
+for testing. Test files usually contain test or testdata keyword.
+
+Again, you can use 'find' command. For example above, test.proto is a candidate
+for unit-test subpackage.
+
+Another reason to have unit-test subpackage is a support for CI. As some tests
+need internet connection, specific configuration or services running, those
+tests can not be run during building. In CI, unit-test subpackage can be run
+in defined environment which support exactly those resources that are needed.
+
+As tests are run on various architecture you need to choose golang or gcc-go.
+Thus the subpackage is architecture specific. And as tests in %check section
+are run only on tests provided by unit-test subpackage, 'if go_arches' and
+'ifarch gccgo_arches' are under %package unit-test again.
+
+##### Tips
+* How to generate a heads up of build section, used --with-build option
+
+#### Analyzes of golang source codes by gofed
+* How to update a spec file with 'gofed bump' command
+* How to list all imported packages with 'gofed ggi' command
+* How to list all provided packages and tests with 'gofed inspect' command
+* Use of other commands from gofed-basic command set
