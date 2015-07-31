@@ -263,7 +263,7 @@ class SpecGenerator:
 			self.file.write("%endif\n")
 			self.file.write("\n")
 			self.file.write("%if 0%{?with_debug}\n")
-			self.file.write("function gobuild { go build -a -ldflags \"-B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n')\" -v -x \"$@\"; }\n")
+			self.file.write("function gobuild { go build -a -ldflags \"-B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \\n')\" -v -x \"$@\"; }\n")
 			self.file.write("%else\n")
 			self.file.write("function gobuild { go build -a \"$@\"; }\n")
 			self.file.write("%endif\n")
