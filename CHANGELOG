@@ -1,4 +1,15 @@
 ========Changelog for gofed========
+Changes in 0.0.7 (1 August 2015)
+-support f23 branch
+-reduce the number of dependencies in generated spec files
+-add with_devel, with_check, with_debug, with_bundled, with_unit_test macros to generated spec files
+-add provider_prefix to generated spec files
+-add support for import paths whose prefix does not equal to provider prefix
+-add list of common directories that are not owned by rpms built from generated spec files
+-add copying macro to generated spec files to support %license macro
+-gofed ggi: --all-occurences (to show all import paths even for main packages) and --show-occurence (to show file:package for each import path)
+-gofed tools: add --merge-master to run 'git merge master' on selected branches
+-repo2spec: add --with-build to generate heads up of build section as well
 
 Changes in 0.0.6 (11 July 2015)
 -gofed inspect: add --skip-errors option

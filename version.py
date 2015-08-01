@@ -1,5 +1,5 @@
-GOFED_VERSION = "0.0.6"
-GOFED_COMPILED = "11 July 2015"
+GOFED_VERSION = "0.0.7"
+GOFED_COMPILED = "1 August 2015"
 GOFED_AUTHOR = "Jan Chaloupka <jchaloup@redhat.com>"
 
 def printVersion():
