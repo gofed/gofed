@@ -42,15 +42,14 @@ def getMacros(spec):
 		err = "unable to detect commit macro"
 		return err, {}, -1
 
-	macros["ip"] = obj.getMacro("import_path")
+	macros["ip"] = obj.getMacro("provider_prefix")
+
 	if macros["ip"] == "":
-		macros["provider_tld"] = obj.getMacro("provider_tld")
+		macros["ip"] = obj.getMacro("import_path")
 
-		if macros["provider_tld"] == "":
-			err = "Unable to detect provider_tld macro"
-			return err, {}, -1
-
-		macros["ip"] = "%s.%s/%s/%s" % (macros["provider"], macros["provider_tld"], macros["project"], macros["repo"])
+	if macros["ip"] == "":
+		err = "Unable to detect provider URL"
+		return err, {}, -1
 
 	return "", macros, last_bug_id
 
