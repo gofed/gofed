@@ -97,6 +97,7 @@ cp build gcp pull push scratch-build update bbobranches %{buildroot}/usr/share/%
 %config(noreplace) /etc/gofed.conf
 %{_sysconfdir}/bash_completion.d/%{name}
 %{_sysconfdir}/bash_completion.d/gofed-base_bash_completion
+%{_sharedstatedir}/%{name}/data/packages
 /usr/share/%{name}/plugins/gofed-base.json
 /usr/share/%{name}/modules
 /usr/share/%{name}/*.py*
