@@ -118,3 +118,70 @@ go test %{import_path}/ginkgo/testsuite
 go test %{import_path}/integration
 ...
 ```
+
+### gofed bump
+
+As described in the previous section, 'gofed bump' downloads a tarball
+and bump the spec file. How it works?
+
+First, spec file of a packages is parsed. Thus the command has to be run in
+a package root directory. Standard golang spec file macros are detected
+(provider_prefix/import_path and commit). Provider repository is detected,
+list of available commits retrieved from the repository and if there is a new
+commit, url for downloading tarball is constructed and tarball is downloaded.
+Among others a list of tags and releases is retrieved as well. So you can
+detect if there is a new version of the project. As version tag is not updated
+it has to be updated manually. Finally, spec file is bumped by running
+'rpmdev-bumpspec' with appropriate comment. It the last comment in %changelog
+contains 'resolves: #bugid' or 'related: #bugid', 'related: #bugid' is appended
+to the new comment.
+
+As automatic detection of the latest commit is available only for github.com
+and bitbucket.org, for code.google.com the commit has to be specified
+explicitely (--commit option).
+
+### gofed lint
+
+With each update to the newest commit a list of provided and imported packages
+can change. In order to automatically detect which packages are no longer
+provider or imported or which are new, 'gofed lint' command can be run to check
+the current list if Provides and [Build]Requires with those in the new tarball.
+If you run 'gofed lint' without any arguments it expects a tarball, spec file
+and sources files in the current directory. Otherwise additional options has to
+be provided.
+
+The command is meant to be run in a package root directory. The output is
+mainly informative. Some golang projects can provide more packages. Some can
+BuildRequire less. It is up to a maitainer to decide which warnings are legit.
+
+### gofed inspect and gofed ggi
+
+Each golang project is defined by a set of packages. Each package can import
+one or more other packages. In order to have a fast and clean way to get
+a list of all provided, 'gofed inspect' command is provided. To get a list
+of imported packages, 'gofed ggi' command is provided.
+
+Both commands are built over an golang parser which is provided by golang
+compiler itself. Extracted information about each source code are then put
+together (based on the golang language specification). These information
+can be then used and processed in a various way.
+
+Basic use of 'gofed inspect' and 'gofed ggi' is with --spec option. All
+displayed information correspond to source codes in the current directory.
+Running 'gofed inspect' with -p option will list all provided packages,
+running with -t option will list all unit-test files. 'gofed ggi' command
+show only imported packages that correspond to devel source codes. It does
+not list packages that are imported in main packages (source codes with
+'package main' language construct). If you want to see every import, run
+the command with --all-occurrences option. To get a position of each import,
+use --show-occurrence option as well. E.g.
+
+```vim
+$ gofed ggi --show-occurrence
+	github.com/onsi/B                (integration/_fixtures/watch_fixtures/A/A.go:A)
+	github.com/onsi/C                (integration/_fixtures/watch_fixtures/D/D.go:D)
+	github.com/onsi/ginkgo           (types/types_test.go:types_test)
+	github.com/onsi/ginkgo/config    (ginkgo_dsl.go:ginkgo)
+	...
+```
+
