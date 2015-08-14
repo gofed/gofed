@@ -302,6 +302,10 @@ class GoLint(Base):
 		for provide_prefix in skipped_provides_with_prefix:
 			t_provided = filter(lambda i: not i.startswith(provide_prefix), t_provided)
 
+		# filter out all provided packages that contains /internal/ keyword
+		t_provided = filter(lambda i: "internal" not in i.split("/"), t_provided)
+
+		# add golang( prefix to all provided packages
 		t_provided = map(lambda i: str("golang(%s/%s)" % (import_path, i)) if i != "." else str("golang(%s)" % import_path), t_provided)
 		# get provides and [B]R from package section
 		devel_obj = self.sp_obj.getDevelSubpackage()

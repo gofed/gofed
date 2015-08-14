@@ -194,6 +194,10 @@ class SpecGenerator:
 		# provides
 		self.file.write("\n")
 		for path in project.getProvidedPackages():
+			# skip all provided packages with /internal/ keyword
+			if "internal" in path.split("/"):
+				continue
+
 			sufix = ""
 			if path != ".":
 				sufix = "/%s" % path

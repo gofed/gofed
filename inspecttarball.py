@@ -111,6 +111,10 @@ if __name__ == "__main__":
 			if skip:
 				continue
 
+			# skip all provided packages with /internal/ keyword
+			if "internal" in ip.split("/"):
+				continue
+
 			if options.spec != False:
 				if ip != ".":
 					print "Provides: golang(%%{import_path}/%s) = %%{version}-%%{release}" % (ip)
