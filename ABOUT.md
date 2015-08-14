@@ -283,11 +283,84 @@ Thus the subpackage is architecture specific. And as tests in %check section
 are run only on tests provided by unit-test subpackage, 'if go_arches' and
 'ifarch gccgo_arches' are under %package unit-test again.
 
+#### Review request
+
+To get a new package into Fedora, review request has to be created.
+It contains basic information about the new package itself. For example,
+package description, package summary, package name, spec file and source
+rpm. Among other things succesfull build in Koji. The information has to be
+inserted into bugzilla as a new bug.
+
+In order to provided an easy way to generate review request, gofed tool
+provides 'gofed review' command. Running the command in a directory containing
+spec file you get:
+
+```vim
+$ gofed bump *.spec --skip-rpmlint-errors
+Parsing golang-github-onsi-gomega.spec file
+  Provider: github
+  Repo: gomega
+  Commit: 8adf9e1730c55cdc590de7d49766cb2acc88d8f2
+  Name: golang-github-onsi-gomega
+  Summary: Ginkgo's Preferred Matcher Library
+
+Copying tarball ./gomega-8adf9e1.tar.gz to /home/jchaloup/rpmbuild/SOURCES
+
+Building spec file using rpmbuild
+  /home/jchaloup/rpmbuild/SRPMS/golang-github-onsi-gomega-0-0.4.git8adf9e1.fc20.src.rpm
+  /home/jchaloup/rpmbuild/RPMS/noarch/golang-github-onsi-gomega-devel-0-0.4.git8adf9e1.fc20.noarch.rpm
+  /home/jchaloup/rpmbuild/RPMS/x86_64/golang-github-onsi-gomega-unit-test-0-0.4.git8adf9e1.fc20.x86_64.rpm
+
+Running rpmlint /home/jchaloup/rpmbuild/SRPMS/golang-github-onsi-gomega-0-0.4.git8adf9e1.fc20.src.rpm /home/jchaloup/rpmbuild/RPMS/noarch/golang-github-onsi-gomega-devel-0-0.4.git8adf9e1.fc20.noarch.rpm /home/jchaloup/rpmbuild/RPMS/x86_64/golang-github-onsi-gomega-unit-test-0-0.4.git8adf9e1.fc20.x86_64.rpm
+golang-github-onsi-gomega.src:144: W: macro-in-comment %{buildroot}
+golang-github-onsi-gomega.src:144: W: macro-in-comment %{gopath}
+golang-github-onsi-gomega.src:144: W: macro-in-comment %{import_path}
+golang-github-onsi-gomega-unit-test.x86_64: E: devel-dependency golang-github-onsi-gomega-devel
+3 packages and 0 specfiles checked; 1 errors, 3 warnings.
+
+Running koji scratch build on srpm
+koji build --scratch rawhide /home/jchaloup/rpmbuild/SRPMS/golang-github-onsi-gomega-0-0.4.git8adf9e1.fc20.src.rpm --nowait
+  Watching rawhide build, http://koji.fedoraproject.org/koji/taskinfo?taskID=10705051
+koji watch-task 10705051 --quiet
+Uploading srpm and spec file to @fedorapeople.org
+jchaloup@fedorapeople.org "mkdir -p public_html/reviews/golang-github-onsi-gomega"
+scp /home/jchaloup/rpmbuild/SRPMS/golang-github-onsi-gomega-0-0.4.git8adf9e1.fc20.src.rpm jchaloup@fedorapeople.org:public_html/reviews/golang-github-onsi-gomega/.
+scp golang-github-onsi-gomega.spec jchaloup@fedorapeople.org:public_html/reviews/golang-github-onsi-gomega/.
+
+
+Generating Review Request
+###############################################################
+Review Request: golang-github-onsi-gomega - Ginkgo's Preferred Matcher Library
+###############################################################
+Spec URL: https://jchaloup.fedorapeople.org/reviews/golang-github-onsi-gomega/golang-github-onsi-gomega.spec
+
+SRPM URL: https://jchaloup.fedorapeople.org/reviews/golang-github-onsi-gomega/golang-github-onsi-gomega-0-0.4.git8adf9e1.fc20.src.rpm
+
+Description: Ginkgo's Preferred Matcher Library
+
+Fedora Account System Username: jchaloup
+
+Koji: http://koji.fedoraproject.org/koji/taskinfo?taskID=10705051
+
+$ rpmlint golang-github-onsi-gomega-0-0.4.git8adf9e1.fc20.src.rpm golang-github-onsi-gomega-devel-0-0.4.git8adf9e1.fc20.noarch.rpm golang-github-onsi-gomega-unit-test-0-0.4.git8adf9e1.fc20.x86_64.rpm
+golang-github-onsi-gomega.src:144: W: macro-in-comment %{buildroot}
+golang-github-onsi-gomega.src:144: W: macro-in-comment %{gopath}
+golang-github-onsi-gomega.src:144: W: macro-in-comment %{import_path}
+golang-github-onsi-gomega-unit-test.x86_64: E: devel-dependency golang-github-onsi-gomega-devel
+3 packages and 0 specfiles checked; 1 errors, 3 warnings.
+
+###############################################################
+
+
+Enter values at: https://bugzilla.redhat.com/enter_bug.cgi?product=Fedora&format=fedora-review
+```
+
+The command uses 'scp' to copy files into your fedorapeople.org account.
+Thus it is supposed you don't have to type your password.
+Use 'ssh-copy-id' for this case.
+
 ##### Tips
 * How to generate a heads up of build section, used --with-build option
 
 #### Analyzes of golang source codes by gofed
-* How to update a spec file with 'gofed bump' command
-* How to list all imported packages with 'gofed ggi' command
-* How to list all provided packages and tests with 'gofed inspect' command
 * Use of other commands from gofed-basic command set
