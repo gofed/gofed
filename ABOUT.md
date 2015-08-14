@@ -23,7 +23,7 @@ It supports the following features:
 
 First episode of this story will show you how to package your first golang
 project. It will show and explain important lines of spec line, concentrate
-on macros, list pro BuildRequires and Requires, list of Provides.
+on macros, list of BuildRequires and Requires, list of Provides.
 
 #### Where to get gofed
 
@@ -62,7 +62,7 @@ If I will talk about Fedora package, word 'package' will be used.
 Golang project consists of source code units called packages. In this
 context, word 'golang package' will be used. The same holds for word 'project'.
 If I will talk about github project, I will used word 'github project' if
-is it not clear from context. Otherwise 'project' will mean golang project.
+it is not clear from the context. Otherwise 'project' will mean golang project.
 
 #### Generate you first spec file
 
@@ -73,7 +73,7 @@ Gofed provides 3 generators:
 
 All generators can be accessed via 'gofed repo2spec' command. If you know
 provider, project and repository in advance, specific generators are your
-choise. E.g. for github.com/kr/pretty run:
+choice. E.g. for github.com/kr/pretty run:
 
 ```vim
 gofed github2spec --project kr --repo pretty
@@ -178,7 +178,7 @@ BuildRequires:   golang
 %endif
 ```
 
-This is not the smallest and clearest way how to do it. However, it is clear
+This is not the smallest and the clearest way how to do it. However, it is clear
 what you get. Macro go_arches defines a list of all architectures that are
 supported by both golang and gcc-go compiler. If the macro is not defined
 explicit list of architectures for golang is used. The macro is not defined
@@ -209,7 +209,7 @@ that are imported (by import keyword) and those that are provided
 (defined by the project). For Fedora package imported packages translate into
 build-time and run-time dependencies and provided packages into a list of
 Provides. In the form the spec file is generated, all build-time dependencies
-are wrapper with 'with_check' macro. Since it make sense to BuildRequire
+are wrapped with 'with_check' macro. Since it make sense to BuildRequire
 golang packages only where you run some tests on the project. Run-time
 dependencies are needed everytime you install the devel subpackage
 
@@ -276,9 +276,9 @@ for unit-test subpackage.
 Another reason to have unit-test subpackage is a support for CI. As some tests
 need internet connection, specific configuration or services running, those
 tests can not be run during building. In CI, unit-test subpackage can be run
-in defined environment which support exactly those resources that are needed.
+in well defined environment which support exactly those resources that are needed.
 
-As tests are run on various architecture you need to choose golang or gcc-go.
+As tests are run on various architectures you need to choose golang or gcc-go.
 Thus the subpackage is architecture specific. And as tests in %check section
 are run only on tests provided by unit-test subpackage, 'if go_arches' and
 'ifarch gccgo_arches' are under %package unit-test again.
