@@ -3,7 +3,11 @@
 Audience
 * users wanting to package a golang project in Fedora
 * no knowledge of golang packaging guidelines
-* users wanting to package a project from scratch
+* users wanting to package a golang project from scratch
+
+Preliminaries
+* Knowledge of Fedora packaging
+* Basic knowledge of golang
 
 If you are starting golang packager,
 if you have packaged some golang packages and want to speed up you work,
@@ -140,7 +144,8 @@ golang to unit-test developed source codes.
 
 Before name and version of a package are set, some macros are defined.
 As %license macro for license is supported from rpm >= 4.11, copying macro
-is defined to make this issue transparent to packager. After that,
+is defined to make this issue transparent to packager (as rpm's version for
+epel6 is less than 4.11). After that,
 a set of important macros follow: provider, provider_tld, project, repo,
 provider_prefix, import_path, commit and shortcommit.
 Macros provider and provider_tld are used to detect a server where the given
@@ -182,7 +187,7 @@ This is not the smallest and the clearest way how to do it. However, it is clear
 what you get. Macro go_arches defines a list of all architectures that are
 supported by both golang and gcc-go compiler. If the macro is not defined
 explicit list of architectures for golang is used. The macro is not defined
-in epel6. On Fedora 21 it contains only a list of archituctures supported
+in epel6. On Fedora 21 it contains only a list of architectures supported
 by golang.
 
 The second part choose the correct compiler. Again, if gccgo_arches macro
@@ -226,7 +231,7 @@ contains installation script that copies every file with *.go suffix but not
 *_test.go sufix to devel subpackage. The aim is to ship only those files
 that are really needed in the devel subpackage. Other files with different
 extension than *.go can be inseparable part of the source codes. For example,
-files with *.s and *.proto extension have to be copied to the devel subpackage
+files with *.s and *.proto extension could be copied to the devel subpackage
 as well. Generated %install section covers only *.go files so it is up to
 a packager to choose the correct files and be familiar with the golang project.
 
@@ -358,9 +363,5 @@ Enter values at: https://bugzilla.redhat.com/enter_bug.cgi?product=Fedora&format
 The command uses 'scp' to copy files into your fedorapeople.org account.
 Thus it is supposed you don't have to type your password.
 Use 'ssh-copy-id' for this case.
-
-##### Tips
-* How to generate a heads up of build section, used --with-build option
-
-#### Analyzes of golang source codes by gofed
-* Use of other commands from gofed-basic command set
+To choose the correct FAS username, use --user option or update fasuser
+in /etc/gofed.conf configuration file.
