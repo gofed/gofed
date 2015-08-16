@@ -47,6 +47,7 @@ $ cd golang-github-onsi-ginkgo
 $ git checkout master
 $ ls
 ginkgo-462326b.tar.gz  golang-github-onsi-ginkgo.spec  sources
+$
 $ gofed bump
 Searching for spec file
 Reading macros from golang-github-onsi-ginkgo.spec
@@ -56,6 +57,7 @@ Releases:
 Downloading tarball
 Updating spec file
 Bumping spec file
+$
 $ git diff
 diff --git a/golang-github-onsi-ginkgo.spec b/golang-github-onsi-ginkgo.spec
 index 6a3d878..62b93b2 100644
@@ -88,6 +90,7 @@ index 6a3d878..62b93b2 100644
 +
  * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.0-3
  - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+$
 $ gofed lint -a ginkgo-d94e2f4.tar
 ...
 W: Missing BuildRequires: golang(github.com/onsi/B)
@@ -95,8 +98,10 @@ W: Missing BuildRequires: golang(github.com/onsi/C)
 W: Missing BuildRequires: golang(github.com/onsi/gomega/gbytes)
 ...
 1 golang specfile checked; 1 errors, 23 warnings.
+$
 $ fedpkg prep
 $ cd ginkgo-d94e2f4000332f62b356ecb2840c98f4218f5358
+$
 $ # get a list of all provided packages in a spec file format
 $ gofed inspect -p --spec
 Provides: golang(%{import_path}) = %{version}-%{release}
@@ -104,6 +109,7 @@ Provides: golang(%{import_path}/config) = %{version}-%{release}
 Provides: golang(%{import_path}/ginkgo/convert) = %{version}-%{release}
 Provides: golang(%{import_path}/ginkgo/interrupthandler) = %{version}-%{release}
 ...
+$
 $ # get a list of all imported packages in a spec file format
 $ gofed ggi --spec
 BuildRequires: golang(github.com/onsi/B)
@@ -111,6 +117,7 @@ BuildRequires: golang(github.com/onsi/C)
 BuildRequires: golang(github.com/onsi/ginkgo)
 BuildRequires: golang(github.com/onsi/ginkgo/config)
 ...
+$
 $ # get a list of all unit-tests
 $ $ gofed inspect -t --spec
 go test %{import_path}/ginkgo/nodot
@@ -145,7 +152,7 @@ explicitely (--commit option).
 With each update to the newest commit a list of provided and imported packages
 can change. In order to automatically detect which packages are no longer
 provider or imported or which are new, 'gofed lint' command can be run to check
-the current list if Provides and [Build]Requires with those in the new tarball.
+the current list of Provides and [Build]Requires with those in the new tarball.
 If you run 'gofed lint' without any arguments it expects a tarball, spec file
 and sources files in the current directory. Otherwise additional options has to
 be provided.
@@ -158,11 +165,11 @@ BuildRequire less. It is up to a maitainer to decide which warnings are legit.
 
 Each golang project is defined by a set of packages. Each package can import
 one or more other packages. In order to have a fast and clean way to get
-a list of all provided, 'gofed inspect' command is provided. To get a list
-of imported packages, 'gofed ggi' command is provided.
+a list of all provided packages, 'gofed inspect' command is provided.
+To get a list of imported packages, 'gofed ggi' command is provided.
 
-Both commands are built over an golang parser which is provided by golang
-compiler itself. Extracted information about each source code are then put
+Both commands are built over golang parser which is provided by golang
+compiler itself. Extracted information about each source code are put
 together (based on the golang language specification). These information
 can be then used and processed in a various way.
 
@@ -184,4 +191,108 @@ $ gofed ggi --show-occurrence
 	github.com/onsi/ginkgo/config    (ginkgo_dsl.go:ginkgo)
 	...
 ```
+
+### Are all imported packages up-to-date?
+
+For some golang projects it is not enough just to update tarball. Sometimes its
+dependencies has to be updated as well as all dependencies are debundled into
+self-standing Fedora packages. Releases of other projects can be bug fixes only.
+
+Gofed provides two commands to check if some dependencies need to be updated.
+If a tarball of a golang project ships Godeps directory it contains Godeps.json
+file. The file contains a list of imported packages with its corresponding
+commit in json:
+
+```vim
+{
+        "ImportPath": "github.com/coreos/etcd",
+        "GoVersion": "go1.4.1",
+        "Packages": [
+                "./..."
+        ],
+        "Deps": [
+                {
+                        "ImportPath": "bitbucket.org/ww/goautoneg",
+                        "Comment": "null-5",
+                        "Rev": "75cd24fc2f2c2a2088577d12123ddee5f54e0675"
+                },
+                {
+                        "ImportPath": "github.com/beorn7/perks/quantile",
+                        "Rev": "b965b613227fddccbfffe13eae360ed3fa822f8d"
+                },
+                {
+                        "ImportPath": "github.com/bgentry/speakeasy",
+                        "Rev": "5dfe43257d1f86b96484e760f2f0c4e2559089c7"
+                },
+...
+```
+
+Thus it is easy to check. For this case 'gofed check-deps' exists. Just
+run the command in a directory containing the file.
+
+For example, for etcd-2.1.1 you can run:
+```vim
+$ cd etcd-2.1.1/Godeps
+$ ls
+Godeps.json  Readme  _workspace
+$ gofed check-deps -v
+package golang-bitbucket-ww-goautoneg up2date
+package golang-github-beorn7-perks up2date
+import path github.com/bgentry/speakeasy not found
+package golang-github-boltdb-bolt has newer commit
+import path github.com/bradfitz/http2 not found
+package golang-github-codegangsta-cli has newer commit
+package golang-github-coreos-go-etcd outdated
+package golang-github-coreos-go-semver up2date
+import path github.com/coreos/pkg/capnslog not found
+package golang-googlecode-gogoprotobuf has newer commit
+package golang-github-golang-glog up2date
+package golang-googlecode-goprotobuf has newer commit
+import path github.com/google/btree not found
+package golang-github-jonboulle-clockwork has newer commit
+package golang-github-matttproud-golang_protobuf_extensions up2date
+package golang-github-prometheus-client_golang has newer commit
+package golang-github-prometheus-client_model up2date
+package golang-github-prometheus-procfs has newer commit
+package golang-github-stretchr-testify has newer commit
+import path github.com/ugorji/go/codec not found
+package golang-googlecode-go-crypto not found in golang.repos
+package golang-googlecode-go-crypto not found in golang.repos
+package golang-googlecode-net has newer commit
+package golang-googlecode-goauth2 has newer commit
+package golang-google-golangorg-cloud outdated
+import path google.golang.org/grpc not found
+
+```
+
+Each line corresponds to a package providing imported packages or a line
+corresponding to a imported package that was not found.
+
+Other golang projects can have their own way of storing this information. Other
+has no such a list. For this case 'gofed ggi -d' can provide some information.
+
+```vim
+$ cd etcd-2.1.1
+$ gofed ggi -cd -v
+Class: github.com/bgentry/speakeasy (golang-github-bgentry-speakeasy) PkgDB=True
+Class: github.com/boltdb/bolt (golang-github-boltdb-bolt) PkgDB=True
+Class: github.com/coreos/etcd (etcd) PkgDB=True
+Class: github.com/coreos/go-etcd (golang-github-coreos-go-etcd) PkgDB=True
+Class: github.com/coreos/go-semver (golang-github-coreos-go-semver) PkgDB=True
+Class: github.com/coreos/pkg (golang-github-coreos-pkg) PkgDB=True
+Class: github.com/gogo/protobuf (golang-github-gogo-protobuf) PkgDB=False
+Class: github.com/google/btree (golang-github-google-btree) PkgDB=True
+Class: github.com/jonboulle/clockwork (golang-github-jonboulle-clockwork) PkgDB=True
+Class: github.com/prometheus/client_golang (golang-github-prometheus-client_golang) PkgDB=True
+Class: github.com/prometheus/procfs (golang-github-prometheus-procfs) PkgDB=True
+Class: github.com/stretchr/testify (golang-github-stretchr-testify) PkgDB=True
+Class: golang.org/x/crypto (golang-googlecode-crypto) PkgDB=False
+Class: google.golang.org/grpc (golang-github-grpc-grpc-go) PkgDB=True
+```
+
+Difference between both is that 'gofed check-deps' has precise commit for each
+dependency. Thus it is recommended to include Godeps.json file in %doc tag in
+%files devel section. On the other hand, 'gofed ggi' does not know the commit
+and just checks if the given import path has package in PkgDB providing it.
+
 
