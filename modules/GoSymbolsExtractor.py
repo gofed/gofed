@@ -157,9 +157,6 @@ class GoSymbolsExtractor(Base):
 					if path["path"] == "..":
 						continue
 
-					if path["path"] in ip_used:
-						continue
-
 					if dir_info['dir'] == ".":
 						file_pkg_pair = "%s:%s" % (go_file, pname)
 					else:
@@ -169,6 +166,9 @@ class GoSymbolsExtractor(Base):
 						self.package_imports_occurence[str(path["path"])] = [str(file_pkg_pair)]
 					else:
 						self.package_imports_occurence[str(path["path"])].append(str(file_pkg_pair))
+
+					if path["path"] in ip_used:
+						continue
 
 					ip_used.append(path["path"])
 
