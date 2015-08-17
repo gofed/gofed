@@ -318,6 +318,11 @@ class GoLint(Base):
 		s_r = devel_obj.getRequires()
 		s_provided = devel_obj.getProvides()
 
+		# check only those br/r/provides that are related to golang
+		s_br = filter(lambda l: l.startswith("golang("), s_br)
+		s_r = filter(lambda l: l.startswith("golang("), s_r)
+		s_provided = filter(lambda l: l.startswith("golang("), s_provided)
+
 		# compare
 		self.t_result = []
 		# BR
