@@ -61,6 +61,8 @@
 [  ] - for each package in Godeps.json check if the given import path is provided, not just the package itself
 [  ] - run all commands without internet connection (print no internet connection error, catch exception, gofed bump, gofed repo2spec --detect, ...)
 [  ] - script to list all dependencies (recursivelly) for a given package {partially by gofed scandeps -g PKGNAME}
+[  ] - add 'gofed tarball-check' to check for new/missing non*-.go files during update of a golang spec file
+[  ] - when generating graph of dependencies, skip import paths used only in main packages
 
 ====TODO===
 [  ] - DOC: godep check-deps is using data/golang.imap, which has to updated by gofed scan-imports
@@ -76,8 +78,12 @@
 [  ] - generate a graph of dependencies for actual state of dependencies for each day (For each project, for all projects, ...). Discuss if it is even possible, sane or reasonable
 [  ] - 'gofed scan-imports -c' should create the latest xml file (including <imports>). Problem is a detection of import path prefix!!!. How can I detect/construct it and be sure it is the correct one (from golang.repos?)
 [  ] - add --master option to tools as shortcut for --branches="master"
+[  ] - make a stats of used imported paths, for frequently used paths try to decompose a package that provides them
+[  ] - make a stats of how much familiar given devel subpackages are (test for duplicated of provided packages, content and names)
+[  ] - gofed wizard: add -endphase option
 
 ====DONE====
+[OK] - create a script to generate trucker for golang package
 [OK] - pri review misto "wrote" muze byt "zapsano", udelat parsovani buildu obecneji
 [OK] - 'gofed apidiff' pridat option pro cteni symbolu z xml
 [OK] - remove Requires: golang from spec files generators
