@@ -1,3 +1,10 @@
+%define copying() \
+%if 0%{?fedora} >= 21 || 0%{?rhel} >= 7 \
+%license %{*} \
+%else \
+%doc %{*} \
+%endif
+
 %global _dwz_low_mem_die_limit 0
 %global provider        github
 %global provider_tld    com
@@ -98,9 +105,10 @@ install -m 0755 -d %{buildroot}%{_sharedstatedir}/%{name}/packages
 %pre
 getent group gofed >/dev/null || groupadd -r gofed
 getent passwd gofed >/dev/null || useradd -r -g gofed -d / -s /sbin/nologin \
-        -c "Gofed user" kube
+        -c "Gofed user" gofed
 %files
-%doc README.md LICENSE
+%copying LICENSE
+%doc *.md
 %config(noreplace) /etc/gofed.conf
 %{_sysconfdir}/bash_completion.d/%{name}
 %{_sysconfdir}/bash_completion.d/gofed-base_bash_completion
