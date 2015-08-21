@@ -31,13 +31,13 @@ on macros, list of BuildRequires and Requires, list of Provides.
 
 #### Where to get gofed
 
-On Fedora 21 you can run (not yet with spec-2.0!!!):
+On Fedora 21 you can run:
 
 ```vim
 yum install gofed
 ```
 
-On Fedora 22 and higher (not yet with spec-2.0!!!):
+On Fedora 22 and higher:
 
 ```vim
 dnf install gofed
@@ -176,7 +176,7 @@ ExclusiveArch:  %{go_arches}
 ExclusiveArch:   %{ix86} x86_64 %{arm}
 %endif
 # If gccgo_arches does not fit or is not defined fall through to golang
-%ifarch 0%{?gccgo_arches}
+%if %{isgccgoarch}
 BuildRequires:   gcc-go >= %{gccgo_min_vers}
 %else
 BuildRequires:   golang
@@ -190,10 +190,12 @@ explicit list of architectures for golang is used. The macro is not defined
 in epel6. On Fedora 21 it contains only a list of architectures supported
 by golang.
 
-The second part choose the correct compiler. Again, if gccgo_arches macro
-is defined choose gcc-go. Otherwise, if the macro is not defined (the case
-for epel6 and Fedora 21) or rpm is not built on architectures supported by
-gcc-go, choose golang.
+The second part chooses the correct compiler. Again, if we build for
+architectures supported by gcc-go, choose gcc-go. Otherwise, if gcc_go_arches
+macro is not defined (the case for epel6 and Fedora 21) or rpm is not built
+on architectures supported by gcc-go, choose golang. Macro isgccgoarch hides
+test if gcc_go_arches is defined and if we build on architectures listed
+in gcc_go_arches.
 
 Usually there is no %files section for main subpackage so we could choose
 'BuildArch: noarch'. However, as SRPM is generated based on BuildArch or
@@ -286,7 +288,7 @@ in well defined environment which support exactly those resources that are neede
 As tests are run on various architectures you need to choose golang or gcc-go.
 Thus the subpackage is architecture specific. And as tests in %check section
 are run only on tests provided by unit-test subpackage, 'if go_arches' and
-'ifarch gccgo_arches' are under %package unit-test again.
+'if isgccgoarch' are under %package unit-test again.
 
 #### Review request
 
