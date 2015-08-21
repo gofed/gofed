@@ -290,6 +290,13 @@ Thus the subpackage is architecture specific. And as tests in %check section
 are run only on tests provided by unit-test subpackage, 'if go_arches' and
 'if isgccgoarch' are under %package unit-test again.
 
+#### Generating spec file with %build section
+
+If you run 'gofed repo2spec' with --with-build option, build section is
+generated as well. It contains heads up with with_debug and with_bundled
+macros wrapping building parts of golang project. For example, setting
+build ID, setting GOPATH macro or choosing to correct compiler.
+
 #### Review request
 
 To get a new package into Fedora, review request has to be created.
