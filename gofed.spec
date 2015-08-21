@@ -3,11 +3,12 @@
 %global provider_tld    com
 %global project        	ingvagabund
 %global repo            gofed
-%global commit		eb25be846bcf20980f93b5e0587827811be1d46c
+%global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}
+%global commit		2a3a173bd9c964efa848d6563b2aebe0f68d7e58
 %global shortcommit	%(c=%{commit}; echo ${c:0:7})
 
 Name:		gofed
-Version:	0.0.5
+Version:	0.0.8
 Release:	0.1.git%{shortcommit}%{?dist}
 Summary:	Tool for development of golang devel packages
 License:	GPLv2+
@@ -91,13 +92,19 @@ cp -r data %{buildroot}%{_sharedstatedir}/%{name}/.
 ln -s /usr/share/%{name}/%{name} %{buildroot}/usr/bin/%{name}
 # symlinks
 cp build gcp pull push scratch-build update bbobranches %{buildroot}/usr/share/%{name}/.
+# create directory for local repositories
+install -m 0755 -d %{buildroot}%{_sharedstatedir}/%{name}/packages
 
+%pre
+getent group gofed >/dev/null || groupadd -r gofed
+getent passwd gofed >/dev/null || useradd -r -g gofed -d / -s /sbin/nologin \
+        -c "Gofed user" kube
 %files
 %doc README.md LICENSE
 %config(noreplace) /etc/gofed.conf
 %{_sysconfdir}/bash_completion.d/%{name}
 %{_sysconfdir}/bash_completion.d/gofed-base_bash_completion
-%{_sharedstatedir}/%{name}/data/packages
+%attr(0775, -, gofed) %{_sharedstatedir}/%{name}/packages
 /usr/share/%{name}/plugins/gofed-base.json
 /usr/share/%{name}/modules
 /usr/share/%{name}/*.py*
@@ -141,6 +148,9 @@ gofed tools --waitbbo --dry test
 gofed wizard --scratch --dry
 
 %changelog
+* Thu Aug 20 2015 jchaloup <jchaloup@redhat.com> - 0.0.8-0.1.git2a3a173
+- Bump to upstream 2a3a173bd9c964efa848d6563b2aebe0f68d7e58
+
 * Sat Jul 11 2015 jchaloup <jchaloup@redhat.com> - 0.0.5-0.1.giteb25be8
 - Initial commit for Fedora
 
