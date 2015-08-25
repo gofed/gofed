@@ -26,13 +26,13 @@ def displayApiDifference(status, color=True, msg_type=MSG_POS & MSG_NEUTRAL & MS
 					if color:
 						lines.append("%s%s%s" % (RED, status[pkg], ENDC))
 					else:
-						lines.append("%s" % msg)
+						lines.append("%s" % status[pkg])
 			else:
 				if msg_type & MSG_POS > 0:
 					if color:
 						lines.append("%s%s%s" % (BLUE, status[pkg], ENDC))
 					else:
-						lines.append("%s" % msg)
+						lines.append("%s" % status[pkg])
 
 			for line in lines:
 				print line
