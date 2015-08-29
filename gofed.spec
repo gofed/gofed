@@ -98,7 +98,7 @@ install -m 755 -d %{buildroot}/usr/bin
 cp -r data %{buildroot}%{_sharedstatedir}/%{name}/.
 ln -s /usr/share/%{name}/%{name} %{buildroot}/usr/bin/%{name}
 # symlinks
-cp build gcp pull push scratch-build update bbobranches %{buildroot}/usr/share/%{name}/.
+cp build gcp pull push scratch-build update bbobranches bitbucket2gospec github2gospec googlecode2gospec %{buildroot}/usr/share/%{name}/.
 # create directory for local repositories
 install -m 0755 -d %{buildroot}%{_sharedstatedir}/%{name}/packages
 
@@ -125,6 +125,9 @@ getent passwd gofed >/dev/null || useradd -r -g gofed -d / -s /sbin/nologin \
 /usr/share/%{name}/push
 /usr/share/%{name}/scratch-build
 /usr/share/%{name}/update
+/usr/share/%{name}/bitbucket2gospec
+/usr/share/%{name}/github2gospec
+/usr/share/%{name}/googlecode2gospec
 %{_mandir}/man1/gofed.1.gz
 %{_sharedstatedir}/%{name}/data/golang.*
 %{_sharedstatedir}/%{name}/data/repo.hints
