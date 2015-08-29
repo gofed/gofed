@@ -237,7 +237,7 @@ class SpecGenerator:
 		self.file.write("%endif\n")
 
 	def generateUnitTestHeader(self):
-		self.file.write("%if 0%{?with_unit_test}\n")
+		self.file.write("%if 0%{?with_unit_test} && 0%{?with_devel}\n")
 		self.file.write("%package unit-test\n")
 		self.file.write("Summary:         Unit tests for %{name} package\n")
 		self.file.write("# If go_arches not defined fall through to implicit golang archs\n")
@@ -348,7 +348,7 @@ class SpecGenerator:
 		self.file.write("%endif\n\n")
 
 		self.file.write("# testing files for this project\n")
-		self.file.write("%if 0%{?with_unit_test}\n")
+		self.file.write("%if 0%{?with_unit_test} && 0%{?with_devel}\n")
 		self.file.write("install -d -p %{buildroot}/%{gopath}/src/%{import_path}/\n")
 		self.file.write("# find all *_test.go files and generate unit-test.file-list\n")
 		self.file.write("for file in $(find . -iname \"*_test.go\"); do\n")
@@ -430,7 +430,7 @@ class SpecGenerator:
 		self.file.write("%dir %{gopath}/src/%{import_path}\n")
 		self.file.write("%endif\n\n")
 
-		self.file.write("%if 0%{?with_unit_test}\n")
+		self.file.write("%if 0%{?with_unit_test} && 0%{?with_devel}\n")
 		self.file.write("%files unit-test -f unit-test.file-list\n")
 
 		if license != []:
