@@ -139,7 +139,7 @@ class SpecGenerator:
 		self.file.write("URL:            https://%{provider_prefix}\n")
 		self.file.write("Source0:        https://%{provider_prefix}/get/%%{shortcommit}.tar.gz\n")
 
-	def generateHeaderPrologue(self):
+	def generateHeaderPrologue(self, project, prefix):
 		self.file.write("# If go_arches not defined fall through to implicit golang archs\n")
 		self.file.write("%if 0%{?go_arches:1}\n")
 		self.file.write("ExclusiveArch:  %{go_arches}\n")
@@ -152,6 +152,16 @@ class SpecGenerator:
 		self.file.write("%else\n")
 		self.file.write("BuildRequires:   golang\n")
 		self.file.write("%endif\n\n")
+
+		if self.with_build:
+			imported_packages = project.getImportedPackages()
+			self.file.write("%if ! 0%{?with_bundled}\n")
+			for dep in imported_packages:
+				if dep.startswith(prefix):
+					continue
+
+				self.file.write("BuildRequires: golang(%s)\n" % (dep))
+			self.file.write("%endif\n")
 
                 self.file.write("%description\n")
                 self.file.write("%{summary}\n")
@@ -467,7 +477,7 @@ class SpecGenerator:
 			self.generateBitbucketHeader(project, repository, url, provider_prefix, commit)
 
 		self.file.write("\n")
-		self.generateHeaderPrologue()
+		self.generateHeaderPrologue(prj_info, prefix)
 
 		# generate devel subpackage
 		self.generateDevelHeader(prj_info, prefix)
