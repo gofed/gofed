@@ -341,6 +341,7 @@ class SpecGenerator:
 		self.file.write("install -d -p %{buildroot}/%{gopath}/src/%{import_path}/\n")
 		self.file.write("# find all *.go but no *_test.go files and generate devel.file-list\n")
 		self.file.write("for file in $(find . -iname \"*.go\" \! -iname \"*_test.go\") ; do\n")
+		self.file.write("    echo \"%%{gopath}/src/%%{import_path}/$(dirname $file)\" >> devel.file-list\n")
 		self.file.write("    install -d -p %{buildroot}/%{gopath}/src/%{import_path}/$(dirname $file)\n")
 		self.file.write("    cp -pav $file %{buildroot}/%{gopath}/src/%{import_path}/$file\n")
 		self.file.write("    echo \"%%{gopath}/src/%%{import_path}/$file\" >> devel.file-list\n")
@@ -352,10 +353,15 @@ class SpecGenerator:
 		self.file.write("install -d -p %{buildroot}/%{gopath}/src/%{import_path}/\n")
 		self.file.write("# find all *_test.go files and generate unit-test.file-list\n")
 		self.file.write("for file in $(find . -iname \"*_test.go\"); do\n")
+		self.file.write("    echo \"%%{gopath}/src/%%{import_path}/$(dirname $file)\" >> devel.file-list\n")
 		self.file.write("    install -d -p %{buildroot}/%{gopath}/src/%{import_path}/$(dirname $file)\n")
 		self.file.write("    cp -pav $file %{buildroot}/%{gopath}/src/%{import_path}/$file\n")
 		self.file.write("    echo \"%%{gopath}/src/%%{import_path}/$file\" >> unit-test.file-list\n")
 		self.file.write("done\n")
+		self.file.write("%endif\n\n")
+
+		self.file.write("%if 0%{?with_devel}\n")
+		self.file.write("sort -u -o devel.file-list devel.file-list\n")
 		self.file.write("%endif\n")
 
 	def generateCheckSection(self, project):
