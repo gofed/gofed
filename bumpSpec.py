@@ -11,7 +11,7 @@ def getSpec():
 	else:
 		return so.strip().split(" ")[0]
 
-def getMacros(spec):
+def getMacros(spec, repoprefix):
 
 	err = ""
 	macros = {}
@@ -20,10 +20,24 @@ def getMacros(spec):
 		err = obj.getError()
 		return err, {}, -1
 
-	macros["project"] = obj.getMacro("project")
-	macros["repo"] = obj.getMacro("repo")
-	macros["provider"] = obj.getMacro("provider")
-	macros["commit"] = obj.getMacro("commit")
+	if repoprefix == "":
+		macros["project"] = obj.getMacro("project")
+		macros["repo"] = obj.getMacro("repo")
+		macros["provider"] = obj.getMacro("provider")
+		macros["commit"] = obj.getMacro("commit")
+		macros["ip"] = obj.getMacro("provider_prefix")
+		if macros["ip"] == "":
+			macros["ip"] = obj.getMacro("import_path")
+
+	else:
+		macros["project"] = obj.getMacro("%s_project" % repoprefix)
+		macros["repo"] = obj.getMacro("%s_repo" % repoprefix)
+		macros["provider"] = obj.getMacro("%s_provider" % repoprefix)
+		macros["commit"] = obj.getMacro("%s_commit" % repoprefix)
+		macros["ip"] = obj.getMacro("%s_provider_prefix" % repoprefix)
+		if macros["ip"] == "":
+			macros["ip"] = obj.getMacro("%s_import_path" % repoprefix)
+
 	last_bug_id = obj.getBugIdFromLastChangelog()
 
 	if macros["project"] == "":
@@ -42,11 +56,6 @@ def getMacros(spec):
 		err = "unable to detect commit macro"
 		return err, {}, -1
 
-	macros["ip"] = obj.getMacro("provider_prefix")
-
-	if macros["ip"] == "":
-		macros["ip"] = obj.getMacro("import_path")
-
 	if macros["ip"] == "":
 		err = "Unable to detect provider URL"
 		return err, {}, -1
@@ -59,8 +68,14 @@ def downloadTarball(archive_url):
 		print "%sUnable to download tarball:\n%s%s" % (RED, se, ENDC)
 		exit(1)
 
-def updateSpec(spec, commit):
-	so, se, rc = runCommand("sed -i -e \"s/%%global commit\([[:space:]]\+\)[[:xdigit:]]\{40\}/%%global commit\\1%s/\" %s" % (commit, spec))
+def updateSpec(spec, commit, repoprefix):
+	if repoprefix == "":
+		commit_macro = "commit"
+	else:
+		commit_macro = "%s_commit" % repoprefix
+	cmd = "sed -i -e \"s/%%global %s\([[:space:]]\+\)[[:xdigit:]]\{40\}/%%global %s\\1%s/\" %s" % (commit_macro, commit_macro, commit, spec)
+
+	so, se, rc = runCommand(cmd)
 	if rc != 0:
 		return False
 	else:
@@ -97,6 +112,16 @@ if __name__ == "__main__":
 	    help = "Skip checks for tags and releases."
 	)
 
+	parser.add_option(
+	    "", "", "--repo-prefix", dest="repoprefix", default = "",
+	    help = "Update tarball for repo macro prefixed with repo-prefix."
+	)
+
+	parser.add_option(
+	    "", "", "--no-bump", dest="nobump", action="store_true", default = False,
+	    help = "Don't bump spec file"
+	)
+
 	options, args = parser.parse_args()
 
 	# must be on master branch
@@ -120,7 +145,7 @@ if __name__ == "__main__":
 
 	# get macros
 	print "Reading macros from %s" % spec
-	err, macros, last_bug_id = getMacros(spec)
+	err, macros, last_bug_id = getMacros(spec, options.repoprefix)
 	if err != "":
 		print err
 		exit(2)
@@ -170,13 +195,14 @@ if __name__ == "__main__":
 
 	# update spec file
 	print "Updating spec file"
-	if not updateSpec(spec, commit):
+	if not updateSpec(spec, commit, options.repoprefix):
 		print "Unable to update spec file"
 		exit(5)
 
 	# bump spec file
-	print "Bumping spec file"
-	if not bumpSpec(spec, commit, last_bug_id):
-		print "Unable to bump spec file"
-		exit(6)
+	if not options.nobump:
+		print "Bumping spec file"
+		if not bumpSpec(spec, commit, last_bug_id):
+			print "Unable to bump spec file"
+			exit(6)
 
