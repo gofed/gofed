@@ -98,7 +98,7 @@ install -m 755 -d %{buildroot}/usr/bin
 cp -r data %{buildroot}%{_sharedstatedir}/%{name}/.
 ln -s /usr/share/%{name}/%{name} %{buildroot}/usr/bin/%{name}
 # symlinks
-cp build gcp pull push scratch-build update bbobranches bitbucket2gospec github2gospec googlecode2gospec %{buildroot}/usr/share/%{name}/.
+cp -d build gcp pull push scratch-build update bbobranches bitbucket2gospec github2gospec googlecode2gospec %{buildroot}/usr/share/%{name}/.
 # create directory for local repositories
 install -m 0755 -d %{buildroot}%{_sharedstatedir}/%{name}/packages
 
