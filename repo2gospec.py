@@ -113,6 +113,11 @@ def setOptions():
             help = "Generate spec file with %build section"
         )
 
+	parser.add_option(
+            "", "", "--with-extra", dest="withextra", action = "store_true", default = False,
+            help = "Generate spec file with additional pieces (e.g. definition of %gobuild and %gotest for explicit distributions)"
+        )
+
 	return parser.parse_args()
 
 def checkOptions(options):
@@ -281,7 +286,7 @@ if __name__ == "__main__":
 		fmt_obj.printError(pkg_obj.getError())
 		exit(1)
 
-	spec = SpecGenerator(import_path, commit, skiperrors = options.skiperrors, with_build = options.withbuild)
+	spec = SpecGenerator(import_path, commit, skiperrors = options.skiperrors, with_build = options.withbuild, with_extra = options.withextra)
 	spec.setPackageInfo(pkg_obj)
 
 	try:
