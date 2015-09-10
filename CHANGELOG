@@ -1,4 +1,12 @@
 ========Changelog for gofed========
+Change in 0.0.9 (10 September 2015)
+- gofed repo2spec --with-build: generated full list of BR for main package if the option is specified
+- gofed repo2spec: generated unit-test subpackage only if devel subpackage is
+- gofed repo2spec: devel subpackage now owns all directories installed by devel and unit-test subpackages
+- gofed bump: add --repo-prefix and --no-bump options
+- spec files is no generated with simplified ExclusiveArch and BuildArch (with virtual compiler(go-compiler) provided defined in go-compilers package)
+- minor bug fixes
+
 Changes in 0.0.8 (21 August 2015)
 - don't generated Provides with internal keyword (update gofed lint and spec file generators)
 - gofed repo2spec: add --with-build option to generated build section
