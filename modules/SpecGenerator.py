@@ -49,14 +49,6 @@ class SpecGenerator:
 		self.file.write("%global debug_package   %{nil}\n")
 		self.file.write("%endif\n\n")
 
-		# license
-		self.file.write("%define copying() \\\n")
-		self.file.write("%if 0%{?fedora} >= 21 || 0%{?rhel} >= 7 \\\n")
-		self.file.write("%license %{*} \\\n")
-		self.file.write("%else \\\n")
-		self.file.write("%doc %{*} \\\n")
-		self.file.write("%endif\n\n")
-
 		# %gobuild macro default definition
 		if self.with_extra and self.with_build:
 			self.file.write("%if ! 0%{?gobuild:1}\n")
@@ -351,10 +343,13 @@ class SpecGenerator:
 				else:
 					restdocs.append(doc)
 
+		self.file.write("#define license tag if not already defined\n")
+		self.file.write("%{!?_licensedir:%global license %doc}\n\n")
+
 		if self.with_build:
 			self.file.write("%files\n")
 			if license != []:
-				self.file.write("%%copying %s\n" % (" ".join(licenses)))
+				self.file.write("%%license %s\n" % (" ".join(licenses)))
 			if restdocs != []:
 				self.file.write("%%doc %s\n" % (" ".join(restdocs)))
 
@@ -366,7 +361,7 @@ class SpecGenerator:
 		self.file.write("%files devel -f devel.file-list\n")
 
 		if license != []:
-			self.file.write("%%copying %s\n" % (" ".join(licenses)))
+			self.file.write("%%license %s\n" % (" ".join(licenses)))
 		if restdocs != []:
 			self.file.write("%%doc %s\n" % (" ".join(restdocs)))
 
@@ -388,7 +383,7 @@ class SpecGenerator:
 		self.file.write("%files unit-test -f unit-test.file-list\n")
 
 		if license != []:
-			self.file.write("%%copying %s\n" % (" ".join(licenses)))
+			self.file.write("%%license %s\n" % (" ".join(licenses)))
 		if restdocs != []:
 			self.file.write("%%doc %s\n" % (" ".join(restdocs)))
 
