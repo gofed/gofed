@@ -169,43 +169,24 @@ gcc-go compiler is an option. To cover this situtation, the following lines
 in spec file are generated:
 
 ```vim
-# If go_arches not defined fall through to implicit golang archs
-%if 0%{?go_arches:1}
-ExclusiveArch:  %{go_arches}
-%else
-ExclusiveArch:   %{ix86} x86_64 %{arm}
-%endif
-# If gccgo_arches does not fit or is not defined fall through to golang
-%if %{isgccgoarch}
-BuildRequires:   gcc-go >= %{gccgo_min_vers}
-%else
-BuildRequires:   golang
-%endif
+# e.g. el6 has ppc64 arch without gcc-go, so EA tag is required
+ExclusiveArch:  %{?go_arches:%{go_arches}}%{!?go_arches:%{ix86} x86_64 %{arm}}
+# If go_compiler is not set to 1, there is no virtual provide. Use golang instead.
+BuildRequires:  %{?go_compiler:compiler(go-compiler)}%{!?go_compiler:golang}
 ```
 
-This is not the smallest and the clearest way how to do it. However, it is clear
-what you get. Macro go_arches defines a list of all architectures that are
+Macro go_arches defines a list of all architectures that are
 supported by both golang and gcc-go compiler. If the macro is not defined
 explicit list of architectures for golang is used. The macro is not defined
 in epel6. On Fedora 21 it contains only a list of architectures supported
 by golang.
 
-The second part chooses the correct compiler. Again, if we build for
-architectures supported by gcc-go, choose gcc-go. Otherwise, if gcc_go_arches
-macro is not defined (the case for epel6 and Fedora 21) or rpm is not built
-on architectures supported by gcc-go, choose golang. Macro isgccgoarch hides
-test if gcc_go_arches is defined and if we build on architectures listed
-in gcc_go_arches.
-
-Usually there is no %files section for main subpackage so we could choose
-'BuildArch: noarch'. However, as SRPM is generated based on BuildArch or
-ExclusiveArch of main subpackage, all subpackages of a spec file get build
-as no arch. Thus, ExclusiveArch is set no matter what.
-
-For BuildRequires, again it does not make sense to use it if the main
-subpackage does not provide any file. However, if with_unit_test macro is
-disabled, no subpackage on F21 or EPEL6 does BuildRequires golang.
-Thus gopath macro is not defined, which is used in %files devel section.
+The second part chooses the correct compiler. To make architectures specific
+compiler transparent to user, compiler(go-compiler) virtual provide is
+introduced. It installs the correct compiler on all supported architectures.
+The virtual provide is defined in go-compilers package. The package also
+defines go_compiler macro. If there is no go-compiler package, go_compiler
+is undefined and implicit compiler is used.
 
 ##### Devel subpackage
 
@@ -285,17 +266,15 @@ need internet connection, specific configuration or services running, those
 tests can not be run during building. In CI, unit-test subpackage can be run
 in well defined environment which support exactly those resources that are needed.
 
-As tests are run on various architectures you need to choose golang or gcc-go.
-Thus the subpackage is architecture specific. And as tests in %check section
-are run only on tests provided by unit-test subpackage, 'if go_arches' and
-'if isgccgoarch' are under %package unit-test again.
+As tests are run on various architectures virtual provide is used again.
+For that reason the subpackage is architecture specific.
 
 #### Generating spec file with %build section
 
 If you run 'gofed repo2spec' with --with-build option, build section is
 generated as well. It contains heads up with with_debug and with_bundled
 macros wrapping building parts of golang project. For example, setting
-build ID, setting GOPATH macro or choosing to correct compiler.
+GOPATH macro or choosing to correct compiler.
 
 #### Review request
 
