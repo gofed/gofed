@@ -6,13 +6,14 @@ from Utils import runCommand
 
 class SpecGenerator:
 
-	def __init__(self, import_path, commit="", skiperrors=False, with_build = False):
+	def __init__(self, import_path, commit="", skiperrors=False, with_build = False, with_extra = False):
 		self.import_path = import_path
 		self.commit = commit
 		self.spec_name = ""
 		self.pkg_info = None
 		self.warn = ""
 		self.with_build = with_build
+		self.with_extra = with_extra
 
 	def getWarning(self):
 		return self.warn
@@ -56,13 +57,15 @@ class SpecGenerator:
 		self.file.write("%doc %{*} \\\n")
 		self.file.write("%endif\n\n")
 
-		# ifgccgo
-		self.file.write("%global isgccgoarch 0\n")
-		self.file.write("%if 0%{?gccgo_arches:1}\n")
-		self.file.write("%ifarch %{gccgo_arches}\n")
-		self.file.write("%global isgccgoarch 1\n")
-		self.file.write("%endif\n")
-		self.file.write("%endif\n\n")
+		# %gobuild and %gotest macros default definition
+		if self.with_extra:
+			self.file.write("%if ! 0%{?gobuild:1}\n")
+			self.file.write("%define gobuild(o:) go build -ldflags \"${LDFLAGS:-} -B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \\\\n')\" -a -v -x %{?**};\n")
+			self.file.write("%endif\n")
+			self.file.write("\n")
+			self.file.write("%if ! 0%{?gotest:1}\n")
+			self.file.write("%define gotest() go test -ldflags \"${LDFLAGS:-}\" %{?**}\n")
+			self.file.write("%endif\n\n")
 
 	def generateGithubHeader(self, project, repository, url, provider_prefix, commit):
 		self.file.write("%global provider        github\n")
@@ -140,18 +143,10 @@ class SpecGenerator:
 		self.file.write("Source0:        https://%{provider_prefix}/get/%%{shortcommit}.tar.gz\n")
 
 	def generateHeaderPrologue(self, project, prefix):
-		self.file.write("# If go_arches not defined fall through to implicit golang archs\n")
-		self.file.write("%if 0%{?go_arches:1}\n")
-		self.file.write("ExclusiveArch:  %{go_arches}\n")
-		self.file.write("%else\n")
-		self.file.write("ExclusiveArch:   %{ix86} x86_64 %{arm}\n")
-		self.file.write("%endif\n")
-		self.file.write("# If gccgo_arches does not fit or is not defined fall through to golang\n")
-		self.file.write("%if %{isgccgoarch}\n")
-		self.file.write("BuildRequires:   gcc-go >= %{gccgo_min_vers}\n")
-		self.file.write("%else\n")
-		self.file.write("BuildRequires:   golang\n")
-		self.file.write("%endif\n\n")
+		self.file.write("# e.g. el6 has ppc64 arch without gcc-go, so EA tag is required\n")
+		self.file.write("ExclusiveArch:  %{?go_arches:%{go_arches}}%{!?go_arches:%{ix86} x86_64 %{arm}}\n")
+		self.file.write("# If go_compiler is not set to 1, there is no virtual provide. Use golang instead.\n")
+		self.file.write("BuildRequires:  %{?go_compiler:compiler(go-compiler)}%{!?go_compiler:golang}\n\n")
 
 		if self.with_build:
 			imported_packages = project.getImportedPackages()
@@ -161,7 +156,7 @@ class SpecGenerator:
 					continue
 
 				self.file.write("BuildRequires: golang(%s)\n" % (dep))
-			self.file.write("%endif\n")
+			self.file.write("%endif\n\n")
 
                 self.file.write("%description\n")
                 self.file.write("%{summary}\n")
@@ -240,12 +235,8 @@ class SpecGenerator:
 		self.file.write("%if 0%{?with_unit_test} && 0%{?with_devel}\n")
 		self.file.write("%package unit-test\n")
 		self.file.write("Summary:         Unit tests for %{name} package\n")
-		self.file.write("# If gccgo_arches does not fit or is not defined fall through to golang\n")
-		self.file.write("%if %{isgccgoarch}\n")
-		self.file.write("BuildRequires:   gcc-go >= %{gccgo_min_vers}\n")
-		self.file.write("%else\n")
-		self.file.write("BuildRequires:   golang\n")
-		self.file.write("%endif\n\n")
+		self.file.write("# If go_compiler is not set to 1, there is no virtual provide. Use golang instead.\n")
+		self.file.write("BuildRequires:  %{?go_compiler:compiler(go-compiler)}%{!?go_compiler:golang}\n\n")
 		self.file.write("%if 0%{?with_check}\n")
 		self.file.write("#Here comes all BuildRequires: PACKAGE the unit tests\n#in %%check section need for running\n")
 		self.file.write("%endif\n")
@@ -275,35 +266,6 @@ class SpecGenerator:
 
 		if self.with_build:
 			parts = url.split("/")
-			self.file.write("# If gccgo_arches does not fit or is not defined fall through to golang\n")
-			self.file.write("# gccco arches\n")
-			self.file.write("%if %{isgccgoarch}\n")
-			self.file.write("%if 0%{?gcc_go_build:1}\n")
-			self.file.write("export GOCOMPILER='%{gcc_go_build}'\n")
-			self.file.write("%else\n")
-			self.file.write("echo \"No compiler for SA\"\n")
-			self.file.write("exit 1\n")
-			self.file.write("%endif\n")
-			self.file.write("# golang arches (due to ExclusiveArch)\n")
-			self.file.write("%else\n")
-			self.file.write("%if 0%{?golang_build:1}\n")
-			self.file.write("export GOCOMPILER='%{golang_build}'\n")
-			self.file.write("%else\n")
-			self.file.write("export GOCOMPILER='go build'\n")
-			self.file.write("%endif\n")
-			self.file.write("%endif\n")
-			self.file.write("\n")
-
-			# with debug part
-			self.file.write("%if 0%{?with_debug} && !%{isgccgoarch}\n")
-			self.file.write("function gobuild {\n")
-			self.file.write("local LDFLAGS=\"${LDFLAGS:-} -B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \\n')\"\n")
-			self.file.write("eval ${GOCOMPILER} -a -v -x \"$@\";\n")
-			self.file.write("}\n")
-			self.file.write("%else\n")
-			self.file.write("function gobuild { eval ${GOCOMPILER} -a -v -x \"$@\"; }\n")
-			self.file.write("%endif\n")
-			self.file.write("\n")
 
 			# building itself
 			self.file.write("mkdir -p src/%s\n" % "/".join(parts[:-1]))
@@ -315,7 +277,7 @@ class SpecGenerator:
 			self.file.write("export GOPATH=$(pwd):$(pwd)/Godeps/_workspace:%{gopath}\n")
 			self.file.write("%endif\n")
 			self.file.write("\n")
-			self.file.write("#gobuild -o bin/NAME %{import_path}/NAME\n")
+			self.file.write("#%gobuild -o bin/NAME %{import_path}/NAME\n")
 
 	def generateInstallSection(self, direct_go_files = False):
 		self.file.write("%install\n")
@@ -355,15 +317,6 @@ class SpecGenerator:
 	def generateCheckSection(self, project):
 		self.file.write("%check\n")
 		self.file.write("%if 0%{?with_check} && 0%{?with_unit_test} && 0%{?with_devel}\n")
-		self.file.write("%if %{isgccgoarch}\n")
-		self.file.write("function gotest { %{gcc_go_test} \"$@\"; }\n")
-		self.file.write("%else\n")
-		self.file.write("%if 0%{?golang_test:1}\n")
-		self.file.write("function gotest { %{golang_test} \"$@\"; }\n")
-		self.file.write("%else\n")
-		self.file.write("function gotest { go test \"$@\"; }\n")
-		self.file.write("%endif\n")
-		self.file.write("%endif\n\n")
 		self.file.write("%if ! 0%{?with_bundled}\n")
 		self.file.write("export GOPATH=%{buildroot}/%{gopath}:%{gopath}\n")
 		self.file.write("%else\n")
@@ -377,7 +330,7 @@ class SpecGenerator:
 			if dir != ".":
 				sufix = "/%s" % dir
 
-			self.file.write("gotest %%{import_path}%s\n" % sufix)
+			self.file.write("%%gotest %%{import_path}%s\n" % sufix)
 		self.file.write("%endif\n")
 
 	def generateFilesSection(self, provider, project, ip_prefix = ""):
