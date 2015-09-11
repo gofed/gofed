@@ -284,6 +284,7 @@ class SpecGenerator:
 		self.file.write("# source codes for building projects\n")
 		self.file.write("%if 0%{?with_devel}\n")
 		self.file.write("install -d -p %{buildroot}/%{gopath}/src/%{import_path}/\n")
+		self.file.write("echo \"%%dir %%{gopath}/src/%%{import_path}/.\" >> devel.file-list\n")
 		self.file.write("# find all *.go but no *_test.go files and generate devel.file-list\n")
 		self.file.write("for file in $(find . -iname \"*.go\" \! -iname \"*_test.go\") ; do\n")
 		self.file.write("    echo \"%%dir %%{gopath}/src/%%{import_path}/$(dirname $file)\" >> devel.file-list\n")
@@ -376,7 +377,6 @@ class SpecGenerator:
 			else:
 				self.file.write("%dir %{gopath}/src/%{provider}.%{provider_tld}/%{project}\n")
 
-		self.file.write("%dir %{gopath}/src/%{import_path}\n")
 		self.file.write("%endif\n\n")
 
 		self.file.write("%if 0%{?with_unit_test} && 0%{?with_devel}\n")
