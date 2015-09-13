@@ -56,12 +56,6 @@ class SpecGenerator:
 			self.file.write("%endif\n")
 			self.file.write("\n")
 
-		# %gotest macro default definition
-		if self.with_extra:
-			self.file.write("%if ! 0%{?gotest:1}\n")
-			self.file.write("%define gotest() go test -ldflags \"${LDFLAGS:-}\" %{?**}\n")
-			self.file.write("%endif\n\n")
-
 	def generateGithubHeader(self, project, repository, url, provider_prefix, commit):
 		self.file.write("%global provider        github\n")
 		self.file.write("%global provider_tld    com\n")
@@ -318,6 +312,12 @@ class SpecGenerator:
 		self.file.write("%else\n")
 		self.file.write("export GOPATH=%{buildroot}/%{gopath}:$(pwd)/Godeps/_workspace:%{gopath}\n")
 		self.file.write("%endif\n")
+
+		# %gotest macro default definition
+		if self.with_extra:
+			self.file.write("%if ! 0%{?gotest:1}\n")
+			self.file.write("%global gotest go test\n")
+			self.file.write("%endif\n")
 
 		sdirs = sorted(project.getTestDirectories())
                 for dir in sdirs:
