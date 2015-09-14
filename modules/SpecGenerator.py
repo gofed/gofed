@@ -311,13 +311,13 @@ class SpecGenerator:
 		self.file.write("export GOPATH=%{buildroot}/%{gopath}:%{gopath}\n")
 		self.file.write("%else\n")
 		self.file.write("export GOPATH=%{buildroot}/%{gopath}:$(pwd)/Godeps/_workspace:%{gopath}\n")
-		self.file.write("%endif\n")
+		self.file.write("%endif\n\n")
 
 		# %gotest macro default definition
 		if self.with_extra:
 			self.file.write("%if ! 0%{?gotest:1}\n")
 			self.file.write("%global gotest go test\n")
-			self.file.write("%endif\n")
+			self.file.write("%endif\n\n")
 
 		sdirs = sorted(project.getTestDirectories())
                 for dir in sdirs:
