@@ -23,6 +23,11 @@ class GoSymbolsExtractor(Base):
 		self.test_directories = []
 		# main packages
 		self.main_packages = []
+		# Godeps directory is present
+		self.godeps_on = False
+
+	def godepsDirectoryExists(self):
+		return self.godeps_on
 
 	def getSymbols(self):
 		return self.symbols
@@ -116,6 +121,9 @@ class GoSymbolsExtractor(Base):
 		main_packages = []
 
 		for dir_info in self.getGoFiles(self.directory):
+			if dir_info["dir"].startswith("Godeps"):
+				self.godeps_on = True
+
 			#if sufix == ".":
 			#	sufix = bname
 			pkg_name = ""

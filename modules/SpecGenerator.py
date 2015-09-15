@@ -268,7 +268,9 @@ class SpecGenerator:
 			self.file.write("\n")
 			self.file.write("#%gobuild -o bin/NAME %{import_path}/NAME\n")
 
-	def generateInstallSection(self, direct_go_files = False):
+	def generateInstallSection(self, prj_info, direct_go_files = False):
+		godeps_on = prj_info.godepsDirectoryExists()
+
 		self.file.write("%install\n")
 		if self.with_build:
 			self.file.write("install -d -p %{buildroot}%{_bindir}\n")
@@ -280,7 +282,10 @@ class SpecGenerator:
 		self.file.write("install -d -p %{buildroot}/%{gopath}/src/%{import_path}/\n")
 		self.file.write("echo \"%%dir %%{gopath}/src/%%{import_path}/.\" >> devel.file-list\n")
 		self.file.write("# find all *.go but no *_test.go files and generate devel.file-list\n")
-		self.file.write("for file in $(find . -iname \"*.go\" \! -iname \"*_test.go\") ; do\n")
+		if godeps_on:
+			self.file.write("for file in $(find . -iname \"*.go\" \! -iname \"*_test.go\" | grep -v \"./Godeps\") ; do\n")
+		else:
+			self.file.write("for file in $(find . -iname \"*.go\" \! -iname \"*_test.go\") ; do\n")
 		self.file.write("    echo \"%%dir %%{gopath}/src/%%{import_path}/$(dirname $file)\" >> devel.file-list\n")
 		self.file.write("    install -d -p %{buildroot}/%{gopath}/src/%{import_path}/$(dirname $file)\n")
 		self.file.write("    cp -pav $file %{buildroot}/%{gopath}/src/%{import_path}/$file\n")
@@ -292,7 +297,10 @@ class SpecGenerator:
 		self.file.write("%if 0%{?with_unit_test} && 0%{?with_devel}\n")
 		self.file.write("install -d -p %{buildroot}/%{gopath}/src/%{import_path}/\n")
 		self.file.write("# find all *_test.go files and generate unit-test.file-list\n")
-		self.file.write("for file in $(find . -iname \"*_test.go\"); do\n")
+		if godeps_on:
+			self.file.write("for file in $(find . -iname \"*_test.go\" | grep -v \"./Godeps\"); do\n")
+		else:
+			self.file.write("for file in $(find . -iname \"*_test.go\"); do\n")
 		self.file.write("    echo \"%%dir %%{gopath}/src/%%{import_path}/$(dirname $file)\" >> devel.file-list\n")
 		self.file.write("    install -d -p %{buildroot}/%{gopath}/src/%{import_path}/$(dirname $file)\n")
 		self.file.write("    cp -pav $file %{buildroot}/%{gopath}/src/%{import_path}/$file\n")
@@ -449,7 +457,7 @@ class SpecGenerator:
 		if "." in prj_info.getProvidedPackages():
 			direct_go_files = True
 
-		self.generateInstallSection(direct_go_files)
+		self.generateInstallSection(prj_info, direct_go_files)
 		self.file.write("\n")
 
 		# generate check section
