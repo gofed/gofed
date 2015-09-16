@@ -224,8 +224,6 @@ class SpecGenerator:
 		self.file.write("%if 0%{?with_unit_test} && 0%{?with_devel}\n")
 		self.file.write("%package unit-test\n")
 		self.file.write("Summary:         Unit tests for %{name} package\n")
-		self.file.write("# If go_compiler is not set to 1, there is no virtual provide. Use golang instead.\n")
-		self.file.write("BuildRequires:  %{?go_compiler:compiler(go-compiler)}%{!?go_compiler:golang}\n\n")
 		self.file.write("%if 0%{?with_check}\n")
 		self.file.write("#Here comes all BuildRequires: PACKAGE the unit tests\n#in %%check section need for running\n")
 		self.file.write("%endif\n")
