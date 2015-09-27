@@ -134,6 +134,8 @@ class SpecGenerator:
 	def generateHeaderPrologue(self, project, prefix):
 		self.file.write("# e.g. el6 has ppc64 arch without gcc-go, so EA tag is required\n")
 		self.file.write("ExclusiveArch:  %{?go_arches:%{go_arches}}%{!?go_arches:%{ix86} x86_64 %{arm}}\n")
+		# Once BuildRequires of the compiler is removed from the main package, put it back to unit-test subpackage.
+		# Otherwise %check section can not run 'go test' on tests package in the unit-test subpackage.
 		self.file.write("# If go_compiler is not set to 1, there is no virtual provide. Use golang instead.\n")
 		self.file.write("BuildRequires:  %{?go_compiler:compiler(go-compiler)}%{!?go_compiler:golang}\n\n")
 
