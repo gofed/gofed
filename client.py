@@ -38,14 +38,15 @@ def check_opts(options):
 			return False
 
 	# disjoint commands
-	if (options.list and options.info)    or (options.list and options.commit)       or \
-		(options.list and options.depth)   or (options.list and options.date)         or \
-		(options.list and options.check_commit) or                                       \
-		(options.info and options.commit)  or (options.info and options.depth)        or \
-		(options.info and options.date)    or (options.info and options.check_commit) or \
-		(options.commit and options.depth) or (options.commit and options.date)       or \
-		(options.commit and options.check_commit) or                                     \
-		(options.depth and options.date)   or (options.depth and options.check_commit):
+	if (options.list and options.info)    or (options.list and options.commit)        or \
+		(options.list and options.depth)   or (options.list and options.date)          or \
+		(options.list and options.check_commit) or                                        \
+		(options.info and options.commit)  or (options.info and options.depth)         or \
+		(options.info and options.date)    or (options.info and options.check_commit)  or \
+		(options.commit and options.depth) or (options.commit and options.date)        or \
+		(options.commit and options.check_commit) or                                      \
+		(options.depth and options.date)   or (options.depth and options.check_commit) or \
+		(options.date and options.check_commit):
 			logger.error("Error: please specify only one action to do")
 			return False
 
