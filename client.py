@@ -24,7 +24,6 @@ import json
 import logging
 from modules.RESTClient import RESTClient
 from modules.Utils import format_output
-from datetime import datetime
 from modules.Config import Config
 
 # Logger
