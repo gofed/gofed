@@ -74,6 +74,11 @@ class RESTClient:
 		ret = self.__get_http_data(url)
 		return json.loads(ret)
 
+	def query_check_deps(self, project, qcommit):
+		url = self.__url_append(self.__get_rest_url(), ['check-deps/', project, qcommit])
+		ret = self.__get_http_data(url)
+		return json.loads(ret)
+
 	# GRAPH
 	def graph_commit(self, project, qfrom, qto, graph_type):
 		url = self.__url_append(self.__get_graph_url(),

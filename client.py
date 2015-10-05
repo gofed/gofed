@@ -34,17 +34,19 @@ logger.addHandler(logging.StreamHandler(sys.stderr))
 def check_opts(options):
 	# is there something to do?
 	if not options.list and not options.info and not options.commit and \
-			not options.depth and not options.date:
+			not options.depth and not options.date and not options.check_commit:
 			logger.error("Error: nothing to do, use --help to see all available commands")
 			return False
 
 	# disjoint commands
-	if (options.list and options.info)    or (options.list and options.commit) or \
-		(options.list and options.depth)   or (options.list and options.date)   or \
-		(options.info and options.commit)  or (options.info and options.depth)  or \
-		(options.info and options.date)    or                                      \
-		(options.commit and options.depth) or (options.commit and options.date) or \
-		(options.depth and options.date):
+	if (options.list and options.info)    or (options.list and options.commit)       or \
+		(options.list and options.depth)   or (options.list and options.date)         or \
+		(options.list and options.check_commit) or                                       \
+		(options.info and options.commit)  or (options.info and options.depth)        or \
+		(options.info and options.date)    or (options.info and options.check_commit) or \
+		(options.commit and options.depth) or (options.commit and options.date)       or \
+		(options.commit and options.check_commit) or                                     \
+		(options.depth and options.date)   or (options.depth and options.check_commit):
 			logger.error("Error: please specify only one action to do")
 			return False
 
@@ -88,6 +90,19 @@ def check_opts(options):
 	if options.date:
 		if options.query_depth:
 			logger.error("Error: --query_depth is not valid for --date")
+			return False
+
+	if options.check_commit:
+		if options.query_depth:
+			logger.error("Error: --query-depth is not valid for --check-deps")
+			return False
+
+		if options.query_from or options.query_to or options.query_depth:
+			logger.error("Error: --check-deps does not require boundaries")
+			return False
+
+		if options.graph:
+			logger.error("Error: --graph is not valid for --check-deps")
 			return False
 
 	if options.json and (options.fmt or options.fancy_fmt):
@@ -217,6 +232,11 @@ if __name__ == "__main__":
 	)
 
 	parser.add_option(
+		"", "-a", "--check-deps", dest="check_commit", action = "store", type="string",
+		help = "compare commit CHECK_COMMIT with current Fedora package"
+	)
+
+	parser.add_option(
 		"", "-J", "--json", dest="json", action = "store_true", default=False,
 		help = "output in formatted JSON"
 	)
@@ -277,6 +297,8 @@ if __name__ == "__main__":
 				ret = rest_client.graph_date(options.project, options.query_from, options.query_to, options.graph)
 			else:
 				ret = rest_client.query_date(options.project, options.query_from, options.query_to)
+		elif options.check_commit:
+			ret = rest_client.query_check_deps(options.project, options.check_commit)
 		else:
 			"Error: nothing to do, use --help to see all available commands"
 	except Exception as e:
