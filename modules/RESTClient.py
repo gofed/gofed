@@ -71,7 +71,7 @@ class RESTClient:
 		if not qfrom:
 			qfrom = datetime.now()
 		url = self.__url_append(self.__get_rest_url(),
-								['date/', project, prepare_date(qfrom), prepare_date(qto)])
+								['date/', project, self.__prepare_date(qfrom), self.__prepare_date(qto)])
 		ret = self.__get_http_data(url)
 		return json.loads(ret)
 
@@ -92,7 +92,7 @@ class RESTClient:
 		return self.__get_http_data(url)
 
 	def graph_date(self, project, qfrom, qto, graph_type):
-		url = self.__url_append(self.__get_graph_url(), [graph_type, 'date/', project, prepare_date(qfrom),
-															prepare_date(qto), 'graph.svg'])
+		url = self.__url_append(self.__get_graph_url(), [graph_type, 'date/', project,
+									self.__prepare_date(qfrom), self.__prepare_date(qto), 'graph.svg'])
 		return self.__get_http_data(url)
 
