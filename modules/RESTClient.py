@@ -33,7 +33,7 @@ class RESTClient:
 		return self.__url_append(self.url, 'graph/')
 
 	def __get_http_data(self, url):
-		print "query: " + url
+		#print "query: " + url
 		response = urllib2.urlopen(url)
 		ret = response.read()
 		return ret
