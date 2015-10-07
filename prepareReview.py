@@ -27,10 +27,15 @@ if __name__ == "__main__":
 
 	options, args = parser.parse_args()
 
-	if len(args) != 1:
-		print "Synopsis: [--user=USER|-u USER] [--skip-koji] SPEC"
-		exit(1)
-	specfile = args[0]
+	# no args => take the spec file from the current directory
+	if len(args) == 0:
+		specfiles = glob("*.spec")
+		if len(specfiles) != 1:
+			print "Synopsis: [--user=USER|-u USER] [--skip-koji] SPEC"
+			exit(1)
+		specfile = specfiles[0]
+	else:
+		specfile = args[0]
 
 	user = options.user
 	if user == "":
