@@ -157,7 +157,7 @@ if __name__ == "__main__":
 
 	# only github so far
 	if provider != "github" and provider != "bitbucket":
-		print "Only githum.com and bitbucket.org are supported"
+		print "Only github.com and bitbucket.org are supported"
 		exit(2)
 
 	commit = options.commit
