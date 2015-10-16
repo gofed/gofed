@@ -67,6 +67,7 @@ class RepositoryInfo:
 		self.err = ""
 		self.ip_obj = None
 		self.archive_info = None
+		self.signature = ""
 
 	def getCommit(self):
 		return self.commit
@@ -107,6 +108,9 @@ class RepositoryInfo:
 		if self.archive_info == None:
 			self.err = "Unable to construct archive info"
 			return False
+
+		# construct signature
+		self.signature = "%s-%s-%s-%s" % (self.ip_obj.getProviderName(), project, repo, self.commit)
 
 		return True
 
@@ -264,3 +268,6 @@ class RepositoryInfo:
 			tags.append(tag["name"])
 
 		return tags
+
+	def getSignature(self):
+		return self.signature
