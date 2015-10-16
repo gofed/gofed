@@ -1,4 +1,3 @@
-import json
 import sys
 import modules.Repos
 import modules.Utils
@@ -7,29 +6,7 @@ import os
 from modules.Utils import GREEN, RED, ENDC, YELLOW
 from modules.Repos import Repos, IPMap
 from modules.RemoteSpecParser import RemoteSpecParser
-
-def getGoDeps(path):
-	deps = {}
-	try:
-		with open(path, 'r') as file:
-			json_deps = json.loads(file.read())
-	except IOError, e:
-		sys.stderr.write("%s\n" % e)
-		return {}
-
-	if "Deps" not in json_deps:
-		return {}
-
-	for dep in json_deps["Deps"]:
-		if "ImportPath" not in dep or "Rev" not in dep:
-			continue
-
-		ip = str(dep["ImportPath"])
-		rev = str(dep["Rev"])
-		deps[ip] = rev
-
-	return deps
-
+from modules.DependencyFileParser import DependencyFileParser
 
 if __name__ == "__main__":
 
@@ -59,7 +36,8 @@ if __name__ == "__main__":
 		print "JSON file %s not found" % json_file
 		exit(1)
 
-	deps = getGoDeps(json_file)
+	dp = DependencyFileParser(json_file)
+	deps = dp.parseGODEPSJSON()
 	if deps == {}:
 		print "%s is corrupted or has no dependencies" % json_file
 		exit(1)
