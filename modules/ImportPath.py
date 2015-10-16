@@ -24,6 +24,7 @@ class ImportPath(object):
 		self.import_path = import_path
 		self.err = ""
 		self.provider = UNKNOWN
+		self.provider_name = ""
 		self.provider_prefix = ""
 		self.project = ""
 		self.repository = ""
@@ -47,6 +48,9 @@ class ImportPath(object):
 	def getProviderPrefix(self):
 		return self.provider_prefix
 
+	def getProviderName(self):
+		return self.provider_name
+
 	def parse(self):
 		"""
 		Parse import path into provider, project, repository.
@@ -63,16 +67,22 @@ class ImportPath(object):
 
 		if repo == GITHUB:
 			info = self.parseGithubImportPath(url)
+			self.provider_name = "github"
 		elif repo == GOOGLECODE:
 			info = self.parseGooglecodeImportPath(url)
+			self.provider_name = "googlecode"
 		elif repo == BITBUCKET:
 			info = self.parseBitbucketImportPath(url)
+			self.provider_name = "bitbucket"
 		elif repo == GOPKG:
 			info = self.parseGopkgImportPath(url)
+			self.provider_name = "gopkg"
 		elif repo == GOOGLEGOLANGORG:
 			info = self.parseGooglegolangImportPath(url)
+			self.provider_name = "googlegolangorg"
 		elif repo == GOLANGORG:
 			info = self.parseGolangorgImportPath(url)
+			self.provider_name = "golangorg"
 		else:
 			self.err = "Import path %s not supported" % url
 			return False
