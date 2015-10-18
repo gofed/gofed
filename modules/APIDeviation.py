@@ -10,6 +10,10 @@ from ImportPath import ImportPath
 from Base import Base
 from RemoteSpecParser import RemoteSpecParser
 from SourceCodeStorage import SourceCodeStorage
+from GoSymbols import CompareSourceCodes
+from Config import Config
+from Utils import RED, ENDC, BLUE
+import json
 
 class APIDeviation(Base):
 
@@ -23,7 +27,6 @@ class APIDeviation(Base):
 		rawhide_commits = self.readPkgDBCommits(deps)
 		self.getAPIDiff(deps, rawhide_commits)
 
-
 	def importpath2pkgname(self, importpath):
 		# TODO: maybe use some sort of cache of importpath -> packagename
 		ip = ImportPath(importpath)
@@ -36,7 +39,7 @@ class APIDeviation(Base):
 		"""
 		Get a list of dependencies
 		"""
-		deps_file = "/home/jchaloup/Packages/reviews/golang-heketi/Godeps.json"
+		deps_file = "/home/jchaloup/Packages/etcd/fedora/etcd/etcd-2.2.1/Godeps/Godeps.json"
         	dp = DependencyFileParser(deps_file)
         	return dp.parseGODEPSJSON()
 		return {}
@@ -51,6 +54,16 @@ class APIDeviation(Base):
 		commits = {}
 		for ip in deps:
 			pkgname = self.importpath2pkgname(ip)
+
+			# cache
+			json_deps = []
+			with open("/tmp/test/cache.json", 'r') as file:
+				json_deps = json.loads(file.read())
+
+			if ip in json_deps:
+				commits[ip] = json_deps[ip]
+				continue
+
 			rsp = RemoteSpecParser("master", pkgname)
 			rawhide_commit = ""
 			#if not rsp.parse():
@@ -61,6 +74,7 @@ class APIDeviation(Base):
 			if rsp.parse():
 				rawhide_commit = rsp.getPackageCommits()
 
+			print "\"%s\": \"%s\"," % (ip, rawhide_commit)
 			commits[ip] = rawhide_commit
 
 		return commits
@@ -76,14 +90,64 @@ class APIDeviation(Base):
 		if self.verbose:
 			print "Collection tarballs..."
 
+		noGodeps = Config().getSkippedDirectories()
+
+		apidiff = {}
+
 		print "Upstream\t\tRawhide"
 		for ip in deps:
 			if commits[ip] == "":
 				continue
 
-			print (ip, deps[ip], commits[ip])
 			deps_dir = scs.getDirectory(ip, deps[ip])
 			commits_dir = scs.getDirectory(ip, commits[ip])
-			print (deps_dir, commits_dir)
+			#print (deps_dir, commits_dir)
+
+			cmp_src = CompareSourceCodes(skip_errors=True, noGodeps=noGodeps)
+			#print "Comparing"
+			print "Processing %s ..." % ip
+			cmp_src.compareDirs(deps_dir, commits_dir)
+
+			for e in cmp_src.getError():
+				print "Error: %s" % e
+
+			apichanges = cmp_src.getStatus()
+
+			for pkg in apichanges:
+				if pkg == "+":
+					continue
+
+				if pkg == "-":
+					if ip not in apidiff:
+						apidiff[ip] = [{'package': '', 'change': apichanges[pkg]}]
+					else:
+						apidiff[ip].append({'package': '', 'change': apichanges[pkg]})
+					continue
+
+				#print "%sPackage: %s%s" % (BLUE, pkg, ENDC)
+				for change in apichanges[pkg]:
+					if change[0] == '-':
+						if ip not in apidiff:
+							apidiff[ip] = [{'package': pkg, 'change': change}]
+						else:
+							apidiff[ip].append({'package': pkg, 'change': change})
+
+		for ip in deps:
+			if ip not in apidiff:
+				continue
+
+			print "%s: |%s - %s|" % (ip, deps[ip], commits[ip])
+			for change in apidiff[ip]:
+				print "\t%s%s%s" % (RED, change, ENDC)
+
+
+
+
+
+			# TODO:
+			# - skipp all empty apidiffs
+			# - shows only apidiffs with -
+			# - output all deps without any rawhide commits as well (smth like NOT FOUND)
+			# - cound the deviation
 
 		return {}
