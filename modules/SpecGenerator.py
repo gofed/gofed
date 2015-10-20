@@ -164,7 +164,7 @@ class SpecGenerator:
 		imported_packages = project.getImportedPackages()
 		package_imports_occurence = project.getPackageImportsOccurences()
 
-		self.file.write("%if 0%{?with_check}\n")
+		self.file.write("%if 0%{?with_check} && ! 0%{?with_bundled}\n")
 		for dep in imported_packages:
 			if dep.startswith(prefix):
 				continue
