@@ -97,9 +97,12 @@ if __name__ == "__main__":
 			else:
 				break
 
+		str_date = datetime.datetime.fromtimestamp(int(last_commit_date)).strftime('%Y-%m-%d %H:%M:%S')
+
 		for ip in classes[element]:
 			line = {}
 			line["ImportPath"] = str(ip)
+			line["Comment"] = str_date
 			line["Rev"] = last_commit
 			json_deps.append(line)
 		#print "%s: %s" % (str(element), last_commit)
