@@ -10,6 +10,8 @@ from modules.ProjectDecompositionGraphBuilder import ProjectDecompositionGraphBu
 from modules.Utils import FormatedPrint
 from modules.Config import Config
 
+from modules.ParserConfig import ParserConfig
+
 def printSCC(scc):
 	print "Cyclic dep detected (%s): %s" % (len(scc), ", ".join(scc))
 
@@ -188,7 +190,13 @@ if __name__ == "__main__":
 		exit(1)
 
 	if options.decompose != "":
-		gb = ProjectDecompositionGraphBuilder(options.decompose, skip_errors=options.skiperrors, noGodeps=noGodeps)
+		config = ParserConfig()
+		if options.skiperrors:
+			config.setSkipErrors()
+		config.setNoGodeps(noGodeps)
+		config.setImportPathPrefix(options.decompose)
+
+		gb = ProjectDecompositionGraphBuilder(config)
 		if options.fromxml != "":
 			if not gb.buildFromXml(options.fromxml):
 				fp.printError(gb.getError())

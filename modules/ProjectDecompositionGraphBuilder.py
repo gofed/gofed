@@ -7,11 +7,17 @@ from GoSymbols import Dir2GoSymbolsParser, Xml2GoSymbolsParser
 
 class ProjectDecompositionGraphBuilder(Base):
 
-	def __init__(self, import_path_prefix, skip_errors=False, noGodeps=[]):
+	def __init__(self, parser_config):
 		Base.__init__(self)
-		self.import_path_prefix = import_path_prefix
-		self.skip_errors = skip_errors
-		self.noGodeps = noGodeps
+		self.parser_config = parser_config
+
+		self.import_path_prefix = self.parser_config.getImportPathPrefix()
+		self.skip_errors = self.parser_config.skipErrors()
+		self.noGodeps = self.parser_config.getNoGodeps()
+		# if set scan only some packages (and all direct/indirect imported local packages)
+		self.partial = self.parser_config.isPartial()
+		self.include_packages = self.parser_config.getPartial()
+
 		self.api = None
 		self.nodes = []
 		self.edges = {}
