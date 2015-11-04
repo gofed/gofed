@@ -11,6 +11,9 @@ class ParserConfig:
 		self.partial = False
 		self.include_packages = []
 
+		self.imports_only = False
+		self.verbose = False
+
 	def setSkipErrors(self):
 		self.skip_errors = True
 
@@ -51,3 +54,17 @@ class ParserConfig:
 
 	def getPartial(self):
 		return self.include_packages
+
+
+	def setImportsOnly(self):
+		self.imports_only = True
+
+	def isImportsOnly(self):
+		return self.imports_only
+
+
+	def setVerbose(self):
+		self.verbose = True
+
+	def isVerbose(self):
+		return self.verbose

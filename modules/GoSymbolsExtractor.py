@@ -3,14 +3,18 @@ import json
 import sys
 from Utils import getScriptDir, runCommand
 from Base import Base
+from ParserConfig import ParserConfig
 
 class GoSymbolsExtractor(Base):
 
-	def __init__(self, directory, imports_only=False, noGodeps=[], skip_errors=False):
-		self.directory = directory
-		self.imports_only = imports_only
-		self.noGodeps = noGodeps
-		self.skip_errors = skip_errors
+	def __init__(self, parser_config):
+		self.parser_config = parser_config
+
+		self.directory = self.parser_config.getParsePath()
+		self.imports_only = self.parser_config.isImportsOnly()
+		self.noGodeps = self.parser_config.getNoGodeps()
+		self.skip_errors = self.parser_config.skipErrors()
+		self.verbose = self.parser_config.isVerbose()
 
 		self.symbols = []
 		self.symbols_position = {}

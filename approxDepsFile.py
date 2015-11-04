@@ -6,10 +6,16 @@ from modules.ImportPath import ImportPath
 import datetime
 import json
 
+from modules.ParserConfig import ParserConfig
+
 # get imported packages from GoSymbolsExtractor
 # decompose packages into classes
 # for each class read all commits from upstream repository
 # for each list of commits find the closest possible commit to inserted commit (based on date)
+
+# optionally get a list of imported packages for given subset of project's packages
+
+
 
 if __name__ == "__main__":
 	r_obj = Repos()
@@ -40,7 +46,13 @@ if __name__ == "__main__":
 	noGodeps = Config().getSkippedDirectories()
 	importpath = "github.com/influxdb/influxdb"
 
-	gse_obj = GoSymbolsExtractor(path, imports_only=True, skip_errors=True, noGodeps=noGodeps)
+	parser_config = ParserConfig()
+	parser_config.setSkipErrors()
+	parser_config.setNoGodeps(noGodeps)
+	parser_config.setImportsOnly()
+	parser_config.setParsePath(path)
+
+	gse_obj = GoSymbolsExtractor(parser_config)
 	if not gse_obj.extract():
 		fmt_obj.printError(gse_obj.getError())
 		exit(1)

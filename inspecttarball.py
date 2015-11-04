@@ -22,6 +22,7 @@ import sys
 import optparse
 from modules.GoSymbolsExtractor import GoSymbolsExtractor
 from modules.Config import Config
+from modules.ParserConfig import ParserConfig
 
 if __name__ == "__main__":
 
@@ -92,7 +93,13 @@ if __name__ == "__main__":
 				continue
 			noGodeps.append(dir)
 
-	gse_obj = GoSymbolsExtractor(path, noGodeps=noGodeps, skip_errors=options.skiperrors)
+	parser_config = ParserConfig()
+	if options.skiperrors:
+		parser_config.setSkipErrors()
+	parser_config.setNoGodeps(noGodeps)
+	parser_config.setParsePath(path)
+
+	gse_obj = GoSymbolsExtractor(parser_config)
 	if not gse_obj.extract():
 		sys.stderr.write("%s\n" % gse_obj.getError())
 		exit(1)

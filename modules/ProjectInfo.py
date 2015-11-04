@@ -3,6 +3,7 @@ from modules.ImportPathsDecomposer import ImportPathsDecomposer
 from glob import glob
 from os import path
 import sys
+from modules.ParserConfig import ParserConfig
 
 class ProjectInfo:
 
@@ -61,7 +62,13 @@ class ProjectInfo:
 			self.err = "Directory %s does not exist" % directory
 			return False
 
-		gse_obj = GoSymbolsExtractor(directory, skip_errors=skip_errors, noGodeps=self.noGodeps)
+		parser_config = ParserConfig()
+		if skip_errors:
+			parser_config.setSkipErrors()
+		parser_config.setNoGodeps(self.noGodeps)
+		parser_config.setParsePath(directory)
+
+		gse_obj = GoSymbolsExtractor(parser_config)
 		if not gse_obj.extract():
 			self.err = gse_obj.getError()
 			return False

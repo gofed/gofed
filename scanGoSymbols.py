@@ -3,6 +3,7 @@ from modules.GoSymbols import PackageToXml, ProjectToXml
 import json
 from modules.GoSymbolsExtractor import GoSymbolsExtractor
 from modules.Config import Config
+from modules.ParserConfig import ParserConfig
 
 def displaySymbols(symbols, all = False, stats = False):
 	# types, funcs, vars
@@ -149,7 +150,13 @@ if __name__ == "__main__":
 	#print obj.getError()
 	#exit(0)
 
-	gse_obj = GoSymbolsExtractor(go_dir, skip_errors=options.skiperrors, noGodeps=noGodeps)
+	parser_config = ParserConfig()
+	if options.skiperrors:
+		parser_config.setSkipErrors()
+	parser_config.setNoGodeps(noGodeps)
+	parser_config.setParsePath(go_dir)
+
+	gse_obj = GoSymbolsExtractor(parser_config)
 	if not gse_obj.extract():
 		print gse_obj.getError()
 		exit(1)

@@ -30,6 +30,7 @@ from modules.ImportPath import ImportPath
 from modules.ImportPathsDecomposer import ImportPathsDecomposer
 from modules.GoSymbolsExtractor import GoSymbolsExtractor
 from modules.Config import Config
+from modules.ParserConfig import ParserConfig
 
 def show_main(occurrences):
 	not_just_main = False
@@ -147,7 +148,14 @@ if __name__ == "__main__":
 				continue
 			noGodeps.append(dir)
 
-	gse_obj = GoSymbolsExtractor(path, imports_only=True, skip_errors=options.skiperrors, noGodeps=noGodeps)
+	parser_config = ParserConfig()
+	if options.skiperrors:
+		parser_config.setSkipErrors()
+	parser_config.setNoGodeps(noGodeps)
+	parser_config.setParsePath(path)
+	parser_config.setImportsOnly()
+
+	gse_obj = GoSymbolsExtractor(parser_config)
 	if not gse_obj.extract():
 		fmt_obj.printError(gse_obj.getError())
 		exit(1)

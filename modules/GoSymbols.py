@@ -39,6 +39,7 @@ import json
 from lxml import etree
 from GoSymbolsExtractor import GoSymbolsExtractor
 from modules.Base import Base
+from ParserConfig import ParserConfig
 
 ###############################################################################
 # XML inner data representation
@@ -430,7 +431,9 @@ class ProjectToXml:
 		"""
 		self.err = ""
 
-		gse_obj = GoSymbolsExtractor(go_dir)
+		parser_config = ParserConfig()
+		parser_config.setParsePath(go_dir)
+		gse_obj = GoSymbolsExtractor(parser_config)
 		if not gse_obj.extract():
 			self.err = gse_obj.getError()
 			return
@@ -519,7 +522,7 @@ class Dir2GoSymbolsParser(Base):
 		return self.package_imports
 
 	def extract(self):
-		gse_obj = GoSymbolsExtractor(self.path, skip_errors=self.skip_errors, noGodeps=self.noGodeps)
+		gse_obj = GoSymbolsExtractor(self.parser_config)
 		if not gse_obj.extract():
 			self.err.append("Error at %s: %s" % (self.path, gse_obj.getError()))
 			return False
