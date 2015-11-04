@@ -35,7 +35,9 @@ class ProjectDecompositionGraphBuilder(Base):
 		return {}
 
 	def buildFromDirectory(self, directory):
-		self.api = Dir2GoSymbolsParser(directory, skip_errors=self.skip_errors, noGodeps=self.noGodeps)
+		parser_config = self.parser_config
+		parser_config.setParsePath(directory)
+		self.api = Dir2GoSymbolsParser(parser_config)
 		return self.build()
 
 	def buildFromXml(self, xml_file):

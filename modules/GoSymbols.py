@@ -492,15 +492,18 @@ class ProjectToXml:
 
 class Dir2GoSymbolsParser(Base):
 
-	def __init__(self, path, skip_errors=False, noGodeps=[]):
+	def __init__(self, parser_config):
 		Base.__init__(self)
+
+		self.parser_config = parser_config
+		self.path = self.parser_config.getParsePath()
+		self.skip_errors = self.parser_config.skipErrors()
+		self.noGodeps = self.parser_config.getNoGodeps()
+
 		self.err = []
-		self.path = path
 		self.packages = {}
 		self.package_paths = {}
 		self.package_imports = {}
-		self.skip_errors = skip_errors
-		self.noGodeps = noGodeps
 
 	def getPackages(self):
 		# 'pkg/testutil:testutil': PKG_XML_REPRESENTATION
@@ -1340,14 +1343,18 @@ class CompareSourceCodes:
 		self.noGodeps = self.parser_config.getNoGodeps()
 
 	def compareDirs(self, directory_old, directory_new):
+		parser_config = self.parser_config
+
 		# get descriptor for project from old directory
-		self.old_api = Dir2GoSymbolsParser(directory_old, skip_errors=self.skip_errors, noGodeps=self.noGodeps)
+                parser_config.setParsePath(directory_old)
+		self.old_api = Dir2GoSymbolsParser(parser_config)
 		if not self.old_api.extract():
 			self.err = self.old_api.getError()
 			return False
 
 		# get descriptor for project from new directory
-		self.new_api = Dir2GoSymbolsParser(directory_new, skip_errors=self.skip_errors, noGodeps=self.noGodeps)
+                parser_config.setParsePath(directory_new)
+		self.new_api = Dir2GoSymbolsParser(parser_config)
 		if not self.new_api.extract():
 			self.err = self.new_api.getError()
 			return False
@@ -1372,8 +1379,11 @@ class CompareSourceCodes:
 		return True
 
 	def compareDirXml(self, directory_old, xml_new):
+		parser_config = self.parser_config
+
 		# get descriptor for project from directory
-		self.old_api = Dir2GoSymbolsParser(directory_old, skip_errors=self.skip_errors, noGodeps=self.noGodeps)
+                parser_config.setParsePath(directory_old)
+		self.old_api = Dir2GoSymbolsParser(parser_config)
 		if not self.old_api.extract():
 			self.err = self.old_api.getError()
 			return False
@@ -1388,6 +1398,8 @@ class CompareSourceCodes:
 		return True
 
 	def compareXmlDir(self, xml_old, directory_new):
+		parser_config = self.parser_config
+
 		# get descriptor for project from xml
 		self.old_api = Xml2GoSymbolsParser(xml_old)
 		if not self.old_api.extract():
@@ -1395,7 +1407,8 @@ class CompareSourceCodes:
 			return False
 
 		# get descriptor for project from directory
-		self.new_api = Dir2GoSymbolsParser(directory_new, skip_errors=self.skip_errors, noGodeps=self.noGodeps)
+                parser_config.setParsePath(directory_new)
+		self.new_api = Dir2GoSymbolsParser(parser_config)
 		if not self.new_api.extract():
 			self.err = self.new_api.getError()
 			return False
