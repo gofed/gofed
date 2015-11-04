@@ -11,6 +11,7 @@ from modules.GoSymbols import CompareSourceCodes
 from modules.Utils import YELLOW, RED, BLUE, ENDC
 from modules.Config import Config
 from os import path
+from modules.ParserConfig import ParserConfig
 
 MSG_NEG=1
 MSG_POS=2
@@ -171,7 +172,12 @@ if __name__ == "__main__":
 
 	# 1) check if all provided import paths are the same
 	# 2) check each package for new/removed/changed symbols
-	cmp_src = CompareSourceCodes(skip_errors=options.skiperrors, noGodeps=noGodeps)
+	config = ParserConfig()
+	if options.skiperrors:
+		config.setSkipErrors()
+	config.setNoGodeps(noGodeps)
+
+	cmp_src = CompareSourceCodes(config)
 	if options.oldxml != "" and options.newxml != "":
 		cmp_src.compareXmls(options.oldxml, options.newxml)
 	elif options.newxml != "":

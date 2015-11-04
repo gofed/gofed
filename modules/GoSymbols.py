@@ -1332,11 +1332,12 @@ class ComparePackages:
 
 class CompareSourceCodes:
 
-	def __init__(self, skip_errors=False, noGodeps=[]):
+	def __init__(self, parser_config):
 		self.err = []
 		self.status = {}
-		self.skip_errors = skip_errors
-		self.noGodeps = noGodeps
+		self.parser_config = parser_config
+		self.skip_errors = self.parser_config.skipErrors()
+		self.noGodeps = self.parser_config.getNoGodeps()
 
 	def compareDirs(self, directory_old, directory_new):
 		# get descriptor for project from old directory
