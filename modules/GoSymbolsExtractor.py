@@ -151,6 +151,10 @@ class GoSymbolsExtractor(Base):
 					continue
 
 			for go_file in dir_info['files']:
+
+				if self.verbose:
+					sys.stderr.write("Scanning %s..." % ("%s/%s" % (dir_info['dir'], go_file)))
+
 				go_file_json = {}
 				err, output = self.getGoSymbols("%s/%s/%s" % 
 					(self.directory, dir_info['dir'], go_file), self.imports_only)
@@ -175,6 +179,9 @@ class GoSymbolsExtractor(Base):
 					if path["path"] == "..":
 						continue
 
+					# file_pkg_pair:
+					# 1: path to a directory defining a package
+					# 2: package NAME actually used in 'package NAME'
 					if dir_info['dir'] == ".":
 						file_pkg_pair = "%s:%s" % (go_file, pname)
 					else:
