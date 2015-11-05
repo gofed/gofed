@@ -1,5 +1,7 @@
 from Base import Base
 from GoSymbols import Dir2GoSymbolsParser, Xml2GoSymbolsParser
+from Config import Config
+import re
 
 # Project can be represented by:
 # 1) xml file
@@ -16,13 +18,28 @@ class ProjectDecompositionGraphBuilder(Base):
 		self.noGodeps = self.parser_config.getNoGodeps()
 		# if set scan only some packages (and all direct/indirect imported local packages)
 		self.partial = self.parser_config.isPartial()
-		self.include_packages = self.parser_config.getPartial()
+		self.included_packages = self.parser_config.getPartial()
 		self.marked_nodes = {}
 		self.partial_nodes = {}
 
 		self.api = None
 		self.nodes = []
 		self.edges = {}
+
+	def loadPackageDefinitionMapping(self):
+		path = Config().getPackageDefinitionMapping()
+		with open(path, "r") as file:
+			lines = file.read().split("\n")
+
+		mapping = {}
+		for line in lines:
+			if len(line) == 0 or line[0] == "#":
+				continue
+
+			line = re.sub(r'[\t ]+', ' ', line).split(' ')
+			mapping[line[0]] = line[1]
+
+		return mapping
 
 	def getNodes(self):
 		return self.nodes
@@ -76,12 +93,21 @@ class ProjectDecompositionGraphBuilder(Base):
 			self.mark_adjacent_nodes(node)
 
 		imported_packages = self.api.getPackageImports()
+		package_definition_mapping = self.loadPackageDefinitionMapping()
+
 		for node in self.marked_nodes:
 			if self.marked_nodes[node]:
 				if node == ".":
-					ip = ".:" + self.import_path_prefix.split("/")[-1]
+					if self.import_path_prefix in package_definition_mapping:
+						ip = ".:" + package_definition_mapping[self.import_path_prefix]
+					else:
+						ip = ".:" + self.import_path_prefix.split("/")[-1]
 				else:
 					ip = "%s:%s" % (node, node.split("/")[-1])
+				if ip not in imported_packages:
+					print "Package %s not found. Maybe missing package definition mapping..." % ip
+					exit(1)
+
 				self.partial_nodes[node] = imported_packages[ip]
 
 	def getPartial(self):
