@@ -1,0 +1,33 @@
+# Mapping from imported packages to their definition
+# e.g. gopkg.in/fatih/pool.v2 is defined at github.com/fatih/pool
+# its packages contains "package pool" instead of "pool.v2"
+# I would expect gopkg.in/fatih/v2/pool for as well. However, for github it is waste of one folder
+
+# What about repositories defining different prefix than the repository's?
+# github.com/neco/yaml could define coder and decoder packages and import them
+# as gopkg.in/yaml/coder.v1 and gopkg.in/yaml/decoder.v1
+# What would be the mapping?
+# gopkg.in/yaml/coder.v1 to github.com/neco/yaml/coder and
+# gopkg.in/yaml/decoder.v1 to github.com/neco/yaml/decoder
+# i.e. directories coder.v1 and decoder.v1 with package "coder" and package "decoder"
+# Package name does not have to be directory name it lies in. Only condition is to
+# keep all package NAME the same in a given directory. How are such packages imported?
+
+# From GoSymbolsExtractor:
+# file_pkg_pair:
+# 1: path to a directory defining a package
+# 2: package NAME actually used in 'package NAME'
+# all defined packages are identified in a form 1:2 to determing directory defining the package
+# and actualy name of the package
+#
+# In practise:
+# If an import is in the form "github.com/a/b/c" and package in "c" directory is defined
+# as 'package nonc', nonc.Symbol is used, not c.Symbol.
+# So the file_pkg_pair DIR:NAME corresponds to:
+#    "github.com/a/b/DIR" and package "NAME"
+
+
+# package to import			actual definition
+gopkg.in/fatih/pool.v2			pool
+github.com/hashicorp/raft-boltdb	raftboltdb
+github.com/armon/go-metrics		metrics

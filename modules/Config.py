@@ -134,6 +134,10 @@ class Config:
 		depth = self.getValueFromDb('golang_gofed_web_depth')
 		return int(depth)
 
+	def getPackageDefinitionMapping(self):
+		path = self.getValueFromDb('golang_package_definition_mapping')
+		return self.makePathAbsolute(path)
+
 if __name__ == "__main__":
 	cfg = Config()
 	print cfg.getBranches()
