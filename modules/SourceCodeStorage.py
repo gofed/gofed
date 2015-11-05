@@ -6,10 +6,10 @@ import shutil
 
 class SourceCodeStorage(Base):
 
-	def __init__(self, storage_directory = "", verbose = False):
+	def __init__(self, storage_directory, verbose = False):
 		self.storage_directory = storage_directory
 		self.verbose = verbose
-		self.storage = TarballStorage("/tmp/test")
+		self.storage = TarballStorage(self.storage_directory)
 
 	def getDirectory(self, importpath, commit):
 		tarball = self.storage.getTarball(importpath, commit)

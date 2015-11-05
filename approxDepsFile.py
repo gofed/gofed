@@ -42,9 +42,9 @@ if __name__ == "__main__":
 	parser_config.setParsePath(path)
 	parser_config.setImportPathPrefix(importpath)
 
-	da_obj = DependencyApproximator(parser_config)
+	da_obj = DependencyApproximator(parser_config, commit_date)
 	da_obj.construct()
-	print da_obj.getError()
+	#print da_obj.getError()
 
 
 

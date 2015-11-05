@@ -32,7 +32,7 @@ class DependencyApproximator(Base):
 	There is a change to have two different commits for the same dependency (take the younger of them but report it to user)
 
 	"""
-	def __init__(self, parser_config):
+	def __init__(self, parser_config, commit_date):
 		Base.__init__(self)
 		self.err = []
 
@@ -42,11 +42,15 @@ class DependencyApproximator(Base):
 
 		self.local_repos = {}
 		self.upstream_repo = {}
+		self.commit_date = commit_date
 		self.detected_commits = {}
+		self.deps_queue = []
+		self.defined_packages = {}
 
 	def construct(self):
 		self.getRepos()
 		self.getDirectDependencies()
+		self.popDepsQueue()
 
 	def getRepos(self):
 		r_obj = Repos()
@@ -57,16 +61,30 @@ class DependencyApproximator(Base):
 		# 'golang-github-boltdb-bolt': ('/var/lib/gofed/packages/golang-github-boltdb-bolt/upstream//bolt', 'https://github.com/boltdb/bolt.git')
 		for name in repos:
 			dir, repo = repos[name]
-	
+
 			m_repo = str.replace(repo, 'https://', '')
 			m_repo = str.replace(m_repo, 'http://', '')
+
 			if m_repo.endswith('.git'):
 				m_repo = m_repo[:-4]
+
 			if m_repo.endswith('.hg'):
 				m_repo = m_repo[:-3]
 	
 			self.local_repos[m_repo] = dir
 			self.upstream_repo[m_repo] = repo
+
+	def popDepsQueue(self):
+		# pop direct dependencies
+		for dep in self.detected_commits:
+			self.deps_queue.append(dep)
+
+		# in case of cyclic deps let's pop project's packages as well
+		for pkg in self.defined_packages:
+			self.deps_queue.append(pkg)
+
+		for ip in self.deps_queue:
+			print ip
 
 	def detectProjectSubpackages(self, prefix, imported_packages):
 		subpackages = []
@@ -79,7 +97,6 @@ class DependencyApproximator(Base):
 				else:
 					subpackage = subpackage[1:]
 				subpackages.append( subpackage )
-	
 		return subpackages
 
 	def getDirectDependencies(self):
@@ -129,7 +146,7 @@ class DependencyApproximator(Base):
 			last_commit_date = 1
 			last_commit = -1
 			for commit in commits:
-				if last_commit_date <= commits[commit]:
+				if commits[commit] <= self.commit_date:
 					last_commit_date = commits[commit]
 					last_commit = commit
 				else:
@@ -145,6 +162,12 @@ class DependencyApproximator(Base):
 				info["Rev"] = last_commit
 				self.detected_commits[ip] = info
 
-		print self.detected_commits
+		for pkg in gse_obj.getSymbols().keys():
+			ip, _ = pkg.split(":")
+			if ip == ".":
+				ip = self.import_path_prefix
+			else:
+				ip = "%s/%s" % (self.import_path_prefix, ip)
+			self.defined_packages[ip] = {}
 
 		return True
