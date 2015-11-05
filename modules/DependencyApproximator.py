@@ -7,6 +7,7 @@ import datetime
 from SourceCodeStorage import SourceCodeStorage
 from ProjectDecompositionGraphBuilder import ProjectDecompositionGraphBuilder
 import sys
+import copy
 
 class CommitHandler(Base):
 	"""
@@ -41,7 +42,7 @@ class DependencyApproximator(Base):
 	all imported packages are stored in queue, package 3 get processed eventually.
 
 	"""
-	def __init__(self, parser_config, commit_date, verbose = True):
+	def __init__(self, parser_config, commit_date, verbose=False):
 		Base.__init__(self)
 		self.err = []
 		self.warn = []
@@ -75,6 +76,9 @@ class DependencyApproximator(Base):
 		self.getIndirectDependencies()
 		while self.deps_queue != []:
 			self.getIndirectDependencies()
+
+	def getDependencies(self):
+		return self.detected_commits
 
 	def getRepos(self):
 		r_obj = Repos()
@@ -223,12 +227,14 @@ class DependencyApproximator(Base):
 						if ip in self.detected_commits:
 							#print "^^^^%s" % ip
 							continue
+						# TODO(jchaloup): or is ip in defined packages?
 
-						info = element_info
+						info = copy.deepcopy(element_info)
 						info["ImportPath"] = str(ip)
 						info["ImportPathPrefix"] = element
 						self.detected_commits[ip] = info
-						print info
+						if self.verbose:
+							sys.stderr.write("%s\n" % str(info))
 
 						queue.append(ip)
 
@@ -267,13 +273,16 @@ class DependencyApproximator(Base):
 			if element_info == {}:
 				continue
 
-			print element + " (" + str(self.detectProjectSubpackages(element, classes[element])) + ")"
+			if self.verbose:
+				sys.stderr.write(element + " (" + str(self.detectProjectSubpackages(element, classes[element])) + ")\n")
+
 			for ip in classes[element]:
-				info = element_info
+				info = copy.deepcopy(element_info)
 				info["ImportPath"] = str(ip)
 				info["ImportPathPrefix"] = element
 				self.detected_commits[ip] = info
-				print info
+				if self.verbose:
+					sys.stderr.write("%s\n" % str(info))
 
 		for pkg in gse_obj.getSymbols().keys():
 			ip, _ = pkg.split(":")
