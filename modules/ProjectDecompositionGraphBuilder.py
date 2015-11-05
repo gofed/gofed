@@ -17,6 +17,8 @@ class ProjectDecompositionGraphBuilder(Base):
 		# if set scan only some packages (and all direct/indirect imported local packages)
 		self.partial = self.parser_config.isPartial()
 		self.include_packages = self.parser_config.getPartial()
+		self.marked_nodes = {}
+		self.partial_nodes = {}
 
 		self.api = None
 		self.nodes = []
@@ -45,6 +47,46 @@ class ProjectDecompositionGraphBuilder(Base):
 
 		return self.build()
 
+	def mark_adjacent_nodes(self, node):
+		if node not in self.edges:
+			return
+
+		for v in self.edges[node]:
+			if not self.marked_nodes[v]:
+				self.marked_nodes[v] = True
+				self.mark_adjacent_nodes(v)
+
+	def mark(self):
+		"""
+		1) Mark all nodes in include_packages
+		2) Mark all nodes reachable from include_packages
+		"""
+
+		for node in self.nodes:
+			self.marked_nodes[node] = False
+
+		for node in self.included_packages:
+			if node not in self.marked_nodes:
+				print "ProjectDecompositionGraphBuilder: %s not found!!!" % node
+				exit(1)
+
+			self.marked_nodes[node] = True
+
+		for node in self.included_packages:
+			self.mark_adjacent_nodes(node)
+
+		imported_packages = self.api.getPackageImports()
+		for node in self.marked_nodes:
+			if self.marked_nodes[node]:
+				if node == ".":
+					ip = ".:" + self.import_path_prefix.split("/")[-1]
+				else:
+					ip = "%s:%s" % (node, node.split("/")[-1])
+				self.partial_nodes[node] = imported_packages[ip]
+
+	def getPartial(self):
+		return self.partial_nodes 
+
 	def build(self):
 		if not self.api.extract():
 			self.err = self.api.getError()
@@ -68,6 +110,9 @@ class ProjectDecompositionGraphBuilder(Base):
 				if ip != "/":
 					ip = ip[1:]
 
+				if ip == "":
+					ip = "."
+
 				# skip all packages in noGodeps
 				skip = False
 				for nodir in self.noGodeps:
@@ -84,4 +129,8 @@ class ProjectDecompositionGraphBuilder(Base):
 			self.edges[package_name] = sorted(self.edges[package_name])
 
 		self.nodes = list(set(self.nodes))
+
+		if self.partial:
+			self.mark()
+
 		return True
