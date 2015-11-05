@@ -4,6 +4,9 @@ from ImportPathsDecomposer import ImportPathsDecomposer
 from ImportPath import ImportPath
 from modules.Repos import Repos, getRepoCommits
 import datetime
+from SourceCodeStorage import SourceCodeStorage
+from ProjectDecompositionGraphBuilder import ProjectDecompositionGraphBuilder
+import sys
 
 class CommitHandler(Base):
 	"""
@@ -31,13 +34,21 @@ class DependencyApproximator(Base):
 
 	There is a change to have two different commits for the same dependency (take the younger of them but report it to user)
 
+	As dependencies are parsed only partially, cyclic dependencies can bring packages out of partially explored set.
+	Thus dependencies are stored by package, not by prefix. This way it is assured all imported packages are processed.
+	E.g A(1,2)->B(1), B(1)->C(2), C(2)->A(3). Here, packages 1 and 2 from A were imported first (and processed). Later on,
+	package 3 from A was imported. As A was processed only partial, package 3 would not get processed normally. However as
+	all imported packages are stored in queue, package 3 get processed eventually.
+
 	"""
-	def __init__(self, parser_config, commit_date):
+	def __init__(self, parser_config, commit_date, verbose = True):
 		Base.__init__(self)
 		self.err = []
+		self.warn = []
 
 		self.parser_config = parser_config
 		self.import_path_prefix = self.parser_config.getImportPathPrefix()
+		self.verbose = verbose
 		self.pull = False
 
 		self.local_repos = {}
@@ -47,10 +58,23 @@ class DependencyApproximator(Base):
 		self.deps_queue = []
 		self.defined_packages = {}
 
+		self.source_code_storage = SourceCodeStorage("/var/lib/gofed/storage")
+
 	def construct(self):
 		self.getRepos()
+
+		if self.verbose:
+			sys.stderr.write("####Scanning direct dependencies####\n")
+
 		self.getDirectDependencies()
 		self.popDepsQueue()
+
+		if self.verbose:
+			sys.stderr.write("\n####Scanning indirect dependencies####\n")
+
+		self.getIndirectDependencies()
+		while self.deps_queue != []:
+			self.getIndirectDependencies()
 
 	def getRepos(self):
 		r_obj = Repos()
@@ -80,11 +104,15 @@ class DependencyApproximator(Base):
 			self.deps_queue.append(dep)
 
 		# in case of cyclic deps let's pop project's packages as well
-		for pkg in self.defined_packages:
-			self.deps_queue.append(pkg)
+		#for pkg in self.defined_packages:
+		#	self.deps_queue.append(pkg)
 
+		return
 		for ip in self.deps_queue:
-			print ip
+			if ip in self.detected_commits:
+				print "%s: %s" % (ip, self.detected_commits[ip]["Date"])
+			else:
+				print ip
 
 	def detectProjectSubpackages(self, prefix, imported_packages):
 		subpackages = []
@@ -98,6 +126,114 @@ class DependencyApproximator(Base):
 					subpackage = subpackage[1:]
 				subpackages.append( subpackage )
 		return subpackages
+
+	def processElement(self, element):
+		# convert each import path prefix to provider prefix
+		ip_obj = ImportPath(element)
+		if not ip_obj.parse():
+			self.err.append(ip_obj.getError())
+			return {}
+
+		provider_prefix = ip_obj.getProviderPrefix()
+		if provider_prefix not in self.local_repos:
+			self.err.append("Repository for %s not found" % provider_prefix)
+			return {}
+
+		#print self.local_repos[provider_prefix]
+		path = self.local_repos[provider_prefix]
+		upstream = self.upstream_repo[provider_prefix]
+
+		# the list is not sorted by date
+		commits = getRepoCommits(path, upstream, pull=self.pull)
+		commit_dates = {}
+		for commit in commits:
+			commit_dates[ commits[commit] ] = commit
+
+		last_commit_date = 1
+		last_commit = -1
+		for comm_date in sorted(commit_dates.keys()):
+			#print (comm_date, self.commit_date)
+			if int(comm_date) <= self.commit_date:
+				last_commit_date = comm_date
+				last_commit = commit_dates[comm_date]
+			else:
+				break
+
+		str_date = datetime.datetime.fromtimestamp(int(last_commit_date)).strftime('%Y-%m-%d %H:%M:%S')
+
+		info = {}
+		info["Date"] = str_date
+		info["Rev"] = last_commit
+		info["ProviderPrefix"] = provider_prefix
+
+		return info
+
+	def getIndirectDependencies(self):
+		"""
+		All new deps put into local queue.
+		Once deps_queue is done, replace it with local one.
+		"""
+		queue = []
+
+		for ip in self.deps_queue:
+			# for a fiven import path construct its partial graph
+			parser_config = self.parser_config
+			import_path_prefix = self.detected_commits[ip]["ImportPathPrefix"]
+			parser_config.setImportPathPrefix( import_path_prefix )
+			# set path to SourceCodeStorage
+			path = self.source_code_storage.getDirectory(self.detected_commits[ip]["ProviderPrefix"], self.detected_commits[ip]["Rev"])
+			parser_config.setParsePath(path)
+			subpackages = self.detectProjectSubpackages(self.detected_commits[ip]["ImportPathPrefix"], [ip])
+			# TODO(jchaloup): Later, add all packages of the same prefix to speed it up
+			parser_config.setPartial(subpackages)
+
+			if self.verbose:
+				sys.stderr.write("Scanning %s: %s\n" % (self.detected_commits[ip]["ImportPathPrefix"], ",".join(subpackages)))
+
+			gb = ProjectDecompositionGraphBuilder(parser_config)
+			gb.buildFromDirectory(path)
+
+			partial_deps = gb.getPartial()
+			for ip_used in partial_deps:
+
+				ipd = ImportPathsDecomposer(partial_deps[ip_used])
+				if not ipd.decompose():
+					self.err.append(ipd.getError())
+					return False
+
+				self.warn.append(ipd.getWarning())
+
+				classes = ipd.getClasses()
+				sorted_classes = sorted(classes.keys())
+
+				for element in sorted_classes:
+					if element == "Native":
+						continue
+
+					# class name starts with prefix => filter out
+					if element.startswith(import_path_prefix):
+						continue
+
+					element_info = self.processElement(element)
+					if element_info == {}:
+						continue
+
+					for ip in classes[element]:
+						# is import path already checked in?
+						if ip in self.detected_commits:
+							#print "^^^^%s" % ip
+							continue
+
+						info = element_info
+						info["ImportPath"] = str(ip)
+						info["ImportPathPrefix"] = element
+						self.detected_commits[ip] = info
+						print info
+
+						queue.append(ip)
+
+		self.deps_queue = queue
+		return True
 
 	def getDirectDependencies(self):
 
@@ -114,7 +250,7 @@ class DependencyApproximator(Base):
 			self.err.append(ipd.getError())
 			return False
 
-		self.warn = ipd.getWarning()
+		self.warn.append(ipd.getWarning())
 
 		classes = ipd.getClasses()
 		sorted_classes = sorted(classes.keys())
@@ -127,40 +263,17 @@ class DependencyApproximator(Base):
 			if element.startswith(self.import_path_prefix):
 				continue
 
-			# convert each import path prefix to provider prefix
-			ip_obj = ImportPath(element)
-			if not ip_obj.parse():
-				self.err.append(ip_obj.getError())
+			element_info = self.processElement(element)
+			if element_info == {}:
 				continue
-
-			provider_prefix = ip_obj.getProviderPrefix()
-			if provider_prefix not in self.local_repos:
-				self.err.append("Repository for %s not found" % provider_prefix)
-				continue
-
-			#print self.local_repos[provider_prefix]
-			path = self.local_repos[provider_prefix]
-			upstream = self.upstream_repo[provider_prefix]
-
-			commits = getRepoCommits(path, upstream, pull=self.pull)
-			last_commit_date = 1
-			last_commit = -1
-			for commit in commits:
-				if commits[commit] <= self.commit_date:
-					last_commit_date = commits[commit]
-					last_commit = commit
-				else:
-					break
-
-			str_date = datetime.datetime.fromtimestamp(int(last_commit_date)).strftime('%Y-%m-%d %H:%M:%S')
 
 			print element + " (" + str(self.detectProjectSubpackages(element, classes[element])) + ")"
 			for ip in classes[element]:
-				info = {}
+				info = element_info
 				info["ImportPath"] = str(ip)
-				info["Comment"] = str_date
-				info["Rev"] = last_commit
+				info["ImportPathPrefix"] = element
 				self.detected_commits[ip] = info
+				print info
 
 		for pkg in gse_obj.getSymbols().keys():
 			ip, _ = pkg.split(":")
