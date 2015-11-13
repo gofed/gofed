@@ -84,6 +84,8 @@ def createDB(full=False, verbose=False):
 
 			# This is hacky and depends on info data type represenation
 			pkg2xml_obj = info[item]['xmlobj']
+			if pkg2xml_obj.getError() != "":
+				continue
 			imports = pkg2xml_obj.getImportedPackages()
 			provides = pkg2xml_obj.getProvidedPackages()
 
