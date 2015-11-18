@@ -17,15 +17,17 @@ import json
 
 class APIDeviation(Base):
 
-	def __init__(self, project, verbose = False):
+	def __init__(self, project, depsfile, verbose = False):
 		# project's name (not package name)
 		self.project = project
 		self.verbose = verbose
+		self.depsfile = depsfile
+		self.apidiff = {}
 
 	def compute(self):
 		deps = self.readDeps()
 		rawhide_commits = self.readPkgDBCommits(deps)
-		self.getAPIDiff(deps, rawhide_commits)
+		return self.getAPIDiff(deps, rawhide_commits)
 
 	def importpath2pkgname(self, importpath):
 		# TODO: maybe use some sort of cache of importpath -> packagename
@@ -39,8 +41,7 @@ class APIDeviation(Base):
 		"""
 		Get a list of dependencies
 		"""
-		deps_file = "/home/jchaloup/Packages/etcd/fedora/etcd/etcd-2.2.1/Godeps/Godeps.json"
-        	dp = DependencyFileParser(deps_file)
+        	dp = DependencyFileParser(self.depsfile)
         	return dp.parseGODEPSJSON()
 		return {}
 
@@ -56,13 +57,13 @@ class APIDeviation(Base):
 			pkgname = self.importpath2pkgname(ip)
 
 			# cache
-			json_deps = []
-			with open("/tmp/test/cache.json", 'r') as file:
-				json_deps = json.loads(file.read())
+			#json_deps = []
+			#with open("/tmp/test/cache.json", 'r') as file:
+			#	json_deps = json.loads(file.read())
 
-			if ip in json_deps:
-				commits[ip] = json_deps[ip]
-				continue
+			#if ip in json_deps:
+			#	commits[ip] = json_deps[ip]
+			#	continue
 
 			rsp = RemoteSpecParser("master", pkgname)
 			rawhide_commit = ""
@@ -79,6 +80,9 @@ class APIDeviation(Base):
 
 		return commits
 
+	def getDiff(self):
+		return self.apidiff
+
 	def getAPIDiff(self, deps, commits):
 		"""
 		For each pair make apidiff(upstream, rawhide).
@@ -86,24 +90,30 @@ class APIDeviation(Base):
 			provider-project-repo-commit
 		"""
 
-		scs = SourceCodeStorage("/tmp/test", self.verbose)
+		scs = SourceCodeStorage("/var/lib/gofed/storage", self.verbose)
 		if self.verbose:
 			print "Collection tarballs..."
 
 		noGodeps = Config().getSkippedDirectories()
 
-		apidiff = {}
+		self.apidiff = {}
 
 		print "Upstream\t\tRawhide"
 		for ip in deps:
 			if commits[ip] == "":
 				continue
 
+			self.apidiff[ip] = {'rawhide': commits[ip], 'upstream': deps[ip], 'diff': []}
+
 			deps_dir = scs.getDirectory(ip, deps[ip])
 			commits_dir = scs.getDirectory(ip, commits[ip])
 			#print (deps_dir, commits_dir)
+			config = ParserConfig()
+			if options.skiperrors:
+				config.setSkipErrors()
+			config.setNoGodeps(noGodeps)
 
-			cmp_src = CompareSourceCodes(skip_errors=True, noGodeps=noGodeps)
+			cmp_src = CompareSourceCodes(config)
 			#print "Comparing"
 			print "Processing %s ..." % ip
 			cmp_src.compareDirs(deps_dir, commits_dir)
@@ -118,36 +128,26 @@ class APIDeviation(Base):
 					continue
 
 				if pkg == "-":
-					if ip not in apidiff:
-						apidiff[ip] = [{'package': '', 'change': apichanges[pkg]}]
-					else:
-						apidiff[ip].append({'package': '', 'change': apichanges[pkg]})
+					self.apidiff[ip]['diff'].append({'package': '', 'change': apichanges[pkg]})
 					continue
 
 				#print "%sPackage: %s%s" % (BLUE, pkg, ENDC)
 				for change in apichanges[pkg]:
 					if change[0] == '-':
-						if ip not in apidiff:
-							apidiff[ip] = [{'package': pkg, 'change': change}]
-						else:
-							apidiff[ip].append({'package': pkg, 'change': change})
+						self.apidiff[ip]['diff'].append({'package': pkg, 'change': change})
+
+		return True
 
 		for ip in deps:
 			if ip not in apidiff:
 				continue
 
-			print "%s: |%s - %s|" % (ip, deps[ip], commits[ip])
-			for change in apidiff[ip]:
+			print "%s: |%s - %s|" % (ip, apidiff[ip]['upstream'], apidiff[ip]['rawhide'])
+			for change in apidiff[ip]['diff']:
 				print "\t%s%s%s" % (RED, change, ENDC)
 
-
-
-
-
 			# TODO:
-			# - skipp all empty apidiffs
-			# - shows only apidiffs with -
 			# - output all deps without any rawhide commits as well (smth like NOT FOUND)
 			# - cound the deviation
 
-		return {}
+		return True
