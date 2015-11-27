@@ -36,6 +36,11 @@ if __name__ == "__main__":
 	)
 
 	parser.add_option(
+	    "", "-e", "--epoch", dest="epoch", action = "store_true", default = False,
+	    help = "Display all provided packages with %{epoch} as well. Used only with --spec."
+	)
+
+	parser.add_option(
 	    "", "", "--prefix", dest="prefix", default = "",
 	    help = "Prefix all provided import paths, used with -p option"
 	)
@@ -128,10 +133,14 @@ if __name__ == "__main__":
 				continue
 
 			if options.spec != False:
+				evr_string = "%{version}-%{release}"
+				if options.epoch:
+					evr_string = "%{epoch}:" + evr_string
+
 				if ip != ".":
-					print "Provides: golang(%%{import_path}/%s) = %%{version}-%%{release}" % (ip)
+					print "Provides: golang(%%{import_path}/%s) = %s" % (ip, evr_string)
 				else:
-					print "Provides: golang(%{import_path}) = %{version}-%{release}"
+					print "Provides: golang(%%{import_path}) = %s" % (evr_string)
 			elif options.prefix != "":
 				if ip != ".":
 					print "%s/%s" % (options.prefix, ip)
