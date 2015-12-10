@@ -1,0 +1,32 @@
+format 74
+
+classcanvas 128002 class_ref 142082 // client
+  class_drawing_mode default show_context_mode default show_stereotype_properties default
+  xyz 366 138 2000
+end
+usecasecanvas 128130 usecase_ref 128002 // generate spec file
+  xyzwh 23 63 3005 123 33 label_xy 35 70
+end
+usecasecanvas 128386 usecase_ref 128130 // bump spec file
+  xyzwh 26 110 3005 113 33 label_xy 41 117
+end
+usecasecanvas 128642 usecase_ref 128258 // transform spec file
+  xyzwh 21 157 3005 119 37 label_xy 27 167
+end
+usecasecanvas 128898 usecase_ref 128386 // lint spec file
+  xyzwh 25 208 3005 109 33 label_xy 43 215
+end
+usecasecanvas 129154 usecase_ref 128514 // align spec file
+  xyzwh 30 253 3005 97 33 label_xy 37 259
+end
+line 128258 ---> decenter_begin 727
+  from ref 128130 z 3006 to ref 128002
+line 128514 --->
+  from ref 128386 z 3006 to ref 128002
+line 128770 --->
+  from ref 128642 z 3006 to ref 128002
+line 129026 --->
+  from ref 128898 z 3006 to ref 128002
+line 129282 --->
+  from ref 129154 z 3006 to ref 128002
+end

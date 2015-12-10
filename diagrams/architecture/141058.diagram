@@ -1,0 +1,116 @@
+format 74
+
+classinstance 128002 class_ref 128130 // GoClient
+  name ""   xyz 41 4 2000 life_line_z 2000
+classinstance 128642 class_ref 128770 // SymbolSourceFactory
+  name ""   xyz 184 4 2000 life_line_z 2000
+classinstance 129410 class_ref 128386 // GoSymbolExtractor
+  name ""   xyz 338 4 2000 life_line_z 2000
+classinstance 130178 class_ref 128770 // SymbolSourceFactory
+  name ""   xyz 485 4 2000 life_line_z 2000
+classinstance 130946 class_ref 128642 // SymbolStorage
+  name ""   xyz 654 4 2000 life_line_z 2000
+classinstance 131714 class_ref 135554 // GoApiComparator
+  name ""   xyz 790 4 2000 life_line_z 2000
+durationcanvas 128770 classinstance_ref 128002 // :GoClient
+  xyzwh 68 69 2010 11 47
+  overlappingdurationcanvas 129154
+    xyzwh 74 85 2020 11 25
+  end
+end
+durationcanvas 128898 classinstance_ref 128642 // :SymbolSourceFactory
+  xyzwh 251 69 2010 11 27
+end
+durationcanvas 129538 classinstance_ref 128002 // :GoClient
+  xyzwh 68 136 2010 11 51
+  overlappingdurationcanvas 129922
+    xyzwh 74 156 2020 11 25
+  end
+end
+durationcanvas 129666 classinstance_ref 129410 // :GoSymbolExtractor
+  xyzwh 397 136 2010 11 31
+end
+durationcanvas 130306 classinstance_ref 128002 // :GoClient
+  xyzwh 68 214 2010 11 50
+  overlappingdurationcanvas 130690
+    xyzwh 74 233 2020 11 25
+  end
+end
+durationcanvas 130434 classinstance_ref 130178 // :SymbolSourceFactory
+  xyzwh 552 214 2010 11 30
+end
+durationcanvas 131074 classinstance_ref 128002 // :GoClient
+  xyzwh 68 299 2010 11 48
+  overlappingdurationcanvas 131458
+    xyzwh 74 316 2020 11 25
+  end
+end
+durationcanvas 131202 classinstance_ref 130946 // :SymbolStorage
+  xyzwh 701 299 2010 11 28
+end
+durationcanvas 131842 classinstance_ref 128002 // :GoClient
+  xyzwh 68 374 2010 11 50
+  overlappingdurationcanvas 132226
+    xyzwh 74 393 2020 11 25
+  end
+end
+durationcanvas 131970 classinstance_ref 131714 // :GoApiComparator
+  xyzwh 844 374 2010 11 27
+end
+msg 129026 synchronous
+  from durationcanvas_ref 128770
+  to durationcanvas_ref 128898
+  yz 69 2015 explicitmsg "getTarballParser()"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 113 52
+msg 129282 synchronous
+  from durationcanvas_ref 128898
+  to durationcanvas_ref 129154
+  yz 85 2025 unspecifiedmsg
+  show_full_operations_definition default drawing_language default show_context_mode default
+msg 129794 synchronous
+  from durationcanvas_ref 129538
+  to durationcanvas_ref 129666
+  yz 136 2015 explicitmsg "parseSymbols()"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 192 119
+msg 130050 synchronous
+  from durationcanvas_ref 129666
+  to durationcanvas_ref 129922
+  yz 156 2025 unspecifiedmsg
+  show_full_operations_definition default drawing_language default show_context_mode default
+msg 130562 synchronous
+  from durationcanvas_ref 130306
+  to durationcanvas_ref 130434
+  yz 214 2015 explicitmsg "getDatabaseStorage()"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 252 197
+msg 130818 synchronous
+  from durationcanvas_ref 130434
+  to durationcanvas_ref 130690
+  yz 233 2025 unspecifiedmsg
+  show_full_operations_definition default drawing_language default show_context_mode default
+msg 131330 synchronous
+  from durationcanvas_ref 131074
+  to durationcanvas_ref 131202
+  yz 299 2015 explicitmsg "getSymbolsFromStorage()"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 314 282
+msg 131586 synchronous
+  from durationcanvas_ref 131202
+  to durationcanvas_ref 131458
+  yz 316 2025 unspecifiedmsg
+  show_full_operations_definition default drawing_language default show_context_mode default
+msg 132098 synchronous
+  from durationcanvas_ref 131842
+  to durationcanvas_ref 131970
+  yz 374 2015 explicitmsg "compareAPI()"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 421 357
+msg 132354 synchronous
+  from durationcanvas_ref 131970
+  to durationcanvas_ref 132226
+  yz 393 2025 explicitmsg "getComparision()"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 415 376
+end

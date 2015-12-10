@@ -1,0 +1,89 @@
+format 74
+
+classinstance 128130 class_ref 128130 // GoClient
+  name ""   xyz 71 4 2000 life_line_z 2000
+classinstance 128258 class_ref 128386 // GoSymbolExtractor
+  name ""   xyz 203 4 2000 life_line_z 2000
+classinstance 129154 class_ref 135298 // GoSymbolsTransformator
+  name ""   xyz 380 4 2000 life_line_z 2000
+classinstance 131330 class_ref 128514 // Specker.JsonParser
+  name ""   xyz 572 4 2000 life_line_z 2000
+durationcanvas 128386 classinstance_ref 128130 // :GoClient
+  xyzwh 98 71 2010 11 52
+  overlappingdurationcanvas 131074
+    xyzwh 104 92 2020 11 25
+  end
+end
+durationcanvas 128514 classinstance_ref 128258 // :GoSymbolExtractor
+  xyzwh 262 71 2010 11 32
+end
+durationcanvas 130178 classinstance_ref 128130 // :GoClient
+  xyzwh 98 135 2010 11 67
+  overlappingdurationcanvas 130818
+    xyzwh 104 159 2020 11 31
+  end
+end
+durationcanvas 130306 classinstance_ref 129154 // :GoSymbolsTransformator
+  xyzwh 457 134 2010 11 69
+end
+durationcanvas 131458 classinstance_ref 128130 // :GoClient
+  xyzwh 98 236 2010 11 40
+end
+durationcanvas 131586 classinstance_ref 131330 // :Specker.JsonParser
+  xyzwh 633 238 2010 11 42
+end
+durationcanvas 132994 classinstance_ref 131330 // :Specker.JsonParser
+  xyzwh 633 367 2010 11 32
+end
+durationcanvas 133122 classinstance_ref 128130 // :GoClient
+  xyzwh 98 367 2010 11 32
+end
+durationcanvas 134146 classinstance_ref 128130 // :GoClient
+  xyzwh 98 308 2010 11 40
+end
+durationcanvas 134274 classinstance_ref 131330 // :Specker.JsonParser
+  xyzwh 633 308 2010 11 25
+end
+msg 128642 synchronous
+  from durationcanvas_ref 128386
+  to durationcanvas_ref 128514
+  yz 71 2015 explicitmsg "processTarball()"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 131 54
+msg 130434 synchronous
+  from durationcanvas_ref 130178
+  to durationcanvas_ref 130306
+  yz 149 2015 explicitmsg "transformToSpecDate()"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 215 132
+msg 130946 synchronous
+  from durationcanvas_ref 130306
+  to durationcanvas_ref 130818
+  yz 173 2025 explicitmsg "getJson()"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 259 156
+msg 131202 synchronous
+  from durationcanvas_ref 128514
+  to durationcanvas_ref 131074
+  yz 92 3005 explicitmsg "getJson()"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 161 75
+msg 131714 synchronous
+  from durationcanvas_ref 131458
+  to durationcanvas_ref 131586
+  yz 238 2015 explicitmsg "parse()"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 355 221
+msg 133250 synchronous
+  from durationcanvas_ref 132994
+  to durationcanvas_ref 133122
+  yz 367 2015 explicitmsg "getSpecfile()"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 334 350
+msg 134402 synchronous
+  from durationcanvas_ref 134146
+  to durationcanvas_ref 134274
+  yz 308 2015 explicitmsg "applyChange()"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 329 291
+end
