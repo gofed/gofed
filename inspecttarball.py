@@ -20,9 +20,10 @@
 import os
 import sys
 import optparse
-from modules.GoSymbolsExtractor import GoSymbolsExtractor
 from modules.Config import Config
 from modules.ParserConfig import ParserConfig
+from gofed_infra.system.core.factory.actfactory import ActFactory
+import logging
 
 if __name__ == "__main__":
 
@@ -104,21 +105,23 @@ if __name__ == "__main__":
 	parser_config.setNoGodeps(noGodeps)
 	parser_config.setParsePath(path)
 
-	gse_obj = GoSymbolsExtractor(parser_config)
-	if not gse_obj.extract():
-		sys.stderr.write("%s\n" % gse_obj.getError())
+	data = {
+		"type": "user_directory",
+		"resource": os.path.abspath(path),
+		"directories_to_skip": ["Godeps","hack"],
+		"ipprefix": "."
+	}
+
+	try:
+		data = ActFactory().bake("go-code-inspection").call(data)
+	except Exception as e:
+		logging.error(e)
 		exit(1)
 
 	if options.provides:
-		ip = gse_obj.getSymbolsPosition()
-
-		ips = []
-		for pkg in ip:
-			ips.append(ip[pkg])
-
 		skipped_provides_with_prefix = Config().getSkippedProvidesWithPrefix()
 
-		for ip in sorted(ips):
+		for ip in sorted(data["data"]["packages"]):
 			skip = False
 			for prefix in skipped_provides_with_prefix:
 				if ip.startswith(prefix):
@@ -150,7 +153,7 @@ if __name__ == "__main__":
 				print ip
 
 	elif options.test:
-		sdirs = sorted(gse_obj.getTestDirectories())
+		sdirs = map(lambda l: l["test"], data["data"]["tests"])
 		for dir in sdirs:
 			if options.spec != False:
 				if dir != ".":
@@ -160,7 +163,9 @@ if __name__ == "__main__":
 			else:
 				print dir
 	elif options.dirs:
-		dirs = gse_obj.getSymbolsPosition().values() + gse_obj.getTestDirectories()
+		dirs = data["data"]["packages"] + map(lambda l: l["test"], data["data"]["tests"])
+		if options.mainpackages:
+			dirs = dirs + map(lambda l: l["filename"], data["data"]["main"])
 		sdirs = []
 		for dir in dirs:
 			sdirs.append( dir.split("/")[0] )
@@ -169,7 +174,7 @@ if __name__ == "__main__":
 		for dir in sdirs:
 			print dir
 	elif options.mainpackages:
-		for pkg in gse_obj.getMainPackages():
+		for pkg in sorted(map(lambda l: l["filename"], data["data"]["main"])):
 			print pkg
 	else:
 		print "Usage: prog [-p] [-d] [-t] [directory]"
