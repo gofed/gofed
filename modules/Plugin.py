@@ -64,7 +64,7 @@ class PluginCmd:
 
 	def __init__(self, script):
 		self.script = script
-		self.interpret = "python"
+		self.interpret = "PYTHONPATH=/home/jchaloup/Projects/gofed/infra/third_party:/home/jchaloup/Projects/gofed/gofed/third_party python"
 		self.interactive = False
 
 	def getScript(self):
