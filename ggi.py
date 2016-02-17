@@ -22,36 +22,16 @@ import re
 import os
 import urllib2
 import optparse
-from subprocess import Popen, PIPE
 from modules.Utils import GREEN, RED, ENDC
 from modules.Packages import packageInPkgdb
 from modules.Utils import FormatedPrint
 from modules.ImportPath import ImportPath
-from modules.ImportPathsDecomposer import ImportPathsDecomposer
-from modules.GoSymbolsExtractor import GoSymbolsExtractor
 from modules.Config import Config
 from modules.ParserConfig import ParserConfig
 
-def show_main(occurrences):
-	not_just_main = False
-	main_pkgs = []
-	for occurrence in occurrences:
-		parts = occurrence.split(":")
-		if len(parts) != 2:
-			continue
-
-		if parts[1] != "main":
-			not_just_main = True
-		else:
-			main_pkgs.append(occurrence)
-
-	if not main_pkgs:
-		return ""
-
-	if not_just_main:
-		return "+(%s)" % ", ".join(main_pkgs)
-	else:
-		return "(%s)" % ", ".join(main_pkgs)
+from gofed_infra.system.core.factory.actfactory import ActFactory
+from gofed_lib.importpathsdecomposerbuilder import ImportPathsDecomposerBuilder
+import logging
 
 if __name__ == "__main__":
 	parser = optparse.OptionParser("%prog [-a] [-c] [-d [-v]] [directory]")
@@ -155,24 +135,52 @@ if __name__ == "__main__":
 	parser_config.setParsePath(path)
 	parser_config.setImportsOnly()
 
-	gse_obj = GoSymbolsExtractor(parser_config)
-	if not gse_obj.extract():
-		fmt_obj.printError(gse_obj.getError())
+	data = {
+		"type": "user_directory",
+		"resource": os.path.abspath(path),
+		"directories_to_skip": ["Godeps","hack"],
+		"ipprefix": "."
+	}
+
+	try:
+		data = ActFactory().bake("go-code-inspection").call(data)
+	except Exception as e:
+		logging.error(e)
 		exit(1)
 
-	package_imports_occurence = gse_obj.getPackageImportsOccurences()
+	occurrences = {}
+	main_occurrences = {}
 
-	ip_used = gse_obj.getImportedPackages()
-	ipd = ImportPathsDecomposer(ip_used)
-	if not ipd.decompose():
-		fmt_obj.printError(ipd.getError())
-		exit(1)
+	for pkg in data["data"]["dependencies"]:
+		package = pkg["package"]
+		for item in pkg["dependencies"]:
+			dep = item["name"]
+			if package != ".":
+				deps = map(lambda l: "%s/%s" % (package, l), item["location"])
+			else:
+				deps = item["location"]
+			if dep not in occurrences:
+				occurrences[dep] = deps
+			else:
+				occurrences[dep] = occurrences[dep] + deps
 
-	warn = ipd.getWarning()
-	if warn != "":
-		fmt_obj.printWarning("Warning: %s" % warn)
+	for main in data["data"]["main"]:
+		filename = main["filename"]
+		for dep in main["dependencies"]:
+			if dep not in main_occurrences:
+				main_occurrences[dep] = [filename]
+			else:
+				main_occurrences[dep].append(filename)
 
-	classes = ipd.getClasses()
+	ip_used = []
+	for pkg in data["data"]["dependencies"]:
+		ip_used = ip_used + map(lambda l: l["name"], pkg["dependencies"])
+
+	ip_used = list(set(ip_used))
+
+	decomposer = ImportPathsDecomposerBuilder().buildLocalDecomposer()
+	decomposer.decompose(ip_used)
+	classes = decomposer.getClasses()
 	sorted_classes = sorted(classes.keys())
 
 	# get max length of all imports
@@ -193,8 +201,7 @@ if __name__ == "__main__":
 
 		for gimport in gimports:
 			if options.showmain:
-				main_occ = show_main(package_imports_occurence[gimport])
-				if main_occ == "":
+				if gimport not in main_occurrences:
 					continue
 
 			import_len = len(gimport)
@@ -213,17 +220,8 @@ if __name__ == "__main__":
 		if not options.alloccurrences:
 			one_class = []
 			for gimport in classes[element]:
-				# does it occur only in main package?
-				# remove it from classes[element]
-				skip = True
-				if gimport in package_imports_occurence:
-					for occurrence in package_imports_occurence[gimport]:
-						if not occurrence.endswith(":main"):
-							skip = False
-							break
-				if skip:
-					continue
-
+				# Assumption: dependencies of devel package
+				# are free of deps of main packages
 				one_class.append(gimport)
 
 			classes[element] = sorted(one_class)
@@ -253,11 +251,14 @@ if __name__ == "__main__":
 					for gimport in gimports:
 						if options.showoccurrence:
 							if options.showmain:
-								main_occ = show_main(package_imports_occurence[gimport])
-								if main_occ != "":
-									print "\t%s %s" % (gimport, main_occ)
+								if gimport in main_occurrences:
+									file_list = "(%s)" % ",".join(main_occurrences[gimport])
+									if gimport in occurrences:
+										file_list = "+" + file_list
+
+									print "\t%s %s" % (gimport, file_list)
 							else:
-								print "\t%s (%s)" % (gimport, ", ".join(package_imports_occurence[gimport]))
+								print "\t%s (%s)" % (gimport, ", ".join(occurrences[gimport]))
 						else:
 							print "\t%s" % gimport
 				continue
@@ -287,11 +288,14 @@ if __name__ == "__main__":
 				for gimport in sorted(gimports):
 					if options.showoccurrence:
 						if options.showmain:
-							main_occ = show_main(package_imports_occurence[gimport])
-							if main_occ != "":
-								print "\t%s %s" % (gimport, main_occ)
+							if gimport in main_occurrences:
+								file_list = "(%s)" % ",".join(main_occurrences[gimport])
+								if gimport in occurrences:
+									file_list = "+" + file_list
+
+								print "\t%s %s" % (gimport, file_list)
 						else:
-							print "\t%s (%s)" % (gimport, ", ".join(package_imports_occurence[gimport]))
+							print "\t%s (%s)" % (gimport, ", ".join(occurrences[gimport]))
 					else:
 						print "\t%s" % gimport
 			continue
@@ -302,13 +306,13 @@ if __name__ == "__main__":
 				if options.requires:
 					if options.showoccurrence:
 						import_len = len(gimport)
-						print "Requires: golang(%s) %s# %s" % (gimport, (max_len - import_len)*" ", ", ".join(package_imports_occurence[gimport]))
+						print "Requires: golang(%s) %s# %s" % (gimport, (max_len - import_len)*" ", ", ".join(occurrences[gimport]))
 					else:
 						print "Requires: golang(%s)" % gimport
 				else:
 					if options.showoccurrence:
 						import_len = len(gimport)
-						print "BuildRequires: golang(%s) %s# %s" % (gimport, (max_len - import_len)*" ", ", ".join(package_imports_occurence[gimport]))
+						print "BuildRequires: golang(%s) %s# %s" % (gimport, (max_len - import_len)*" ", ", ".join(occurrences[gimport]))
 					else:
 						print "BuildRequires: golang(%s)" % gimport
 			continue
@@ -318,11 +322,13 @@ if __name__ == "__main__":
 			if options.showoccurrence:
 				import_len = len(gimport)
 				if options.showmain:
-					main_occ = show_main(package_imports_occurence[gimport])
-					if main_occ != "":
-						print "\t%s %s %s" % (gimport, (max_len - import_len)*" ", main_occ)
+					if gimport in main_occurrences:
+						file_list = "(%s)" % ",".join(main_occurrences[gimport])
+						if gimport in occurrences:
+							file_list = "+" + file_list
+						print "\t%s %s %s" % (gimport, (max_len - import_len)*" ", file_list)
 				else:
-					print "\t%s %s(%s)" % (gimport, (max_len - import_len)*" ", ", ".join(package_imports_occurence[gimport]))
+					print "\t%s %s(%s)" % (gimport, (max_len - import_len)*" ", ", ".join(occurrences[gimport]))
 			else:
 				print "\t%s" % gimport
 
