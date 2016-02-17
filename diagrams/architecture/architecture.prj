@@ -66,68 +66,36 @@ format 74
       idl_decl ""
       explicit_switch_type ""
       
-      classrelation 128258 // <association>
-	relation 128258 ----
+      classrelation 155650 // <composition>
+	relation 151938 *---
 	  a role_name "" private
-	    classrelation_ref 128258 // <association>
+	    classrelation_ref 155650 // <composition>
 	  b role_name "" private
-	    classrelation_ref 128386 // <association>
+	    classrelation_ref 155778 // <composition>
       end
 
-      classrelation 128514 // <association>
-	relation 128386 ----
+      classrelation 155906 // <composition>
+	relation 152066 *---
 	  a role_name "" private
-	    classrelation_ref 128514 // <association>
+	    classrelation_ref 155906 // <composition>
 	  b role_name "" private
-	    classrelation_ref 128642 // <association>
+	    classrelation_ref 156034 // <composition>
       end
 
-      classrelation 130306 // <composition>
-	relation 129282 *---
+      classrelation 156162 // <composition>
+	relation 152194 *---
 	  a role_name "" private
-	    classrelation_ref 130306 // <composition>
+	    classrelation_ref 156162 // <composition>
 	  b role_name "" private
-	    classrelation_ref 130434 // <composition>
+	    classrelation_ref 156290 // <composition>
       end
 
-      classrelation 136962 // <composition>
-	relation 135810 *---
+      classrelation 156418 // <composition>
+	relation 152322 *---
 	  a role_name "" private
-	    classrelation_ref 136962 // <composition>
+	    classrelation_ref 156418 // <composition>
 	  b role_name "" private
-	    classrelation_ref 137090 // <composition>
-      end
-
-      classrelation 144258 // <composition>
-	relation 142722 *---
-	  a role_name "" private
-	    classrelation_ref 144258 // <composition>
-	  b role_name "" private
-	    classrelation_ref 144386 // <composition>
-      end
-
-      classrelation 144514 // <composition>
-	relation 142850 *---
-	  a role_name "" private
-	    classrelation_ref 144514 // <composition>
-	  b role_name "" private
-	    classrelation_ref 144642 // <composition>
-      end
-
-      classrelation 151426 // <composition>
-	relation 149506 *---
-	  a role_name "" private
-	    classrelation_ref 151426 // <composition>
-	  b role_name "" private
-	    classrelation_ref 151554 // <composition>
-      end
-
-      classrelation 152194 // <composition>
-	relation 149890 *---
-	  a role_name "" private
-	    classrelation_ref 152194 // <composition>
-	  b role_name "" private
-	    classrelation_ref 152322 // <composition>
+	    classrelation_ref 156546 // <composition>
       end
     end
 
@@ -174,6 +142,39 @@ format 74
       explicit_switch_type ""
       
       comment "It will return a standard format representing extracted data."
+      operation 128898 "setDir"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 129026 "getData"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 129154 "extract"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      classrelation 153730 // <composition>
+	relation_ref 150658 // <composition>
+      end
     end
 
     class 128386 "GoSymbolExtractor"
@@ -191,10 +192,6 @@ format 74
 	  a public
 	    classrelation_ref 128130 // <generalisation>
 	  b parent class_ref 128258 // SymbolExtractor
-      end
-
-      classrelation 128386 // <association>
-	relation_ref 128258 // <association>
       end
 
       classrelation 129026 // <association>
@@ -231,10 +228,6 @@ format 74
       idl_decl ""
       explicit_switch_type ""
       
-      classrelation 128642 // <association>
-	relation_ref 128386 // <association>
-      end
-
       classrelation 128770 // <association>
 	relation 128514 ----
 	  a role_name "" private
@@ -259,6 +252,38 @@ format 74
 
       classrelation 144130 // <composition>
 	relation_ref 142594 // <composition>
+      end
+
+      operation 129282 "storeData"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 129410 "readData"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      classrelation 154114 // <composition>
+	relation 151042 *---
+	  a role_name "" private
+	    classrelation_ref 154114 // <composition>
+	  b role_name "" private
+	    classrelation_ref 154242 // <composition>
+      end
+
+      classrelation 154498 // <composition>
+	relation_ref 151170 // <composition>
       end
     end
 
@@ -295,9 +320,6 @@ format 74
 	relation_ref 129154 // <composition>
       end
 
-      classrelation 130434 // <composition>
-	relation_ref 129282 // <composition>
-      end
     end
 
     class 135298 "GoSymbolsTransformator"
@@ -309,10 +331,6 @@ format 74
       idl_decl ""
       explicit_switch_type ""
       
-      classrelation 137090 // <composition>
-	relation_ref 135810 // <composition>
-      end
-
       classrelation 151682 // <composition>
 	relation 149634 *---
 	  a role_name "" private
@@ -323,6 +341,13 @@ format 74
 
       classrelation 152066 // <composition>
 	relation_ref 149762 // <composition>
+      end
+
+      classrelation 155010 // <generalisation>
+	relation 151554 ---|>
+	  a public
+	    classrelation_ref 155010 // <generalisation>
+	  b parent class_ref 155906 // SymbolTransformator
       end
     end
 
@@ -335,6 +360,39 @@ format 74
       idl_decl ""
       explicit_switch_type ""
       
+      operation 128002 "setData"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 128130 "getData"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 128258 "analyze"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      classrelation 153474 // <composition>
+	relation_ref 150530 // <composition>
+      end
     end
 
     class 135554 "GoApiComparator"
@@ -376,8 +434,38 @@ format 74
 	    classrelation_ref 144130 // <composition>
       end
 
-      classrelation 144642 // <composition>
-	relation_ref 142850 // <composition>
+      classrelation 154242 // <composition>
+	relation_ref 151042 // <composition>
+      end
+
+      classrelation 154370 // <composition>
+	relation 151170 *---
+	  a role_name "" private
+	    classrelation_ref 154370 // <composition>
+	  b role_name "" private
+	    classrelation_ref 154498 // <composition>
+      end
+
+      classrelation 154626 // <composition>
+	relation 151298 *---
+	  a role_name "" private
+	    classrelation_ref 154626 // <composition>
+	  b role_name "" private
+	    classrelation_ref 154754 // <composition>
+      end
+
+      classrelation 156034 // <composition>
+	relation_ref 152066 // <composition>
+      end
+
+      operation 130050 "create"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
       end
     end
 
@@ -399,8 +487,26 @@ format 74
 	    classrelation_ref 143874 // <composition>
       end
 
-      classrelation 144386 // <composition>
-	relation_ref 142722 // <composition>
+      classrelation 153602 // <composition>
+	relation 150658 *---
+	  a role_name "" private
+	    classrelation_ref 153602 // <composition>
+	  b role_name "" private
+	    classrelation_ref 153730 // <composition>
+      end
+
+      classrelation 155778 // <composition>
+	relation_ref 151938 // <composition>
+      end
+
+      operation 129922 "create"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
       end
     end
 
@@ -441,8 +547,42 @@ format 74
 	    classrelation_ref 151298 // <composition>
       end
 
-      classrelation 151554 // <composition>
-	relation_ref 149506 // <composition>
+      classrelation 152834 // <composition>
+	relation 150274 *---
+	  a role_name "" private
+	    classrelation_ref 152834 // <composition>
+	  b role_name "" private
+	    classrelation_ref 152962 // <composition>
+      end
+
+      classrelation 153090 // <composition>
+	relation 150402 *---
+	  a role_name "" private
+	    classrelation_ref 153090 // <composition>
+	  b role_name "" private
+	    classrelation_ref 153218 // <composition>
+      end
+
+      classrelation 153346 // <composition>
+	relation 150530 *---
+	  a role_name "" private
+	    classrelation_ref 153346 // <composition>
+	  b role_name "" private
+	    classrelation_ref 153474 // <composition>
+      end
+
+      operation 128770 "create"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      classrelation 156546 // <composition>
+	relation_ref 152322 // <composition>
       end
     end
 
@@ -467,8 +607,168 @@ format 74
 	    classrelation_ref 152066 // <composition>
       end
 
-      classrelation 152322 // <composition>
-	relation_ref 149890 // <composition>
+      classrelation 155394 // <composition>
+	relation 151810 *---
+	  a role_name "" private
+	    classrelation_ref 155394 // <composition>
+	  b role_name "" private
+	    classrelation_ref 155522 // <composition>
+      end
+
+      classrelation 156290 // <composition>
+	relation_ref 152194 // <composition>
+      end
+
+      operation 130178 "create"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+    end
+
+    class 155522 "UsedApi"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      operation 128386 "setData"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 128514 "getData"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 128642 "analyze"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      classrelation 152578 // <aggregation>
+	relation_ref 150018 // <aggregation>
+      end
+
+      classrelation 153218 // <composition>
+	relation_ref 150402 // <composition>
+      end
+    end
+
+    class 155650 "GoUsedApi"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 152450 // <aggregation>
+	relation 150018 o---
+	  a role_name "" private
+	    classrelation_ref 152450 // <aggregation>
+	  b role_name "" private
+	    classrelation_ref 152578 // <aggregation>
+      end
+
+      classrelation 152706 // <generalisation>
+	relation 150146 ---|>
+	  a public
+	    classrelation_ref 152706 // <generalisation>
+	  b parent class_ref 155522 // UsedApi
+      end
+
+      classrelation 152962 // <composition>
+	relation_ref 150274 // <composition>
+      end
+    end
+
+    class 155778 "ApiStorage"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 153986 // <generalisation>
+	relation 150914 ---|>
+	  a public
+	    classrelation_ref 153986 // <generalisation>
+	  b parent class_ref 128642 // SymbolStorage
+      end
+
+      classrelation 154754 // <composition>
+	relation_ref 151298 // <composition>
+      end
+    end
+
+    class 155906 "SymbolTransformator"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      operation 129538 "setData"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 129666 "getData"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 129794 "transform()"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      classrelation 155522 // <composition>
+	relation_ref 151810 // <composition>
       end
     end
   end
