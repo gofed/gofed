@@ -1,13 +1,16 @@
 from Base import Base
-from ImportPath import ImportPath
 from SpecParser import SpecParser
 from SpecParser import Sources
 from os import path
-from ProjectInfo import ProjectInfo
 import tempfile
 import shutil
 from Utils import runCommand
 from Config import Config
+
+import logging
+from gofed_infra.system.core.factory.actfactory import ActFactory
+from gofed_lib.projectinfobuilder import ProjectInfoBuilder
+from gofed_lib.importpathparserbuilder import ImportPathParserBuilder
 
 #
 # 1. URL tag: should be https://%{import_path} otherwise it can not be used
@@ -35,6 +38,9 @@ class GoLint(Base):
 
 	def __init__(self, spec, sources, archive, verbose = False, stdout = True, noGodeps = []):
 		Base.__init__(self)
+
+		self.prj_info = ProjectInfoBuilder().build()
+
 		self.spec = spec
 		self.sources = sources
 		self.archive = archive
@@ -49,7 +55,6 @@ class GoLint(Base):
 
 		self.sp_obj = None
 		self.src_obj = None
-		self.prj_obj = None
 
 	def getErrorCount(self):
 		return self.err_number
@@ -86,8 +91,6 @@ class GoLint(Base):
 				self.err = self.src_obj.getError()
 				return False
 
-		# Inspect tarball
-		self.prj_obj = ProjectInfo(noGodeps = self.noGodeps)
 		# create a temp directory
 		dir = tempfile.mkdtemp()
 		# extract tarball to the directory
@@ -102,9 +105,22 @@ class GoLint(Base):
 			return False
 
 		so = so.split('\n')[0]
-		if not self.prj_obj.retrieve("%s/%s" % (dir, so), skip_errors = True):
-			self.err = self.prj_obj.getError()
-			return False
+
+		data = {
+			"type": "user_directory",
+			"resource": path.abspath("%s/%s" % (dir, so)),
+			"directories_to_skip": self.noGodeps,
+			"ipprefix": "."
+		}
+
+		try:
+			data = ActFactory().bake("go-code-inspection").call(data)
+		except Exception as e:
+			logging.error(e)
+			exit(1)
+
+		# TODO(jchaloup) catch exceptions, at least ValueError
+		self.prj_info.construct(data)
 
 		shutil.rmtree(dir)
 
@@ -145,16 +161,15 @@ class GoLint(Base):
 			self.err_number += 1
 			return False
 
-		ip_obj = ImportPath(url)
-		if not ip_obj.parse():
-			self.err = ip_obj.getError()
-			return False
-
-		pkg_name = ip_obj.getPackageName()
-		if pkg_name == '':
+		ip_obj = ImportPathParserBuilder().buildWithLocalMapping()
+		try:
+			ip_obj.parse(url)
+		except ValueError as e:
 			self.t_result = "E: Uknown repo url"
 			self.err_number += 1
 			return False
+
+		pkg_name = ip_obj.getPackageName()
 
 		if pkg_name != name:
 			self.t_result = "W: Incorrect package name %s, should be %s" % (name, pkg_name)
@@ -263,24 +278,8 @@ class GoLint(Base):
 
 	def testDevel(self):
 		# get provided and imported paths from tarball
-		t_imported = self.prj_obj.getImportedPackages()
-		package_imports_occurence = self.prj_obj.getPackageImportsOccurences()
-		t_provided = self.prj_obj.getProvidedPackages()
-
-		# filter out import paths used only by main packages
-		non_main_imported = []
-		for gimport in t_imported:
-			skip = True
-			if gimport in package_imports_occurence:
-				for occurrence in package_imports_occurence[gimport]:
-					if not occurrence.endswith(":main"):
-						skip = False
-						break
-			if skip:
-				continue
-			non_main_imported.append(gimport)
-
-		t_imported = non_main_imported
+		t_imported = self.prj_info.getImportedPackages()
+		t_provided = self.prj_info.getProvidedPackages()
 
 		devel_prefix = self.sp_obj.getMacro('devel_prefix')
 		if devel_prefix == "":
