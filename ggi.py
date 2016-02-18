@@ -31,6 +31,8 @@ from modules.ParserConfig import ParserConfig
 
 from gofed_infra.system.core.factory.actfactory import ActFactory
 from gofed_lib.importpathsdecomposerbuilder import ImportPathsDecomposerBuilder
+from gofed_lib.projectinfobuilder import ProjectInfoBuilder
+
 import logging
 
 if __name__ == "__main__":
@@ -148,37 +150,18 @@ if __name__ == "__main__":
 		logging.error(e)
 		exit(1)
 
-	occurrences = {}
-	main_occurrences = {}
+	prj_info = ProjectInfoBuilder().build()
+	# TODO(jchaloup) catch exceptions, at least ValueError
+	prj_info.construct(data)
 
-	for pkg in data["data"]["dependencies"]:
-		package = pkg["package"]
-		for item in pkg["dependencies"]:
-			dep = item["name"]
-			if package != ".":
-				deps = map(lambda l: "%s/%s" % (package, l), item["location"])
-			else:
-				deps = item["location"]
-			if dep not in occurrences:
-				occurrences[dep] = deps
-			else:
-				occurrences[dep] = occurrences[dep] + deps
+	occurrences = prj_info.getImportsOccurrence()
+	main_occurrences = prj_info.getMainOccurrence()
 
-	for main in data["data"]["main"]:
-		filename = main["filename"]
-		for dep in main["dependencies"]:
-			if dep not in main_occurrences:
-				main_occurrences[dep] = [filename]
-			else:
-				main_occurrences[dep].append(filename)
-
-	ip_used = []
-	for pkg in data["data"]["dependencies"]:
-		ip_used = ip_used + map(lambda l: l["name"], pkg["dependencies"])
-
-	ip_used = list(set(ip_used))
+	# ip used into devel packages
+	ip_used = list(set(occurrences.keys()))
 
 	decomposer = ImportPathsDecomposerBuilder().buildLocalDecomposer()
+	# TODO(jchaloup) catch exceptions, at least ValueError
 	decomposer.decompose(ip_used)
 	classes = decomposer.getClasses()
 	sorted_classes = sorted(classes.keys())
@@ -210,7 +193,7 @@ if __name__ == "__main__":
 
 	if options.spec and options.showoccurrence:
 		print "# THIS IS NOT A VALID SPEC FORMAT"
-		print "# COMMENTS HAS TO BE STARTED AT THE BEGGINING OF A LINE"
+		print "# COMMENTS HAS TO START AT THE BEGGINING OF A LINE"
 
 
 	for element in sorted_classes:

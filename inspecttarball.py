@@ -22,8 +22,10 @@ import sys
 import optparse
 from modules.Config import Config
 from modules.ParserConfig import ParserConfig
-from gofed_infra.system.core.factory.actfactory import ActFactory
+
 import logging
+from gofed_infra.system.core.factory.actfactory import ActFactory
+from gofed_lib.projectinfobuilder import ProjectInfoBuilder
 
 if __name__ == "__main__":
 
@@ -118,10 +120,14 @@ if __name__ == "__main__":
 		logging.error(e)
 		exit(1)
 
+	prj_info = ProjectInfoBuilder().build()
+	# TODO(jchaloup) catch exceptions, at least ValueError
+	prj_info.construct(data)
+
 	if options.provides:
 		skipped_provides_with_prefix = Config().getSkippedProvidesWithPrefix()
 
-		for ip in sorted(data["data"]["packages"]):
+		for ip in sorted(prj_info.getProvidedPackages()):
 			skip = False
 			for prefix in skipped_provides_with_prefix:
 				if ip.startswith(prefix):
@@ -153,8 +159,7 @@ if __name__ == "__main__":
 				print ip
 
 	elif options.test:
-		sdirs = map(lambda l: l["test"], data["data"]["tests"])
-		for dir in sdirs:
+		for dir in prj_info.getTestDirectories():
 			if options.spec != False:
 				if dir != ".":
 					print "go test %%{import_path}/%s" % dir
@@ -162,19 +167,19 @@ if __name__ == "__main__":
 					print "go test %{import_path}"
 			else:
 				print dir
-	elif options.dirs:
-		dirs = data["data"]["packages"] + map(lambda l: l["test"], data["data"]["tests"])
-		if options.mainpackages:
-			dirs = dirs + map(lambda l: l["filename"], data["data"]["main"])
-		sdirs = []
-		for dir in dirs:
-			sdirs.append( dir.split("/")[0] )
 
-		sdirs = sorted(list(set(sdirs)))
-		for dir in sdirs:
+	elif options.dirs:
+		files = prj_info.getProvidedPackages() + prj_info.getTestDirectories()
+		if options.mainpackages:
+			files = files + prj_info.getMainPackages()
+
+		dirs = map(lambda l: l.split("/")[0], files)
+		dirs = sorted(list(set(dirs)))
+
+		for dir in dirs:
 			print dir
 	elif options.mainpackages:
-		for pkg in sorted(map(lambda l: l["filename"], data["data"]["main"])):
+		for pkg in sorted(prj_info.getMainPackages()):
 			print pkg
 	else:
 		print "Usage: prog [-p] [-d] [-t] [directory]"
