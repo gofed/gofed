@@ -3,17 +3,22 @@ from modules.Utils import ENDC, RED, GREEN
 from modules.Utils import runCommand, FormatedPrint
 from modules.Packages import packageInPkgdb
 
-from modules.ImportPath import ImportPath
-from modules.PackageInfo import PackageInfo
 from modules.SpecGenerator import SpecGenerator
-from modules.ImportPathsDecomposer import ImportPathsDecomposer
 from modules.Config import Config
 
 import os
 import sys
 import errno
+import logging
+import json
 
-
+from gofed_infra.system.core.factory.actfactory import ActFactory
+from gofed_lib.data2specmodeldata import Data2SpecModelData
+from gofed_lib.contentmetadataextractor import ContentMetadataExtractor
+from gofed_lib.importpathparserbuilder import ImportPathParserBuilder
+from gofed_lib.importpathsdecomposerbuilder import ImportPathsDecomposerBuilder
+from gofed_lib.repositoryinfo import RepositoryInfo
+from gofed_lib.types import UnsupportedImportPathError
 
 def setOptions():
 	parser = optparse.OptionParser("%prog [-e] [-d] file [file [file ...]]")
@@ -172,13 +177,30 @@ def createBasicDirectories(name):
 	make_sure_path_exists("%s/fedora/%s" % (name, name))
 	os.chdir("%s/fedora/%s" % (name, name))
 
-def downloadTarball(archive_url):
-	so, se, rc = runCommand("wget -nv %s --no-check-certificate" % archive_url)
-	if rc != 0:		
-		print "%sUnable to download tarball:\n%s%s" % (RED, se, ENDC)
-		exit(1)
+def checkDependencies(fmt_obj, classes, url, ipparser):
+	for element in sorted(classes.keys()):
+		if element == "Unknown":
+			fmt_obj.printWarning("Some import paths were not detected. Please run gofed ggi -c on extracted tarball manually")
+			continue
+
+		classes[element] = sorted(classes[element])
+
+		try:
+			pkg_name = ipparser.parse(element).getPackageName()
+		except UnsupportedImportPathError as e:
+			fmt_obj.printWarning("Unable to translate %s to package name: %s" % (element, e))
+			continue
+
+		pkg_in_pkgdb = packageInPkgdb(pkg_name)
+		if pkg_in_pkgdb:
+			print (GREEN + "\tClass: %s (%s) PkgDB=%s" + ENDC) % (element, pkg_name, pkg_in_pkgdb)
+		else:
+			print (RED + "\tClass: %s (%s) PkgDB=%s" + ENDC ) % (element, pkg_name, pkg_in_pkgdb)
+
 
 if __name__ == "__main__":
+
+	logging.root.setLevel(logging.INFO)
 
 	options, args = setOptions()
 
@@ -233,73 +255,95 @@ if __name__ == "__main__":
 				continue
 			noGodeps.append(dir)
 
+	path = "/home/jchaloup/Packages/golang-github-bradfitz-http2/fedora/golang-github-bradfitz-http2/http2-f8202bc903bda493ebba4aa54922d78430c2c42f"
+
+	#path = "/home/jchaloup/Packages/golang-github-onsi-gomega/fedora/golang-github-onsi-gomega/gomega-8adf9e1730c55cdc590de7d49766cb2acc88d8f2"
+
+	path = "/home/jchaloup/Packages/golang-github-vishvananda-netlink/fedora/golang-github-vishvananda-netlink/netlink-1e2e08e8a2dcdacaae3f14ac44c5cfa31361f270"
+
+	ipparser = ImportPathParserBuilder().buildWithLocalMapping()
+	# commit
+	if commit == "":
+		commit = RepositoryInfo(ipparser).retrieve(import_path).getCommit()
+
+	# convert import path to project provider path
+	name = ipparser.parse(import_path).getPackageName()
+
+	metadata = {
+		"provider_prefix": ipparser.getProviderPrefix(),
+		"import_path": ipparser.getImportPathPrefix(),
+		"commit": commit,
+		"package_name": name,
+		"skipped_directories": ["Godeps"]
+		#{"key": "summary", "value": "..."},
+		#{"key": "description", "value": "..."},
+		#{"key": "website", "value": "https://godoc.org/github.com/bradfitz/http2"}
+	}
+
+
 	# 1. decode some package info (name, archive url, ...)
 	# 2. set path to downloaded tarball
 	# 3. retrieve project info from tarball
 	# 4. generate spec file
-	
-	pkg_obj = PackageInfo(import_path, commit, noGodeps, options.skiperrors)
-	if not pkg_obj.decodeRepository():
-		fmt_obj.printError(pkg_obj.getError())
-		exit(1)
 
-	name = pkg_obj.getName()
-	if name == "":
-		fmt_obj.printError("Unable to generate package name for %s" % import_path)
-		exit(1)
-
-	specfile = "%s.spec" % name
+	specfile = "%s.spec" % metadata["package_name"]
 	total = 4
 
 	# print basic information
-	repository_info = pkg_obj.getRepositoryInfo()
-	if repository_info == None:
-		fmt_obj.printError("RepositoryInfo not set")
-		exit(1)
-
-	url = repository_info.getImportPathInfo().getPrefix()
-	commit = repository_info.getCommit()
-	archive_url = repository_info.getArchiveInfo().archive_url
-	archive = repository_info.getArchiveInfo().archive
-	printBasicInfo(url, commit, name, options.format)
+	printBasicInfo(metadata["provider_prefix"], metadata["commit"], metadata["package_name"], options.format)
 	print ""
 
 	# is the package already in Fedora
 	fmt_obj.printProgress("(1/%s) Checking if the package already exists in PkgDB" % total)
-	isPkgInPkgDB(name, options.force)
+	#isPkgInPkgDB(name, options.force)
 
 	# creating basic folder structure
 	createBasicDirectories(name)
 
 	# download tarball
-	fmt_obj.printProgress("(2/%s) Downloading tarball" % total)
-	downloadTarball(archive_url)
-	so, se, rc = runCommand("tar -xf %s" % archive)
-	if rc != 0:
-		fmt_obj.printErr("Unable to extract %s" % archive)
-		exit(1)
+	fmt_obj.printProgress("(2/%s) Collecting data" % total)
+
+	data = {
+		"type": "user_directory",
+		"resource": os.path.abspath(path),
+		"directories_to_skip": noGodeps,
+		"ipprefix": "."
+	}
+
+	data = {
+		"type": "upstream_source_code",
+		"project": metadata["provider_prefix"],
+		"commit": metadata["commit"],
+		"directories_to_skip": noGodeps,
+		"ipprefix": metadata["import_path"]
+	}
+
+
+	#try:
+	data = ActFactory().bake("spec-model-data-provider").call(data)
+	#except Exception as e:
+	#	logging.error(e)
+	#	exit(1)
+
+	combiner = Data2SpecModelData()
+	combiner.combine(metadata, data[0], data[1])
+	data = combiner.getData()
 
 	# generate spec file
 	fmt_obj.printProgress("(3/%s) Generating spec file" % total)
 
-	if not pkg_obj.decodeProject(os.getcwd()):
-		fmt_obj.printError(pkg_obj.getError())
-		exit(1)
-
-	spec = SpecGenerator(import_path, commit, skiperrors = options.skiperrors, with_build = options.withbuild, with_extra = options.withextra)
-	spec.setPackageInfo(pkg_obj)
+	spec = SpecGenerator(
+		with_build = options.withbuild,
+		with_extra = options.withextra
+	)
 
 	try:
-		file = open("%s" % specfile, "w")
-		spec.setOutputFile(file)
-		if not spec.generate():
-			fmt_obj.printErr("Unable to generate spec file: %s" % spec.getError())
-			exit(1)
-	except IOError:
-		fmt_obj.printErr("Error: can\'t open %s file" % specfile)
-		exit(1)
+		with open("%s" % specfile, "w") as f:
+			spec.generate(data, f)
 
-	file.close()
+	except IOError:
+		fmt_obj.printErr("Error: can\'t write to '%s' file" % specfile)
+		exit(1)
 
 	so, se, rc = runCommand("rpmdev-bumpspec %s -c \"First package for Fedora\"" % specfile)
 	if rc != 0:
@@ -308,66 +352,36 @@ if __name__ == "__main__":
 
 	fmt_obj.printProgress("(4/%s) Discovering golang dependencies" % total)
 
-	prj_info = pkg_obj.getProjectInfo()
-	if prj_info == None:
-		fmt_obj.printErr("Unable to bump spec file: %s" % se)
-		exit(1)
+	package_deps = reduce(lambda x,y: x + y, map(lambda l: l["dependencies"], data["data"]["packages"]))
 
-	ip_used = prj_info.getImportedPackages()
-	package_imports_occurence = prj_info.getPackageImportsOccurences()
+	test_deps = reduce(lambda x,y: x + y, map(lambda l: l["dependencies"], data["data"]["tests"]))
 
-	ipd = ImportPathsDecomposer(ip_used)
-	if not ipd.decompose():
-		fmt_obj.printErr(ipd.getError())
-		exit(1)
+	package_deps = sorted(list(set(package_deps)))
+	diff_deps = sorted(list(set(test_deps) - set(package_deps)))
+	decomposer = ImportPathsDecomposerBuilder().buildLocalDecomposer()
 
-	warn = ipd.getWarning()
-	if warn != "":
-		fmt_obj.printWarning(warn)
+	# filter out self imports
+	package_deps = filter(lambda l: not l.startswith(metadata["import_path"]), package_deps)
+	diff_deps = filter(lambda l: not l.startswith(metadata["import_path"]), diff_deps)
 
-	classes = ipd.getClasses()
-	sorted_classes = sorted(classes.keys())
+	add_line = True
+	if package_deps != []:
+		fmt_obj.printProgress("Discovering package dependencies")
+		decomposer.decompose(package_deps)
+		classes = decomposer.getClasses()
+		checkDependencies(fmt_obj, classes, metadata["import_path"], ipparser)
+		print ""
+		add_line = False
 
-	for element in sorted_classes:
-		if element == "Native":
-			continue
+	if diff_deps != []:
+		fmt_obj.printProgress("Discovering test dependencies")
+		decomposer.decompose(diff_deps)
+		classes = decomposer.getClasses()
+		checkDependencies(fmt_obj, classes, metadata["import_path"], ipparser)
+		print ""
+		add_line = False
 
-		if element == "Unknown":
-			fmt_obj.printWarning("Some import paths were not detected. Please run gofed ggi -c on extracted tarball manually")
-			continue
+	if add_line:
+		print ""
 
-		one_class = []
-		for gimport in classes[element]:
-			# does it occur only in main package?
-			# remove it from classes[element]
-			if len(package_imports_occurence[gimport]) == 1 and package_imports_occurence[gimport][0].endswith(":main"):
-				continue
-
-			one_class.append(gimport)
-
-		if one_class == []:
-			continue
-
-		classes[element] = sorted(one_class)
-
-		if element.startswith(url):
-			continue
-
-		ip_obj = ImportPath(element)
-		if not ip_obj.parse():
-			fmt_obj.printWarning("Unable to translate %s to package name" % element)
-			continue
-
-		pkg_name = ip_obj.getPackageName()
-		pkg_in_pkgdb = False
-
-		if pkg_name != "":
-			pkg_in_pkgdb = packageInPkgdb(pkg_name)
-			if pkg_in_pkgdb:
-				print (GREEN + "Class: %s (%s) PkgDB=%s" + ENDC) % (element, pkg_name, pkg_in_pkgdb)
-			else:
-				print (RED + "Class: %s (%s) PkgDB=%s" + ENDC ) % (element, pkg_name, pkg_in_pkgdb)
-
-
-	print ""
 	fmt_obj.printInfo("Spec file %s at %s" % (specfile, os.getcwd()))

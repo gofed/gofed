@@ -1,25 +1,18 @@
-from ImportPath import GITHUB, GOOGLECODE, GOOGLEGOLANGORG, GOLANGORG, GOPKG, BITBUCKET, UNKNOWN
-from PackageInfo import PackageInfo
 from ProviderPrefixes import ProviderPrefixes
 import os
-from Utils import runCommand
+import sys
+
+from gofed_lib.importpathparserbuilder import ImportPathParserBuilder
+from gofed_lib.repositoryinfo import RepositoryInfo
+from gofed_lib.importpathparser import GITHUB, GOOGLECODE, BITBUCKET
 
 class SpecGenerator:
 
-	def __init__(self, import_path, commit="", skiperrors=False, with_build = False, with_extra = False):
-		self.import_path = import_path
-		self.commit = commit
-		self.spec_name = ""
-		self.pkg_info = None
-		self.warn = ""
+	def __init__(self, with_build = False, with_extra = False):
 		self.with_build = with_build
 		self.with_extra = with_extra
 
-	def getWarning(self):
-		return self.warn
-
-	def setPackageInfo(self, pkg_info):
-		self.pkg_info = pkg_info
+		self.file = sys.stdout
 
 	def generateHeaderEpilogue(self):
 		self.file.write("%if 0%{?fedora} || 0%{?rhel} == 6\n")
@@ -56,7 +49,7 @@ class SpecGenerator:
 			self.file.write("%endif\n")
 			self.file.write("\n")
 
-	def generateGithubHeader(self, project, repository, url, provider_prefix, commit):
+	def generateGithubHeader(self, project, repository, url, provider_prefix, commit, licenses):
 		self.file.write("%global provider        github\n")
 		self.file.write("%global provider_tld    com\n")
 		self.file.write("%%global project         %s\n" % project)
@@ -75,11 +68,15 @@ class SpecGenerator:
 		self.file.write("Version:        0\n")
 		self.file.write("Release:        0.0.git%{shortcommit}%{?dist}\n")
 		self.file.write("Summary:        !!!!FILL!!!!\n")
+		if licenses != []:
+			self.file.write("# Detected licences\n")
+		for license in licenses:
+			self.file.write("# - %s at '%s'\n" % (license["type"], license["file"]))
 		self.file.write("License:        !!!!FILL!!!!\n")
 		self.file.write("URL:            https://%{provider_prefix}\n")
 		self.file.write("Source0:        https://%{provider_prefix}/archive/%{commit}/%{repo}-%{shortcommit}.tar.gz\n")
 
-	def generateGooglecodeHeader(self, repository, url, provider_prefix, commit):
+	def generateGooglecodeHeader(self, repository, url, provider_prefix, commit, licenses):
 		parts = repository.split(".")
 		stripped_repo = parts[-1]
 		rrepository = ".".join(parts[::-1])
@@ -103,11 +100,15 @@ class SpecGenerator:
 		self.file.write("Version:        0\n")
 		self.file.write("Release:        0.0.hg%{shortrev}%{?dist}\n")
 		self.file.write("Summary:        !!!!FILL!!!!\n")
+		if licenses != []:
+			self.file.write("# Detected licences\n")
+		for license in licenses:
+			self.file.write("# - %s at '%s'\n" % (license["type"], license["file"]))
 		self.file.write("License:        !!!!FILL!!!!\n")
 		self.file.write("URL:            https://%{provider_prefix}\n")
 		self.file.write("Source0:        https://%{rrepo}.%{provider}%{provider_sub}.%{provider_tld}/archive/%{rev}.tar.gz\n")
 
-	def generateBitbucketHeader(self, project, repository, url, provider_prefix, commit):
+	def generateBitbucketHeader(self, project, repository, url, provider_prefix, commit, licenses):
 		self.file.write("%global provider        bitbucket\n")
 		self.file.write("%global provider_tld    org\n")
 		self.file.write("%%global project         %s\n" % project)
@@ -128,10 +129,14 @@ class SpecGenerator:
 		self.file.write("Release:        0.0.git%{shortcommit}%{?dist}\n")
 		self.file.write("Summary:        !!!!FILL!!!!\n")
 		self.file.write("License:        !!!!FILL!!!!\n")
+		if licenses != []:
+			self.file.write("# Detected licences\n")
+		for license in licenses:
+			self.file.write("# - %s at '%s'\n" % (license["type"], license["file"]))
 		self.file.write("URL:            https://%{provider_prefix}\n")
 		self.file.write("Source0:        https://%{provider_prefix}/get/%%{shortcommit}.tar.gz\n")
 
-	def generateHeaderPrologue(self, project, prefix):
+	def generateHeaderPrologue(self, main_packages, prefix):
 		self.file.write("# e.g. el6 has ppc64 arch without gcc-go, so EA tag is required\n")
 		self.file.write("ExclusiveArch:  %{?go_arches:%{go_arches}}%{!?go_arches:%{ix86} x86_64 %{arm}}\n")
 		# Once BuildRequires of the compiler is removed from the main package, put it back to unit-test-devel subpackage.
@@ -140,20 +145,26 @@ class SpecGenerator:
 		self.file.write("BuildRequires:  %{?go_compiler:compiler(go-compiler)}%{!?go_compiler:golang}\n\n")
 
 		if self.with_build:
-			imported_packages = project.getImportedPackages()
 			self.file.write("%if ! 0%{?with_bundled}\n")
-			for dep in imported_packages:
-				if dep.startswith(prefix):
+			for package in main_packages:
+				deps = filter(lambda l: not l.startswith(prefix), package["dependencies"])
+
+				if deps == []:
 					continue
 
-				self.file.write("BuildRequires: golang(%s)\n" % (dep))
+				self.file.write("# %s\n" % package["path"])
+				for dep in deps:
+					self.file.write("BuildRequires: golang(%s)\n" % (dep))
+
+				self.file.write("\n")
+
 			self.file.write("%endif\n\n")
 
                 self.file.write("%description\n")
                 self.file.write("%{summary}\n")
                 self.file.write("\n")
 
-	def generateDevelHeader(self, project, prefix):
+	def generateDevelHeader(self, devel_packages, prefix):
 		self.file.write("%if 0%{?with_devel}\n")
                 self.file.write("%package devel\n")
                 self.file.write("Summary:       %{summary}\n")
@@ -161,49 +172,26 @@ class SpecGenerator:
                 self.file.write("\n")
 
 		# dependencies
-		imported_packages = project.getImportedPackages()
-		package_imports_occurence = project.getPackageImportsOccurences()
+		imported_packages = []
+		for package in devel_packages:
+			imported_packages.extend(package["dependencies"])
+
+		imported_packages = filter(lambda l: l.startswith(prefix), imported_packages)
+		imported_packages = sorted(imported_packages)
 
 		self.file.write("%if 0%{?with_check} && ! 0%{?with_bundled}\n")
 		for dep in imported_packages:
-			if dep.startswith(prefix):
-				continue
-
-			# skip all dependencies occuring only in main packages
-			skip = True
-			if dep in package_imports_occurence:
-				for occurrence in package_imports_occurence[dep]:
-					if not occurrence.endswith(":main"):
-						skip = False
-						break
-			if skip:
-				continue
-
-
 			self.file.write("BuildRequires: golang(%s)\n" % (dep))
 		self.file.write("%endif\n")
 
 		if imported_packages != []:
 			self.file.write("\n")
 			for dep in imported_packages:
-				if dep.startswith(prefix):
-					continue
-
-				# skip all dependencies occuring only in main packages
-				skip = True
-				if dep in package_imports_occurence:
-					for occurrence in package_imports_occurence[dep]:
-						if not occurrence.endswith(":main"):
-							skip = False
-							break
-				if skip:
-					continue
-
 				self.file.write("Requires:      golang(%s)\n" % (dep))
 
 		# provides
 		self.file.write("\n")
-		for path in project.getProvidedPackages():
+		for path in sorted(map(lambda l: l["package"], devel_packages)):
 			# skip all provided packages with /internal/ keyword
 			if "internal" in path.split("/"):
 				continue
@@ -222,7 +210,7 @@ class SpecGenerator:
 		self.file.write("%{import_path} prefix.\n")
 		self.file.write("%endif\n")
 
-	def generateUnitTestHeader(self):
+	def generateUnitTestHeader(self, tests, devel_packages, prefix):
 		self.file.write("%if 0%{?with_unit_test} && 0%{?with_devel}\n")
 		self.file.write("%package unit-test-devel\n")
 		self.file.write("Summary:         Unit tests for %{name} package\n")
@@ -233,12 +221,36 @@ class SpecGenerator:
 		self.file.write("# test subpackage tests code from devel subpackage\n")
 		self.file.write("Requires:        %{name}-devel = %{version}-%{release}\n")
 		self.file.write("\n")
+
+		# dependencies
+		imported_packages = []
+		for package in devel_packages:
+			imported_packages.extend(package["dependencies"])
+
+		imported_packages = filter(lambda l: l.startswith(prefix), imported_packages)
+		imported_packages = sorted(imported_packages)
+
+		test_imported_packages = []
+		for test in tests:
+			test_imported_packages.extend(test["dependencies"])
+
+		test_deps = sorted(list(set(test_imported_packages) - set(imported_packages)))
+
+		self.file.write("%if 0%{?with_check} && ! 0%{?with_bundled}\n")
+		for dep in test_deps:
+			self.file.write("BuildRequires: golang(%s)\n" % (dep))
+		self.file.write("%endif\n")
+
+		if test_deps != []:
+			self.file.write("\n")
+			for dep in test_deps:
+				self.file.write("Requires:      golang(%s)\n" % (dep))
+
 		self.file.write("%description unit-test-devel\n")
 		self.file.write("%{summary}\n")
 		self.file.write("\n")
 		self.file.write("This package contains unit tests for project\nproviding packages with %{import_path} prefix.\n")
 		self.file.write("%endif\n")
-
 
 	def generatePrepSection(self, provider):
 		self.file.write("%prep\n")
@@ -250,7 +262,7 @@ class SpecGenerator:
 		else:
 			self.file.write("%setup -q -n %{repo}-%{commit}\n")
 
-	def generateBuildSection(self, url):
+	def generateBuildSection(self, url, main_packages):
 		self.file.write("%build\n")
 
 		if self.with_build:
@@ -266,15 +278,20 @@ class SpecGenerator:
 			self.file.write("export GOPATH=$(pwd):$(pwd)/Godeps/_workspace:%{gopath}\n")
 			self.file.write("%endif\n")
 			self.file.write("\n")
-			self.file.write("#%gobuild -o bin/NAME %{import_path}/NAME\n")
 
-	def generateInstallSection(self, prj_info, direct_go_files = False):
-		godeps_on = prj_info.godepsDirectoryExists()
+			main_names = sorted(list(set(map(lambda l: os.path.dirname(l["path"]), main_packages))))
+			for name in main_names:
+				self.file.write("#%%gobuild -o bin/%s %%{import_path}/%s\n" % (name, name))
 
+	def generateInstallSection(self, main_packages, godeps_on = False):
 		self.file.write("%install\n")
 		if self.with_build:
 			self.file.write("install -d -p %{buildroot}%{_bindir}\n")
-			self.file.write("#install -p -m 0755 bin/NAME %{buildroot}%{_bindir}\n")
+
+			main_names = sorted(list(set(map(lambda l: os.path.dirname(l["path"]), main_packages))))
+			for name in main_names:
+				self.file.write("#install -p -m 0755 bin/%s %%{buildroot}%%{_bindir}\n" % name)
+
 			self.file.write("\n")
 
 		self.file.write("# source codes for building projects\n")
@@ -312,7 +329,7 @@ class SpecGenerator:
 		self.file.write("sort -u -o devel.file-list devel.file-list\n")
 		self.file.write("%endif\n")
 
-	def generateCheckSection(self, project):
+	def generateCheckSection(self, test_directories):
 		self.file.write("%check\n")
 		self.file.write("%if 0%{?with_check} && 0%{?with_unit_test} && 0%{?with_devel}\n")
 		self.file.write("%if ! 0%{?with_bundled}\n")
@@ -327,7 +344,7 @@ class SpecGenerator:
 			self.file.write("%global gotest go test\n")
 			self.file.write("%endif\n\n")
 
-		sdirs = sorted(project.getTestDirectories())
+		sdirs = sorted(map(lambda l: l["test"], test_directories))
                 for dir in sdirs:
 
 			sufix = ""
@@ -337,42 +354,31 @@ class SpecGenerator:
 			self.file.write("%%gotest %%{import_path}%s\n" % sufix)
 		self.file.write("%endif\n")
 
-	def generateFilesSection(self, provider, project, ip_prefix = ""):
-		# doc all *.md files
-		docs = project.getDocs()
-		licenses = []
-		restdocs = []
-		if docs != []:
-			# scan for license
-			for doc in docs:
-				if doc.lower().find('license') != -1:
-					licenses.append(doc)
-				elif doc.lower().find('copying') != -1:
-					licenses.append(doc)
-				else:
-					restdocs.append(doc)
-
+	def generateFilesSection(self, provider, docs, licenses, main_packages, ip_prefix = ""):
 		self.file.write("#define license tag if not already defined\n")
 		self.file.write("%{!?_licensedir:%global license %doc}\n\n")
 
 		if self.with_build:
 			self.file.write("%files\n")
-			if license != []:
-				self.file.write("%%license %s\n" % (" ".join(licenses)))
-			if restdocs != []:
-				self.file.write("%%doc %s\n" % (" ".join(restdocs)))
+			if licenses != "":
+				self.file.write("%%license %s\n" % (" ".join(map(lambda l: l["file"], licenses))))
+			if docs != []:
+				self.file.write("%%doc %s\n" % (" ".join(docs)))
 
-			self.file.write("#%{_bindir}/NAME\n")
+
+			main_names = sorted(list(set(map(lambda l: os.path.dirname(l["path"]), main_packages))))
+			for name in main_names:
+				self.file.write("#%%{_bindir}/%s\n" % name)
+
 			self.file.write("\n")
-
 
 		self.file.write("%if 0%{?with_devel}\n")
 		self.file.write("%files devel -f devel.file-list\n")
 
-		if license != []:
-			self.file.write("%%license %s\n" % (" ".join(licenses)))
-		if restdocs != []:
-			self.file.write("%%doc %s\n" % (" ".join(restdocs)))
+		if licenses != "":
+			self.file.write("%%license %s\n" % (" ".join(map(lambda l: l["file"], licenses))))
+		if docs != []:
+			self.file.write("%%doc %s\n" % (" ".join(docs)))
 
 		# http://www.rpm.org/max-rpm/s1-rpm-inside-files-list-directives.html
 		# it takes every dir and file recursively
@@ -390,36 +396,30 @@ class SpecGenerator:
 		self.file.write("%if 0%{?with_unit_test} && 0%{?with_devel}\n")
 		self.file.write("%files unit-test-devel -f unit-test-devel.file-list\n")
 
-		if license != []:
-			self.file.write("%%license %s\n" % (" ".join(licenses)))
-		if restdocs != []:
-			self.file.write("%%doc %s\n" % (" ".join(restdocs)))
+		if licenses != "":
+			self.file.write("%%license %s\n" % (" ".join(map(lambda l: l["file"], licenses))))
+		if docs != []:
+			self.file.write("%%doc %s\n" % (" ".join(docs)))
 
 		self.file.write("%endif\n")
-
 
 	def generateChangelogSection(self):
 		self.file.write("%changelog\n")
 
-	def generate(self):
-		if self.pkg_info == None:
-			self.err = "PackageInfo not set"
-			return False
+	def generate(self, artefact, file = sys.stdout):
+		self.file = file
+		ip_info = ImportPathParserBuilder().buildWithLocalMapping()
 
-		cwd = os.getcwd()
-		repo_info = self.pkg_info.getRepositoryInfo()
-		archive_info = repo_info.getArchiveInfo()
-		ip_info = repo_info.getImportPathInfo()
-		prj_info = self.pkg_info.getProjectInfo()
+		commit = artefact["metadata"]["commit"]
+		url = artefact["metadata"]["import_path"]
 
-		self.warn = prj_info.getWarning()
+		repo_info = RepositoryInfo(ip_info)
+		repo_info.retrieve(url, commit)
 
 		provider = ip_info.getProvider()
-		project = ip_info.project
-		repository = ip_info.repository
-		commit = repo_info.getCommit()
-		url = ip_info.getPrefix()
-		archive_dir = archive_info.archive_dir
+		project = ip_info.getProject()
+		repository = ip_info.getRepository()
+		archive_dir = repo_info.getArchiveInfo().archive_dir
 		prefix = ip_info.getPrefix()
 		provider_prefix = ip_info.getProviderPrefix()
 
@@ -427,21 +427,23 @@ class SpecGenerator:
 		self.generateHeaderEpilogue()
 
 		if provider == GITHUB:
-			self.generateGithubHeader(project, repository, url, provider_prefix, commit)
+			self.generateGithubHeader(project, repository, url, provider_prefix, commit, artefact["data"]["licenses"])
 		elif provider == GOOGLECODE:
-			self.generateGooglecodeHeader(repository, url, provider_prefix, commit)
+			self.generateGooglecodeHeader(repository, url, provider_prefix, commit, artefact["data"]["licenses"])
 		elif provider == BITBUCKET:
-			self.generateBitbucketHeader(project, repository, url, provider_prefix, commit)
+			self.generateBitbucketHeader(project, repository, url, provider_prefix, commit, artefact["data"]["licenses"])
+		else:
+			raise ValueError("Unknown provider")
 
 		self.file.write("\n")
-		self.generateHeaderPrologue(prj_info, prefix)
+		self.generateHeaderPrologue(artefact["data"]["mains"], prefix)
 
 		# generate devel subpackage
-		self.generateDevelHeader(prj_info, prefix)
+		self.generateDevelHeader(artefact["data"]["packages"], prefix)
 		self.file.write("\n")
 
 		# generate unit-test-devel subpackage
-		self.generateUnitTestHeader()
+		self.generateUnitTestHeader(artefact["data"]["tests"], artefact["data"]["packages"], prefix)
 		self.file.write("\n")
 
 		# generate prep section
@@ -449,19 +451,15 @@ class SpecGenerator:
 		self.file.write("\n")
 
 		# generate build section
-		self.generateBuildSection(url)
+		self.generateBuildSection(url, artefact["data"]["mains"])
 		self.file.write("\n")
 
 		# generate install section
-		direct_go_files = False
-		if "." in prj_info.getProvidedPackages():
-			direct_go_files = True
-
-		self.generateInstallSection(prj_info, direct_go_files)
+		self.generateInstallSection(artefact["data"]["mains"], godeps_on = False)
 		self.file.write("\n")
 
 		# generate check section
-		self.generateCheckSection(prj_info)
+		self.generateCheckSection(artefact["data"]["tests"])
 		self.file.write("\n")
 
 		# generate files section
@@ -470,7 +468,7 @@ class SpecGenerator:
 		else:
 			ip_prefix = ""
 
-		self.generateFilesSection(provider, prj_info, ip_prefix)
+		self.generateFilesSection(provider, artefact["data"]["docs"], artefact["data"]["licenses"], artefact["data"]["mains"], ip_prefix)
 		self.file.write("\n")
 
 		# generate changelog section
