@@ -123,6 +123,11 @@ def setOptions():
             help = "Generate spec file with additional pieces (e.g. definition of %gobuild and %gotest for explicit distributions)"
         )
 
+	parser.add_option(
+	    "", "-d", "--dir", dest="directory", default = "",
+	    help = "Generate spec file from directory"
+	)
+
 	return parser.parse_args()
 
 def checkOptions(options):
@@ -255,20 +260,48 @@ if __name__ == "__main__":
 				continue
 			noGodeps.append(dir)
 
-	path = "/home/jchaloup/Packages/golang-github-bradfitz-http2/fedora/golang-github-bradfitz-http2/http2-f8202bc903bda493ebba4aa54922d78430c2c42f"
+	path = ""
+	if options.directory != "":
+		if options.directory[0] == "/":
+			path = options.directory
+		else:
+			path = os.path.abspath(options.directory)
 
-	#path = "/home/jchaloup/Packages/golang-github-onsi-gomega/fedora/golang-github-onsi-gomega/gomega-8adf9e1730c55cdc590de7d49766cb2acc88d8f2"
-
-	path = "/home/jchaloup/Packages/golang-github-vishvananda-netlink/fedora/golang-github-vishvananda-netlink/netlink-1e2e08e8a2dcdacaae3f14ac44c5cfa31361f270"
+		# path exists?
+		if not os.path.exists(path):
+			logging.error("Path '%s' does not exist" % path)
+			exit(1)
 
 	ipparser = ImportPathParserBuilder().buildWithLocalMapping()
+	name = ipparser.parse(import_path).getPackageName()
+
+	# 1. decode some package info (name, archive url, ...)
+	# 2. set path to downloaded tarball
+	# 3. retrieve project info from tarball
+	# 4. generate spec file
+
+	specfile = "%s.spec" % name
+	total = 4
+
+	# print basic information
+	printBasicInfo(ipparser.getProviderPrefix(), commit, name, options.format)
+	print ""
+
+	# is the package already in Fedora
+	fmt_obj.printProgress("(1/%s) Checking if the package already exists in PkgDB" % total)
+	isPkgInPkgDB(name, options.force)
+
+	# creating basic folder structure
+	createBasicDirectories(name)
+
+	# download tarball
+	fmt_obj.printProgress("(2/%s) Collecting data" % total)
+
 	# commit
-	if commit == "":
+	if options.directory != "" and commit == "":
 		commit = RepositoryInfo(ipparser).retrieve(import_path).getCommit()
 
 	# convert import path to project provider path
-	name = ipparser.parse(import_path).getPackageName()
-
 	metadata = {
 		"provider_prefix": ipparser.getProviderPrefix(),
 		"import_path": ipparser.getImportPathPrefix(),
@@ -280,50 +313,28 @@ if __name__ == "__main__":
 		#{"key": "website", "value": "https://godoc.org/github.com/bradfitz/http2"}
 	}
 
-
-	# 1. decode some package info (name, archive url, ...)
-	# 2. set path to downloaded tarball
-	# 3. retrieve project info from tarball
-	# 4. generate spec file
-
-	specfile = "%s.spec" % metadata["package_name"]
-	total = 4
-
-	# print basic information
-	printBasicInfo(metadata["provider_prefix"], metadata["commit"], metadata["package_name"], options.format)
-	print ""
-
-	# is the package already in Fedora
-	fmt_obj.printProgress("(1/%s) Checking if the package already exists in PkgDB" % total)
-	#isPkgInPkgDB(name, options.force)
-
-	# creating basic folder structure
-	createBasicDirectories(name)
-
-	# download tarball
-	fmt_obj.printProgress("(2/%s) Collecting data" % total)
-
-	data = {
-		"type": "user_directory",
-		"resource": os.path.abspath(path),
-		"directories_to_skip": noGodeps,
-		"ipprefix": "."
-	}
-
-	data = {
-		"type": "upstream_source_code",
-		"project": metadata["provider_prefix"],
-		"commit": metadata["commit"],
-		"directories_to_skip": noGodeps,
-		"ipprefix": metadata["import_path"]
-	}
+	if options.directory != "":
+		data = {
+			"type": "user_directory",
+			"resource": os.path.abspath(path),
+			"directories_to_skip": noGodeps,
+			"ipprefix": "."
+		}
+	else:
+		data = {
+			"type": "upstream_source_code",
+			"project": metadata["provider_prefix"],
+			"commit": metadata["commit"],
+			"directories_to_skip": noGodeps,
+			"ipprefix": metadata["import_path"]
+		}
 
 
-	#try:
-	data = ActFactory().bake("spec-model-data-provider").call(data)
-	#except Exception as e:
-	#	logging.error(e)
-	#	exit(1)
+	try:
+		data = ActFactory().bake("spec-model-data-provider").call(data)
+	except Exception as e:
+		logging.error(e)
+		exit(1)
 
 	combiner = Data2SpecModelData()
 	combiner.combine(metadata, data[0], data[1])
