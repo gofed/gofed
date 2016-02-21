@@ -158,6 +158,10 @@ class SpecGenerator:
 
 				self.file.write("\n")
 
+			# generate dependency on devel too
+			self.file.write("# binaries are built from devel subpackage\n")
+			self.file.write("BuildRequires: %{name}-devel = %{version}-%{release}\n")
+
 			self.file.write("%endif\n\n")
 
                 self.file.write("%description\n")
@@ -176,8 +180,8 @@ class SpecGenerator:
 		for package in devel_packages:
 			imported_packages.extend(package["dependencies"])
 
-		imported_packages = filter(lambda l: l.startswith(prefix), imported_packages)
-		imported_packages = sorted(imported_packages)
+		imported_packages = filter(lambda l: not l.startswith(prefix), imported_packages)
+		imported_packages = sorted(list(set(imported_packages)))
 
 		self.file.write("%if 0%{?with_check} && ! 0%{?with_bundled}\n")
 		for dep in imported_packages:
@@ -227,7 +231,7 @@ class SpecGenerator:
 		for package in devel_packages:
 			imported_packages.extend(package["dependencies"])
 
-		imported_packages = filter(lambda l: l.startswith(prefix), imported_packages)
+		imported_packages = filter(lambda l: not l.startswith(prefix), imported_packages)
 		imported_packages = sorted(imported_packages)
 
 		test_imported_packages = []
@@ -235,6 +239,7 @@ class SpecGenerator:
 			test_imported_packages.extend(test["dependencies"])
 
 		test_deps = sorted(list(set(test_imported_packages) - set(imported_packages)))
+		test_deps = filter(lambda l: not l.startswith(prefix), test_deps)
 
 		self.file.write("%if 0%{?with_check} && ! 0%{?with_bundled}\n")
 		for dep in test_deps:
@@ -245,6 +250,7 @@ class SpecGenerator:
 			self.file.write("\n")
 			for dep in test_deps:
 				self.file.write("Requires:      golang(%s)\n" % (dep))
+		self.file.write("\n")
 
 		self.file.write("%description unit-test-devel\n")
 		self.file.write("%{summary}\n")
@@ -426,12 +432,17 @@ class SpecGenerator:
 		# generate header
 		self.generateHeaderEpilogue()
 
+		# generate first level license and docs only
+		licenses = filter(lambda l: len(l["file"].split("/")) == 1, artefact["data"]["licenses"])
+		docs = filter(lambda l: len(l.split("/")) == 1, artefact["data"]["docs"])
+
+
 		if provider == GITHUB:
-			self.generateGithubHeader(project, repository, url, provider_prefix, commit, artefact["data"]["licenses"])
+			self.generateGithubHeader(project, repository, url, provider_prefix, commit, licenses)
 		elif provider == GOOGLECODE:
-			self.generateGooglecodeHeader(repository, url, provider_prefix, commit, artefact["data"]["licenses"])
+			self.generateGooglecodeHeader(repository, url, provider_prefix, commit, licenses)
 		elif provider == BITBUCKET:
-			self.generateBitbucketHeader(project, repository, url, provider_prefix, commit, artefact["data"]["licenses"])
+			self.generateBitbucketHeader(project, repository, url, provider_prefix, commit, licenses)
 		else:
 			raise ValueError("Unknown provider")
 
@@ -468,7 +479,7 @@ class SpecGenerator:
 		else:
 			ip_prefix = ""
 
-		self.generateFilesSection(provider, artefact["data"]["docs"], artefact["data"]["licenses"], artefact["data"]["mains"], ip_prefix)
+		self.generateFilesSection(provider, docs, licenses, artefact["data"]["mains"], ip_prefix)
 		self.file.write("\n")
 
 		# generate changelog section
