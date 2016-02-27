@@ -128,6 +128,11 @@ def setOptions():
 	    help = "Generate spec file from directory"
 	)
 
+	parser.add_option(
+	    "", "-t", "--target", dest="target", default = "",
+	    help = "Target directory to generate spec file to"
+	)
+
 	return parser.parse_args()
 
 def checkOptions(options):
@@ -178,9 +183,14 @@ def isPkgInPkgDB(name, force):
 		if not force:
 			exit(1)
 
-def createBasicDirectories(name):
-	make_sure_path_exists("%s/fedora/%s" % (name, name))
-	os.chdir("%s/fedora/%s" % (name, name))
+def createTargetDirectories(name, target = ""):
+	if target == "":
+		target = "%s/fedora/%s" % (name, name)
+	else:
+		target = os.path.abspath(target)
+
+	make_sure_path_exists(target)
+	os.chdir(target)
 
 def checkDependencies(fmt_obj, classes, url, ipparser):
 	for element in sorted(classes.keys()):
@@ -291,8 +301,8 @@ if __name__ == "__main__":
 	fmt_obj.printProgress("(1/%s) Checking if the package already exists in PkgDB" % total)
 	isPkgInPkgDB(name, options.force)
 
-	# creating basic folder structure
-	createBasicDirectories(name)
+	# creating target directory structure
+	createTargetDirectories(name, options.target)
 
 	# download tarball
 	fmt_obj.printProgress("(2/%s) Collecting data" % total)
@@ -363,9 +373,15 @@ if __name__ == "__main__":
 
 	fmt_obj.printProgress("(4/%s) Discovering golang dependencies" % total)
 
-	package_deps = reduce(lambda x,y: x + y, map(lambda l: l["dependencies"], data["data"]["packages"]))
+	if data["data"]["packages"] != []:
+		package_deps = reduce(lambda x,y: x + y, map(lambda l: l["dependencies"], data["data"]["packages"]))
+	else:
+		package_deps = []
 
-	test_deps = reduce(lambda x,y: x + y, map(lambda l: l["dependencies"], data["data"]["tests"]))
+	if data["data"]["tests"] != []:
+		test_deps = reduce(lambda x,y: x + y, map(lambda l: l["dependencies"], data["data"]["tests"]))
+	else:
+		test_deps = []
 
 	package_deps = sorted(list(set(package_deps)))
 	diff_deps = sorted(list(set(test_deps) - set(package_deps)))
