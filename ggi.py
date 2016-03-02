@@ -158,7 +158,10 @@ if __name__ == "__main__":
 	main_occurrences = prj_info.getMainOccurrence()
 
 	# ip used into devel packages
-	ip_used = list(set(occurrences.keys()))
+	if options.alloccurrences:
+		ip_used = list(set(occurrences.keys() +  main_occurrences.keys()))
+	else:
+		ip_used = list(set(occurrences.keys()))
 
 	decomposer = ImportPathsDecomposerBuilder().buildLocalDecomposer()
 	# TODO(jchaloup) catch exceptions, at least ValueError
