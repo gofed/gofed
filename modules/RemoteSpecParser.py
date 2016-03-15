@@ -42,7 +42,7 @@ class RemoteSpecParser(Base):
 
 	def parse(self):
 		f = tempfile.NamedTemporaryFile(delete=True)
-		cmd_str = "curl http://pkgs.fedoraproject.org/cgit/%s.git/plain/%s.spec > %s"
+		cmd_str = "curl http://pkgs.fedoraproject.org/cgit/rpms/%s.git/plain/%s.spec > %s"
 		runCommand(cmd_str % (self.package, self.package, f.name))
 		self.sp_obj = SpecParser(f.name)
 		if not self.sp_obj.parse():
