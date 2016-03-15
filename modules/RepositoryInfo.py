@@ -264,6 +264,10 @@ class RepositoryInfo:
 		c_file = f.read()
 		# get the latest commit
 		tags = []
+		data = json.loads(c_file)
+		if type(data) == {} and "message" in data:
+			raise Exception("Unable to retrieve tags: %s" % data["message"])
+
 		for tag in json.loads(c_file):
 			tags.append(tag["name"])
 
