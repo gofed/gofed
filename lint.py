@@ -49,6 +49,11 @@ def setOptions():
             help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
         )
 
+	parser.add_option(
+            "", "", "--source-code-directory", dest="sourcecodedirectory", default = "",
+            help = "Check source code directory instead of extracted tarball"
+        )
+
 	return parser
 
 if __name__ == "__main__":
@@ -77,7 +82,7 @@ if __name__ == "__main__":
 
 	fp_obj = FormatedPrint(formated=True)
 
-	if archive == "":
+	if options.sourcecodedirectory == "" and archive == "":
 		fp_obj.printError("archive not set")
 		exit(1)
 
@@ -98,7 +103,7 @@ if __name__ == "__main__":
 			noGodeps.append(dir)
 
 	obj = GoLint(specfile, sources, archive, options.verbose, noGodeps = noGodeps)
-	if not obj.test():
+	if not obj.test(options.sourcecodedirectory):
 		print obj.getError()
 
 	err_cnt = obj.getErrorCount()

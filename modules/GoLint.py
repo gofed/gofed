@@ -77,7 +77,7 @@ class GoLint(Base):
 			else:
 				self.test_results.append(t_result)
 
-	def test(self):
+	def test(self, source_code_directory = ""):
 		# Parse spec file
 		self.sp_obj = SpecParser(self.spec)
 		if not self.sp_obj.parse():
@@ -91,24 +91,27 @@ class GoLint(Base):
 				self.err = self.src_obj.getError()
 				return False
 
-		# create a temp directory
-		dir = tempfile.mkdtemp()
-		# extract tarball to the directory
-		so, se, rc = runCommand("tar -xf %s --directory=%s" % (self.archive, dir))
-		if rc != 0:
-			self.err = se
-			return False
+		if source_code_directory == "":
+			# create a temp directory
+			dir = tempfile.mkdtemp()
+			# extract tarball to the directory
+			so, se, rc = runCommand("tar -xf %s --directory=%s" % (self.archive, dir))
+			if rc != 0:
+				self.err = se
+				return False
 
-		so, se, rc = runCommand("ls %s" % dir)
-		if rc != 0:
-			self.err = "Unable to archive's extracted folder"
-			return False
+			so, se, rc = runCommand("ls %s" % dir)
+			if rc != 0:
+				self.err = "Unable to archive's extracted folder"
+				return False
 
-		so = so.split('\n')[0]
+			sc_directory = "%s/%s" % (dir, so.split('\n')[0])
+		else:
+			sc_directory = source_code_directory
 
 		data = {
 			"type": "user_directory",
-			"resource": path.abspath("%s/%s" % (dir, so)),
+			"resource": path.abspath(sc_directory),
 			"directories_to_skip": self.noGodeps,
 			"ipprefix": "."
 		}
@@ -122,7 +125,8 @@ class GoLint(Base):
 		# TODO(jchaloup) catch exceptions, at least ValueError
 		self.prj_info.construct(data)
 
-		shutil.rmtree(dir)
+		if source_code_directory == "":
+			shutil.rmtree(dir)
 
 		tests = []
 
