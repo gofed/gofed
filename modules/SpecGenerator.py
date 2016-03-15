@@ -289,7 +289,11 @@ class SpecGenerator:
 			for name in main_names:
 				self.file.write("#%%gobuild -o bin/%s %%{import_path}/%s\n" % (name, name))
 
-	def generateInstallSection(self, main_packages, godeps_on = False):
+	def generateInstallSection(self, main_packages, dependency_directories):
+		deps_vgrep = ""
+		if dependency_directories != []:
+			deps_vgrep = "egrep -v \"%s\"" % "|".join(map(lambda l: "./%s" % l, dependency_directories))
+
 		self.file.write("%install\n")
 		if self.with_build:
 			self.file.write("install -d -p %{buildroot}%{_bindir}\n")
@@ -305,8 +309,8 @@ class SpecGenerator:
 		self.file.write("install -d -p %{buildroot}/%{gopath}/src/%{import_path}/\n")
 		self.file.write("echo \"%%dir %%{gopath}/src/%%{import_path}/.\" >> devel.file-list\n")
 		self.file.write("# find all *.go but no *_test.go files and generate devel.file-list\n")
-		if godeps_on:
-			self.file.write("for file in $(find . -iname \"*.go\" \! -iname \"*_test.go\" | grep -v \"./Godeps\") ; do\n")
+		if deps_vgrep != "":
+			self.file.write("for file in $(find . -iname \"*.go\" \! -iname \"*_test.go\" | %s) ; do\n" % deps_vgrep)
 		else:
 			self.file.write("for file in $(find . -iname \"*.go\" \! -iname \"*_test.go\") ; do\n")
 		self.file.write("    echo \"%%dir %%{gopath}/src/%%{import_path}/$(dirname $file)\" >> devel.file-list\n")
@@ -320,8 +324,8 @@ class SpecGenerator:
 		self.file.write("%if 0%{?with_unit_test} && 0%{?with_devel}\n")
 		self.file.write("install -d -p %{buildroot}/%{gopath}/src/%{import_path}/\n")
 		self.file.write("# find all *_test.go files and generate unit-test-devel.file-list\n")
-		if godeps_on:
-			self.file.write("for file in $(find . -iname \"*_test.go\" | grep -v \"./Godeps\"); do\n")
+		if deps_vgrep != "":
+			self.file.write("for file in $(find . -iname \"*_test.go\" | %s) ; do\n" % deps_vgrep)
 		else:
 			self.file.write("for file in $(find . -iname \"*_test.go\"); do\n")
 		self.file.write("    echo \"%%dir %%{gopath}/src/%%{import_path}/$(dirname $file)\" >> devel.file-list\n")
@@ -466,7 +470,7 @@ class SpecGenerator:
 		self.file.write("\n")
 
 		# generate install section
-		self.generateInstallSection(artefact["data"]["mains"], godeps_on = False)
+		self.generateInstallSection(artefact["data"]["mains"], artefact["data"]["dependency_directories"])
 		self.file.write("\n")
 
 		# generate check section
