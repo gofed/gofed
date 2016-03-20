@@ -1,22 +1,26 @@
 import optparse
-from modules.Packages import getSCC, getLeafPackages, getRootPackages, ConnectedComponent, joinGraphs
 from modules.Utils import runCommand
 import tempfile
 import shutil
 from time import time, strftime, gmtime
 import sys
-from modules.DependencyGraphBuilder import DependencyGraphBuilder
-from modules.ProjectDecompositionGraphBuilder import ProjectDecompositionGraphBuilder
 from modules.Utils import FormatedPrint
 from modules.Config import Config
 
-from modules.ParserConfig import ParserConfig
+from gofed_infra.system.models.graphs.datasets.projectdatasetbuilder import ProjectDatasetBuilder
+from gofed_infra.system.models.graphs.datasetdependencygraphbuilder import DatasetDependencyGraphBuilder
+from gofed_infra.system.models.graphs.basicdependencyanalysis import BasicDependencyAnalysis
+from gofed_lib.graphutils import GraphUtils
+from gofed_infra.system.models.graphs.datasets.distributionlatestbuilds import DistributionLatestBuildGraphDataset
+from gofed_lib.packagemanager import PackageManager
+from gofed_infra.system.models.graphs.datasets.localprojectdatasetbuilder import LocalProjectDatasetBuilder
 
 def printSCC(scc):
 	print "Cyclic dep detected (%s): %s" % (len(scc), ", ".join(scc))
 
-def getGraphvizDotFormat(graph):
-	nodes, edges = graph
+def getGraphvizDotFormat(graph, results = {}):
+	nodes = graph.nodes()
+	edges = graph.edges()
 
 	#digraph { a -> b; b -> c; c -> d; d -> a; }
 	content = "digraph {\n"
@@ -26,33 +30,30 @@ def getGraphvizDotFormat(graph):
 				content += "\"%s\" -> \"%s\";\n" % (u.replace('-', '_'), v.replace('-', '_'))
 
 	# add nodes with no outcoming edge
-	leaves = getLeafPackages(graph)
-	for leaf in leaves:
-		content += "\"%s\" [style=filled, fillcolor=orange]" % leaf.replace('-', '_')
+	if "leaves" in results:
+		for leaf in results["leaves"]:
+			content += "\"%s\" [style=filled, fillcolor=orange]" % leaf.replace('-', '_')
 
 	# add nodes with no incomming edge
-	roots = getRootPackages(graph)
-	for root in roots:
-		content += "\"%s\" [style=filled, fillcolor=red3]" % root.replace('-', '_')
+	if "roots" in results:
+		for root in results["roots"]:
+			content += "\"%s\" [style=filled, fillcolor=red3]" % root.replace('-', '_')
 
 	# add cyclic deps
-	scc = getSCC(graph)
+	if "cycles" in results:
+		colors = ['purple', 'salmon', 'forestgreen', 'dodgerblue', 'yellow']
+		col_len = len(colors)
 
-	colors = ['purple', 'salmon', 'forestgreen', 'dodgerblue', 'yellow']
-	col_len = len(colors)
-
-	counter = 0
-	for comp in scc:
-		if len(comp) > 1:
+		counter = 0
+		for comp in results["cycles"]:
 			for elem in comp:
 				content += "\"%s\" [style=filled, fillcolor=%s]" % (elem.replace('-', '_'), colors[counter])
 			counter = (counter + 1) % col_len
 
-
 	content += "}\n"
 	return content
 
-def showGraph(graph, out_img = "./graph.png"):
+def showGraph(graph, results, out_img = "./graph.png"):
 	tmp_dir = tempfile.mkdtemp()
 	try:
 		f = open("%s/graph.dot" % (tmp_dir), "w")
@@ -60,7 +61,7 @@ def showGraph(graph, out_img = "./graph.png"):
 		sys.stderr.write("%s\n" % e)
 		return
 
-	f.write(getGraphvizDotFormat(graph))
+	f.write(getGraphvizDotFormat(graph, results))
 	f.close()
 	# fdp -Tpng test.dot > test.png
 	so, se, rc = runCommand("fdp -Tpng %s/graph.dot > %s" % (tmp_dir, out_img))
@@ -75,29 +76,7 @@ def showGraph(graph, out_img = "./graph.png"):
 	# eog test.png
 	shutil.rmtree(tmp_dir)
 
-def truncateGraph(graph, pkg_name, pkg_devel_main_pkg):
-	"""
-	Return graph containing only pkg_name and all its dependencies
-	"""
-	# 1. get all devel subpackages belonging to pkg_name
-	root_nodes = []
-	for devel in pkg_devel_main_pkg:
-		if pkg_devel_main_pkg[devel] == pkg_name:
-			root_nodes.append(devel)
-
-	# 2. create a set of all nodes containg the subpackages and
-	# all nodes reacheable from them
-	subgraph = None
-	for node in root_nodes:
-		cc = ConnectedComponent(graph, node)
-		if subgraph == None:
-			subgraph = cc.getCC()
-		else:
-			subgraph = joinGraphs(subgraph, cc.getCC())
-
-	return subgraph
-	
-if __name__ == "__main__":
+def setOptions():
 
 	parser = optparse.OptionParser("%prog [-d --from-dir|--from-xml] -c|-l|-r|-g [-v] [PACKAGE]")
 
@@ -163,9 +142,23 @@ if __name__ == "__main__":
 
 	parser.add_option_group( optparse.OptionGroup(parser, "PACKAGE", "Display the smallest subgraph containing PACKAGE and all its dependencies.") )
 
-	# get list of tools/packages providing go binary
+	parser.add_option(
+            "", "", "--package-level", dest="packagelevel", action = "store_true", default = False,
+            help = "Analyze graph on a level of golang packages. Default is on an rpm level"
+        )
 
-	options, args = parser.parse_args()
+	parser.add_option(
+            "", "", "--no-list", dest="nolist", action = "store_true", default = False,
+            help = "When listing cycles, leaves or roots, show just number of occurrences"
+        )
+
+	return parser
+
+if __name__ == "__main__":
+
+
+	# get list of tools/packages providing go binary
+	options, args = setOptions().parse_args()
 	pkg_name = ""
 	if len(args) > 0:
 		pkg_name = args[0]
@@ -189,80 +182,66 @@ if __name__ == "__main__":
 		print "Synopsis: prog [-d --from-dir|--from-xml] -c|-l|-r|-g [-v] [PACKAGE]"
 		exit(1)
 
+	scan_time_start = time()
 	if options.decompose != "":
-		config = ParserConfig()
-		if options.skiperrors:
-			config.setSkipErrors()
-		config.setNoGodeps(noGodeps)
-		config.setImportPathPrefix(options.decompose)
-
-		gb = ProjectDecompositionGraphBuilder(config)
-		if options.fromxml != "":
-			if not gb.buildFromXml(options.fromxml):
-				fp.printError(gb.getError())
-				exit(1)
-		elif options.fromdir != "":
-			if not gb.buildFromDirectory(options.fromdir):
-				fp.printError(gb.getError())
-				exit(1)
-		else:
-			fp.printError("--from-xml or --from-dir option is missing")
+		if options.fromdir == "":
+			fp.printError("--from-dir option is missing")
 			exit(1)
+		dataset = LocalProjectDatasetBuilder(options.fromdir, options.decompose).build()
+		graph = DatasetDependencyGraphBuilder().build(dataset, 2)
 	else:
 		print "Reading packages..."
-		gb = DependencyGraphBuilder(cache = True)
-		if not gb.build():
-			fp.printError(gb.getError())
-			exit(1)
+		packages = PackageManager().getPackages()
+
+		print "Extracting data from source code"
+		# TODO(jchaloup): saving dataset?
+		dataset = DistributionLatestBuildGraphDataset("rawhide", packages).build()
+		if options.packagelevel:
+			graph = DatasetDependencyGraphBuilder().build(dataset, 2)
+		else:
+			graph = DatasetDependencyGraphBuilder().build(dataset, 1)
+
+
+	scan_time_end = time()
+	print strftime("Completed in %Hh %Mm %Ss", gmtime(scan_time_end - scan_time_start))
 
 	# draw the graph
 	if options.cyclic or options.leaves or options.roots or options.graphviz:
-		graph = gb.getGraph()
-		pkg_devel_main_pkg = gb.getSubpackageMembership()
-		if options.verbose:
-			warn = gb.getWarning()
-			if warn != []:
-				print "\n".join(map(lambda l: "Warning: %s" % l, warn))
-
-		nodes, _ = graph
+		nodes = graph.nodes()
 		graph_cnt = len(nodes)
 
 		if pkg_name != "":
-			graph = truncateGraph(graph, pkg_name, pkg_devel_main_pkg)
-			if graph == None:
-				print "No graph generated, package probably does not exist"
-				exit(0)
-
-			nodes, _ = graph
-			subgraph_cnt = len(nodes)
+			graph = GraphUtils.truncateGraph(graph, [pkg_name])
+			subgraph_cnt = len(graph.nodes())
 			
-		scan_time_end = time()
-		print strftime("Completed in %Hh %Mm %Ss", gmtime(scan_time_end - scan_time_start))
 		if pkg_name != "":
 			print "%s nodes of %s" % (subgraph_cnt, graph_cnt)
 		else:
 			print "%s nodes in total" % (graph_cnt)
 
+		results = BasicDependencyAnalysis(graph).analyse().getResults()
 
-		if options.cyclic:
-			scc = getSCC(graph)
+		if not options.graphviz:
+			if options.cyclic:
+				if not options.nolist:
+					for comp in results["cycles"]:
+						printSCC(comp)
+				print "\nNumber of cycles: %s" % len(results["cycles"])
 
-			for comp in scc:
-				if len(comp) > 1:
-					printSCC(comp)
+			if options.leaves:
+				if not options.nolist:
+					for leaf in results["leaves"]:
+						print leaf
+				print "\nNumber of leaves: %s" % len(results["leaves"])
 
-		elif options.leaves:
-			leaves = getLeafPackages(graph)
-			for leaf in leaves:
-				print leaf
+			if options.roots:
+				if not options.nolist:
+					for root in results["roots"]:
+						print root
+				print "\nNumber of roots: %s" % len(results["roots"])
 
-		elif options.roots:
-			roots = getRootPackages(graph)
-			for root in roots:
-				print root
-
-		elif options.graphviz:
+		else:
 			if options.outfile != "":
-				showGraph(graph, options.outfile)
+				showGraph(graph, results, options.outfile)
 			else:
-				showGraph(graph)
+				showGraph(graph, results)
