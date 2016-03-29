@@ -1,51 +1,29 @@
-from modules.DependencyApproximator import DependencyApproximator
-from modules.Config import Config
-
+from gofed_infra.system.models.snapshots.reconstructor import SnapshotReconstructor
+from gofed_lib.importpathparserbuilder import ImportPathParserBuilder
 import json
-import datetime
-import sys
-
-from modules.ParserConfig import ParserConfig
-
 import optparse
+import sys
+import logging
 
-# get imported packages from GoSymbolsExtractor
-# decompose packages into classes
-# for each class read all commits from upstream repository
-# for each list of commits find the closest possible commit to inserted commit (based on date)
+# TODO(jchaloup):
+# - add support for construction of snaphost from given directory with given timestamp
+# - add support for complete snapshot (with all mains and tests), devel is default
+# - add support for workspace clean called at the end (clean content of resource_client and resource_provider)
 
-# optionally get a list of imported packages for given subset of project's packages
-
-def deps2GodepsJson(deps, import_path):
-	json_content = {}
-	json_content["ImportPath"] = import_path
-
-	json_deps = []
-	for ip in deps:
-		json_dep = {}
-		json_dep["ImportPath"] = deps[ip]["ImportPath"]
-		json_dep["Comment"] = deps[ip]["Date"]
-		json_dep["Rev"] = deps[ip]["Rev"]
-		json_deps.append(json_dep)
-
-	json_content["Deps"] = json_deps
-	return json.dumps(json_content, indent=4, sort_keys=False)
-
-if __name__ == "__main__":
-
+def setOptions():
 	parser = optparse.OptionParser("%prog [-a] [-c] [-d [-v]] [directory]")
 
 	parser.add_option_group( optparse.OptionGroup(parser, "directory", "Directory to inspect. If empty, current directory is used.") )
 
 	parser.add_option(
-	    "", "", "--json", dest="json", action = "store_true", default = False,
-	    help = "Display dependencies as json (almost Godeps.json)"
+	    "", "", "--godeps", dest="godeps", action = "store_true", default = False,
+	    help = "Display dependencies as Godeps.json"
 	)
 
 	parser.add_option(
-            "", "", "--scan-all-dirs", dest="scanalldirs", action = "store_true", default = False,
-            help = "Scan all dirs, including Godeps directory"
-        )
+	    "", "", "--glogfile", dest="glogfile", action = "store_true", default = False,
+	    help = "Display dependencies as GLOGFILE"
+	)
 
 	parser.add_option(
             "", "-v", "--verbose", dest="verbose", action = "store_true", default = False,
@@ -53,62 +31,75 @@ if __name__ == "__main__":
         )
 
 	parser.add_option(
-            "", "", "--skip-dirs", dest="skipdirs", default = "",
-            help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
+            "", "", "--repository", dest="repository", default = "",
+            help = "Repository"
         )
 
 	parser.add_option(
-            "", "", "--commit-date", dest="commitdate", default = "",
-            help = "Set commit date for the project in %d/%m/%Y format"
+            "", "", "--commit", dest="commit", default = "",
+            help = "Repository commit"
         )
 
 	parser.add_option(
-            "", "", "--importpath", dest="importpath", default = "",
-            help = "Set import path of the project"
+            "", "", "--ipprefix", dest="ipprefix", default = "",
+            help = "Import path prefix"
         )
 
-	options, args = parser.parse_args()
+	parser.add_option(
+            "", "-t", "--unit-tests", dest="tests", action = "store_true", default = False,
+            help = "Cover dependencies of unit tests as well"
+        )
 
-	path = "."
-	if len(args):
-		path = args[0]
+	parser.add_option(
+            "", "-m", "--main-packages", dest="mains", default = "",
+            help = "Comma separated file list of main packages specified from repository root directory (without leading '/')"
+        )
 
-	if not options.scanalldirs:
-		noGodeps = Config().getSkippedDirectories()
-	else:
-		noGodeps = []
+	return parser
 
-	if options.skipdirs:
-		for dir in options.skipdirs.split(','):
-			dir = dir.strip()
-			if dir == "":
-				continue
-			noGodeps.append(dir)
-
-	if options.commitdate == "":
-		commit_date = int(datetime.datetime.strptime('29/09/2015', '%d/%m/%Y').strftime("%s"))
-	else:
-		commit_date = int(datetime.datetime.strptime(options.commidate, '%d/%m/%Y').strftime("%s"))
-
-	if options.importpath == "":
-		importpath = "github.com/influxdb/influxdb"
-	else:
-		importpath = options.importpath
-
-	parser_config = ParserConfig()
-	parser_config.setSkipErrors()
-	parser_config.setNoGodeps(noGodeps)
-	parser_config.setImportsOnly()
-	parser_config.setParsePath(path)
-	parser_config.setImportPathPrefix(importpath)
-
-	if not options.json:
-		sys.stderr.write("Missing --json option\n")
+def validateOptions(options):
+	if options.commit == "":
+		sys.stderr.write("Commit missing\n")
 		exit(1)
 
-	da_obj = DependencyApproximator(parser_config, commit_date, verbose=options.verbose)
-	da_obj.construct()
-	#print da_obj.getError()
+	if options.ipprefix == "":
+		sys.stderr.write("Import path prefix missing\n")
+		exit(1)
 
-	deps = da_obj.getDependencies()
-	print deps2GodepsJson(deps, importpath)
+	if options.repository == "":
+		sys.stderr.write("Repository missing\n")
+		exit(1)
+
+	# at least godeps or glogfile must be specified
+	if options.godeps == False and options.glogfile == False:
+		sys.stderr.write("Output format missing\n")
+		exit(1)
+
+if __name__ == "__main__":
+
+	parser = setOptions()
+	options, args = parser.parse_args()
+	validateOptions(options)
+
+	if options.verbose:
+		logging.basicConfig(level=logging.WARNING)
+	else:
+		logging.basicConfig(level=logging.ERROR)
+
+
+	# mains?
+	mains = []
+	if options.mains != "":
+		mains = options.mains.split(",")
+
+	# parse repository
+	ipparser = ImportPathParserBuilder().buildWithLocalMapping()
+	# TODO(jchaloup): catch ValueError exception
+	repository = ipparser.parse(options.repository).getProviderSignature()
+
+	snapshot = SnapshotReconstructor().reconstruct(repository, options.commit, options.ipprefix, mains = mains, tests=options.tests).snapshot()
+
+	if options.godeps:
+		print json.dumps(snapshot.Godeps())
+	elif options.glogfile:
+		print snapshot.GLOGFILE()
