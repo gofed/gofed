@@ -1,102 +1,69 @@
-import sys
-import modules.Repos
-import modules.Utils
+from gofed_infra.system.models.snapshots.checker import SnapshotChecker
+from gofed_lib.snapshot import Snapshot
 import optparse
-import os
-from modules.Utils import GREEN, RED, ENDC, YELLOW
-from modules.Repos import Repos, IPMap
-from modules.RemoteSpecParser import RemoteSpecParser
-from modules.DependencyFileParser import DependencyFileParser
+import logging
+import re
 
-if __name__ == "__main__":
+def setOptions():
 
 	parser = optparse.OptionParser("%prog [-l] [-v] [Godeps.json]")
-
-	parser.add_option_group( optparse.OptionGroup(parser, "Godeps.json", "JSON file with golang deps") )
-
-	parser.add_option(
-	    "", "-l", "--dontpull", dest="pull", action = "store_false", default = True,
-	    help = "Dont pull repositories (use only local)"
-	)
 
 	parser.add_option(
 	    "", "-v", "--verbose", dest="verbose", action = "store_true", default = False,
 	    help = "Verbose mode"
 	)
 
-	options, args = parser.parse_args()
+	parser.add_option(
+	    "", "", "--godeps", dest="godeps", default = "",
+	    help = "Read snapshot from Godeps.json file format"
+	)
 
-	if len(args) == 0:
-		json_file = "%s/%s" % (os.getcwd(), "Godeps.json")
-	else:
-		json_file = args[0]
+	parser.add_option(
+	    "", "", "--glogfile", dest="glogfile", default = "",
+	    help = "Read snapshot from GLOGFILE file format"
+	)
 
-	# json file exists?
-	if not os.path.exists(json_file):
-		print "JSON file %s not found" % json_file
+	parser.add_option(
+	    "", "", "--target", dest="target", default = "Fedora:rawhide",
+	    help = "Target distribution in a form OS:version, e.g. Fedora:f24. Implicitly set to Fedora:rawhide"
+	)
+
+	return parser
+
+def checkOptions(options):
+
+	deps_set = 0
+	# at least one deps format must be set
+	if options.godeps != "":
+		deps_set = deps_set + 1
+
+	if options.glogfile != "":
+		deps_set = deps_set + 1
+
+	if deps_set == 0:
+		logging.error("--godeps|--glogfile not set")
 		exit(1)
 
-	dp = DependencyFileParser(json_file)
-	deps = dp.parseGODEPSJSON()
-	if deps == {}:
-		print "%s is corrupted or has no dependencies" % json_file
+	# check target format
+	# TODO(jchaloup): put the list of supported targets into
+	# configuration file
+	if not re.match(r"^Fedora:(rawhide|f2[2-5])$", options.target):
+		logging.error("Target not supported")
 		exit(1)
 
-	repos_obj = Repos()
+if __name__ == "__main__":
 
-	im = IPMap().loadIMap()
-	repos = repos_obj.parseReposInfo()
-	keys = sorted(deps.keys())
 
-	cache = []
+	options, args = setOptions().parse_args()
 
-	for dep in keys:
-		ip = dep
-		commit = deps[dep]
-		pkg = ''
-		if 'golang(%s)' % ip in im:
-			pkg, _ = im['golang(%s)' % ip]
-		else:
-			print "import path %s not found" % ip
-			continue
+	checkOptions(options)
 
-		if pkg not in repos:
-			print "package %s not found in golang.repos" % pkg
-			continue
+	if options.godeps != "":
+		snapshot = Snapshot().readGodepsFile(options.godeps)
+	elif options.glogfile != "":
+		snapshot = Snapshot().readGLOGFILE(options.glogfile)
 
-		if pkg in cache:
-			continue
+	target = options.target.split(":")
 
-		cache.append(pkg)
-		path, upstream = repos[pkg]
-		ups_commits = modules.Repos.getRepoCommits(path, upstream, pull=options.pull)
-		rsp_obj = RemoteSpecParser('master', pkg)
-		if not rsp_obj.parse():
-			continue
-
-		pkg_commit  = rsp_obj.getPackageCommits()
-
-		# now fedora and commit, up to date?
-		if commit not in ups_commits:
-			print "%s: upstream commit %s not found" % (pkg, commit)
-			continue
-
-		if pkg_commit not in ups_commits:
-			print "%s: package commit %s not found" % (pkg, pkg_commit)
-			continue
-
-		commit_ts = int(ups_commits[commit])
-		pkg_commit_ts = int(ups_commits[pkg_commit])
-
-		if commit == pkg_commit:
-			if options.verbose:
-				print "%spackage %s up2date%s" % (GREEN, pkg, ENDC)
-		elif commit_ts > pkg_commit_ts:
-			print "%spackage %s outdated%s" % (RED, pkg, ENDC)
-		else:
-			if options.verbose:
-				print "%spackage %s has newer commit%s" % (YELLOW, pkg, ENDC)
-
-	
-
+	SnapshotChecker().check(snapshot, target[0], target[1])
 
