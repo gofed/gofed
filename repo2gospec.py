@@ -1,7 +1,6 @@
 import optparse
 from modules.Utils import ENDC, RED, GREEN
 from modules.Utils import runCommand, FormatedPrint
-from modules.Packages import packageInPkgdb
 
 from modules.SpecGenerator import SpecGenerator
 from modules.Config import Config
@@ -19,6 +18,7 @@ from gofed_lib.importpathparserbuilder import ImportPathParserBuilder
 from gofed_lib.importpathsdecomposerbuilder import ImportPathsDecomposerBuilder
 from gofed_lib.repositoryinfo import RepositoryInfo
 from gofed_lib.types import UnsupportedImportPathError
+from gofed_lib.pkgdb.client import PkgDBClient
 
 def setOptions():
 	parser = optparse.OptionParser("%prog [-e] [-d] file [file [file ...]]")
@@ -178,7 +178,7 @@ def make_sure_path_exists(path):
             raise
 
 def isPkgInPkgDB(name, force):
-	if packageInPkgdb(name):
+	if PkgDBClient().packageExists(name):
 		print "%sPackage %s already exists%s" % (RED, name, ENDC)
 		if not force:
 			exit(1)

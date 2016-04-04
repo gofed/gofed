@@ -1,7 +1,7 @@
 import ConfigParser
 import xmlrpclib
 import os
-from modules.Packages import loadPackages
+from gofed_lib.packagemanager import PackageManager
 import optparse
 
 def createTracker(bugzilla, login, password, package_name):
@@ -76,7 +76,8 @@ if __name__ == "__main__":
 	password = config.get(options.bugzilla, "password")
 
 	# package exists?
-	packages = loadPackages()
+	packages = PackageManager().getPackages()
+
 	if not options.package in packages:
 		print "Unable to find %s in a list of packages" % options.package
 

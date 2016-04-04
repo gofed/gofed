@@ -155,7 +155,7 @@ def setOptions():
 	return parser
 
 if __name__ == "__main__":
-
+	# TODO(jchaloup): add option to show missing packages/deps
 
 	# get list of tools/packages providing go binary
 	options, args = setOptions().parse_args()

@@ -23,7 +23,6 @@ import os
 import urllib2
 import optparse
 from modules.Utils import GREEN, RED, ENDC
-from modules.Packages import packageInPkgdb
 from modules.Utils import FormatedPrint
 from modules.ImportPath import ImportPath
 from modules.Config import Config
@@ -32,6 +31,7 @@ from modules.ParserConfig import ParserConfig
 from gofed_infra.system.core.factory.actfactory import ActFactory
 from gofed_lib.importpathsdecomposerbuilder import ImportPathsDecomposerBuilder
 from gofed_lib.projectinfobuilder import ProjectInfoBuilder
+from gofed_lib.pkgdb.client import PkgDBClient
 
 import logging
 
@@ -260,7 +260,7 @@ if __name__ == "__main__":
 				if pkg_name == "":
 					fmt_obj.printWarning(ip_obj.getError())
 
-				pkg_in_pkgdb = packageInPkgdb(pkg_name)
+				pkg_in_pkgdb = PkgDBClient().packageExists(pkg_name)
 				if pkg_in_pkgdb:
 					if options.verbose:
 						print (GREEN + "Class: %s (%s) PkgDB=%s" + ENDC) % (element, pkg_name, pkg_in_pkgdb)
