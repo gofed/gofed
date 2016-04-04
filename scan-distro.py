@@ -4,7 +4,7 @@ import re
 import json
 
 from gofed_lib.kojiclient import FakeKojiClient, KojiClient
-from gofed_lib.pkgdb.client import FakePkgDBClient
+from gofed_lib.pkgdb.client import FakePkgDBClient, PkgDBClient
 from gofed_lib.distributionsnapshot import DistributionSnapshot
 from gofed_lib.eco.capturer import EcoCapturer
 from gofed_infra.system.models.ecosnapshots.distributionsnapshotchecker import DistributionSnapshotChecker
@@ -40,6 +40,11 @@ def setOptions():
 	    help = "Comma separated string of golang packages not prefixed with golang-*, e.g. etcd,runc"
 	)
 
+	parser.add_option(
+	    "", "", "--blacklist", dest="blacklist", default = "",
+	    help = "Comma separated string of packages to be skipped, e.g. etcd,runc"
+	)
+
 	return parser
 
 def checkOptions(options):
@@ -62,6 +67,7 @@ if __name__ == "__main__":
 		distributions.append({"product": parts[0], "version": parts[1]})
 
 	custom_packages = options.custompackages.split(",")
+	blacklist = options.blacklist.split(",")
 
 	# TODO(jchaloup):
 	# - where to store snapshots? under gofed_lib or gofed_infra? I am inclined to use gofed_data to store all artefacts and other data kinds
@@ -75,10 +81,11 @@ if __name__ == "__main__":
 
 	DistributionSnapshotChecker(
 		KojiClient(),
-		FakePkgDBClient()
+		PkgDBClient()
 	).check(
 		distributions,
 		custom_packages,
+		blacklist,
 		full_check = options.fullcheck,
 		skip_failed = options.skipfailed
 	)
