@@ -7,6 +7,32 @@ from os.path import expanduser
 from modules.Utils import runCommand
 from glob import glob
 
+import ConfigParser
+import xmlrpclib
+import os
+
+def createTicket(bugzilla, login, password, summary, description):
+
+	rpc = xmlrpclib.ServerProxy("https://%s/xmlrpc.cgi" % bugzilla)
+
+	args = dict(
+		Bugzilla_login = login,
+		Bugzilla_password = password,
+		product = "Fedora",
+		component = "Package Review",
+		summary = summary,
+		version = "rawhide",
+		description = description
+	)
+
+	try:
+		result = rpc.Bug.create(args)
+	except xmlrpclib.Fault, e:
+		print e.faultString
+
+	newBugId = int(result["id"])
+	print "Created bug: https://%s/%s" % (bugzilla, newBugId)
+
 if __name__ == "__main__":
 	parser = optparse.OptionParser("%prog")
 
@@ -35,6 +61,21 @@ if __name__ == "__main__":
 	    help = "Build spec file only"
         )
 
+	parser.add_option(
+	    "", "", "--create-review", dest="createreview", action = "store_true", default = False,
+	    help = "Create bugzilla review"
+        )
+
+	parser.add_option(
+	    "-b", "--bugzilla", dest = "bugzilla", action = "store", default = "bugzilla.redhat.com",
+	    help = "Bugzilla instance to use"
+	)
+
+	parser.add_option(
+	    "", "--koji-build-id", dest = "kojibuildid", default = "",
+	    help = "Use koji build id instead running scratch build"
+	)
+
 	options, args = parser.parse_args()
 
 	phase_build = True
@@ -42,6 +83,7 @@ if __name__ == "__main__":
 	phase_koji = True
 	phase_upload = True
 	phase_review = True
+	create_review = options.createreview
 
 	if options.justbuild:
 		phase_koji = False
@@ -178,7 +220,7 @@ if __name__ == "__main__":
 			exit(1)
 
 	# build in koji
-	if phase_koji:
+	if phase_koji and options.kojibuildid == "":
 		print "Running koji scratch build on srpm"
 		print "koji build --scratch rawhide %s --nowait" % srpm
 		so, se, rc = runCommand("koji build --scratch rawhide %s --nowait" % srpm)
@@ -215,6 +257,9 @@ if __name__ == "__main__":
 		if state != "closed":
 			print "  koji scratch build failed"
 			exit(1)
+
+	if options.kojibuildid:
+		task_id = options.kojibuildid
 
 	if phase_build:
 		# parse data for review request for bugzilla
@@ -281,4 +326,33 @@ if __name__ == "__main__":
 		print "###############################################################"
 		print ""
 		print ""
-		print "Enter values at: https://bugzilla.redhat.com/enter_bug.cgi?product=Fedora&format=fedora-review"
+		if not create_review:
+			print "Enter values at: https://bugzilla.redhat.com/enter_bug.cgi?product=Fedora&format=fedora-review"
+	if phase_review and create_review:
+		config = ConfigParser.ConfigParser()
+		config.read(os.path.expanduser("~/.bugzillarc"))
+
+		login = config.get(options.bugzilla, "user")
+		password = config.get(options.bugzilla, "password")
+
+		summary = "Review Request: %s - %s" % (name, summary)
+
+		lines = []
+		lines.append("Spec URL: https://%s.fedorapeople.org/reviews/%s/%s" % (user, name, os.path.basename(specfile)))
+		lines.append("")
+		lines.append("SRPM URL: https://%s.fedorapeople.org/reviews/%s/%s" % (user, name, os.path.basename(srpm)))
+		lines.append("")
+		lines.append("Description: %s" % description)
+		lines.append("")
+		lines.append("Fedora Account System Username: %s" % user)
+		lines.append("")
+		if not options.skipkoji:
+			lines.append("Koji: http://koji.fedoraproject.org/koji/taskinfo?taskID=%s" % task_id)
+			lines.append("")
+		lines.append("$ rpmlint %s" % " ".join(map(lambda l: os.path.basename(l), builds)))
+		lines.append(rpmlint)
+
+		description = "\n".join(lines)
+
+		createTicket(options.bugzilla, login, password, summary, description)
+
