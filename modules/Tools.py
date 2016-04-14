@@ -4,6 +4,15 @@ import os
 import threading
 import subprocess
 
+from modules.FilesDetector import FilesDetector
+from modules.SpecParser import SpecParser
+
+import logging
+import re
+
+from gofed_lib.bodhi.client import BodhiClient
+import ConfigParser
+
 BUILDURL="http://koji.fedoraproject.org/koji/taskinfo?taskID=%s"
 
 # DRY MODE
@@ -13,6 +22,43 @@ BUILDURL="http://koji.fedoraproject.org/koji/taskinfo?taskID=%s"
 # - low level commands
 # - simple commands (wrappers over low level commands)
 # - multi commands (running simple commands over chosen branches)
+
+class BranchMapper(object):
+
+	def _parseBranch(self, branch):
+		match = re.search(r"^f([0-9][0-9])$", branch)
+		if match:
+			return {"product": "Fedora", "version": match.group(1)}
+
+		match = re.search(r"^el([6])$", branch)
+		if match:
+			return {"product": "EPEL", "version": match.group(1)}
+	
+		raise ValueError("Invalid branch: %s, expected '^f[0-9][0-9]$' or '^el[6]$'" % branch)
+
+	def branch2tag(self, branch):
+		distro = self._parseBranch(branch)
+		if distro["product"] == "Fedora":
+			return "fc%s" % distro["version"]
+		elif distro["product"] == "EPEL":
+			if distro["version"] == "6":
+				return "el6"
+
+	def branch2build(self, branch):
+		distro = self._parseBranch(branch)
+		if distro["product"] == "Fedora":
+			return "f%s-build" % distro["version"]
+		elif distro["product"] == "EPEL":
+			if distro["version"] == "6":
+				return "dist-6E-epel-build"
+
+	def branch2buildCandidate(self, branch):
+		distro = self._parseBranch(branch)
+		if distro["product"] == "Fedora":
+			return "f%s-candidate" % distro["version"]
+		elif distro["product"] == "EPEL":
+			if distro["version"] == "6":
+				return "el6-candidate"
 
 # mappings of branches to build candidates
 branch2bc = {
@@ -338,6 +384,84 @@ class SimpleCommand:
 
 		return ""
 
+	def collectBuildData(self, branch):
+		"""Collect basic information about build:
+		- build name
+		- changelog comment
+		- attached build id
+		"""
+		if self.dry:
+			return {
+				"branch": branch,
+				"build": "test build",
+				"comment": "test; comment",
+				"bz_ids": [1231231],
+				"new": False
+			}
+
+		fd = FilesDetector()
+		fd.detect()
+		specfile = fd.getSpecfile()
+		if specfile == "":
+			logging.error("Spec file not found")
+			return {}
+
+		sp_obj = SpecParser(specfile)
+		if not sp_obj.parse():
+			logging.error(sp_obj.getError())
+			return {}
+
+		# construct build name
+		name = sp_obj.getTag("name")
+		version = sp_obj.getTag("version")
+		release = ".".join( sp_obj.getTag("release").split('.')[:-1])
+		tag = BranchMapper().branch2tag(branch)
+		build = "%s-%s-%s.%s" % (name, version, release, tag)
+
+		# get last commit
+		last_changelog = sp_obj.getLastChangelog()
+
+		# if the line starts with "- ", remove it
+		items = []
+		last_line = ""
+		new = False
+		for line in last_changelog.comment:
+			if "First package for Fedora" in line:
+				new = True
+
+			if line.startswith("- "):
+				if last_line != "":
+					items.append(last_line)
+				last_line = line[2:]
+			else:
+				last_line = last_line + line
+
+		if last_line != "":
+			items.append(last_line)
+
+		return {
+			"branch": branch,
+			"build": build,
+			"comment": "; ".join(items),
+			"bz_ids": last_changelog.bz_ids,
+			"new": new
+		}
+
+	def updateBuild(self, build, new = False):
+		if self.dry:
+			return True
+
+		config = ConfigParser.ConfigParser()
+		config.read(os.path.expanduser("~/.bugzillarc"))
+
+		username = config.get("bodhi", "user")
+		password = config.get("bodhi", "password")
+
+		if build["new"] or new:
+			return BodhiClient(username, password).createNewPackageUpdate(build["build"], build["comment"], build["bz_ids"])
+		else:
+			return BodhiClient(username, password).createUpdate(build["build"], build["comment"], build["bz_ids"])
+
 	def updateBranch(self, branch):
 		self.llc.runFedpkgUpdate()
 
@@ -350,12 +474,17 @@ class SimpleCommand:
 
 		return ""
 
-	def overrideBuild(self, branch, name):
-		so, se, rc = self.llc.runBodhiOverride(branch, name)
-		if rc != 0 or se != "":
-			return se
+	def overrideBuild(self, build):
+		if self.dry:
+			return True
 
-		return ""
+		config = ConfigParser.ConfigParser()
+		config.read(os.path.expanduser("~/.bugzillarc"))
+
+		username = config.get("bodhi", "user")
+		password = config.get("bodhi", "password")
+
+		return BodhiClient(username, password).createOverride(build["build"])
 
 	def waitForOverrideBuild(self, branch, name):
 		so, se, rc = self.llc.runKojiWaitOverride(branch, name)
@@ -568,6 +697,39 @@ class MultiCommand:
 
 		return all_done
 
+	def collectBuildData(self, branches):
+		print "Collecting build data for branches: %s" % ",".join(branches)
+
+		data = {}
+		for branch in branches:
+			print "Branch %s" % branch
+			so, _, rc = self.llc.runFedpkgSwitchBranch(branch)
+			if rc != 0:
+				logging.warning("Unable to switch to %s branch" % branch)
+				continue
+
+			data[branch] = self.sc.collectBuildData(branch)
+
+		return data
+
+	def updateBuilds(self, branches, new = False):
+		builds_data = self.collectBuildData(branches)
+
+		print "Updating builds for branches: %s" % ",".join(builds_data.keys())
+
+		all_done = True
+		for branch in builds_data:
+			print "Branch %s" % branch
+
+			if not self.sc.updateBuild(builds_data[branch], new):
+				logging.error("Unable to update %s" % builds_data[branch]["build"])
+				all_done = False
+			else:
+				logging.info("Build '%s' updated" % builds_data[branch]["build"])
+
+		return all_done
+
+
 	def updateBranches(self, branches):
 		print "Updating branches: %s" % ",".join(branches)
 
@@ -587,17 +749,20 @@ class MultiCommand:
 
 		return all_done
 
-	def overrideBuilds(self, branches, name):
-		print "Overriding builds for branches: %s" % ",".join(branches)
+	def overrideBuilds(self, branches):
+		builds_data = self.collectBuildData(branches)
+
+		print "Overriding builds for branches: %s" % ",".join(builds_data.keys())
 
 		all_done = True
-		for branch in branches:
+		for branch in builds_data:
 			print "Branch %s" % branch
-			print "Overriding..."
-			err = self.sc.overrideBuild(branch, name)
-			if err != "":
-				print "%s: %s" % (branch, err)
+
+			if not self.sc.overrideBuild(builds_data[branch]):
+				logging.error("Unable to override %s" % builds_data[branch]["build"])
 				all_done = False
+			else:
+				logging.info("Build '%s' overrided" % builds_data[branch]["build"])
 
 		return all_done
 
@@ -705,11 +870,12 @@ STEP_END=9
 
 class PhaseMethods:
 
-	def __init__(self, dry=False, debug=False):
+	def __init__(self, dry=False, debug=False, new=False):
 		self.phase = STEP_END
 		self.endphase = STEP_END
 		self.mc = MultiCommand(dry=dry, debug=debug)
 		self.branches = Config().getBranches()
+		self.new = new
 
 	def setBranches(self, branches):
 		self.branches = branches
@@ -751,7 +917,7 @@ class PhaseMethods:
 		if phase == STEP_UPDATE:
 			branches = Config().getUpdates()
 			branches = list(set(branches) & set(self.branches))
-			return self.mc.updateBranches(branches)
+			return self.mc.updateBuilds(branches, self.new)
 
 		return 1
 

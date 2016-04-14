@@ -7,6 +7,9 @@ from modules.FilesDetector import FilesDetector
 from modules.SpecParser import SpecParser
 from modules.Utils import FormatedPrint
 
+import logging
+logging.basicConfig(level=logging.INFO)
+
 if __name__ == "__main__":
 
 	parser = optparse.OptionParser("%prog")
@@ -97,7 +100,12 @@ if __name__ == "__main__":
 
 	parser.add_option(
 	    "", "", "--verbose", dest="debug", action = "store_true", default = False,
-	    help = "be more verbose "
+	    help = "be more verbose"
+	)
+
+	parser.add_option(
+	    "", "", "--new", dest="new", action = "store_true", default = False,
+	    help = "Generate update for new package"
 	)
 
 	options, args = parser.parse_args()
@@ -160,7 +168,7 @@ if __name__ == "__main__":
 		else:
 			branches = list(set(branches) & set(Config().getUpdates()))
 
-		mc.updateBranches(branches)
+		mc.updateBuilds(branches, new = options.new)
 
 	if options.bbo or options.waitbbo or options.wait:
 		# if no build specified, detect it from the current directory
@@ -193,7 +201,7 @@ if __name__ == "__main__":
 			branches = list(set(branches) & set(Config().getOverrides()))
 
 		if options.bbo:
-			done = mc.overrideBuilds(branches, build)
+			done = mc.overrideBuilds(branches)
 			if done and options.wait:
 				mc.waitForOverrides(branches, build)
 

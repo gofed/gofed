@@ -74,9 +74,14 @@ if __name__ == "__main__":
 	    help = "stop wizard after update phase"
 	)
 
+	parser.add_option(
+	    "", "", "--new", dest="new", action = "store_true", default = False,
+	    help = "Generate update for new package"
+	)
+
 	options, args = parser.parse_args()
 
-	pm = PhaseMethods(dry=options.dry, debug=options.debug)
+	pm = PhaseMethods(dry=options.dry, debug=options.debug, new=options.new)
 
 	# check branches
 	if options.branches:

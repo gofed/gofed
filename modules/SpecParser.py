@@ -85,6 +85,7 @@ class Changelog(Base):
 	def __init__(self):
 		self._header = ""
 		self._comment = ""
+		self._bz_ids = []
 
 	@property
 	def header(self):
@@ -101,6 +102,14 @@ class Changelog(Base):
 	@comment.setter
 	def comment(self, value):
 		self._comment = value
+
+	@property
+	def bz_ids(self):
+		return self._bz_ids
+
+	@bz_ids.setter
+	def bz_ids(self, value):
+		self._bz_ids = value
 
 class SpecParser(Base):
 
@@ -541,5 +550,26 @@ class SpecParser(Base):
 		if chlog_obj != None:
 			chlog_obj.comment = log
 			changelogs.append(chlog_obj)
+
+		# detect bz ids
+		# expected forms:
+		# resolves[ ]*:[ ]*[#]?[0-9]+
+		# related[ ]*:[ ]*[#]?[0-9]+
+		for changelog in changelogs:
+			bz_ids = []
+			lines = []
+			for line in changelog.comment:
+				match = re.search(r".*(resolves|related)[ ]*:[ ]*[#]?([0-9]+).*", line)
+				if match:
+					bz_ids.append(match.group(2))
+
+				# if the line contains only bz id, remove it from the comment's lines
+				if re.match(r"^[ \t]*(resolves|related)[ ]*:[ ]*[#]?([0-9]+)[ \t]*$", line):
+					continue
+
+				lines.append(line)
+
+			changelog.bz_ids = bz_ids
+			changelog.comment = lines
 
 		return changelogs
