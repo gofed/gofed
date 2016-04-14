@@ -60,32 +60,6 @@ class BranchMapper(object):
 			if distro["version"] == "6":
 				return "el6-candidate"
 
-# mappings of branches to build candidates
-branch2bc = {
-	'f20': 'f20-candidate',
-	'f21': 'f21-candidate',
-	'f22': 'f22-candidate',
-	'f23': 'f23-candidate',
-	'el6': 'el6-candidate'
-}
-
-branch2build = {
-	'f20': 'f20-build',
-	'f21': 'f21-build',
-	'f22': 'f22-build',
-	'f23': 'f23-build',
-	'el6': 'dist-6E-epel-build'
-}
-
-branch2tag = {
-	'f20': 'fc20',
-	'f21': 'fc21',
-	'f22': 'fc22',
-	'f23': 'fc23',
-	'el6': 'el6'
-}
-
-
 class LowLevelCommand:
 
 	def __init__(self, dry=False, debug=False):
@@ -256,9 +230,9 @@ class LowLevelCommand:
 		Run 'bodhi --buildroot-override=BUILD for TAG --duration=DURATION --notes=NOTES'.
 		It returns so, se, rc triple.
 		"""
-		build = "%s.%s" % (name, branch2tag[branch])
-		long_tag = branch2bc[branch]
-		build_tag = branch2build[branch]
+		build = "%s.%s" % (name, BranchMapper().branch2tag(branch))
+		long_tag = BranchMapper().branch2buildCandidate(branch)
+		build_tag = BranchMapper().branch2build(branch)
 
 		if self.debug == True:
 			print "Running 'bodhi --buildroot-override=%s for %s --duration=20 --notes='temp non-stable dependecy waiting for stable''" % (build, long_tag)
@@ -276,8 +250,8 @@ class LowLevelCommand:
 		Run 'koji wait-repo TAG --build=BUILD'.
 		It returns so, se, rc triple.
 		"""
-		build = "%s.%s" % (name, branch2tag[branch])
-		build_tag = branch2build[branch]
+		build = "%s.%s" % (name, BranchMapper().branch2tag(branch))
+		build_tag = BranchMapper().branch2build(branch)
 
 		if self.debug == True:
 			print "Running 'koji wait-repo %s --build=%s'" % (build_tag, build)
