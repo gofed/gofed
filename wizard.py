@@ -30,6 +30,11 @@ if __name__ == "__main__":
 	)
 
 	parser.add_option(
+	    "", "", "--override", dest="override", action = "store_true", default = False,
+	    help = "Start from override"
+	)
+
+	parser.add_option(
 	    "", "", "--dry", dest="dry", action = "store_true", default = False,
 	    help = "Use dry mode"
 	)
@@ -75,6 +80,11 @@ if __name__ == "__main__":
 	)
 
 	parser.add_option(
+	    "", "", "--endwithoverride", dest="endoverride", action = "store_true", default = False,
+	    help = "stop wizard after override phase"
+	)
+
+	parser.add_option(
 	    "", "", "--new", dest="new", action = "store_true", default = False,
 	    help = "Generate update for new package"
 	)
@@ -111,6 +121,8 @@ if __name__ == "__main__":
 		pm.startWithBuild()
 	elif options.update:
 		pm.startWithUpdate()
+	elif options.override:
+		pm.startWithOverride()
 	else:
 		print "Missing options, run --help."
 		exit(1)
@@ -123,6 +135,8 @@ if __name__ == "__main__":
 		pm.stopWithBuild()
 	elif options.endupdate:
 		pm.stopWithUpdate()
+	elif options.endoverride:
+		pm.stopWithOverride()
 
 	pm.run()
 

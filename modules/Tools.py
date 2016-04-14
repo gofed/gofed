@@ -840,7 +840,7 @@ STEP_BUILD=8
 STEP_UPDATE=9
 STEP_OVERRIDE=10
 
-STEP_END=9
+STEP_END=10
 
 class PhaseMethods:
 
@@ -878,6 +878,12 @@ class PhaseMethods:
 	def stopWithUpdate(self):
 		self.endphase = STEP_UPDATE
 
+	def startWithOverride(self):
+		self.phase = STEP_OVERRIDE
+
+	def stopWithOverride(self):
+		self.endphase = STEP_OVERRIDE
+
 	def runPhase(self, phase):
 		if phase == STEP_SCRATCH_BUILD:
 			return self.mc.scratchBuildBranches(self.branches)
@@ -893,6 +899,11 @@ class PhaseMethods:
 			branches = list(set(branches) & set(self.branches))
 			return self.mc.updateBuilds(branches, self.new)
 
+		if phase == STEP_OVERRIDE:
+			branches = Config().getUpdates()
+			branches = list(set(branches) & set(self.branches))
+			return self.mc.overrideBuilds(branches)
+
 		return 1
 
 	def getPhaseName(self, phase):
@@ -907,6 +918,9 @@ class PhaseMethods:
 
 		if phase == STEP_UPDATE:
 			return "Update phase"
+
+		if phase == STEP_OVERRIDE:
+			return "Override phase"
 
 		return ""	
 
