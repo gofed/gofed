@@ -206,7 +206,7 @@ def checkDependencies(fmt_obj, classes, url, ipparser):
 			fmt_obj.printWarning("Unable to translate %s to package name: %s" % (element, e))
 			continue
 
-		pkg_in_pkgdb = packageInPkgdb(pkg_name)
+		pkg_in_pkgdb = PkgDBClient().packageExists(pkg_name)
 		if pkg_in_pkgdb:
 			print (GREEN + "\tClass: %s (%s) PkgDB=%s" + ENDC) % (element, pkg_name, pkg_in_pkgdb)
 		else:
@@ -308,7 +308,7 @@ if __name__ == "__main__":
 	fmt_obj.printProgress("(2/%s) Collecting data" % total)
 
 	# commit
-	if options.directory != "" and commit == "":
+	if options.directory == "" and commit == "":
 		commit = RepositoryInfo(ipparser).retrieve(import_path).getCommit()
 
 	# convert import path to project provider path
@@ -327,15 +327,13 @@ if __name__ == "__main__":
 		data = {
 			"type": "user_directory",
 			"resource": os.path.abspath(path),
-			"directories_to_skip": noGodeps,
-			"ipprefix": "."
+			"ipprefix": metadata["import_path"]
 		}
 	else:
 		data = {
 			"type": "upstream_source_code",
 			"project": metadata["provider_prefix"],
 			"commit": metadata["commit"],
-			"directories_to_skip": noGodeps,
 			"ipprefix": metadata["import_path"]
 		}
 

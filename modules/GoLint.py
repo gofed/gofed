@@ -112,7 +112,7 @@ class GoLint(Base):
 		data = {
 			"type": "user_directory",
 			"resource": path.abspath(sc_directory),
-			"directories_to_skip": self.noGodeps,
+			#"directories_to_skip": self.noGodeps,
 			"ipprefix": "."
 		}
 

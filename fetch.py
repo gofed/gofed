@@ -49,7 +49,7 @@ if __name__ == "__main__":
 	print "%sParsing spec file%s" % (BLUE, ENDC)
 	sp = SpecParser(specfile)
 	if not sp.parse():
-		logging.error("Unable to parser %s: %s" % ())
+		logging.error("Unable to parser %s: %s" % (specfile, sp.getError()))
 		exit(1)
 
 	# Get import path prefix and commit
