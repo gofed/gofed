@@ -52,3 +52,4 @@ class FilesDetector(Base):
 			if self.specfile != "" and self.sources != "" and self.archive != "":
 				break
 
+		return self
