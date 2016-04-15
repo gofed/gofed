@@ -19,6 +19,11 @@ def setOptions():
 	    help = "Fetch tarball for the current project and its commits in spec file"
 	)
 
+	parser.add_option(
+	    "", "", "--repo-prefix", dest="repoprefix", default = "",
+	    help = "Fetch tarballs for project with given prefix"
+	)
+
 	return parser
 
 def checkOptions(options):
@@ -31,6 +36,40 @@ def checkOptions(options):
 	if not resource_set:
 		logging.error("Resource target not specified")
 		exit(1)
+
+def getMacros(specfile, repo_prefix = ""):
+	sp = SpecParser(specfile)
+	if not sp.parse():
+		logging.error("Unable to parse %s: %s" % (specfile, sp.getError()))
+		exit(1)
+
+	if repo_prefix == "":
+		commit_key = "commit"
+		rev_key = "rev"
+		ipprefix_key = "import_path"
+	else:
+		commit_key = "%s_commit" % repo_prefix
+		rev_key = "%s_rev" % repo_prefix
+		ipprefix_key = "%s_import_path" % repo_prefix
+
+	# Get import path prefix and commit
+	commit = sp.getMacro(commit_key)
+	if commit == "":
+		commit = sp.getMacro(rev_key)
+
+	if commit == "":
+		logging.error("commit/rev not found")
+		exit(1)
+
+	ipprefix = sp.getMacro(ipprefix_key)
+	if ipprefix == "":
+		logging.error("import path prefix not found")
+		exit(1)
+
+	return {
+		"commit": commit,
+		"ipprefix": ipprefix
+	}
 
 if __name__ == "__main__":
 
@@ -47,24 +86,11 @@ if __name__ == "__main__":
 
 	# Get provider and commit
 	print "%sParsing spec file%s" % (BLUE, ENDC)
-	sp = SpecParser(specfile)
-	if not sp.parse():
-		logging.error("Unable to parser %s: %s" % (specfile, sp.getError()))
-		exit(1)
 
 	# Get import path prefix and commit
-	commit = sp.getMacro("commit")
-	if commit == "":
-		commit = sp.getMacro("rev")
-
-	if commit == "":
-		logging.error("commit/rev not found")
-		exit(1)
-
-	ipprefix = sp.getMacro("import_path")
-	if ipprefix == "":
-		logging.error("import path prefix not found")
-		exit(1)
+	macros = getMacros(specfile, options.repoprefix)
+	commit = macros["commit"]
+	ipprefix = macros["ipprefix"]
 
 	print "%sipprefix: %s%s" % (GREEN, ipprefix, ENDC)
 	print "%scommit: %s%s" % (GREEN, commit, ENDC)
