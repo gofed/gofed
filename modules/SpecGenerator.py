@@ -292,7 +292,7 @@ class SpecGenerator:
 	def generateInstallSection(self, main_packages, dependency_directories):
 		deps_vgrep = ""
 		if dependency_directories != []:
-			deps_vgrep = "egrep -v \"%s\"" % "|".join(map(lambda l: "./%s" % l, dependency_directories))
+			deps_vgrep = "grep -e -v \"%s\"" % "|".join(map(lambda l: "./%s" % l, dependency_directories))
 
 		self.file.write("%install\n")
 		if self.with_build:

@@ -140,7 +140,6 @@ if __name__ == "__main__":
 	data = {
 		"type": "user_directory",
 		"resource": os.path.abspath(path),
-		"directories_to_skip": ["Godeps","hack"],
 		"ipprefix": "."
 	}
 
