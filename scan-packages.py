@@ -41,6 +41,16 @@ def setOptions():
 	    help = "Comma separated string of packages to be skipped, e.g. etcd,runc"
 	)
 
+	parser.add_option(
+	    "", "", "--atmost", dest="atmost", default = "1",
+	    help = "Scan packages that has at least one build at most number of days old. Default 1 day."
+	)
+
+	parser.add_option(
+	    "", "", "--atleast", dest="atleast", default = "0",
+	    help = "Scan packages that has at least one build at least number of days old. Default 0 day."
+	)
+
 	return parser
 
 def checkOptions(options):
@@ -50,6 +60,30 @@ def checkOptions(options):
 	# configuration file
 	if not re.match(r"^Fedora:(rawhide|f2[2-5])(,Fedora:(rawhide|f2[2-5]))*$", options.target):
 		logging.error("Target not supported")
+		exit(1)
+
+	try:
+		int(options.atmost)
+	except ValueError:
+		logging("atmost must be integer")
+		exit(1)
+
+	try:
+		int(options.atleast)
+	except ValueError:
+		logging("atleast must be integer")
+		exit(1)
+
+	if options.atmost < 0:
+		logging.error("atmost must be non-negative")
+		exit(1)
+
+	if options.atleast < 0:
+		logging.error("atleast must be non-negative")
+		exit(1)
+
+	if options.atmost < options.atleast:
+		logging.error("'atmost >= atleast' does not hold")
 		exit(1)
 
 if __name__ == "__main__":
@@ -65,5 +99,8 @@ if __name__ == "__main__":
 	custom_packages = options.custompackages.split(",")
 	blacklist = options.blacklist.split(",")
 
-	DistributionBuildsFetcher(PkgDBClient()).fetch(distributions) #, since = int(time.time() - 4*86400))
+	if options.atleast > 0:
+		DistributionBuildsFetcher(PkgDBClient()).fetch(distributions, since = int(time.time()) - int(options.atmost)*86400, to = int(time.time()) - int(options.atleast)*86400)
+	else:
+		DistributionBuildsFetcher(PkgDBClient()).fetch(distributions, since = int(time.time()) - int(options.atmost)*86400)
 
