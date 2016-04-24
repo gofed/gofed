@@ -10,9 +10,9 @@ from modules.Config import Config
 from gofed_infra.system.models.graphs.datasets.projectdatasetbuilder import ProjectDatasetBuilder
 from gofed_infra.system.models.graphs.datasetdependencygraphbuilder import DatasetDependencyGraphBuilder
 from gofed_infra.system.models.graphs.basicdependencyanalysis import BasicDependencyAnalysis
-from gofed_lib.graphutils import GraphUtils
+from gofed_lib.graphs.graphutils import GraphUtils
 from gofed_infra.system.models.graphs.datasets.distributionlatestbuilds import DistributionLatestBuildGraphDataset
-from gofed_lib.packagemanager import PackageManager
+from gofed_lib.distribution.packagemanager import PackageManager
 from gofed_infra.system.models.graphs.datasets.localprojectdatasetbuilder import LocalProjectDatasetBuilder
 
 def printSCC(scc):
@@ -219,7 +219,7 @@ if __name__ == "__main__":
 		else:
 			print "%s nodes in total" % (graph_cnt)
 
-		results = BasicDependencyAnalysis(graph).analyse().getResults()
+		results = BasicDependencyAnalysis(graph).analyse().results()
 
 		if not options.graphviz:
 			if options.cyclic:

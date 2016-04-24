@@ -3,10 +3,8 @@ import logging
 import re
 import json
 
-from gofed_lib.kojiclient import FakeKojiClient, KojiClient
-from gofed_lib.pkgdb.client import FakePkgDBClient, PkgDBClient
-from gofed_lib.distributionsnapshot import DistributionSnapshot
-from gofed_lib.eco.capturer import EcoCapturer
+from gofed_lib.distribution.clients.koji.client import FakeKojiClient, KojiClient
+from gofed_lib.distribution.clients.pkgdb.client import FakePkgDBClient, PkgDBClient
 from gofed_infra.system.models.ecosnapshots.distributionsnapshotchecker import DistributionSnapshotChecker
 
 #logging.basicConfig(level=logging.INFO)

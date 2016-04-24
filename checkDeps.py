@@ -1,5 +1,5 @@
 from gofed_infra.system.models.snapshots.checker import SnapshotChecker
-from gofed_lib.snapshot import Snapshot
+from gofed_lib.go.snapshot import Snapshot
 import optparse
 import logging
 import re

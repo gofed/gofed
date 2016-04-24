@@ -5,7 +5,7 @@ import json
 import time
 
 from gofed_infra.system.models.ecomanagement.fetchers.distributionbuilds import DistributionBuildsFetcher
-from gofed_lib.pkgdb.client import FakePkgDBClient, PkgDBClient
+from gofed_lib.distribution.clients.pkgdb.client import FakePkgDBClient, PkgDBClient
 
 def setOptions():
 
