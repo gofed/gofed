@@ -35,6 +35,18 @@ loggers:
                 handlers: [consoleHandler]
                 # if not set, the info get printed by more loggers :D
                 propagate: 0
+        distribution_latest_builds_dataset_builder:
+                level: INFO
+                handlers: [consoleHandler]
+                propagate: 0
+        simple_file_storage:
+                level: WARNING
+                handlers: [consoleHandler]
+                propagate: 0
+        scan_distribution_build_act:
+                level: WARNING
+                handlers: [consoleHandler]
+                propagate: 0
 root:
         level: WARNING
         handlers: [consoleHandler]

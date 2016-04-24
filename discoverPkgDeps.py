@@ -1,3 +1,5 @@
+from gofed_lib.logger.logger import Logger
+
 import optparse
 from modules.Utils import runCommand
 import tempfile
@@ -14,6 +16,7 @@ from gofed_lib.graphs.graphutils import GraphUtils
 from gofed_infra.system.models.graphs.datasets.distributionlatestbuilds import DistributionLatestBuildGraphDataset
 from gofed_lib.distribution.packagemanager import PackageManager
 from gofed_infra.system.models.graphs.datasets.localprojectdatasetbuilder import LocalProjectDatasetBuilder
+from gofed_lib.distribution.distributionnameparser import DistributionNameParser
 
 def printSCC(scc):
 	print "Cyclic dep detected (%s): %s" % (len(scc), ", ".join(scc))
@@ -82,7 +85,12 @@ def setOptions():
 
 	parser.add_option(
 	    "", "-v", "--verbose", dest="verbose", action = "store_true", default = False,
-	    help = "Display all warnings and errors as well"
+	    help = "Verbose mode"
+	)
+
+	parser.add_option(
+	    "", "", "--target", dest="target", default = "Fedora:rawhide",
+	    help = "Target distribution in a form OS:version, e.g. Fedora:f24. Implicitly set to Fedora:rawhide"
 	)
 
 	parser.add_option(
@@ -163,17 +171,7 @@ if __name__ == "__main__":
 	if len(args) > 0:
 		pkg_name = args[0]
 
-	if not options.scanalldirs:
-		noGodeps = Config().getSkippedDirectories()
-	else:
-		noGodeps = []
-
-	if options.skipdirs:
-		for dir in options.skipdirs.split(','):
-			dir = dir.strip()
-			if dir == "":
-				continue
-			noGodeps.append(dir)
+	Logger.set(options.verbose)
 
 	fp = FormatedPrint()
 
@@ -190,12 +188,18 @@ if __name__ == "__main__":
 		dataset = LocalProjectDatasetBuilder(options.fromdir, options.decompose).build()
 		graph = DatasetDependencyGraphBuilder().build(dataset, 2)
 	else:
+		try:
+			distribution = DistributionNameParser().parse(options.target).signature()
+		except ValueError as e:
+			logging.error(e)
+			exit(1)
+
 		print "Reading packages..."
-		packages = PackageManager().getPackages()
+		#packages = PackageManager().getPackages()
 
 		print "Extracting data from source code"
 		# TODO(jchaloup): saving dataset?
-		dataset = DistributionLatestBuildGraphDataset("rawhide", packages).build()
+		dataset = DistributionLatestBuildGraphDataset().build(distribution)
 		if options.packagelevel:
 			graph = DatasetDependencyGraphBuilder().build(dataset, 2)
 		else:
