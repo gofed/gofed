@@ -1,11 +1,11 @@
 import optparse
 import logging
-import re
-import json
 import time
+from gofed_lib.logger.logger import Logger
 
 from gofed_infra.system.models.ecomanagement.fetchers.distributionbuilds import DistributionBuildsFetcher
 from gofed_lib.distribution.clients.pkgdb.client import FakePkgDBClient, PkgDBClient
+from gofed_lib.distribution.distributionnameparser import DistributionNameParser
 
 def setOptions():
 
@@ -55,13 +55,6 @@ def setOptions():
 
 def checkOptions(options):
 
-	# check target format
-	# TODO(jchaloup): put the list of supported targets into
-	# configuration file
-	if not re.match(r"^Fedora:(rawhide|f2[2-5])(,Fedora:(rawhide|f2[2-5]))*$", options.target):
-		logging.error("Target not supported")
-		exit(1)
-
 	try:
 		int(options.atmost)
 	except ValueError:
@@ -92,9 +85,14 @@ if __name__ == "__main__":
 	checkOptions(options)
 
 	distributions = []
-	for distro in options.target.split(","):
-		parts = distro.split(":")
-		distributions.append({"product": parts[0], "version": parts[1]})
+	try:
+		for distro in options.target.split(","):
+			distributions.append(DistributionNameParser().parse(distro).signature())
+	except ValueError as e:
+		logging.error(e)
+		exit(1)
+
+	Logger.set(options.verbose)
 
 	custom_packages = options.custompackages.split(",")
 	blacklist = options.blacklist.split(",")
