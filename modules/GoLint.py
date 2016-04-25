@@ -9,8 +9,9 @@ from Config import Config
 
 import logging
 from gofed_infra.system.core.factory.actfactory import ActFactory
-from gofed_lib.projectinfobuilder import ProjectInfoBuilder
-from gofed_lib.importpathparserbuilder import ImportPathParserBuilder
+from gofed_lib.go.projectinfobuilder import ProjectInfoBuilder
+from gofed_infra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECT_PACKAGES
+from gofed_lib.distribution.packagenamegeneratorbuilder import PackageNameGeneratorBuilder
 
 #
 # 1. URL tag: should be https://%{import_path} otherwise it can not be used
@@ -123,7 +124,7 @@ class GoLint(Base):
 			exit(1)
 
 		# TODO(jchaloup) catch exceptions, at least ValueError
-		self.prj_info.construct(data)
+		self.prj_info.construct(data[ARTEFACT_GOLANG_PROJECT_PACKAGES])
 
 		if source_code_directory == "":
 			shutil.rmtree(dir)
@@ -154,6 +155,7 @@ class GoLint(Base):
 	def testPackageName(self):
 		name = self.sp_obj.getTag('name')
 		url = self.sp_obj.getTag('url')
+		importpath = self.sp_obj.getMacro('import_path')
 
 		if name == "":
 			self.t_result = "E: Missing name tag"
@@ -165,15 +167,13 @@ class GoLint(Base):
 			self.err_number += 1
 			return False
 
-		ip_obj = ImportPathParserBuilder().buildWithLocalMapping()
-		try:
-			ip_obj.parse(url)
-		except ValueError as e:
-			self.t_result = "E: Uknown repo url"
+		if importpath == "":
+			self.t_result = "E: Missing importpath macro"
 			self.err_number += 1
 			return False
 
-		pkg_name = ip_obj.getPackageName()
+		name_generator = PackageNameGeneratorBuilder().buildWithLocalMapping()
+		pkg_name = name_generator.generate(importpath).name()
 
 		if pkg_name != name:
 			self.t_result = "W: Incorrect package name %s, should be %s" % (name, pkg_name)
