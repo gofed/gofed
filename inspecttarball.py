@@ -25,7 +25,8 @@ from modules.ParserConfig import ParserConfig
 
 import logging
 from gofed_infra.system.core.factory.actfactory import ActFactory
-from gofed_lib.projectinfobuilder import ProjectInfoBuilder
+from gofed_lib.go.projectinfobuilder import ProjectInfoBuilder
+from gofed_infra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECT_PACKAGES
 
 if __name__ == "__main__":
 
@@ -121,7 +122,7 @@ if __name__ == "__main__":
 
 	prj_info = ProjectInfoBuilder().build()
 	# TODO(jchaloup) catch exceptions, at least ValueError
-	prj_info.construct(data)
+	prj_info.construct(data[ARTEFACT_GOLANG_PROJECT_PACKAGES])
 
 	if options.provides:
 		skipped_provides_with_prefix = Config().getSkippedProvidesWithPrefix()
