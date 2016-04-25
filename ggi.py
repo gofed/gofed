@@ -24,14 +24,16 @@ import urllib2
 import optparse
 from modules.Utils import GREEN, RED, ENDC
 from modules.Utils import FormatedPrint
-from modules.ImportPath import ImportPath
 from modules.Config import Config
 from modules.ParserConfig import ParserConfig
 
 from gofed_infra.system.core.factory.actfactory import ActFactory
-from gofed_lib.importpathsdecomposerbuilder import ImportPathsDecomposerBuilder
-from gofed_lib.projectinfobuilder import ProjectInfoBuilder
-from gofed_lib.pkgdb.client import PkgDBClient
+from gofed_lib.go.importpath.decomposerbuilder import ImportPathsDecomposerBuilder
+from gofed_lib.go.projectinfobuilder import ProjectInfoBuilder
+from gofed_lib.distribution.clients.pkgdb.client import PkgDBClient
+from gofed_infra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECT_PACKAGES
+from gofed_lib.distribution.packagenamegeneratorbuilder import PackageNameGeneratorBuilder
+
 
 import logging
 
@@ -151,7 +153,7 @@ if __name__ == "__main__":
 
 	prj_info = ProjectInfoBuilder().build()
 	# TODO(jchaloup) catch exceptions, at least ValueError
-	prj_info.construct(data)
+	prj_info.construct(data[ARTEFACT_GOLANG_PROJECT_PACKAGES])
 
 	occurrences = prj_info.getImportsOccurrence()
 	main_occurrences = prj_info.getMainOccurrence()
@@ -165,7 +167,7 @@ if __name__ == "__main__":
 	decomposer = ImportPathsDecomposerBuilder().buildLocalDecomposer()
 	# TODO(jchaloup) catch exceptions, at least ValueError
 	decomposer.decompose(ip_used)
-	classes = decomposer.getClasses()
+	classes = decomposer.classes()
 	sorted_classes = sorted(classes.keys())
 
 	# get max length of all imports
@@ -250,15 +252,8 @@ if __name__ == "__main__":
 
 			# Translate non-native class into package name (if -d option)
 			if options.pkgdb:
-				ip_obj = ImportPath(element)
-				if not ip_obj.parse():
-					fmt_obj.printWarning("Unable to translate %s to package name" % element)
-					continue
-
-				pkg_name = ip_obj.getPackageName()
-				if pkg_name == "":
-					fmt_obj.printWarning(ip_obj.getError())
-
+				name_generator = PackageNameGeneratorBuilder().buildWithLocalMapping()
+				pkg_name = name_generator.generate(element).name()
 				pkg_in_pkgdb = PkgDBClient().packageExists(pkg_name)
 				if pkg_in_pkgdb:
 					if options.verbose:
