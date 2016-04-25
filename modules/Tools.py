@@ -10,7 +10,7 @@ from modules.SpecParser import SpecParser
 import logging
 import re
 
-from gofed_lib.bodhi.client import BodhiClient
+from gofed_lib.distribution.clients.bodhi.client import BodhiClient
 import ConfigParser
 
 BUILDURL="http://koji.fedoraproject.org/koji/taskinfo?taskID=%s"
