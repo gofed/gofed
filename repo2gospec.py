@@ -12,13 +12,20 @@ import logging
 import json
 
 from gofed_infra.system.core.factory.actfactory import ActFactory
-from gofed_lib.data2specmodeldata import Data2SpecModelData
-from gofed_lib.contentmetadataextractor import ContentMetadataExtractor
-from gofed_lib.importpathparserbuilder import ImportPathParserBuilder
-from gofed_lib.importpathsdecomposerbuilder import ImportPathsDecomposerBuilder
-from gofed_lib.repositoryinfo import RepositoryInfo
+from gofed_lib.go.data2specmodeldata import Data2SpecModelData
+from gofed_lib.go.contentmetadataextractor import ContentMetadataExtractor
+from gofed_lib.go.importpath.parserbuilder import ImportPathParserBuilder
+from gofed_lib.go.importpath.decomposerbuilder import ImportPathsDecomposerBuilder
+#from gofed_lib.repositoryinfo import RepositoryInfo
 from gofed_lib.types import UnsupportedImportPathError
-from gofed_lib.pkgdb.client import PkgDBClient
+from gofed_lib.distribution.clients.pkgdb.client import PkgDBClient
+from gofed_lib.distribution.packagenamegeneratorbuilder import PackageNameGeneratorBuilder
+from gofed_lib.providers.providerbuilder import ProviderBuilder
+from gofed_lib.repository.repositoryclientbuilder import RepositoryClientBuilder
+from gofed_infra.system.artefacts.artefacts import (
+	ARTEFACT_GOLANG_PROJECT_PACKAGES,
+	ARTEFACT_GOLANG_PROJECT_CONTENT_METADATA
+)
 
 def setOptions():
 	parser = optparse.OptionParser("%prog [-e] [-d] file [file [file ...]]")
@@ -192,7 +199,8 @@ def createTargetDirectories(name, target = ""):
 	make_sure_path_exists(target)
 	os.chdir(target)
 
-def checkDependencies(fmt_obj, classes, url, ipparser):
+def checkDependencies(fmt_obj, classes, url):
+	name_generator = PackageNameGeneratorBuilder().buildWithLocalMapping()
 	for element in sorted(classes.keys()):
 		if element == "Unknown":
 			fmt_obj.printWarning("Some import paths were not detected. Please run gofed ggi -c on extracted tarball manually")
@@ -201,7 +209,7 @@ def checkDependencies(fmt_obj, classes, url, ipparser):
 		classes[element] = sorted(classes[element])
 
 		try:
-			pkg_name = ipparser.parse(element).getPackageName()
+			pkg_name = name_generator.generate(element).name()
 		except UnsupportedImportPathError as e:
 			fmt_obj.printWarning("Unable to translate %s to package name: %s" % (element, e))
 			continue
@@ -211,7 +219,6 @@ def checkDependencies(fmt_obj, classes, url, ipparser):
 			print (GREEN + "\tClass: %s (%s) PkgDB=%s" + ENDC) % (element, pkg_name, pkg_in_pkgdb)
 		else:
 			print (RED + "\tClass: %s (%s) PkgDB=%s" + ENDC ) % (element, pkg_name, pkg_in_pkgdb)
-
 
 if __name__ == "__main__":
 
@@ -282,19 +289,28 @@ if __name__ == "__main__":
 			logging.error("Path '%s' does not exist" % path)
 			exit(1)
 
+	name_generator = PackageNameGeneratorBuilder().buildWithLocalMapping()
+	upstream_provider = ProviderBuilder().buildUpstreamWithLocalMapping()
 	ipparser = ImportPathParserBuilder().buildWithLocalMapping()
-	name = ipparser.parse(import_path).getPackageName()
+
+	import_path_prefix = ipparser.parse(import_path).prefix()
+	repository_prefix = upstream_provider.parse(import_path_prefix).prefix()
+	repository_signature = upstream_provider.signature()
+	name = name_generator.generate(import_path_prefix).name()
 
 	# 1. decode some package info (name, archive url, ...)
 	# 2. set path to downloaded tarball
 	# 3. retrieve project info from tarball
 	# 4. generate spec file
-
 	specfile = "%s.spec" % name
 	total = 4
 
+	# commit
+	if options.directory == "" and commit == "":
+		commit = RepositoryClientBuilder().buildWithRemoteClient(repository_signature).latestCommit()["hexsha"]
+
 	# print basic information
-	printBasicInfo(ipparser.getProviderPrefix(), commit, name, options.format)
+	printBasicInfo(repository_prefix, commit, name, options.format)
 	print ""
 
 	# is the package already in Fedora
@@ -307,17 +323,12 @@ if __name__ == "__main__":
 	# download tarball
 	fmt_obj.printProgress("(2/%s) Collecting data" % total)
 
-	# commit
-	if options.directory == "" and commit == "":
-		commit = RepositoryInfo(ipparser).retrieve(import_path).getCommit()
-
 	# convert import path to project provider path
 	metadata = {
-		"provider_prefix": ipparser.getProviderPrefix(),
-		"import_path": ipparser.getImportPathPrefix(),
+		"provider_prefix": repository_prefix,
+		"import_path": import_path_prefix,
 		"commit": commit,
-		"package_name": name,
-		"skipped_directories": ["Godeps"]
+		"package_name": name
 		#{"key": "summary", "value": "..."},
 		#{"key": "description", "value": "..."},
 		#{"key": "website", "value": "https://godoc.org/github.com/bradfitz/http2"}
@@ -332,11 +343,10 @@ if __name__ == "__main__":
 	else:
 		data = {
 			"type": "upstream_source_code",
-			"project": metadata["provider_prefix"],
+			"repository": repository_signature,
 			"commit": metadata["commit"],
 			"ipprefix": metadata["import_path"]
 		}
-
 
 	try:
 		data = ActFactory().bake("spec-model-data-provider").call(data)
@@ -345,7 +355,11 @@ if __name__ == "__main__":
 		exit(1)
 
 	combiner = Data2SpecModelData()
-	combiner.combine(metadata, data[0], data[1])
+	combiner.combine(
+		metadata,
+		data[ARTEFACT_GOLANG_PROJECT_PACKAGES],
+		data[ARTEFACT_GOLANG_PROJECT_CONTENT_METADATA]
+	)
 	data = combiner.getData()
 
 	# generate spec file
@@ -393,16 +407,16 @@ if __name__ == "__main__":
 	if package_deps != []:
 		fmt_obj.printProgress("Discovering package dependencies")
 		decomposer.decompose(package_deps)
-		classes = decomposer.getClasses()
-		checkDependencies(fmt_obj, classes, metadata["import_path"], ipparser)
+		classes = decomposer.classes()
+		checkDependencies(fmt_obj, classes, metadata["import_path"])
 		print ""
 		add_line = False
 
 	if diff_deps != []:
 		fmt_obj.printProgress("Discovering test dependencies")
 		decomposer.decompose(diff_deps)
-		classes = decomposer.getClasses()
-		checkDependencies(fmt_obj, classes, metadata["import_path"], ipparser)
+		classes = decomposer.classes()
+		checkDependencies(fmt_obj, classes, metadata["import_path"])
 		print ""
 		add_line = False
 

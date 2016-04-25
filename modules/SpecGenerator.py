@@ -2,9 +2,11 @@ from ProviderPrefixes import ProviderPrefixes
 import os
 import sys
 
-from gofed_lib.importpathparserbuilder import ImportPathParserBuilder
-from gofed_lib.repositoryinfo import RepositoryInfo
-from gofed_lib.importpathparser import GITHUB, GOOGLECODE, BITBUCKET
+from gofed_lib.go.importpath.parserbuilder import ImportPathParserBuilder
+#from gofed_lib.repositoryinfo import RepositoryInfo
+#from gofed_lib.importpathparser import GITHUB, GOOGLECODE, BITBUCKET
+from gofed_lib.providers.providerbuilder import ProviderBuilder
+from gofed_lib.projectsignature.signature import ProjectSignatureGenerator
 
 class SpecGenerator:
 
@@ -49,11 +51,12 @@ class SpecGenerator:
 			self.file.write("%endif\n")
 			self.file.write("\n")
 
-	def generateGithubHeader(self, project, repository, url, provider_prefix, commit, licenses):
+	def generateGithubHeader(self, project_signature, url, provider_prefix, licenses):
+		provider = project_signature.provider()
 		self.file.write("%global provider        github\n")
 		self.file.write("%global provider_tld    com\n")
-		self.file.write("%%global project         %s\n" % project)
-		self.file.write("%%global repo            %s\n" % repository)
+		self.file.write("%%global project         %s\n" % provider["username"])
+		self.file.write("%%global repo            %s\n" % provider["project"])
 		self.file.write("# https://%s\n" % provider_prefix)
 		self.file.write("%global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}\n")
 
@@ -62,7 +65,7 @@ class SpecGenerator:
 		else:
 			self.file.write("%global import_path     %{provider_prefix}\n")
 
-                self.file.write("%%global commit          %s\n" % commit)
+                self.file.write("%%global commit          %s\n" % project_signature.resource())
 		self.file.write("%global shortcommit     %(c=%{commit}; echo ${c:0:7})\n\n")
 		self.file.write("Name:           golang-%{provider}-%{project}-%{repo}\n")
 		self.file.write("Version:        0\n")
@@ -76,15 +79,16 @@ class SpecGenerator:
 		self.file.write("URL:            https://%{provider_prefix}\n")
 		self.file.write("Source0:        https://%{provider_prefix}/archive/%{commit}/%{repo}-%{shortcommit}.tar.gz\n")
 
-	def generateGooglecodeHeader(self, repository, url, provider_prefix, commit, licenses):
-		parts = repository.split(".")
+	def generateGooglecodeHeader(self, project_signature, url, provider_prefix, licenses):
+		provider = project_signature.provider()
+		parts = provider["project"].split(".")
 		stripped_repo = parts[-1]
 		rrepository = ".".join(parts[::-1])
 		self.file.write("%global provider        google\n")
 		self.file.write("%global provider_sub    code\n")
 		self.file.write("%global provider_tld    com\n")
 		self.file.write("%global project         p\n")
-		self.file.write("%%global repo            %s\n" % repository)
+		self.file.write("%%global repo            %s\n" % provider["project"])
 		self.file.write("%%global rrepo           %s\n" % rrepository)
 		self.file.write("# https://%s\n" % provider_prefix)
 		self.file.write("%global provider_prefix %{provider_sub}.%{provider}.%{provider_tld}/%{project}/%{repo}\n")
@@ -94,7 +98,7 @@ class SpecGenerator:
 		else:
 			self.file.write("%global import_path     %{provider_prefix}\n")
 
-		self.file.write("%%global rev             %s\n" % commit)
+		self.file.write("%%global rev             %s\n" % project_signature.resource())
 		self.file.write("%global shortrev        %(c=%{rev}; echo ${c:0:12})\n\n")
 		self.file.write("Name:           golang-%%{provider}%%{provider_sub}-%s\n" % stripped_repo)
 		self.file.write("Version:        0\n")
@@ -108,11 +112,12 @@ class SpecGenerator:
 		self.file.write("URL:            https://%{provider_prefix}\n")
 		self.file.write("Source0:        https://%{rrepo}.%{provider}%{provider_sub}.%{provider_tld}/archive/%{rev}.tar.gz\n")
 
-	def generateBitbucketHeader(self, project, repository, url, provider_prefix, commit, licenses):
+	def generateBitbucketHeader(self, provider_signature, url, provider_prefix, licenses):
+		provider = provider_signature.provider()
 		self.file.write("%global provider        bitbucket\n")
 		self.file.write("%global provider_tld    org\n")
-		self.file.write("%%global project         %s\n" % project)
-		self.file.write("%%global repo            %s\n" % repository)
+		self.file.write("%%global project         %s\n" % provider["username"])
+		self.file.write("%%global repo            %s\n" % provider["project"])
 		self.file.write("# https://%s\n" % provider_prefix)
 		self.file.write("%%global provider_prefix %s\n" % provider_prefix)
 		self.file.write("%global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}\n")
@@ -122,7 +127,7 @@ class SpecGenerator:
 		else:
 			self.file.write("%global import_path     %{provider_prefix}\n")
 
-		self.file.write("%%global commit          %s\n" % commit)
+		self.file.write("%%global commit          %s\n" % provider_signature.resource())
 		self.file.write("%global shortcommit     %(c=%{commit}; echo ${c:0:12})\n\n")
 		self.file.write("Name:           golang-%{provider}-%{project}-%{repo}\n")
 		self.file.write("Version:        0\n")
@@ -136,7 +141,7 @@ class SpecGenerator:
 		self.file.write("URL:            https://%{provider_prefix}\n")
 		self.file.write("Source0:        https://%{provider_prefix}/get/%%{shortcommit}.tar.gz\n")
 
-	def generateHeaderPrologue(self, main_packages, prefix):
+	def generateHeaderPrologue(self, main_packages, import_path_prefix):
 		self.file.write("# e.g. el6 has ppc64 arch without gcc-go, so EA tag is required\n")
 		self.file.write("ExclusiveArch:  %{?go_arches:%{go_arches}}%{!?go_arches:%{ix86} x86_64 %{arm}}\n")
 		# Once BuildRequires of the compiler is removed from the main package, put it back to unit-test-devel subpackage.
@@ -147,7 +152,7 @@ class SpecGenerator:
 		if self.with_build:
 			self.file.write("%if ! 0%{?with_bundled}\n")
 			for package in main_packages:
-				deps = filter(lambda l: not l.startswith(prefix), package["dependencies"])
+				deps = filter(lambda l: not l.startswith(import_path_prefix), package["dependencies"])
 
 				if deps == []:
 					continue
@@ -168,7 +173,7 @@ class SpecGenerator:
                 self.file.write("%{summary}\n")
                 self.file.write("\n")
 
-	def generateDevelHeader(self, devel_packages, prefix):
+	def generateDevelHeader(self, devel_packages, import_path_prefix):
 		self.file.write("%if 0%{?with_devel}\n")
                 self.file.write("%package devel\n")
                 self.file.write("Summary:       %{summary}\n")
@@ -180,7 +185,7 @@ class SpecGenerator:
 		for package in devel_packages:
 			imported_packages.extend(package["dependencies"])
 
-		imported_packages = filter(lambda l: not l.startswith(prefix), imported_packages)
+		imported_packages = filter(lambda l: not l.startswith(import_path_prefix), imported_packages)
 		imported_packages = sorted(list(set(imported_packages)))
 
 		self.file.write("%if 0%{?with_check} && ! 0%{?with_bundled}\n")
@@ -214,7 +219,7 @@ class SpecGenerator:
 		self.file.write("%{import_path} prefix.\n")
 		self.file.write("%endif\n")
 
-	def generateUnitTestHeader(self, tests, devel_packages, prefix):
+	def generateUnitTestHeader(self, tests, devel_packages, import_path_prefix):
 		self.file.write("%if 0%{?with_unit_test} && 0%{?with_devel}\n")
 		self.file.write("%package unit-test-devel\n")
 		self.file.write("Summary:         Unit tests for %{name} package\n")
@@ -231,7 +236,7 @@ class SpecGenerator:
 		for package in devel_packages:
 			imported_packages.extend(package["dependencies"])
 
-		imported_packages = filter(lambda l: not l.startswith(prefix), imported_packages)
+		imported_packages = filter(lambda l: not l.startswith(import_path_prefix), imported_packages)
 		imported_packages = sorted(imported_packages)
 
 		test_imported_packages = []
@@ -239,7 +244,7 @@ class SpecGenerator:
 			test_imported_packages.extend(test["dependencies"])
 
 		test_deps = sorted(list(set(test_imported_packages) - set(imported_packages)))
-		test_deps = filter(lambda l: not l.startswith(prefix), test_deps)
+		test_deps = filter(lambda l: not l.startswith(import_path_prefix), test_deps)
 
 		self.file.write("%if 0%{?with_check} && ! 0%{?with_bundled}\n")
 		for dep in test_deps:
@@ -258,12 +263,12 @@ class SpecGenerator:
 		self.file.write("This package contains unit tests for project\nproviding packages with %{import_path} prefix.\n")
 		self.file.write("%endif\n")
 
-	def generatePrepSection(self, provider):
+	def generatePrepSection(self, provider_signature):
 		self.file.write("%prep\n")
 
-		if provider == GOOGLECODE:
+		if provider_signature["provider"] == "google":
 			self.file.write("%setup -q -n %{rrepo}-%{shortrev}\n")
-		elif provider == BITBUCKET:
+		elif provider_signature["provider"] == "bitbucket":
 			self.file.write("%setup -q -n %{project}-%{repo}-%{shortcommit}\n")
 		else:
 			self.file.write("%setup -q -n %{repo}-%{commit}\n")
@@ -364,7 +369,7 @@ class SpecGenerator:
 			self.file.write("%%gotest %%{import_path}%s\n" % sufix)
 		self.file.write("%endif\n")
 
-	def generateFilesSection(self, provider, docs, licenses, main_packages, ip_prefix = ""):
+	def generateFilesSection(self, provider_signature, docs, licenses, main_packages, ip_prefix = ""):
 		self.file.write("#define license tag if not already defined\n")
 		self.file.write("%{!?_licensedir:%global license %doc}\n\n")
 
@@ -392,7 +397,7 @@ class SpecGenerator:
 
 		# http://www.rpm.org/max-rpm/s1-rpm-inside-files-list-directives.html
 		# it takes every dir and file recursively
-		if provider in [GITHUB, BITBUCKET]:
+		if provider_signature["provider"] in ["github", "bitbucket"]:
 			if ip_prefix != "":
 				pp_obj = ProviderPrefixes()
 				ok, prefixes = pp_obj.loadCommonProviderPrefixes()
@@ -418,20 +423,22 @@ class SpecGenerator:
 
 	def generate(self, artefact, file = sys.stdout):
 		self.file = file
-		ip_info = ImportPathParserBuilder().buildWithLocalMapping()
 
 		commit = artefact["metadata"]["commit"]
-		url = artefact["metadata"]["import_path"]
 
-		repo_info = RepositoryInfo(ip_info)
-		repo_info.retrieve(url, commit)
+		# build provider and parser
+		upstream_provider = ProviderBuilder().buildUpstreamWithLocalMapping()
+		ipparser = ImportPathParserBuilder().buildWithLocalMapping()
 
-		provider = ip_info.getProvider()
-		project = ip_info.getProject()
-		repository = ip_info.getRepository()
-		archive_dir = repo_info.getArchiveInfo().archive_dir
-		prefix = ip_info.getPrefix()
-		provider_prefix = ip_info.getProviderPrefix()
+		# get import path prefix
+		import_path_prefix = ipparser.parse(artefact["metadata"]["import_path"]).prefix()
+
+		# get provider's signature and prefix
+		upstream_provider.parse(import_path_prefix)
+		provider_signature = upstream_provider.signature()
+		provider_prefix = upstream_provider.prefix()
+
+		project_signature = ProjectSignatureGenerator().generate(provider_signature, commit)
 
 		# generate header
 		self.generateHeaderEpilogue()
@@ -441,32 +448,32 @@ class SpecGenerator:
 		docs = filter(lambda l: len(l.split("/")) == 1, artefact["data"]["docs"])
 
 
-		if provider == GITHUB:
-			self.generateGithubHeader(project, repository, url, provider_prefix, commit, licenses)
-		elif provider == GOOGLECODE:
-			self.generateGooglecodeHeader(repository, url, provider_prefix, commit, licenses)
-		elif provider == BITBUCKET:
-			self.generateBitbucketHeader(project, repository, url, provider_prefix, commit, licenses)
+		if provider_signature["provider"] == "github":
+			self.generateGithubHeader(project_signature, import_path_prefix, provider_prefix, licenses)
+		elif provider_signature["provider"] == "googlecode":
+			self.generateGooglecodeHeader(project_signature, import_path_prefix, provider_prefix, licenses)
+		elif provider_signature["provider"] == "bitbucket":
+			self.generateBitbucketHeader(project_signature, import_path_prefix, provider_prefix, licenses)
 		else:
 			raise ValueError("Unknown provider")
 
 		self.file.write("\n")
-		self.generateHeaderPrologue(artefact["data"]["mains"], prefix)
+		self.generateHeaderPrologue(artefact["data"]["mains"], import_path_prefix)
 
 		# generate devel subpackage
-		self.generateDevelHeader(artefact["data"]["packages"], prefix)
+		self.generateDevelHeader(artefact["data"]["packages"], import_path_prefix)
 		self.file.write("\n")
 
 		# generate unit-test-devel subpackage
-		self.generateUnitTestHeader(artefact["data"]["tests"], artefact["data"]["packages"], prefix)
+		self.generateUnitTestHeader(artefact["data"]["tests"], artefact["data"]["packages"], import_path_prefix)
 		self.file.write("\n")
 
 		# generate prep section
-		self.generatePrepSection(provider)
+		self.generatePrepSection(provider_signature)
 		self.file.write("\n")
 
 		# generate build section
-		self.generateBuildSection(url, artefact["data"]["mains"])
+		self.generateBuildSection(import_path_prefix, artefact["data"]["mains"])
 		self.file.write("\n")
 
 		# generate install section
@@ -478,12 +485,12 @@ class SpecGenerator:
 		self.file.write("\n")
 
 		# generate files section
-		if url != provider_prefix:
-			ip_prefix, _ = os.path.split(url)
+		if import_path_prefix != provider_prefix:
+			ip_prefix, _ = os.path.split(import_path_prefix)
 		else:
 			ip_prefix = ""
 
-		self.generateFilesSection(provider, docs, licenses, artefact["data"]["mains"], ip_prefix)
+		self.generateFilesSection(provider_signature, docs, licenses, artefact["data"]["mains"], ip_prefix)
 		self.file.write("\n")
 
 		# generate changelog section
