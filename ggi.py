@@ -25,7 +25,6 @@ import optparse
 from modules.Utils import GREEN, RED, ENDC
 from modules.Utils import FormatedPrint
 from modules.Config import Config
-from modules.ParserConfig import ParserConfig
 
 from gofed_infra.system.core.factory.actfactory import ActFactory
 from gofed_lib.go.importpath.decomposerbuilder import ImportPathsDecomposerBuilder
@@ -131,13 +130,6 @@ if __name__ == "__main__":
 			if dir == "":
 				continue
 			noGodeps.append(dir)
-
-	parser_config = ParserConfig()
-	if options.skiperrors:
-		parser_config.setSkipErrors()
-	parser_config.setNoGodeps(noGodeps)
-	parser_config.setParsePath(path)
-	parser_config.setImportsOnly()
 
 	data = {
 		"type": "user_directory",
