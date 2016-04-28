@@ -4,7 +4,8 @@ import time
 from gofed_lib.logger.logger import Logger
 
 from gofed_infra.system.models.ecomanagement.fetchers.distributionbuilds import DistributionBuildsFetcher
-from gofed_lib.distribution.clients.pkgdb.client import FakePkgDBClient, PkgDBClient
+from gofed_lib.distribution.clients.pkgdb.client import PkgDBClient
+from gofed_lib.distribution.clients.pkgdb.fakeclient import FakePkgDBClient
 from gofed_lib.distribution.distributionnameparser import DistributionNameParser
 
 def setOptions():
@@ -49,6 +50,11 @@ def setOptions():
 	parser.add_option(
 	    "", "", "--atleast", dest="atleast", default = "0",
 	    help = "Scan packages that has at least one build at least number of days old. Default 0 day."
+	)
+
+	parser.add_option(
+	    "", "", "--dry-run", dest="dryrun", action = "store_true", default = False,
+	    help = "Run dry scan"
 	)
 
 	return parser
@@ -97,8 +103,13 @@ if __name__ == "__main__":
 	custom_packages = options.custompackages.split(",")
 	blacklist = options.blacklist.split(",")
 
-	if options.atleast > 0:
-		DistributionBuildsFetcher(PkgDBClient()).fetch(distributions, since = int(time.time()) - int(options.atmost)*86400, to = int(time.time()) - int(options.atleast)*86400)
+	if options.dryrun:
+		fetcher = DistributionBuildsFetcher(FakePkgDBClient(), True)
 	else:
-		DistributionBuildsFetcher(PkgDBClient()).fetch(distributions, since = int(time.time()) - int(options.atmost)*86400)
+		fetcher = DistributionBuildsFetcher(PkgDBClient(), False)
+
+	if options.atleast > 0:
+		fetcher.fetch(distributions, since = int(time.time()) - int(options.atmost)*86400, to = int(time.time()) - int(options.atleast)*86400)
+	else:
+		fetcher.fetch(distributions, since = int(time.time()) - int(options.atmost)*86400)
 
