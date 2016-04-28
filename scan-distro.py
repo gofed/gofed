@@ -2,8 +2,10 @@ import logging
 import optparse
 
 from gofed_lib.logger.logger import Logger
-from gofed_lib.distribution.clients.koji.client import FakeKojiClient, KojiClient
-from gofed_lib.distribution.clients.pkgdb.client import FakePkgDBClient, PkgDBClient
+from gofed_lib.distribution.clients.koji.client import KojiClient
+from gofed_lib.distribution.clients.koji.fakeclient import FakeKojiClient
+from gofed_lib.distribution.clients.pkgdb.client import PkgDBClient
+from gofed_lib.distribution.clients.pkgdb.fakeclient import FakePkgDBClient
 from gofed_infra.system.models.ecosnapshots.distributionsnapshotchecker import DistributionSnapshotChecker
 from gofed_lib.distribution.distributionnameparser import DistributionNameParser
 
@@ -41,6 +43,11 @@ def setOptions():
 	    help = "Comma separated string of packages to be skipped, e.g. etcd,runc"
 	)
 
+	parser.add_option(
+	    "", "", "--dry-run", dest="dryrun", action = "store_true", default = False,
+	    help = "Run dry scan"
+	)
+
 	return parser
 
 if __name__ == "__main__":
@@ -69,10 +76,20 @@ if __name__ == "__main__":
 	# - introduce EcoScannerAct updating the latest snapshot and scan of the new rpms. Later, add support for upstream repositories as well.
 	#
 
-	DistributionSnapshotChecker(
-		KojiClient(),
-		PkgDBClient()
-	).check(
+	if options.dryrun:
+		checker = DistributionSnapshotChecker(
+			FakeKojiClient(),
+			FakePkgDBClient(),
+			True
+		)
+	else:
+		checker = DistributionSnapshotChecker(
+			KojiClient(),
+			PkgDBClient(),
+			False
+		)
+
+	checker.check(
 		distributions,
 		custom_packages,
 		blacklist,
