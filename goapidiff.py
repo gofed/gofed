@@ -16,6 +16,7 @@ from os import path
 from modules.ParserConfig import ParserConfig
 
 from gofed_infra.system.core.factory.actfactory import ActFactory
+from infra.system.core.factory.fakeactfactory import FakeActFactory
 from gofed_lib.projectsignature.parser import ProjectSignatureParser
 
 from infra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECTS_API_DIFF
@@ -96,6 +97,11 @@ def setOptions():
 	    help = "Project to compare with, e.g. user:gopkg.in/v1/yaml"
 	)
 
+	parser.add_option(
+	    "", "", "--dry-run", dest="dryrun", action = "store_true", default = False,
+	    help = "Run dry scan"
+	)
+
 	return parser
 
 def checkOptions(options):
@@ -146,16 +152,18 @@ def displayApiDifference(data, options):
 	updated = []
 
 	# print removed packages
-	for package in data["removedpackages"]:
-		line = print_removed(package)
-		if line:
-			removed.append(line)
+	if "removedpackages" in data:
+		for package in data["removedpackages"]:
+			line = print_removed(package)
+			if line:
+				removed.append(line)
 
 	# print new packages
-	for package in data["newpackages"]:
-		line = print_new(package)
-		if line:
-			new.append(line)
+	if "newpackages" in data:
+		for package in data["newpackages"]:
+			line = print_new(package)
+			if line:
+				new.append(line)
 
 	# print updated packages
 	for package in data["updatedpackages"]:
@@ -247,8 +255,13 @@ if __name__ == "__main__":
 		data["compared_with"] = "user_directory",
 		data["compared_with"] = compare_with_project_signature["provider"]["location"]
 
+	if options.dryrun:
+		act_factory = FakeActFactory()
+	else:
+		act_factory = ActFactory()
+
 	try:
-		data = ActFactory().bake("go-exported-api-diff").call(data)
+		data = act_factory.bake("go-exported-api-diff").call(data)
 	except Exception as e:
 		logging.error(e)
 		exit(1)
