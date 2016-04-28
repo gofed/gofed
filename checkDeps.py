@@ -28,6 +28,11 @@ def setOptions():
 	    help = "Target distribution in a form OS:version, e.g. Fedora:f24. Implicitly set to Fedora:rawhide"
 	)
 
+	parser.add_option(
+	    "", "", "--dry-run", dest="dryrun", action = "store_true", default = False,
+	    help = "Run dry scan"
+	)
+
 	return parser
 
 def checkOptions(options):
@@ -65,5 +70,5 @@ if __name__ == "__main__":
 
 	target = options.target.split(":")
 
-	SnapshotChecker().check(snapshot, target[0], target[1])
+	SnapshotChecker(options.dryrun).check(snapshot, target[0], target[1])
 
