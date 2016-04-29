@@ -160,6 +160,11 @@ def setOptions():
             help = "When listing cycles, leaves or roots, show just number of occurrences"
         )
 
+	parser.add_option(
+	    "", "", "--dry-run", dest="dryrun", action = "store_true", default = False,
+	    help = "Run dry scan"
+	)
+
 	return parser
 
 if __name__ == "__main__":
@@ -194,12 +199,9 @@ if __name__ == "__main__":
 			logging.error(e)
 			exit(1)
 
-		print "Reading packages..."
-		#packages = PackageManager().getPackages()
-
 		print "Extracting data from source code"
 		# TODO(jchaloup): saving dataset?
-		dataset = DistributionLatestBuildGraphDataset().build(distribution)
+		dataset = DistributionLatestBuildGraphDataset(options.dryrun).build(distribution)
 		if options.packagelevel:
 			graph = DatasetDependencyGraphBuilder().build(dataset, 2)
 		else:

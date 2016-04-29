@@ -21,7 +21,6 @@ import os
 import sys
 import optparse
 from modules.Config import Config
-from modules.ParserConfig import ParserConfig
 
 import logging
 from gofed_infra.system.core.factory.actfactory import ActFactory
@@ -101,12 +100,6 @@ if __name__ == "__main__":
 			if dir == "":
 				continue
 			noGodeps.append(dir)
-
-	parser_config = ParserConfig()
-	if options.skiperrors:
-		parser_config.setSkipErrors()
-	parser_config.setNoGodeps(noGodeps)
-	parser_config.setParsePath(path)
 
 	data = {
 		"type": "user_directory",

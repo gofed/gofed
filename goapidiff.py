@@ -9,11 +9,7 @@
 import logging
 
 import optparse
-from modules.GoSymbols import CompareSourceCodes
 from modules.Utils import YELLOW, RED, BLUE, ENDC
-from modules.Config import Config
-from os import path
-from modules.ParserConfig import ParserConfig
 
 from gofed_infra.system.core.factory.actfactory import ActFactory
 from infra.system.core.factory.fakeactfactory import FakeActFactory

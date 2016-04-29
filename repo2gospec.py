@@ -16,7 +16,6 @@ from gofed_lib.go.data2specmodeldata import Data2SpecModelData
 from gofed_lib.go.contentmetadataextractor import ContentMetadataExtractor
 from gofed_lib.go.importpath.parserbuilder import ImportPathParserBuilder
 from gofed_lib.go.importpath.decomposerbuilder import ImportPathsDecomposerBuilder
-#from gofed_lib.repositoryinfo import RepositoryInfo
 from gofed_lib.types import UnsupportedImportPathError
 from gofed_lib.distribution.clients.pkgdb.client import PkgDBClient
 from gofed_lib.distribution.packagenamegeneratorbuilder import PackageNameGeneratorBuilder

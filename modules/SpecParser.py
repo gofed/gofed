@@ -168,16 +168,8 @@ class SpecParser(Base):
 		# colon or sharp does not have to presented
 		# the same for bz and rhbz prefix
 		# search for the first number and return it
-		for line in log.comment:
-			pos = line.find('resolves')
-			if pos == -1:
-				pos = line.find('related')
-			if pos != -1:
-				regex = re.compile(r'([0-9]+)')	
-				res = regex.search(line[pos:]).groups()
-				if len(res) == 0:
-					continue
-				return int(res[0])
+		if len(log.bz_ids) > 0:
+			return log.bz_ids[0]
 		return -1
 
 	def getLastChangelog(self):

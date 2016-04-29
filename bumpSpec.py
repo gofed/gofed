@@ -1,8 +1,13 @@
 import optparse
-from modules.Utils import runCommand, RED, ENDC
 from modules.SpecParser import SpecParser
 
-from modules.RepositoryInfo import RepositoryInfo
+from gofed_lib.go.importpath.parserbuilder import ImportPathParserBuilder
+from gofed_lib.providers.providerbuilder import ProviderBuilder
+from gofed_lib.repository.repositoryclientbuilder import RepositoryClientBuilder
+from gofed_lib.urlbuilder.builder import UrlBuilder
+import urllib2
+from gofed_lib.utils import GREEN, RED, ENDC, BLUE, runCommand
+import os
 
 def getSpec():
 	so, se, rc = runCommand("ls *.spec")
@@ -61,12 +66,6 @@ def getMacros(spec, repoprefix):
 		return err, {}, -1
 
 	return "", macros, last_bug_id
-
-def downloadTarball(archive_url):
-	so, se, rc = runCommand("wget -nv %s --no-check-certificate" % archive_url)
-	if rc != 0:		
-		print "%sUnable to download tarball:\n%s%s" % (RED, se, ENDC)
-		exit(1)
 
 def updateSpec(spec, commit, repoprefix):
 	if repoprefix == "":
@@ -150,48 +149,50 @@ if __name__ == "__main__":
 		print err
 		exit(2)
 
-	provider = macros["provider"]
-	project = macros["project"]
-	repo = macros["repo"]
-	current_commit = macros["commit"]
+	# Construct provider signature
+	ipparser = ImportPathParserBuilder().buildWithLocalMapping()
+	provider = ProviderBuilder().buildUpstreamWithLocalMapping()
 
-	# only github so far
-	if provider != "github" and provider != "bitbucket":
-		print "Only github.com and bitbucket.org are supported"
-		exit(2)
+	ipprefix = ipparser.parse(macros["ip"]).prefix()
+	signature = provider.parse(ipprefix).signature()
 
 	commit = options.commit
 	if commit == "":
 		# get latest commit
-		print "Getting the latest commit from %s" % macros["ip"]
+		print "Retrieving the latest commit from %s" % macros["ip"]
+		client = RepositoryClientBuilder().buildWithRemoteClient(signature)
+		commit = client.latestCommit()["hexsha"]
 
-	ri_obj = RepositoryInfo(macros["ip"], commit)
-	if not ri_obj.retrieve():
-		print ri_obj.getError()
-		exit(1)
+	if signature["provider"] == "github":
+		resource_url = UrlBuilder().buildGithubSourceCodeTarball(signature["username"], signature["project"], commit)
+	elif signature["provider"] == "bitbucket":
+		resource_url = UrlBuilder().buildBitbucketSourceCodeTarball(signature["username"], signature["project"], commit)
+	else:
+		raise ValueError("Unsupported provider: %s" % (signature["provider"]))
 
-	commit = ri_obj.getCommit()
+	current_commit = macros["commit"]
+
 	# don't bump if the commit is equal to the latest
 	if commit == current_commit:
 		print "The latest commit equals the current commit"
 		exit(1)
 
 	if not options.skipchecks:
-		if provider == "github":
-			tags = ri_obj.getGithubTags(project, repo)
-			releases = ri_obj.getGithubReleases(project, repo)
+		if signature["provider"] == "github":
+			client = RepositoryClientBuilder().buildWithRemoteClient(signature)
+			tags = client.tags()
+			releases = client.releases()
 
 			print "Tags: " + ", ".join(tags[:5])
 			print "Releases: " + ", ".join(releases[:5])
 
-	# download tarball
-	print "Downloading tarball"
-	ar_info = ri_obj.getArchiveInfo()
-	shortcommit = ar_info.shortcommit
-	archive = ar_info.archive
-	archive_url = ar_info.archive_url
-
-	downloadTarball(archive_url)
+	# Download the tarball
+	print "%sFetching %s ...%s" % (BLUE, resource_url, ENDC)
+	target_file = "%s/%s" % (os.getcwd(), os.path.basename(resource_url))
+	response = urllib2.urlopen(resource_url)
+	with open(target_file, "w") as f:
+		f.write(response.read())
+		f.flush()
 
 	# update spec file
 	print "Updating spec file"

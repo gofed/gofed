@@ -111,6 +111,12 @@ if __name__ == "__main__":
             help = "Show occurence of import paths in main packages only (+means not just main)."
         )
 
+	# TODO(jchaloup): finish the flag handeling
+	#parser.add_option(
+	#    "", "", "--include-tests", dest="includetests", action = "store_true", default = False,
+	#    help = "Include dependencies for test too"
+	#)
+
 	options, args = parser.parse_args()
 
 	path = "."

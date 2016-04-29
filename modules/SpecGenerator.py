@@ -3,8 +3,6 @@ import os
 import sys
 
 from gofed_lib.go.importpath.parserbuilder import ImportPathParserBuilder
-#from gofed_lib.repositoryinfo import RepositoryInfo
-#from gofed_lib.importpathparser import GITHUB, GOOGLECODE, BITBUCKET
 from gofed_lib.providers.providerbuilder import ProviderBuilder
 from gofed_lib.projectsignature.signature import ProjectSignatureGenerator
 

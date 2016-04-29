@@ -5,10 +5,11 @@ from modules.FilesDetector import FilesDetector
 import logging
 import os
 import urllib2
-from modules.Utils import GREEN, RED, ENDC, BLUE
+from gofed_lib.utils import GREEN, RED, ENDC, BLUE
 
-from gofed_lib.importpathparserbuilder import ImportPathParserBuilder
-from gofed_lib.urlbuilder.urlbuilder import UrlBuilder
+from gofed_lib.go.importpath.parserbuilder import ImportPathParserBuilder
+from gofed_lib.providers.providerbuilder import ProviderBuilder
+from gofed_lib.urlbuilder.builder import UrlBuilder
 
 def setOptions():
 
@@ -97,8 +98,10 @@ if __name__ == "__main__":
 
 	# Construct provider signature
 	ipparser = ImportPathParserBuilder().buildWithLocalMapping()
+	provider = ProviderBuilder().buildUpstreamWithLocalMapping()
 
-	signature = ipparser.parse(ipprefix).getProviderSignature()
+	ipprefix = ipparser.parse(ipprefix).prefix()
+	signature = provider.parse(ipprefix).signature()
 
 	if signature["provider"] == "github":
 		resource_url = UrlBuilder().buildGithubSourceCodeTarball(signature["username"], signature["project"], commit)
