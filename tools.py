@@ -94,12 +94,12 @@ if __name__ == "__main__":
 	)
 
 	parser.add_option(
-	    "", "", "--dry", dest="dry", action = "store_true", default = False,
+	    "", "", "--dry-run", dest="dry", action = "store_true", default = False,
 	    help = "run the command in dry mode"
 	)
 
 	parser.add_option(
-	    "", "", "--verbose", dest="debug", action = "store_true", default = False,
+	    "", "-v", "--verbose", dest="debug", action = "store_true", default = False,
 	    help = "be more verbose"
 	)
 
@@ -142,8 +142,9 @@ if __name__ == "__main__":
 
 	if options.gcp:
 		err = mc.cherryPickMaster(branches, start_commit=options.commit, verbose=options.debug)
-		if err != []:
+		if err and err != []:
 			print "\n".join(err)
+
 	if options.mergemaster:
 		mc.mergeMaster(branches)
 	if options.greset:

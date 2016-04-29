@@ -35,12 +35,12 @@ if __name__ == "__main__":
 	)
 
 	parser.add_option(
-	    "", "", "--dry", dest="dry", action = "store_true", default = False,
+	    "", "", "--dry-run", dest="dry", action = "store_true", default = False,
 	    help = "Use dry mode"
 	)
 
 	parser.add_option(
-	    "", "", "--verbose", dest="debug", action = "store_true", default = False,
+	    "", "-v", "--verbose", dest="debug", action = "store_true", default = False,
 	    help = "Be more verbose"
 	)
 
