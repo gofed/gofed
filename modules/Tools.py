@@ -4,8 +4,8 @@ import os
 import threading
 import subprocess
 
-from modules.FilesDetector import FilesDetector
-from modules.SpecParser import SpecParser
+from gofed.modules.FilesDetector import FilesDetector
+from gofed.modules.SpecParser import SpecParser
 
 import logging
 import re

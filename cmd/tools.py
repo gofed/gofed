@@ -1,11 +1,11 @@
 import os
 import optparse
-from modules.Tools import MultiCommand
-from modules.Config import Config
+from gofed.modules.Tools import MultiCommand
+from gofed.modules.Config import Config
 import sys
-from modules.FilesDetector import FilesDetector
-from modules.SpecParser import SpecParser
-from modules.Utils import FormatedPrint
+from gofed.modules.FilesDetector import FilesDetector
+from gofed.modules.SpecParser import SpecParser
+from gofed.modules.Utils import FormatedPrint
 
 import logging
 logging.basicConfig(level=logging.INFO)

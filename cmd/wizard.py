@@ -1,9 +1,9 @@
 # TODO
 # [  ] - add check I am in a package folder
 
-from modules.Tools import PhaseMethods
+from gofed.modules.Tools import PhaseMethods
 import optparse
-from modules.Config import Config
+from gofed.modules.Config import Config
 
 if __name__ == "__main__":
 

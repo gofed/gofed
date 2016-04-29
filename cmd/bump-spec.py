@@ -1,5 +1,5 @@
 import optparse
-from modules.SpecParser import SpecParser
+from gofed.modules.SpecParser import SpecParser
 
 from gofed_lib.go.importpath.parserbuilder import ImportPathParserBuilder
 from gofed_lib.providers.providerbuilder import ProviderBuilder

@@ -1,10 +1,10 @@
 import sys
-from modules.GoLint import GoLint
+from gofed.modules.GoLint import GoLint
 import optparse
 from os import walk
-from modules.Utils import FormatedPrint
-from modules.Config import Config
-from modules.FilesDetector import FilesDetector
+from gofed.modules.Utils import FormatedPrint
+from gofed.modules.Config import Config
+from gofed.modules.FilesDetector import FilesDetector
 
 def setOptions():
 	parser = optparse.OptionParser("%prog [-a] [-c] [-d [-v]] [directory]")

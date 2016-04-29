@@ -20,7 +20,7 @@
 import os
 import sys
 import optparse
-from modules.Config import Config
+from gofed.modules.Config import Config
 
 import logging
 from gofed_infra.system.core.factory.actfactory import ActFactory

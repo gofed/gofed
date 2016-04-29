@@ -1,6 +1,7 @@
 from modules.Base import Base
 import json
 from os import walk
+import os
 from modules.Config import Config
 
 class Plugin(Base):
@@ -64,7 +65,7 @@ class PluginCmd:
 
 	def __init__(self, script):
 		self.script = script
-		self.interpret = "PYTHONPATH=/home/jchaloup/Projects/gofed/infra/third_party:/home/jchaloup/Projects/gofed:/home/jchaloup/Projects/gofed/gofed/third_party python"
+		self.interpret = "PYTHONPATH=/home/jchaloup/Projects/gofed/infra/third_party:/home/jchaloup/Projects/gofed:/home/jchaloup/Projects/gofed/gofed/third_party:/home/jchaloup/Projects/gofed python"
 		self.interactive = False
 
 	def getScript(self):
@@ -115,7 +116,12 @@ class Plugins(Base):
 			plugin = self.plugins[name].get()
 			for cmd_desc in plugin["commands"]:
 				if cmd_desc["command"] == command:
-					plugin_cmd = PluginCmd(cmd_desc["script"])
+					# if the script has "just" a filename, search in cmd directory
+					if os.path.dirname(cmd_desc["script"]) == "":
+						plugin_cmd = PluginCmd("cmd/%s" % cmd_desc["script"])
+					else:
+						plugin_cmd = PluginCmd(cmd_desc["script"])
+
 					if "interpret" in cmd_desc:
 						plugin_cmd.setInterpret(cmd_desc["interpret"])
 					return plugin_cmd

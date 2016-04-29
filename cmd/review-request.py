@@ -1,10 +1,10 @@
 import os.path
 import optparse
-from modules.Config import Config
-from modules.SpecParser import SpecParser
+from gofed.modules.Config import Config
+from gofed.modules.SpecParser import SpecParser
 import shutil
 from os.path import expanduser
-from modules.Utils import runCommand
+from gofed.modules.Utils import runCommand
 from glob import glob
 
 import ConfigParser

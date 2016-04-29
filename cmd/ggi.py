@@ -22,9 +22,9 @@ import re
 import os
 import urllib2
 import optparse
-from modules.Utils import GREEN, RED, ENDC
-from modules.Utils import FormatedPrint
-from modules.Config import Config
+from gofed_lib.utils import GREEN, RED, ENDC
+from gofed.modules.Utils import FormatedPrint
+from gofed.modules.Config import Config
 
 from gofed_infra.system.core.factory.actfactory import ActFactory
 from gofed_lib.go.importpath.decomposerbuilder import ImportPathsDecomposerBuilder

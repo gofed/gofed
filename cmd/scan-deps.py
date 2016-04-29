@@ -1,13 +1,13 @@
 from gofed_lib.logger.logger import Logger
 
 import optparse
-from modules.Utils import runCommand
+from gofed.modules.Utils import runCommand
 import tempfile
 import shutil
 from time import time, strftime, gmtime
 import sys
-from modules.Utils import FormatedPrint
-from modules.Config import Config
+from gofed.modules.Utils import FormatedPrint
+from gofed.modules.Config import Config
 
 from gofed_infra.system.models.graphs.datasets.projectdatasetbuilder import ProjectDatasetBuilder
 from gofed_infra.system.models.graphs.datasetdependencygraphbuilder import DatasetDependencyGraphBuilder

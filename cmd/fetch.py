@@ -1,7 +1,7 @@
 import optparse
 import sys
-from modules.SpecParser import SpecParser
-from modules.FilesDetector import FilesDetector
+from gofed.modules.SpecParser import SpecParser
+from gofed.modules.FilesDetector import FilesDetector
 import logging
 import os
 import urllib2

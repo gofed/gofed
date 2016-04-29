@@ -9,7 +9,7 @@
 import logging
 
 import optparse
-from modules.Utils import YELLOW, RED, BLUE, ENDC
+from gofed_lib.utils import YELLOW, RED, BLUE, ENDC
 
 from gofed_infra.system.core.factory.actfactory import ActFactory
 from infra.system.core.factory.fakeactfactory import FakeActFactory

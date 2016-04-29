@@ -1,7 +1,8 @@
 {"name": "gofed-scan",
 "commands": [
 	{"command": "apidiff", "help": "compare API of two commits of the same golang project", "script": "goapidiff.py"},
-	{"command": "scan-deps", "help": "scan all golang packages for dependencies (e.g. cyclic)", "script": "discoverPkgDeps.py"},
+	{"command": "approx-deps", "help": "Approximate project dependencies", "script": "approx-deps.py"},
+	{"command": "scan-deps", "help": "scan all golang packages for dependencies (e.g. cyclic)", "script": "scan-deps.py"},
 	{"command": "scan-distro", "help": "scan distribution", "script": "scan-distro.py"},
 	{"command": "scan-packages", "help": "scan packages", "script": "scan-packages.py"}
 ]}

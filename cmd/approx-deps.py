@@ -1,5 +1,5 @@
 from gofed_infra.system.models.snapshots.reconstructor import SnapshotReconstructor
-from gofed_lib.importpathparserbuilder import ImportPathParserBuilder
+from gofed_lib.go.importpath.parserbuilder import ImportPathParserBuilder
 import json
 import optparse
 import sys

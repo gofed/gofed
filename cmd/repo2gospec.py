@@ -1,9 +1,9 @@
 import optparse
-from modules.Utils import ENDC, RED, GREEN
-from modules.Utils import runCommand, FormatedPrint
+from gofed_lib.utils import ENDC, RED, GREEN, runCommand
+from gofed.modules.Utils import FormatedPrint
 
-from modules.SpecGenerator import SpecGenerator
-from modules.Config import Config
+from gofed.modules.SpecGenerator import SpecGenerator
+from gofed.modules.Config import Config
 
 import os
 import sys

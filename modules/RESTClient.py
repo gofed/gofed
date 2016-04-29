@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import urllib2
-from modules.Config import Config
+from gofed.modules.Config import Config
 from dateutil.parser import parse as datetime_parse
 from datetime import datetime
 

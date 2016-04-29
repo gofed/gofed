@@ -22,9 +22,9 @@ import optparse
 import sys
 import json
 import logging
-from modules.RESTClient import RESTClient
-from modules.Utils import format_output
-from modules.Config import Config
+from gofed.modules.RESTClient import RESTClient
+from gofed.modules.Utils import format_output
+from gofed.modules.Config import Config
 
 # Logger
 logger = logging.getLogger('gofed-client')
