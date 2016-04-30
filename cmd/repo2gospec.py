@@ -1,3 +1,5 @@
+from gofed_lib.logger.logger import Logger
+
 import optparse
 from gofed_lib.utils import ENDC, RED, GREEN, runCommand
 from gofed.modules.Utils import FormatedPrint
@@ -139,6 +141,11 @@ def setOptions():
 	    help = "Target directory to generate spec file to"
 	)
 
+	parser.add_option(
+            "", "-v", "--verbose", dest="verbose", action = "store_true", default = False,
+            help = "Show all packages if -d option is on"
+        )
+
 	return parser.parse_args()
 
 def checkOptions(options):
@@ -221,12 +228,12 @@ def checkDependencies(fmt_obj, classes, url):
 
 if __name__ == "__main__":
 
-	logging.root.setLevel(logging.INFO)
-
 	options, args = setOptions()
 
 	if checkOptions(options):
 		exit(1)
+
+	Logger.set(options.verbose)
 
 	fmt_obj = FormatedPrint(options.format)
 
