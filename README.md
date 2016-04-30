@@ -1,14 +1,25 @@
 ## About
 
-**Gofed** is a set of tools that automates the packaging process of golang development source codes.
+**Gofed** is a tool set aimed at automation of packaging of golang projects and analysis of Go ecosystem.
 
-Supported features:
-* a spec file generator for the github.com, code.google.com, and bitbucket.org repositories
-* preparation of the Fedora's Review Request for a new golang package
-* golang imports discovering (dependency on other imports or packages)
-* comparison of APIs (exported symbols) of two golang projects
-* scan of available golang packages, construction of dependency graphs of packages
-* other useful commands (parallel push, pull or update of all chosen branches, ...)
+**Per project support**:
+* Spec file generator for the github.com, code.google.com, and bitbucket.org repositories
+* Fedora's Review Request generator for new golang packages
+* Comparison of APIs (exported symbols) of two golang projects
+* Go source code analysis: dependency discovering (imported projects), tests and main packages detection
+* Dependency approximation: approximate Godeps.json of your project 
+
+**Per distribution support**:
+* Multicommands: run scratch-builds, builds, updates, etc. on multiple branches with one command
+* Update your package with one command using wizard
+* Project snapshot checker: check current state of all dependencies of your project (up2date, outdated, missing)
+* Spec file bumper: update you spec file just be specifying commit
+* Create trackers for your Go projects in distribution
+* Lint your spec file: detection of missing Provides, [Build]Requires
+
+**Per ecosystem support**:
+* Distribution analysis: dependency graph builders, new go project discovery
+
 
 ## Installation
 The repository provides a spec file for Fedora. The package can be build as:
