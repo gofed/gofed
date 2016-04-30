@@ -21,15 +21,17 @@
 * Distribution analysis: dependency graph builders, new go project discovery
 
 
-## Installation
-The repository provides a spec file for Fedora. The package can be build as:
+## Quick start
 
-   ```vim
-   $ wget https://github.com/ingvagabund/GolangPackageGenerator/archive/<commit>/gpg-<shortcommit>.tar.gz
-   $ cp gpg-<shortcommit>.tar.gz /home/<user>/rpmbuild/SOURCES/.
-   $ rpmbuild -ba *.spec
-   $ rpm -Uvh <built rpm>.rpm
-   ```
+1. clone the repository
+2. pull submodules
+3. run gofed
+
+```sh
+$ git clone https://github.com/gofed/gofed
+$ ./hack/pull-submodules.sh
+$ ./hack/gofed.sh
+```
 
 ## Launching
 To generate a spec file for the github https://github.com/stretchr/respond repository, run the following command:
