@@ -60,26 +60,28 @@ Simple intro about the tools
 ### Spec file generator
 
 One of the common use cases is to generate spec file.
-The fastest way to generate one for a Go project (e.g. https://github.com/stretchr/respond) is to run:
+The fastest way to generate one for a Go project (e.g. https://github.com/cpuguy83/go-md2man) is to run:
 
    ```vim
-   $ gofed repo2spec --detect https://github.com/stretchr/respond --commit fb9c7353c67cdeccb10af1320b978c5a1e401e9b -f
+   $ gofed repo2spec --detect https://github.com/cpuguy83/go-md2man --commit 2724a9c9051aa62e9cca11304e7dd518e9e41599 -f --with-build
    ```
+
+The project is already packaged in Fedora. Thus, use ``--force`` option too.
 
 Output:
    ```vim
-   Repo URL: github.com/stretchr/respond
-   Commit: fb9c7353c67cdeccb10af1320b978c5a1e401e9b
-   Name: golang-github-stretchr-respond
+   Repo URL: github.com/cpuguy83/go-md2man
+   Commit: 2724a9c9051aa62e9cca11304e7dd518e9e41599
+   Name: golang-github-cpuguy83-go-md2man
    
    (1/4) Checking if the package already exists in PkgDB
    (2/4) Collecting data
    (3/4) Generating spec file
    (4/4) Discovering golang dependencies
-   Discovering test dependencies
-   	Class: github.com/stretchr/testify (golang-github-stretchr-testify) PkgDB=True
+   Discovering package dependencies
+   	Class: github.com/russross/blackfriday (golang-github-russross-blackfriday) PkgDB=True
    
-   Spec file golang-github-stretchr-respond.spec at /tmp/test/golang-github-stretchr-respond/fedora/golang-github-stretchr-respond
+   Spec file golang-github-cpuguy83-go-md2man.spec at /tmp/test/golang-github-cpuguy83-go-md2man/fedora/golang-github-cpuguy83-go-md2man
    ```
 
 At the beginning, golang checks the Fedora repository if the package already exists.
@@ -89,36 +91,38 @@ and checks current state of all dependencies (classes of imports decomposed by a
 
 The ``gofed repo2spec`` command generates spec file only.
 To download project's tarball, change your working directory to
-``/tmp/test/golang-github-stretchr-respond/fedora/golang-github-stretchr-respond``
+``/tmp/test/golang-github-cpuguy83-go-md2man/fedora/golang-github-cpuguy83-go-md2man``
 and run ``gofed fetch --spec``:
 
    ```sh
    $ gofed fetch --spec
    Detecting spec file in the current directory...
-   'golang-github-stretchr-respond.spec' detected
+   'golang-github-cpuguy83-go-md2man.spec' detected
    Parsing spec file
-   ipprefix: github.com/stretchr/respond
-   commit: fb9c7353c67cdeccb10af1320b978c5a1e401e9b
-   Fetching https://github.com/stretchr/respond/archive/fb9c7353c67cdeccb10af1320b978c5a1e401e9b/respond-fb9c735.tar.gz ...
+   ipprefix: github.com/cpuguy83/go-md2man
+   commit: 2724a9c9051aa62e9cca11304e7dd518e9e41599
+   Fetching https://github.com/cpuguy83/go-md2man/archive/2724a9c9051aa62e9cca11304e7dd518e9e41599/go-md2man-2724a9c.tar.gz ...
    ```
 
+Spec file and tarball are ready for analyses.
+
 #### Dependency discovering
-To discover imports and dependencies of packages in the https://github.com/rackspace/gophercloud repository, run the following command on the repository's tarball:
+To discover imports and dependencies of the previous project, run the following command inside of the repository's tarball:
 
    ```vim
-   $ gofed ggi -c -s -d
+   $ tar -xf go-md2man-2724a9c.tar.gz
+   $ cd go-md2man-2724a9c9051aa62e9cca11304e7dd518e9e41599
+   $ gofed ggi -c -s -d -v
    ```
 
 Output:
 
    ```vim
-   Class: github.com/mitchellh/mapstructure (golang-github-mitchellh-mapstructure) PkgDB=True
-   Class: github.com/racker/perigee (golang-github-racker-perigee) PkgDB=True
-   Class: github.com/rackspace/gophercloud (golang-github-rackspace-gophercloud) PkgDB=True
-   Class: github.com/tonnerre/golang-pretty (golang-github-tonnerre-golang-pretty) PkgDB=True
+   Class: github.com/russross/blackfriday (golang-github-russross-blackfriday) PkgDB=True
    ```
 
 When running with the -d option, gofed checks if the dependency is already packaged in the PkgDB database.
+To show only dependencies that are not packaged in PkgDB, run the command without ``-v`` option.
 
 #### Check of up2date dependencies in Fedora
 To check if all dependencies of a package are up-to-date in Fedora (for example kubernetes), run the following command on the package's Godeps.json file:
