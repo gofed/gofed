@@ -124,25 +124,35 @@ Output:
 When running with the -d option, gofed checks if the dependency is already packaged in the PkgDB database.
 To show only dependencies that are not packaged in PkgDB, run the command without ``-v`` option.
 
-#### Check of up2date dependencies in Fedora
-To check if all dependencies of a package are up-to-date in Fedora (for example kubernetes), run the following command on the package's Godeps.json file:
+#### Check project dependencies in Fedora
+To check if all dependencies of a package are up-to-date in Fedora (for example etcd), run the following command on the package's Godeps.json file:
 
    ```vim
-   $ gofed check-deps Godeps.json
+   $ gofed check-deps --godeps Godeps.json
    ```
 
 Output:
 
    ```vim
-   package golang-github-davecgh-go-spew outdated
-   package golang-github-onsi-gomega outdated
-   package golang-github-onsi-ginkgo outdated
-   package golang-github-ghodss-yaml outdated
-   package golang-github-spf13-pflag outdated
+   github.com/spf13/cobra is newer in distribution
+   github.com/kballard/go-shellquote is up-to-date
+   github.com/matttproud/golang_protobuf_extensions is newer in distribution
+   golang.org/x/crypto is newer in distribution
+   golang.org/x/net is up-to-date
+   github.com/codegangsta/cli is newer in distribution
+   github.com/beorn7/perks is up-to-date
+   github.com/russross/blackfriday is up-to-date
+   github.com/coreos/go-systemd is newer in distribution
+   bitbucket.org/ww/goautoneg is up-to-date
+   github.com/shurcooL/sanitized_anchor_name is up-to-date
+   github.com/olekukonko/tablewriter is up-to-date
+   github.com/olekukonko/ts is up-to-date
+   github.com/google/btree is up-to-date
+   github.com/gogo/protobuf is up-to-date
+   ...
    ```
 
-When running with the -v option, gofed displays status of all dependencies.
-When running with the -l option, gofed does not perform git|hg pull on each repository.
+By default, rawhide distribution is checked.
 
 #### Check devel builds of all golang packages
 
