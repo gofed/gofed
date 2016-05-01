@@ -14,7 +14,7 @@ if you have packaged some golang packages and want to speed up you work,
 if you update your spec files regurarly,
 go ahead and meet gofed.
 
-Gofed is a set of tools that automates the packaging process of golang
+Gofed is a toolset that automates the packaging process of golang
 development source codes [1].
 
 It supports the following features:
@@ -48,14 +48,7 @@ github.com, code.google.com or bitbucket.org repository. To discover a list
 of imported and provided golang packages, a list of tests.
 
 If you want to try the latest gofed, clone its repository and alias gofed,
-e.g.:
-
-```vim
-git clone https://github.com/ingvagabund/gofed.git
-cd gofed
-alias gofed='PATHTOGOFEDDIR/gofed'
-gofed --help
-```
+checkout the README.md at [1].
 
 [1] https://github.com/ingvagabund/gofed
 
@@ -142,22 +135,19 @@ golang to unit-test developed source codes.
 
 ##### Defined macros
 
-Before name and version of a package are set, some macros are defined.
-As %license macro for license is supported from rpm >= 4.11, copying macro
-is defined to make this issue transparent to packager (as rpm's version for
-epel6 is less than 4.11). After that,
-a set of important macros follow: provider, provider_tld, project, repo,
-provider_prefix, import_path, commit and shortcommit.
-Macros provider and provider_tld are used to detect a server where the given
-github project and repository are stored. Macro project and repo are remaining
-two macros that together with provider and provider_tld uniquely define
-server storage of the repository. Macro provider_prefix defined as it is is
+Before name and version of a package are set, some macros are defined:
+``provider``, ``provider_tld``, ``project``, ``repo``,
+``provider_prefix``, ``import_path``, ``commit`` and ``shortcommit``.
+Macros ``provider`` and ``provider_tld`` are used to detect a server where the given
+github project and repository are stored. Macro ``project`` and ``repo`` are remaining
+two macros that together with ``provider`` and ``provider_tld`` uniquely define
+server storage of the repository. Macro ``provider_prefix`` defined as it is is
 used in 'Source' tag to specify a path to a repository archive file.
-Macro import_path defines a prefix for every golang package provided
+Macro ``import_path`` defines a prefix for every golang package provided
 by a given golang project. Other golang projects can then use this prefix
 to uniquely choose golang package to import. As in many cases import path
 prefix inherits provider's url where project's source codes are stored,
-import_path macro equals provider_prefix. Difference between these two
+``import_path`` macro equals ``provider_prefix``. Difference between these two
 macros is to distuinguish between provider which stores source codes and
 import path prefix that is used by other golang projects.
 
@@ -175,7 +165,7 @@ ExclusiveArch:  %{?go_arches:%{go_arches}}%{!?go_arches:%{ix86} x86_64 %{arm}}
 BuildRequires:  %{?go_compiler:compiler(go-compiler)}%{!?go_compiler:golang}
 ```
 
-Macro go_arches defines a list of all architectures that are
+Macro ``go_arches`` defines a list of all architectures that are
 supported by both golang and gcc-go compiler. If the macro is not defined
 explicit list of architectures for golang is used. The macro is not defined
 in epel6. On Fedora 21 it contains only a list of architectures supported
@@ -185,7 +175,7 @@ The second part chooses the correct compiler. To make architectures specific
 compiler transparent to user, compiler(go-compiler) virtual provide is
 introduced. It installs the correct compiler on all supported architectures.
 The virtual provide is defined in go-compilers package. The package also
-defines go_compiler macro. If there is no go-compiler package, go_compiler
+defines ``go_compiler`` macro. If there is no go-compiler package, ``go_compiler``
 is undefined and implicit compiler is used.
 
 ##### Devel subpackage
@@ -209,13 +199,13 @@ dependencies.
 
 As devel subpackage ships source codes only it is marked as noarch.
 
-Together with %package devel and %description devel section, %install section
+Together with ``%package devel`` and ``%description devel`` section, ``%install`` section
 contains installation script that copies every file with *.go suffix but not
 *_test.go sufix to devel subpackage. The aim is to ship only those files
 that are really needed in the devel subpackage. Other files with different
 extension than *.go can be inseparable part of the source codes. For example,
 files with *.s and *.proto extension could be copied to the devel subpackage
-as well. Generated %install section covers only *.go files so it is up to
+as well. Generated ``%install`` section covers only *.go files so it is up to
 a packager to choose the correct files and be familiar with the golang project.
 
 To find a list of files not ending with *.go suffix you can run the following
@@ -272,9 +262,9 @@ For that reason the subpackage is architecture specific.
 #### Generating spec file with %build section
 
 If you run 'gofed repo2spec' with --with-build option, build section is
-generated as well. It contains heads up with with_debug and with_bundled
+generated as well. It contains heads up with ``with_debug`` and ``with_bundled``
 macros wrapping building parts of golang project. For example, setting
-GOPATH macro or choosing to correct compiler.
+``GOPATH`` macro or choosing to correct compiler.
 
 #### Review request
 
@@ -285,11 +275,11 @@ rpm. Among other things succesfull build in Koji. The information has to be
 inserted into bugzilla as a new bug.
 
 In order to provided an easy way to generate review request, gofed tool
-provides 'gofed review' command. Running the command in a directory containing
+provides 'gofed review-request' command. Running the command in a directory containing
 spec file you get:
 
 ```vim
-$ gofed bump *.spec --skip-rpmlint-errors
+$ gofed review-request --skip-rpmlint-errors
 Parsing golang-github-onsi-gomega.spec file
   Provider: github
   Repo: gomega
@@ -353,3 +343,6 @@ Thus it is supposed you don't have to type your password.
 Use 'ssh-copy-id' for this case.
 To choose the correct FAS username, use --user option or update fasuser
 in /etc/gofed.conf configuration file.
+
+If you run the command with ``--create-review`` option,
+the review request is generated in https://bugzilla.redhat.com as well.
