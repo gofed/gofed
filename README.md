@@ -106,7 +106,8 @@ and run ``gofed fetch --spec``:
 
 Spec file and tarball are ready for analyses.
 
-#### Dependency discovering
+### Dependency discovering
+
 To discover imports and dependencies of the previous project, run the following command inside of the repository's tarball:
 
    ```vim
@@ -124,7 +125,23 @@ Output:
 When running with the -d option, gofed checks if the dependency is already packaged in the PkgDB database.
 To show only dependencies that are not packaged in PkgDB, run the command without ``-v`` option.
 
-#### Check project dependencies in Fedora
+When running ``gofed ggi`` without any options, list of all dependencies of devel part is hown:
+
+```vim
+   $ gofed ggi
+	github.com/russross/blackfriday
+```
+
+To show all dependencies, run the command with ``--all-occurrences`` option:
+
+```vim
+$ gofed ggi --all-occurrences
+	github.com/cpuguy83/go-md2man/md2man
+	github.com/russross/blackfriday
+```
+
+### Check project dependencies in Fedora
+
 To check if all dependencies of a package are up-to-date in Fedora (for example etcd), run the following command on the package's Godeps.json file:
 
    ```vim
@@ -154,18 +171,33 @@ Output:
 
 By default, rawhide distribution is checked.
 
-#### Check devel builds of all golang packages
+To speed-up the check, it is recommended to scan distribution first (see below).
 
-To create a local database of exported symbols, provided import paths, and imported paths each development build, run:
+### Distribution analysis
+
+#### Scan distribution for available projects
+
+To scan the distribution for available Go projects, run the following command:
 
    ```vim
-   $ gofed scan-imports -c
+   $ gofed scan-distro -v
    ```
-   
-   This command downloads every build providing source codes. Each build is parsed and exported symbols are extracted. Every golang project consists of a package. Every package in a project is defined by its path and by a set of symbols that developer can use. Once the scan is finished, all symbols are locally saved in XML files. These files can be further analyzed.
-   Extracted information can be queried for used or provided import paths. The command also constructs a dependency graph for a given package.
-   Implicitly, only outdated packages are scanned so once the database is created, there is no need to regenerate it for all packages every time.
-   
+
+The command checks the distribution (Fedora rawhide by default) for all Go projects
+packaged in distribution with the generic name prefixed with ``golang-*``.
+To provide a list of additional package, use ``--custom-packages`` option.
+Then, the list of the latest builds for packages is retrieved.
+Data from the builds are extracted and ready for analysis.
+
+Data retrieved by ``gofed scan-distro`` are usually prerequisite for other scans such as:
+
+* ``gofed scan-packages``
+* ``gofed scan-deps``
+
+or checks:
+
+* ``gofed check-deps``
+    
 #### Golang dependency graph
 
 To display a dependency graph for a package, for example docker-io, run:
