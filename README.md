@@ -203,7 +203,7 @@ or checks:
 To display a dependency graph for a package, for example docker-io, run:
 
    ```vim
-   $ gofed scan-deps -g -o docker.png docker-io
+   $ gofed scan-deps -v -g -o docker.png docker
    ```
 
 This command generates a PNG picture, in this case named docker.png, with the dependency graph.
@@ -215,7 +215,7 @@ This command generates a PNG picture, in this case named docker.png, with the de
 To display a decomposition of a project into a dependency graph, for example [prometheus](https://github.com/prometheus/prometheus), run the following command in project's directory:
 
    ```vim
-   $ gofed scan-deps -d github.com/prometheus/prometheus --from-dir . --skip-errors -g -o prometheus.png
+   $ gofed scan-deps -v -d github.com/prometheus/prometheus --from-dir . -g -o prometheus.png
    ```
 
 This command generates a PNG picture, in this case named prometheus.png, with the dependency graph.
@@ -228,45 +228,54 @@ This command generates a PNG picture, in this case named prometheus.png, with th
 To see differences in exported symbols between two releases, commits, or versions of the same project, use the "gofed apidiff" command in the following format:
 
    ```vim
-   $ gofed apidiff <DIR1> <DIR2>
+   $ gofed apidiff --reference="upstream:project[:commit]" --compare-with="upstream:project[:commit]"
    ```
 
-For example, to check API of etcd between etcd-2.0.3 and etcd-2.0.4 versions (untared tarballs), run:
+For example, to check API of etcd between etcd-2.3.3 and etcd-2.2.4, run:
 
    ```vim
-   $ gofed apidiff etcd-2.0.3 etcd-2.0.4
+   $ gofed apidiff --reference="upstream:github.com/coreos/etcd:c41345d393002e87ae9e7023234b1c1e04ba9626" --compare-with="upstream:github.com/coreos/etcd:bdee27b19e8601ffd7bd4f0481abe9bbae04bd09"
    ```
+Commit ``c41345d393002e87ae9e7023234b1c1e04ba9626`` correponds to ``etcd-v2.3.3``, commit ``bdee27b19e8601ffd7bd4f0481abe9bbae04bd09`` to ``etcd-v2.2.4``.
+
    
    Output
    
    ```vim
-   Package: etcdserver
-      -GetClusterFromPeers func removed
-   Package: etcdserver/etcdhttp
-      -function NewPeerHandler: parameter count changed: 2 -> 3
+   -etcdctlv3/command: function removed: NewDeleteRangeCommand
+   -etcdctlv3/command: function removed: NewRangeCommand
+   -etcdserver/api/v3rpc: function removed: New
+   -etcdserver/api/v3rpc: function removed: handler.Compact
+   -etcdserver/api/v3rpc: function removed: handler.DeleteRange
+   -etcdserver/api/v3rpc: function removed: handler.Put
+   -etcdserver/api/v3rpc: function removed: handler.Range
+   -etcdserver/api/v3rpc: function removed: handler.Txn
+   ...
    ```
    
    To get new symbols and other information, use the -a option:
    
    ```vim
-   Package: etcdserver
-      struct Cluster has different number of fields
-      struct Cluster: fields are reordered
-      +struct Cluster: new field 'index'
-      +GetClusterFromRemotePeers func added
-      +UpdateIndex func added
-      -GetClusterFromPeers func removed
-   Package: etcdserver/etcdhttp
-      -function NewPeerHandler: parameter count changed: 2 -> 3
-   Package: pkg/wait
-      +WaitTime type added
-      +NewTimeList func added
-      +Wait func added
-   Package: wal
-      +WALv2_0Proxy variable/constant added
+   ...
+   +etcdctlv3/command: new function: NewGetCommand
+   +etcdctlv3/command: new function: simplePrinter.Get
+   +etcdctlv3/command: new function: NewCompactionCommand
+   +etcdctlv3/command: new function: simplePrinter.Watch
+   ~etcdctlv3/command: function updated: -type differs: selector != pointer
+   ~etcdctlv3/command: function updated: -type differs: selector != pointer
+   -etcdctlv3/command: function removed: NewDeleteRangeCommand
+   -etcdctlv3/command: function removed: NewRangeCommand
+   +etcdctlv3/command: new variable: ExitIO
+   +etcdctlv3/command: new variable: ExitInvalidInput
+   +etcdctlv3/command: new variable: ExitBadArgs
+   +etcdctlv3/command: new variable: ExitError
+   +etcdctlv3/command: new variable: ExitBadConnection
+   ...
    ```
    
-   Lines starting with the minus symbol ("-") are breaking backward compatibility. Lines starting with the plus symbol ("+") are new. Other lines reports other issues.
+Lines starting with the minus symbol ("-") are breaking backward compatibility.
+Lines starting with the plus symbol ("+") are new.
+Lines starting with the tilda symbol ("~") are updated.
 
 #### gofed-web client
 

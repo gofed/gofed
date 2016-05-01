@@ -148,58 +148,59 @@ def displayApiDifference(data, options):
 	updated = []
 
 	# print removed packages
-	if "removedpackages" in data:
+	if (options.removed or options.all) and "removedpackages" in data:
 		for package in data["removedpackages"]:
 			line = print_removed(package)
 			if line:
 				removed.append(line)
 
 	# print new packages
-	if "newpackages" in data:
+	if (options.new or options.all) and "newpackages" in data:
 		for package in data["newpackages"]:
 			line = print_new(package)
 			if line:
 				new.append(line)
 
 	# print updated packages
-	for package in data["updatedpackages"]:
-		package_name = package["package"]
-		for symbol_type in package:
-			if symbol_type == "package":
-				continue
-			if symbol_type == "functions":
-				prefix = "function"
-			elif symbol_type == "types":
-				prefix = "type"
-			elif symbol_type == "variables":
-				prefix = "variable"
-			else:
-				raise ValueError("Unsupported symbol type: %s" % symbol_type)
-
-			for state in package[symbol_type]:
-				for symbol in package[symbol_type][state]:
-					if state.startswith("new"):
-						line = print_new("%s: new %s: %s" % (package_name, prefix, symbol))
-						if line and (options.new or options.all):
-							new.append(line)
-							if not options.sorted:
-								print line
-
-					if state.startswith("removed"):
-						line = print_removed("%s: %s removed: %s" % (package_name, prefix, symbol))
-						if line and (options.removed or options.all):
-							removed.append(line)
-							if not options.sorted:
-								print line
-
-
-					if state.startswith("updated"):
-						line = print_updated("%s: %s updated: %s" % (package_name, prefix, symbol))
-
-						if line and (options.updated or options.all):
-							updated.append(line)
-							if not options.sorted:
-								print line
+	if "updatedpackages" in data:
+		for package in data["updatedpackages"]:
+			package_name = package["package"]
+			for symbol_type in package:
+				if symbol_type == "package":
+					continue
+				if symbol_type == "functions":
+					prefix = "function"
+				elif symbol_type == "types":
+					prefix = "type"
+				elif symbol_type == "variables":
+					prefix = "variable"
+				else:
+					raise ValueError("Unsupported symbol type: %s" % symbol_type)
+	
+				for state in package[symbol_type]:
+					for symbol in package[symbol_type][state]:
+						if state.startswith("new"):
+							line = print_new("%s: new %s: %s" % (package_name, prefix, symbol))
+							if line and (options.new or options.all):
+								new.append(line)
+								if not options.sorted:
+									print line
+	
+						if state.startswith("removed"):
+							line = print_removed("%s: %s removed: %s" % (package_name, prefix, symbol))
+							if line and (options.removed or options.all):
+								removed.append(line)
+								if not options.sorted:
+									print line
+	
+	
+						if state.startswith("updated"):
+							line = print_updated("%s: %s updated: %s" % (package_name, prefix, symbol))
+	
+							if line and (options.updated or options.all):
+								updated.append(line)
+								if not options.sorted:
+									print line
 
 	if options.sorted:
 		for line in sorted(new):
