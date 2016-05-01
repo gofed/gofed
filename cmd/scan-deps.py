@@ -7,14 +7,11 @@ import shutil
 from time import time, strftime, gmtime
 import sys
 from gofed.modules.Utils import FormatedPrint
-from gofed.modules.Config import Config
 
 from gofed_infra.system.models.graphs.datasets.projectdatasetbuilder import ProjectDatasetBuilder
 from gofed_infra.system.models.graphs.datasetdependencygraphbuilder import DatasetDependencyGraphBuilder
 from gofed_infra.system.models.graphs.basicdependencyanalysis import BasicDependencyAnalysis
-from gofed_lib.graphs.graphutils import GraphUtils
 from gofed_infra.system.models.graphs.datasets.distributionlatestbuilds import DistributionLatestBuildGraphDataset
-from gofed_lib.distribution.packagemanager import PackageManager
 from gofed_infra.system.models.graphs.datasets.localprojectdatasetbuilder import LocalProjectDatasetBuilder
 from gofed_lib.distribution.distributionnameparser import DistributionNameParser
 
@@ -124,29 +121,9 @@ def setOptions():
 	)
 
 	parser.add_option(
-	    "", "", "--from-xml", dest="fromxml", default = "",
-	    help = "Read project from xml file"
-	)
-
-	parser.add_option(
 	    "", "", "--from-dir", dest="fromdir", default = "",
 	    help = "Read project from directory"
 	)
-
-	parser.add_option(
-            "", "", "--skip-errors", dest="skiperrors", action = "store_true", default = False,
-            help = "Skip all errors during Go symbol parsing"
-        )
-
-	parser.add_option(
-            "", "", "--scan-all-dirs", dest="scanalldirs", action = "store_true", default = False,
-            help = "Scan all dirs, including Godeps directory"
-        )
-
-	parser.add_option(
-            "", "", "--skip-dirs", dest="skipdirs", default = "",
-            help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
-        )
 
 	parser.add_option_group( optparse.OptionGroup(parser, "PACKAGE", "Display the smallest subgraph containing PACKAGE and all its dependencies.") )
 
@@ -191,7 +168,7 @@ if __name__ == "__main__":
 			fp.printError("--from-dir option is missing")
 			exit(1)
 		dataset = LocalProjectDatasetBuilder(options.fromdir, options.decompose).build()
-		graph = DatasetDependencyGraphBuilder().build(dataset, 2)
+		graph = DatasetDependencyGraphBuilder().build(dataset, 2, pkg_name)
 	else:
 		try:
 			distribution = DistributionNameParser().parse(options.target).signature()
@@ -203,10 +180,9 @@ if __name__ == "__main__":
 		# TODO(jchaloup): saving dataset?
 		dataset = DistributionLatestBuildGraphDataset(options.dryrun).build(distribution)
 		if options.packagelevel:
-			graph = DatasetDependencyGraphBuilder().build(dataset, 2)
+			graph = DatasetDependencyGraphBuilder().build(dataset, 2, pkg_name)
 		else:
-			graph = DatasetDependencyGraphBuilder().build(dataset, 1)
-
+			graph = DatasetDependencyGraphBuilder().build(dataset, 1, pkg_name)
 
 	scan_time_end = time()
 	print strftime("Completed in %Hh %Mm %Ss", gmtime(scan_time_end - scan_time_start))
@@ -216,14 +192,7 @@ if __name__ == "__main__":
 		nodes = graph.nodes()
 		graph_cnt = len(nodes)
 
-		if pkg_name != "":
-			graph = GraphUtils.truncateGraph(graph, [pkg_name])
-			subgraph_cnt = len(graph.nodes())
-			
-		if pkg_name != "":
-			print "%s nodes of %s" % (subgraph_cnt, graph_cnt)
-		else:
-			print "%s nodes in total" % (graph_cnt)
+		print "%s nodes in total" % (graph_cnt)
 
 		results = BasicDependencyAnalysis(graph).analyse().results()
 
