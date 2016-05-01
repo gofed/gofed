@@ -1,0 +1,11 @@
+[Unit]
+Description=Resource provider GC
+After=multi-user.target
+
+[Service]
+Type=idle
+Environment=PYTHONPATH={{ pythonpath }}
+ExecStart=/usr/bin/python {{ resourceproviderdaemon }}
+
+[Install]
+WantedBy=multi-user.target

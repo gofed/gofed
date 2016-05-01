@@ -25,13 +25,31 @@
 
 1. clone the repository
 2. pull submodules
-3. run gofed
+3. set up gofed
+4. run gofed
 
 ```sh
 $ git clone https://github.com/gofed/gofed
 $ ./hack/pull-submodules.sh
+$ ./hack/prep.sh
 $ ./hack/gofed.sh
 ```
+
+## Resource management
+
+Some **gofed** commands require working with resources.
+To provide transparent interface, commands accept resource declarations only.
+Processed resources (source code tarball, rpms, etc.) may be stored
+under local directories dependening on **gofed** system configuration.
+Checkout ``infra.conf `` under ``third_party/gofed_infra/system/config`` directory.
+By default, directories under ``/var/lib/gofed`` are expected.
+
+Resources that has been processed are not cleaned automatically.
+To provide cleaning mechanism, cleaning deamons are available.
+Checkout ``gofed-resources-client.service`` and ``gofed-resources-provider.service`` under
+``third_party/gofed_infra/system/daemons`` directory.
+The services are meant to be run as user services as ``systemctl --start start gofed-resources-[client|provider].service``.
+Before running the services make sure both are installed under ``/usr/lib/systemd/user``.
 
 ## Launching
 To generate a spec file for the github https://github.com/stretchr/respond repository, run the following command:
