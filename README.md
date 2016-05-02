@@ -229,6 +229,8 @@ This command generates a PNG picture, in this case named docker.png, with the de
 
 ![docker-io dependencies](https://raw.githubusercontent.com/gofed/gofed/master/docs/images/docker.png)
 
+IMPORTANT: before displaying the generated picture, checkout its size. Huge images tend to freeze your computer.
+
 #### Golang project decomposition
 
 To display a decomposition of a project into a dependency graph, for example [prometheus](https://github.com/prometheus/prometheus), run the following command in project's directory:
