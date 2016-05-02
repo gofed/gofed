@@ -150,21 +150,30 @@ def displayApiDifference(data, options):
 	# print removed packages
 	if (options.removed or options.all) and "removedpackages" in data:
 		for package in data["removedpackages"]:
-			line = print_removed(package)
+			if options.prefix == "":
+				line = print_removed(package)
+			else:
+				line = print_removed("%s/%s" % (options.prefix, package))
 			if line:
 				removed.append(line)
 
 	# print new packages
 	if (options.new or options.all) and "newpackages" in data:
 		for package in data["newpackages"]:
-			line = print_new(package)
+			if options.prefix == "":
+				line = print_new(package)
+			else:
+				line = print_new("%s/%s" % (options.prefix, package))
 			if line:
 				new.append(line)
 
 	# print updated packages
 	if "updatedpackages" in data:
 		for package in data["updatedpackages"]:
-			package_name = package["package"]
+			if options.prefix == "":
+				package_name = package["package"]
+			else:
+				package_name = "%s/%s" % (options.prefix, package["package"])
 			for symbol_type in package:
 				if symbol_type == "package":
 					continue
