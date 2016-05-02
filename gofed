@@ -54,4 +54,5 @@ if __name__ == "__main__":
 	else:
 		cmd_str = "%s %s" % (cmd.getInterpret(), command_script)
 
-	execCommand(cmd_str)
+	rc = execCommand(cmd_str)
+	exit(rc)

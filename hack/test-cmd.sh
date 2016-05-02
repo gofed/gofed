@@ -1,6 +1,7 @@
 #!/bin/bash -x
 
-set -euo pipefail
+set -eu
+set -o pipefail
 
 #$ gofed 
 #Synopsis: gofed command [arg1 [arg2 ...]]
@@ -43,8 +44,12 @@ flags="--dry-run -v"
 
 CUR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# set PYTHONPATH
+export PYTHONPATH=${CUR_DIR}/../third_party:${CUR_DIR}/../..
+export GOFED_DEVEL=1
+
 ### bbo ###
-${gofed_binary} bbo ${flags}
+${gofed_binary} bbo ${flags} fake-build-name
 
 ### build ###
 ${gofed_binary} build ${flags}
@@ -71,9 +76,15 @@ ${gofed_binary} scan-packages --atmost 10000 ${flags}
 ${gofed_binary} scratch-build ${flags}
 
 ### tools ###
-for flag in --merge-master --git-reset --pull --push --scratch --build --update --bbo --wait --waitbbo; do
+for flag in --merge-master --git-reset --pull --push --scratch --build --update; do
 	${gofed_binary} tools ${flags} $flag
 done
+
+${gofed_binary} tools ${flags} --bbo fake-build-name
+
+${gofed_binary} tools ${flags} --wait fake-build-name
+
+${gofed_binary} tools ${flags} --waitbbo fake-build-name
 
 ### update ###
 ${gofed_binary} update ${flags}

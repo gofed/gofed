@@ -216,7 +216,8 @@ if __name__ == "__main__":
 				print "\nNumber of roots: %s" % len(results["roots"])
 
 		else:
-			if options.outfile != "":
-				showGraph(graph, results, options.outfile)
-			else:
-				showGraph(graph, results)
+			if not options.dryrun:
+				if options.outfile != "":
+					showGraph(graph, results, options.outfile)
+				else:
+					showGraph(graph, results)
