@@ -43,6 +43,8 @@ Processed resources (source code tarball, rpms, etc.) may be stored
 under local directories dependening on **gofed** system configuration.
 Checkout ``infra.conf`` under ``third_party/gofed_infra/system/config`` directory.
 By default, directories under ``/var/lib/gofed`` are expected.
+When running ``./hack/prep.sh`` all resource working directories as set to point
+to their equivalents under ``working_directory`` directory.
 
 Resources that has been processed are not cleaned automatically.
 There are two ways how to provide cleaning mechanism:
