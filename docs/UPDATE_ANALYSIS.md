@@ -2,15 +2,15 @@
 
 The second episode of the series will show you how to:
 - update golang project packaged in Fedora
-- analyse source codes and get list of provided and imported packages
-- get a list of unit-test files
+- analyse source codes and get a list of provided and imported packages
+- get a list of unit-test directories
 
 ### Update of spec files
 
 In the previous episode I showed you how to generated spec file for a given
 golang project. Here, I will show you how to update packaged project with
 new tarball, how to update a list of provided and imported packages and how
-to update a list of unit-test files. Among others, 'gofed lint' command will
+to update a list of unit-test directories. Among others, 'gofed lint' command will
 be introduced.
 
 Every fedora package has a root directory. It is the one you cd in once you
@@ -23,21 +23,21 @@ $ ls
 golang-github-onsi-ginkgo.spec  sources
 ```
 
-It contains spec file and sources file. If you run 'fedpkg prep', tarball
+It contains ``*.spec`` file and ``sources`` file. If you run 'fedpkg prep', tarball
 with source codes is downloaded as well.
 
 Gofed provides 'gofed bump' command which allows you to automatically
 download tarball of the latest commit (or the one specified via --commit
 option) of a given golang project and update spec file.
-The command does not update a list of provided and imported packages
-nor a list of unit-tests. At the moment 'gofed bump' supports only github.com
+The command does not update any list of provided packages, imported packages
+or a list of unit-test directories. At the moment 'gofed bump' supports only github.com
 and bitbucket.org providers.
 
 List of provided/imported packages and unit-test has to be updated manually.
 Gofed provides 'gofed inspect' and 'gofed ggi' for this case. Running the
 command with --spec option will generate an output in a spec file format.
 
-Once you run 'gofed bump' command you can run 'gofed lint' to check which
+After running 'gofed bump' command you can run 'gofed lint' to check which
 provided/required/buildrequired packages are missing or superfluous. Both
 commands have to be run in a package root directory, 'gofed lint' needs a
 tarball in addition to spec file and sources file.
@@ -131,9 +131,9 @@ go test %{import_path}/integration
 As described in the previous section, 'gofed bump' downloads a tarball
 and bump the spec file. How it works?
 
-First, spec file of a packages is parsed. Thus the command has to be run in
+First, spec file of a package is parsed. Thus the command has to be run in
 a package root directory. Standard golang spec file macros are detected
-(provider_prefix/import_path and commit). Provider repository is detected,
+(``provider_prefix``/``import_path`` and ``commit``). Provider repository is detected,
 list of available commits retrieved from the repository and if there is a new
 commit, url for downloading tarball is constructed and tarball is downloaded.
 Among others a list of tags and releases is retrieved as well. So you can
@@ -152,7 +152,7 @@ explicitely (--commit option).
 With each update to the newest commit a list of provided and imported packages
 can change. In order to automatically detect which packages are no longer
 provider or imported or which are new, 'gofed lint' command can be run to check
-the current list of Provides and [Build]Requires with those in the new tarball.
+the current list of Providedand [Build]Requires with those in the new tarball.
 If you run 'gofed lint' without any arguments it expects a tarball, spec file
 and sources files in the current directory. Otherwise additional options has to
 be provided.
@@ -180,8 +180,8 @@ running with -t option will list all unit-test files. 'gofed ggi' command
 show only imported packages that correspond to devel source codes. It does
 not list packages that are imported in main packages (source codes with
 'package main' language construct). If you want to see every import, run
-the command with --all-occurrences option. To get a position of each import,
-use --show-occurrence option as well. E.g.
+the command with ``--all-occurrences`` option. To get a position of each import,
+use ``--show-occurrence`` option as well. E.g.
 
 ```vim
 $ gofed ggi --show-occurrence
@@ -196,12 +196,12 @@ $ gofed ggi --show-occurrence
 
 For some golang projects it is not enough just to update tarball. Sometimes its
 dependencies has to be updated as well as all dependencies are debundled into
-self-standing Fedora packages. Releases of other projects can be bug fixes only.
+self-standing Fedora packages.
 
 Gofed provides two commands to check if some dependencies need to be updated.
-If a tarball of a golang project ships Godeps directory it contains Godeps.json
+If a tarball of a golang project ships Godeps directory, the directory contains Godeps.json
 file. The file contains a list of imported packages with its corresponding
-commit in json:
+commit as json:
 
 ```vim
 {
@@ -235,38 +235,37 @@ For example, for etcd-2.1.1 you can run:
 $ cd etcd-2.1.1/Godeps
 $ ls
 Godeps.json  Readme  _workspace
-$ gofed check-deps -v
-package golang-bitbucket-ww-goautoneg up2date
-package golang-github-beorn7-perks up2date
-import path github.com/bgentry/speakeasy not found
-package golang-github-boltdb-bolt has newer commit
-import path github.com/bradfitz/http2 not found
-package golang-github-codegangsta-cli has newer commit
-package golang-github-coreos-go-etcd outdated
-package golang-github-coreos-go-semver up2date
-import path github.com/coreos/pkg/capnslog not found
-package golang-googlecode-gogoprotobuf has newer commit
-package golang-github-golang-glog up2date
-package golang-googlecode-goprotobuf has newer commit
-import path github.com/google/btree not found
-package golang-github-jonboulle-clockwork has newer commit
-package golang-github-matttproud-golang_protobuf_extensions up2date
-package golang-github-prometheus-client_golang has newer commit
-package golang-github-prometheus-client_model up2date
-package golang-github-prometheus-procfs has newer commit
-package golang-github-stretchr-testify has newer commit
-import path github.com/ugorji/go/codec not found
-package golang-googlecode-go-crypto not found in golang.repos
-package golang-googlecode-go-crypto not found in golang.repos
-package golang-googlecode-net has newer commit
-package golang-googlecode-goauth2 has newer commit
-package golang-google-golangorg-cloud outdated
-import path google.golang.org/grpc not found
+$ gofed check-deps --godeps Godeps.json
+golang-bitbucket-ww-goautoneg is up2date
+golang-github-beorn7-perks is up2date
+Unable to find ipprefix2rpm mapping 'github.com/bgentry/speakeasy' prefix
+golang-github-boltdb-bolt is newer in distribution
+Unable to find ipprefix2rpm mapping 'github.com/bradfitz/http2' prefix
+golang-github-codegangsta-cli is newer in distribution
+golang-github-coreos-go-etcd is outdated in distribution
+golang-github-coreos-go-semver is up2date
+Unable to find ipprefix2rpm mapping 'github.com/coreos/pkg/capnslog' prefix
+golang-googlecode-gogoprotobuf is newer in distribution
+golang-github-golang-glog is up2date
+golang-googlecode-goprotobuf is newer in distribution
+Unable to find ipprefix2rpm mapping 'github.com/google/btree' prefix
+golang-github-jonboulle-clockwork is newer in distribution
+golang-github-matttproud-golang_protobuf_extensions is up2date
+golang-github-prometheus-client_golang is newer in distribution
+golang-github-prometheus-client_model is up2date
+golang-github-prometheus-procfs is newer in distribution
+golang-github-stretchr-testify is newer in distribution
+Unable to find ipprefix2rpm mapping 'github.com/ugorji/go/codec' prefix
+Unable to find ipprefix2rpm mapping 'golang.org/x/crypto' prefix
+golang-googlecode-net is newer in distribution
+golang-googlecode-goauth2 is newer in distribution
+golang-google-golangorg-cloud is outdated in distribution
+Unable to find ipprefix2rpm mapping 'google.golang.org/grpc' prefix
 
 ```
 
 Each line corresponds to a package providing imported packages or a line
-corresponding to a imported package that was not found.
+corresponding to an imported package that was not found.
 
 Other golang projects can have their own way of storing this information. Other
 has no such a list. For this case 'gofed ggi -d' can provide some information.
@@ -291,8 +290,8 @@ Class: google.golang.org/grpc (golang-github-grpc-grpc-go) PkgDB=True
 ```
 
 Difference between both is that 'gofed check-deps' has precise commit for each
-dependency. Thus it is recommended to include Godeps.json file in %doc tag in
-%files devel section. On the other hand, 'gofed ggi' does not know the commit
-and just checks if the given import path has package in PkgDB providing it.
+dependency. Thus, it is recommended to include Godeps.json file in ``%doc`` tag in
+``%files`` devel section. On the other hand, 'gofed ggi' does not know the commit
+and just checks if the given import path has package in PkgDB providing the path.
 
 
