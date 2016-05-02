@@ -222,7 +222,7 @@ To display a dependency graph for a package, for example docker-io, run:
 
 This command generates a PNG picture, in this case named docker.png, with the dependency graph.
 
-![docker-io dependencies](https://raw.githubusercontent.com/ingvagabund/GolangPackageGenerator/master/docker.png)
+![docker-io dependencies](https://raw.githubusercontent.com/gofed/gofed/master/docs/images/docker.png)
 
 #### Golang project decomposition
 
@@ -234,7 +234,7 @@ To display a decomposition of a project into a dependency graph, for example [pr
 
 This command generates a PNG picture, in this case named prometheus.png, with the dependency graph.
 
-![prometheus decomposition](https://raw.githubusercontent.com/ingvagabund/GolangPackageGenerator/master/prometheus.png)
+![prometheus decomposition](https://raw.githubusercontent.com/gofed/gofed/master/docs/images/prometheus.png)
 
 
 #### API check
@@ -346,5 +346,5 @@ To see last two commits in project cadvisor and their API affection, use:
      }
    ]
    ```
-See "gofed client --help" for more info and available commands.
+See ``gofed client --help`` for more info and available commands.
 
