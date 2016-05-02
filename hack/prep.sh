@@ -18,4 +18,10 @@ if [ ! -e infra ]; then
 fi
 popd >/dev/null
 
+# create directory for resources and storages
+pushd ${CUR_DIR}/../working_directory >/dev/null
+echo "Making 'resource_client, simplefilestorage, resource_provider, storage' directories under working_directory"
+mkdir -p resource_client simplefilestorage resource_provider storage
+popd >/dev/null
+
 popd >/dev/null
