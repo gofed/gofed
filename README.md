@@ -24,13 +24,11 @@
 ## Quick start
 
 1. clone the repository
-2. pull submodules
 3. set up gofed
 4. run gofed
 
 ```sh
 $ git clone https://github.com/gofed/gofed; cd gofed
-$ ./hack/pull-submodules.sh
 $ ./hack/prep.sh
 $ ./hack/gofed.sh
 ```
