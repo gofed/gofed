@@ -211,6 +211,11 @@ Data retrieved by ``gofed scan-distro`` are usually prerequisite for other scans
 or checks:
 
 * ``gofed check-deps``
+
+IMPORTANT: in order to run the command, all rpms must be scanned succesfully.
+If it does not hold, ``gofed scan-distro`` does not generate distribution snapshot
+which is needed by the commands listed above.
+Thus, run the command with ``--skip-failed`` option to make sure the snapshot is generated.
     
 #### Golang dependency graph
 
