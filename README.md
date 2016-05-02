@@ -29,7 +29,7 @@
 4. run gofed
 
 ```sh
-$ git clone https://github.com/gofed/gofed
+$ git clone https://github.com/gofed/gofed; cd gofed
 $ ./hack/pull-submodules.sh
 $ ./hack/prep.sh
 $ ./hack/gofed.sh
