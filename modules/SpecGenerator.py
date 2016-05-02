@@ -43,7 +43,7 @@ class SpecGenerator:
 		self.file.write("%endif\n\n")
 
 		# %gobuild macro default definition
-		if self.with_extra and self.with_build:
+		if self.with_build:
 			self.file.write("%if ! 0%{?gobuild:1}\n")
 			self.file.write("%define gobuild(o:) go build -ldflags \"${LDFLAGS:-} -B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \\\\n')\" -a -v -x %{?**};\n")
 			self.file.write("%endif\n")
@@ -139,7 +139,7 @@ class SpecGenerator:
 		self.file.write("URL:            https://%{provider_prefix}\n")
 		self.file.write("Source0:        https://%{provider_prefix}/get/%%{shortcommit}.tar.gz\n")
 
-	def generateHeaderPrologue(self, main_packages, import_path_prefix):
+	def generateHeaderPrologue(self, main_packages, devel_packages, import_path_prefix):
 		self.file.write("# e.g. el6 has ppc64 arch without gcc-go, so EA tag is required\n")
 		self.file.write("ExclusiveArch:  %{?go_arches:%{go_arches}}%{!?go_arches:%{ix86} x86_64 %{arm}}\n")
 		# Once BuildRequires of the compiler is removed from the main package, put it back to unit-test-devel subpackage.
@@ -149,6 +149,7 @@ class SpecGenerator:
 
 		if self.with_build:
 			self.file.write("%if ! 0%{?with_bundled}\n")
+			covered = []
 			for package in main_packages:
 				deps = filter(lambda l: not l.startswith(import_path_prefix), package["dependencies"])
 
@@ -159,11 +160,25 @@ class SpecGenerator:
 				for dep in deps:
 					self.file.write("BuildRequires: golang(%s)\n" % (dep))
 
+				covered = covered + deps
+
 				self.file.write("\n")
 
-			# generate dependency on devel too
-			self.file.write("# binaries are built from devel subpackage\n")
-			self.file.write("BuildRequires: %{name}-devel = %{version}-%{release}\n")
+			# generate dependency on packages from devel not currently covered
+			devel_deps = []
+			for package in devel_packages:
+				deps = filter(lambda l: not l.startswith(import_path_prefix), package["dependencies"])
+
+				if deps == []:
+					continue
+
+				devel_deps = devel_deps + deps
+
+			devel_deps = list(set(devel_deps) - set(covered))
+
+			self.file.write("# Remaining dependencies not included in main packages\n")
+			for dep in devel_deps:
+				self.file.write("BuildRequires: golang(%s)\n" % (dep))
 
 			self.file.write("%endif\n\n")
 
@@ -352,10 +367,9 @@ class SpecGenerator:
 		self.file.write("%endif\n\n")
 
 		# %gotest macro default definition
-		if self.with_extra:
-			self.file.write("%if ! 0%{?gotest:1}\n")
-			self.file.write("%global gotest go test\n")
-			self.file.write("%endif\n\n")
+		self.file.write("%if ! 0%{?gotest:1}\n")
+		self.file.write("%global gotest go test\n")
+		self.file.write("%endif\n\n")
 
 		sdirs = sorted(map(lambda l: l["test"], test_directories))
                 for dir in sdirs:
@@ -456,7 +470,7 @@ class SpecGenerator:
 			raise ValueError("Unknown provider")
 
 		self.file.write("\n")
-		self.generateHeaderPrologue(artefact["data"]["mains"], import_path_prefix)
+		self.generateHeaderPrologue(artefact["data"]["mains"], artefact["data"]["packages"], import_path_prefix)
 
 		# generate devel subpackage
 		self.generateDevelHeader(artefact["data"]["packages"], import_path_prefix)
