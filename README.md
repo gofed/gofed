@@ -24,13 +24,15 @@
 ## Quick start
 
 1. clone the repository
-3. set up gofed
+2. set up gofed
+3. alias ./hach/gofed.sh
 4. run gofed
 
 ```sh
 $ git clone https://github.com/gofed/gofed; cd gofed
 $ ./hack/prep.sh
-$ ./hack/gofed.sh
+$ alias gofed=$(realpath ./hack/gofed.sh)
+$ gofed
 ```
 
 ## Resource management
