@@ -5,7 +5,6 @@ from gofed_lib.utils import ENDC, RED, GREEN, runCommand
 from gofed.modules.Utils import FormatedPrint
 
 from gofed.modules.SpecGenerator import SpecGenerator
-from gofed.modules.Config import Config
 
 import os
 import sys
@@ -110,16 +109,6 @@ def setOptions():
 	    "", "", "--force", dest="force", action="store_true", default = False,
 	    help = "Generate spec file even if it is already in Fedora"
 	)
-
-	parser.add_option(
-            "", "", "--scan-all-dirs", dest="scanalldirs", action = "store_true", default = False,
-            help = "Scan all dirs, including Godeps directory"
-        )
-
-	parser.add_option(
-            "", "", "--skip-dirs", dest="skipdirs", default = "",
-            help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
-        )
 
 	parser.add_option(
             "", "", "--with-build", dest="withbuild", action = "store_true", default = False,
@@ -270,18 +259,6 @@ if __name__ == "__main__":
 	else:
 		import_path = options.detect
 		commit = options.commit
-
-	if not options.scanalldirs:
-		noGodeps = Config().getSkippedDirectories()
-	else:
-		noGodeps = []
-
-	if options.skipdirs:
-		for dir in options.skipdirs.split(','):
-			dir = dir.strip()
-			if dir == "":
-				continue
-			noGodeps.append(dir)
 
 	path = ""
 	if options.directory != "":
