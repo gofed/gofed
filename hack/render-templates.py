@@ -17,7 +17,7 @@ rootdir = os.path.dirname(script_dir)
 
 content = renderTemplate(
 	"templates/gofed-resources-client.jinja", {
-	"pythonpath": "%s/third_party" % rootdir,
+	"envs": "GOFED_DEVEL=1 PYTHONPATH=%s/third_party" % rootdir,
 	"resourceclientdaemon": "%s/third_party/gofed_infra/system/daemons/resourceclientdaemon.py" % rootdir
 	})
 
@@ -28,7 +28,7 @@ with open("%s/daemons/gofed-resources-client.service" % script_dir, "w") as f:
 
 content = renderTemplate(
 	"templates/gofed-resources-provider.jinja", {
-	"pythonpath": "%s/third_party" % rootdir,
+	"envs": "GOFED_DEVEL=1 PYTHONPATH=%s/third_party" % rootdir,
 	"resourceproviderdaemon": "%s/third_party/gofed_infra/system/daemons/resourceproviderdaemon.py" % rootdir
 	})
 
