@@ -24,12 +24,14 @@
 ## Quick start
 
 1. clone the repository
-2. set up gofed
-3. alias ./hach/gofed.sh
-4. run gofed
+2. install python modules
+3. set up gofed
+4. alias ./hach/gofed.sh
+5. run gofed
 
 ```sh
 $ git clone https://github.com/gofed/gofed; cd gofed
+$ sudo pip install -r requirements.txt
 $ ./hack/prep.sh
 $ alias gofed=$(realpath ./hack/gofed.sh)
 $ gofed
