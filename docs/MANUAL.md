@@ -1,4 +1,4 @@
-##Manual [DRAFT]
+##Manual
 
 #### Scan of all golang packages for import paths
 

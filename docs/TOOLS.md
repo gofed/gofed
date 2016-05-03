@@ -1,4 +1,4 @@
-##Use cases [DRAFT]
+##Use cases
 
 #####API of Golang projects
 
