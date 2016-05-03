@@ -1,13 +1,13 @@
-from Utils import getScriptDir
+from gofed_lib.utils import getScriptDir
 from os import path, environ
 
 class Config:
 
 	def __init__(self):
-		if environ.get("GOFED_TEST_CONFIG_FILE") == None:
+		if environ.get("GOFED_DEVEL") == None:
 			cfg_file = "/etc/gofed.conf"
 		else:
-			cfg_file = "config/gofed.conf"
+			cfg_file = "%s/../config/gofed.conf" % getScriptDir(__file__)
 
 		self.db = {}
 		self.parseConfigFile(cfg_file)

@@ -40,11 +40,11 @@ renderTemplate(
 	"%s/third_party/gofed_infra/system/config/infra.conf" % rootdir
 )
 
-print "third_party/gofed_resources/proposal/config/resources.conf"
+print "third_party/gofed_resources/config/resources.conf"
 renderTemplate(
 	"templates/resources.jinja", {
 	"resource_provider_dir": "%s/working_directory/resource_provider" % rootdir,
 	"storage_dir": "%s/working_directory/storage" % rootdir},
-	"%s/third_party/gofed_resources/proposal/config/resources.conf" % rootdir
+	"%s/third_party/gofed_resources/config/resources.conf" % rootdir
 )
 

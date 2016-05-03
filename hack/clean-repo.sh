@@ -17,5 +17,5 @@ echo "git checkout replaced infra.conf and resources.conf files"
 pushd ${CUR_DIR}/../third_party/gofed_infra >/dev/null
 git checkout system/config/infra.conf
 cd ../gofed_resources
-git checkout proposal/config/resources.conf
+git checkout config/resources.conf
 popd >/dev/null
