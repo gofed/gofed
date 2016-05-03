@@ -2,4 +2,4 @@
 
 CUR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-cp daemons/*.service /usr/lib/systemd/user/.
+cp ${CUR_DIR}/daemons/*.service /usr/lib/systemd/user/.
