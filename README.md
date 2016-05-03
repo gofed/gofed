@@ -25,13 +25,15 @@
 
 1. clone the repository
 2. install python modules
-3. set up gofed
-4. alias ./hach/gofed.sh
-5. run gofed
+3. install packages
+4. set up gofed
+5. alias ./hach/gofed.sh
+6. run gofed
 
 ```sh
 $ git clone https://github.com/gofed/gofed; cd gofed
 $ sudo pip install -r requirements.txt
+$ sudo dnf install -y graphviz koji rpm-build
 $ ./hack/prep.sh
 $ alias gofed=$(realpath ./hack/gofed.sh)
 $ gofed
