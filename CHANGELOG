@@ -1,4 +1,20 @@
 ========Changelog for gofed========
+Changes in 1.0.0 (3 May 2016)
+- gofed running with new computation image under hood
+- removing gofed client, will come back later
+- gofed clean-resources: clean all resource retrieve by the system
+- generated spec file improved (minimizing devel's dependencies)
+- gofed scan-distro: scan latest builds in distribution
+- gofed scan-packages: scan packages in distribution (providing list of build)
+- gofed scan-deps: select subgraph for both distribution dependency graph and local project dependency graph
+- gofed ticket: create tracker for Go package
+- gofed tools: fix update and override
+- gofed wizard: extend the phases with override
+- gofed check-deps: better output, taking the ip2pp mapping from distribution snapshot
+- gofed fetch: download source code tarball for generated spec file
+- gofed review: introduce --create-review to create the review in bugzilla
+- gofed approx-deps: approximate Godeps.json file
+
 Change in 0.0.9 (10 September 2015)
 - gofed repo2spec --with-build: generated full list of BR for main package if the option is specified
 - gofed repo2spec: generated unit-test subpackage only if devel subpackage is
