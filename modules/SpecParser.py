@@ -137,9 +137,6 @@ class SpecParser(Base):
 			self.err = "No devel subpackage found"
 			return None
 
-		if devel_counter == 1:
-			return self.subpackages[devel]
-
 		# devel_main macro?
 		devel_main = self.getMacro('devel_main')
 		if devel_main != "":
@@ -147,6 +144,9 @@ class SpecParser(Base):
 				self.err = "Devel package speficied by %{devel_main} macro not found"
 				return None
 			return self.subpackages[devel_main]
+
+		if devel_counter == 1:
+			return self.subpackages[devel]
 
 		if devel_counter == 2:
 			if ("%s-devel" % self.pkg_name) not in subpkg_keys:
