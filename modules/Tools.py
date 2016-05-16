@@ -33,8 +33,12 @@ class BranchMapper(object):
 		match = re.search(r"^el([6])$", branch)
 		if match:
 			return {"product": "EPEL", "version": match.group(1)}
-	
-		raise ValueError("Invalid branch: %s, expected '^f[0-9][0-9]$' or '^el[6]$'" % branch)
+
+		match = re.search(r"^epel([7])$", branch)
+		if match:
+			return {"product": "EPEL", "version": match.group(1)}
+
+		raise ValueError("Invalid branch: %s, expected '^f[0-9][0-9]$' or '^el[6]$' or '^epel[7]'" % branch)
 
 	def branch2tag(self, branch):
 		distro = self._parseBranch(branch)
@@ -43,6 +47,10 @@ class BranchMapper(object):
 		elif distro["product"] == "EPEL":
 			if distro["version"] == "6":
 				return "el6"
+			elif distro["version"] == "7":
+				return "el7"
+
+		raise KeyError("Missing tag for '%s' branch" % branch)
 
 	def branch2build(self, branch):
 		distro = self._parseBranch(branch)
@@ -51,6 +59,10 @@ class BranchMapper(object):
 		elif distro["product"] == "EPEL":
 			if distro["version"] == "6":
 				return "dist-6E-epel-build"
+			if distro["version"] == "7":
+				return "epel7"
+
+		raise KeyError("Missing build tag for '%s' branch" % branch)
 
 	def branch2buildCandidate(self, branch):
 		distro = self._parseBranch(branch)
