@@ -1,0 +1,326 @@
+%if 0%{?fedora} || 0%{?rhel} == 6
+%global with_devel 1
+%global with_bundled 0
+{% if with_build %}%global with_debug 1{% else %}%global with_debug 0{% endif %}
+%global with_check 1
+%global with_unit_test 1
+%else
+%global with_devel 0
+%global with_bundled 0
+%global with_debug 0
+%global with_check 0
+%global with_unit_test 0
+%endif
+
+%if 0%{?with_debug}
+%global _dwz_low_mem_die_limit 0
+%else
+%global debug_package   %{nil}
+%endif
+
+{% if with_build -%}
+%if ! 0%{?gobuild:1}
+%define gobuild(o:) go build -ldflags "${LDFLAGS:-} -B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \\n')" -a -v -x %{?**};
+%endif
+{% endif -%}
+
+{% if project_signature["provider"]["provider"] == "github" %}
+%global provider        github
+%global provider_tld    com
+%global project         {{ project_signature["provider"]["username"] }}
+%global repo            {{ project_signature["provider"]["project"] }}
+# https://{{ provider_prefix }}
+%global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}
+{% if import_path_prefix != provider_prefix -%}
+%global import_path     {{ import_path_prefix }}
+{% else -%}
+%global import_path     %{provider_prefix}
+{% endif -%}
+%global commit          {{ project_signature["commit"] }}
+%global shortcommit     %(c=%{commit}; echo ${c:0:7})
+
+Name:           golang-%{provider}-%{project}-%{repo}
+Version:        0
+Release:        0.0.git%{shortcommit}%{?dist}
+Summary:        !!!!FILL!!!!
+{% if licenses != [] -%}
+# Detected licences
+{% for license in licenses -%}
+# - {{ license["type"] }} at '{{ license["file"] }}'
+{% endfor -%}
+{% endif -%}
+License:        !!!!FILL!!!!
+URL:            https://%{provider_prefix}
+Source0:        https://%{provider_prefix}/archive/%{commit}/%{repo}-%{shortcommit}.tar.gz
+{%- elif project_signature["provider"]["provider"] == "bitbucket" -%}
+%global provider        bitbucket
+%global provider_tld    org
+%global project         {{ project_signature["provider"]["username"] }}
+%global repo            {{ project_signature["provider"]["project"] }}
+# https://{{ provider_prefix }}
+%global provider_prefix {{ provider_prefix }}
+%global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}
+{% if import_path_prefix != provider_prefix -%}
+%global import_path     {{ import_path_prefix }}
+{% else -%}
+%global import_path     %{provider_prefix}
+{% endif -%}
+%global commit          {{ project_signature["commit"] }}
+%global shortcommit     %(c=%{commit}; echo ${c:0:12})
+
+Name:           golang-%{provider}-%{project}-%{repo}
+Version:        0
+Release:        0.0.git%{shortcommit}%{?dist}
+Summary:        !!!!FILL!!!!
+{% if licenses != [] -%}
+# Detected licences
+{% for license in licenses -%}
+# - {{ license["type"] }} at '{{ license["file"] }}'
+{% endfor -%}
+{% endif -%}
+License:        !!!!FILL!!!!
+URL:            https://%{provider_prefix}
+Source0:        https://%{provider_prefix}/get/%%{shortcommit}.tar.gz
+{% elif project_signature["provider"]["provider"] == "googlecode" %}
+%global provider        google
+%global provider_sub    code
+%global provider_tld    com
+%global project         p
+%global repo            {{ project_signature["provider"]["project"] }}
+%global rrepo           {{ rrepo }}
+# https://{{ provider_prefix }}
+%global provider_prefix {{ provider_prefix }}
+%global provider_prefix %{provider_sub}.%{provider}.%{provider_tld}/%{project}/%{repo}
+{% if import_path_prefix != provider_prefix -%}
+%global import_path     {{ import_path_prefix }}
+{% else -%}
+%global import_path     %{provider_prefix}
+{% endif -%}
+%global rev             {{ project_signature["commit"] }}
+%global shortrev        %(c=%{rev}; echo ${c:0:12})
+Name:           golang-%%{provider}%%{provider_sub}-{{ stripped_repo }}
+Version:        0
+Release:        0.0.hg%{shortrev}%{?dist}
+Summary:        !!!!FILL!!!!
+{% if licenses != [] -%}
+# Detected licences
+{% for license in licenses -%}
+# - {{ license["type"] }} at '{{ license["file"] }}'
+{% endfor -%}
+{% endif -%}
+License:        !!!!FILL!!!!
+URL:            https://%{provider_prefix}
+Source0:        https://%{rrepo}.%{provider}%{provider_sub}.%{provider_tld}/archive/%{rev}.tar.gz
+{%- endif %}
+
+# e.g. el6 has ppc64 arch without gcc-go, so EA tag is required
+ExclusiveArch:  %{?go_arches:%{go_arches}}%{!?go_arches:%{ix86} x86_64 %{arm}}
+# If go_compiler is not set to 1, there is no virtual provide. Use golang instead.
+BuildRequires:  %{?go_compiler:compiler(go-compiler)}%{!?go_compiler:golang}
+
+{% if with_build %}%if ! 0%{?with_bundled}
+{% for package in main["deps"] -%}
+# {{ package }}
+{% for dep in main["deps"][package] -%}
+BuildRequires: golang({{ dep }})
+{% endfor %}
+{% endfor -%}
+# Remaining dependencies not included in main packages
+{% for dep in main["remaining_devel_deps"] %}BuildRequires: golang({{ dep }}){% endfor -%}
+%endif
+{%- endif %}
+
+%description
+%{summary}
+
+%if 0%{?with_devel}
+%package devel
+Summary:       %{summary}
+BuildArch:     noarch
+
+%if 0%{?with_check} && ! 0%{?with_bundled}
+{% for dep in devel["deps"] -%}
+BuildRequires: golang({{ dep }})
+{% endfor -%}
+%endif
+
+{% for dep in devel["deps"] -%}
+Requires: golang({{ dep }})
+{% endfor -%}
+{% for package in devel["provides"] %}
+Provides:      golang(%{import_path}{{ package }}) = %{version}-%{release}
+{%- endfor %}
+
+%description devel
+%{summary}
+
+This package contains library source intended for
+building other packages which use import path with
+%{import_path} prefix.
+%endif
+
+%if 0%{?with_unit_test} && 0%{?with_devel}
+%package unit-test-devel
+Summary:         Unit tests for %{name} package
+%if 0%{?with_check}
+#Here comes all BuildRequires: PACKAGE the unit tests
+#in %%check section need for running
+%endif
+
+# test subpackage tests code from devel subpackage
+Requires:        %{name}-devel = %{version}-%{release}
+
+%if 0%{?with_check} && ! 0%{?with_bundled}
+{% for dep in tests["deps"] -%}
+BuildRequires: golang({{ dep }})
+{% endfor -%}
+%endif
+
+{% for dep in tests["deps"] -%}
+Requires: golang({{ dep }})
+{% endfor %}
+%description unit-test-devel
+%{summary}
+
+This package contains unit tests for project
+providing packages with %{import_path} prefix.
+%endif
+
+%prep
+{%- if project_signature["provider"]["provider"] == "googlecode" %}
+%setup -q -n %{rrepo}-%{shortrev}
+{%- elif project_signature["provider"]["provider"] == "bitbucket" %}
+%setup -q -n %{project}-%{repo}-%{shortcommit}
+{%- else %}
+%setup -q -n %{repo}-%{commit}
+{%- endif %}
+
+%build
+{%- if with_build %}
+{%- if project_signature["provider"]["provider"] == "googlecode" %}
+mkdir -p src/%{provider_sub}.%{provider}.%{provider_tld}/%{project}
+{%- else %}
+mkdir -p src/%{provider}.%{provider_tld}/%{project}
+{%- endif %}
+ln -s ../../../ src/%{import_path}
+
+%if ! 0%{?with_bundled}
+export GOPATH=$(pwd):%{gopath}
+%else
+{%- if dependency_directories == [] %}
+# No dependency directories so far
+{%- endif %}
+export GOPATH=$(pwd){% for path in dependency_directories %}:$(pwd)/{{ path }}{% endfor %}:%{gopath}
+%endif
+
+{% for package in main["dirs"] -%}
+#%gobuild -o bin/{{ package }} %{import_path}/{{ package }}
+{% endfor -%}
+{%- endif %}
+%install
+{%- if with_build %}
+install -d -p %{buildroot}%{_bindir}
+{% for package in main["dirs"] -%}
+#install -p -m 0755 bin/{{ package }} %{buildroot}%{_bindir}
+{% endfor -%}
+{% endif %}
+# source codes for building projects
+%if 0%{?with_devel}
+install -d -p %{buildroot}/%{gopath}/src/%{import_path}/
+echo "%%dir %%{gopath}/src/%%{import_path}/." >> devel.file-list
+# find all *.go but no *_test.go files and generate devel.file-list
+for file in $(find . -iname "*.go" \! -iname "*_test.go"{% for dep in dependency_directories %} | grep -v "{{ dep }}"{% endfor %}) ; do
+    dirprefix=$(dirname $file)
+    install -d -p %{buildroot}/%{gopath}/src/%{import_path}/$dirprefix
+    cp -pav $file %{buildroot}/%{gopath}/src/%{import_path}/$file
+    echo "%%{gopath}/src/%%{import_path}/$file" >> devel.file-list
+
+    while [ "$dirprefix" != "." ]; do
+        echo "%%dir %%{gopath}/src/%%{import_path}/$dirprefix" >> devel.file-list
+        dirprefix=$(dirname $dirprefix)
+    done
+done
+%endif
+
+# testing files for this project
+%if 0%{?with_unit_test} && 0%{?with_devel}
+install -d -p %{buildroot}/%{gopath}/src/%{import_path}/
+# find all *_test.go files and generate unit-test-devel.file-list
+for file in $(find . -iname "*_test.go"{% for dep in dependency_directories %} | grep -v "{{ dep }}"{% endfor %}) ; do
+    dirprefix=$(dirname $file)
+    install -d -p %{buildroot}/%{gopath}/src/%{import_path}/$dirprefix
+    cp -pav $file %{buildroot}/%{gopath}/src/%{import_path}/$file
+    echo "%%{gopath}/src/%%{import_path}/$file" >> unit-test-devel.file-list
+
+    while [ "$dirprefix" != "." ]; do
+        echo "%%dir %%{gopath}/src/%%{import_path}/$dirprefix" >> devel.file-list
+        dirprefix=$(dirname $dirprefix)
+    done
+done
+%endif
+
+%if 0%{?with_devel}
+sort -u -o devel.file-list devel.file-list
+%endif
+
+%check
+%if 0%{?with_check} && 0%{?with_unit_test} && 0%{?with_devel}
+%if ! 0%{?with_bundled}
+export GOPATH=%{buildroot}/%{gopath}:%{gopath}
+%else
+{%- if dependency_directories == [] %}
+# No dependency directories so far
+{%- endif %}
+export GOPATH=%{buildroot}/%{gopath}{% for path in dependency_directories %}:$(pwd)/{{ path }}{% endfor %}:%{gopath}
+%endif
+
+%if ! 0%{?gotest:1}
+%global gotest go test
+%endif
+{% for test in tests["directories"] %}
+%gotest %{import_path}{{ test }}
+{%- endfor %}
+%endif
+
+#define license tag if not already defined
+%{!?_licensedir:%global license %doc}
+
+{% if with_build -%}
+%files
+{% if licenses != [] -%}
+%license{% for license in licenses %} {{ license["file"] }}{% endfor %}
+{% endif -%}
+{% if docs != [] -%}
+%doc{% for doc in docs %} {{ doc }}{% endfor %}
+{% endif -%}
+{% for package in main["dirs"] -%}
+#%{_bindir}/{{ package }}
+{% endfor -%}
+{%- endif %}
+%if 0%{?with_devel}
+%files devel -f devel.file-list
+{% if licenses != [] -%}
+%license{% for license in licenses %} {{ license["file"] }}{% endfor %}
+{% endif -%}
+{% if docs != [] -%}
+%doc{% for doc in docs %} {{ doc }}{% endfor %}
+{% endif -%}
+{% if custom_ipprefix == "" -%}
+%dir %{gopath}/src/%{provider}.%{provider_tld}/%{project}
+{% else -%}
+%dir %{gopath}/src/{{ custom_ipprefix }}
+{% endif -%}
+%endif
+
+%if 0%{?with_unit_test} && 0%{?with_devel}
+%files unit-test-devel -f unit-test-devel.file-list
+{% if licenses != [] -%}
+%license{% for license in licenses %} {{ license["file"] }}{% endfor %}
+{% endif -%}
+{% if docs != [] -%}
+%doc{% for doc in docs %} {{ doc }}{% endfor %}
+{% endif -%}
+%endif
+
+%changelog
+
