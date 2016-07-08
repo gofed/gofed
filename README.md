@@ -32,6 +32,7 @@
 
 ```sh
 $ git clone https://github.com/gofed/gofed; cd gofed
+$ sudo dnf install python-pip
 $ sudo pip install -r requirements.txt
 $ sudo dnf install -y graphviz koji rpm-build
 $ ./hack/prep.sh
