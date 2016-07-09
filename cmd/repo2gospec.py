@@ -358,12 +358,12 @@ if __name__ == "__main__":
 			spec.generate(data, f)
 
 	except IOError:
-		fmt_obj.printErr("Error: can\'t write to '%s' file" % specfile)
+		fmt_obj.printError("Error: can\'t write to '%s' file" % specfile)
 		exit(1)
 
 	so, se, rc = runCommand("rpmdev-bumpspec %s -c \"First package for Fedora\"" % specfile)
 	if rc != 0:
-		fmt_obj.printErr("Unable to bump spec file: %s" % se)
+		fmt_obj.printError("Unable to bump spec file: %s" % se)
 		exit(1)
 
 	fmt_obj.printProgress("(4/%s) Discovering golang dependencies" % total)
