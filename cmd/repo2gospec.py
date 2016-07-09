@@ -1,7 +1,6 @@
 from gofed_lib.logger.logger import Logger
 
-import optparse
-from gofed_lib.utils import ENDC, RED, GREEN, runCommand
+from gofed_lib.utils import ENDC, RED, GREEN, runCommand, getScriptDir
 from gofed.modules.Utils import FormatedPrint
 
 from gofed.modules.SpecGenerator import SpecGenerator
@@ -27,143 +26,7 @@ from gofed_infra.system.artefacts.artefacts import (
 	ARTEFACT_GOLANG_PROJECT_CONTENT_METADATA
 )
 
-def setOptions():
-	parser = optparse.OptionParser("%prog [-e] [-d] file [file [file ...]]")
-
-	sln = not (os.path.basename(sys.argv[0]) == "repo2gospec.py")
-	github = os.path.basename(sys.argv[0]) == "github2gospec"
-	googlecode = os.path.basename(sys.argv[0]) == "googlecode2gospec"
-	bitbucket = os.path.basename(sys.argv[0]) == "bitbucket2gospec"
-
-	SH = optparse.SUPPRESS_HELP
-
-	parser.add_option(
-	    "", "", "--github", dest="github", action="store_true", default = False,
-	    help = SH if sln else "github.com repository"
-	)
-
-	parser.add_option(
-	    "", "", "--googlecode", dest="googlecode", action="store_true", default = False,
-	    help = SH if sln else "code.google.com repository"
-	)
-
-	parser.add_option(
-	    "", "", "--bitbucket", dest="bitbucket", action="store_true", default = False,
-	    help = SH if sln else "bitbucket.org repository"
-	)
-
-	parser.add_option(
-	    "", "", "--detect", dest="detect", default = "",
-	    help = SH if sln else "Detect repository from import path"
-	)
-
-	parser.add_option(
-	    "", "", "--skip-errors", dest="skiperrors", action="store_true", default = False,
-	    help = SH if sln else "Skip errors during Go symbol parsing"
-	)
-
-	if github:
-		help_text = "Repository name, github.com/project/REPO"
-	elif googlecode:
-		help_text = "Repository name, code.google.com/p/REPO"
-	elif bitbucket:
-		help_text = "Repository name, bitbucket.org/project/REPO"
-	else:
-		help_text = "Repository name, e.g. github.com/project/REPO"
-	
-
-	parser.add_option(
-	    "", "-r", "--repo", dest="repo", default = "",
-	    help = help_text
-	)
-
-	if github:
-		help_text = "Repository name, github.com/PROJECT/repository"
-	elif bitbucket:
-		help_text = "Repository name, bitbucket.org/PROJECT/repository"
-	else:
-		help_text = "Repository name, e.g. github.com/PROJECT/repository"
-
-	parser.add_option(
-	    "", "-p", "--project", dest="project", default = "",
-	    help = SH if googlecode else help_text
-	)
-
-	if googlecode:
-		parser.add_option(
-		    "", "-c", "--rev", dest="revision", default = "",
-		    help = "Revision"
-		)
-	else:
-		parser.add_option(
-		    "", "-c", "--commit", dest="commit", default = "",
-		    help = "Commit. If not specified the latest is taken."
-		)
-
-	parser.add_option(
-	    "", "-f", "--format", dest="format", action="store_true", default = False,
-	    help = "Make messages more shiny"
-	)
-
-	parser.add_option(
-	    "", "", "--force", dest="force", action="store_true", default = False,
-	    help = "Generate spec file even if it is already in Fedora"
-	)
-
-	parser.add_option(
-            "", "", "--with-build", dest="withbuild", action = "store_true", default = False,
-            help = "Generate spec file with %build section"
-        )
-
-	parser.add_option(
-            "", "", "--with-extra", dest="withextra", action = "store_true", default = False,
-            help = "Generate spec file with additional pieces (e.g. definition of %gobuild and %gotest for explicit distributions)"
-        )
-
-	parser.add_option(
-	    "", "-d", "--dir", dest="directory", default = "",
-	    help = "Generate spec file from directory"
-	)
-
-	parser.add_option(
-	    "", "-t", "--target", dest="target", default = "",
-	    help = "Target directory to generate spec file to"
-	)
-
-	parser.add_option(
-            "", "-v", "--verbose", dest="verbose", action = "store_true", default = False,
-            help = "Show all packages if -d option is on"
-        )
-
-	return parser.parse_args()
-
-def checkOptions(options):
-	fail = False
-
-	if options.detect != "":
-		return False
-
-	if not options.github and not options.googlecode and not options.bitbucket:
-		print "No provider specified"
-		fail = True
-
-	if options.github or options.googlecode or options.bitbucket:
-		if options.repo == "":
-			print "Repository missing"
-			fail = True
-
-	if options.github or options.bitbucket:
-		if options.project == "":
-			print "Project missing"
-			fail = True
-
-	if options.googlecode:
-		if options.revision == "":
-			print "Revision missing"
-			fail = True
-
-
-	return fail
+from gofed.cmd.optionparsergenerator import OptionParserGenerator
 
 def printBasicInfo(url, commit, name, formated=True):
 	fmt_obj = FormatedPrint(formated)
@@ -217,10 +80,29 @@ def checkDependencies(fmt_obj, classes, url):
 
 if __name__ == "__main__":
 
-	options, args = setOptions()
+	cur_dir = getScriptDir(__file__)
+	gen_flags = "%s/repo2gospec-global.yml" % (cur_dir)
 
-	if checkOptions(options):
+	program_name = os.path.basename(sys.argv[0])
+	provider = ""
+
+	if program_name == "repo2gospec.py":
+		subcmd_flags = "%s/repo2gospec.yml" % (cur_dir)
+	elif program_name == "github2gospec":
+		subcmd_flags = "%s/github2gospec.yml" % (cur_dir)
+		provider = "github"
+	elif program_name == "googlecode2gospec":
+		subcmd_flags = "%s/googlecode2gospec.yml" % (cur_dir)
+		provider = "googlecode"
+	elif program_name == "bitbucket2gospec":
+		subcmd_flags = "%s/bitbucket2gospec.yml" % (cur_dir)
+		provider = "bitbucket"
+
+	parser = OptionParserGenerator([gen_flags, subcmd_flags]).generate().parse()
+	if not parser.check():
 		exit(1)
+
+	options = parser.options()
 
 	Logger.set(options.verbose)
 
@@ -231,31 +113,24 @@ if __name__ == "__main__":
 		RED = ""
 		GREEN = ""
 
-	if options.detect == "":
-		# collect spec file information
-		project = options.project
-		repo = options.repo
-		if not options.googlecode and project == "":
-			fmt_obj.printError("Project missing")
-			exit(1)
-
-		if repo == "":
-			fmt_obj.printError("Repository missing")
-			exit(1)
-
+	if provider == "":
 		if options.github:
-			import_path = "github.com/%s/%s" % (project, repo)
-			commit = options.commit
-		elif options.googlecode:
-			import_path = "code.google.com/p/%s" % repo
-			commit = options.revision
+			provider = "github"
 		elif options.bitbucket:
-			import_path = "bitbucket.org/%s/%s" % (project, repo)
-			commit = options.commit
-		else:
-			fmt_obj.printError("Provider not supported")
-			exit(1)
+			provider = "bitbucket"
+		elif options.googlecode:
+			provider = "googlecode"
 
+	# collect spec file information
+	if provider == "github":
+		import_path = "github.com/%s/%s" % (options.project, options.repo)
+		commit = options.commit
+	elif provider == "googlecode":
+		import_path = "code.google.com/p/%s" % options.repo
+		commit = options.revision
+	elif provider == "bitbucket":
+		import_path = "bitbucket.org/%s/%s" % (options.project, options.repo)
+		commit = options.commit
 	else:
 		import_path = options.detect
 		commit = options.commit
