@@ -1,35 +1,38 @@
 flags:
 - long: github
-  target: github
   type: boolean
-  default: False
   description: "github.com repository"
+  non-empty-group: kind
+  requires:
+  - project
+  - repo
 - long: googlecode
-  target: googlecode
   type: boolean
-  default: False
   description: "code.google.com repository"
+  non-empty-group: kind
+  requires:
+  - repo
 - long: bitbucket
-  target: bitbucket
   type: boolean
-  default: False
   description: "bitbucket.org repository"
+  non-empty-group: kind
+  requires:
+  - project
+  - repo
 - long: detect
-  target: detect
   type: string
-  default: ""
   description: "Detect repository from import path"
-  non-empty: True
+  non-empty-group: kind
 - long: project
   short: p
-  target: project
   type: string
-  default: ""
   description: "Repository name, e.g. github.com/PROJECT/repository"
+- long: repo
+  short: r
+  type: string
+  description: "Repository name, e.g. github.com/project/REPO"
 - long: commit
   short: c
-  target: commit
   type: string
-  default: ""
   description: "Commit. If not specified the latest is taken."
 

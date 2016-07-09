@@ -1,52 +1,31 @@
 flags:
 - long: skip-errors
-  target: skiperrors
   type: boolean
-  default: False
   description: "Skip errors during Go symbol parsing"
-- long: repo
-  short: r
-  target: repo
-  type: string
-  default: ""
-  description: "Repository name, e.g. github.com/project/REPO"
 - long: format
   short: f
-  target: format
   type: boolean
-  default: False
   description: "Make messages more shiny"
 - long: force
-  target: force
   type: boolean
-  default: False
   description: "Generate spec file even if it is already in Fedora"
 - long: "with-build"
-  target: withbuild
   type: boolean
-  default: False
   description: "Generate spec file with %build section"
 - long: "with-extra"
-  target: withextra
   type: boolean
-  default: False
   description: "Generate spec file with additional pieces (e.g. definition of %gobuild and %gotest for explicit distributions)"
 - long: dir
   short: d
   target: directory
   type: directory
-  default: ""
   description: "Generate spec file from directory"
 - long: target
   short: t
-  target: target
   type: directory
-  default: ""
   description: "Target directory to generate spec file to"
 - long: verbose
   short: v
-  target: verbose
   type: boolean
-  default: False
   description: "Show all packages if -d option is on"
 
