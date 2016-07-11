@@ -120,10 +120,12 @@ BuildRequires:  %{?go_compiler:compiler(go-compiler)}%{!?go_compiler:golang}
 
 {% if with_build %}%if ! 0%{?with_bundled}
 {% for package in main["deps"] -%}
+{%- if main["deps"][package] != [] -%}
 # {{ package }}
 {% for dep in main["deps"][package] -%}
 BuildRequires: golang({{ dep }})
 {% endfor %}
+{% endif -%}
 {% endfor -%}
 # Remaining dependencies not included in main packages
 {% for dep in main["remaining_devel_deps"] %}BuildRequires: golang({{ dep }}){% endfor -%}
@@ -145,7 +147,7 @@ BuildRequires: golang({{ dep }})
 %endif
 
 {% for dep in devel["deps"] -%}
-Requires: golang({{ dep }})
+Requires:      golang({{ dep }})
 {% endfor -%}
 {% for package in devel["provides"] %}
 Provides:      golang(%{import_path}{{ package }}) = %{version}-%{release}
@@ -177,7 +179,7 @@ BuildRequires: golang({{ dep }})
 %endif
 
 {% for dep in tests["deps"] -%}
-Requires: golang({{ dep }})
+Requires:      golang({{ dep }})
 {% endfor %}
 %description unit-test-devel
 %{summary}
@@ -305,10 +307,10 @@ export GOPATH=%{buildroot}/%{gopath}{% for path in dependency_directories %}:$(p
 {% if docs != [] -%}
 %doc{% for doc in docs %} {{ doc }}{% endfor %}
 {% endif -%}
-{% if custom_ipprefix == "" -%}
+{% if prefix_dir["type"] == "default" -%}
 %dir %{gopath}/src/%{provider}.%{provider_tld}/%{project}
-{% else -%}
-%dir %{gopath}/src/{{ custom_ipprefix }}
+{% elif prefix_dir["type"] == "custom" -%}
+%dir %{gopath}/src/{{ prefix_dir["prefix"] }}
 {% endif -%}
 %endif
 

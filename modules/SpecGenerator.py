@@ -51,6 +51,7 @@ class SpecGenerator:
 
 		# generate dependency on packages from devel not currently covered
 		devel_deps = reduce(lambda a,b: a+b, map(lambda l: filter(lambda l: not l.startswith(import_path_prefix), l["dependencies"]), artefact["data"]["packages"]))
+		devel_deps = list(set(devel_deps))
 
 		# provides
 		provides = []
@@ -82,20 +83,25 @@ class SpecGenerator:
 
 			test_directories.append(sufix)
 
-		custom_ipprefix = ""
+		prefix_dir = {
+			"type": "default"
+		}
 		if provider_signature["provider"] in ["github", "bitbucket"]:
 			if import_path_prefix != provider_prefix:
 				ip_prefix, _ = os.path.split(import_path_prefix)
 				pp_obj = ProviderPrefixes()
 				ok, prefixes = pp_obj.loadCommonProviderPrefixes()
 				if not ok or ip_prefix not in prefixes:
-					custom_ipprefix = ipi_prefix
+					prefix_dir["type"] = "custom"
+					prefix_dir["prefix"] = ip_prefix
+				else:
+					prefix_dir["type"] = "empty"
 
 		# set template vars
 		template_vars = {
 			"with_build": self.with_build,
 			"import_path_prefix": import_path_prefix,
-			"custom_ipprefix": custom_ipprefix,
+			"prefix_dir": prefix_dir,
 			"provider_prefix": provider_prefix,
 			"project_signature": project_signature.json(),
 			"licenses": licenses,
@@ -109,7 +115,7 @@ class SpecGenerator:
 				"remaining_devel_deps": list(set(devel_deps) - set(covered))
 			},
 			"devel": {
-				"deps": devel_deps,
+				"deps": sorted(devel_deps),
 				"provides": provides
 			},
 			"tests": {
