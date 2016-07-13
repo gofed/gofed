@@ -113,7 +113,7 @@ Output:
    ```
 
 At the beginning, golang checks the Fedora repository to see if the package already exists.
-If not, it creates a spec file (needs to have issing data filled in),
+If not, it creates a spec file (needs to have missing data filled in),
 retrieves tarball with source code,
 and checks the current state of all dependencies (classes of imports decomposed by a repository - common import path prefix).
 
