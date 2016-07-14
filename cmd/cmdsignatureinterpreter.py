@@ -25,7 +25,41 @@ class cmdSignatureInterpreter(object):
 		return self
 
 	def setDefaultPaths(self, empty_path_flags, active_pos_args):
-		raise NotImplementedError
+		options = {}
+		non_default_flags = []
+
+		# any default actions for flags?
+		flags = self._cmd_signature_parser.flags()
+		for flag in empty_path_flags:
+			if "default-action" not in flags[flag]:
+				continue
+
+			if flags[flag]["default-action"] == "set-cwd":
+				options[flag] = os.getcwd()
+				non_default_flags.append(flag)
+				continue
+
+		# any default actions for args?
+		for pos_arg in active_pos_args:
+			if "default-action" not in pos_arg:
+				continue
+
+			if pos_arg["default-action"] == "set-cwd":
+				pos_arg["value"] = os.getcwd()
+				continue
+
+		# check there is no blank argument followed by non-empty one
+		blank = False
+		for i, pos_arg in enumerate(active_pos_args):
+			if pos_arg["value"] == "":
+				blank = True
+				continue
+
+			if blank:
+				logging.error("Empty positional argument is followed by non-empty argument %s" %  pos_arg["name"])
+				exit(1)
+
+		return options, non_default_flags, active_pos_args
 
 	def dockerSignature(self, command):
 		if self._short_eval:
@@ -87,31 +121,10 @@ class cmdSignatureInterpreter(object):
 		return "docker run %s -t %s %s %s %s %s" % (mounts_str, self._image, self._binary, command, cmd_flags_str, active_pos_args_str)
 
 class repo2specInterpreter(cmdSignatureInterpreter):
-
-	def setDefaultPaths(self, empty_path_flags, active_pos_args):
-		options = {}
-		non_default_flags = []
-		pos_args = []
-
-		# directory option is control flag, if not set spec is generated from upstream.
-		# Thus, only target option is relevant to re-mapping
-		if "target" in empty_path_flags:
-			options["target"] = os.getcwd()
-			non_default_flags.append("target")
-
-		return options, non_default_flags, pos_args
+	pass
 
 class inspectInterpreter(cmdSignatureInterpreter):
-
-	def setDefaultPaths(self, empty_path_flags, pos_args):
-		options = {}
-		non_default_flags = []
-
-		# only the first positional argument which if not set defaults to the current directory
-		if pos_args[0]["value"] == "":
-			pos_args[0]["value"] = os.getcwd()
-
-		return options, non_default_flags, pos_args
+	pass
 
 def getScriptDir(file = __file__):
 	return os.path.dirname(os.path.realpath(file))
