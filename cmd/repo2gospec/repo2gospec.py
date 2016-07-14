@@ -26,7 +26,7 @@ from gofed_infra.system.artefacts.artefacts import (
 	ARTEFACT_GOLANG_PROJECT_CONTENT_METADATA
 )
 
-from gofed.cmd.optionparsergenerator import OptionParserGenerator
+from gofed.cmd.cmdsignatureparser import CmdSignatureParser
 
 def printBasicInfo(url, commit, name, formated=True):
 	fmt_obj = FormatedPrint(formated)
@@ -50,9 +50,9 @@ def isPkgInPkgDB(name, force):
 
 def createTargetDirectories(name, target = ""):
 	if target == "":
-		target = "%s/fedora/%s" % (name, name)
+		target = "%s/%s" % (os.getcwd(), name)
 	else:
-		target = os.path.abspath(target)
+		target = os.path.abspath("%s/%s" % (target, name) )
 
 	make_sure_path_exists(target)
 	os.chdir(target)
@@ -98,7 +98,7 @@ if __name__ == "__main__":
 		subcmd_flags = "%s/bitbucket2gospec.yml" % (cur_dir)
 		provider = "bitbucket"
 
-	parser = OptionParserGenerator([gen_flags, subcmd_flags]).generate().parse()
+	parser = CmdSignatureParser([gen_flags, subcmd_flags]).generate().parse()
 	if not parser.check():
 		exit(1)
 

@@ -116,8 +116,8 @@ class Plugins(Base):
 			plugin = self.plugins[name].get()
 			for cmd_desc in plugin["commands"]:
 				if cmd_desc["command"] == command:
-					# if the script has "just" a filename, search in cmd directory
-					if os.path.dirname(cmd_desc["script"]) == "":
+					# if the script is relative path, search under cmd directory
+					if not os.path.isabs(cmd_desc["script"]):
 						plugin_cmd = PluginCmd("cmd/%s" % cmd_desc["script"])
 					else:
 						plugin_cmd = PluginCmd(cmd_desc["script"])

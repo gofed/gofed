@@ -2,11 +2,12 @@ import optparse
 import yaml
 import logging
 import re
+import sys
 
 # TODO(jchaloup): generate class definition for each cmd instead
 #                 of reading the yaml files every time a cmd is executed
 
-class OptionParserGenerator(object):
+class CmdSignatureParser(object):
 
 	def __init__(self, definitions = []):
 		self._definitions = definitions
@@ -74,8 +75,8 @@ class OptionParserGenerator(object):
 
 		return self
 
-	def parse(self):
-		self._options, self._args = self._parser.parse_args()
+	def parse(self, args = sys.argv):
+		self._options, self._args = self._parser.parse_args(args)
 		return self
 
 	def check(self):
@@ -137,6 +138,22 @@ class OptionParserGenerator(object):
 	def args(self):
 		return self._args
 
+	def flags(self):
+		return self._flags
+
+	def isFSDir(self, flag):
+		return flag["type"] in ["directory"]
+
+	def FSDirs(self):
+		options = vars(self._options)
+		flags = {}
+		for flag in self._flags:
+			if self.isFSDir(self._flags[flag]):
+				flags[flag] = self._flags[flag]
+
+		return flags
+
 if __name__ == "__main__":
-	OptionParserGenerator(["repo2gospec-global.yml", "repo2gospec.yml"]).generate().parse().check()
+	#OptionParserGenerator(["repo2gospec-global.yml", "repo2gospec.yml"]).generate().parse().check()
+	print CmdSignatureParser(sys.argv[1:]).generate().parse().FSMountDirs()
 
