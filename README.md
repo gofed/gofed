@@ -47,6 +47,28 @@ $ sudo docker pull gofed/gofed:v1.0.0
 $ sudo docker run -it gofed/gofed:v1.0.0 /bin/bash
 ```
 
+### Experimental: run gofed command as a container
+
+Currently supported commands:
+
+* gofed repo2spec
+
+**Example**:
+
+```sh
+./cmd/gofed-docker repo2spec --detect github.com/kr/text -f [--force]
+```
+
+In order to run gofed command as a container, one needs to add itself to the docker group:
+
+```sh
+
+$ sudo groupadd docker
+$ sudo useradd -G docker USERNAME
+$ newgrp docker
+```
+
+
 ## Resource management
 
 Some **gofed** commands require working with resources.
