@@ -15,6 +15,8 @@ class CmdSignatureParser(object):
 		self._options = None
 		self._args = None
 		self._flags = {}
+		# positional arguments
+		self._pos_args = []
 
 		self._non_empty_flags = []
 		self._non_empty_flag_groups = {}
@@ -25,6 +27,8 @@ class CmdSignatureParser(object):
 			return re.sub(r'[-_]', '', long)
 
 		self._flags = {}
+		pos_arg_strs = []
+
 		for definition in self._definitions:
 			with open(definition, 'r') as f:
 				# Don't catch yaml.YAMLError
@@ -41,7 +45,22 @@ class CmdSignatureParser(object):
 
 					self._flags[flag["target"]] = flag
 
-		self._parser = optparse.OptionParser("%prog")
+				if "args" not in data:
+					continue
+
+				for pos_arg in data["args"]:
+					pos_arg["value"] = ""
+					self._pos_args.append(pos_arg)
+
+					if "required" not in pos_arg or not pos_arg["required"]:
+						pos_arg_strs.append("[%s]" % pos_arg["name"].lower())
+					else:
+						pos_arg_strs.append(pos_arg["name"].lower())
+
+		self._parser = optparse.OptionParser("%%prog [OPTIONS] %s" % (" ".join(pos_arg_strs) ))
+
+		for pos_arg in self._pos_args:
+			self._parser.add_option_group( optparse.OptionGroup(self._parser, pos_arg["name"], pos_arg["description"]) )
 
 		for target in sorted(self._flags.keys()):
 			option = self._flags[target]
@@ -75,8 +94,17 @@ class CmdSignatureParser(object):
 
 		return self
 
-	def parse(self, args = sys.argv):
-		self._options, self._args = self._parser.parse_args(args)
+	def parse(self, args = sys.argv[1:]):
+		self._options, pos_args = self._parser.parse_args(args)
+
+		if len(pos_args) > len(self._pos_args):
+			logging.error("Number of positional arguments is greater than number of defined positional arguments")
+			exit(1)
+
+		# process positional args
+		for i, pos_arg in enumerate(pos_args):
+			self._pos_args[i]["value"] = pos_arg
+
 		return self
 
 	def check(self):
@@ -135,8 +163,11 @@ class CmdSignatureParser(object):
 	def options(self):
 		return self._options
 
+	def full_args(self):
+		return self._pos_args
+
 	def args(self):
-		return self._args
+		return map(lambda l: l["value"], self._pos_args)
 
 	def flags(self):
 		return self._flags
@@ -145,15 +176,10 @@ class CmdSignatureParser(object):
 		return flag["type"] in ["directory"]
 
 	def FSDirs(self):
-		options = vars(self._options)
 		flags = {}
 		for flag in self._flags:
 			if self.isFSDir(self._flags[flag]):
 				flags[flag] = self._flags[flag]
 
 		return flags
-
-if __name__ == "__main__":
-	#OptionParserGenerator(["repo2gospec-global.yml", "repo2gospec.yml"]).generate().parse().check()
-	print CmdSignatureParser(sys.argv[1:]).generate().parse().FSMountDirs()
 

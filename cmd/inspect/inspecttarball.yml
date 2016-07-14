@@ -1,0 +1,47 @@
+flags:
+- long: provides
+  short: p
+  type: boolean
+  description: "Display all directories with *.go files"
+  non-empty-group: analysis
+- long: epoch
+  short: e
+  type: boolean
+  description: "Display all provided packages with %{epoch} as well. Used only with --spec."
+- long: prefix
+  type: string
+  description: "Prefix all provided import paths, used with -p option"
+  requires:
+  - provides
+- long: spec
+  short: s
+  type: boolean
+  description: "If set with -p options, print list of provided paths in spec file format."
+- long: dirs
+  short: d
+  type: boolean
+  description: "Display all direct directories"
+  non-empty-group: analysis
+- long: test
+  short: t
+  type: boolean
+  description: "Display all directories containing *.go test files"
+  non-empty-group: analysis
+- long: scan-all-dirs
+  type: boolean
+  description: "Scan all dirs, including Godeps directory"
+- long: skip-dirs
+  type: string
+  description: "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
+- long: skip-errors
+  type: boolean
+  description: "Skip all errors during Go symbol parsing"
+- long: main-packages
+  short: m
+  type: boolean
+  description: "Show main packages"
+  non-empty-group: analysis
+args:
+- type: directory
+  description: "Directory to inspect. If empty, current directory is used."
+  name: directory

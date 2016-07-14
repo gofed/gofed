@@ -51,7 +51,8 @@ $ sudo docker run -it gofed/gofed:v1.0.0 /bin/bash
 
 Currently supported commands:
 
-* gofed repo2spec
+* gofed repo2spec (and its equivalents)
+* gofed inspect
 
 **Example**:
 

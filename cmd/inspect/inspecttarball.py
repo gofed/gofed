@@ -27,66 +27,23 @@ from gofed_infra.system.core.factory.actfactory import ActFactory
 from gofed_lib.go.projectinfobuilder import ProjectInfoBuilder
 from gofed_infra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECT_PACKAGES
 
+from gofed.cmd.cmdsignatureparser import CmdSignatureParser
+from gofed_lib.utils import getScriptDir
+
 if __name__ == "__main__":
 
-	parser = optparse.OptionParser("%prog [-p] [-d] [-t] [directory]")
+	cur_dir = getScriptDir(__file__)
+	gen_flags = "%s/inspecttarball.yml" % (cur_dir)
 
-	parser.add_option_group( optparse.OptionGroup(parser, "directory", "Directory to inspect. If empty, current directory is used.") )
+	parser = CmdSignatureParser([gen_flags]).generate().parse()
+	if not parser.check():
+		exit(1)
 
-	parser.add_option(
-	    "", "-p", "--provides", dest="provides", action = "store_true", default = False,
-	    help = "Display all directories with *.go files"
-	)
-
-	parser.add_option(
-	    "", "-e", "--epoch", dest="epoch", action = "store_true", default = False,
-	    help = "Display all provided packages with %{epoch} as well. Used only with --spec."
-	)
-
-	parser.add_option(
-	    "", "", "--prefix", dest="prefix", default = "",
-	    help = "Prefix all provided import paths, used with -p option"
-	)
-
-	parser.add_option(
-	    "", "-s", "--spec", dest="spec", action="store_true", default = False,
-	    help = "If set with -p options, print list of provided paths in spec file format."
-	)
-
-	parser.add_option(
-            "", "-d", "--dirs", dest="dirs", action = "store_true", default = False,
-            help = "Display all direct directories"
-        )
-
-	parser.add_option(
-	    "", "-t", "--test", dest="test", action = "store_true", default = False,
-	    help = "Display all directories containing *.go test files"
-	)
-
-	parser.add_option(
-            "", "", "--scan-all-dirs", dest="scanalldirs", action = "store_true", default = False,
-            help = "Scan all dirs, including Godeps directory"
-        )
-
-	parser.add_option(
-            "", "", "--skip-dirs", dest="skipdirs", default = "",
-            help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
-        )
-
-	parser.add_option(
-            "", "", "--skip-errors", dest="skiperrors", action = "store_true", default = False,
-            help = "Skip all errors during Go symbol parsing"
-        )
-
-	parser.add_option(
-            "", "-m", "--main-packages", dest="mainpackages", action = "store_true", default = False,
-            help = "Show main packages"
-        )
-
-	options, args = parser.parse_args()
+	options = parser.options()
+	args = parser.args()
 
 	path = "."
-	if len(args):
+	if len(args) == 0 or args[0] == "":
 		path = args[0]
 
 	if not options.scanalldirs:
@@ -175,4 +132,4 @@ if __name__ == "__main__":
 		for pkg in sorted(prj_info.getMainPackages()):
 			print pkg
 	else:
-		print "Usage: prog [-p] [-d] [-t] [directory]"
+		print "Missing options. See command's help."
