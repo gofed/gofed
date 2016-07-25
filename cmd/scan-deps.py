@@ -14,6 +14,7 @@ from gofed_infra.system.models.graphs.basicdependencyanalysis import BasicDepend
 from gofed_infra.system.models.graphs.datasets.distributionlatestbuilds import DistributionLatestBuildGraphDataset
 from gofed_infra.system.models.graphs.datasets.localprojectdatasetbuilder import LocalProjectDatasetBuilder
 from gofed_lib.distribution.distributionnameparser import DistributionNameParser
+from gofed_lib.graphs.graphutils import GraphUtils
 
 def printSCC(scc):
 	print "Cyclic dep detected (%s): %s" % (len(scc), ", ".join(scc))
@@ -32,11 +33,15 @@ def getGraphvizDotFormat(graph, results = {}):
 	# add nodes with no outcoming edge
 	if "leaves" in results:
 		for leaf in results["leaves"]:
+			if leaf not in nodes:
+				continue
 			content += "\"%s\" [style=filled, fillcolor=orange]" % leaf.replace('-', '_')
 
 	# add nodes with no incomming edge
 	if "roots" in results:
 		for root in results["roots"]:
+			if root not in nodes:
+				continue
 			content += "\"%s\" [style=filled, fillcolor=red3]" % root.replace('-', '_')
 
 	# add cyclic deps
@@ -142,6 +147,11 @@ def setOptions():
 	    help = "Run dry scan"
 	)
 
+	parser.add_option(
+	    "", "", "--skip-unit-test", dest="skipunittest", action = "store_true", default = False,
+	    help = "Skip all unit-test rpms"
+	)
+
 	return parser
 
 if __name__ == "__main__":
@@ -195,6 +205,10 @@ if __name__ == "__main__":
 		print "%s nodes in total" % (graph_cnt)
 
 		results = BasicDependencyAnalysis(graph).analyse().results()
+		if options.skipunittest:
+			# TODO(jchaloup): use Rpm to detect unit-test rpm instead of testing for substr
+			graph = GraphUtils.filterGraph(graph, lambda l: "unit-test" not in l)
+		nodes = graph.nodes()
 
 		if not options.graphviz:
 			if options.cyclic:
@@ -206,12 +220,16 @@ if __name__ == "__main__":
 			if options.leaves:
 				if not options.nolist:
 					for leaf in results["leaves"]:
+						if leaf not in nodes:
+							continue
 						print leaf
 				print "\nNumber of leaves: %s" % len(results["leaves"])
 
 			if options.roots:
 				if not options.nolist:
 					for root in results["roots"]:
+						if root not in nodes:
+							continue
 						print root
 				print "\nNumber of roots: %s" % len(results["roots"])
 
