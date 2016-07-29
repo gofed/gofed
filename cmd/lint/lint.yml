@@ -1,0 +1,33 @@
+flags:
+- long: detect
+  short: d
+  type: boolean
+  description: "Detect spec file and tarball (and sources if in Fedora repository) in the current directory"
+- long: spec
+  short: s
+  type: string
+  description: "Set spec file"
+- long: sources
+  type: string
+  description: "Set sources file (optional)"
+- long: archive
+  short: a
+  type: string
+  description: "Set archive file"
+- long: info
+  short: i
+  type: boolean
+  description: "Displays only detected files (only with -d option)"
+- long: verbose
+  short: v
+  type: boolean
+  description: "Verbose mode"
+- long: scan-all-dirs
+  type: boolean
+  description: "Scan all dirs, including Godeps directory"
+- long: skip-dirs
+  type: string
+  description: "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
+- long: source-code-directory
+  type: string
+  description: "Check source code directory instead of extracted tarball"

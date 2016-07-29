@@ -1,0 +1,50 @@
+flags:
+- long: all
+  short: a
+  type: boolean
+  description: "Display all imports including golang native"
+- long: classes
+  short: c
+  type: boolean
+  description: "Decompose imports into classes"
+- long: pkgdb
+  short: d
+  type: boolean
+  description: "Check if a class is in the PkgDB (only with -c option)"
+- long: verbose
+  short: v
+  type: boolean
+  description: "Show all packages if -d option is on"
+- long: short
+  short: s
+  type: boolean
+  description: "Display just classes without its imports"
+- long: spec
+  type: boolean
+  description: "Display import path for spec file"
+- long: requires
+  short: s
+  type: boolean
+  description: "Use Requires instead of BuildRequires. Used only with --spec option."
+- long: skip-errors
+  type: boolean
+  description: "Skip all errors during Go symbol parsing"
+- long: importpath
+  type: string
+  description: "Don't display class belonging to IMPORTPATH prefix"
+- long: scan-all-dirs
+  type: boolean
+  description: "Scan all dirs, including Godeps directory"
+- long: skip-dirs
+  type: string
+  description: "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
+- long: all-occurrences
+  short:
+  type: boolean
+  description: "List imported paths in all packages including main. Default is skip main packages."
+- long: show-occurence
+  type: boolean
+  description: "Show occurence of import paths."
+- long: show-main
+  type: boolean
+  description: "Show occurence of import paths in main packages only (+means not just main)."

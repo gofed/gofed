@@ -1,0 +1,31 @@
+flags:
+- long: verbose
+  short: v
+  type: boolean
+  description: "Verbose mode"
+- long: target
+  type: string
+  description: "Target distribution in a form OS:version, e.g. Fedora:f24. Implicitly set to Fedora:rawhide"
+- long: full-check
+  short: f
+  type: boolean
+  description: "Checkout all builds in requested distributions (the current snapshot is ignored)"
+- long: skip-failed
+  short: s
+  type: boolean
+  description: "If any scan in given distribution fails, don't update its latest snapshot"
+- long: custom-packages
+  type: string
+  description: "Comma separated string of golang packages not prefixed with golang-*, e.g. etcd,runc"
+- long: blacklist
+  type: string
+  description: "Comma separated string of packages to be skipped, e.g. etcd,runc"
+- long: atmost
+  type: smallint
+  description: "Scan packages that has at least one build at most number of days old. Default 1 day."
+- long: atleast
+  type: smallint
+  description: "Scan packages that has at least one build at least number of days old. Default 0 day."
+- long: dry-run
+  type: boolean
+  description: "Run dry scan"

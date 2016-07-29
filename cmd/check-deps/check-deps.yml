@@ -1,0 +1,17 @@
+flags:
+- long: verbose
+  short: v
+  type: boolean
+  description: "Verbose mode"
+- long: godeps
+  type: string
+  description: "Read snapshot from Godeps.json file format"
+- long: glogfile
+  type: string
+  description: "Read snapshot from GLOGFILE file format"
+- long: target
+  type: string
+  description: "Target distribution in a form OS:version, e.g. Fedora:f24. Implicitly set to Fedora:rawhide"
+- long: dry-run 
+  type: boolean
+  description: "Run dry scan"
