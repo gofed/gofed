@@ -248,8 +248,10 @@ if __name__ == "__main__":
 			"commit": reference_project_signature["commit"]
 		}
 	else:
-		data["reference"] = "user_directory",
-		data["resource"] = reference_project_signature["provider"]["location"]
+		data["reference"] = {
+			"type": "user_directory",
+			"resource": reference_project_signature["provider"]["location"]
+		}
 
 	if compare_with_project_signature["provider_type"] == "upstream_repository":
 		data["compared_with"] = {
@@ -258,8 +260,10 @@ if __name__ == "__main__":
 			"commit": compare_with_project_signature["commit"]
 		}
 	else:
-		data["compared_with"] = "user_directory",
-		data["compared_with"] = compare_with_project_signature["provider"]["location"]
+		data["compared_with"] = {
+			"type": "user_directory",
+			"resource": compare_with_project_signature["provider"]["location"]
+		}
 
 	if options.dryrun:
 		act_factory = FakeActFactory()
