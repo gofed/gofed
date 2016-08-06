@@ -15,17 +15,12 @@ flags:
 - long: "with-extra"
   type: boolean
   description: "Generate spec file with additional pieces (e.g. definition of %gobuild and %gotest for explicit distributions)"
-- long: dir
-  short: d
-  target: directory
-  type: directory
-  description: "Generate spec file from directory"
-  non-empty-group: kind
 - long: target
   short: t
   type: directory
   description: "Target directory to generate spec file to"
   default-action: "set-cwd"
+  direction: out
 - long: verbose
   short: v
   type: boolean
