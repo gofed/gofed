@@ -4,12 +4,18 @@ from cmdsignatureparser import CmdSignatureParser
 import os
 import sys
 import logging
+import uuid
+import json
+
+class SignatureException(Exception):
+	pass
 
 class cmdSignatureInterpreter(object):
 
 	def __init__(self, signature_files):
 		self._cmd_signature_parser = CmdSignatureParser(signature_files)
 		self._short_eval = False
+		self._task = "gofed"
 		self._image = "gofed/gofed:v1.0.0"
 		self._binary = "/home/gofed/gofed/hack/gofed.sh"
 
@@ -60,6 +66,171 @@ class cmdSignatureInterpreter(object):
 				exit(1)
 
 		return options, non_default_flags, active_pos_args
+
+	def kubeSignature(self, command):
+		if self._short_eval:
+			raise SignatureException("kubernetes signature: help not supported")
+
+		# get a list of arguments
+		flags = self._cmd_signature_parser.flags()
+		options = vars(self._cmd_signature_parser.options())
+		non_default_flags = []
+		for flag in flags:
+			if options[flags[flag]["target"]] != flags[flag]["default"]:
+				non_default_flags.append(flag)
+
+		# are there any unspecified flags with default paths?
+		empty_path_flags = (set(self._cmd_signature_parser.FSDirs().keys()) - set(non_default_flags))
+
+		# set command specific flags
+		u_options, u_non_default_flags, active_pos_args = self.setDefaultPaths(empty_path_flags, self._cmd_signature_parser.full_args())
+
+		for flag in u_non_default_flags:
+			non_default_flags.append(flag)
+			options[flag] = u_options[flag]
+
+		cmd_flags = []
+		out_flags = []
+		for flag in non_default_flags:
+			if not self._cmd_signature_parser.isFSDir(flags[flag]):
+				type = flags[flag]["type"]
+				if type == "boolean":
+					cmd_flags.append("--%s" % flags[flag]["long"])
+				else:
+					cmd_flags.append("--%s %s" % (flags[flag]["long"], options[flags[flag]["target"]]))
+
+				continue
+
+			# All host path arguments must have direction field
+			if "direction" not in flags[flag]:
+				raise SignatureException("Missing direction for '%s' flag" % flag)
+
+			# All out arguments are mapped 1:1
+			if flags[flag]["direction"] == "out":
+				# change target directory to non-existent one inside a container
+				# generate temporary directory in postStart
+				cmd_flags.append("--%s /tmp/var/run/ichiba/%s" % (flags[flag]["long"], flag))
+				out_flags.append(flag)
+			else:
+				raise SignatureException("Host path flags with in direction are not supported")
+
+		# TODO(jchaloup): host paths arguments are not currently fully supported
+		# - input host paths are not supported currently (later, Ichiba client (or other client) must archive and upload any input to publicly available place)
+		# - only input host files are, each such file must be archive (tar.gz only for start)
+		# - content of each output host path is archived and uploaded to a publicly available place (if set, tar.gz if set)
+		# - archiving and uploading is part of the job as well (postStop lifecycle specification)
+		# - thus, all host paths arguments carry information about their direction
+
+		# are there any unspecified flags with default paths?
+		#empty_path_flags = (set(self._cmd_signature_parser.FSDirs().keys()) - set(non_default_flags))
+
+		task_name = "job-%s-%s-%s" % (self._task, command, uuid.uuid4().hex)
+
+		job_spec = {
+			"apiVersion": "batch/v1",
+			"kind": "Job",
+			"metadata": {
+				"name": task_name
+			},
+			"spec": {
+				"template": {
+					"metadata": {
+						"name": task_name
+					},
+					"spec": {
+						"containers": [{
+							"name": task_name,
+							"image": self._image,
+							"command": [
+								"sudo",
+								"--user=gofed",
+								self._binary
+							]
+						}],
+						# OnFailure
+						"restartPolicy": "Never"
+					}
+				}
+			}
+		}
+
+		# Add command specific flags
+		for flag in cmd_flags:
+			job_spec["spec"]["template"]["spec"]["containers"][0]["command"].append(flag)
+
+		if out_flags != []:
+			# add postStart script to generate anonymous paths for output host paths
+			# no matter what is inside a given directory (one or more files),
+			# entire directory gets archived at the end
+			cmds = []
+			for flag in out_flags:
+				# archive all out host paths
+				cmds.append("mkdir -p /tmp/var/run/ichiba/%s" % flag)
+
+			postStartCommand = {
+				"exec": {
+					"command": [
+						"/bin/sh",
+						"-ec",
+						" && ".join(cmds)
+					]
+				}
+			}
+
+			# add preStop script to upload generated resources
+			cmds = []
+			for flag in out_flags:
+				# archive all out host paths
+				filename = flags[flag]["target"]
+				# TODO(jchaloup): how to generate unique filenames for generated resources?
+				cmds.append("tar -czf %s.tar.gz /tmp/var/run/ichiba/%s" % (filename, flag))
+				# TODO(jchaloup): support other storage resources
+				cmds.append("scp -i /etc/storagePK %s.tar.gz ichiba@storage:/var/run/ichiba/%s/." % (filename, task_name))
+				# TODO(jchaloup): collect container logs (meantime without logs)
+
+			preStopCommand = {
+				"exec": {
+					"command": [
+						"/bin/sh",
+						"-ec",
+						" && ".join(cmds)
+					]
+				}
+			}
+
+			job_spec["spec"]["template"]["spec"]["containers"][0]["lifecycle"] = {
+				"preStop": preStopCommand,
+				"postStart": postStartCommand
+			}
+
+			# create volume from secret with storage PK
+			job_spec["spec"]["template"]["spec"]["volumes"] = [{
+				"name": "storagePK",
+				"secret": {
+					"secretName": "storagePK"
+				}
+			}]
+
+			job_spec["spec"]["template"]["spec"]["containers"][0]["volumeMounts"] = [{
+				"name": "storagePK",
+				"mountPath": "/etc/storagePK",
+				"readOnly": True
+			}]
+
+		# One must assume the generated specification is publicly available.
+		# Location of the private PK is known in advance.
+		# For that reason, all the jobs are meant to be used privately.
+		# At the same time, all jobs are uploaded to kubernetes without any authentication or authorization.
+		# TODO(jchaloup): generate the job specifications inside running container in kubernetes cluster.
+		# For that reason, the container will have to clone entire ichiba repository to get a list of all supported tasks.
+		# Ichiba client will then just send the command signature.
+		return json.dumps(job_spec)
+
+	def jenkinsSignature(self, command):
+		pass
+
+	def vagrantSignature(self, command):
+		pass
 
 	def dockerSignature(self, command):
 		if self._short_eval:
