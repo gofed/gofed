@@ -1,0 +1,42 @@
+flags:
+- long: color
+  short: c
+  type: boolean
+  description: "Color output."
+- long: verbose
+  short: v
+  type: boolean
+  description: "Verbose mode."
+- long: all
+  short: a
+  type: boolean
+  description: "Show all differences between APIs"
+- long: new
+  short: n
+  type: boolean
+  description: "Show new symbols in API"
+- long: removed
+  short: r
+  type: boolean
+  description: "Show removed symbols in API"
+- long: updated
+  short: u
+  type: boolean
+  description: "Show updated symbols in API"
+- long: sorted
+  short: s
+  type: boolean
+  description: "Sort all changes by state and name"
+- long: prefix
+  type: string
+  description: "Import paths prefix"
+- long: reference
+  type: string
+  description: "Reference project, e.g. upstream:github.com/username/project[:commit]"
+- long: compare-with
+  type: string
+  description: "Project to compare with, e.g. user:gopkg.in/v1/yaml"
+- long: dry-run
+  type: boolean
+  description: "Run dry scan"
+

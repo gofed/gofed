@@ -1,0 +1,28 @@
+flags:
+- long: godeps
+  type: boolean
+  description: "Display dependencies as Godeps.json"
+- long: glogfile
+  type: boolean
+  description: "Display dependencies as GLOGFILE"
+- long: verbose
+  short: v
+  type: boolean
+  description: "Verbose mode"
+- long: repository
+  type: string
+  description: "Repository"
+- long: commit
+  type: string
+  description: "Repository commit"
+- long: ipprefix
+  type: string
+  description: "Import path prefix"
+- long: unit-tests
+  short: t
+  type: boolean
+  description: "Cover dependencies of unit tests as well"
+- long: main-packages
+  short: m
+  type: string
+  description: "Comma separated file list of main packages specified from repository root directory (without leading '/')"

@@ -1,0 +1,51 @@
+flags:
+- long: scratch
+  type: boolean
+  description: "Start from scratch build"
+- long: push
+  type: boolean
+  description: "Start from push"
+- long: build
+  type: boolean
+  description: "Start from build"
+- long: update
+  type: boolean
+  description: "Start from update"
+- long: override
+  type: boolean
+  description: "Start from override"
+- long: dry-run
+  type: boolean
+  description: "Use dry mode"
+- long: verbose
+  short: v
+  type: boolean
+  description: "Be more verbose"
+- long: master
+  type: boolean
+  description: "use only master branche. If --branches or --ebranches option use, --master has higher priority"
+- long: branches
+  type: string
+  description: "use only listed branches"
+- long: ebranches
+  type: string
+  description: "use all branches except listed ones"
+- long: endwithscratch
+  type: boolean
+  description: "stop wizard after scratch phase"
+- long: endwithpush
+  type: boolean
+  description: "stop wizard after push phase"
+- long: endwithbuild
+  type: boolean
+  description: "stop wizard after build phase"
+- long: endwithupdate
+  type: boolean
+  description: "stop wizard after update phase"
+- long: endwithoverride
+  type: boolean
+  description: "stop wizard after override phase"
+- long: new
+  type: boolean
+  description: "Generate update for new package"
+

@@ -1,0 +1,57 @@
+flags:
+- long: gcp
+  type: boolean
+  description: "git cherry-pick master all branches"
+- long: merge-master
+  type: boolean
+  description: "git merge master all branches"
+- long: git-reset
+  type: boolean
+  description: "git reset --hard all branches to remotes/origin/*"
+- long: from
+  type: string
+  description: "git cherry-pick master starting from COMMIT, used with --gcp option"
+- long: pull
+  type: boolean
+  description: "git pull all branches"
+- long: push
+  type: boolean
+  description: "fedpkg push all branches"
+- long: scratch
+  type: boolean
+  description: "fedpkg scratch-build all branches"
+- long: build
+  type: boolean
+  description: "fedpkg build all branches"
+- long: update
+  type: boolean
+  description: "fedpkg update all branches"
+- long: bbo
+  type: boolean
+  description: "buildroot override build for branches"
+- long: wait
+  type: boolean
+  description: "wait for buildroot override, can be used with --bbo"
+- long: waitbbo
+  type: boolean
+  description: "wait for buildroot override"
+- long: master
+  type: boolean
+  description: "use only master branche. If --branches or --ebranches option use, --master has higher priority"
+- long: branches
+  type: string
+  description: "use only listed branches"
+- long: ebranches
+  type: string
+  description: "use all branches except listed ones"
+- long: dry-run
+  type: boolean
+  description: "run the command in dry mode"
+- long: verbose
+  short: v
+  type: boolean
+  description: "be more verbose"
+- long: new
+  type: boolean
+  description: "Generate update for new package"
+

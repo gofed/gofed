@@ -1,0 +1,25 @@
+flags:
+- long: user
+  short: u
+  type: string
+  description: "FAS username"
+- long: skip-koji
+  type: boolean
+  description: "don't run koji build"
+- long: skip-rpmlint-errors
+  type: boolean
+  description: "skip rpmlint errors if any"
+- long: just-update
+  type: boolean
+  description: "Build spec file only"
+- long: create-review
+  type: boolean
+  description: "Create bugzilla review"
+- long: bugzilla
+  short: b
+  type: string
+  description: "Bugzilla instance to use"
+- long: koji-build-id
+  type: string
+  description: "Use koji build id instead running scratch build"
+

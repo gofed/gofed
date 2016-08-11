@@ -1,0 +1,44 @@
+flags:
+- long: verbose
+  short: v
+  type: boolean
+  description: "Verbose mode"
+- long: target
+  type: string
+  description: "Target distribution in a form OS:version, e.g. Fedora:f24. Implicitly set to Fedora:rawhide"
+- long: cyclic
+  short: c
+  type: boolean
+  description: "Get cyclic dependencies between golang packages"
+- long: leaves
+  short: l
+  type: boolean
+  description: "Get golang packages without dependencies, only native imports"
+- long: roots
+  short: r
+  type: boolean
+  description: "Get golang packages not required by any package"
+- long: graphviz
+  short: g
+  type: boolean
+  description: "Output graph in a graphviz dot format. Red are packages not required, orange leaf packages, colored are packages with cyclic dependency."
+- long: outfile
+  short: o
+  type: string
+  description: "Name of files to save graph to. Default is graph.png"
+- long: decompose
+  short: d
+  type: string
+  description: "Import path of a project to decompose"
+- long: from-dir
+  type: string
+  description: "Read project from directory"
+- long: package-level
+  type: boolean
+  description: "Analyze graph on a level of golang packages. Default is on an rpm level"
+- long: no-list
+  type: boolean
+  description: "When listing cycles, leaves or roots, show just number of occurrences"
+- long: dry-run
+  type: boolean
+  description: "Run dry scan"
