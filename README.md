@@ -57,7 +57,7 @@ Currently supported commands:
 **Example**:
 
 ```sh
-./cmd/gofed-docker repo2spec --detect github.com/kr/text -f [--force]
+./hack/gofed-docker.sh repo2spec --detect github.com/kr/text -f [--force]
 ```
 
 In order to run gofed command as a container, one needs to add itself to the docker group:
