@@ -128,7 +128,8 @@ BuildRequires: golang({{ dep }})
 {% endif -%}
 {% endfor -%}
 # Remaining dependencies not included in main packages
-{% for dep in main["remaining_devel_deps"] %}BuildRequires: golang({{ dep }}){% endfor -%}
+{% for dep in main["remaining_devel_deps"] %}BuildRequires: golang({{ dep }})
+{% endfor -%}
 %endif
 {%- endif %}
 
