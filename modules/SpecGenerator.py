@@ -50,8 +50,10 @@ class SpecGenerator:
 		main_dirs = sorted(list(set(main_dirs)))
 
 		# generate dependency on packages from devel not currently covered
-		devel_deps = reduce(lambda a,b: a+b, map(lambda l: filter(lambda l: not l.startswith(import_path_prefix), l["dependencies"]), artefact["data"]["packages"]))
-		devel_deps = list(set(devel_deps))
+		devel_deps = []
+		if artefact["data"]["packages"]:
+			devel_deps = reduce(lambda a,b: a+b, map(lambda l: filter(lambda l: not l.startswith(import_path_prefix), l["dependencies"]), artefact["data"]["packages"]))
+			devel_deps = list(set(devel_deps))
 
 		# provides
 		provides = []
