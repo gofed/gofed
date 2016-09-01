@@ -26,7 +26,7 @@ from gofed_infra.system.artefacts.artefacts import (
 	ARTEFACT_GOLANG_PROJECT_CONTENT_METADATA
 )
 
-from gofed.cmd.cmdsignatureparser import CmdSignatureParser
+from cmdsignature.parser import CmdSignatureParser
 
 def printBasicInfo(url, commit, name, formated=True):
 	fmt_obj = FormatedPrint(formated)
