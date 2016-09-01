@@ -9,6 +9,9 @@ import urllib2
 from gofed_lib.utils import GREEN, RED, ENDC, BLUE, runCommand
 import os
 
+from cmdsignature.parser import CmdSignatureParser
+from gofed_lib.utils import getScriptDir
+
 def getSpec():
 	so, se, rc = runCommand("ls *.spec")
 	if rc != 0:
@@ -94,34 +97,15 @@ def bumpSpec(spec, commit, last_bug_id):
 
 if __name__ == "__main__":
 
-	parser = optparse.OptionParser("%prog [-c COMMIT] ")
+	cur_dir = getScriptDir(__file__)
+	gen_flags = "%s/bump-spec.yml" % (cur_dir)
 
-	parser.add_option(
-	    "", "-c", "--commit", dest="commit", default = "",
-	    help = "Bump spec file to commit."
-	)
+	parser = CmdSignatureParser([gen_flags]).generate().parse()
+	if not parser.check():
+		exit(1)
 
-	parser.add_option(
-	    "", "-s", "--skip-master", dest="skipmaster", action="store_true", default = False,
-	    help = "Skip master branch test."
-	)
-
-	parser.add_option(
-	    "", "", "--skip-checks", dest="skipchecks", action="store_true", default = False,
-	    help = "Skip checks for tags and releases."
-	)
-
-	parser.add_option(
-	    "", "", "--repo-prefix", dest="repoprefix", default = "",
-	    help = "Update tarball for repo macro prefixed with repo-prefix."
-	)
-
-	parser.add_option(
-	    "", "", "--no-bump", dest="nobump", action="store_true", default = False,
-	    help = "Don't bump spec file"
-	)
-
-	options, args = parser.parse_args()
+	options = parser.options()
+	args = parser.args()
 
 	# must be on master branch
 	if not options.skipmaster:

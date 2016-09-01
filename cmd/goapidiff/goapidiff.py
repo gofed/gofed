@@ -8,7 +8,7 @@
 
 import logging
 
-import optparse
+import os
 from gofed_lib.utils import YELLOW, RED, BLUE, ENDC
 
 from gofed_infra.system.core.factory.actfactory import ActFactory
@@ -17,101 +17,13 @@ from gofed_lib.projectsignature.parser import ProjectSignatureParser
 
 from infra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECTS_API_DIFF
 
-def setOptions():
-
-	parser = optparse.OptionParser("prog [-e] [-d] DIR1 DIR2")
-
-	parser.add_option(
-	    "", "-c", "--color", dest="color", action = "store_true", default = False,
-	    help = "Color output."
-	)
-
-	parser.add_option(
-	    "", "-v", "--verbose", dest="verbose", action = "store_true", default = False,
-	    help = "Verbose mode."
-	)
-
-	parser.add_option(
-	    "", "-a", "--all", dest="all", action = "store_true", default = False,
-	    help = "Show all differences between APIs"
-	)
-
-	parser.add_option(
-	    "", "-n", "--new", dest="new", action = "store_true", default = False,
-	    help = "Show new symbols in API"
-	)
-
-	parser.add_option(
-	    "", "-r", "--removed", dest="removed", action = "store_true", default = False,
-	    help = "Show removed symbols in API"
-	)
-
-	parser.add_option(
-	    "", "-u", "--updated", dest="updated", action = "store_true", default = False,
-	    help = "Show updated symbols in API"
-	)
-
-	parser.add_option(
-	    "", "-s", "--sorted", dest="sorted", action = "store_true", default = False,
-	    help = "Sort all changes by state and name"
-	)
-
-	parser.add_option(
-	    "", "", "--prefix", dest="prefix", default = "",
-	    help = "Import paths prefix"
-	)
-
-	# project signature
-	# - upstream repository:commit
-	# - user directory:ipprefix
-	# - distribution package:build
-	# For all I need their signature. How is the signature going to be specified?
-	#
-	# When specifying upstream repository, user must already know project (he knows prefix)
-	# -> mapping
-	#
-	# upstream repo with ipprefix (automatically convert to provider prefix)
-	# user directory (nothing to convert)
-	# distribution with ipprefix (automatically convert to package)
-	#
-	# Examples:
-	# - upstream:github.com/coreos/etcd[:commit]	take the latest if commit not specified
-	# - user[:ipprefix]
-	# - distro:Fedora[:f23][:package]		take rawhide if version not specified
-	#						detect the package if not specified
-	#
-	# When specifying upstream both ipprefix and provider_prefix are equivalent.
-	# The prefix is always converted to provider_prefix (c(provider_prefix) = provider_prefix)
-	# Optionaly, the signature can be load from a file, options overrides file's signature properties
-	parser.add_option(
-	    "", "", "--reference", dest="reference", default = "",
-	    help = "Reference project, e.g. upstream:github.com/username/project[:commit]"
-	)
-
-	parser.add_option(
-	    "", "", "--compare-with", dest="comparewith", default = "",
-	    help = "Project to compare with, e.g. user:gopkg.in/v1/yaml"
-	)
-
-	parser.add_option(
-	    "", "", "--dry-run", dest="dryrun", action = "store_true", default = False,
-	    help = "Run dry scan"
-	)
-
-	return parser
+from cmdsignature.parser import CmdSignatureParser
+from gofed_lib.utils import getScriptDir
 
 def checkOptions(options):
 
 	if options.prefix != "" and options.prefix[-1] == '/':
 		logging.error("--prefix can not end with '/'")
-		exit(1)
-
-	if options.reference == "":
-		logging.error("--reference must be non-zero length string")
-		exit(1)
-
-	if options.comparewith == "":
-		logging.error("--compare-with must be non-zero length string")
 		exit(1)
 
 def displayApiDifference(data, options):
@@ -223,7 +135,15 @@ def displayApiDifference(data, options):
 
 if __name__ == "__main__":
 
-	options, args = setOptions().parse_args()
+	cur_dir = getScriptDir(__file__)
+	gen_flags = "%s/%s.yml" % (cur_dir, os.path.basename(__file__).split(".")[0])
+
+	parser = CmdSignatureParser([gen_flags]).generate().parse()
+	if not parser.check():
+		exit(1)
+
+	options = parser.options()
+	args = parser.args()
 
 	checkOptions(options)
 

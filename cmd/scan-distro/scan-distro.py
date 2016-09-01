@@ -1,5 +1,5 @@
 import logging
-import optparse
+import os
 
 from gofed_lib.logger.logger import Logger
 from gofed_lib.distribution.clients.koji.client import KojiClient
@@ -9,49 +9,20 @@ from gofed_lib.distribution.clients.pkgdb.fakeclient import FakePkgDBClient
 from gofed_infra.system.models.ecosnapshots.distributionsnapshotchecker import DistributionSnapshotChecker
 from gofed_lib.distribution.distributionnameparser import DistributionNameParser
 
-def setOptions():
-
-	parser = optparse.OptionParser("%prog [-l] [-v] [Godeps.json]")
-
-	parser.add_option(
-	    "", "-v", "--verbose", dest="verbose", action = "store_true", default = False,
-	    help = "Verbose mode"
-	)
-
-	parser.add_option(
-	    "", "", "--target", dest="target", default = "Fedora:rawhide",
-	    help = "Target distribution in a form OS:version, e.g. Fedora:f24. Implicitly set to Fedora:rawhide"
-	)
-
-	parser.add_option(
-	    "", "-f", "--full-check", dest="fullcheck", action = "store_true", default = False,
-	    help = "Checkout all builds in requested distributions (the current snapshot is ignored)"
-	)
-
-	parser.add_option(
-	    "", "-s", "--skip-failed", dest="skipfailed", action = "store_true", default = False,
-	    help = "If any scan in given distribution fails, don't update its latest snapshot"
-	)
-
-	parser.add_option(
-	    "", "", "--custom-packages", dest="custompackages", default = "",
-	    help = "Comma separated string of golang packages not prefixed with golang-*, e.g. etcd,runc"
-	)
-
-	parser.add_option(
-	    "", "", "--blacklist", dest="blacklist", default = "",
-	    help = "Comma separated string of packages to be skipped, e.g. etcd,runc"
-	)
-
-	parser.add_option(
-	    "", "", "--dry-run", dest="dryrun", action = "store_true", default = False,
-	    help = "Run dry scan"
-	)
-
-	return parser
+from cmdsignature.parser import CmdSignatureParser
+from gofed_lib.utils import getScriptDir
 
 if __name__ == "__main__":
-	options, args = setOptions().parse_args()
+
+	cur_dir = getScriptDir(__file__)
+	gen_flags = "%s/%s.yml" % (cur_dir, os.path.basename(__file__).split(".")[0])
+
+	parser = CmdSignatureParser([gen_flags]).generate().parse()
+	if not parser.check():
+		exit(1)
+
+	options = parser.options()
+	args = parser.args()
 
 	distributions = []
 	try:

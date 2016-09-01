@@ -27,6 +27,7 @@ from gofed_infra.system.artefacts.artefacts import (
 )
 
 from cmdsignature.parser import CmdSignatureParser
+from gofed_lib.utils import getScriptDir
 
 def printBasicInfo(url, commit, name, formated=True):
 	fmt_obj = FormatedPrint(formated)
@@ -81,7 +82,7 @@ def checkDependencies(fmt_obj, classes, url):
 if __name__ == "__main__":
 
 	cur_dir = getScriptDir(__file__)
-	gen_flags = "%s/repo2gospec-global.yml" % (cur_dir)
+	gen_flags = "%s/%s.yml" % (cur_dir, os.path.basename(__file__).split(".")[0])
 
 	program_name = os.path.basename(sys.argv[0])
 	provider = ""

@@ -6,6 +6,7 @@ flags:
 - long: target
   type: string
   description: "Target distribution in a form OS:version, e.g. Fedora:f24. Implicitly set to Fedora:rawhide"
+  default: "Fedora:rawhide"
 - long: full-check
   short: f
   type: boolean
@@ -21,11 +22,15 @@ flags:
   type: string
   description: "Comma separated string of packages to be skipped, e.g. etcd,runc"
 - long: atmost
-  type: smallint
+  type: integer
   description: "Scan packages that has at least one build at most number of days old. Default 1 day."
+  default: 1
+  min: 0
 - long: atleast
-  type: smallint
+  type: integer
   description: "Scan packages that has at least one build at least number of days old. Default 0 day."
+  default: 0
+  min: 0
 - long: dry-run
   type: boolean
   description: "Run dry scan"

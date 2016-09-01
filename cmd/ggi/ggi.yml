@@ -23,7 +23,7 @@ flags:
   type: boolean
   description: "Display import path for spec file"
 - long: requires
-  short: s
+  short: r
   type: boolean
   description: "Use Requires instead of BuildRequires. Used only with --spec option."
 - long: skip-errors
@@ -39,7 +39,6 @@ flags:
   type: string
   description: "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
 - long: all-occurrences
-  short:
   type: boolean
   description: "List imported paths in all packages including main. Default is skip main packages."
 - long: show-occurence
@@ -48,3 +47,8 @@ flags:
 - long: show-main
   type: boolean
   description: "Show occurence of import paths in main packages only (+means not just main)."
+args:
+- type: directory
+  description: "Directory to inspect. If empty, current directory is used."
+  name: path
+  default-action: "set-cwd"

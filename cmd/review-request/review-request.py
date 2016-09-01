@@ -1,5 +1,4 @@
 import os.path
-import optparse
 from gofed.modules.Config import Config
 from gofed.modules.SpecParser import SpecParser
 import shutil
@@ -10,6 +9,9 @@ from glob import glob
 import ConfigParser
 import xmlrpclib
 import os
+
+from cmdsignature.parser import CmdSignatureParser
+from gofed_lib.utils import getScriptDir
 
 def createTicket(bugzilla, login, password, summary, description):
 
@@ -34,49 +36,16 @@ def createTicket(bugzilla, login, password, summary, description):
 	print "Created bug: https://%s/%s" % (bugzilla, newBugId)
 
 if __name__ == "__main__":
-	parser = optparse.OptionParser("%prog")
 
-	parser.add_option(
-	    "", "-u", "--user", dest="user", default = "",
-	    help = "FAS username"
-        )
+	cur_dir = getScriptDir(__file__)
+	gen_flags = "%s/%s.yml" % (cur_dir, os.path.basename(__file__).split(".")[0])
 
-	parser.add_option(
-	    "", "", "--skip-koji", dest="skipkoji", action = "store_true", default = False,
-	    help = "don't run koji build"
-        )
+	parser = CmdSignatureParser([gen_flags]).generate().parse()
+	if not parser.check():
+		exit(1)
 
-	parser.add_option(
-	    "", "", "--skip-rpmlint-errors", dest="skiprpmlint", action = "store_true", default = False,
-	    help = "skip rpmlint errors if any"
-        )
-
-	parser.add_option(
-	    "", "", "--just-update", dest="justupdate", action = "store_true", default = False,
-	    help = "Update only spec file, no build, no rpmlint"
-        )
-
-	parser.add_option(
-	    "", "", "--just-build", dest="justbuild", action = "store_true", default = False,
-	    help = "Build spec file only"
-        )
-
-	parser.add_option(
-	    "", "", "--create-review", dest="createreview", action = "store_true", default = False,
-	    help = "Create bugzilla review"
-        )
-
-	parser.add_option(
-	    "-b", "--bugzilla", dest = "bugzilla", action = "store", default = "bugzilla.redhat.com",
-	    help = "Bugzilla instance to use"
-	)
-
-	parser.add_option(
-	    "", "--koji-build-id", dest = "kojibuildid", default = "",
-	    help = "Use koji build id instead running scratch build"
-	)
-
-	options, args = parser.parse_args()
+	options = parser.options()
+	args = parser.args()
 
 	phase_build = True
 	srpm_only = False

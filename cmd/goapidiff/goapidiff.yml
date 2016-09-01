@@ -30,12 +30,36 @@ flags:
 - long: prefix
   type: string
   description: "Import paths prefix"
+# project signature
+# - upstream repository:commit
+# - user directory:ipprefix
+# - distribution package:build
+# For all I need their signature. How is the signature going to be specified?
+#
+# When specifying upstream repository, user must already know project (he knows prefix)
+# -> mapping
+#
+# upstream repo with ipprefix (automatically convert to provider prefix)
+# user directory (nothing to convert)
+# distribution with ipprefix (automatically convert to package)
+#
+# Examples:
+# - upstream:github.com/coreos/etcd[:commit]	take the latest if commit not specified
+# - user[:ipprefix]
+# - distro:Fedora[:f23][:package]		take rawhide if version not specified
+#						detect the package if not specified
+#
+# When specifying upstream both ipprefix and provider_prefix are equivalent.
+# The prefix is always converted to provider_prefix (c(provider_prefix) = provider_prefix)
+# Optionaly, the signature can be load from a file, options overrides file's signature properties
 - long: reference
   type: string
   description: "Reference project, e.g. upstream:github.com/username/project[:commit]"
+  non-empty: True
 - long: compare-with
   type: string
   description: "Project to compare with, e.g. user:gopkg.in/v1/yaml"
+  non-empty: True
 - long: dry-run
   type: boolean
   description: "Run dry scan"

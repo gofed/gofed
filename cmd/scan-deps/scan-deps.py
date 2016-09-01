@@ -1,12 +1,12 @@
 from gofed_lib.logger.logger import Logger
 
-import optparse
 from gofed.modules.Utils import runCommand
 import tempfile
 import shutil
 from time import time, strftime, gmtime
 import sys
 from gofed.modules.Utils import FormatedPrint
+import os
 
 from gofed_infra.system.models.graphs.datasets.projectdatasetbuilder import ProjectDatasetBuilder
 from gofed_infra.system.models.graphs.datasetdependencygraphbuilder import DatasetDependencyGraphBuilder
@@ -15,6 +15,9 @@ from gofed_infra.system.models.graphs.datasets.distributionlatestbuilds import D
 from gofed_infra.system.models.graphs.datasets.localprojectdatasetbuilder import LocalProjectDatasetBuilder
 from gofed_lib.distribution.distributionnameparser import DistributionNameParser
 from gofed_lib.graphs.graphutils import GraphUtils
+
+from cmdsignature.parser import CmdSignatureParser
+from gofed_lib.utils import getScriptDir
 
 def printSCC(scc):
 	print "Cyclic dep detected (%s): %s" % (len(scc), ", ".join(scc))
@@ -81,84 +84,20 @@ def showGraph(graph, results, out_img = "./graph.png"):
 	# eog test.png
 	shutil.rmtree(tmp_dir)
 
-def setOptions():
-
-	parser = optparse.OptionParser("%prog [-d --from-dir|--from-xml] -c|-l|-r|-g [-v] [PACKAGE]")
-
-	parser.add_option(
-	    "", "-v", "--verbose", dest="verbose", action = "store_true", default = False,
-	    help = "Verbose mode"
-	)
-
-	parser.add_option(
-	    "", "", "--target", dest="target", default = "Fedora:rawhide",
-	    help = "Target distribution in a form OS:version, e.g. Fedora:f24. Implicitly set to Fedora:rawhide"
-	)
-
-	parser.add_option(
-	    "", "-c", "--cyclic", dest="cyclic", action = "store_true", default = False,
-	    help = "Get cyclic dependencies between golang packages"
-	)
-
-	parser.add_option(
-	    "", "-l", "--leaves", dest="leaves", action = "store_true", default = False,
-	    help = "Get golang packages without dependencies, only native imports"
-	)
-
-	parser.add_option(
-	    "", "-r", "--roots", dest="roots", action = "store_true", default = False,
-	    help = "Get golang packages not required by any package"
-	)
-
-	parser.add_option(
-	    "", "-g", "--graphviz", dest="graphviz", action = "store_true", default = False,
-	    help = "Output graph in a graphviz dot format. Red are packages not required, orange leaf packages, colored are packages with cyclic dependency."
-	)
-
-	parser.add_option(
-	    "", "-o", "--outfile", dest="outfile", default = "",
-	    help = "Name of files to save graph to. Default is graph.png"
-	)
-
-	parser.add_option(
-	    "", "-d", "--decompose", dest="decompose", default = "",
-	    help = "Import path of a project to decompose"
-	)
-
-	parser.add_option(
-	    "", "", "--from-dir", dest="fromdir", default = "",
-	    help = "Read project from directory"
-	)
-
-	parser.add_option_group( optparse.OptionGroup(parser, "PACKAGE", "Display the smallest subgraph containing PACKAGE and all its dependencies.") )
-
-	parser.add_option(
-            "", "", "--package-level", dest="packagelevel", action = "store_true", default = False,
-            help = "Analyze graph on a level of golang packages. Default is on an rpm level"
-        )
-
-	parser.add_option(
-            "", "", "--no-list", dest="nolist", action = "store_true", default = False,
-            help = "When listing cycles, leaves or roots, show just number of occurrences"
-        )
-
-	parser.add_option(
-	    "", "", "--dry-run", dest="dryrun", action = "store_true", default = False,
-	    help = "Run dry scan"
-	)
-
-	parser.add_option(
-	    "", "", "--skip-unit-test", dest="skipunittest", action = "store_true", default = False,
-	    help = "Skip all unit-test rpms"
-	)
-
-	return parser
-
 if __name__ == "__main__":
 	# TODO(jchaloup): add option to show missing packages/deps
 
+	cur_dir = getScriptDir(__file__)
+	gen_flags = "%s/%s.yml" % (cur_dir, os.path.basename(__file__).split(".")[0])
+
+	parser = CmdSignatureParser([gen_flags]).generate().parse()
+	if not parser.check():
+		exit(1)
+
+	options = parser.options()
+	args = parser.args()
+
 	# get list of tools/packages providing go binary
-	options, args = setOptions().parse_args()
 	pkg_name = ""
 	if len(args) > 0:
 		pkg_name = args[0]

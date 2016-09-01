@@ -21,7 +21,6 @@ import sys
 import re
 import os
 import urllib2
-import optparse
 from gofed_lib.utils import GREEN, RED, ENDC
 from gofed.modules.Utils import FormatedPrint
 from gofed.modules.Config import Config
@@ -33,91 +32,28 @@ from gofed_lib.distribution.clients.pkgdb.client import PkgDBClient
 from gofed_infra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECT_PACKAGES
 from gofed_lib.distribution.packagenamegeneratorbuilder import PackageNameGeneratorBuilder
 
-
 import logging
 
+from cmdsignature.parser import CmdSignatureParser
+from gofed_lib.utils import getScriptDir
+
 if __name__ == "__main__":
-	parser = optparse.OptionParser("%prog [-a] [-c] [-d [-v]] [directory]")
 
-	parser.add_option_group( optparse.OptionGroup(parser, "directory", "Directory to inspect. If empty, current directory is used.") )
+	cur_dir = getScriptDir(__file__)
+	gen_flags = "%s/%s.yml" % (cur_dir, os.path.basename(__file__).split(".")[0])
 
-	parser.add_option(
-	    "", "-a", "--all", dest="all", action = "store_true", default = False,
-	    help = "Display all imports including golang native"
-	)
+	parser = CmdSignatureParser([gen_flags]).generate().parse()
+	if not parser.check():
+		exit(1)
 
-	parser.add_option(
-            "", "-c", "--classes", dest="classes", action = "store_true", default = False,
-            help = "Decompose imports into classes"
-        )
-
-	parser.add_option(
-            "", "-d", "--pkgdb", dest="pkgdb", action = "store_true", default = False,
-            help = "Check if a class is in the PkgDB (only with -c option)"
-        )
-
-	parser.add_option(
-            "", "-v", "--verbose", dest="verbose", action = "store_true", default = False,
-            help = "Show all packages if -d option is on"
-        )
-
-	parser.add_option(
-            "", "-s", "--short", dest="short", action = "store_true", default = False,
-            help = "Display just classes without its imports"
-        )
-
-	parser.add_option(
-            "", "", "--spec", dest="spec", action = "store_true", default = False,
-            help = "Display import path for spec file"
-        )
-
-	parser.add_option(
-            "", "-r", "--requires", dest="requires", action = "store_true", default = False,
-            help = "Use Requires instead of BuildRequires. Used only with --spec option."
-        )
-
-	parser.add_option(
-            "", "", "--skip-errors", dest="skiperrors", action = "store_true", default = False,
-            help = "Skip all errors during Go symbol parsing"
-        )
-
-	parser.add_option(
-            "", "", "--importpath", dest="importpath", default = "",
-            help = "Don't display class belonging to IMPORTPATH prefix"
-        )
-
-	parser.add_option(
-            "", "", "--scan-all-dirs", dest="scanalldirs", action = "store_true", default = False,
-            help = "Scan all dirs, including Godeps directory"
-        )
-
-	parser.add_option(
-            "", "", "--skip-dirs", dest="skipdirs", default = "",
-            help = "Scan all dirs except specified via SKIPDIRS. Directories are comma separated list."
-        )
-
-	parser.add_option(
-            "", "", "--all-occurrences", dest="alloccurrences", action = "store_true", default = False,
-            help = "List imported paths in all packages including main. Default is skip main packages."
-        )
-
-	parser.add_option(
-            "", "", "--show-occurrence", dest="showoccurrence", action = "store_true", default = False,
-            help = "Show occurence of import paths."
-        )
-
-	parser.add_option(
-            "", "", "--show-main", dest="showmain", action = "store_true", default = False,
-            help = "Show occurence of import paths in main packages only (+means not just main)."
-        )
+	options = parser.options()
+	args = parser.args()
 
 	# TODO(jchaloup): finish the flag handeling
 	#parser.add_option(
 	#    "", "", "--include-tests", dest="includetests", action = "store_true", default = False,
 	#    help = "Include dependencies for test too"
 	#)
-
-	options, args = parser.parse_args()
 
 	path = "."
 	if len(args):

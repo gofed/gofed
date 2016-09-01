@@ -11,6 +11,9 @@ flags:
   description: "skip rpmlint errors if any"
 - long: just-update
   type: boolean
+  description: "Update only spec file, no build, no rpmlint"
+- long: just-build
+  type: boolean
   description: "Build spec file only"
 - long: create-review
   type: boolean
@@ -19,7 +22,7 @@ flags:
   short: b
   type: string
   description: "Bugzilla instance to use"
+  default: "bugzilla.redhat.com"
 - long: koji-build-id
   type: string
   description: "Use koji build id instead running scratch build"
-

@@ -2,7 +2,8 @@ import ConfigParser
 import xmlrpclib
 import os
 from gofed_lib.distribution.clients.pkgdb.client import PkgDBClient
-import optparse
+from cmdsignature.parser import CmdSignatureParser
+from gofed_lib.utils import getScriptDir
 
 def createTracker(bugzilla, login, password, package_name):
 	rpc = xmlrpclib.ServerProxy("https://%s/xmlrpc.cgi" % bugzilla)
@@ -51,23 +52,16 @@ def hasPackageTracker(bugzilla, login, password, package_name):
 	return False, -1
 
 if __name__ == "__main__":
-	parser = optparse.OptionParser()
 
-	parser.add_option(
-	    "-b", "--bugzilla", dest = "bugzilla", action = "store", default = "bugzilla.redhat.com",
-	    help = "Bugzilla instance to use"
-	)
+	cur_dir = getScriptDir(__file__)
+	gen_flags = "%s/%s.yml" % (cur_dir, os.path.basename(__file__).split(".")[0])
 
-	parser.add_option(
-	    "-p", "--package", dest = "package", action = "store", default = "",
-	    help = "Package name"
-	)
-
-	options, args = parser.parse_args()
-
-	if options.package == "":
-		print "Package missing"
+	parser = CmdSignatureParser([gen_flags]).generate().parse()
+	if not parser.check():
 		exit(1)
+
+	options = parser.options()
+	args = parser.args()
 
 	config = ConfigParser.ConfigParser()
 	config.read(os.path.expanduser("~/.bugzillarc"))

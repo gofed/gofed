@@ -11,32 +11,8 @@ from gofed_lib.go.importpath.parserbuilder import ImportPathParserBuilder
 from gofed_lib.providers.providerbuilder import ProviderBuilder
 from gofed_lib.urlbuilder.builder import UrlBuilder
 
-def setOptions():
-
-	parser = optparse.OptionParser("%prog [-a] [-c] [-d [-v]] [directory]")
-
-	parser.add_option(
-	    "", "-s", "--spec", dest="spec", action = "store_true", default = False,
-	    help = "Fetch tarball for the current project and its commits in spec file"
-	)
-
-	parser.add_option(
-	    "", "", "--repo-prefix", dest="repoprefix", default = "",
-	    help = "Fetch tarballs for project with given prefix"
-	)
-
-	return parser
-
-def checkOptions(options):
-
-	resource_set = False
-
-	if options.spec:
-		resource_set = True
-
-	if not resource_set:
-		logging.error("Resource target not specified")
-		exit(1)
+from cmdsignature.parser import CmdSignatureParser
+from gofed_lib.utils import getScriptDir
 
 def getMacros(specfile, repo_prefix = ""):
 	sp = SpecParser(specfile)
@@ -74,10 +50,15 @@ def getMacros(specfile, repo_prefix = ""):
 
 if __name__ == "__main__":
 
-	parser = setOptions()
-	options, args = parser.parse_args()
+	cur_dir = getScriptDir(__file__)
+	gen_flags = "%s/%s.yml" % (cur_dir, os.path.basename(__file__).split(".")[0])
 
-	checkOptions(options)
+	parser = CmdSignatureParser([gen_flags]).generate().parse()
+	if not parser.check():
+		exit(1)
+
+	options = parser.options()
+	args = parser.args()
 
 	# Get spec file
 

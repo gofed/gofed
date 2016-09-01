@@ -2,9 +2,11 @@ flags:
 - long: godeps
   type: boolean
   description: "Display dependencies as Godeps.json"
+  non-empty-group: format
 - long: glogfile
   type: boolean
   description: "Display dependencies as GLOGFILE"
+  non-empty-group: format
 - long: verbose
   short: v
   type: boolean
@@ -12,12 +14,15 @@ flags:
 - long: repository
   type: string
   description: "Repository"
+  non-empty: True
 - long: commit
   type: string
   description: "Repository commit"
+  non-empty: True
 - long: ipprefix
   type: string
   description: "Import path prefix"
+  non-empty: True
 - long: unit-tests
   short: t
   type: boolean
@@ -26,3 +31,8 @@ flags:
   short: m
   type: string
   description: "Comma separated file list of main packages specified from repository root directory (without leading '/')"
+args:
+- type: directory
+  description: "Directory to inspect. If empty, current directory is used."
+  name: directory
+  default-action: "set-cwd"

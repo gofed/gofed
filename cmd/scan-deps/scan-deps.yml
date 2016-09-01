@@ -6,6 +6,7 @@ flags:
 - long: target
   type: string
   description: "Target distribution in a form OS:version, e.g. Fedora:f24. Implicitly set to Fedora:rawhide"
+  default: "Fedora:rawhide"
 - long: cyclic
   short: c
   type: boolean
@@ -26,12 +27,13 @@ flags:
   short: o
   type: string
   description: "Name of files to save graph to. Default is graph.png"
+  default: "graph.png"
 - long: decompose
   short: d
   type: string
   description: "Import path of a project to decompose"
 - long: from-dir
-  type: string
+  type: directory
   description: "Read project from directory"
 - long: package-level
   type: boolean
@@ -42,3 +44,10 @@ flags:
 - long: dry-run
   type: boolean
   description: "Run dry scan"
+- long: skip-unit-test
+  type: boolean
+  description: "Skip all unit-test rpms"
+args:
+- type: string
+  description: "Display the smallest subgraph containing PACKAGE and all its dependencies."
+  name: package
