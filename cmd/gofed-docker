@@ -2,12 +2,41 @@
 
 import sys
 from subprocess import call
+import os
+from cmdsignature.program import ProgramSignatureParser
+from cmdsignature.interpreter import CmdSignatureInterpreter
+
+def getScriptDir(file = __file__):
+	return os.path.dirname(os.path.realpath(file))
 
 if __name__ == "__main__":
 	# no command
 	if len(sys.argv) < 2:
 		cmd = "docker run -t gofed/gofed:v1.0.0 /home/gofed/gofed/hack/gofed.sh -h"
 	else:
-		cmd = "docker run -t gofed/gofed:v1.0.0 /home/gofed/gofed/hack/gofed.sh %s" % " ".join(sys.argv[1:])
-	
+		script_dir = getScriptDir(__file__)
+
+		parser = ProgramSignatureParser(
+			"gofed",
+			script_dir
+		).parse(
+			map(lambda l: "%s/%s" % (script_dir, l), ["base.yml", "build.yml", "scan.yml"]),
+			sys.argv[1:]
+		)
+
+		flags = parser.getCommandFlags(sys.argv[1])
+
+		interpreter = CmdSignatureInterpreter(
+			map(lambda l: "%s/%s" % (script_dir, l), flags),
+			command = sys.argv[1],
+			task = "gofed",
+			image = "gofed/gofed:v1.0.0",
+			binary = "/home/gofed/gofed/hack/gofed.sh",
+			keep_default_flags = True
+		)
+
+		interpreter.interpret(sys.argv[2:])
+
+		cmd = interpreter.dockerSignature()
+
 	exit(call(cmd, shell=True))

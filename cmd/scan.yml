@@ -1,0 +1,24 @@
+---
+name: Gofed scan commands
+description: Scan related commands
+commands:
+- name: apidiff
+  flags: ["goapidiff/goapidiff.yml"]
+  description: "Compare API of two commits of the same golang project"
+  entry-point: "goapidiff/goapidiff.py"
+- name: approx-deps
+  flags: ["approx-deps/approx-deps.yml"]
+  description: "Approximate project dependencies"
+  entry-point: "approx-deps/approx-deps.py"
+- name: scan-deps
+  flags: ["scan-deps/scan-deps.yml"]
+  description: "Scan all golang packages for dependencies (e.g. cyclic)"
+  entry-point: "scan-deps/scan-deps.py"
+- name: scan-distro
+  flags: ["scan-distro/scan-distro.yml"]
+  description: "Scan distribution"
+  entry-point: "scan-distro/scan-distro.py"
+- name: scan-packages
+  flags: ["scan-packages/scan-packages.yml"]
+  description: "Scan packages"
+  entry-point: "scan-packages/scan-packages.py"

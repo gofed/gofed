@@ -1,0 +1,58 @@
+---
+name: Gofed basic commands
+description: Basic commands involving spec generator, code analysis, lint, etc.
+commands:
+- name: version
+  description: "Print gofed version"
+  entry-point: "version/version.py"
+- name: bitbucket2spec
+  flags: ["repo2spec/repo2gospec-global.yml", "repo2spec/bitbucket2gospec.yml"]
+  description: "Generate spec file from bitbucket"
+  entry-point: "repo2spec/bitbucket2gospec"
+- name: github2spec
+  flags: ["repo2spec/repo2gospec-global.yml", "repo2spec/github2gospec.yml"]
+  description: "Generate spec file from github"
+  entry-point: "repo2spec/github2gospec"
+- name: googlecode2spec
+  flags: ["repo2spec/repo2gospec-global.yml", "repo2spec/googlecode2gospec.yml"]
+  description: "Generate spec file from googlecode"
+  entry-point: "repo2spec/googlecode2gospec"
+- name: repo2spec
+  flags: ["repo2spec/repo2gospec-global.yml", "repo2spec/repo2gospec.yml"]
+  description: "Generate spec file from repository import path"
+  entry-point: "repo2spec/repo2gospec.py"
+- name: fetch
+  flags: ["fetch/fetch.yml"]
+  description: "Fetch resource for target, e.g. download tarball for spec file"
+  entry-point: "fetch/fetch.py"
+- name: create-tracker
+  flags: ["create-tracker/create-tracker.yml"]
+  description: "Create tracker for a golang package or find one if already created"
+  entry-point: "create-tracker/create-tracker.py"
+- name: ggi
+  flags: ["ggi/ggi.yml"]
+  description: "Get golang imports"
+  entry-point: "ggi/ggi.py"
+- name: inspect
+  flags: ["inspect/inspecttarball.yml"]
+  description: "Inspect golang tarball"
+  entry-point: "inspect/inspecttarball.py"
+- name: check-deps
+  flags: ["check-deps/check-deps.yml"]
+  description: "Check packages for commit"
+  entry-point: "check-deps/check-deps.py"
+- name: lint
+  flags: ["lint/lint.yml"]
+  description: "Lint for golang spec files"
+  entry-point: "lint/lint.py"
+- name: review-request
+  flags: ["review-request/review-request.yml"]
+  description: "Create review for Bugzilla"
+  entry-point: "review-request/review-request.py"
+- name: clean-resources
+  flags: ["clean-resources/clean-resources.yml"]
+  description: "Dispose all resources retrieved by gofed"
+  entry-point: "clean-resources/clean-resources.py"
+image: gofed/gofed:v1.0.0
+task: gofed
+binary: /home/gofed/gofed/hack/gofed.sh

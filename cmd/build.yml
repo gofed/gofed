@@ -1,0 +1,44 @@
+---
+name: Gofed build commands
+description: Build time related commands
+commands:
+- name: bbo
+  flags: ["tools/tools-global.yml"]
+  description: "Buildroot override builds for all branches"
+  entry-point: "tools/bbobranches"
+- name: build
+  flags: ["tools/tools-global.yml"]
+  description: "Build all Fedora branches"
+  entry-point: "tools/build"
+- name: bump
+  flags: ["bump-spec/bump-spec.yml"]
+  description: "Bump spec file"
+  entry-point: "bump-spec/bump-spec.py"
+- name: gcpmaster
+  flags: ["tools/tools-global.yml"]
+  description: "Git cherry pick master branch"
+  entry-point: "tools/gcp"
+- name: pull
+  flags: ["tools/tools-global.yml"]
+  description: "Pull from branches"
+  entry-point: "tools/pull"
+- name: push
+  flags: ["tools/tools-global.yml"]
+  description: "Push to branches"
+  entry-point: "tools/push"
+- name: scratch-build
+  flags: ["tools/tools-global.yml"]
+  description: "Scratch build all Fedora branches"
+  entry-point: "tools/scratch-build"
+- name: tools
+  flags: ["tools/tools-global.yml", "tools/tools.yml"]
+  description: "Tools for packaging"
+  entry-point: "tools/tools.py"
+- name: update
+  flags: ["tools/tools-global.yml"]
+  description: "Update all Fedora branches"
+  entry-point: "tools/update"
+- name: wizard
+  flags: ["wizard/wizard.yml"]
+  description: "Run phases of bulding, updating, ... at once"
+  entry-point: "wizard/wizard.py"
