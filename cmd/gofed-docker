@@ -1,9 +1,13 @@
-#!/bin/bash
+#!/bin/python
 
-CUR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+import sys
+from subprocess import call
 
-CMD=$(${CUR_DIR}/cmdsignatureinterpreter.py $@)
-if [ "$?" -eq 0 ]; then
-	$CMD
-fi
-
+if __name__ == "__main__":
+	# no command
+	if len(sys.argv) < 2:
+		cmd = "docker run -t gofed/gofed:v1.0.0 /home/gofed/gofed/hack/gofed.sh -h"
+	else:
+		cmd = "docker run -t gofed/gofed:v1.0.0 /home/gofed/gofed/hack/gofed.sh %s" % " ".join(sys.argv[1:])
+	
+	exit(call(cmd, shell=True))
