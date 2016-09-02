@@ -2,7 +2,7 @@ FROM	fedora:23
 MAINTAINER Jan Chaloupka <jchaloup@redhat.com>
 
 LABEL Name="gofed" \
-      Version="v1.0.0"
+      Version="v1.0.1"
 
 # install gofed deps
 RUN dnf install -y git python-pip graphviz koji rpm-build rpmdevtools && dnf clean all
