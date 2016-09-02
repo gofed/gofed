@@ -18,10 +18,15 @@ def getScriptDir(file = __file__):
 
 gopath = os.environ["GOPATH"] if "GOPATH" in os.environ else "/usr/share/gocode"
 
+def installRpm(rpm):
+	rc = call("dnf install %s -y" % rpm, shell=True)
+	if rc > 0:
+		exit(rc)
+
 def getTestPaths(rpm):
 	so, se, rc = runCommand("rpm -ql %s" % rpm)
 	if rc > 0:
-		logging.error(se)
+		logging.error(so)
 		exit(rc)
 
 	lines = so.split("\n")[:-1]
@@ -61,5 +66,6 @@ if __name__ == "__main__":
 	options = parser.options()
 	args = parser.args()
 
+	installRpm(options.rpm)
 	paths = getTestPaths(options.rpm)
 	runTests(paths)
