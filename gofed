@@ -1,58 +1,30 @@
-#!/usr/bin/python
-from os import walk, path
-from modules.Plugin import Plugins
+#!/bin/python
+
 import sys
-import collections
-from modules.Utils import execCommand
+from subprocess import call
+import os
+from cmdsignature.program import ProgramSignatureParser
 
-def printHelp(plugins):
-	help = plugins.getHelp()
-	# max len of cmd
-	cmd_max_len = 0
-	for cmd in help.keys():
-		cmd_max_len = max(cmd_max_len, len(cmd))
-
-	print "Synopsis: gofed command [arg1 [arg2 ...]]"
-	print ""
-	# sort help by key
-	for cmd in sorted(help.keys()):
-		space = (cmd_max_len - len(cmd) + 3)*" "
-		print "\t%s%s%s" % (cmd, space, help[cmd])
+def getScriptDir(file = __file__):
+	return os.path.dirname(os.path.realpath(file))
 
 if __name__ == "__main__":
-	plugin_path = ""
-	if len(sys.argv) >= 3:
-		if sys.argv[1] == "-p" or sys.argv[1] == "--plugin-path":
-			plugin_path = sys.argv[2]
-			sys.argv.pop(1)
-			sys.argv.pop(1)
+	script_dir = getScriptDir(__file__)
 
-	if plugin_path == "":
-		plugins = Plugins()
-	else:
-		plugins = Plugins(plugin_path)
+	parser = ProgramSignatureParser(
+		"gofed",
+		"%s/cmd" % script_dir,
+		description = "Automation of packaging of golang projects and analysis of Go ecosystem"
+	)
 
-	if not plugins.read():
-		sys.stderr.write("\n".join(plugins.getError()))
-		exit(1)
+	args = []
+	if len(sys.argv) > 1:
+		args = sys.argv[1:]
 
-	if len(sys.argv) < 2 or sys.argv[1] == "help":
-		printHelp(plugins)
-		exit(0)
+	parser.parse(
+		map(lambda l: "%s/cmd/%s" % (script_dir, l), ["base.yml", "build.yml", "scan.yml"]),
+		args
+	)
 
-	# parse command
-	cmd = plugins.getCommand(sys.argv[1])
-	if cmd == None:
-		sys.stderr.write("Command %s not found\n" % sys.argv[1])
-		exit(1)
-
-	# run command
-	script_dir = path.dirname(path.realpath(__file__))
-	command_script = "%s/%s" % (script_dir, cmd.getScript())
-	if len(sys.argv) > 2:
-		cmd_str = "%s %s %s" % (cmd.getInterpret(), command_script, " ".join(sys.argv[2:]))
-	else:
-		cmd_str = "%s %s" % (cmd.getInterpret(), command_script)
-
-	rc = execCommand(cmd_str)
-	exit(rc)
+	cmd = parser.signature()
+	exit(call(cmd, shell=True))
