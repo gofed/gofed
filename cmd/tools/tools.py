@@ -1,3 +1,5 @@
+#!/bin/python
+
 import os
 from gofed.modules.Tools import MultiCommand
 from gofed.modules.Config import Config
@@ -32,21 +34,6 @@ if __name__ == "__main__":
 
 	options = parser.options()
 
-	if program_name == "build":
-		options.build = True
-	elif program_name == "bbobranches":
-		options.bbo = True
-	elif program_name == "gcpmaster":
-		options.gcp = True
-	elif program_name == "pull":
-		options.pull = True
-	elif program_name == "push":
-		options.push = True
-	elif program_name == "scratch-build":
-		options.scratch = True
-	elif program_name == "update":
-		options.update = True
-
 	fp_obj = FormatedPrint(formated=False)
 
 	branches = Config().getBranches()
@@ -75,32 +62,84 @@ if __name__ == "__main__":
         if options.master:
 		branches = ["master"]
 
-	mc = MultiCommand(debug=options.debug, dry=options.dry)
+	mc = MultiCommand(debug=options.verbose, dry=options.dryrun)
 
-	if options.gcp:
-		err = mc.cherryPickMaster(branches, start_commit=options.commit, verbose=options.debug)
+	build_flag = False
+	bbo_flag = False
+	gcp_flag = False
+	pull_flag = False
+	push_flag = False
+	scratch_flag = False
+	update_flag = False
+	mergemaster_flag = False
+	gitreset_flag = False
+	bbo_flag = False
+	waitbbo_flag = False
+	wait_flag = False
+
+	if program_name == "build":
+		build_flag = True
+	elif program_name == "bbobranches":
+		bbo_flag = True
+	elif program_name == "gcpmaster":
+		gcp_flag = True
+	elif program_name == "pull":
+		pull_flag = True
+	elif program_name == "push":
+		push_flag = True
+	elif program_name == "scratch-build":
+		scratch_flag = True
+	elif program_name == "update":
+		update_flag = True
+
+	if program_name == "tools.py":
+		if options.gcp:
+			gcp_flag = True
+		if options.mergemaster:
+			mergemaster_flag = True
+		if options.gitreset:
+			gitreset_flag = True
+		if options.pull:
+			pull_flag = True
+		if options.push:
+			push_flag = True
+		if options.scratch:
+			scratch_flag = True
+		if options.build:
+			build_flag = True
+		if options.update:
+			update_flag = True
+		if options.bbo:
+			bbo_flag = True
+		if options.waitbbo:
+			waitbbo_flag = True
+		if options.wait:
+			wait_flag = True
+
+	if gcp_flag:
+		err = mc.cherryPickMaster(branches, start_commit=options.commit, verbose=options.verbose)
 		if err and err != []:
 			print "\n".join(err)
 
-	if options.mergemaster:
+	if mergemaster_flag:
 		mc.mergeMaster(branches)
-	if options.greset:
+	if gitreset_flag:
 		mc.resetBranchesToOrigin(branches)
-	if options.pull:
+	if pull_flag:
 		mc.pullBranches(branches)
-	if options.push:
+	if push_flag:
 		mc.pushBranches(branches)
-	if options.scratch:
+	if scratch_flag:
 		if mc.scratchBuildBranches(branches):
 			exit(0)
 		else:
 			exit(1)
-	if options.build:
+	if build_flag:
 		if mc.buildBranches(branches):
 			exit(0)
 		else:
 			exit(1)
-	if options.update:
+	if update_flag:
 		if options.branches == "" and options.ebranches == "":
 			branches = Config().getUpdates()
 		else:
@@ -108,7 +147,7 @@ if __name__ == "__main__":
 
 		mc.updateBuilds(branches, new = options.new)
 
-	if options.bbo or options.waitbbo or options.wait:
+	if bbo_flag or waitbbo_flag or wait_flag:
 		# if no build specified, detect it from the current directory
 		if len(args) < 1:
 			fd = FilesDetector()
@@ -138,10 +177,10 @@ if __name__ == "__main__":
 		else:
 			branches = list(set(branches) & set(Config().getOverrides()))
 
-		if options.bbo:
+		if bbo_flag:
 			done = mc.overrideBuilds(branches)
-			if done and options.wait:
+			if done and wait_flag:
 				mc.waitForOverrides(branches, build)
 
-		if options.waitbbo or options.wait:
+		if waitbbo_flag or wait_flag:
 			mc.waitForOverrides(branches, build)
