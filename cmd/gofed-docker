@@ -30,7 +30,7 @@ if __name__ == "__main__":
 			map(lambda l: "%s/%s" % (script_dir, l), flags),
 			command = sys.argv[1],
 			task = "gofed",
-			image = "gofed/gofed:v1.0.0",
+			image = parser.getCommandImage(sys.argv[1]),
 			binary = "/home/gofed/gofed/hack/gofed.sh",
 			keep_default_flags = True
 		)
