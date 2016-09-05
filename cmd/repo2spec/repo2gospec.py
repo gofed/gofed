@@ -82,7 +82,7 @@ def checkDependencies(fmt_obj, classes, url):
 if __name__ == "__main__":
 
 	cur_dir = getScriptDir(__file__)
-	gen_flags = "%s/%s.yml" % (cur_dir, os.path.basename(__file__).split(".")[0])
+	gen_flags = "%s/repo2gospec-global.yml" % (cur_dir)
 
 	program_name = os.path.basename(sys.argv[0])
 	provider = ""
