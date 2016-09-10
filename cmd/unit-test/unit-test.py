@@ -46,6 +46,8 @@ def runTests(paths):
 
 	for line in paths:
 		cmd = "go test %s" % line[gopath_prefix_len:]
+		# Print the command so it is easy to parse the build.log
+		print cmd
 		rc = call(cmd, shell=True)
 		if rc > 0:
 			tests["failed"] += 1
