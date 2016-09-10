@@ -12,22 +12,24 @@
 #    For PoC, all the jsons gets uploaded directly to the storage
 #    Later, it gets writen via REST API
 
-#### Code input ####
-export os="Fedora"
-export distro="rawhide"
-
-#### Code logic ####
+# Setup working directory
+echo "Setting up working directory..."
 host_workdir=$(mktemp -d)
 gofed_workdir="/home/gofed/gofed/working_directory/simplefilestorage"
 
 # Prepare host workspace
 pushd ${host_workdir}
-mkdir -p golang-distribution-snapshot/${os}/${distro}/
-
-# Download all snapshots
-curl -f https://jchaloup.fedorapeople.org/gofed/data/golang-distribution-snapshot/${os}/${distro}/data.json -o golang-distribution-snapshot/${os}/${distro}/data.json
+echo -e "\nCloning http://github.com/gofed/data"
+git clone http://github.com/gofed/data
 
 # 1. run the gofed scan-distro
-docker run -v ${host_workdir}:${gofed_workdir} -t gofed/gofed:v1.0.0 gofed scan-distro -s
+echo -e "\nRunning distro scan"
+docker run -u gofed -v ${host_workdir}/data:${gofed_workdir} -t gofed/gofed:v1.0.0 /home/gofed/gofed/hack/gofed.sh scan-distro -s --target="Fedora:rawhide" --verbose
 
 # 1. upload generated json of new rpms into storage
+echo -e "\nCommiting changes"
+cd data
+git add . && git commit -m "Distro scan from $(date)" && git push
+
+popd
+rm -rf ${host_workdir}
