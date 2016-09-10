@@ -184,7 +184,7 @@ if __name__ == "__main__":
 		rpmlint = so
 		print so
 
-		if rc != 0 and not options.skiprpmlint:
+		if rc != 0 and not options.skiprpmlinterrors:
 			print "Unable to run rpmlint: %s" % se
 			exit(1)
 

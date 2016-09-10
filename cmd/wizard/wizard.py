@@ -21,7 +21,7 @@ if __name__ == "__main__":
 	args = parser.args()
 
 
-	pm = PhaseMethods(dry=options.dry, debug=options.debug, new=options.new)
+	pm = PhaseMethods(dry=options.dryrun, debug=options.verbose, new=options.new)
 
 	# check branches
 	if options.branches:
@@ -57,15 +57,15 @@ if __name__ == "__main__":
 		print "Missing options, run --help."
 		exit(1)
 
-	if options.endscratch:
+	if options.endwithscratch:
 		pm.stopWithScratchBuild()
-	elif options.endpush:
+	elif options.endwithpush:
 		pm.stopWithPush()
-	elif options.endbuild:
+	elif options.endwithbuild:
 		pm.stopWithBuild()
-	elif options.endupdate:
+	elif options.endwithupdate:
 		pm.stopWithUpdate()
-	elif options.endoverride:
+	elif options.endwithoverride:
 		pm.stopWithOverride()
 
 	pm.run()
