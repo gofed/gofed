@@ -20,7 +20,7 @@ gofed_workdir="/home/gofed/gofed/working_directory/simplefilestorage"
 # Prepare host workspace
 pushd ${host_workdir}
 echo -e "\nCloning http://github.com/gofed/data"
-git clone http://github.com/gofed/data
+git clone ssh://git@github.com/gofed/data
 
 # 1. run the gofed scan-distro
 echo -e "\nRunning distro scan"
