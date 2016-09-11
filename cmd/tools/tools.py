@@ -25,6 +25,10 @@ if __name__ == "__main__":
 
 	if program_name == "tools.py":
 		parser = CmdSignatureParser([gen_flags, "%s/tools.yml" % (cur_dir)])
+	elif program_name == "bbobranches":
+		parser = CmdSignatureParser([gen_flags, "%s/bbo.yml" % (cur_dir)])
+	elif program_name == "update":
+		parser = CmdSignatureParser([gen_flags, "%s/update.yml" % (cur_dir)])
 	else:
 		parser = CmdSignatureParser([gen_flags])
 
@@ -33,6 +37,7 @@ if __name__ == "__main__":
 		exit(1)
 
 	options = parser.options()
+        args = parser.args()
 
 	fp_obj = FormatedPrint(formated=False)
 
