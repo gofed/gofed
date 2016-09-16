@@ -232,7 +232,7 @@ install -d -p %{buildroot}%{_bindir}
 install -d -p %{buildroot}/%{gopath}/src/%{import_path}/
 echo "%%dir %%{gopath}/src/%%{import_path}/." >> devel.file-list
 # find all *.go but no *_test.go files and generate devel.file-list
-for file in $(find . -iname "*.go" \! -iname "*_test.go"{% for dep in dependency_directories %} | grep -v "{{ dep }}"{% endfor %}) ; do
+for file in $(find . \( -iname "*.go" -or -iname "*.s" \) \! -iname "*_test.go"{% for dep in dependency_directories %} | grep -v "{{ dep }}"{% endfor %}) ; do
     dirprefix=$(dirname $file)
     install -d -p %{buildroot}/%{gopath}/src/%{import_path}/$dirprefix
     cp -pav $file %{buildroot}/%{gopath}/src/%{import_path}/$file
