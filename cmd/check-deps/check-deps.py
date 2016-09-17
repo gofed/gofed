@@ -1,11 +1,11 @@
-from gofed_infra.system.models.snapshots.checker import SnapshotChecker
-from gofed_lib.go.snapshot import Snapshot
+from gofedinfra.system.models.snapshots.checker import SnapshotChecker
+from gofedlib.go.snapshot import Snapshot
 import optparse
 import logging
 import re
 
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 import os
 
 def checkOptions(options):

@@ -1,0 +1,11 @@
+[Unit]
+Description=Resource client GC
+After=multi-user.target
+
+[Service]
+Type=idle
+Environment=GOFED_DEVEL=1 PYTHONPATH=/home/jchaloup/Projects/gofed/gofed/third_party
+ExecStart=/usr/bin/python /home/jchaloup/Projects/gofed/gofed/third_party/gofed_infra/system/daemons/resourceclientdaemon.py
+
+[Install]
+WantedBy=multi-user.target

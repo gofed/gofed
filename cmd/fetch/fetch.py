@@ -5,14 +5,14 @@ from gofed.modules.FilesDetector import FilesDetector
 import logging
 import os
 import urllib2
-from gofed_lib.utils import GREEN, RED, ENDC, BLUE
+from gofedlib.utils import GREEN, RED, ENDC, BLUE
 
-from gofed_lib.go.importpath.parserbuilder import ImportPathParserBuilder
-from gofed_lib.providers.providerbuilder import ProviderBuilder
-from gofed_lib.urlbuilder.builder import UrlBuilder
+from gofedlib.go.importpath.parserbuilder import ImportPathParserBuilder
+from gofedlib.providers.providerbuilder import ProviderBuilder
+from gofedlib.urlbuilder.builder import UrlBuilder
 
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 
 def getMacros(specfile, repo_prefix = ""):
 	sp = SpecParser(specfile)

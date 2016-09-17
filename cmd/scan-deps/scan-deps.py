@@ -1,4 +1,4 @@
-from gofed_lib.logger.logger import Logger
+from gofedlib.logger.logger import Logger
 
 from gofed.modules.Utils import runCommand
 import tempfile
@@ -8,16 +8,16 @@ import sys
 from gofed.modules.Utils import FormatedPrint
 import os
 
-from gofed_infra.system.models.graphs.datasets.projectdatasetbuilder import ProjectDatasetBuilder
-from gofed_infra.system.models.graphs.datasetdependencygraphbuilder import DatasetDependencyGraphBuilder
-from gofed_infra.system.models.graphs.basicdependencyanalysis import BasicDependencyAnalysis
-from gofed_infra.system.models.graphs.datasets.distributionlatestbuilds import DistributionLatestBuildGraphDataset
-from gofed_infra.system.models.graphs.datasets.localprojectdatasetbuilder import LocalProjectDatasetBuilder
-from gofed_lib.distribution.distributionnameparser import DistributionNameParser
-from gofed_lib.graphs.graphutils import GraphUtils
+from gofedinfra.system.models.graphs.datasets.projectdatasetbuilder import ProjectDatasetBuilder
+from gofedinfra.system.models.graphs.datasetdependencygraphbuilder import DatasetDependencyGraphBuilder
+from gofedinfra.system.models.graphs.basicdependencyanalysis import BasicDependencyAnalysis
+from gofedinfra.system.models.graphs.datasets.distributionlatestbuilds import DistributionLatestBuildGraphDataset
+from gofedinfra.system.models.graphs.datasets.localprojectdatasetbuilder import LocalProjectDatasetBuilder
+from gofedlib.distribution.distributionnameparser import DistributionNameParser
+from gofedlib.graphs.graphutils import GraphUtils
 
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 
 def printSCC(scc):
 	print "Cyclic dep detected (%s): %s" % (len(scc), ", ".join(scc))

@@ -1,12 +1,12 @@
-from gofed_infra.system.models.snapshots.reconstructor import SnapshotReconstructor
-from gofed_lib.go.importpath.parserbuilder import ImportPathParserBuilder
+from gofedinfra.system.models.snapshots.reconstructor import SnapshotReconstructor
+from gofedlib.go.importpath.parserbuilder import ImportPathParserBuilder
 import json
 import optparse
 import sys
 import logging
 
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 
 # TODO(jchaloup):
 # - add support for construction of snaphost from given directory with given timestamp

@@ -3,7 +3,7 @@ from infra.system.resources.resourceclientgc import ResourceClientGC
 from infra.system.resources.resourceprovidergc import ResourceProviderGC
 
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 import os
 
 if __name__ == "__main__":

@@ -1,16 +1,16 @@
 import logging
 import os
 
-from gofed_lib.logger.logger import Logger
-from gofed_lib.distribution.clients.koji.client import KojiClient
-from gofed_lib.distribution.clients.koji.fakeclient import FakeKojiClient
-from gofed_lib.distribution.clients.pkgdb.client import PkgDBClient
-from gofed_lib.distribution.clients.pkgdb.fakeclient import FakePkgDBClient
-from gofed_infra.system.models.ecosnapshots.distributionsnapshotchecker import DistributionSnapshotChecker
-from gofed_lib.distribution.distributionnameparser import DistributionNameParser
+from gofedlib.logger.logger import Logger
+from gofedlib.distribution.clients.koji.client import KojiClient
+from gofedlib.distribution.clients.koji.fakeclient import FakeKojiClient
+from gofedlib.distribution.clients.pkgdb.client import PkgDBClient
+from gofedlib.distribution.clients.pkgdb.fakeclient import FakePkgDBClient
+from gofedinfra.system.models.ecosnapshots.distributionsnapshotchecker import DistributionSnapshotChecker
+from gofedlib.distribution.distributionnameparser import DistributionNameParser
 
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 
 if __name__ == "__main__":
 
@@ -38,7 +38,7 @@ if __name__ == "__main__":
 	blacklist = options.blacklist.split(",")
 
 	# TODO(jchaloup):
-	# - where to store snapshots? under gofed_lib or gofed_infra? I am inclined to use gofed_data to store all artefacts and other data kinds
+	# - where to store snapshots? under gofedlib or gofedinfra? I am inclined to use gofed_data to store all artefacts and other data kinds
 	#   as each snapshot is determined by timestamp, it can not be stored as artefacts are (without introducing additional list of snashots)
 	#   Other thought (once the storage can provide a list of artefact based on a partial key, repo artefact and cache can be regenerated
 	#   based on commits in a storage rather then on a list of commits retrieved from repository.

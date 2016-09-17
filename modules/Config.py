@@ -1,4 +1,4 @@
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 from os import path, environ
 
 class Config:

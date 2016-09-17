@@ -1,15 +1,15 @@
 import os
 import logging
 import time
-from gofed_lib.logger.logger import Logger
+from gofedlib.logger.logger import Logger
 
-from gofed_infra.system.models.ecomanagement.fetchers.distributionbuilds import DistributionBuildsFetcher
-from gofed_lib.distribution.clients.pkgdb.client import PkgDBClient
-from gofed_lib.distribution.clients.pkgdb.fakeclient import FakePkgDBClient
-from gofed_lib.distribution.distributionnameparser import DistributionNameParser
+from gofedinfra.system.models.ecomanagement.fetchers.distributionbuilds import DistributionBuildsFetcher
+from gofedlib.distribution.clients.pkgdb.client import PkgDBClient
+from gofedlib.distribution.clients.pkgdb.fakeclient import FakePkgDBClient
+from gofedlib.distribution.distributionnameparser import DistributionNameParser
 
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 
 def checkOptions(options):
 	if options.atmost < options.atleast:

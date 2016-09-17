@@ -11,7 +11,7 @@ import xmlrpclib
 import os
 
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 
 def createTicket(bugzilla, login, password, summary, description):
 

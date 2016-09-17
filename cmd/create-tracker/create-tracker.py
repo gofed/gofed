@@ -1,9 +1,9 @@
 import ConfigParser
 import xmlrpclib
 import os
-from gofed_lib.distribution.clients.pkgdb.client import PkgDBClient
+from gofedlib.distribution.clients.pkgdb.client import PkgDBClient
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 
 def createTracker(bugzilla, login, password, package_name):
 	rpc = xmlrpclib.ServerProxy("https://%s/xmlrpc.cgi" % bugzilla)

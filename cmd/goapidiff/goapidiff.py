@@ -9,16 +9,16 @@
 import logging
 
 import os
-from gofed_lib.utils import YELLOW, RED, BLUE, ENDC
+from gofedlib.utils import YELLOW, RED, BLUE, ENDC
 
-from gofed_infra.system.core.factory.actfactory import ActFactory
+from gofedinfra.system.core.factory.actfactory import ActFactory
 from infra.system.core.factory.fakeactfactory import FakeActFactory
-from gofed_lib.projectsignature.parser import ProjectSignatureParser
+from gofedlib.projectsignature.parser import ProjectSignatureParser
 
 from infra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECTS_API_DIFF
 
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 
 def checkOptions(options):
 

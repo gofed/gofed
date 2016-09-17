@@ -6,7 +6,7 @@ import os
 from gofed.modules.Config import Config
 
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 
 if __name__ == "__main__":
 

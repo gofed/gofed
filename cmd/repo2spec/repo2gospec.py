@@ -1,6 +1,6 @@
-from gofed_lib.logger.logger import Logger
+from gofedlib.logger.logger import Logger
 
-from gofed_lib.utils import ENDC, RED, GREEN, runCommand, getScriptDir
+from gofedlib.utils import ENDC, RED, GREEN, runCommand, getScriptDir
 from gofed.modules.Utils import FormatedPrint
 
 from gofed.modules.SpecGenerator import SpecGenerator
@@ -11,23 +11,23 @@ import errno
 import logging
 import json
 
-from gofed_infra.system.core.factory.actfactory import ActFactory
-from gofed_lib.go.data2specmodeldata import Data2SpecModelData
-from gofed_lib.go.contentmetadataextractor import ContentMetadataExtractor
-from gofed_lib.go.importpath.parserbuilder import ImportPathParserBuilder
-from gofed_lib.go.importpath.decomposerbuilder import ImportPathsDecomposerBuilder
-from gofed_lib.types import UnsupportedImportPathError
-from gofed_lib.distribution.clients.pkgdb.client import PkgDBClient
-from gofed_lib.distribution.packagenamegeneratorbuilder import PackageNameGeneratorBuilder
-from gofed_lib.providers.providerbuilder import ProviderBuilder
-from gofed_lib.repository.repositoryclientbuilder import RepositoryClientBuilder
-from gofed_infra.system.artefacts.artefacts import (
+from gofedinfra.system.core.factory.actfactory import ActFactory
+from gofedlib.go.data2specmodeldata import Data2SpecModelData
+from gofedlib.go.contentmetadataextractor import ContentMetadataExtractor
+from gofedlib.go.importpath.parserbuilder import ImportPathParserBuilder
+from gofedlib.go.importpath.decomposerbuilder import ImportPathsDecomposerBuilder
+from gofedlib.types import UnsupportedImportPathError
+from gofedlib.distribution.clients.pkgdb.client import PkgDBClient
+from gofedlib.distribution.packagenamegeneratorbuilder import PackageNameGeneratorBuilder
+from gofedlib.providers.providerbuilder import ProviderBuilder
+from gofedlib.repository.repositoryclientbuilder import RepositoryClientBuilder
+from gofedinfra.system.artefacts.artefacts import (
 	ARTEFACT_GOLANG_PROJECT_PACKAGES,
 	ARTEFACT_GOLANG_PROJECT_CONTENT_METADATA
 )
 
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 
 def printBasicInfo(url, commit, name, formated=True):
 	fmt_obj = FormatedPrint(formated)

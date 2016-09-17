@@ -23,12 +23,12 @@ import optparse
 from gofed.modules.Config import Config
 
 import logging
-from gofed_infra.system.core.factory.actfactory import ActFactory
-from gofed_lib.go.projectinfobuilder import ProjectInfoBuilder
-from gofed_infra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECT_PACKAGES
+from gofedinfra.system.core.factory.actfactory import ActFactory
+from gofedlib.go.projectinfobuilder import ProjectInfoBuilder
+from gofedinfra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECT_PACKAGES
 
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 
 if __name__ == "__main__":
 

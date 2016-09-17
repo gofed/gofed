@@ -21,21 +21,21 @@ import sys
 import re
 import os
 import urllib2
-from gofed_lib.utils import GREEN, RED, ENDC
+from gofedlib.utils import GREEN, RED, ENDC
 from gofed.modules.Utils import FormatedPrint
 from gofed.modules.Config import Config
 
-from gofed_infra.system.core.factory.actfactory import ActFactory
-from gofed_lib.go.importpath.decomposerbuilder import ImportPathsDecomposerBuilder
-from gofed_lib.go.projectinfobuilder import ProjectInfoBuilder
-from gofed_lib.distribution.clients.pkgdb.client import PkgDBClient
-from gofed_infra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECT_PACKAGES
-from gofed_lib.distribution.packagenamegeneratorbuilder import PackageNameGeneratorBuilder
+from gofedinfra.system.core.factory.actfactory import ActFactory
+from gofedlib.go.importpath.decomposerbuilder import ImportPathsDecomposerBuilder
+from gofedlib.go.projectinfobuilder import ProjectInfoBuilder
+from gofedlib.distribution.clients.pkgdb.client import PkgDBClient
+from gofedinfra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECT_PACKAGES
+from gofedlib.distribution.packagenamegeneratorbuilder import PackageNameGeneratorBuilder
 
 import logging
 
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 
 if __name__ == "__main__":
 

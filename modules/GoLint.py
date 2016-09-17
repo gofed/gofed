@@ -9,9 +9,9 @@ from Config import Config
 
 import logging
 from gofed_infra.system.core.factory.actfactory import ActFactory
-from gofed_lib.go.projectinfobuilder import ProjectInfoBuilder
+from gofedlib.go.projectinfobuilder import ProjectInfoBuilder
 from gofed_infra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECT_PACKAGES
-from gofed_lib.distribution.packagenamegeneratorbuilder import PackageNameGeneratorBuilder
+from gofedlib.distribution.packagenamegeneratorbuilder import PackageNameGeneratorBuilder
 
 #
 # 1. URL tag: should be https://%{import_path} otherwise it can not be used

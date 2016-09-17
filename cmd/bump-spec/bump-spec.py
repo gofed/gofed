@@ -1,16 +1,16 @@
 import optparse
 from gofed.modules.SpecParser import SpecParser
 
-from gofed_lib.go.importpath.parserbuilder import ImportPathParserBuilder
-from gofed_lib.providers.providerbuilder import ProviderBuilder
-from gofed_lib.repository.repositoryclientbuilder import RepositoryClientBuilder
-from gofed_lib.urlbuilder.builder import UrlBuilder
+from gofedlib.go.importpath.parserbuilder import ImportPathParserBuilder
+from gofedlib.providers.providerbuilder import ProviderBuilder
+from gofedlib.repository.repositoryclientbuilder import RepositoryClientBuilder
+from gofedlib.urlbuilder.builder import UrlBuilder
 import urllib2
-from gofed_lib.utils import GREEN, RED, ENDC, BLUE, runCommand
+from gofedlib.utils import GREEN, RED, ENDC, BLUE, runCommand
 import os
 
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 
 def getSpec():
 	so, se, rc = runCommand("ls *.spec")

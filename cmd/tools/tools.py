@@ -12,7 +12,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 from cmdsignature.parser import CmdSignatureParser
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 
 if __name__ == "__main__":
 

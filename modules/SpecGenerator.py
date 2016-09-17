@@ -2,10 +2,10 @@ from ProviderPrefixes import ProviderPrefixes
 import os
 import sys
 
-from gofed_lib.go.importpath.parserbuilder import ImportPathParserBuilder
-from gofed_lib.providers.providerbuilder import ProviderBuilder
-from gofed_lib.projectsignature.signature import ProjectSignatureGenerator
-from gofed_lib.utils import renderTemplate, getScriptDir
+from gofedlib.go.importpath.parserbuilder import ImportPathParserBuilder
+from gofedlib.providers.providerbuilder import ProviderBuilder
+from gofedlib.projectsignature.signature import ProjectSignatureGenerator
+from gofedlib.utils import renderTemplate, getScriptDir
 
 class SpecGenerator:
 
