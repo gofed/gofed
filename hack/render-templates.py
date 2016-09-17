@@ -1,5 +1,5 @@
 import jinja2
-from gofed_lib.utils import getScriptDir
+from gofedlib.utils import getScriptDir
 import os
 
 script_dir = getScriptDir(__file__)
@@ -32,19 +32,19 @@ renderTemplate(
 	"%s/daemons/gofed-resources-provider.service" % script_dir
 )
 
-print  "rendering third_party/gofed_infra/system/config/infra.conf"
+print  "rendering third_party/gofed_infra/gofedinfra/system/config/infra.conf"
 renderTemplate(
 	"templates/infra.jinja", {
 	"resource_client_dir": "%s/working_directory/resource_client" % rootdir,
 	"simplefilestorage": "%s/working_directory/simplefilestorage" % rootdir},
-	"%s/third_party/gofed_infra/system/config/infra.conf" % rootdir
+	"%s/third_party/gofed_infra/gofedinfra/system/config/infra.conf" % rootdir
 )
 
-print "third_party/gofed_resources/config/resources.conf"
+print "third_party/gofed_resources/gofedresources/config/resources.conf"
 renderTemplate(
 	"templates/resources.jinja", {
 	"resource_provider_dir": "%s/working_directory/resource_provider" % rootdir,
 	"storage_dir": "%s/working_directory/storage" % rootdir},
-	"%s/third_party/gofed_resources/config/resources.conf" % rootdir
+	"%s/third_party/gofed_resources/gofedresources/config/resources.conf" % rootdir
 )
 

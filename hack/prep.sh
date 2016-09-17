@@ -6,7 +6,7 @@ CUR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ${CUR_DIR}/pull-submodules.sh
 
 # set PYTHONPATH
-export PYTHONPATH=${CUR_DIR}/../third_party:${CUR_DIR}/../..
+export PYTHONPATH=${CUR_DIR}/../third_party/gofedlib:${CUR_DIR}/../third_party/gofed_resources:${CUR_DIR}/../third_party/gofed_infra:${CUR_DIR}/../third_party/cmdsignature:${CUR_DIR}/../..
 
 pushd ${CUR_DIR} >/dev/null
 # render service files
