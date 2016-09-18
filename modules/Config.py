@@ -4,13 +4,14 @@ from os import path, environ
 class Config:
 
 	def __init__(self):
-		if environ.get("GOFED_DEVEL") == None:
-			cfg_file = "/etc/gofed.conf"
-		else:
-			cfg_file = "%s/../config/gofed.conf" % getScriptDir(__file__)
+		config_etc = "/etc/gofed.conf"
+		config_default = "%s/../config/gofed.conf" % getScriptDir(__file__)
 
 		self.db = {}
-		self.parseConfigFile(cfg_file)
+		if path.isfile(config_etc):
+			self.parseConfigFile(config_etc)
+		else:
+			self.parseConfigFile(config_default)
 
 	def parseConfigFile(self, cfg_file):
 		lines = []
