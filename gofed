@@ -21,8 +21,12 @@ if __name__ == "__main__":
 	if len(sys.argv) > 1:
 		args = sys.argv[1:]
 
+	plugin_directory = "%s/cmd" % script_dir
+	plugins = filter(lambda l: l.endswith(".yml"), os.listdir(plugin_directory))
+	plugins = map(lambda l: "%s/%s" % (plugin_directory, l), plugins)
+
 	parser.parse(
-		map(lambda l: "%s/cmd/%s" % (script_dir, l), ["base.yml", "build.yml", "scan.yml"]),
+		plugins,
 		args
 	)
 

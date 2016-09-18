@@ -16,11 +16,16 @@ if __name__ == "__main__":
 	else:
 		script_dir = getScriptDir(__file__)
 
+		plugin_directory = "/home/jchaloup/Projects/gofed/gofed/cmd"
+		plugin_directory = "%s/cmd" % script_dir
+		plugins = filter(lambda l: l.endswith(".yml"), os.listdir(plugin_directory))
+		plugins = map(lambda l: "%s/%s" % (plugin_directory, l), plugins)
+
 		parser = ProgramSignatureParser(
 			"gofed",
 			script_dir
 		).parse(
-			map(lambda l: "%s/%s" % (script_dir, l), ["base.yml", "build.yml", "scan.yml"]),
+			plugins,
 			sys.argv[1:]
 		)
 
