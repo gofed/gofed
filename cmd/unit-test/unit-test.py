@@ -1,5 +1,3 @@
-#!/bin/python
-
 from subprocess import PIPE, Popen, call
 import os
 import logging

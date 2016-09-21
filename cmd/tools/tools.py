@@ -1,5 +1,3 @@
-#!/bin/python
-
 import os
 from gofed.modules.Tools import MultiCommand
 from gofed.modules.Config import Config
