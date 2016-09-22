@@ -31,7 +31,7 @@ if __name__ == "__main__":
 		flags = parser.getCommandFlags(sys.argv[1])
 
 		interpreter = CmdSignatureInterpreter(
-			map(lambda l: "%s/%s" % (script_dir, l), flags),
+			map(lambda l: "%s/cmd/%s" % (script_dir, l), flags),
 			command = sys.argv[1],
 			task = "gofed",
 			image = parser.getCommandImage(sys.argv[1]),
