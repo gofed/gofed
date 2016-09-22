@@ -8,9 +8,9 @@ from Utils import runCommand
 from Config import Config
 
 import logging
-from gofed_infra.system.core.factory.actfactory import ActFactory
+from gofedinfra.system.core.factory.actfactory import ActFactory
 from gofedlib.go.projectinfobuilder import ProjectInfoBuilder
-from gofed_infra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECT_PACKAGES
+from gofedinfra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECT_PACKAGES
 from gofedlib.distribution.packagenamegeneratorbuilder import PackageNameGeneratorBuilder
 
 #
