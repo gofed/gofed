@@ -124,7 +124,7 @@ class SpecGenerator:
 				"directories": test_directories,
 				"deps": test_deps
 			},
-			"dependency_directories": artefact["data"]["dependency_directories"] + ['Godeps/_workspace']
+			"dependency_directories": artefact["data"]["dependency_directories"]
 		}
 
 		spec_content = renderTemplate(getScriptDir(__file__), "spec.jinja", template_vars)
