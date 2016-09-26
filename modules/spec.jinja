@@ -210,10 +210,10 @@ ln -s ../../../ src/%{import_path}
 %if ! 0%{?with_bundled}
 export GOPATH=$(pwd):%{gopath}
 %else
-{%- if dependency_directories == [] %}
+{%- if gopaths == [] %}
 # No dependency directories so far
 {%- endif %}
-export GOPATH=$(pwd){% for path in dependency_directories %}:$(pwd)/{{ path }}{% endfor %}:%{gopath}
+export GOPATH=$(pwd){% for path in gopaths %}:$(pwd)/{{ path }}{% endfor %}:%{gopath}
 %endif
 
 {% for package in main["dirs"] -%}
@@ -271,10 +271,10 @@ sort -u -o devel.file-list devel.file-list
 %if ! 0%{?with_bundled}
 export GOPATH=%{buildroot}/%{gopath}:%{gopath}
 %else
-{%- if dependency_directories == [] %}
+{%- if gopaths == [] %}
 # No dependency directories so far
 {%- endif %}
-export GOPATH=%{buildroot}/%{gopath}{% for path in dependency_directories %}:$(pwd)/{{ path }}{% endfor %}:%{gopath}
+export GOPATH=%{buildroot}/%{gopath}{% for path in gopaths %}:$(pwd)/{{ path }}{% endfor %}:%{gopath}
 %endif
 
 %if ! 0%{?gotest:1}
