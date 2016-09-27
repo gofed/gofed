@@ -100,6 +100,7 @@ class SpecGenerator:
 					prefix_dir["type"] = "empty"
 
 		gopaths = list(set(artefact["data"]["dependency_directories"]) - set(["vendor"]))
+		vendor_on = "vendor" in artefact["data"]["dependency_directories"]
 
 		# set template vars
 		template_vars = {
@@ -127,7 +128,8 @@ class SpecGenerator:
 				"deps": test_deps
 			},
 			"dependency_directories": artefact["data"]["dependency_directories"],
-			"gopaths": gopaths
+			"gopaths": gopaths,
+			"vendor_on": vendor_on
 		}
 
 		spec_content = renderTemplate(getScriptDir(__file__), "spec.jinja", template_vars)

@@ -271,10 +271,18 @@ sort -u -o devel.file-list devel.file-list
 %if ! 0%{?with_bundled}
 export GOPATH=%{buildroot}/%{gopath}:%{gopath}
 %else
-{%- if gopaths == [] %}
+{%- if vendor_on %}
+# Since we aren't packaging up the vendor directory we need to link 
+# back to it somehow. Hack it up so that we can add the vendor
+# directory from BUILD dir as a gopath to be searched when executing
+# tests from the BUILDROOT dir.
+ln -s ./ ./vendor/src # ./vendor/src -> ./vendor
+{%- endif %}
+{%- if gopaths == [] and not vendor_on %}
 # No dependency directories so far
 {%- endif %}
-export GOPATH=%{buildroot}/%{gopath}{% for path in gopaths %}:$(pwd)/{{ path }}{% endfor %}:%{gopath}
+
+export GOPATH=%{buildroot}/%{gopath}{% for path in gopaths %}:$(pwd)/{{ path }}{% endfor %}{% if vendor_on %}:$(pwd)/vendor{% endif %}:%{gopath}
 %endif
 
 %if ! 0%{?gotest:1}
