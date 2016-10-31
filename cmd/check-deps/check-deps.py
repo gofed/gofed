@@ -33,6 +33,8 @@ if __name__ == "__main__":
 
 	if options.godeps != "":
 		snapshot = Snapshot().readGodepsFile(options.godeps)
+	elif options.glidefile != "":
+		snapshot = Snapshot().readGlideLockFile(options.glidefile)
 	elif options.glogfile != "":
 		snapshot = Snapshot().readGLOGFILE(options.glogfile)
 
