@@ -1,11 +1,10 @@
-%if 0%{?fedora} || 0%{?rhel} == 6
 %global with_devel 1
+%if 0%{?fedora} || 0%{?rhel} == 6
 %global with_bundled 0
 {% if with_build %}%global with_debug 1{% else %}%global with_debug 0{% endif %}
 %global with_check 1
 %global with_unit_test 1
 %else
-%global with_devel 0
 %global with_bundled 0
 %global with_debug 0
 %global with_check 0
