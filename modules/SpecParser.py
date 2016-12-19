@@ -3,21 +3,21 @@ from Utils import runCommand
 import re
 
 RPM_SCRIPTLETS = ('pre', 'post', 'preun', 'postun', 'pretrans', 'posttrans',
-                  'trigger', 'triggerin', 'triggerprein', 'triggerun',
-                  'triggerun', 'triggerpostun', 'verifyscript')
+				  'trigger', 'triggerin', 'triggerprein', 'triggerun',
+				  'triggerun', 'triggerpostun', 'verifyscript')
 
 SECTIONS = ('build', 'changelog', 'check', 'clean', 'description', 'files',
-               'install', 'package', 'prep') + RPM_SCRIPTLETS
+			   'install', 'package', 'prep') + RPM_SCRIPTLETS
 
 # import_paths macros: evaluate all macros with import and path infix in
-#                      the macro's name and try to detect to which subpackage
-#                      it belongs
-# 
+#					  the macro's name and try to detect to which subpackage
+#					  it belongs
+#
 # steps: 1) parse spec file header (macros)
-#        2) parse package header (Name, Version, ...)
-#        3) parse subpackages ([B]R, Provides)
-# 
-# create 
+#		2) parse package header (Name, Version, ...)
+#		3) parse subpackages ([B]R, Provides)
+#
+# create
 
 class PackageSection(Base):
 
@@ -69,16 +69,20 @@ class Sources(Base):
 			if line == "":
 				continue
 
-			# checksum    FILE
-			line = re.sub(r'[ \t]+', ' ', line)
-			parts = line.split(' ')
-			if len(parts) != 2:
-				self.err = "%s, '%s' is not in 'checksum  FILE' form" % (self.sources, line)
-				return False
+			# SHA51212 (ARCHIVE) = CHECKSUM
+			groups = re.search(r"SHA512 \(([^)]+)\) = (.*)", line)
+			if groups:
+				self.files[ groups.group(1) ] = groups.group(0)
+				return True
 
-			self.files[ parts[1] ] = parts[0]
+			# checksum	FILE
+			groups = re.search(r"([^ ]+) (.+)", line)
+			if groups:
+				self.files[ groups.group(0) ] = groups.group(1)
+				return True
 
-		return True
+		self.err = "%s, '%s' is not in 'SHA512 (ARCHIVE) = CHECKSUM' nor in 'CHECKSUM ARCHIVE'  form" % (self.sources, line)
+		return False
 
 class Changelog(Base):
 
@@ -237,7 +241,7 @@ class SpecParser(Base):
 			return False
 
 		return True
-		
+
 	def getMacro(self, name):
 		if name not in self.macros:
 			return ""
@@ -271,8 +275,8 @@ class SpecParser(Base):
 
 	def reevalMacro(self, old_value, macros):
 		value = ''
-		# what macros are inside? %{macro_name} or %macro_name          
-                # %(...) is a script invocation and is not interpreted
+		# what macros are inside? %{macro_name} or %macro_name
+				# %(...) is a script invocation and is not interpreted
 		# no macro in macro use
 		key = ''
 		mfound = False
@@ -314,7 +318,7 @@ class SpecParser(Base):
 	def evalMacro(self, name, macros):
 
 		if name not in macros:
-			return "", False	
+			return "", False
 		value = ""
 
 		evalue, rc = self.reevalMacro(macros[name], macros)
@@ -508,7 +512,7 @@ class SpecParser(Base):
 					value = re.sub(r'[ \t]+', ' ', value)
 					vp = value.split(' ')[0]
 					p.append(vp)
-			
+
 			obj = PackageSection(name)
 			obj.setBuildRequires(br)
 			obj.setRequires(r)
