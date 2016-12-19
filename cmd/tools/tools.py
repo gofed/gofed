@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
 			print "%s branch not in a list of all branches" % branch
 			exit(1)
-	
+
 		branches = sorted(list(set(branches) - set(ebs)))
 
         if options.master:
@@ -152,7 +152,7 @@ if __name__ == "__main__":
 
 	if bbo_flag or waitbbo_flag or wait_flag:
 		# if no build specified, detect it from the current directory
-		if len(args) < 1:
+		if len(args) < 1 or args[0] == "":
 			fd = FilesDetector()
 			fd.detect()
 			specfile = fd.getSpecfile()
