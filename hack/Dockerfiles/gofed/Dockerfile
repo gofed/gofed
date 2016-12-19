@@ -18,6 +18,8 @@ RUN cd /home/gofed && \
 
 RUN cd /home/gofed/gofed && echo "alias gofed=$(realpath ./hack/gofed.sh)" >> ~/.bashrc
 
+RUN chown -R gofed:gofed /home/gofed/gofed
+
 # set entrypoint
 CMD ["gofed"]
 
