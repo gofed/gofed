@@ -1,0 +1,10 @@
+[f25updates]
+name=Fedora $releasever - $basearch - Updates
+failovermethod=priority
+#baseurl=http://download.fedoraproject.org/pub/fedora/linux/updates/f24/x86_64/
+metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-released-f25&arch=$basearch
+enabled=1
+gpgcheck=0
+metadata_expire=6h
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
+skip_if_unavailable=False
