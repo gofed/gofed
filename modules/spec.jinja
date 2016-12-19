@@ -125,7 +125,7 @@ Source0:        https://%{rrepo}.%{provider}%{provider_sub}.%{provider_tld}/arch
 {%- endif %}
 
 # e.g. el6 has ppc64 arch without gcc-go, so EA tag is required
-ExclusiveArch:  %{?go_arches:%{go_arches}}%{!?go_arches:%{ix86} x86_64 %{arm}}
+ExclusiveArch:  %{?go_arches:%{go_arches}}%{!?go_arches:%{ix86} x86_64 aarch64 %{arm}}
 # If go_compiler is not set to 1, there is no virtual provide. Use golang instead.
 BuildRequires:  %{?go_compiler:compiler(go-compiler)}%{!?go_compiler:golang}
 
@@ -283,7 +283,7 @@ sort -u -o devel.file-list devel.file-list
 export GOPATH=%{buildroot}/%{gopath}:%{gopath}
 %else
 {%- if vendor_on %}
-# Since we aren't packaging up the vendor directory we need to link 
+# Since we aren't packaging up the vendor directory we need to link
 # back to it somehow. Hack it up so that we can add the vendor
 # directory from BUILD dir as a gopath to be searched when executing
 # tests from the BUILDROOT dir.
@@ -345,4 +345,3 @@ export GOPATH=%{buildroot}/%{gopath}{% for path in gopaths %}:$(pwd)/{{ path }}{
 %endif
 
 %changelog
-

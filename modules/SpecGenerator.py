@@ -137,4 +137,3 @@ class SpecGenerator:
 
 	def setOutputFile(self, file):
 		self.file = file
-
