@@ -37,6 +37,8 @@ if __name__ == "__main__":
 		snapshot = Snapshot().readGlideLockFile(options.glidefile)
 	elif options.glogfile != "":
 		snapshot = Snapshot().readGLOGFILE(options.glogfile)
+        elif options.vendorfile != "":
+                snapshot = Snapshot().readVendorFile(options.vendorfile)
 
 	target = options.target.split(":")
 
