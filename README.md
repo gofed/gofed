@@ -43,8 +43,8 @@ $ gofed
 Or if you prefer a containerized solution, you can run:
 
 ```sh
-$ sudo docker pull gofed/gofed:v1.0.0
-$ sudo docker run -it gofed/gofed:v1.0.0 /bin/bash
+$ sudo docker pull gofed/gofed:v1.0.1
+$ sudo docker run -it gofed/gofed:v1.0.1 /bin/bash
 ```
 
 ### Experimental: run gofed command as a container
