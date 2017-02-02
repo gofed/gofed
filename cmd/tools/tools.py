@@ -1,5 +1,6 @@
 import os
 from gofed.modules.Tools import MultiCommand
+from gofed.modules.Tools import SimpleCommand
 from gofed.modules.Config import Config
 import sys
 from gofed.modules.FilesDetector import FilesDetector
@@ -79,6 +80,7 @@ if __name__ == "__main__":
 	bbo_flag = False
 	waitbbo_flag = False
 	wait_flag = False
+	check_build_flag = False
 
 	if program_name == "build":
 		build_flag = True
@@ -118,6 +120,9 @@ if __name__ == "__main__":
 			waitbbo_flag = True
 		if options.wait:
 			wait_flag = True
+                if options.checkbuild != "":
+					check_build_flag = True
+
 
 	if gcp_flag:
 		err = mc.cherryPickMaster(branches, start_commit=options.commit, verbose=options.verbose)
@@ -149,6 +154,10 @@ if __name__ == "__main__":
 			branches = list(set(branches) & set(Config().getUpdates()))
 
 		mc.updateBuilds(branches, new = options.new)
+	if check_build_flag:
+		sc = SimpleCommand(debug=options.verbose, dry=options.dryrun)
+		sc.checkBuild(options.checkbuild)
+		#mc._checkTasks({"master": "17548690", "f24": "17548666", "f25": "17548668", "epel7": "17548686", "el6": "17548682"})
 
 	if bbo_flag or waitbbo_flag or wait_flag:
 		# if no build specified, detect it from the current directory

@@ -308,7 +308,7 @@ class SimpleCommand:
 		self.debug = debug
 		self.llc = LowLevelCommand(dry=self.dry, debug=self.debug)
 
-	def makeSRPM(self):	
+	def makeSRPM(self):
 		so, _, rc = self.llc.runFedpkgSrpm()
 		if rc != 0:
 			return ""
@@ -493,6 +493,69 @@ class SimpleCommand:
 
 		return "", commits
 
+	def checkBuild(self, task_id):
+		so, se, rc = runCommand("koji taskinfo -rv %s" % task_id)
+		if rc != 0:
+			self.err = "Unable to get taskinfo for task: %s" % (task_id, se)
+			return {}
+
+		build_data = so
+
+		info = {}
+		keys = {}
+		items = [info]
+
+		for line in build_data.split("\n"):
+			parts = line.split(":", 1)
+			if len(parts) > 1:
+				if parts[1] == "":
+					del(parts[1])
+
+			if len(parts) > 0:
+				# next item in a list
+				if parts[0] == "":
+					del(items[1:])
+
+					if "items" not in items[-1]:
+						items[-1]["items"] = [{}]
+					else:
+						items[-1]["items"].append({})
+
+					items.append(items[-1]["items"][-1])
+					continue
+
+				# process single item
+				indent = re.search(r"[^ ]", parts[0]).start()
+
+				key_level = indent / 2
+
+				if len(items) > key_level + 1:
+					del(items[key_level + 1:])
+
+				key = parts[0].strip()
+				if len(parts) == 2:
+					items[-1][key] = parts[1].strip()
+				else:
+					items[-1][key] = {}
+					items.append(items[-1][key])
+
+		# Atm, I am interested in status of each child build on a given architecture
+		status = {}
+		status["State"] = info["State"]
+		status["Items"] = []
+		for item in info["items"]:
+			if not item:
+				continue
+
+			# skip the SRPM
+			if "Build Arch" not in item["Request Parameters"]:
+				continue
+
+			status["Items"].append({"State": item["State"], "BuildArch": item["Request Parameters"]["Build Arch"]})
+
+		return status
+
+
 class WatchTaskThread(threading.Thread):
 	def __init__(self, task_id):
 		super(WatchTaskThread, self).__init__()
@@ -506,26 +569,38 @@ class WatchTaskThread(threading.Thread):
 		return self.err
 
 class WaitTaskThread(threading.Thread):
-	def __init__(self, task_id):
+	def __init__(self, task_id, debug=False):
 		super(WaitTaskThread, self).__init__()
 		self.task_id = task_id
-		self.state = False
+		self.debug = debug
+		self.status = {}
 		self.err = ""
 
 	def run(self):
-		so, se, rc = runCommand("koji taskinfo %s" % self.task_id)
-		if rc != 0:
-			self.err = "Unable to get taskinfo for %s branch's %s task: %s" % (branch, task_id, se)
-			return
+		sc = SimpleCommand()
+		self.status = sc.checkBuild(self.task_id)
 
-		state_lines = filter(lambda l: l.startswith("State"), so.split("\n"))
+	def getState(self, branch=""):
+		if self.status == {}:
+			return False
 
-		state = state_lines[0].split(" ")[1]
-		if state == "closed":
-			self.state = True
+		if branch == "":
+			return self.status["State"]
 
-	def getState(self):
-		return self.state
+		for state in self.status["Items"]:
+			if self.debug:
+				print "\tbranch: %s, arch: %s, status: %s" % (branch, state["BuildArch"], state["State"])
+
+			if branch == "el6" or branch == "epel7":
+				# The list of supported archs must be read from a channel, not hard-coded
+				if state["BuildArch"] == "ppc64le":
+					continue
+				if state["BuildArch"] == "ppc64":
+					continue
+				if state["State"] != "closed":
+					return False
+
+		return True
 
 	def getError(self):
 		return self.err
@@ -568,7 +643,7 @@ class MultiCommand:
 				continue
 
 			task_ids[branch] = task_id
-		
+
 			if scratch:
 				print "Scratch build %s initiated" % (BUILDURL % task_id)
 			else:
@@ -601,7 +676,7 @@ class MultiCommand:
 		if self.dry == False:
 			for branch in task_ids:
 				task_id = task_ids[branch]
-				thread_list[branch] = WaitTaskThread(task_id)
+				thread_list[branch] = WaitTaskThread(task_id, debug = self.debug)
 				thread_list[branch].start()
 
 			for branch in task_ids:
@@ -612,7 +687,7 @@ class MultiCommand:
 				print "%s: closed" % branch
 				continue
 
-			if thread_list[branch].getState():
+			if thread_list[branch].getState(branch):
 				print "%s: closed" % branch
 			else:
 				all_done = False
@@ -934,7 +1009,7 @@ class PhaseMethods:
 		if phase == STEP_OVERRIDE:
 			return "Override phase"
 
-		return ""	
+		return ""
 
 	def run(self):
 
@@ -954,5 +1029,4 @@ class PhaseMethods:
 			print ""
 
 			if not self.runPhase(i):
-				break	
-
+				break
