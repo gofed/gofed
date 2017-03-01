@@ -1,0 +1,36 @@
+.TH GOFED 1 "2017-03-01" "1.0.0" "Gofed"
+.SH NAME
+gofed \- generate spec files, automate builds, updates, dependency checks and other ops
+.SH SYNOPSIS
+.\" The general command line
+.B gofed
+.B SUBCOMMAND
+.B [OPTIONS]
+
+.SH DESCRIPTION
+Pack of tools to generate spec file, automate builds, updates, dependency check
+and other handy task around packaging and keeping the ecosystem in a good shape. 
+
+.SH SUBCOMMANDS
+To get a list of all subcommands, execute
+.BI gofed
+command.
+Available options of a subcommand can be list by executing
+.B gofed
+.B SUBCOMMAND
+.B -h
+.
+
+Some subcommands (e.g. spec file generators) need permissions to access files under
+.I /var/lib/gofed
+directory.
+To get the permissions a user executing the
+.B gofed
+command needs to be a member of
+.I gofed
+group.
+
+.SH BUGS
+Please, report any bugs to
+.I https://github.com/gofed/gofed/issues
+page.
