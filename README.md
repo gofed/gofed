@@ -32,7 +32,7 @@
 
 ```sh
 $ git clone https://github.com/gofed/gofed; cd gofed
-$ sudo dnf install python-pip
+$ sudo dnf install python-pip python-devel redhat-rpm-config
 $ sudo pip install -r requirements.txt
 $ sudo dnf install -y graphviz koji rpm-build rpmdevtools
 $ ./hack/prep.sh
