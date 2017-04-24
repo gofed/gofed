@@ -27,7 +27,7 @@
 2. Install python modules
 3. Install packages
 4. Set up gofed
-5. Alias ./hach/gofed.sh
+5. Alias ./hack/gofed.sh
 6. Run gofed
 
 ```sh
