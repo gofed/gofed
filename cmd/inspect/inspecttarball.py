@@ -23,12 +23,15 @@ import optparse
 from gofed.modules.Config import Config
 
 import logging
-from gofedinfra.system.core.factory.actfactory import ActFactory
 from gofedlib.go.projectinfobuilder import ProjectInfoBuilder
 from gofedinfra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECT_PACKAGES
 
 from cmdsignature.parser import CmdSignatureParser
 from gofedlib.utils import getScriptDir
+
+from infra.system.workers import Worker
+from infra.system.plugins.simplefilestorage.storagereader import StorageReader
+from gofedlib.providers.providerbuilder import ProviderBuilder
 
 if __name__ == "__main__":
 
@@ -58,21 +61,29 @@ if __name__ == "__main__":
 				continue
 			noGodeps.append(dir)
 
-	data = {
-		"type": "user_directory",
-		"resource": os.path.abspath(path),
-		"ipprefix": "."
-	}
+	if options.verbose:
+		logging.basicConfig(level=logging.WARNING)
+	else:
+		logging.basicConfig(level=logging.ERROR)
+
+	Worker("localgocodeinspection").setPayload({
+		"directory": os.path.abspath(path),
+	}).do()
 
 	try:
-		data = ActFactory().bake("go-code-inspection").call(data)
-	except Exception as e:
-		logging.error(e)
+		golang_project_packages_artefact = StorageReader().retrieve({
+			"artefact": ARTEFACT_GOLANG_PROJECT_PACKAGES,
+			"repository": ProviderBuilder().buildUpstreamWithLocalMapping().parse("github.com/local/local").signature(),
+			"commit": "local",
+			"ipprefix": "github.com/local/local",
+		})
+	except KeyError as err:
+		logging.error(err)
 		exit(1)
 
 	prj_info = ProjectInfoBuilder().build()
 	# TODO(jchaloup) catch exceptions, at least ValueError
-	prj_info.construct(data[ARTEFACT_GOLANG_PROJECT_PACKAGES])
+	prj_info.construct(golang_project_packages_artefact)
 
 	if options.provides:
 		skipped_provides_with_prefix = Config().getSkippedProvidesWithPrefix()

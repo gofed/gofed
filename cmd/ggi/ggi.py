@@ -25,7 +25,6 @@ from gofedlib.utils import GREEN, RED, ENDC
 from gofed.modules.Utils import FormatedPrint
 from gofed.modules.Config import Config
 
-from gofedinfra.system.core.factory.actfactory import ActFactory
 from gofedlib.go.importpath.decomposerbuilder import ImportPathsDecomposerBuilder
 from gofedlib.go.projectinfobuilder import ProjectInfoBuilder
 from gofedlib.distribution.clients.pkgdb.client import PkgDBClient
@@ -36,6 +35,10 @@ import logging
 
 from cmdsignature.parser import CmdSignatureParser
 from gofedlib.utils import getScriptDir
+
+from infra.system.workers import Worker
+from infra.system.plugins.simplefilestorage.storagereader import StorageReader
+from gofedlib.providers.providerbuilder import ProviderBuilder
 
 if __name__ == "__main__":
 
@@ -55,6 +58,11 @@ if __name__ == "__main__":
 	#    help = "Include dependencies for test too"
 	#)
 
+	if options.verbose:
+		logging.basicConfig(level=logging.WARNING)
+	else:
+		logging.basicConfig(level=logging.ERROR)
+
 	path = "."
 	if len(args):
 		path = args[0]
@@ -73,21 +81,24 @@ if __name__ == "__main__":
 				continue
 			noGodeps.append(dir)
 
-	data = {
-		"type": "user_directory",
-		"resource": os.path.abspath(path),
-		"ipprefix": "."
-	}
+	Worker("localgocodeinspection").setPayload({
+		"directory": os.path.abspath(path),
+	}).do()
 
 	try:
-		data = ActFactory().bake("go-code-inspection").call(data)
-	except Exception as e:
-		logging.error(e)
+		golang_project_packages_artefact = StorageReader().retrieve({
+			"artefact": ARTEFACT_GOLANG_PROJECT_PACKAGES,
+			"repository": ProviderBuilder().buildUpstreamWithLocalMapping().parse("github.com/local/local").signature(),
+			"commit": "local",
+			"ipprefix": "github.com/local/local",
+		})
+	except KeyError as err:
+		logging.error(err)
 		exit(1)
 
 	prj_info = ProjectInfoBuilder().build()
 	# TODO(jchaloup) catch exceptions, at least ValueError
-	prj_info.construct(data[ARTEFACT_GOLANG_PROJECT_PACKAGES])
+	prj_info.construct(golang_project_packages_artefact)
 
 	occurrences = prj_info.getImportsOccurrence()
 	main_occurrences = prj_info.getMainOccurrence()
@@ -245,4 +256,3 @@ if __name__ == "__main__":
 					print "\t%s %s(%s)" % (gimport, (max_len - import_len)*" ", ", ".join(occurrences[gimport]))
 			else:
 				print "\t%s" % gimport
-

@@ -1,9 +1,11 @@
 from gofedinfra.system.models.snapshots.reconstructor import SnapshotReconstructor
 from gofedlib.go.importpath.parserbuilder import ImportPathParserBuilder
+from gofedlib.providers.providerbuilder import ProviderBuilder
 import json
 import optparse
 import sys
 import logging
+import os
 
 from cmdsignature.parser import CmdSignatureParser
 from gofedlib.utils import getScriptDir
@@ -33,17 +35,22 @@ if __name__ == "__main__":
 
 	# mains?
 	mains = []
-	if options.mains != "":
+
+	if options.mainpackages != "":
 		mains = options.mains.split(",")
 
 	# parse repository
 	ipparser = ImportPathParserBuilder().buildWithLocalMapping()
-	# TODO(jchaloup): catch ValueError exception
-	repository = ipparser.parse(options.repository).getProviderSignature()
+	pparser = ProviderBuilder().buildUpstreamWithLocalMapping()
 
-	snapshot = SnapshotReconstructor().reconstruct(repository, options.commit, options.ipprefix, mains = mains, tests=options.tests).snapshot()
+	# TODO(jchaloup): catch ValueError exception
+	repository = pparser.parse(options.repository).signature()
+
+	snapshot = SnapshotReconstructor().reconstruct(options.repository, options.commit, options.ipprefix, mains = mains, tests=options.unittests).snapshot()
 
 	if options.godeps:
 		print json.dumps(snapshot.Godeps())
 	elif options.glogfile:
 		print snapshot.GLOGFILE()
+	elif options.glidefile:
+		print snapshot.Glide()

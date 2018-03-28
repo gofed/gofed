@@ -52,4 +52,3 @@ if __name__ == "__main__":
 		fetcher.fetch(distributions, since = int(time.time()) - int(options.atmost)*86400, to = int(time.time()) - int(options.atleast)*86400)
 	else:
 		fetcher.fetch(distributions, since = int(time.time()) - int(options.atmost)*86400)
-

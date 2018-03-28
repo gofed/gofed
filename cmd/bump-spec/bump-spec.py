@@ -29,36 +29,22 @@ def getMacros(spec, repoprefix):
 		return err, {}, -1
 
 	if repoprefix == "":
-		macros["project"] = obj.getMacro("project")
-		macros["repo"] = obj.getMacro("repo")
-		macros["provider"] = obj.getMacro("provider")
 		macros["commit"] = obj.getMacro("commit")
 		macros["ip"] = obj.getMacro("provider_prefix")
 		if macros["ip"] == "":
-			macros["ip"] = obj.getMacro("import_path")
+			macros["ip"] = obj.getMacro("gobaseipath")
+		if macros["ip"] == "":
+			macros["ip"] = obj.getMacro("goipath")
 
 	else:
-		macros["project"] = obj.getMacro("%s_project" % repoprefix)
-		macros["repo"] = obj.getMacro("%s_repo" % repoprefix)
-		macros["provider"] = obj.getMacro("%s_provider" % repoprefix)
 		macros["commit"] = obj.getMacro("%s_commit" % repoprefix)
 		macros["ip"] = obj.getMacro("%s_provider_prefix" % repoprefix)
 		if macros["ip"] == "":
-			macros["ip"] = obj.getMacro("%s_import_path" % repoprefix)
+			macros["ip"] = obj.getMacro("%s_gobaseipath" % repoprefix)
+		if macros["ip"] == "":
+			macros["ip"] = obj.getMacro("%s_goipath" % repoprefix)
 
 	last_bug_id = obj.getBugIdFromLastChangelog()
-
-	if macros["project"] == "":
-		err = "Unable to detect project macro"
-		return err, {}, -1
-
-	if macros["repo"] == "":
-		err = "Unable to detect repo macro"
-		return err, {}, -1
-
-	if macros["provider"] == "":
-		err = "unable to detect provider macro"
-		return err, {}, -1
 
 	if macros["commit"] == "":
 		err = "unable to detect commit macro"
@@ -190,4 +176,3 @@ if __name__ == "__main__":
 		if not bumpSpec(spec, commit, last_bug_id):
 			print "Unable to bump spec file"
 			exit(6)
-

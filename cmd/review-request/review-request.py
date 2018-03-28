@@ -97,39 +97,26 @@ if __name__ == "__main__":
 		commit = obj.getMacro("rev")
 	else:
 		commit = obj.getMacro("commit")
+
 	summary = obj.getTag("summary")
 	name = obj.getTag("name")
+	source = obj.getTag("source")
+	tarball = os.path.basename(source)
 
 	print "Parsing %s file" % specfile
-	print "  Provider: %s" % provider
-	print "  Repo: %s" % repo
+	print "  Source: %s" % source
+	print "  Tarball: %s" % tarball
 	print "  Commit: %s" % commit
 	print "  Name: %s" % name
 	print "  Summary: %s" % summary
 	print ""
 
-	if provider == "":
-		print "Provider macro is missing"
-		exit(1)
-	if repo == "":
-		print "Repo macro is missing"
-		exit(1)
-	if commit == "":
-		print "Commit macro is missing"
-		exit(1)
 	if name == "":
 		print "Name tag is missing"
 		exit(1)
 	if summary == "":
 		print "Summary tag is missing"
 		exit(1)
-
-	if provider == "bitbucket":
-		tarball = "%s.zip" % commit[:12]
-	elif provider == "google":
-		tarball = "%s.tar.gz" % (commit)
-	else:
-		tarball = "%s-%s.tar.gz" % (repo, commit[:7])
 
 	spec_dir = os.path.dirname(specfile);
 	if spec_dir == "":
@@ -324,4 +311,3 @@ if __name__ == "__main__":
 		description = "\n".join(lines)
 
 		createTicket(options.bugzilla, login, password, summary, description)
-

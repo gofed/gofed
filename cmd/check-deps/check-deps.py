@@ -40,7 +40,11 @@ if __name__ == "__main__":
         elif options.vendorfile != "":
                 snapshot = Snapshot().readVendorFile(options.vendorfile)
 
+	if options.verbose:
+		logging.basicConfig(level=logging.WARNING)
+	else:
+		logging.basicConfig(level=logging.ERROR)
+
 	target = options.target.split(":")
 
 	SnapshotChecker(options.dryrun).check(snapshot, target[0], target[1])
-

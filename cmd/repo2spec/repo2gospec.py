@@ -11,7 +11,6 @@ import errno
 import logging
 import json
 
-from gofedinfra.system.core.factory.actfactory import ActFactory
 from gofedlib.go.data2specmodeldata import Data2SpecModelData
 from gofedlib.go.contentmetadataextractor import ContentMetadataExtractor
 from gofedlib.go.importpath.parserbuilder import ImportPathParserBuilder
@@ -28,6 +27,10 @@ from gofedinfra.system.artefacts.artefacts import (
 
 from cmdsignature.parser import CmdSignatureParser
 from gofedlib.utils import getScriptDir
+
+from infra.system.workers import Worker
+from infra.system.plugins.simplefilestorage.storagereader import StorageReader
+from gofedlib.providers.providerbuilder import ProviderBuilder
 
 def printBasicInfo(url, commit, name, formated=True):
 	fmt_obj = FormatedPrint(formated)
@@ -106,6 +109,11 @@ if __name__ == "__main__":
 	options = parser.options()
 
 	Logger.set(options.verbose)
+
+	if options.verbose:
+		logging.basicConfig(level=logging.WARNING)
+	else:
+		logging.basicConfig(level=logging.ERROR)
 
 	fmt_obj = FormatedPrint(options.format)
 
@@ -194,30 +202,50 @@ if __name__ == "__main__":
 	}
 
 	if options.directory != "":
-		data = {
-			"type": "user_directory",
-			"resource": os.path.abspath(path),
+		Worker("localspecmodeldataprovider").setPayload({
+			"directory": os.path.abspath(path),
 			"ipprefix": metadata["import_path"]
+		}).do()
+		packages_artefact_keys = {
+			"artefact": ARTEFACT_GOLANG_PROJECT_PACKAGES,
+			"repository": ProviderBuilder().buildUpstreamWithLocalMapping().parse("github.com/local/local").signature(),
+			"commit": "local",
+			"ipprefix": "github.com/local/local",
+		}
+		metadata_artefact_keys = {
+			"artefact": ARTEFACT_GOLANG_PROJECT_CONTENT_METADATA,
+			"repository": ProviderBuilder().buildUpstreamWithLocalMapping().parse("github.com/local/local").signature(),
+			"commit": "local",
 		}
 	else:
-		data = {
-			"type": "upstream_source_code",
-			"repository": repository_signature,
-			"commit": metadata["commit"],
+		Worker("specmodeldataprovider").setPayload({
+			"repository": upstream_provider.prefix(),
+			"hexsha": metadata["commit"],
 			"ipprefix": metadata["import_path"]
+		}).do()
+		packages_artefact_keys = {
+			"artefact": ARTEFACT_GOLANG_PROJECT_PACKAGES,
+			"repository": repository_signature,
+			"commit": commit,
+			"ipprefix": import_path_prefix,
 		}
-
+		metadata_artefact_keys = {
+			"artefact": ARTEFACT_GOLANG_PROJECT_CONTENT_METADATA,
+			"repository": repository_signature,
+			"commit": commit,
+		}
 	try:
-		data = ActFactory().bake("spec-model-data-provider").call(data)
-	except Exception as e:
-		logging.error(e)
+		golang_project_packages_artefact = StorageReader().retrieve(packages_artefact_keys)
+		golang_project_content_metadata_artefact = StorageReader().retrieve(metadata_artefact_keys)
+	except KeyError as err:
+		logging.error(err)
 		exit(1)
 
 	combiner = Data2SpecModelData()
 	combiner.combine(
 		metadata,
-		data[ARTEFACT_GOLANG_PROJECT_PACKAGES],
-		data[ARTEFACT_GOLANG_PROJECT_CONTENT_METADATA]
+		golang_project_packages_artefact,
+		golang_project_content_metadata_artefact,
 	)
 	data = combiner.getData()
 

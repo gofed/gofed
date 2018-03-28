@@ -23,11 +23,11 @@ def getMacros(specfile, repo_prefix = ""):
 	if repo_prefix == "":
 		commit_key = "commit"
 		rev_key = "rev"
-		ipprefix_key = "import_path"
+		ipprefix_key = "gobaseipath"
 	else:
 		commit_key = "%s_commit" % repo_prefix
 		rev_key = "%s_rev" % repo_prefix
-		ipprefix_key = "%s_import_path" % repo_prefix
+		ipprefix_key = "%s_gobaseipath" % repo_prefix
 
 	# Get import path prefix and commit
 	commit = sp.getMacro(commit_key)
@@ -96,4 +96,3 @@ if __name__ == "__main__":
 	with open(target_file, "w") as f:
 		f.write(response.read())
 		f.flush()
-

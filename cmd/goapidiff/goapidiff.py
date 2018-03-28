@@ -11,14 +11,15 @@ import logging
 import os
 from gofedlib.utils import YELLOW, RED, BLUE, ENDC
 
-from gofedinfra.system.core.factory.actfactory import ActFactory
-from infra.system.core.factory.fakeactfactory import FakeActFactory
 from gofedlib.projectsignature.parser import ProjectSignatureParser
+from gofedlib.providers.providerbuilder import ProviderBuilder
 
-from infra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECTS_API_DIFF
+from gofedinfra.system.artefacts.artefacts import ARTEFACT_GOLANG_PROJECTS_API_DIFF
 
 from cmdsignature.parser import CmdSignatureParser
 from gofedlib.utils import getScriptDir
+from infra.system.workers import Worker
+from infra.system.plugins.simplefilestorage.storagereader import StorageReader
 
 def checkOptions(options):
 
@@ -97,7 +98,7 @@ def displayApiDifference(data, options):
 					prefix = "variable"
 				else:
 					raise ValueError("Unsupported symbol type: %s" % symbol_type)
-	
+
 				for state in package[symbol_type]:
 					for symbol in package[symbol_type][state]:
 						if state.startswith("new"):
@@ -106,18 +107,18 @@ def displayApiDifference(data, options):
 								new.append(line)
 								if not options.sorted:
 									print line
-	
+
 						if state.startswith("removed"):
 							line = print_removed("%s: %s removed: %s" % (package_name, prefix, symbol))
 							if line and (options.removed or options.all):
 								removed.append(line)
 								if not options.sorted:
 									print line
-	
-	
+
+
 						if state.startswith("updated"):
 							line = print_updated("%s: %s updated: %s" % (package_name, prefix, symbol))
-	
+
 							if line and (options.updated or options.all):
 								updated.append(line)
 								if not options.sorted:
@@ -147,6 +148,11 @@ if __name__ == "__main__":
 
 	checkOptions(options)
 
+	if options.verbose:
+		logging.basicConfig(level=logging.WARNING)
+	else:
+		logging.basicConfig(level=logging.ERROR)
+
 	try:
 		reference_project_signature = ProjectSignatureParser().parse(options.reference)
 	except ValueError as e:
@@ -161,39 +167,60 @@ if __name__ == "__main__":
 
 	data = {"reference": {}, "compared_with": {}}
 
+	repository_signature = {}
+	hexsha1 = ""
+	hesxha2 = ""
+	local = False
+
+	payload = {
+		"ipprefix": options.prefix,
+	}
+
 	if reference_project_signature["provider_type"] == "upstream_repository":
-		data["reference"] = {
-			"type": "upstream_source_code",
-			"repository": reference_project_signature["provider"],
-			"commit": reference_project_signature["commit"]
-		}
+		hexsha1 = reference_project_signature["commit"]
+		payload["hexsha1"] = hexsha1
+		payload["repository"] = reference_project_signature["provider"].prefix()
 	else:
-		data["reference"] = {
-			"type": "user_directory",
-			"resource": reference_project_signature["provider"]["location"]
-		}
+		hexsha1 = "local"
+		local = True
+		payload["directory1"] = reference_project_signature["provider"]["location"]
 
 	if compare_with_project_signature["provider_type"] == "upstream_repository":
-		data["compared_with"] = {
-			"type": "upstream_source_code",
-			"repository": compare_with_project_signature["provider"],
-			"commit": compare_with_project_signature["commit"]
+		repository_signature = compare_with_project_signature["provider"].signature()
+		hexsha2 = compare_with_project_signature["commit"]
+		payload["hexsha2"] = hexsha2
+		payload["repository"] = compare_with_project_signature["provider"].prefix()
+	else:
+		hexsha2 = "local"
+		local = True
+		payload["directory2"] = compare_with_project_signature["provider"]["location"]
+
+	if local:
+		artefact_key = {
+			"artefact": ARTEFACT_GOLANG_PROJECTS_API_DIFF,
+			"repository": ProviderBuilder().buildUpstreamWithLocalMapping().parse("github.com/local/local").signature(),
+			"commit1": hexsha1,
+			"commit2": hexsha2,
 		}
 	else:
-		data["compared_with"] = {
-			"type": "user_directory",
-			"resource": compare_with_project_signature["provider"]["location"]
+		artefact_key = {
+			"artefact": ARTEFACT_GOLANG_PROJECTS_API_DIFF,
+			"repository": repository_signature,
+			"commit1": hexsha1,
+			"commit2": hexsha2,
 		}
 
-	if options.dryrun:
-		act_factory = FakeActFactory()
+	if local:
+		Worker("goexportedapidiff").setPayload(payload).do()
 	else:
-		act_factory = ActFactory()
-
+		try:
+			artefact = StorageReader().retrieve(artefact_key)
+		except KeyError:
+			Worker("goexportedapidiff").setPayload(payload).do()
 	try:
-		data = act_factory.bake("go-exported-api-diff").call(data)
-	except Exception as e:
-		logging.error(e)
+		artefact = StorageReader().retrieve(artefact_key)
+	except KeyError as err:
+		logging.error(err)
 		exit(1)
 
-	displayApiDifference(data[ARTEFACT_GOLANG_PROJECTS_API_DIFF], options)
+	displayApiDifference(artefact, options)
